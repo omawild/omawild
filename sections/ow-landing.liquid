@@ -197,7 +197,13 @@
                       post is the same fallback product-form.js itself uses when
                       no drawer is present.
                     {%- endcomment -%}
-                    {%- form 'product', prod, id: 'ow-product-form-' | append: i, class: 'product-card-form' -%}
+                    {%- comment -%}
+                      Build the id first — a filter inside the tag's argument
+                      list is not scoped to that argument, and Liquid ends up
+                      reading the filtered value as a positional argument.
+                    {%- endcomment -%}
+                    {%- assign product_form_id = 'ow-product-form-' | append: i -%}
+                    {%- form 'product', prod, id: product_form_id, class: 'product-card-form' -%}
                       <select class="product-dropdown" name="id">
                         {%- for variant in prod.variants -%}
                           <option value="{{ variant.id }}"

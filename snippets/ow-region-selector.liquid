@@ -30,7 +30,15 @@
       <img class="navbar-lang-chevron" src="{{ 'ow-chevron-lang.svg' | asset_url }}" alt="" width="16" height="16">
     </button>
 
-    {%- form 'localization', id: 'ow-localization-' | append: id_suffix, class: 'navbar-region-form' -%}
+    {%- comment -%}
+      The id must be built before the tag. Writing
+      `form 'localization', id: 'ow-localization-' | append: id_suffix`
+      does not scope the filter to the id argument — Liquid re-reads the
+      argument list and takes id_suffix as the form TYPE, failing with
+      Invalid form type "header".
+    {%- endcomment -%}
+    {%- assign region_form_id = 'ow-localization-' | append: id_suffix -%}
+    {%- form 'localization', id: region_form_id, class: 'navbar-region-form' -%}
       <input type="hidden" name="country_code" value="{{ localization.country.iso_code }}">
       <input type="hidden" name="locale_code" value="{{ localization.language.iso_code }}">
       <ul class="navbar-region-list" role="listbox" aria-label="{{ 'localization.country_label' | t | default: 'Ship to' }}">
