@@ -158,21 +158,77 @@
             {%- assign prod_key  = 'p' | append: i | append: '_product' -%}
             {%- assign prod = block.settings[prod_key] -%}
             {%- comment -%}
-              A card can be backed by a real Shopify product or by static copy.
-              When a product is linked it drives the image, title, price and
-              variant options, and the button becomes a working add-to-cart.
-              The tag/grade/description stay as settings either way — that is
-              marketing copy the product record does not carry.
+              A card is either backed by a real Shopify product or by static copy.
+
+              When a product is linked, the product record is authoritative and
+              nothing needs retyping — title, price, description, image and
+              variants all come from it. The text settings are only consulted as
+              a fallback for cards with no product, which is what keeps the
+              original static design renderable.
+
+              `default:` cannot express this. The settings ship with the design's
+              copy pre-filled, so they are never blank and would always win.
+              Precedence has to be stated explicitly, product first.
+
+              Two fields have no native product equivalent, so they fall back to
+              settings even when a product is linked:
+                - flavour tag  -> product type, else the first product tag
+                - grade tag    -> a product tag beginning "GRADE", else setting
             {%- endcomment -%}
             {%- if prod != blank -%}
-              {%- assign p_name = block.settings[name_key] | default: prod.title -%}
+              {%- assign p_name = prod.title -%}
+              {%- comment -%}
+                Product descriptions are rich text and unbounded, while the card
+                has no line clamp (.product-desc is flex:1) — a long one simply
+                makes that card taller than the two beside it and breaks the row.
+                The design's copy runs ~28 words, so 45 is generous headroom
+                while still keeping the row even.
+              {%- endcomment -%}
+              {%- assign p_desc = prod.description | strip_html | strip | truncatewords: 45 -%}
+              {%- if p_desc == blank -%}
+                {%- assign p_desc = block.settings[desc_key] -%}
+              {%- endif -%}
+
+              {%- assign p_tag = prod.type -%}
+              {%- if p_tag == blank -%}
+                {%- comment -%}
+                  Skip GRADE tags here — they are claimed by the grade badge
+                  below, and taking tags.first blindly would print the same
+                  string in both places.
+                {%- endcomment -%}
+                {%- for t in prod.tags -%}
+                  {%- assign t_up = t | upcase -%}
+                  {%- unless t_up contains 'GRADE' -%}
+                    {%- assign p_tag = t -%}
+                    {%- break -%}
+                  {%- endunless -%}
+                {%- endfor -%}
+              {%- endif -%}
+              {%- if p_tag == blank -%}
+                {%- assign p_tag = block.settings[tag_key] -%}
+              {%- endif -%}
+
+              {%- assign p_grade = '' -%}
+              {%- for t in prod.tags -%}
+                {%- assign t_up = t | upcase -%}
+                {%- if t_up contains 'GRADE' -%}
+                  {%- assign p_grade = t -%}
+                  {%- break -%}
+                {%- endif -%}
+              {%- endfor -%}
+              {%- if p_grade == blank -%}
+                {%- assign p_grade = block.settings[grade_key] -%}
+              {%- endif -%}
             {%- else -%}
-              {%- assign p_name = block.settings[name_key] -%}
+              {%- assign p_name  = block.settings[name_key] -%}
+              {%- assign p_desc  = block.settings[desc_key] -%}
+              {%- assign p_tag   = block.settings[tag_key] -%}
+              {%- assign p_grade = block.settings[grade_key] -%}
             {%- endif -%}
             {%- if p_name != blank -%}
               <div class="product-card">
                 <div class="product-card-img-wrap" style="position:relative">
-                  <div class="grade-tag">{{ block.settings[grade_key] }}</div>
+                  <div class="grade-tag">{{ p_grade }}</div>
                   <div class="product-card-img">
                     {%- if block.settings[img_key] -%}
                       {{ block.settings[img_key] | image_url: width: 600 | image_tag: alt: p_name }}
@@ -184,9 +240,9 @@
                   </div>
                 </div>
                 <div class="product-card-body">
-                  <span class="product-tag">{{ block.settings[tag_key] }}</span>
+                  <span class="product-tag">{{ p_tag }}</span>
                   <div class="product-name">{{ p_name }}</div>
-                  <p class="product-desc paragraph">{{ block.settings[desc_key] }}</p>
+                  <p class="product-desc paragraph">{{ p_desc }}</p>
                   {%- if prod != blank -%}
                     <p class="product-price">{{ prod.price | money }}</p>
                     {%- comment -%}
@@ -396,32 +452,32 @@
         { "type": "text", "id": "heading", "label": "Heading", "default": "Drink for Planet Earth" },
         { "type": "textarea", "id": "subhead", "label": "Subheading", "default": "Clean caffeine without the damn jitters so you can feel great while doing the work of protecting the places that inspire your next adventure." },
         { "type": "text", "id": "atc_label", "label": "Button label", "default": "Add to Cart" },
-        { "type": "paragraph", "content": "Link a product to make a card live — its image, price, variants and Add to Cart all come from Shopify. Without one the card is static copy and its button is disabled. Leave a name blank to hide the card." },
+        { "type": "paragraph", "content": "Link a product and the card fills itself in — title, description, price, image, variants and a working Add to Cart all come from Shopify, nothing to retype. The text fields below are only used for cards with no linked product. Flavour tag falls back to product type or first tag; grade tag to a product tag containing GRADE." },
         { "type": "header", "content": "Card 1" },
-        { "type": "text", "id": "p1_name", "label": "Name", "default": "Wild Bloom" },
-        { "type": "text", "id": "p1_grade", "label": "Grade tag", "default": "GRADE 1" },
-        { "type": "text", "id": "p1_tag", "label": "Flavour tag", "default": "FRUITY & FLORAL" },
-        { "type": "textarea", "id": "p1_desc", "label": "Description", "default": "Tastes like the sip you steal before anyone else is awake: bright, floral — and a little unhinged. Best for pour-over, cold brew, and nitro." },
-        { "type": "text", "id": "p1_price", "label": "Price", "default": "TWD 560" },
-        { "type": "text", "id": "p1_options", "label": "Options (comma separated)", "default": "Whole Beans · 200g, Whole Beans · 125g" },
+        { "type": "text", "id": "p1_name", "label": "Name (no-product fallback)", "default": "Wild Bloom" },
+        { "type": "text", "id": "p1_grade", "label": "Grade tag (no-product fallback)", "default": "GRADE 1" },
+        { "type": "text", "id": "p1_tag", "label": "Flavour tag (no-product fallback)", "default": "FRUITY & FLORAL" },
+        { "type": "textarea", "id": "p1_desc", "label": "Description (no-product fallback)", "default": "Tastes like the sip you steal before anyone else is awake: bright, floral — and a little unhinged. Best for pour-over, cold brew, and nitro." },
+        { "type": "text", "id": "p1_price", "label": "Price (no-product fallback)", "default": "TWD 560" },
+        { "type": "text", "id": "p1_options", "label": "Options (comma separated) (no-product fallback)", "default": "Whole Beans · 200g, Whole Beans · 125g" },
         { "type": "product", "id": "p1_product", "label": "Linked product", "info": "Optional. When set, drives image, price, variants and a working Add to Cart." },
         { "type": "image_picker", "id": "p1_image", "label": "Image override" },
         { "type": "header", "content": "Card 2" },
-        { "type": "text", "id": "p2_name", "label": "Name", "default": "Forest Trail" },
-        { "type": "text", "id": "p2_grade", "label": "Grade tag", "default": "GRADE 1" },
-        { "type": "text", "id": "p2_tag", "label": "Flavour tag", "default": "NUTTY ESPRESSO" },
-        { "type": "textarea", "id": "p2_desc", "label": "Description", "default": "Coffee for comfort with sweet notes of chocolate and toasty nuts — and a hug from the inside. Best for espresso & milk-based drinks." },
-        { "type": "text", "id": "p2_price", "label": "Price", "default": "TWD 540" },
-        { "type": "text", "id": "p2_options", "label": "Options (comma separated)", "default": "Whole Beans · 200g, Whole Beans · 125g" },
+        { "type": "text", "id": "p2_name", "label": "Name (no-product fallback)", "default": "Forest Trail" },
+        { "type": "text", "id": "p2_grade", "label": "Grade tag (no-product fallback)", "default": "GRADE 1" },
+        { "type": "text", "id": "p2_tag", "label": "Flavour tag (no-product fallback)", "default": "NUTTY ESPRESSO" },
+        { "type": "textarea", "id": "p2_desc", "label": "Description (no-product fallback)", "default": "Coffee for comfort with sweet notes of chocolate and toasty nuts — and a hug from the inside. Best for espresso & milk-based drinks." },
+        { "type": "text", "id": "p2_price", "label": "Price (no-product fallback)", "default": "TWD 540" },
+        { "type": "text", "id": "p2_options", "label": "Options (comma separated) (no-product fallback)", "default": "Whole Beans · 200g, Whole Beans · 125g" },
         { "type": "product", "id": "p2_product", "label": "Linked product", "info": "Optional. When set, drives image, price, variants and a working Add to Cart." },
         { "type": "image_picker", "id": "p2_image", "label": "Image override" },
         { "type": "header", "content": "Card 3" },
-        { "type": "text", "id": "p3_name", "label": "Name", "default": "Limited Reserve" },
-        { "type": "text", "id": "p3_grade", "label": "Grade tag", "default": "GRADE 1" },
-        { "type": "text", "id": "p3_tag", "label": "Flavour tag", "default": "RARE FUNK" },
-        { "type": "textarea", "id": "p3_desc", "label": "Description", "default": "A rare micro-lot production that blurs the line between coffee, tea, fruit, and wine. Best for pour-over, cold brew, and nitro." },
-        { "type": "text", "id": "p3_price", "label": "Price", "default": "TWD 800" },
-        { "type": "text", "id": "p3_options", "label": "Options (comma separated)", "default": "Whole Beans · 100g" },
+        { "type": "text", "id": "p3_name", "label": "Name (no-product fallback)", "default": "Limited Reserve" },
+        { "type": "text", "id": "p3_grade", "label": "Grade tag (no-product fallback)", "default": "GRADE 1" },
+        { "type": "text", "id": "p3_tag", "label": "Flavour tag (no-product fallback)", "default": "RARE FUNK" },
+        { "type": "textarea", "id": "p3_desc", "label": "Description (no-product fallback)", "default": "A rare micro-lot production that blurs the line between coffee, tea, fruit, and wine. Best for pour-over, cold brew, and nitro." },
+        { "type": "text", "id": "p3_price", "label": "Price (no-product fallback)", "default": "TWD 800" },
+        { "type": "text", "id": "p3_options", "label": "Options (comma separated) (no-product fallback)", "default": "Whole Beans · 100g" },
         { "type": "product", "id": "p3_product", "label": "Linked product", "info": "Optional. When set, drives image, price, variants and a working Add to Cart." },
         { "type": "image_picker", "id": "p3_image", "label": "Image override" }
       ]
