@@ -14,8 +14,11 @@ store = "eryn-tech-dev.myshopify.com"
 
 [environments.staging]
 store = "eryn-tech-dev.myshopify.com"
-# theme = "REPLACE_WITH_UNPUBLISHED_THEME_ID"
-# Fill this in with a duplicate of the live theme. All `theme push` goes here first.
+theme = "157548576956"  # "Be Yours 8.5.0 (dev)", unpublished
+# Seeded 2026-08-10 with the full export (.shopifyignore temporarily bypassed).
+# From here on pushes honour .shopifyignore: code deploys, content does not.
+# Editor:  https://eryn-tech-dev.myshopify.com/admin/themes/157548576956/editor
+# Preview: https://eryn-tech-dev.myshopify.com?preview_theme_id=157548576956
 
 # NOTE: there is deliberately no `production` environment.
 # Going live is a manual "Publish" in the Shopify admin after reviewing the
