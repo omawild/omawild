@@ -1,0 +1,37 @@
+# Theme Check config — Be Yours 8.5.0 (RoarTheme) + custom work
+# Run: shopify theme check
+# Docs: https://shopify.dev/docs/storefronts/themes/tools/theme-check
+
+extends: theme-check:recommended
+
+# Vendor + third-party app code we do not own and will not hand-edit.
+# Keeping these out means the linter reports OUR bugs, not RoarTheme's or Bloggle's.
+ignore:
+  - sections/main-bloggle-article.liquid
+  - blocks/ai_gen_block_*.liquid
+  - assets/apps.css
+  - locales/*.json
+
+# Vendor themes ship with plenty of stylistic drift; those are informational.
+# Correctness and performance rules stay at error so they block a push.
+VariableName:
+  enabled: false
+
+UnusedAssign:
+  severity: suggestion
+
+ImgWidthAndHeight:
+  enabled: true
+  severity: error
+
+RemoteAsset:
+  enabled: true
+  severity: error
+
+HardcodedRoutes:
+  enabled: true
+  severity: error
+
+UndefinedObject:
+  enabled: true
+  severity: error

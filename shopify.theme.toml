@@ -1,0 +1,23 @@
+# Shopify CLI theme environments.
+# Named environments mean you type `--environment staging`, never a raw theme ID,
+# so a mistyped digit can't push over the wrong theme.
+#
+#   shopify theme dev  --environment development   # hot-reload preview, pushes nothing
+#   shopify theme push --environment staging       # publish to the unpublished dev theme
+#
+# Find theme IDs with: shopify theme list --store f2e01f-77.myshopify.com
+
+[environments.development]
+store = "f2e01f-77.myshopify.com"
+# `theme dev` creates and reuses a personal development theme automatically.
+# Leave `theme` unset here so each developer gets their own.
+
+[environments.staging]
+store = "f2e01f-77.myshopify.com"
+# theme = "REPLACE_WITH_UNPUBLISHED_THEME_ID"
+# Fill this in with a duplicate of the live theme. All `theme push` goes here first.
+
+# NOTE: there is deliberately no `production` environment.
+# Going live is a manual "Publish" in the Shopify admin after reviewing the
+# staging preview — never a CLI push. `shopify theme push --live` requires an
+# explicit `--allow-live` flag; do not add it to any script.
