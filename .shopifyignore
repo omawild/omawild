@@ -1,0 +1,23 @@
+# Files the Shopify CLI will NOT upload on `theme push`.
+# Anything listed here stays whatever the live store already has.
+
+# Repo/tooling files — not part of the theme
+.git/*
+.gitignore
+.theme-check.yml
+shopify.theme.toml
+README.md
+CLAUDE.md
+*.zip
+node_modules/*
+
+# ---------------------------------------------------------------------------
+# Merchant-editable content. These files are rewritten every time someone saves
+# in the Shopify theme editor. Pushing them would silently revert live
+# customizations, so the theme editor stays their owner — not git.
+#
+# Consequence to remember: a NEW section added in code will not appear on any
+# page until someone places it once via the theme editor. That is expected.
+# ---------------------------------------------------------------------------
+config/settings_data.json
+templates/*.json
