@@ -1,0 +1,59 @@
+{%- comment -%}
+  ow-region-selector — the country/language picker from the Omawild design,
+  backed by Shopify's real localization form.
+
+  Accepts:
+  - id_suffix: {String} unique per instance ('header', 'menu') — the selector
+    appears twice per page and form ids must not collide.
+  - inline: {Boolean} true adds navbar-region--inline, the menu-modal variant.
+
+  Usage:
+  {% render 'ow-region-selector', id_suffix: 'header', inline: false %}
+
+  The design mocked up three fixed rows (HK·English·HKD, TW·English·TWD,
+  TW·繁中·TWD). Here the rows are generated from the markets and languages the
+  store actually publishes, so the list stays correct as markets change.
+
+  The flag comes from flag-icons: its class names are ISO 3166-1 alpha-2
+  lowercased, which is exactly country.iso_code | downcase — so 'TW' -> 'fi-tw'
+  with no mapping table.
+
+  Selecting a row submits the localization form (ow-chrome.js). Without JS the
+  rows still submit, because each is a real <button> inside the form.
+{%- endcomment -%}
+
+{%- if localization.available_countries.size > 1 or localization.available_languages.size > 1 -%}
+  <div class="navbar-region{% if inline %} navbar-region--inline{% endif %}">
+    <button class="navbar-lang" aria-haspopup="listbox" aria-expanded="false">
+      <span class="fi fi-{{ localization.country.iso_code | downcase }} navbar-region-flag"></span>
+      <span class="navbar-region-label">{{ localization.language.endonym_name | upcase }}</span>
+      <img class="navbar-lang-chevron" src="{{ 'ow-chevron-lang.svg' | asset_url }}" alt="" width="16" height="16">
+    </button>
+
+    {%- form 'localization', id: 'ow-localization-' | append: id_suffix, class: 'navbar-region-form' -%}
+      <input type="hidden" name="country_code" value="{{ localization.country.iso_code }}">
+      <input type="hidden" name="locale_code" value="{{ localization.language.iso_code }}">
+      <ul class="navbar-region-list" role="listbox" aria-label="{{ 'localization.country_label' | t | default: 'Ship to' }}">
+        {%- for country in localization.available_countries -%}
+          {%- for language in localization.available_languages -%}
+            {%- assign is_current = false -%}
+            {%- if country.iso_code == localization.country.iso_code and language.iso_code == localization.language.iso_code -%}
+              {%- assign is_current = true -%}
+            {%- endif -%}
+            <li class="navbar-region-option"
+                role="option"
+                data-flag="fi-{{ country.iso_code | downcase }}"
+                data-label="{{ language.endonym_name | upcase | escape }}"
+                data-country="{{ country.iso_code }}"
+                data-locale="{{ language.iso_code }}"
+                aria-selected="{{ is_current }}">
+              <span class="fi fi-{{ country.iso_code | downcase }}"></span>
+              {{ country.name }} · {{ language.endonym_name | capitalize }}
+              <span class="navbar-region-currency">{{ country.currency.iso_code }}</span>
+            </li>
+          {%- endfor -%}
+        {%- endfor -%}
+      </ul>
+    {%- endform -%}
+  </div>
+{%- endif -%}

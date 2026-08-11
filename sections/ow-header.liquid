@@ -1,0 +1,177 @@
+{%- comment -%}
+  ow-header — Omawild site chrome: fixed announcement bars, navbar, menu modal.
+
+  Replaces the RoarTheme header site-wide via sections/header-group.json.
+
+  WHY THE ANNOUNCEMENT BARS ARE BLOCKS RATHER THAN THEIR OWN SECTION:
+  #top-chrome is a single position:fixed container, and ow-chrome.js measures
+  its total height to set body padding-top. Splitting the bars into a separate
+  section would put them outside that container and the padding maths would be
+  wrong. Blocks keep one section == one fixed container.
+
+  CONSEQUENCE OF REPLACING THE VENDOR HEADER: Be Yours' <cart-drawer> lives
+  inside sections/header.liquid, so it is no longer rendered. assets/product-form.js
+  already guards for this and falls back to redirecting to the cart page
+  (see its `else if (!this.cart)` branch). Verify that flow on staging.
+
+  Loads the shared base + chrome CSS and JS for every page. ow-chrome.js must
+  load before ow-landing.js — it is included here, in the header group, which
+  renders before section content.
+{%- endcomment -%}
+
+{% render 'ow-fonts' %}
+{{ 'ow-base.css' | asset_url | stylesheet_tag }}
+{{ 'ow-chrome.css' | asset_url | stylesheet_tag }}
+{%- if section.settings.show_region_selector -%}
+  {{ 'ow-flags.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+
+<div id="top-chrome">
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+
+    {%- when 'launch_bar' -%}
+      {%- comment -%}
+        ow-chrome.js reads the target date and both messages from these data
+        attributes, so the countdown is editable without touching code.
+        The date is an ISO8601 string including offset, e.g. 2026-08-28T09:30:00+08:00
+      {%- endcomment -%}
+      <div class="ann-bar ann-bar--orange ann-launch"
+           id="ann1"
+           {{ block.shopify_attributes }}
+           data-target="{{ block.settings.target | escape }}"
+           data-before="{{ block.settings.text_before | escape }}"
+           data-after="{{ block.settings.text_after | escape }}">
+        <span id="annLaunchText">{{ block.settings.text_before }}</span>
+        <span class="ann-countdown" id="annLaunchCountdown"></span>
+      </div>
+
+    {%- when 'marquee_bar' -%}
+      {%- comment -%}
+        The message is repeated 12 times: the CSS keyframe translates the track
+        -50%, which only loops seamlessly if the second half duplicates the first.
+      {%- endcomment -%}
+      <div class="ann-bar ann-bar--blue ann-marquee" id="ann2" aria-label="{{ block.settings.text | escape }}" {{ block.shopify_attributes }}>
+        <div class="ann-marquee-track" aria-hidden="true">
+          {%- for i in (1..12) -%}
+            <span>{{ block.settings.text }}</span>
+          {%- endfor -%}
+        </div>
+      </div>
+
+    {%- endcase -%}
+  {%- endfor -%}
+
+  <nav class="navbar" id="navbar" aria-label="Site navigation">
+    <a class="navbar-logo" href="{{ routes.root_url }}">
+      <img src="{{ 'ow-logo.svg' | asset_url }}" alt="{{ shop.name | escape }}" width="480" height="80">
+    </a>
+    <ul class="navbar-links">
+      {%- for link in section.settings.menu.links -%}
+        {%- comment -%}
+          The design keeps the first link in sentence case while the rest are
+          uppercased by CSS — navbar-link--plain opts that one out.
+        {%- endcomment -%}
+        {%- if link.links.size > 0 -%}
+          <li class="navbar-link-dropdown">
+            <a href="{{ link.url }}" class="navbar-link-toggle">
+              {{ link.title }}
+              <img class="navbar-link-chevron" src="{{ 'ow-chevron-link.svg' | asset_url }}" alt="" width="14" height="14">
+            </a>
+            <div class="navbar-dropdown">
+              {%- for child in link.links -%}
+                <a href="{{ child.url }}">{{ child.title }}</a>
+              {%- endfor -%}
+            </div>
+          </li>
+        {%- else -%}
+          <li><a href="{{ link.url }}"{% if forloop.first %} class="navbar-link--plain"{% endif %}>{{ link.title }}</a></li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+    <div class="navbar-right">
+      <div class="navbar-icons">
+        <a href="{{ routes.cart_url }}" aria-label="{{ 'templates.cart.cart' | t }} ({{ cart.item_count }})">
+          <img src="{{ 'ow-icon-cart.svg' | asset_url }}" alt="" width="30" height="30">
+        </a>
+      </div>
+      {%- if section.settings.show_region_selector -%}
+        {% render 'ow-region-selector', id_suffix: 'header', inline: false %}
+      {%- endif -%}
+      <button class="navbar-menu-btn" id="menuBtn" aria-label="Open menu">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M5 6.25C4.30965 6.25 3.75 6.80965 3.75 7.5C3.75 8.19035 4.30965 8.75 5 8.75H25C25.6904 8.75 26.25 8.19035 26.25 7.5C26.25 6.80965 25.6904 6.25 25 6.25H5ZM3.75 15C3.75 14.3096 4.30965 13.75 5 13.75H25C25.6904 13.75 26.25 14.3096 26.25 15C26.25 15.6904 25.6904 16.25 25 16.25H5C4.30965 16.25 3.75 15.6904 3.75 15ZM3.75 22.5C3.75 21.8096 4.30965 21.25 5 21.25H25C25.6904 21.25 26.25 21.8096 26.25 22.5C26.25 23.1904 25.6904 23.75 25 23.75H5C4.30965 23.75 3.75 23.1904 3.75 22.5Z" fill="#FF3F00"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+</div><!-- /#top-chrome -->
+
+{%- comment -%}
+  Menu modal. The nav list is populated at runtime by ow-chrome.js from
+  #navbar .navbar-links, so the markup here stays empty on purpose — one
+  source of truth for the menu.
+{%- endcomment -%}
+<div class="menu-modal" id="menuModal" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <div class="menu-modal-head">
+    <a href="{{ routes.root_url }}"><img class="logo" src="{{ 'ow-logo.svg' | asset_url }}" alt="{{ shop.name | escape }}" width="480" height="80"></a>
+    <button class="menu-close" id="menuClose" aria-label="Close menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M18 6L6 18M6 6l12 12" stroke="#FF3F00" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+  <nav class="menu-nav"></nav>
+  <div class="menu-bottom">
+    {%- if section.settings.show_region_selector -%}
+      {% render 'ow-region-selector', id_suffix: 'menu', inline: true %}
+    {%- endif -%}
+    <div class="menu-bottom-links">
+      {%- for link in section.settings.menu_bottom.links -%}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+<script src="{{ 'ow-chrome.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "OW Header",
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "Main menu", "default": "main-menu" },
+    { "type": "link_list", "id": "menu_bottom", "label": "Menu modal footer links" },
+    { "type": "checkbox", "id": "show_region_selector", "label": "Show country/language selector", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "launch_bar",
+      "name": "Countdown bar",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "target", "label": "Countdown target (ISO8601 with offset)", "default": "2026-08-28T09:30:00+08:00", "info": "Example: 2026-08-28T09:30:00+08:00" },
+        { "type": "text", "id": "text_before", "label": "Message before target", "default": "🚀 WE'RE GOING PUBLIC @ MEET GREATER SOUTH KAOHSIUNG" },
+        { "type": "text", "id": "text_after", "label": "Message after target", "default": "🚀 WE'RE LIVE @ MEET GREATER SOUTH — ENJOY A COFFEE, ON US" }
+      ]
+    },
+    {
+      "type": "marquee_bar",
+      "name": "Scrolling bar",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "text", "label": "Message", "default": "Drop by booth no. GP3-07" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "OW Header",
+      "blocks": [
+        { "type": "launch_bar" },
+        { "type": "marquee_bar" }
+      ]
+    }
+  ]
+}
+{% endschema %}

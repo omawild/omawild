@@ -1,0 +1,131 @@
+{%- comment -%}
+  ow-footer — Omawild site footer, replacing the RoarTheme footer site-wide via
+  sections/footer-group.json.
+
+  The email signup is a real Shopify customer form (tags it as accepts_marketing)
+  rather than the design's inert <form id="footerEmailForm">. ow-chrome.js still
+  shows the success toast; on a real submit Shopify round-trips the page and the
+  form.posted_successfully? branch below re-opens the toast on return.
+
+  Nav columns come from Shopify Navigation link lists so they stay editable in
+  the admin. Four columns are the design; leave a menu unset to drop a column.
+{%- endcomment -%}
+
+{{ 'ow-chrome.css' | asset_url | stylesheet_tag }}
+
+<footer class="footer">
+  <div class="footer-head">
+    <img src="{{ 'ow-nature-head.svg' | asset_url }}" alt="" width="284" height="74">
+  </div>
+  <p class="footer-tagline">{{ section.settings.tagline }}</p>
+
+  {%- form 'customer', id: 'footerEmailForm', class: 'footer-email' -%}
+    <input type="hidden" name="contact[tags]" value="newsletter">
+    <input type="hidden" name="contact[accepts_marketing]" value="true">
+    <input type="email"
+           name="contact[email]"
+           placeholder="{{ section.settings.email_placeholder | escape }}"
+           aria-label="{{ section.settings.email_placeholder | escape }}"
+           autocomplete="email"
+           required>
+    <button type="submit" aria-label="{{ section.settings.submit_label | escape }}">
+      <img src="{{ 'ow-icon-submit.svg' | asset_url }}" alt="" width="24" height="24">
+    </button>
+    {%- comment -%}
+      The `form` object only exists inside this {% form %} block, so the success
+      state has to be captured here — the toast below cannot read it directly.
+      Liquid assigns outlive the block, which is what makes this work.
+    {%- endcomment -%}
+    {%- if form.posted_successfully? -%}
+      {%- assign newsletter_posted = true -%}
+    {%- endif -%}
+  {%- endform -%}
+
+  <div class="email-toast-backdrop" id="emailToastBackdrop"></div>
+  <div class="email-toast{% if newsletter_posted %} show{% endif %}" id="emailToast" role="status" aria-live="polite">
+    <span class="email-toast-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M20 6L9 17l-5-5" stroke="#FF3F00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+    <span class="email-toast-text">{{ section.settings.toast_text }}</span>
+  </div>
+
+  {%- comment -%} Social row — repeated by the design at two breakpoints. {%- endcomment -%}
+  {%- capture social_links -%}
+    {%- if section.settings.linkedin != blank -%}
+      <a href="{{ section.settings.linkedin }}" target="_blank" rel="noopener" aria-label="LinkedIn" style="position:relative;z-index:1;">
+        <img src="{{ 'ow-icon-linkedin.svg' | asset_url }}" alt="" width="20" height="20">
+      </a>
+    {%- endif -%}
+    {%- if section.settings.instagram != blank -%}
+      <a href="{{ section.settings.instagram }}" target="_blank" rel="noopener" aria-label="Instagram" style="position:relative;z-index:1;">
+        <img src="{{ 'ow-icon-instagram.svg' | asset_url }}" alt="" width="20" height="20">
+      </a>
+    {%- endif -%}
+  {%- endcapture -%}
+
+  <div class="footer-social">{{ social_links }}</div>
+
+  <nav class="footer-nav">
+    {%- for i in (1..4) -%}
+      {%- assign menu_key = 'menu_' | append: i -%}
+      {%- assign title_key = 'menu_' | append: i | append: '_title' -%}
+      {%- assign menu = section.settings[menu_key] -%}
+      {%- if menu != blank and menu.links.size > 0 -%}
+        <div class="footer-nav-section">
+          <div class="footer-nav-section-head" onclick="toggleFooterNav(this)">
+            {{ section.settings[title_key] | default: menu.title }}
+            <img src="{{ 'ow-bullet.svg' | asset_url }}" alt="" width="16" height="16">
+          </div>
+          <div class="footer-nav-links">
+            {%- for link in menu.links -%}
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </nav>
+
+  <div class="footer-bottom-row">
+    <div class="footer-social">{{ social_links }}</div>
+  </div>
+
+  <div class="footer-1ftp">
+    <img src="{{ 'ow-badge-1ftp.png' | asset_url }}" alt="1% for the Planet" width="376" height="160">
+  </div>
+  <a class="footer-logo" href="{{ routes.root_url }}">
+    <img src="{{ 'ow-logo-menu.svg' | asset_url }}" alt="{{ shop.name | escape }}" width="320" height="53">
+  </a>
+  <p class="footer-copy">{{ section.settings.copyright }}</p>
+</footer>
+
+{% schema %}
+{
+  "name": "OW Footer",
+  "settings": [
+    { "type": "textarea", "id": "tagline", "label": "Tagline", "default": "Coffee is just the beginning. Join us for the adventure, a little chaos, and a whole lot of love (because life is better together). 🫶" },
+    { "type": "header", "content": "Email signup" },
+    { "type": "text", "id": "email_placeholder", "label": "Input placeholder", "default": "your@email.com" },
+    { "type": "text", "id": "submit_label", "label": "Submit button label (screen readers)", "default": "Subscribe" },
+    { "type": "text", "id": "toast_text", "label": "Success message", "default": "Welcome to Omawild" },
+    { "type": "header", "content": "Social" },
+    { "type": "url", "id": "linkedin", "label": "LinkedIn URL", "default": "https://www.linkedin.com/company/omawild/" },
+    { "type": "url", "id": "instagram", "label": "Instagram URL", "default": "https://www.instagram.com/itsomawild" },
+    { "type": "header", "content": "Nav columns" },
+    { "type": "paragraph", "content": "Leave a menu unset to hide that column." },
+    { "type": "text", "id": "menu_1_title", "label": "Column 1 heading", "default": "Foundation" },
+    { "type": "link_list", "id": "menu_1", "label": "Column 1 menu" },
+    { "type": "text", "id": "menu_2_title", "label": "Column 2 heading", "default": "Shop" },
+    { "type": "link_list", "id": "menu_2", "label": "Column 2 menu" },
+    { "type": "text", "id": "menu_3_title", "label": "Column 3 heading", "default": "Support" },
+    { "type": "link_list", "id": "menu_3", "label": "Column 3 menu" },
+    { "type": "text", "id": "menu_4_title", "label": "Column 4 heading", "default": "Legal" },
+    { "type": "link_list", "id": "menu_4", "label": "Column 4 menu" },
+    { "type": "header", "content": "Bottom" },
+    { "type": "text", "id": "copyright", "label": "Copyright", "default": "© Wilde Planet Limited 2026" }
+  ],
+  "presets": [{ "name": "OW Footer" }]
+}
+{% endschema %}

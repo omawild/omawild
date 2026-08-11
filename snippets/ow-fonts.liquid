@@ -1,0 +1,54 @@
+{%- comment -%}
+  ow-fonts — Neue Haas Display @font-face declarations.
+
+  Lives in a snippet rather than in ow-base.css because asset_url is Liquid and
+  plain .css assets are not rendered through Liquid. Rendered from the header
+  section group so the faces are declared once, on every page.
+
+  Source: neue-haas-grotesk-display-pro.zip, converted TTF -> woff2 with
+  fontTools (395K -> 102K across the four weights).
+
+  The family is exposed to CSS as 'NHD' — that is the name the --f token in
+  ow-base.css expects. Weights map to the design's scale:
+
+      900 Black   700 Bold   600 Medium   400 Roman
+
+  Note the 600 face comes from NeueHaasDisplayMediu.ttf — the filename is
+  truncated in the vendor zip, but its internal name is NeueHaasDisplay-Mediu
+  and it is the Medium weight.
+
+  font-display:swap renders fallback text immediately and swaps when the face
+  arrives, so a slow font never blocks first paint. Type metrics shift slightly
+  on swap; that is the intended trade against invisible text.
+{%- endcomment -%}
+
+<style>
+  @font-face {
+    font-family: 'NHD';
+    src: url({{ 'ow-nhd-black.woff2' | asset_url }}) format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'NHD';
+    src: url({{ 'ow-nhd-bold.woff2' | asset_url }}) format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'NHD';
+    src: url({{ 'ow-nhd-medium.woff2' | asset_url }}) format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'NHD';
+    src: url({{ 'ow-nhd-roman.woff2' | asset_url }}) format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+</style>

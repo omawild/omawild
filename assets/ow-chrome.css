@@ -1,0 +1,357 @@
+/* ow-chrome.css — site chrome: announcement bars, navbar, menu modal, footer.
+   Extracted verbatim from omawild-landing(1).html. Loaded on every page via the
+   header/footer section groups, not just the landing page. */
+
+/* ════════════════════════════════
+   FIXED TOP CHROME
+   #top-chrome holds all fixed bars.
+   Body padding-top is set via JS to
+   match its height.
+════════════════════════════════ */
+#top-chrome{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;flex-direction:column;
+}
+
+/* ── ANNOUNCEMENT BARS ── */
+.ann-bar{
+  width:100%;padding:10px 24px;text-align:center;
+  font-size:12px;font-weight:600;letter-spacing:.02em;
+  line-height:1.4;
+  text-transform:uppercase;
+  flex-shrink:0;
+}
+.ann-bar--orange{background:var(--electric);color:var(--sand);}
+.ann-bar--blue{background:var(--blue);color:var(--sand);}
+/* Launch bar: countdown to a target date, message flips when it hits 0 */
+.ann-launch{display:flex;align-items:center;justify-content:center;gap:4px;flex-wrap:wrap;}
+.ann-countdown{font-variant-numeric:tabular-nums;}
+.ann-countdown-num{font-weight:700;}
+.ann-countdown-unit{font-weight:400;}
+/* General bar: text scrolls left, one full loop every 6s */
+.ann-marquee{
+  padding:10px 0;overflow:hidden;white-space:nowrap;text-align:left;
+}
+.ann-marquee-track{
+  display:inline-flex;gap:80px;padding:0 20px;
+  animation:ann-scroll-x 48s linear infinite;
+  will-change:transform;
+}
+.ann-marquee-track span{flex-shrink:0;}
+@keyframes ann-scroll-x{
+  from{transform:translateX(0);}
+  to{transform:translateX(-50%);}
+}
+
+/* ── NAVBAR ── */
+.navbar{
+  /* sits inside #top-chrome in normal flow */
+  position:relative;
+  background:var(--wonderland);
+  height:54px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;
+  /* hidden until hero scrolls out of view */
+  transform:translateY(-100%);
+  opacity:0;
+  transition:transform .38s cubic-bezier(.4,0,.2,1), opacity .38s;
+  /* prevent hidden navbar from causing layout shift inside #top-chrome */
+  margin-bottom:calc(-54px);
+}
+.navbar.visible{
+  transform:translateY(0);
+  opacity:1;
+  margin-bottom:0;
+}
+.navbar-logo img{height:22px;width:auto;}
+/* Links sit centered on the bar itself, independent of the logo/right
+   cluster widths — matches how it's built in Figma. */
+.navbar-links{
+  display:none;align-items:center;gap:25px;list-style:none;
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+}
+.navbar-links a{
+  font-size:13px;font-weight:600;letter-spacing:.02em;
+  text-transform:uppercase;color:var(--electric);text-decoration:none;
+  transition:opacity .2s;
+}
+.navbar-links a:hover{opacity:.6;}
+/* Figma keeps "Shop" in sentence case while the rest of the links are
+   uppercase — preserved as designed. */
+.navbar-link--plain{text-transform:none;}
+.navbar-link-dropdown{position:relative;display:flex;}
+.navbar-link-dropdown::after{
+  content:'';position:absolute;top:100%;left:0;right:0;height:10px;
+}
+.navbar-link-toggle{display:inline-flex;align-items:center;gap:4px;}
+.navbar-link-chevron{width:14px;height:14px;transition:transform .15s;}
+.navbar-dropdown{
+  display:none;position:absolute;top:calc(100% + 10px);left:0;
+  background:var(--wonderland);border:2px solid var(--electric);
+  border-radius:2px;padding:8px;
+  flex-direction:column;
+  white-space:nowrap;z-index:1;
+}
+.navbar-dropdown a{
+  display:block;padding:8px 10px;border-radius:2px;
+  font-size:14px;font-weight:400;letter-spacing:.14px;
+  color:var(--electric);text-decoration:none;
+}
+.navbar-dropdown a:hover{background:rgba(255,63,0,.1);}
+.navbar-link-dropdown:hover .navbar-dropdown,
+.navbar-link-dropdown:focus-within .navbar-dropdown{display:flex;}
+.navbar-link-dropdown:hover .navbar-link-chevron,
+.navbar-link-dropdown:focus-within .navbar-link-chevron{transform:rotate(180deg);}
+.navbar-right{display:flex;align-items:center;gap:24px;}
+.navbar-icons{display:flex;align-items:center;gap:16px;}
+.navbar-icons a{display:flex;}
+.navbar-icons img{width:30px;height:30px;}
+/* Region / language / currency selector: flag + code + chevron,
+   opens a listbox of the markets we currently ship to. */
+.navbar-region{position:relative;}
+.navbar-region::after{
+  content:'';position:absolute;top:100%;left:0;right:0;height:10px;
+}
+.navbar-right .navbar-region{display:none;}
+.navbar-lang{display:flex;align-items:center;gap:8px;background:none;border:none;padding:0;cursor:pointer;white-space:nowrap;}
+.navbar-lang .fi{width:24px;height:18px;border-radius:2px;background-size:cover;flex-shrink:0;}
+.navbar-lang-chevron{width:16px;height:16px;transition:transform .15s;}
+.navbar-region:hover .navbar-lang-chevron,
+.navbar-region:focus-within .navbar-lang-chevron{transform:rotate(180deg);}
+.navbar-lang span{
+  font-size:13px;font-weight:600;letter-spacing:.02em;
+  text-transform:uppercase;color:var(--electric);
+}
+.navbar-region-list{
+  display:none;position:absolute;top:calc(100% + 10px);right:0;
+  background:var(--wonderland);border:2px solid var(--electric);
+  border-radius:2px;padding:8px;margin:0;list-style:none;
+  min-width:250px;z-index:5;
+}
+.navbar-region:hover .navbar-region-list,
+.navbar-region:focus-within .navbar-region-list{display:block;}
+.navbar-region-option{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 10px;border-radius:2px;cursor:pointer;
+  font-size:14px;font-weight:400;color:var(--electric);white-space:nowrap;
+}
+.navbar-region-option .fi{width:24px;height:18px;border-radius:2px;flex-shrink:0;}
+.navbar-region-option:hover,
+.navbar-region-option[aria-selected="true"]{background:rgba(255,63,0,.1);}
+.navbar-region-currency{opacity:.6;margin-left:auto;padding-left:16px;}
+.navbar-menu-btn{
+  background:none;border:none;padding:4px;
+  display:flex;align-items:center;justify-content:center;
+}
+.navbar-menu-btn svg{width:24px;height:24px;display:block;}
+@media(min-width:800px){
+  .navbar{padding:0 20px;}
+  .navbar-right .navbar-region{display:block;}
+  .navbar-links{display:flex;}
+  .navbar-menu-btn{display:none;}
+}
+
+/* ════════════════════════════════
+   FOOTER
+════════════════════════════════ */
+.footer{
+  background:var(--wonderland);
+  padding:40px 24px 30px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.footer-head{height:70px;margin:0 auto 20px;}
+.footer-head img{height:70px;width:auto;margin:0 auto;}
+.footer-tagline{
+  font-weight:600;font-size:16px;line-height:19px;
+  color:var(--electric);width:100%;min-width:300px;max-width:500px;
+  margin:0 auto 20px;
+  text-align:center;
+}
+.footer-email{
+  display:flex;align-items:center;
+  border:1px solid var(--electric);border-radius:100px;
+  width:100%;min-width:300px;max-width:500px;margin:0 auto 24px;
+  overflow:hidden;
+  background:#fff;
+}
+.footer-email input{
+  flex:1;border:none;outline:none;
+  padding:10px 16px;
+  font-family:var(--f);font-size:16px;
+  color:#6f6f6f;background:transparent;
+}
+.footer-email input:focus,
+.footer-email input:not(:placeholder-shown){
+  color:var(--midnight);
+}
+.footer-email button{
+  background:none;border:none;padding:8px 12px;
+  display:flex;align-items:center;
+}
+.footer-email img{width:24px;height:24px;}
+/* Success toast — pops up centered on screen with a dimmed backdrop on
+   a successful signup, then auto-dismisses. */
+.email-toast-backdrop{
+  position:fixed;inset:0;background:rgba(0,0,0,0);
+  z-index:499;pointer-events:none;
+  transition:background .3s;
+}
+.email-toast-backdrop.show{background:rgba(35,37,41,.35);}
+.email-toast{
+  position:fixed;top:50%;left:50%;
+  transform:translate(-50%,-50%) scale(.9);
+  opacity:0;
+  display:flex;align-items:center;gap:10px;
+  background:#fff;border-radius:100px;
+  padding:14px 26px 14px 14px;
+  box-shadow:0 8px 32px rgba(0,0,0,.2);
+  z-index:500;
+  transition:transform .35s cubic-bezier(.4,0,.2,1),opacity .35s;
+  pointer-events:none;
+}
+.email-toast.show{transform:translate(-50%,-50%) scale(1);opacity:1;}
+.email-toast-icon{
+  width:26px;height:26px;border-radius:50%;
+  background:#2E7D5B;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.email-toast-icon svg{width:16px;height:16px;}
+.email-toast-text{
+  font-size:16px;font-weight:600;
+  color:#2E7D5B;white-space:nowrap;
+}
+/* Desktop only — on mobile the social icons move down into
+   .footer-bottom-row instead. */
+.footer-social{display:none;gap:10px;justify-content:center;margin-bottom:24px;}
+.footer-social a{display:flex;}
+.footer-social img{width:24px;height:24px;}
+.footer-nav{
+  display:flex;flex-direction:column;gap:0;
+  text-align:left;width:100%;max-width:600px;margin:0 auto 24px;
+}
+.footer-nav-section{
+  border-bottom:1px solid rgba(255,63,0,.2);
+  padding:10px 0;
+}
+.footer-nav-section-head{
+  display:flex;align-items:center;gap:6px;
+  font-size:13px;font-weight:600;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--electric);
+  cursor:pointer;
+}
+.footer-nav-section-head img{width:14px;height:14px;transition:transform .2s;}
+.footer-nav-section-head.open img{transform:rotate(180deg);}
+.footer-nav-links{
+  display:none;flex-direction:column;gap:12px;
+  padding-top:10px;
+}
+.footer-nav-links.open{display:flex;}
+.footer-nav-links a{
+  font-size:15px;color:var(--electric);
+  text-decoration:none;font-weight:400;
+}
+/* Mobile only — social icons, right above the 1% for the Planet badge.
+   Hidden on desktop, where .footer-social shows in its own place instead. */
+.footer-bottom-row{
+  display:flex;align-items:center;justify-content:center;
+  width:100%;max-width:600px;margin:0 auto 24px;
+}
+.footer-bottom-row .footer-social{display:flex;margin-bottom:0;}
+.footer-1ftp{margin:0 auto 20px;height:52px;width:122px;}
+.footer-1ftp img{height:100%;width:auto;}
+/* Oversized, edge-bleeding wordmark on mobile; contained on desktop. */
+/* Full-bleed edge-to-edge on mobile — breaks out of .footer's own
+   horizontal padding via the viewport-width trick so it always spans
+   exactly 100vw with no cropping, at any screen size. */
+.footer-logo{display:block;width:100vw;margin:20px calc(50% - 50vw) 20px;}
+.footer-logo img{width:100%;height:auto;display:block;}
+.footer-copy{font-size:13px;font-weight:600;text-transform:uppercase;color:var(--electric);}
+/* Desktop footer */
+@media(min-width:800px){
+  .footer{padding:60px 40px 30px;}
+  .footer-nav{
+    flex-direction:row;justify-content:space-between;
+    max-width:600px;gap:0;
+  }
+  .footer-nav-section{border-bottom:none;padding:0;}
+  .footer-nav-section-head img{display:none;}
+  .footer-nav-links{display:flex;}
+  .footer-social{display:flex;}
+  .footer-bottom-row{display:none;}
+  .footer-logo{width:auto;max-width:320px;margin:20px auto;}
+  .footer-logo img{width:auto;height:100%;}
+}
+
+/* ════════════════════════════════
+   MENU MODAL
+════════════════════════════════ */
+.menu-modal{
+  position:fixed;inset:0;z-index:200;
+  background:var(--wonderland);
+  transform:translateX(100%);
+  transition:transform .35s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;
+  padding:24px;
+  overflow-y:auto;
+}
+.menu-modal.open{transform:translateX(0);}
+.menu-modal-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:40px;
+}
+.menu-modal-head img.logo{height:28px;width:auto;}
+.menu-close{background:none;border:none;padding:4px;display:flex;}
+.menu-close svg{width:24px;height:24px;display:block;}
+.menu-nav{display:flex;flex-direction:column;gap:0;flex:1;}
+.menu-nav-item{
+  border-bottom:1px solid rgba(255,63,0,.15);
+  padding:18px 0;
+  font-weight:700;font-size:19px;
+  line-height:22px;
+  color:var(--electric);
+  text-decoration:none;display:block;
+}
+/* Discover is an expand/collapse group, not a plain link — the border
+   moves to the wrapper so it sits below the sublist (when expanded)
+   instead of directly under the button. */
+.menu-nav-item-group{border-bottom:1px solid rgba(255,63,0,.15);}
+.menu-nav-item-group .menu-nav-item{border-bottom:none;}
+.menu-nav-item--discover{
+  display:flex;align-items:center;gap:8px;
+  width:100%;background:none;border:none;
+  font-family:inherit;cursor:pointer;text-align:left;
+}
+.menu-discover-arrow img{width:16px;height:16px;transition:transform .2s;}
+.menu-nav-item-group.expanded .menu-discover-arrow img{transform:rotate(180deg);}
+.menu-discover-sublist{
+  display:none;flex-direction:column;gap:2px;
+  padding:0 0 16px;
+}
+.menu-nav-item-group.expanded .menu-discover-sublist{display:flex;}
+.menu-discover-sublist a{
+  font-size:16px;font-weight:400;
+  color:var(--electric);text-decoration:none;
+  padding:8px 0;
+}
+.menu-bottom{margin-top:40px;}
+/* Inline region/lang selector — same line-item accordion pattern as
+   Discover above, instead of the floating hover-popover used in the
+   navbar/footer (hover has no equivalent on touch). */
+.navbar-region.navbar-region--inline{border-bottom:1px solid rgba(255,63,0,.15);}
+/* No floating panel to bridge to here, and the empty hit-box would
+   otherwise sit on top of the expanded list's first tap target. */
+.navbar-region.navbar-region--inline::after{display:none;}
+.navbar-region.navbar-region--inline .navbar-lang{width:100%;padding:18px 0;}
+.navbar-region.navbar-region--inline .navbar-lang-chevron{transform:none;}
+.navbar-region.navbar-region--inline.expanded .navbar-lang-chevron{transform:rotate(180deg);}
+.navbar-region.navbar-region--inline .navbar-region-list{
+  display:none;position:static;
+  border:none;background:none;box-shadow:none;
+  padding:0 0 16px;margin:0;min-width:0;
+}
+.navbar-region.navbar-region--inline.expanded .navbar-region-list{display:flex;flex-direction:column;gap:2px;}
+.navbar-region.navbar-region--inline .navbar-region-option{padding:8px 0;}
+.menu-bottom-links{display:flex;gap:24px;margin-bottom:20px;}
+.menu-bottom-links a{font-size:15px;color:var(--electric);font-weight:400;text-decoration:none;}

@@ -15,3 +15,7 @@ Thumbs.db
 .env
 .env.*
 !.env.example
+
+# Source HTML exports for the landing-page import (see docs/ow-asset-manifest.md)
+omawild-landing*.html
+neue-haas-grotesk-display-pro.zip

@@ -1,0 +1,99 @@
+/* ow-base.css — Omawild design tokens, reset and type scale.
+   Extracted verbatim from omawild-landing(1).html. Shared by every ow-* section
+   and by the four static pages still to be imported (about, our-blueprint,
+   privacy, terms), so keep it free of anything page-specific.
+   Font @font-face rules live in snippets/ow-fonts.liquid — they need asset_url. */
+
+/* ── TOKENS ── */
+:root {
+  --electric:#FF3F00;
+  --wonderland:#FCD0FD;
+  --sand:#F7F5F1;
+  --sunbrella:#FBB925;
+  --salmon:#FFE4E7;
+  --solar:#F62B7A;
+  --blue:#0264EE;
+  --midnight:#232529;
+  --f:'NHD','Helvetica Neue',Helvetica,Arial,sans-serif;
+
+  /* Type scale — mobile first */
+  --h1:34px; --h1-lh:33px;
+  --h2:22px; --h2-lh:23px;
+  --h3:21px; --h3-lh:22px;
+  --h4:21px; --h4-lh:24px;
+  --body:15px; --body-lh:17px;
+  --h5:15px; --h5-lh:18px;
+  --cta:16px; --cta-lh:18px;
+  --label:13px;
+  --card-h:24px; --card-h-lh:25px;
+  --link:14px;
+}
+
+@media(min-width:800px){
+  :root{
+    --h1:40px; --h1-lh:33px;
+    --h2:34px; --h2-lh:33px;
+    --h3:28px; --h3-lh:28px;
+    --h4:21px;
+    --body:15px;
+  }
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{margin:0;padding:0;display:block;}
+html{scroll-behavior:smooth;}
+
+/* ── TYPE STYLES: H5 & PARAGRAPH ──
+   Same size/line-height — weight is the only difference. */
+.h5{font-weight:600;font-size:var(--h5);line-height:var(--h5-lh);}
+.paragraph{font-weight:400;font-size:14px;line-height:20px;}
+.h2{font-weight:700;font-size:var(--h2);line-height:var(--h2-lh);}
+.h3{font-weight:600;font-size:var(--h3);line-height:var(--h3-lh);}
+body{font-family:var(--f);background:var(--wonderland);color:var(--electric);overflow-x:hidden;}
+img{display:block;max-width:100%;}
+button,a{cursor:pointer;font-family:var(--f);}
+
+/* ── UTILITY ── */
+.container{width:100%;max-width:1440px;margin:0 auto;}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+
+/* ── CTA BUTTONS ── */
+.btn-primary{
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--electric);color:var(--sand);
+  font-weight:600;font-size:var(--cta);line-height:var(--cta-lh);
+  padding:11px 17px;border-radius:100px;border:none;
+  text-decoration:none;white-space:nowrap;
+  transition:opacity .2s;
+}
+.btn-primary:hover{opacity:.85;}
+
+.btn-outline{
+  display:inline-flex;align-items:center;justify-content:center;
+  background:#fff;color:var(--electric);
+  font-weight:600;font-size:var(--cta);line-height:var(--cta-lh);
+  padding:11px 17px;border-radius:100px;
+  border:2px solid var(--electric);
+  text-decoration:none;white-space:nowrap;
+  transition:background .2s,color .2s;
+}
+.btn-outline:hover{background:var(--electric);color:#fff;}
+
+.text-link{
+  font-weight:600;font-size:var(--link);color:var(--electric);
+  text-decoration:underline;text-underline-offset:3px;
+  background:none;border:none;
+}
+
+/* ════════════════════════════════
+   SCROLL ANIMATIONS
+════════════════════════════════ */
+.fade-up{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease;}
+.fade-up.visible{opacity:1;transform:translateY(0);}
+
+@media(prefers-reduced-motion:reduce){
+  .hero-submark img{animation:none;}
+  .prop-scroller-inner{animation:none;}
+  .ann-marquee-track{animation:none;}
+  .regen-ann,.fade-up{transition:none;opacity:1;transform:none;}
+}
