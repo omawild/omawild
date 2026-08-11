@@ -1,7 +1,11 @@
 # omawild — Shopify theme
 
-**Be Yours 8.5.0** by RoarTheme (paid third-party theme), exported from
-`f2e01f-77.myshopify.com`. Docs: https://roartheme.co/blogs/beyours
+**Be Yours 8.5.0** by RoarTheme (paid third-party theme).
+Docs: https://roartheme.co/blogs/beyours
+
+- **Development store:** `eryn-tech-dev.myshopify.com` — all CLI commands target this.
+- **Export provenance:** the baseline zip was exported from `f2e01f-77.myshopify.com`
+  on 11 Aug 2026. Confirm that is the production store before any go-live.
 
 This is a vendor theme we customize, not a theme we own. Everything below follows
 from that.
@@ -37,7 +41,7 @@ from that.
 shopify theme dev  --environment development   # local preview, hot reload, pushes nothing
 shopify theme check                            # lint; must be clean
 shopify theme push --environment staging       # deploy to the unpublished staging theme
-shopify theme list --store f2e01f-77.myshopify.com
+shopify theme list --store eryn-tech-dev.myshopify.com
 git diff vendor-baseline-8.5.0 --stat          # everything we've changed vs. the export
 ```
 
