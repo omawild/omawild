@@ -210,13 +210,29 @@ if (emailToast && emailToast.classList.contains('show')) {
 })();
 
 // ── SCROLL FADE-UPS ──
-const fadeEls = document.querySelectorAll('.fade-up');
+// .fade-up is opacity:0 until this observer adds .visible, so anything it does
+// not observe stays invisible forever.
 const fadeObs = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if(e.isIntersecting) { e.target.classList.add('visible'); fadeObs.unobserve(e.target); }
   });
 }, {threshold:.12});
-fadeEls.forEach(el => fadeObs.observe(el));
+
+function observeFadeUps(root) {
+  const scope = root || document;
+  if (scope.classList && scope.classList.contains('fade-up') && !scope.classList.contains('visible')) {
+    fadeObs.observe(scope);
+  }
+  scope.querySelectorAll('.fade-up:not(.visible)').forEach(el => fadeObs.observe(el));
+}
+
+observeFadeUps();
+
+// The theme editor re-renders a section through the Section Rendering API every
+// time it is edited, swapping in DOM nodes this observer has never seen. Without
+// re-scanning, those nodes keep opacity:0 and the section looks like its heading
+// has vanished -- while unanimated siblings (product cards) still show.
+document.addEventListener('shopify:section:load', (e) => observeFadeUps(e.target));
 
 // ── FOOTER NAV ACCORDION (mobile) ──
 function toggleFooterNav(head) {
