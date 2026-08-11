@@ -1,0 +1,74 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "narrow": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "notice_board_z8qneV": {
+      "type": "od-notice-board",
+      "blocks": {
+        "notice_box_dtWJL3": {
+          "type": "notice_box",
+          "settings": {
+            "card_padding_vertical": 34,
+            "card_padding_horizontal": 34,
+            "card_padding_vertical_mobile": 24,
+            "card_padding_horizontal_mobile": 20,
+            "content_alignment": "left",
+            "label_tag": "h3",
+            "section_label": "WHERE LIFE BEGINS",
+            "heading": "<h1>Opt for life outside</h1>",
+            "content": "<p>Our lives are a flicker of light against the vastness of the universe. And if we’re lucky, we get 4,000 weeks to make it mean something. Yet most of us spend them on autopilot; moving through the motions in the rush of everyday life, forgetting the thrill of being alive. </p><p>Somewhere along the way, we all get lost. But that’s where <a href=\"/pages/origins\" title=\"Origins\"><strong>our story</strong></a> unfolds: at the edge of discomfort. Every challenge, every humbling experience, every moment of uncertainty reminds us of our place in this world. For us, the adventures that ignite us are the ones that demand we show up. They force us to reckon with the moment and go all in, reminding us what it actually feels like to be alive.</p><p>Omawild isn’t just about the trip of a lifetime or your next weekend escape. <strong>We exist to fuel your entire life as one epic adventure</strong>, because we weren’t meant to just get through the week. We were meant to feel the current run through our body. And those moments, every day, deserve fuel that is clean and nourishing — the kind that keeps us going while sustaining all the things we love.</p>",
+            "label_size": 12,
+            "heading_size": 40,
+            "text_size": 15,
+            "heading_line_height": 1.1,
+            "body_line_height": 1.4,
+            "body_line_height_mobile": 1.3,
+            "heading_to_body_gap": 20,
+            "label_color": "#666666",
+            "heading_color": "#161616",
+            "emphasis_color": "#b231c6",
+            "text_color": "#333333",
+            "image_width": 200,
+            "image_aspect_ratio": "1 / 1",
+            "image_fit": "cover",
+            "image_radius": 0,
+            "image_margin_top": 20,
+            "card_background": "#ffffff",
+            "card_border_color": "#e5e5e5",
+            "card_border_width": 1,
+            "card_border_radius": 2
+          }
+        }
+      },
+      "block_order": [
+        "notice_box_dtWJL3"
+      ],
+      "name": "Notice Board",
+      "settings": {
+        "image": "shopify://shop_images/ultrarunnermock.png",
+        "background_color": "#ffffff",
+        "colors_overlay_opacity": 30,
+        "colors_overlay": "#000000",
+        "image_ratio": "400",
+        "image_ratio_mobile": "500",
+        "max_width": 800,
+        "side_padding": 20,
+        "inner_padding_top": 60,
+        "inner_padding_bottom": 60,
+        "inner_padding_top_mobile": 20,
+        "inner_padding_bottom_mobile": 20
+      }
+    }
+  },
+  "order": [
+    "main",
+    "notice_board_z8qneV"
+  ]
+}

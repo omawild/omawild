@@ -1,0 +1,339 @@
+<div class="hero-section-wrapper" id="hero-{{ section.id }}">
+  <section class="hero">
+    <div class="hero-left">
+      {%- if section.settings.logo_image != blank -%}
+        <div class="hero-logo">
+          <img 
+            src="{{ section.settings.logo_image | image_url: width: 600 }}" 
+            alt="{{ section.settings.logo_image.alt | default: shop.name | escape }}"
+            loading="eager"
+            width="{{ section.settings.logo_image.width }}"
+            height="{{ section.settings.logo_image.height }}"
+          >
+        </div>
+      {%- elsif section.settings.logo_svg_code != blank -%}
+        <div class="hero-logo">
+          {{ section.settings.logo_svg_code }}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.headline_image != blank -%}
+        <div class="hero-headline-wrap">
+          <img 
+            class="hero-headline-svg" 
+            src="{{ section.settings.headline_image | image_url: width: 800 }}" 
+            alt="{{ section.settings.headline_image.alt | default: 'Welcome' | escape }}"
+            loading="eager"
+            width="{{ section.settings.headline_image.width }}"
+            height="{{ section.settings.headline_image.height }}"
+          >
+        </div>
+      {%- elsif section.settings.headline_svg_code != blank -%}
+        <div class="hero-headline-wrap hero-headline-svg">
+          {{ section.settings.headline_svg_code }}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.emblem_image != blank -%}
+        <div class="hero-submark">
+          <img 
+            src="{{ section.settings.emblem_image | image_url: width: 200 }}" 
+            alt="{{ section.settings.emblem_image.alt | default: 'Emblem' | escape }}"
+            loading="eager"
+            width="{{ section.settings.emblem_image.width }}"
+            height="{{ section.settings.emblem_image.height }}"
+          >
+        </div>
+      {%- elsif section.settings.emblem_svg_code != blank -%}
+        <div class="hero-submark">
+          {{ section.settings.emblem_svg_code }}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.tagline != blank -%}
+        <div class="hero-tagline">
+          {{ section.settings.tagline }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="hero-right">
+      {%- if section.settings.hero_image != blank -%}
+        <img 
+          src="{{ section.settings.hero_image | image_url: width: 1600 }}" 
+          alt="{{ section.settings.hero_image.alt | default: 'Hero Image' | escape }}"
+          loading="eager"
+          width="{{ section.settings.hero_image.width }}"
+          height="{{ section.settings.hero_image.height }}"
+        >
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+    </div>
+  </section>
+</div>
+
+<style>
+  #hero-{{ section.id }} {
+    --hero-bg: {{ section.settings.background_color | default: '#FCD0FD' }};
+    --hero-text-color: {{ section.settings.text_color | default: '#FF3F00' }};
+  }
+
+  #hero-{{ section.id }} .hero {
+    display: grid;
+    grid-template-columns: 1fr;
+    position: relative;
+    background: var(--hero-bg);
+    width: 100%;
+  }
+
+  #hero-{{ section.id }} .hero-left {
+    background: var(--hero-bg);
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0;
+    min-height: 420px;
+    max-height: 600px;
+  }
+
+  #hero-{{ section.id }} .hero-logo {
+    margin-bottom: 24px;
+  }
+
+  #hero-{{ section.id }} .hero-logo img,
+  #hero-{{ section.id }} .hero-logo svg {
+    /* Scales fluidly with the screen width between a min of 40px and max of 80px */
+    height: clamp(40px, 5vw, 80px);
+    width: auto;
+    display: block;
+    margin: 0 auto;
+    }
+
+  #hero-{{ section.id }} .hero-headline-wrap {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  #hero-{{ section.id }} .hero-headline-svg,
+  #hero-{{ section.id }} .hero-headline-wrap img,
+  #hero-{{ section.id }} .hero-headline-wrap svg {
+    height: 64px;
+    width: auto;
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+  }
+
+  #hero-{{ section.id }} .hero-submark {
+    margin-bottom: 30px;
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+  }
+
+  #hero-{{ section.id }} .hero-submark img,
+  #hero-{{ section.id }} .hero-submark svg {
+    width: 100%;
+    height: 100%;
+    animation: hero-spin-{{ section.id }} 18s linear infinite;
+  }
+
+  #hero-{{ section.id }} .hero-tagline {
+    font-family: var(--font-heading-family);
+    font-style: var(--font-heading-style);
+    font-weight: var(--font-heading-weight);
+    font-size: 2.1rem;
+    line-height: 1.1;
+    color: var(--hero-text-color);
+    max-width: 240px;
+    text-align: center;
+}
+
+  #hero-{{ section.id }} .hero-right {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    position: relative;
+  }
+
+  #hero-{{ section.id }} .hero-right img,
+  #hero-{{ section.id }} .hero-right svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  @keyframes hero-spin-{{ section.id }} {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (min-width: 800px) {
+  #hero-{{ section.id }} .hero {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  #hero-{{ section.id }} .hero-left,
+  #hero-{{ section.id }} .hero-right {
+    min-width: 0;
+    width: 100%;
+  }
+
+  #hero-{{ section.id }} .hero-left {
+    padding: 60px 40px;
+    min-height: 600px;
+    max-height: 800px;
+    height: auto;
+  }
+
+  #hero-{{ section.id }} .hero-logo {
+    margin-bottom: 32px;
+  }
+
+ 
+
+    #hero-{{ section.id }} .hero-logo {
+    margin-bottom: clamp(20px, 3vw, 40px);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    }
+
+    #hero-{{ section.id }} .hero-logo img,
+    #hero-{{ section.id }} .hero-logo svg {
+    /* Fluid scaling: Min 48px on mobile, scales smoothly at 5% of viewport, maxes at 120px on wide desktop */
+    height: clamp(48px, 5vw, 120px);
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    display: block;
+    }
+
+  #hero-{{ section.id }} .hero-headline-wrap {
+    margin-bottom: 40px;
+  }
+
+  #hero-{{ section.id }} .hero-headline-svg,
+  #hero-{{ section.id }} .hero-headline-wrap img,
+  #hero-{{ section.id }} .hero-headline-wrap svg {
+    height: 110px;
+    max-width: 100%;
+  }
+
+  #hero-{{ section.id }} .hero-submark {
+    margin-bottom: 40px;
+    width: 100px;
+    height: 100px;
+  }
+
+  #hero-{{ section.id }} .hero-tagline {
+    font-size: 2.8rem;
+    line-height: 1.1;
+    max-width: 280px;
+  }
+
+  #hero-{{ section.id }} .hero-right {
+    aspect-ratio: unset;
+    min-height: 600px;
+    max-height: 800px;
+    height: auto;
+  }
+}
+
+  @media (prefers-reduced-motion: reduce) {
+    #hero-{{ section.id }} .hero-submark img,
+    #hero-{{ section.id }} .hero-submark svg {
+      animation: none;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "OW MGS Hero",
+  "tag": "section",
+  "class": "section-hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Left Column Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_image",
+      "label": "Logo Image File"
+    },
+    {
+      "type": "html",
+      "id": "logo_svg_code",
+      "label": "Logo SVG Inline Code (Optional Fallback)"
+    },
+    {
+      "type": "image_picker",
+      "id": "headline_image",
+      "label": "Welcome Headline Graphic"
+    },
+    {
+      "type": "html",
+      "id": "headline_svg_code",
+      "label": "Welcome Headline SVG Code (Optional Fallback)"
+    },
+    {
+      "type": "image_picker",
+      "id": "emblem_image",
+      "label": "Spinning Emblem Image"
+    },
+    {
+      "type": "html",
+      "id": "emblem_svg_code",
+      "label": "Spinning Emblem SVG Code (Optional Fallback)"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline Text",
+      "default": "EXPLORE THE UNKNOWN"
+    },
+    {
+      "type": "header",
+      "content": "Right Column Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image (Fills Container)"
+    },
+    {
+      "type": "header",
+      "content": "Color Tokens"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#FCD0FD"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#FF3F00"
+    }
+  ],
+  "presets": [
+    {
+      "name": "OW MGS Hero"
+    }
+  ]
+}
+{% endschema %}

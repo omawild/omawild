@@ -1,0 +1,398 @@
+{%- style -%}
+.section-{{ section.id }} 
+{
+  background-color: {{ section.settings.background_color }};
+  padding-top: {{ section.settings.section_padding_top }}px;
+  padding-bottom: {{ section.settings.section_padding_bottom }}px;
+}
+
+.container-{{ section.id }} 
+{
+  {%- if section.settings.full_width -%}
+    max-width: 100%;
+  {%- else -%}
+    max-width: {{ section.settings.max_width }}px;
+  {%- endif -%}
+  margin: 0 auto;
+  padding-left: {{ section.settings.mobile_padding_horizontal }}px;
+  padding-right: {{ section.settings.mobile_padding_horizontal }}px;
+}
+
+.header-{{ section.id }} 
+{
+  margin-bottom: 50px;
+  text-align: {{ section.settings.header_alignment }};
+}
+
+.title-{{ section.id }} 
+{
+  margin: 0;
+  color: {{ section.settings.heading_color }};
+  font-size: 32px;
+  font-weight: 700;
+}
+
+/* --- The USP Grid --- */
+.usp-grid-{{ section.id }} 
+{
+  display: grid;
+  grid-template-columns: 1fr; 
+  gap: 40px 20px;
+}
+
+.usp-item-{{ section.id }} 
+{
+  display: flex;
+  flex-direction: column;
+  /* Mobile Default */
+  align-items: center; 
+  text-align: center;
+  font-family: var(--font-heading-family); 
+  font-style: var(--font-heading-style);
+}
+
+.usp-icon-wrap-{{ section.id }} 
+{
+  margin-bottom: 20px;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.usp-icon-wrap-{{ section.id }} img 
+{
+  height: auto;
+  width: auto;
+  max-width: {{ section.settings.global_icon_width }}px;
+  object-fit: contain;
+}
+
+.usp-title-{{ section.id }} 
+{
+  all: unset;
+  display: block;
+  width: 100%; /* The Fix: Ensures the title spans the full column width */
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: {{ section.settings.text_color }};
+  line-height: 1.1;
+  font-weight: 700;
+  font-size: {{ section.settings.global_title_size }}px;
+  font-size: {{ section.settings.mobile_title_size }}px; /* Mobile first */
+  box-sizing: border-box;
+}
+
+.usp-link-wrap-{{ section.id }} 
+{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.usp-link-{{ section.id }} 
+{
+  font-family: var(--font-body-family) !important;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  color: {{ section.settings.text_color }};
+  transition: opacity 0.2s ease;
+}
+
+/* --- Desktop Logic (900px+) --- */
+@media screen and (min-width: 900px) 
+{
+  .container-{{ section.id }} 
+  {
+    padding-left: {{ section.settings.desktop_padding_horizontal }}px;
+    padding-right: {{ section.settings.desktop_padding_horizontal }}px;
+  }
+
+  .usp-title-{{ section.id }} {
+    font-size: {{ section.settings.global_title_size }}px;
+  }
+
+  .usp-grid-{{ section.id }} 
+  {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0 30px; 
+  }
+
+  .usp-item-{{ section.id }} 
+  {
+    /* Change flex alignment based on setting */
+    align-items: {{ section.settings.content_alignment }};
+    text-align: {{ section.settings.content_alignment | replace: 'flex-start', 'left' }};
+  }
+
+  .usp-icon-wrap-{{ section.id }} 
+  {
+    justify-content: {{ section.settings.content_alignment }};
+  }
+
+  .usp-link-wrap-{{ section.id }} 
+  {
+    justify-content: {{ section.settings.content_alignment }};
+  }
+}
+
+
+/* Tablet intermediary (3 across) */
+@media screen and (max-width: 899px) and (min-width: 750px) {
+  .usp-grid-{{ section.id }} 
+  {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .usp-title-{{ section.id }} {
+    font-size: 18px !important; 
+  }
+}
+
+@media screen and (max-width: 750px) {
+ .usp-item-{{ section.id }} {
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+}
+  
+{%- endstyle -%}
+
+<div class="section-{{ section.id }}">
+  <div class="container-{{ section.id }}">
+    
+    {% if section.settings.heading != blank %}
+      <div class="header-{{ section.id }}">
+        <h2 class="title-{{ section.id }}">
+          {{ section.settings.heading }}
+        </h2>
+      </div>
+    {% endif %}
+
+    <div class="usp-grid-{{ section.id }}">
+      {%- for block in section.blocks -%}
+        <div 
+          class="usp-item-{{ section.id }}" 
+          {{ block.shopify_attributes }}
+        >
+          
+          {% if block.settings.icon != blank %}
+            <div class="usp-icon-wrap-{{ section.id }}">
+              <img 
+                src="{{ block.settings.icon | image_url: width: 400 }}" 
+                alt="{{ block.settings.title | escape }}"
+                loading="lazy"
+                width="{{ block.settings.icon.width }}"
+                height="{{ block.settings.icon.height }}"
+              >
+            </div>
+          {% endif %}
+
+          <h4 class="usp-title-{{ section.id }}">
+            {{ block.settings.title }}
+          </h4>
+
+          {% if block.settings.link_label != blank %}
+            <div class="usp-link-wrap-{{ section.id }}">
+              <a 
+                href="{{ block.settings.link_url | default: '#' }}" 
+                class="usp-link-{{ section.id }}"
+              >
+                {{ block.settings.link_label }}
+              </a>
+            </div>
+          {% endif %}
+
+        </div>
+      {%- endfor -%}
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "OD Value Grid",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Section Heading"
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Header Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Desktop Content Alignment",
+      "options": [
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "flex-start"
+    },
+    {
+      "type": "header",
+      "content": "Global USP Sizing"
+    },
+    {
+      "type": "range",
+      "id": "global_icon_width",
+      "label": "Icon Max Width",
+      "min": 30,
+      "max": 150,
+      "step": 2,
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "global_title_size",
+      "label": "Title Font Size (Desktop)",
+      "min": 16,
+      "max": 80,
+      "step": 1,
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "mobile_title_size",
+      "label": "Title Font Size (Mobile)",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "default": 18
+    },
+    {
+      "type": "header",
+      "content": "Layout Spacing"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Make section full width",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Max Width",
+      "info": "Applies only when full width is disabled",
+      "min": 1000,
+      "max": 1800,
+      "step": 50,
+      "default": 1400
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Top Padding",
+      "min": 0,
+      "max": 100,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Bottom Padding",
+      "min": 0,
+      "max": 100,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "desktop_padding_horizontal",
+      "label": "Desktop Side Padding",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_horizontal",
+      "label": "Mobile Side Padding",
+      "min": 10,
+      "max": 50,
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text/Link Color",
+      "default": "#000000"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "usp",
+      "name": "Value Proposition",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Our Value"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon/Image"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link Label",
+          "default": "Learn more"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "OD Value Grid",
+      "blocks": [
+        { "type": "usp" },
+        { "type": "usp" },
+        { "type": "usp" },
+        { "type": "usp" },
+        { "type": "usp" },
+        { "type": "usp" }
+      ]
+    }
+  ]
+}
+{% endschema %}

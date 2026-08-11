@@ -1,0 +1,1192 @@
+{%- style -%}
+/* --- Section & Colors --- */
+.section-{{ section.id }} {
+  background-color: {{ section.settings.background_color }};
+  padding-top: {{ section.settings.section_padding_top }}px;
+  padding-bottom: {{ section.settings.section_padding_bottom }}px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.container-{{ section.id }} {
+  width: 100%;
+  margin: 10 auto;
+  padding-left: {{ section.settings.mobile_padding_horizontal }}px;
+  padding-right: {{ section.settings.mobile_padding_horizontal }}px;
+  position: relative; 
+}
+
+/* --- Header Setup --- */
+.header-{{ section.id }} {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.header-content-inner-{{ section.id }} {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  
+  /* Alignment handling */
+  align-items: {{ section.settings.header_alignment }}; 
+  text-align: {% if section.settings.header_alignment == 'center' %}center{% else %}left{% endif %};
+  
+  /* Smart structural max-width handling */
+  {% if section.settings.limit_header_width %}
+    max-width: {{ section.settings.header_max_width }}px;
+    
+    /* If the merchant centered the text, center the entire layout container block */
+    {% if section.settings.header_alignment == 'center' %}
+      margin-left: auto;
+      margin-right: auto;
+    {% endif %}
+  {% endif %}
+}
+
+.header-text-group-{{ section.id }} {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.title-{{ section.id }} {
+  color: {{ section.settings.heading_color }};
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+
+.subheading-{{ section.id }} {
+  color: {{ section.settings.text_color }};
+  font-size: 15px;
+  line-height: 1.3;
+  width: 100%;
+  margin-top: 8px;
+  margin-bottom: 10px !important;
+}
+
+/* Force rich text tags to adapt to parent text alignment natively */
+.subheading-{{ section.id }} p { 
+  margin: 0; 
+  text-align: inherit;
+}
+
+.view-all-link-{{ section.id }} {
+  display: inline-block;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  color: {{ section.settings.heading_color }};
+  font-weight: 600;
+  text-decoration: underline;
+  font-size: 14px;
+}
+
+/* Fluid Typography Logic */
+{%- assign base_size = section.settings.heading_size -%}
+.title-{{ section.id }}.h1-style { font-size: clamp({{ base_size | times: 0.8 }}px, 7vw + 10px, {{ base_size | times: 1.2 }}px) !important; }
+.title-{{ section.id }}.h2-style { font-size: clamp({{ base_size | times: 0.6 }}px, 5vw + 10px, {{ base_size }}px) !important; }
+.title-{{ section.id }}.h3-style { font-size: clamp({{ base_size | times: 0.5 }}px, 4vw + 10px, {{ base_size | times: 0.8 }}px) !important; }
+
+/* --- Slider Core --- */
+.slider-wrapper-{{ section.id }} {
+  position: relative;
+  margin-left: -{{ section.settings.mobile_padding_horizontal }}px;
+  margin-right: -{{ section.settings.mobile_padding_horizontal }}px; 
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.slider-track-{{ section.id }} {
+  display: flex;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-left: {{ section.settings.mobile_padding_horizontal }}px;
+  padding-right: {{ section.settings.mobile_padding_horizontal }}px;
+  gap: {{ section.settings.grid_gap }}px;
+  scrollbar-width: none;
+}
+
+.slider-track-{{ section.id }}::-webkit-scrollbar { display: none; }
+
+/* --- Navigation Buttons --- */
+.nav-btn-{{ section.id }} {
+  font-family: var(--font-heading-family); 
+  font-style: var(--font-heading-style);
+  position: absolute;
+  top: 35%; 
+  width: 46px;
+  height: 46px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 20;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-50%);
+}
+
+.nav-btn-{{ section.id }}::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid {{ section.settings.heading_color }};
+  border-right: 2px solid {{ section.settings.heading_color }};
+  display: block;
+}
+
+.btn-prev-{{ section.id }} { left: calc({{ section.settings.mobile_padding_horizontal }}px + 10px); }
+.btn-prev-{{ section.id }}::after { transform: rotate(-135deg); margin-left: 4px; }
+
+.btn-next-{{ section.id }} { right: calc({{ section.settings.mobile_padding_horizontal }}px + 10px); }
+.btn-next-{{ section.id }}::after { transform: rotate(45deg); margin-right: 4px; }
+
+/* --- IM8 Premium Card System --- */
+.card-{{ section.id }} {
+  flex: 0 0 85%;
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: border-color 0.3s ease;
+  text-decoration: none;
+}
+
+.card-{{ section.id }}[data-product-url] {
+  cursor: pointer;
+}
+
+.card-{{ section.id }}.is-highlighted {
+  border: 2px solid {{ section.settings.emphasis_color }};
+}
+
+.image-wrap-{{ section.id }} {
+  width: 100%;
+  aspect-ratio: {{ section.settings.image_aspect_ratio }};
+  overflow: hidden;
+  background: #f0f0f0;
+  position: relative;
+}
+
+.image-wrap-{{ section.id }} img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.card-{{ section.id }}:hover .image-wrap-{{ section.id }} img {
+  transform: scale(1.04);
+}
+
+.hover-overlay-{{ section.id }} {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 3;
+}
+
+.card-{{ section.id }}:hover .hover-overlay-{{ section.id }} {
+  opacity: 1;
+}
+
+.quick-opt-btn-{{ section.id }} {
+  background: #ffffff;
+  color: {{ section.settings.button_bg_color }};
+  border: none;
+  padding: 12px 24px;
+  font-family: var(--font-heading-family);
+  font-style: var(--font-heading-style);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  transform: translateY(10px);
+  transition: transform 0.3s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.card-{{ section.id }}:hover .quick-opt-btn-{{ section.id }} {
+  transform: translateY(0);
+}
+
+.quick-opt-btn-{{ section.id }}:hover {
+  background: {{ section.settings.button_bg_color }};
+  color: #ffffff;
+}
+
+.banner-{{ section.id }} {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: {{ section.settings.emphasis_color }};
+  color: #ffffff;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+.body-{{ section.id }} {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.category-{{ section.id }} {
+  color: {{ section.settings.descriptor_color }};
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin: 0 0 6px 0;
+}
+
+.name-{{ section.id }} {
+  color: {{ section.settings.heading_color }};
+  margin: 0 0 8px 0;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.desc-{{ section.id }} {
+  color: {{ section.settings.text_color }};
+  font-size: 14px;
+  line-height: 1.4;
+  margin: 0 0 12px 0;
+}
+
+.divider-{{ section.id }} {
+  height: 1px;
+  background: #e5e5e5;
+  margin-bottom: 12px;
+}
+
+/* Bullet Features List */
+.benefits-{{ section.id }} {
+  display: flex;
+  flex-direction: column;
+  gap: 8px !important;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.benefit-{{ section.id }} {
+  display: flex !important;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 13px;
+  line-height: 1.2 !important;
+  color: {{ section.settings.benefit_text_color }};
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.benefit-check-{{ section.id }} {
+  width: 12px;
+  height: 12px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+/* Combined Price Presentation Block Wrapper */
+.price-presentation-container-{{ section.id }} {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: {{ section.settings.price_row_margin_bottom }}px; 
+}
+
+.price-row-{{ section.id }} {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.price-prefix-{{ section.id }} {
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: {{ section.settings.text_color }};
+  margin-right: 2px;
+}
+
+.price-{{ section.id }} {
+  font-size: 20px;
+  font-weight: 700;
+  color: {{ section.settings.price_color }};
+  line-height: 1.1;
+}
+
+.discount-badge-{{ section.id }} {
+  background: #fff0f2;
+  color: #F57900;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 2px;
+  margin-left: auto;
+}
+
+.price-caption-{{ section.id }} {
+  font-size: 12px;
+  color: #666666;
+  margin-top: {{ section.settings.price_caption_margin_bottom }}px; 
+  margin-bottom: 0px !important; 
+  line-height: 1.2;
+}
+
+/* Form Action Button Form Styling */
+.im8-cta-form-container-{{ section.id }} {
+  position: relative;
+  z-index: 5;
+}
+
+.im8-cta-form-{{ section.id }} {
+  width: 100%;
+  margin: 0;
+}
+
+.im8-cta-{{ section.id }} {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 14px 20px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out;
+  background-color: {{ section.settings.button_bg_color }} !important;
+  color: {{ section.settings.button_text_color }} !important;
+}
+
+.im8-cta-{{ section.id }}:hover { opacity: 0.9; }
+
+/* --- Premium Featured Split-Screen Modal Layout --- */
+.modal-overlay-{{ section.id }} {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  padding: 15px;
+}
+
+.modal-overlay-{{ section.id }}.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-container-{{ section.id }} {
+  background: rgb(var(--color-background, 255, 255, 255));
+  color: rgb(var(--color-foreground, 26, 27, 24));
+  width: 100%;
+  max-width: 820px;
+  position: relative;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+  transform: translateY(-25px);
+  transition: transform 0.3s ease;
+  overflow: hidden;
+  border-radius: var(--popup-corner-radius, 0px);
+}
+
+.modal-overlay-{{ section.id }}.is-open .modal-container-{{ section.id }} {
+  transform: translateY(0);
+}
+
+.modal-close-{{ section.id }} {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  width: 32px;
+  height: 32px;
+  font-size: 24px;
+  cursor: pointer;
+  color: rgb(var(--color-foreground));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  line-height: 1;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+.modal-close-{{ section.id }}:hover {
+  opacity: 1;
+}
+
+.modal-split-grid-{{ section.id }} {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+}
+
+@media screen and (min-width: 750px) {
+  .modal-split-grid-{{ section.id }} {
+    grid-template-columns: 1fr 1.1fr;
+  }
+}
+
+.modal-media-pane-{{ section.id }} {
+  background: #f7f7f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 1/1;
+}
+
+@media screen and (max-width: 749px) {
+  .modal-media-pane-{{ section.id }} {
+    max-height: 250px;
+  }
+}
+
+.modal-media-pane-{{ section.id }} img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-info-pane-{{ section.id }} {
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+@media screen and (min-width: 750px) {
+  .modal-info-pane-{{ section.id }} {
+    padding: 40px;
+  }
+}
+
+.modal-title-{{ section.id }} {
+  font-family: var(--font-heading-family);
+  font-style: var(--font-heading-style);
+  font-weight: var(--font-heading-weight, 700);
+  font-size: 2.6rem;
+  margin: 0 0 10px 0;
+  color: rgb(var(--color-foreground));
+  line-height: 1.1;
+  letter-spacing: calc(var(--font-heading-scale) * 2px);
+}
+
+.modal-price-{{ section.id }} {
+  font-family: var(--font-body-family);
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin-bottom: 24px;
+  color: #F57900;
+}
+
+.modal-variants-{{ section.id }} {
+  margin-bottom: 20px;
+}
+
+.modal-variant-option-{{ section.id }} {
+  margin-bottom: 18px;
+}
+
+.modal-variant-label-{{ section.id }} {
+  display: block;
+  font-family: var(--font-body-family);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  color: rgba(var(--color-foreground), 0.75);
+}
+
+.pill-group-{{ section.id }} {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Exact Theme Swatch Variant Match */
+.pill-node-{{ section.id }} {
+  font-family: var(--font-body-family);
+  font-size: 1.4rem;
+  padding: 1rem 2rem;
+  border: var(--variant-pills-border-width, 1px) solid rgba(var(--color-foreground), 0.2);
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+  border-radius: var(--variant-pills-radius, 2rem);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pill-node-{{ section.id }}:hover {
+  border-color: rgb(var(--color-foreground));
+}
+
+.pill-node-{{ section.id }}.is-active {
+  background-color: rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+  border-color: rgb(var(--color-foreground));
+}
+
+/* Native Theme Quantity Bar Layout */
+.modal-qty-container-{{ section.id }} {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  gap: 8px;
+}
+
+.qty-selector-{{ section.id }} {
+  display: flex;
+  border: var(--inputs-border-width, 1px) solid rgba(var(--color-foreground), 0.25);
+  border-radius: var(--inputs-radius, 0px);
+  width: 140px;
+  height: 46px;
+  background: rgb(var(--color-background));
+}
+
+.qty-btn-{{ section.id }} {
+  background: none;
+  border: none;
+  width: 45px;
+  height: 100%;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(var(--color-foreground));
+}
+
+.qty-input-{{ section.id }} {
+  width: 50px;
+  border: none;
+  text-align: center;
+  font-family: var(--font-body-family);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #F57900;
+  background: transparent;
+  padding: 0;
+}
+
+/* Custom Merchant Subscription One-Liner Link Style */
+.modal-subscription-notice-{{ section.id }} {
+  margin-bottom: 20px;
+  font-family: var(--font-body-family);
+  font-size: 1.3rem;
+  color: rgba(var(--color-foreground), 0.8);
+  line-height: 1.4;
+}
+
+.modal-subscription-notice-{{ section.id }} a {
+  color: {{ section.settings.emphasis_color }};
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+/* --- Responsive Layout Switches --- */
+@media screen and (min-width: 750px) {
+  .container-{{ section.id }} {
+    padding-left: {{ section.settings.desktop_padding_horizontal }}px;
+    padding-right: {{ section.settings.desktop_padding_horizontal }}px;
+  }
+
+  .slider-wrapper-{{ section.id }} {
+    margin-left: -{{ section.settings.desktop_padding_horizontal }}px;
+    margin-right: -{{ section.settings.desktop_padding_horizontal }}px; 
+  }
+
+  .slider-track-{{ section.id }} {
+    padding-left: {{ section.settings.desktop_padding_horizontal }}px;
+    padding-right: {{ section.settings.desktop_padding_horizontal }}px;
+  }
+
+  .btn-prev-{{ section.id }} { left: calc({{ section.settings.desktop_padding_horizontal }}px + 10px); }
+  .btn-next-{{ section.id }} { right: calc({{ section.settings.desktop_padding_horizontal }}px + 10px); }
+
+  .card-{{ section.id }} { 
+    flex: 1 0 calc(25% - ({{ section.settings.grid_gap }}px * 3 / 4)) !important; 
+    min-width: calc(25% - ({{ section.settings.grid_gap }}px * 3 / 4));
+  }
+  
+  {% if section.blocks.size <= 3 %}
+    .card-{{ section.id }} {
+      flex: 1 0 calc(33.333% - ({{ section.settings.grid_gap }}px * 2 / 3)) !important;
+      min-width: calc(33.333% - ({{ section.settings.grid_gap }}px * 2 / 3));
+    }
+    .nav-btn-{{ section.id }} {font-family: var(--font-heading-family); font-style: var(--font-heading-style); display: none !important; }
+  {%- endif -%}
+
+  {% if section.blocks.size == 4 %}
+    .nav-btn-{{ section.id }} { display: none !important; }
+  {% endif %}
+}
+{%- endstyle -%}
+
+<div class="section-{{ section.id }}">
+  <div class="container-{{ section.id }}">
+    
+    <div class="header-{{ section.id }}">
+      <div class="header-content-inner-{{ section.id }}">
+        
+        <div class="header-text-group-{{ section.id }}">
+          <{{ section.settings.heading_tag }} class="title-{{ section.id }} {{ section.settings.heading_tag }}-style">
+            {{ section.settings.heading }}
+          </{{ section.settings.heading_tag }}>
+          
+          {% if section.settings.subheading != blank %}
+            <div class="subheading-{{ section.id }} rte">
+              {{ section.settings.subheading }}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+        
+        {% if section.settings.view_all_link != blank %}
+          <a href="{{ section.settings.view_all_link }}" class="view-all-link-{{ section.id }}">
+            {{ section.settings.view_all_label }}
+          </a>
+        {% endif %}
+
+    <button type="button" class="nav-btn-{{ section.id }} btn-prev-{{ section.id }}" id="BtnPrev-{{ section.id }}" aria-label="Previous"></button>
+    <button type="button" class="nav-btn-{{ section.id }} btn-next-{{ section.id }}" id="BtnNext-{{ section.id }}" aria-label="Next"></button>
+
+    <div class="slider-wrapper-{{ section.id }}">
+      <div class="slider-track-{{ section.id }}" id="Track-{{ section.id }}">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'collection' -%}
+              {%- assign product = all_products[block.settings.product_item] -%}
+              
+              <div class="card-{{ section.id }} {% if block.settings.highlight_card %}is-highlighted{% endif %}" {% if product != blank %}data-product-url="{{ product.url }}"{% endif %} {{ block.shopify_attributes }}>
+                <div class="image-wrap-{{ section.id }}">
+                  {%- if block.settings.highlight_card and block.settings.banner_text != blank -%}
+                    <div class="banner-{{ section.id }}">
+                      <span>{{ block.settings.banner_text }}</span>
+                    </div>
+                  {%- endif -%}
+
+                  {%- if product != blank -%}
+                    <div class="hover-overlay-{{ section.id }}">
+                      <button type="button" class="quick-opt-btn-{{ section.id }}" 
+                        data-product-handle="{{ product.handle }}"
+                        data-show-sub="{{ block.settings.show_subscription_notice }}"
+                        data-sub-text="{{ block.settings.subscription_notice_text | escape }}"
+                        data-sub-url="{{ block.settings.subscription_custom_url | escape }}">Choose Options</button>
+                    </div>
+                  {%- endif -%}
+
+                  {%- if block.settings.custom_image != blank -%}
+                    <img src="{{ block.settings.custom_image | image_url: width: 800 }}" alt="{{ product.title | default: 'Product Card' | escape }}" loading="lazy">
+                  {%- elsif product != blank and product.featured_image != blank -%}
+                    <img src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.title | escape }}" loading="lazy">
+                  {%- else -%}
+                    {{ 'product-1' | placeholder_svg_tag }}
+                  {%- endif -%}
+                </div>
+
+                <div class="body-{{ section.id }}">
+                  <p class="category-{{ section.id }}">
+                    {{ block.settings.collection_tag | default: "Featured Stack" }}
+                  </p>
+                  
+                  <h3 class="name-{{ section.id }}">
+                    {{ block.settings.collection_title | default: product.title | default: "Custom Card Label" }}
+                  </h3>
+                  
+                  {%- assign final_desc = block.settings.collection_blurb | default: product.description -%}
+                  {%- if final_desc != blank -%}
+                    <p class="desc-{{ section.id }}">
+                      {{ final_desc | strip_html | truncatewords: 25 }}
+                    </p>
+                    <div class="divider-{{ section.id }}"></div>
+                  {%- endif -%}
+
+                  <div class="benefits-{{ section.id }}">
+                    {%- if block.settings.benefit_1 != blank -%}
+                      <span class="benefit-{{ section.id }}"><svg class="benefit-check-{{ section.id }}" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 5.8 4.2 8.5 9.5 2.8" stroke="{{ section.settings.emphasis_color }}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>{{ block.settings.benefit_1 }}</span>
+                    {%- endif -%}
+                    {%- if block.settings.benefit_2 != blank -%}
+                      <span class="benefit-{{ section.id }}"><svg class="benefit-check-{{ section.id }}" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 5.8 4.2 8.5 9.5 2.8" stroke="{{ section.settings.emphasis_color }}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>{{ block.settings.benefit_2 }}</span>
+                    {%- endif -%}
+                    {%- if block.settings.benefit_3 != blank -%}
+                      <span class="benefit-{{ section.id }}"><svg class="benefit-check-{{ section.id }}" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 5.8 4.2 8.5 9.5 2.8" stroke="{{ section.settings.emphasis_color }}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>{{ block.settings.benefit_3 }}</span>
+                    {%- endif -%}
+                  </div>
+
+                  <div class="price-presentation-container-{{ section.id }}">
+                    <div class="price-row-{{ section.id }}">
+                      {%- if product != blank -%}
+                        {%- if product.price_varies -%}
+                          <span class="price-prefix-{{ section.id }}">From</span>
+                        {%- endif -%}
+                        <span class="price-{{ section.id }}">
+                          {{ product.price_min | money_with_currency }}
+                        </span>
+                        {%- if product.compare_at_price > product.price -%}
+                          <span class="discount-badge-{{ section.id }}">
+                            SAVE {{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round }}%
+                          </span>
+                        {%- endif -%}
+                      {%- endif -%}
+                    </div>
+                    
+                    {%- if block.settings.price_caption != blank -%}
+                      <p class="price-caption-{{ section.id }}">{{ block.settings.price_caption }}</p>
+                    {%- endif -%}
+                  </div>
+
+                  <div class="im8-cta-form-container-{{ section.id }}">
+                    {%- if product != blank -%}
+                      {%- if product.available -%}
+                        {%- if product.variants.size > 1 -%}
+                          <button type="button" class="im8-cta-{{ section.id }} trigger-modal-btn" 
+                            data-product-handle="{{ product.handle }}"
+                            data-show-sub="{{ block.settings.show_subscription_notice }}"
+                            data-sub-text="{{ block.settings.subscription_notice_text | escape }}"
+                            data-sub-url="{{ block.settings.subscription_custom_url | escape }}">CHOOSE OPTIONS</button>
+                        {%- else -%}
+                          {%- if section.settings.button_action == 'buy_now' -%}
+                            <form action="/cart/add" method="post" enctype="multipart/form-data" class="im8-cta-form-{{ section.id }}">
+                              <input type="hidden" name="id" value="{{ product.first_available_variant.id }}">
+                              <input type="hidden" name="return_to" value="/checkout">
+                              <button type="submit" class="im8-cta-{{ section.id }}">BUY NOW</button>
+                            </form>
+                          {%- else -%}
+                            <product-form data-section="{{ section.id }}">
+                              {%- form 'product', product, id: null, class: 'im8-cta-form-theme-native', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+                                <input type="hidden" name="id" value="{{ product.first_available_variant.id }}">
+                                <button type="submit" name="add" class="product-form__submit im8-cta-{{ section.id }}">
+                                  <span>ADD TO CART</span>
+                                </button>
+                              {%- endform -%}
+                            </product-form>
+                          {%- endif -%}
+                        {%- endif -%}
+                      {%- else -%}
+                        <button class="im8-cta-{{ section.id }}" disabled style="opacity: 0.5; cursor: not-allowed;">SOLD OUT</button>
+                      {%- endif -%}
+                    {%- else -%}
+                      <button type="button" class="im8-cta-{{ section.id }}">CHOOSE OPTIONS</button>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+              
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay-{{ section.id }}" id="ProductModalOverlay-{{ section.id }}">
+  <div class="modal-container-{{ section.id }}">
+    <button type="button" class="modal-close-{{ section.id }}" id="ModalClose-{{ section.id }}">&times;</button>
+    <div id="ModalContentContainer-{{ section.id }}"></div>
+  </div>
+</div>
+
+<script>
+(function() {
+  let sectionProductCache = {};
+
+  const initSlider = () => {
+    const track = document.getElementById('Track-{{ section.id }}');
+    const bPrev = document.getElementById('BtnPrev-{{ section.id }}');
+    const bNext = document.getElementById('BtnNext-{{ section.id }}');
+    if(!track || !bPrev || !bNext) return;
+
+    const updateNav = () => {
+      const x = track.scrollLeft;
+      const max = track.scrollWidth - track.clientWidth;
+      bPrev.style.visibility = x > 20 ? "visible" : "hidden";
+      bPrev.style.opacity = x > 20 ? "1" : "0";
+      bNext.style.visibility = x >= (max - 25) ? "hidden" : "visible";
+      bNext.style.opacity = x >= (max - 25) ? "0" : "1";
+    };
+
+    const getMoveAmount = () => {
+      const firstCard = track.querySelector('.card-{{ section.id }}');
+      const baseGap = window.innerWidth >= 750 ? {{ section.settings.grid_gap }} : 20;
+      return firstCard ? firstCard.offsetWidth + baseGap : track.clientWidth;
+    };
+
+    bNext.onclick = (e) => { e.preventDefault(); track.scrollBy({ left: getMoveAmount(), behavior: 'smooth' }); };
+    bPrev.onclick = (e) => { e.preventDefault(); track.scrollBy({ left: -getMoveAmount(), behavior: 'smooth' }); };
+    track.addEventListener('scroll', updateNav, { passive: true });
+    window.addEventListener('resize', updateNav);
+
+    updateNav();
+  };
+
+  const initModalLogic = () => {
+    const modalOverlay = document.getElementById('ProductModalOverlay-{{ section.id }}');
+    const modalClose = document.getElementById('ModalClose-{{ section.id }}');
+    const contentContainer = document.getElementById('ModalContentContainer-{{ section.id }}');
+    
+    if(!modalOverlay || !modalClose || !contentContainer) return;
+
+    const nativeShopifyFormat = (cents) => {
+      if (typeof Shopify !== 'undefined' && Shopify.formatMoney) {
+        return Shopify.formatMoney(cents, window.Shopify.money_with_currency_format || window.Shopify.money_format || "${{amount}}");
+      }
+      return (cents / 100).toLocaleString(window.Shopify?.locale || 'en-US', {
+        style: 'currency',
+        currency: window.Shopify?.currency?.active || 'USD'
+      });
+    };
+
+    const updateSelectedVariantPrice = (product, selectedOptions) => {
+      const activeVariant = product.variants.find(variant => {
+        return variant.options.every((opt, index) => opt === selectedOptions[index]);
+      });
+      
+      const priceDisplay = document.getElementById('ModalPriceTarget-{{ section.id }}');
+      const inputTarget = document.getElementById('ModalVariantIdTarget-{{ section.id }}');
+      const submitBtn = document.getElementById('ModalSubmitBtn-{{ section.id }}');
+
+      if (activeVariant) {
+        priceDisplay.textContent = nativeShopifyFormat(activeVariant.price);
+        inputTarget.value = activeVariant.id;
+        if(activeVariant.available) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "{% if section.settings.button_action == 'buy_now' %}BUY NOW{% else %}ADD TO CART{% endif %}";
+          submitBtn.style.opacity = "1";
+        } else {
+          submitBtn.disabled = true;
+          submitBtn.textContent = "SOLD OUT";
+          submitBtn.style.opacity = "0.5";
+        }
+      }
+    };
+
+    const renderModalInnerContent = (product, blockContext) => {
+      let variantHtml = '';
+      
+      if(product.options && product.options.length > 0 && product.options[0].name !== "Title") {
+        variantHtml += `<div class="modal-variants-{{ section.id }}">`;
+        product.options.forEach((option, optionIndex) => {
+          variantHtml += `
+            <div class="modal-variant-option-{{ section.id }} option-row-node" data-option-index="${optionIndex}">
+              <label class="modal-variant-label-{{ section.id }}">${option.name}</label>
+              <div class="pill-group-{{ section.id }}">
+                ${option.values.map((val, valIndex) => `
+                  <button type="button" 
+                    class="pill-node-{{ section.id }} ${valIndex === 0 ? 'is-active' : ''}" 
+                    data-value="${escape(val)}">
+                    ${val}
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        });
+        variantHtml += `</div>`;
+      }
+
+      const formActionUrl = "/cart/add";
+      const returnToInput = "{{ section.settings.button_action }}" === "buy_now" ? '<input type="hidden" name="return_to" value="/checkout">' : '';
+      const ctaLabel = "{{ section.settings.button_action }}" === "buy_now" ? "BUY NOW" : "ADD TO CART";
+      const mediaImageUrl = product.featured_image ? product.featured_image : 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23f0f0f0"/></svg>';
+
+      let subscriptionNoticeHtml = '';
+      if(blockContext.showSub === "true" && blockContext.subText) {
+        const targetUrl = blockContext.subUrl ? blockContext.subUrl : `/products/${product.handle}`;
+        const finalLinkHtml = `<a href="${targetUrl}">click here</a>`;
+        const outputString = blockContext.subText.replace('[click here]', finalLinkHtml);
+        subscriptionNoticeHtml = `<div class="modal-subscription-notice-{{ section.id }}">${outputString}</div>`;
+      }
+
+      contentContainer.innerHTML = `
+        <div class="modal-split-grid-{{ section.id }}">
+          <div class="modal-media-pane-{{ section.id }}">
+            <img src="${mediaImageUrl}" alt="${escape(product.title)}" loading="lazy">
+          </div>
+          <div class="modal-info-pane-{{ section.id }}">
+            <h2 class="modal-title-{{ section.id }}">${product.title}</h2>
+            <div class="modal-price-{{ section.id }}" id="ModalPriceTarget-{{ section.id }}">${nativeShopifyFormat(product.price)}</div>
+            
+            <form action="${formActionUrl}" method="post" enctype="multipart/form-data" class="im8-cta-form-{{ section.id }}">
+              <input type="hidden" name="id" id="ModalVariantIdTarget-{{ section.id }}" value="${product.variants[0].id}">
+              ${returnToInput}
+              
+              ${variantHtml}
+              
+              <div class="modal-qty-container-{{ section.id }}">
+                <label class="modal-variant-label-{{ section.id }}">QTY</label>
+                <div class="qty-selector-{{ section.id }}">
+                  <button type="button" class="qty-btn-{{ section.id }}" id="QtyDec-{{ section.id }}">-</button>
+                  <input type="number" name="quantity" class="qty-input-{{ section.id }}" id="QtyInput-{{ section.id }}" value="1" min="1">
+                  <button type="button" class="qty-btn-{{ section.id }}" id="QtyInc-{{ section.id }}">+</button>
+                </div>
+              </div>
+
+              ${subscriptionNoticeHtml}
+
+              <button type="submit" id="ModalSubmitBtn-{{ section.id }}" class="im8-cta-{{ section.id }}" style="margin-top: 5px;">${ctaLabel}</button>
+            </form>
+          </div>
+        </div>
+      `;
+
+      const optionRows = contentContainer.querySelectorAll('.option-row-node');
+      const getSelectedPillOptions = () => {
+        let currentSelections = [];
+        if(optionRows.length === 0) return product.variants[0].options;
+        
+        optionRows.forEach(row => {
+          const activePill = row.querySelector('.pill-node-{{ section.id }}.is-active');
+          if(activePill) {
+            currentSelections.push(unescape(activePill.getAttribute('data-value')));
+          }
+        });
+        return currentSelections;
+      };
+
+      optionRows.forEach(row => {
+        const pills = row.querySelectorAll('.pill-node-{{ section.id }}');
+        pills.forEach(pill => {
+          pill.addEventListener('click', (e) => {
+            e.preventDefault();
+            pills.forEach(p => p.classList.remove('is-active'));
+            pill.classList.add('is-active');
+            updateSelectedVariantPrice(product, getSelectedPillOptions());
+          });
+        });
+      });
+
+      const qtyInput = document.getElementById('QtyInput-{{ section.id }}');
+      const qtyDec = document.getElementById('QtyDec-{{ section.id }}');
+      const qtyInc = document.getElementById('QtyInc-{{ section.id }}');
+      
+      if(qtyInput && qtyDec && qtyInc) {
+        qtyDec.onclick = (e) => { e.preventDefault(); let val = parseInt(qtyInput.value) || 1; if(val > 1) qtyInput.value = val - 1; };
+        qtyInc.onclick = (e) => { e.preventDefault(); let val = parseInt(qtyInput.value) || 1; qtyInput.value = val + 1; };
+      }
+
+      if(optionRows.length > 0) {
+        updateSelectedVariantPrice(product, getSelectedPillOptions());
+      }
+    };
+
+    const openOptionsModal = (handle, blockContext) => {
+      modalOverlay.classList.add('is-open');
+      contentContainer.innerHTML = '<div style="grid-column: span 2; text-align:center; padding:60px 20px;"><p style="font-size:14px; color:#666;">Loading options...</p></div>';
+      
+      if(sectionProductCache[handle]) {
+        renderModalInnerContent(sectionProductCache[handle], blockContext);
+        return;
+      }
+
+      fetch(`/products/${handle}.js`)
+        .then(res => res.json())
+        .then(productData => {
+          sectionProductCache[handle] = productData;
+          renderModalInnerContent(productData, blockContext);
+        })
+        .catch(err => {
+          contentContainer.innerHTML = '<div style="grid-column: span 2; text-align:center; padding:40px;"><p style="color:red;">Unable to load product variables.</p></div>';
+        });
+    };
+
+    document.querySelectorAll('[data-product-handle]').forEach(trigger => {
+      trigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const handle = trigger.getAttribute('data-product-handle');
+        const blockContext = {
+          showSub: trigger.getAttribute('data-show-sub'),
+          subText: unescape(trigger.getAttribute('data-sub-text')),
+          subUrl: unescape(trigger.getAttribute('data-sub-url'))
+        };
+        if(handle) openOptionsModal(handle, blockContext);
+      });
+    });
+
+    modalClose.onclick = () => modalOverlay.classList.remove('is-open');
+    modalOverlay.onclick = (e) => { if(e.target === modalOverlay) modalOverlay.classList.remove('is-open'); };
+  };
+
+  const initTileNavigation = () => {
+    document.querySelectorAll('.card-{{ section.id }}').forEach(card => {
+      card.addEventListener('click', (e) => {
+        // If they click on buttons, forms, or existing text links, let them do their job
+        if (e.target.closest('button') || e.target.closest('form') || e.target.closest('a')) {
+          return;
+        }
+        const destinationUrl = card.getAttribute('data-product-url');
+        if (destinationUrl) {
+          window.location.href = destinationUrl;
+        }
+      });
+    });
+  };
+
+  const initAllFeatures = () => {
+    initSlider();
+    initModalLogic();
+    initTileNavigation();
+  };
+
+  document.addEventListener('DOMContentLoaded', initAllFeatures);
+  if (Shopify.designMode) document.addEventListener('shopify:section:load', initAllFeatures);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "OD Featured Products",
+  "settings": [
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Header Alignment",
+      "options": [
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "flex-start"
+    },
+    {
+      "type": "checkbox",
+      "id": "limit_header_width",
+      "label": "Limit header content width",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "header_max_width",
+      "min": 400,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "label": "Header maximum width",
+      "default": 650
+    },
+    { "type": "header", "content": "Heading" },
+    { "type": "range", "id": "heading_size", "label": "Heading Size", "min": 20, "max": 100, "step": 2, "unit": "px", "default": 38 },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading Title", "default": "Title here" },
+    { "type": "richtext", "id": "subheading", "label": "Subheading", "default": "<p>Subheading</p>"},
+    { "type": "header", "content": "Typography" },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading Tag",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" }
+      ],
+      "default": "h2"
+    },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#ffffff" },
+    { "type": "color", "id": "heading_color", "label": "Heading Color", "default": "#1A1B18" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#1B1B1B" },
+    { "type": "color", "id": "benefit_text_color", "label": "Benefit Text Color", "default": "#1B1B1B" },
+    { "type": "color", "id": "descriptor_color", "label": "Descriptor Tag Color", "default": "#B231C6" },
+    { "type": "color", "id": "price_color", "label": "Price Color", "default": "#1A1B18" },
+    { "type": "color", "id": "emphasis_color", "label": "Highlight & Accent Color", "default": "#F57900" },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "text", "id": "view_all_label", "label": "Link Label", "default": "View All" },
+    { "type": "url", "id": "view_all_link", "label": "Link URL" },
+    { "type": "range", "id": "section_padding_top", "label": "Top Padding", "min": 0, "max": 60, "default": 10 },
+    { "type": "range", "id": "section_padding_bottom", "label": "Bottom Padding", "min": 0, "max": 60, "default": 30 },
+
+    { "type": "header", "content": "Mobile Layout Controls" },
+    { "type": "range", "id": "mobile_padding_horizontal", "label": "Mobile Side Gutter", "min": 10, "max": 30, "step": 2, "unit": "px", "default": 24 },
+    { "type": "header", "content": "Desktop Card Design & Layout Controls" },
+    { "type": "range", "id": "desktop_padding_horizontal", "label": "Desktop Side Gutter", "min": 10, "max": 100, "step": 2, "default": 40 },
+    { "type": "range", "id": "grid_gap", "label": "Gap between cards", "min": 10, "max": 50, "default": 20 },
+    { "type": "range", "id": "price_row_margin_bottom", "label": "Spacing to CTA Button", "min": 0, "max": 50, "step": 1, "unit": "px", "default": 16 },
+    { "type": "range", "id": "price_caption_margin_bottom", "label": "Spacing between Price & Caption", "min": 0, "max": 20, "step": 1, "unit": "px", "default": 4 },
+    { "type": "select", "id": "image_aspect_ratio", "label": "Image Ratio", "options": [
+        { "value": "1/1", "label": "Square" },
+        { "value": "16/9", "label": "Wide" }
+      ], "default": "1/1" },
+    { "type": "header", "content": "Global Button Configuration" },
+    {
+      "type": "select",
+      "id": "button_action",
+      "label": "Button Action Style",
+      "options": [
+        { "value": "buy_now", "label": "Buy Now (Direct to Checkout)" },
+        { "value": "add_to_cart", "label": "Add to Cart (Slide Panel Drawer)" }
+      ],
+      "default": "buy_now"
+    },
+    { "type": "color", "id": "button_bg_color", "label": "Button Background Color", "default": "#F57900" },
+    { "type": "color", "id": "button_text_color", "label": "Button Text Color", "default": "#ffffff" }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Product Card",
+      "settings": [
+        { "type": "product", "id": "product_item", "label": "Select Product" },
+        { "type": "header", "content": "Visual Styling Overrides" },
+        { "type": "checkbox", "id": "highlight_card", "label": "Highlight this Card", "default": false },
+        { "type": "text", "id": "banner_text", "label": "Top Banner Text", "default": "★ BEST VALUE" },
+        { "type": "image_picker", "id": "custom_image", "label": "Custom Card Image (Overrides default)" },
+        { "type": "header", "content": "Text Content Overrides" },
+        { "type": "text", "id": "collection_tag", "label": "Descriptor Category Tag", "default": "LABEL" },
+        { "type": "text", "id": "collection_title", "label": "Custom Title Label" },
+        { "type": "textarea", "id": "collection_blurb", "label": "Custom Card Description" },
+        { "type": "text", "id": "price_caption", "label": "Price Context Caption" },
+        { "type": "header", "content": "Value Checklist Bullets" },
+        { "type": "text", "id": "benefit_1", "label": "Benefit Line 1"},
+        { "type": "text", "id": "benefit_2", "label": "Benefit Line 2"},
+        { "type": "text", "id": "benefit_3", "label": "Benefit Line 3"},
+        { "type": "header", "content": "Product-Specific Subscription Link" },
+        { "type": "checkbox", "id": "show_subscription_notice", "label": "Enable Subscription One-Liner for this Product", "default": false },
+        { "type": "text", "id": "subscription_notice_text", "label": "Notice Text Content", "default": "For subscriptions, [click here].", "info": "Keep '[click here]' in your sentence—it will turn into the link." },
+        { "type": "url", "id": "subscription_custom_url", "label": "Custom Subscription Landing Page URL", "info": "Leave blank to link directly to this product's native details page." }
+      ]
+    }
+  ],
+  "presets": [{ "name": "OD Featured Products", "blocks": [{ "type": "collection" }, { "type": "collection" }, { "type": "collection" }] }]
+}
+{% endschema %}

@@ -1,0 +1,420 @@
+{% assign omawild_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  /* The main cinematic slide parent wrapper conforming to the master vertical snap canvas layout */
+  .chapter3-slide-{{ omawild_id }} {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: {{ block.settings.background_color }};
+    padding: 60px 40px;
+    box-sizing: border-box;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  /* Responsive Core Layout Wrapper Grid following structural pattern from Chapter One */
+  .chapter3-grid-{{ omawild_id }} {
+    width: 100%;
+    max-width: {{ block.settings.content_max_width }}px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  /* Left column mapping image/pin container workspace */
+  .chapter3-col-left-{{ omawild_id }} {
+    position: relative;
+    width: 100%;
+  }
+
+  .chapter3-media-wrap-{{ omawild_id }} {
+    position: relative;
+    width: 100%;
+    display: inline-block;
+  }
+
+  .chapter3-media-wrap-{{ omawild_id }} img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  }
+
+  .chapter3-placeholder-{{ omawild_id }} {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background-color: #2a2a2a;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .chapter3-placeholder-{{ omawild_id }} svg {
+    width: 60px;
+    height: 60px;
+    fill: #555555;
+  }
+
+  /* --- GEOLOCATION INTERACTIVE PIN COMPONENT ENGINE --- */
+  .chapter3-pin-item-{{ omawild_id }} {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 20;
+    width: {{ block.settings.pin_size }}px;
+    height: {{ block.settings.pin_size }}px;
+  }
+
+  .chapter3-pin-dot-{{ omawild_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    pointer-events: none;
+    box-sizing: border-box;
+    animation: chapter3-ping-{{ omawild_id }} 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  @keyframes chapter3-ping-{{ omawild_id }} {
+    0% { transform: scale(1); opacity: 0.8; }
+    70%, 100% { transform: scale(2.4); opacity: 0; }
+  }
+
+  .chapter3-pin-btn-{{ omawild_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    padding: 0;
+    outline: none;
+  }
+
+  .chapter3-pin-btn-{{ omawild_id }}:hover {
+    transform: scale(1.25);
+  }
+
+  /* --- BACKDROP MODAL OVERLAY --- */
+  .chapter3-overlay-{{ omawild_id }} {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: {{ block.settings.overlay_bg_color | default: '#000000' }};
+    z-index: 9990;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    backdrop-filter: blur({{ block.settings.overlay_blur_radius | default: 5 }}px);
+    -webkit-backdrop-filter: blur({{ block.settings.overlay_blur_radius | default: 5 }}px);
+  }
+
+  .chapter3-overlay-{{ omawild_id }}.is-open {
+    opacity: {{ block.settings.overlay_opacity_level | default: 0.65 }};
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  /* --- POPUP WINDOW COMPONENT --- */
+  .chapter3-modal-{{ omawild_id }} {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -45%) scale(0.95);
+    width: 90%;
+    max-width: {{ block.settings.modal_width_limit }}px;
+    max-height: 80vh;
+    background-color: {{ block.settings.modal_background }};
+    border-radius: 16px;
+    z-index: 9995;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                visibility 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .chapter3-modal-{{ omawild_id }}.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .chapter3-modal-close-{{ omawild_id }} {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  .chapter3-modal-close-{{ omawild_id }}:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: scale(1.05);
+  }
+
+  .chapter3-modal-scroll-{{ omawild_id }} {
+    overflow-y: auto;
+    width: 100%;
+  }
+
+  .chapter3-modal-img-{{ omawild_id }} {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    display: block;
+  }
+
+  .chapter3-modal-info-{{ omawild_id }} {
+    padding: 32px;
+    box-sizing: border-box;
+  }
+
+  .chapter3-modal-title-{{ omawild_id }} {
+    margin: 0 0 12px 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: {{ block.settings.modal_text_main }};
+    line-height: 1.3;
+  }
+
+  .chapter3-modal-desc-{{ omawild_id }} {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: {{ block.settings.modal_text_sub }};
+  }
+
+  /* Right column copy blocks */
+  .chapter3-col-right-{{ omawild_id }} {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .chapter3-heading-{{ omawild_id }} {
+    font-size: {{ block.settings.heading_font_size }}px;
+    color: {{ block.settings.heading_color }};
+    line-height: 1.15;
+    font-weight: 600;
+    margin: 0 0 24px 0;
+    letter-spacing: -0.03em;
+  }
+
+  .chapter3-description-{{ omawild_id }} {
+    font-size: {{ block.settings.description_font_size }}px;
+    color: {{ block.settings.description_color }};
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  /* --- MOBILE BREAKPOINT SYSTEM OVERRIDES --- */
+  @media screen and (max-width: 989px) {
+    .chapter3-slide-{{ omawild_id }} {
+      padding: 60px 20px;
+      height: auto;
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+
+    .chapter3-grid-{{ omawild_id }} {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .chapter3-modal-info-{{ omawild_id }} {
+      padding: 24px;
+    }
+
+    .chapter3-modal-title-{{ omawild_id }} { font-size: 20px; }
+    .chapter3-modal-desc-{{ omawild_id }} { font-size: 14px; }
+    .chapter3-heading-{{ omawild_id }} { font-size: calc({{ block.settings.heading_font_size }}px * 0.75); }
+    .chapter3-description-{{ omawild_id }} { font-size: calc({{ block.settings.description_font_size }}px * 0.95); }
+  }
+{% endstyle %}
+
+<div class="chapter3-slide-{{ omawild_id }}" {{ block.shopify_attributes }}>
+  <div class="chapter3-grid-{{ omawild_id }}">
+    
+    <div class="chapter3-col-left-{{ omawild_id }}">
+      <div class="chapter3-media-wrap-{{ omawild_id }}">
+        {% if block.settings.main_image != blank %}
+          <img 
+            src="{{ block.settings.main_image | image_url: width: 1000 }}" 
+            alt="{{ block.settings.main_image.alt | escape }}"
+            loading="lazy"
+            width="500"
+            height="500"
+          >
+        {% else %}
+          <div class="chapter3-placeholder-{{ omawild_id }}">
+            {{ 'image' | placeholder_svg_tag }}
+          </div>
+        {% endif %}
+
+        {% for idx in (1..10) %}
+          {% liquid
+            assign pin_active_setting = 'enable_pin_' | append: idx
+            assign pin_x_setting = 'pin_coord_x_' | append: idx
+            assign pin_y_setting = 'pin_coord_y_' | append: idx
+            assign pin_color_setting = 'pin_tint_' | append: idx
+            
+            assign is_pin_active = block.settings[pin_active_setting]
+            assign coordinate_x = block.settings[pin_x_setting]
+            assign coordinate_y = block.settings[pin_y_setting]
+            assign structural_color = block.settings[pin_color_setting]
+          %}
+
+          {% if is_pin_active %}
+            <div 
+              class="chapter3-pin-item-{{ omawild_id }}" 
+              style="left: {{ coordinate_x }}%; top: {{ coordinate_y }}%;"
+            >
+              <div class="chapter3-pin-dot-{{ omawild_id }}" style="background-color: {{ structural_color }};"></div>
+              <button 
+                class="chapter3-pin-btn-{{ omawild_id }}" 
+                style="background-color: {{ structural_color }};"
+                data-trigger-target="modal-{{ omawild_id }}-{{ idx }}"
+                aria-label="Reveal map coordinates details data block"
+              ></button>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="chapter3-col-right-{{ omawild_id }}">
+      {% if block.settings.heading != blank %}
+        <h2 class="chapter3-heading-{{ omawild_id }}">{{ block.settings.heading }}</h2>
+      {% endif %}
+      {% if block.settings.description != blank %}
+        <div class="chapter3-description-{{ omawild_id }}">{{ block.settings.description }}</div>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+
+<div class="chapter3-overlay-{{ omawild_id }}" data-master-overlay-id="overlay-{{ omawild_id }}"></div>
+
+{% for idx in (1..10) %}
+  {% liquid
+    assign pin_active_setting = 'enable_pin_' | append: idx
+    assign pin_img_setting = 'pin_image_' | append: idx
+    assign pin_title_setting = 'pin_title_' | append: idx
+    assign pin_desc_setting = 'pin_description_' | append: idx
+
+    assign is_pin_active = block.settings[pin_active_setting]
+    assign context_image = block.settings[pin_img_setting]
+    assign text_title = block.settings[pin_title_setting]
+    assign text_description = block.settings[pin_desc_setting]
+  %}
+
+  {% if is_pin_active %}
+    <div class="chapter3-modal-{{ omawild_id }}" data-modal-portal-id="modal-{{ omawild_id }}-{{ idx }}" role="dialog" aria-modal="true">
+      <button class="chapter3-modal-close-{{ omawild_id }}" data-close-action-trigger="true" aria-label="Dismiss view overlay pop up modal frame">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+      <div class="chapter3-modal-scroll-{{ omawild_id }}">
+        {% if context_image != blank %}
+          <img 
+            class="chapter3-modal-img-{{ omawild_id }}" 
+            src="{{ context_image | image_url: width: 800 }}" 
+            alt="{{ context_image.alt | escape }}" 
+            loading="lazy"
+          >
+        {% endif %}
+        <div class="chapter3-modal-info-{{ omawild_id }}">
+          {% if text_title != blank %}
+            <h4 class="chapter3-modal-title-{{ omawild_id }}">{{ text_title }}</h4>
+          {% endif %}
+          {% if text_description != blank %}
+            <p class="chapter3-modal-desc-{{ omawild_id }}">{{ text_description }}</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endfor %}
+
+<script>
+  (function() {
+    document.addEventListener('DOMContentLoaded', () => {
+      const parentScope = document.querySelector('.chapter3-slide-{{ omawild_id }}')?.parentElement;
+      if (!parentScope) return;
+
+      const masterOverlay = document.querySelector('[data-master-overlay-id="overlay-{{ omawild_id }}"]');
+      const activePins = parentScope.querySelectorAll('[data-trigger-target]');
+      const closingTriggers = document.querySelectorAll('[data-close-action-trigger]');
+
+      const clearAllModals = () => {
+        masterOverlay?.classList.remove('is-open');
+        document.querySelectorAll('.chapter3-modal-{{ omawild_id }}').forEach(m => m.classList.remove('is-open'));
+      };
+
+      activePins.forEach(pin => {
+        pin.addEventListener('click', (e) => {
+          e.stopPropagation();
+          clearAllModals();
+          
+          const targetId = pin.getAttribute('data-trigger-target');
+          const targetedModal = document.querySelector(`[data-modal-portal-id="${targetId}"]`);
+          
+          if (targetedModal && masterOverlay) {
+            masterOverlay.classList.add('is-open');
+            targetedModal.classList.add('is-open');
+          }
+        });
+      });
+
+      closingTriggers.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          clearAllModals();
+        });
+      });
+
+      masterOverlay?.addEventListener('click', clearAllModals);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') clearAllModals();
+      });
+    });
+  })();
+</script>

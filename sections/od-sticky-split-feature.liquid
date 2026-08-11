@@ -1,0 +1,267 @@
+{%- assign omawild_id = section.id | replace: '_', '' | replace: '-', '' | downcase -%}
+{%- assign label_tag = section.settings.label_tag | default: 'h3' -%}
+
+{% style %}
+  .section-{{ omawild_id }} {
+    width: 100%;
+    background-color: {{ section.settings.background_color }};
+    padding-top: {{ section.settings.section_padding_top }}px;
+    padding-bottom: {{ section.settings.section_padding_bottom }}px;
+  }
+
+  .container-{{ omawild_id }} {
+    max-width: {{ section.settings.max_width }}px;
+    margin: 0 auto;
+    padding: 0 {{ section.settings.mobile_padding_horizontal }}px;
+  }
+
+  .grid-{{ omawild_id }} {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: {{ section.settings.mobile_grid_gap }}px; 
+    align-items: start; 
+  }
+
+  /* --- Text Column Styling --- */
+  .label-{{ omawild_id }} {
+    display: block !important;
+    font-family: var(--font-body-family) !important;
+    font-size: 12px !important;
+    font-weight: 500; 
+    letter-spacing: 0.15em !important;
+    color: {{ section.settings.label_color }} !important;
+    text-transform: uppercase !important;
+    margin: 0 0 20px 0 !important;
+  }
+
+  .main-heading-{{ omawild_id }} :is(h1, h2, h3, h4, h5, h6) {
+    font-size: clamp({{ section.settings.heading_size | times: 0.6 }}px, 5vw + 10px, {{ section.settings.heading_size }}px) !important;
+    line-height: 1 !important;
+    letter-spacing: -0.02em !important;
+    color: {{ section.settings.heading_color }} !important;
+    font-weight: 700 !important;
+    margin: 0 0 22px 0 !important; 
+  }
+
+  /* --- Block Container --- */
+  .blocks-container-{{ omawild_id }} {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch; /* This forces siblings in the same row to equal height */
+    width: 100%;
+  }
+
+  /* --- Body Text Block --- */
+  .body-block-{{ omawild_id }} {
+    flex: 0 0 100%;
+    margin-bottom: 24px; /* Space after a text block */
+  }
+
+  .body-block-{{ omawild_id }} p {
+    font-size: clamp({{ section.settings.text_size | times: 0.85 }}px, 1vw + 10px, {{ section.settings.text_size }}px) !important;
+    line-height: {{ section.settings.body_line_height }} !important;
+    color: {{ section.settings.text_color }} !important;
+    margin: 0 0 1em 0 !important;
+  }
+
+  .body-block-{{ omawild_id }} a,
+  .stat-body-{{ omawild_id }} a {
+    color: {{ section.settings.link_color }} !important;
+  }
+
+  .body-block-{{ omawild_id }} a:hover,
+  .stat-body-{{ omawild_id }} a:hover {
+    filter: brightness(1.2); /* Optional: slight glow on hover */
+  }
+
+  .body-block-{{ omawild_id }} p:last-child { margin-bottom: 0 !important; }
+
+  /* --- Stat Card Block --- */
+  .stat-card-{{ omawild_id }} {
+    background-color: {{ section.settings.card_background }};
+    border: 1px solid {{ section.settings.card_border_color }};
+    padding: {{ section.settings.card_padding }}px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 100%;
+    margin-bottom: 24px;
+    height: auto; /* Allow it to grow */
+  }
+
+  /* THE LOGIC: If a card follows another card, use the merchant's stat_gap instead */
+  .stat-card-{{ omawild_id }} + .stat-card-{{ omawild_id }} {
+    margin-top: calc({{ section.settings.stat_gap }}px - 24px); 
+  }
+
+  .stat-label-{{ omawild_id }} {
+    font-family: var(--font-heading-family) !important; 
+    font-weight: 600 !important;
+    font-size: clamp({{ section.settings.stat_label_size | times: 0.9 }}px, 4vw + 18px, {{ section.settings.stat_label_size }}px) !important;
+    color: {{ section.settings.stat_label_color }} !important;
+    line-height: {{ section.settings.stat_label_height }} !important;
+    margin-bottom: {{ section.settings.stat_label_margin_bottom }}px !important;
+  }
+
+  .stat-body-{{ omawild_id }} p {
+    font-size: clamp({{ section.settings.stat_body_size | times: 0.8 }}px, 1vw + 14px, {{ section.settings.stat_body_size }}px) !important;
+    line-height: {{ section.settings.stat_body_height }} !important;
+    color: {{ section.settings.stat_body_color }} !important;
+    margin: 0 !important;
+  }
+  
+
+  .stat-body-{{ omawild_id }} strong {
+    color: {{ section.settings.stat_emphasis_color }} !important;
+}
+
+  /* --- Image Wrapper --- */
+  .image-wrapper-{{ omawild_id }} {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: {{ section.settings.image_ratio }};
+  }
+
+  .image-wrapper-{{ omawild_id }} img {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover;
+  }
+
+  @media screen and (min-width: 750px) {
+    .grid-{{ omawild_id }} { 
+      grid-template-columns: 1fr 1fr; 
+      gap: {{ section.settings.grid_gap }}px; 
+      {% if section.settings.flip_layout %}direction: rtl;{% endif %}
+    }
+    {% if section.settings.flip_layout %}.grid-{{ omawild_id }} > * { direction: ltr; }{% endif %}
+    
+    .image-column-{{ omawild_id }} { position: sticky; top: 40px; }
+
+    .stat-card-{{ omawild_id }} {
+      display: flex; /* Keep flex enabled */
+      {% if section.settings.cards_per_row_desktop == '2' %}
+        /* Use flex-basis instead of just flex to ensure stability */
+        flex: 0 0 calc(50% - ({{ section.settings.stat_gap }}px / 2));
+      {% else %}
+        flex: 0 0 100%;
+      {% endif %}
+    }
+
+    .stat-body-{{ omawild_id }} {
+      flex-grow: 1; 
+    }
+
+    /* Handle side-by-side gap for 2-column cards */
+    {% if section.settings.cards_per_row_desktop == '2' %}
+      .stat-card-{{ omawild_id }}:nth-child(even) { margin-left: {{ section.settings.stat_gap }}px; }
+    {% endif %}
+  }
+{% endstyle %}
+
+<div class="section-{{ omawild_id }}">
+  <div class="container-{{ omawild_id }}">
+    <div class="grid-{{ omawild_id }}">
+      
+      <div class="text-column-{{ omawild_id }}">
+        {% if section.settings.section_label != blank %}
+          <{{ label_tag }} class="label-{{ omawild_id }}">{{ section.settings.section_label }}</{{ label_tag }}>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <div class="main-heading-{{ omawild_id }}">{{ section.settings.heading }}</div>
+        {% endif %}
+        
+        <div class="blocks-container-{{ omawild_id }}">
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'body_text' %}
+                <div class="body-block-{{ omawild_id }}" {{ block.shopify_attributes }}>
+                  {{ block.settings.content }}
+                </div>
+              {% when 'stat_card' %}
+                <div class="stat-card-{{ omawild_id }}" {{ block.shopify_attributes }}>
+                  <div class="stat-label-{{ omawild_id }}">{{ block.settings.stat_label }}</div>
+                  <div class="stat-body-{{ omawild_id }}">{{ block.settings.stat_body }}</div>
+                </div>
+            {% endcase %}
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="image-column-{{ omawild_id }}">
+        <div class="image-wrapper-{{ omawild_id }}">
+          {% if section.settings.side_image != blank %}
+            {{ section.settings.side_image | image_url: width: 1500 | image_tag: loading: 'lazy' }}
+          {% else %}
+            {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+"name": "OD Sticky Split Blocks",
+"settings": [
+  { "type": "header", "content": "Layout" },
+  { "type": "checkbox", "id": "flip_layout", "label": "Image on Left", "default": false },
+  { "type": "range", "id": "max_width", "label": "Max width", "min": 600, "max": 1600, "step": 50, "unit": "px", "default": 1000 },
+  { "type": "range", "id": "section_padding_top", "label": "Top padding", "min": 0, "max": 150, "step": 10, "unit": "px", "default": 40 },
+  { "type": "range", "id": "section_padding_bottom", "label": "Bottom padding", "min": 0, "max": 150, "step": 10, "unit": "px", "default": 40 },
+  { "type": "range", "id": "grid_gap", "label": "Column Gap", "min": 20, "max": 120, "step": 5, "unit": "px", "default": 60 },
+  { "type": "range", "id": "mobile_padding_horizontal", "label": "Side Padding (Mobile)", "min": 10, "max": 50, "step": 5, "unit": "px", "default": 20 },
+  { "type": "color", "id": "background_color", "label": "Background Colour", "default": "#ffffff" },
+  { "type": "header", "content": "Image Settings" },
+  { "type": "image_picker", "id": "side_image", "label": "Side Image" },
+  { "type": "select", "id": "image_ratio", "label": "Image Aspect Ratio", "options": [
+      { "value": "1 / 1", "label": "Square (1:1)" },
+      { "value": "4 / 3", "label": "Landscape (4:3)" },
+      { "value": "16 / 9", "label": "Wide (16:9)" },
+      { "value": "3 / 4", "label": "Portrait (3:4)" },
+      { "value": "2 / 3", "label": "Tall (2:3)" }
+    ], "default": "4 / 3" },
+  { "type": "header", "content": "Type Styling" },
+  { "type": "range", "id": "heading_size", "label": "Heading size", "min": 24, "max": 100, "step": 2, "unit": "px", "default": 48 },
+  { "type": "range", "id": "text_size", "label": "Body size", "min": 14, "max": 24, "step": 1, "unit": "px", "default": 16 },
+  { "type": "range", "id": "body_line_height", "label": "Body line height", "min": 1.0, "max": 2.0, "step": 0.1, "default": 1.4 },
+  { "type": "color", "id": "label_color", "label": "Label color", "default": "#666666" },
+  { "type": "color", "id": "heading_color", "label": "Heading color", "default": "#1A1B18" },
+  { "type": "color", "id": "text_color", "label": "Body color", "default": "#1B1B1B" },
+  { "type": "color", "id": "emphasis_color", "label": "Emphasis color (Bold)", "default": "#B231C6" },
+  { "type": "color", "id": "link_color", "label": "Link color", "default": "#B231C6" },
+  { "type": "header", "content": "Card Styling" },
+  { "type": "color", "id": "card_background", "label": "Card BG", "default": "#f9f9f9" },
+  { "type": "color", "id": "card_border_color", "label": "Card Border", "default": "#eeeeee" },
+  { "type": "range", "id": "card_padding", "label": "Inside Padding", "min": 10, "max": 60, "default": 24 },
+  { "type": "select", "id": "cards_per_row_desktop", "label": "Cards per row (Desktop)", "options": [
+    { "value": "1", "label": "1 Card (Full Width)" },
+    { "value": "2", "label": "2 Cards (Side by Side)" }],"default": "1"},
+  { "type": "range", "id": "stat_gap", "label": "Gutter (Between consecutive cards)", "min": 4, "max": 40, "default": 12 },
+  { "type": "range", "id": "stat_label_size", "label": "Stat Label Size", "min": 12, "max": 50, "default": 40 },
+  { "type": "range", "id": "stat_body_size", "label": "Stat Body Size", "min": 12, "max": 24, "default": 14 },
+  { "type": "range", "id": "stat_label_height", "label": "Stat Label line height", "min": 0.8, "max": 1.5, "step": 0.1, "default": 1.0 },
+  { "type": "range", "id": "stat_body_height", "label": "Stat Body line height", "min": 1.0, "max": 2.0, "step": 0.1, "default": 1.3 },
+  { "type": "range", "id": "stat_label_margin_bottom", "label": "Stat Content spacing", "min": 0, "max": 40, "default": 8 },
+  { "type": "color", "id": "stat_label_color", "label": "Stat Label color", "default": "#1A1B18" },
+  { "type": "color", "id": "stat_body_color", "label": "Stat Body color", "default": "#333333" },
+  { "type": "color", "id": "stat_emphasis_color", "label": "Stat Emphasis Color (Bold)", "default": "#B231C6" },
+  { "type": "header", "content": "Fixed Content" },
+  { "type": "select", "id": "label_tag", "label": "Label Tag", "options": [{"value":"h1","label":"H1"},{"value":"h2","label":"H2"},{"value":"h3","label":"H3"},{"value":"p","label":"p"}], "default": "h3" },
+  { "type": "inline_richtext", "id": "section_label", "label": "Label Text", "default": "The Origin" },
+  { "type": "richtext", "id": "heading", "label": "Heading", "default": "<h2>Regenerative by Nature</h2>" }
+],
+"blocks": [
+  { "type": "body_text", "name": "Body Text Block", "settings": [{ "type": "richtext", "id": "content", "label": "Content", "default": "<p>Focusing on the <strong>long-term health</strong> of our soil.</p>" }] },
+  { "type": "stat_card", "name": "Stat Card", "settings": [
+      { "type": "inline_richtext", "id": "stat_label", "label": "Stat Label", "default": "100%" },
+      { "type": "richtext", "id": "stat_body", "label": "Stat Body", "default": "<p>Grass-fed & finished.</p>" }
+    ]}
+],
+"presets": [{ "name": "OD Sticky Split Blocks", "blocks": [{ "type": "body_text" }, { "type": "stat_card" }] }]
+}
+{% endschema %}

@@ -1,0 +1,356 @@
+{%- style -%}
+/* --- Section & Colors --- */
+.section-{{ section.id }} {
+  background-color: {{ section.settings.background_color }};
+  padding-top: {{ section.settings.section_padding_top }}px;
+  padding-bottom: {{ section.settings.section_padding_bottom }}px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.container-{{ section.id }} {
+  width: 100%;
+  margin: 0 auto;
+  padding-left: {{ section.settings.mobile_padding_horizontal }}px;
+  padding-right: {{ section.settings.mobile_padding_horizontal }}px;
+  position: relative; 
+}
+
+/* --- Header Setup --- */
+.header-{{ section.id }} {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.header-text-group-{{ section.id }} {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.title-{{ section.id }} {
+  margin: 0;
+  color: {{ section.settings.heading_color }};
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.subheading-{{ section.id }} {
+  margin-top: 10px;
+  color: {{ section.settings.text_color }};
+  font-size: 16px;
+  line-height: 1.5;
+  width: 100%;
+}
+
+.subheading-{{ section.id }} p { margin: 0; }
+
+.view-all-link-{{ section.id }} {
+  display: inline-block;
+  margin-top: 15px;
+  color: {{ section.settings.heading_color }};
+  font-weight: 600;
+  text-decoration: underline;
+  font-size: 14px;
+}
+
+/* Fluid Typography Logic */
+{%- assign base_size = section.settings.heading_size -%}
+.title-{{ section.id }}.h1-style { font-size: clamp({{ base_size | times: 0.8 }}px, 7vw + 10px, {{ base_size | times: 1.2 }}px) !important; }
+.title-{{ section.id }}.h2-style { font-size: clamp({{ base_size | times: 0.6 }}px, 5vw + 10px, {{ base_size }}px) !important; }
+.title-{{ section.id }}.h3-style { font-size: clamp({{ base_size | times: 0.5 }}px, 4vw + 10px, {{ base_size | times: 0.8 }}px) !important; }
+.title-{{ section.id }}.h4-style, 
+.title-{{ section.id }}.h5-style, 
+.title-{{ section.id }}.h6-style { font-size: clamp({{ base_size | times: 0.4 }}px, 3vw + 10px, {{ base_size | times: 0.6 }}px) !important; }
+
+/* --- Slider Core --- */
+.slider-wrapper-{{ section.id }} {
+  position: relative;
+  margin-left: -{{ section.settings.mobile_padding_horizontal }}px;
+  margin-right: -{{ section.settings.mobile_padding_horizontal }}px; 
+}
+
+.slider-track-{{ section.id }} {
+  display: flex;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-left: {{ section.settings.mobile_padding_horizontal }}px;
+  padding-right: {{ section.settings.mobile_padding_horizontal }}px;
+  gap: {{ section.settings.grid_gap }}px;
+  scrollbar-width: none;
+}
+
+.slider-track-{{ section.id }}::-webkit-scrollbar { display: none; }
+
+/* --- Navigation Buttons --- */
+.nav-btn-{{ section.id }} {
+  position: absolute;
+  top: 40%; 
+  width: 46px;
+  height: 46px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 20;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-50%);
+}
+
+.nav-btn-{{ section.id }}::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid {{ section.settings.heading_color }};
+  border-right: 2px solid {{ section.settings.heading_color }};
+  display: block;
+}
+
+.btn-prev-{{ section.id }} { left: calc({{ section.settings.mobile_padding_horizontal }}px + 10px); }
+.btn-prev-{{ section.id }}::after { transform: rotate(-135deg); margin-left: 4px; }
+
+.btn-next-{{ section.id }} { right: calc({{ section.settings.mobile_padding_horizontal }}px + 10px); }
+.btn-next-{{ section.id }}::after { transform: rotate(45deg); margin-right: 4px; }
+
+/* --- Card Styles --- */
+.card-{{ section.id }} {
+  flex: 0 0 85%;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+}
+
+.image-wrap-{{ section.id }} {
+  width: 100%;
+  aspect-ratio: {{ section.settings.image_aspect_ratio }};
+  overflow: hidden;
+  background: #f0f0f0;
+  margin-bottom: 15px;
+}
+
+.image-wrap-{{ section.id }} img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.collection-btn-{{ section.id }} {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: {{ section.settings.heading_color }};
+  color: {{ section.settings.background_color }};
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  align-self: flex-start;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.collection-btn-{{ section.id }}:hover { opacity: 0.9; }
+
+/* --- Desktop Logic --- */
+@media screen and (min-width: 750px) {
+  /* Dynamically grows cards if fewer than 4 items are used, making them stretch full screen */
+  .card-{{ section.id }} { 
+    flex: 1 0 calc(25% - ({{ section.settings.grid_gap }}px * 3 / 4)) !important; 
+    min-width: calc(25% - ({{ section.settings.grid_gap }}px * 3 / 4));
+  }
+  
+  /* If there are 3 items or fewer, lock them into an exact filling grid view and hide navigations */
+  {% if section.blocks.size <= 3 %}
+    .card-{{ section.id }} {
+      flex: 1 0 calc(33.333% - ({{ section.settings.grid_gap }}px * 2 / 3)) !important;
+      min-width: calc(33.333% - ({{ section.settings.grid_gap }}px * 2 / 3));
+    }
+    .nav-btn-{{ section.id }} { display: none !important; }
+  {%- endif -%}
+
+  {% if section.blocks.size == 4 %}
+    .nav-btn-{{ section.id }} { display: none !important; }
+  {% endif %}
+
+  .btn-prev-{{ section.id }} { left: calc({{ section.settings.mobile_padding_horizontal }}px + 10px); }
+  .btn-next-{{ section.id }} { right: calc({{ section.settings.mobile_padding_horizontal }}px + 10px); }
+}
+{%- endstyle -%}
+
+<div class="section-{{ section.id }}">
+  <div class="container-{{ section.id }}">
+    
+    <div class="header-{{ section.id }}">
+      <div class="header-text-group-{{ section.id }}">
+        <{{ section.settings.heading_tag }} class="title-{{ section.id }} {{ section.settings.heading_tag }}-style">
+          {{ section.settings.heading }}
+        </{{ section.settings.heading_tag }}>
+        
+        {% if section.settings.subheading != blank %}
+          <div class="subheading-{{ section.id }} rte">
+            {{ section.settings.subheading }}
+          </div>
+        {% endif %}
+      </div>
+      
+      {% if section.settings.view_all_link != blank %}
+        <a href="{{ section.settings.view_all_link }}" class="view-all-link-{{ section.id }}">
+          {{ section.settings.view_all_label }}
+        </a>
+      {% endif %}
+    </div>
+
+    <button type="button" class="nav-btn-{{ section.id }} btn-prev-{{ section.id }}" id="BtnPrev-{{ section.id }}" aria-label="Previous"></button>
+    <button type="button" class="nav-btn-{{ section.id }} btn-next-{{ section.id }}" id="BtnNext-{{ section.id }}" aria-label="Next"></button>
+
+    <div class="slider-wrapper-{{ section.id }}">
+      <div class="slider-track-{{ section.id }}" id="Track-{{ section.id }}">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'collection' -%}
+              <div class="card-{{ section.id }}" {{ block.shopify_attributes }}>
+                <div class="image-wrap-{{ section.id }}">
+                  {% if block.settings.collection_image != blank %}
+                    <img 
+                      src="{{ block.settings.collection_image | image_url: width: 1000 }}" 
+                      alt="{{ block.settings.collection_title | escape }}" 
+                      loading="lazy"
+                      width="{{ block.settings.collection_image.width }}"
+                      height="{{ block.settings.collection_image.height }}"
+                    >              
+                  {% else %}
+                    {{ 'image' | placeholder_svg_tag }}
+                  {% endif %}
+                </div>
+                <div class="content-wrap" style="display: flex; flex-direction: column;">
+                  <h3 style="margin: 0 0 8px 0; font-size: 20px; line-height: 1.2;">
+                    {% if block.settings.button_link != blank %}
+                      <a href="{{ block.settings.button_link }}" style="color: {{ section.settings.heading_color }}; text-decoration: none;">{{ block.settings.collection_title }}</a>
+                    {% else %}
+                      <span style="color: {{ section.settings.heading_color }};">{{ block.settings.collection_title }}</span>
+                    {% endif %}
+                  </h3>
+                  
+                  <p style="color: {{ section.settings.text_color }}; font-size: 15px; line-height: 1.5; margin: 0 0 8px 0;">
+                    {{ block.settings.collection_blurb }}
+                  </p>
+
+                  {%- if block.settings.collection_tag != blank -%}
+                    <span style="color: {{ section.settings.emphasis_color }}; font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 5px;">
+                      {{ block.settings.collection_tag }}
+                    </span>
+                  {%- endif -%}
+
+                  {%- if block.settings.button_label != blank and block.settings.button_link != blank -%}
+                    <a href="{{ block.settings.button_link }}" class="collection-btn-{{ section.id }}">
+                      {{ block.settings.button_label }}
+                    </a>
+                  {%- endif -%}
+                </div>
+              </div>
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const initSlider = () => {
+    const track = document.getElementById('Track-{{ section.id }}');
+    const bPrev = document.getElementById('BtnPrev-{{ section.id }}');
+    const bNext = document.getElementById('BtnNext-{{ section.id }}');
+    if(!track || !bPrev || !bNext) return;
+
+    const updateNav = () => {
+      const x = track.scrollLeft;
+      const max = track.scrollWidth - track.clientWidth;
+      bPrev.style.visibility = x > 20 ? "visible" : "hidden";
+      bPrev.style.opacity = x > 20 ? "1" : "0";
+      bNext.style.visibility = x >= (max - 25) ? "hidden" : "visible";
+      bNext.style.opacity = x >= (max - 25) ? "0" : "1";
+    };
+
+    const getMoveAmount = () => {
+      const firstCard = track.querySelector('.card-{{ section.id }}');
+      return firstCard ? firstCard.offsetWidth + {{ section.settings.grid_gap }} : track.clientWidth;
+    };
+
+    bNext.onclick = (e) => { e.preventDefault(); track.scrollBy({ left: getMoveAmount(), behavior: 'smooth' }); };
+    bPrev.onclick = (e) => { e.preventDefault(); track.scrollBy({ left: -getMoveAmount(), behavior: 'smooth' }); };
+    track.addEventListener('scroll', updateNav, { passive: true });
+    window.addEventListener('resize', updateNav);
+    updateNav();
+  };
+  document.addEventListener('DOMContentLoaded', initSlider);
+  if (Shopify.designMode) document.addEventListener('shopify:section:load', initSlider);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "OD Collections",
+  "settings": [
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Our Collections" },
+    { "type": "richtext", "id": "subheading", "default": "<p>Introduce your collections and give customers a reason to explore.</p>", "label": "Subheading" },
+    { "type": "header", "content": "Typography" },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading Tag",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" }
+      ],
+      "default": "h2"
+    },
+    { "type": "range", "id": "heading_size", "label": "Heading Size", "min": 20, "max": 100, "step": 2, "unit": "px", "default": 44 },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#ffffff" },
+    { "type": "color", "id": "heading_color", "label": "Heading Color", "default": "#1A1B18" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#1B1B1B" },
+    { "type": "color", "id": "emphasis_color", "label": "Accent Color", "default": "#B231C6" },
+    { "type": "header", "content": "Layout" },
+    { "type": "text", "id": "view_all_label", "label": "Link Label", "default": "View All" },
+    { "type": "url", "id": "view_all_link", "label": "Link URL" },
+    { "type": "range", "id": "section_padding_top", "label": "Top Padding", "min": 0, "max": 100, "default": 40 },
+    { "type": "range", "id": "section_padding_bottom", "label": "Bottom Padding", "min": 0, "max": 100, "default": 40 },
+    { "type": "header", "content": "Card Design" },
+    { "type": "range", "id": "mobile_padding_horizontal", "label": "Horizontal Safety Gutter", "min": 10, "max": 100, "step": 5, "default": 40 },
+    { "type": "range", "id": "grid_gap", "label": "Gap between cards", "min": 10, "max": 50, "default": 20 },
+    { "type": "select", "id": "image_aspect_ratio", "label": "Image Ratio", "options": [
+        { "value": "1/1", "label": "Square" },
+        { "value": "16/9", "label": "Wide" },
+        { "value": "3/4", "label": "Portrait" }
+      ], "default": "16/9" }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        { "type": "image_picker", "id": "collection_image", "label": "Image" },
+        { "type": "text", "id": "collection_title", "label": "Title", "default": "Collection Title" },
+        { "type": "textarea", "id": "collection_blurb", "label": "Blurb", "default": "Quick description goes here." },
+        { "type": "text", "id": "collection_tag", "label": "Descriptor Tag", "default": "Topic" },
+        { "type": "text", "id": "button_label", "label": "Button Label", "default": "View Collection" },
+        { "type": "url", "id": "button_link", "label": "Button Link" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "OD Collections", "blocks": [{ "type": "collection" }, { "type": "collection" }, { "type": "collection" }, { "type": "collection" }] }]
+}
+{% endschema %}

@@ -1,0 +1,349 @@
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --section-padding-top: {{ section.settings.padding_top }}px;
+    --section-padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  #shopify-section-{{ section.id }} .locator-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: {{ section.settings.image_ratio }};
+    background: {{ section.settings.colors_overlay }};
+    box-shadow: 0px 0.5rem 4.5rem 0px rgb(0 0 0 / 10%);
+    {% unless section.settings.full_width %}border-radius: 0.6rem;{% endunless %}
+    overflow: hidden;
+  }
+
+  /* Left Panel - Locations List scoped by section id */
+  #shopify-section-{{ section.id }} .locator-sidebar {
+    width: 31em;
+    min-width: 31em;
+    height: 100%;
+    overflow-y: auto;
+    border-right: 1px solid {{ section.settings.colors_border }};
+    color: {{ section.settings.colors_text }};
+  }
+
+  #shopify-section-{{ section.id }} .locator-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid {{ section.settings.colors_border }};
+  }
+
+  #shopify-section-{{ section.id }} .locator-header h3 {
+    margin: 0;
+    font-size: 14px;
+    text-transform: uppercase;
+  }
+
+  #shopify-section-{{ section.id }} .locator-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  #shopify-section-{{ section.id }} .locator-item {
+    padding: 1.5rem;
+    border-bottom: 1px solid {{ section.settings.colors_border }};
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  #shopify-section-{{ section.id }} .locator-item:hover, 
+  #shopify-section-{{ section.id }} .locator-item.is-active {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+
+  #shopify-section-{{ section.id }} .locator-item.is-active {
+    border-left: 4px solid {{ section.settings.colors_button_label }};
+  }
+
+  #shopify-section-{{ section.id }} .locator-title {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 0.5rem;
+  }
+
+  #shopify-section-{{ section.id }} .locator-address {
+    font-size: 14px;
+    line-height: 20px;
+    opacity: 0.8;
+    margin-bottom: 1rem;
+  }
+
+  #shopify-section-{{ section.id }} .locator-btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: {{ section.settings.colors_button_label }};
+    color: #fff !important;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+
+  /* Right Panel - Map */
+  #shopify-section-{{ section.id }} .locator-map-panel {
+    flex-grow: 1;
+    height: 100%;
+    position: relative;
+  }
+
+  #shopify-section-{{ section.id }} .locator-map-panel iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  /* Responsive Mobile Design */
+  @media (max-width: 768px) {
+    #shopify-section-{{ section.id }} .locator-container {
+      flex-direction: column;
+      height: auto;
+    }
+    #shopify-section-{{ section.id }} .locator-sidebar {
+      width: 100%;
+      min-width: 100%;
+      height: {{ section.settings.mobile_image_ratio }};
+    }
+    #shopify-section-{{ section.id }} .locator-map-panel {
+      width: 100%;
+      height: {{ section.settings.mobile_image_ratio }};
+    }
+  }
+{%- endstyle -%}
+
+{{ 'section-image-banner.css' | asset_url | stylesheet_tag }}
+
+<div class="section--padding{% if section.settings.show_divider %} section--divider{% endif %}">
+  <div class="page-width{% if section.settings.full_width %} page-width--full-width{% endif %}">
+    
+    <div class="locator-container">
+      
+      <div class="locator-sidebar">
+        <div class="locator-header">
+          <h3>Locations (<span id="location-count-{{ section.id }}">{{ section.blocks.size }}</span>)</h3>
+        </div>
+        <ul class="locator-list" id="locator-list-{{ section.id }}">
+          {%- if section.blocks.size > 0 -%}
+            {%- for block in section.blocks -%}
+              <li class="locator-item{% if forloop.first %} is-active{% endif %}" 
+                  data-address="{{ block.settings.address | escape }}"
+                  {{ block.shopify_attributes }}>
+                <div class="locator-title">{{ block.settings.title | escape }}</div>
+                <div class="locator-address">{{ block.settings.address | escape }}</div>
+                {%- if block.settings.button_label != blank -%}
+                  <a href="{{ block.settings.button_link }}" class="locator-btn">{{ block.settings.button_label | escape }}</a>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          {%- else -%}
+            <li class="locator-item" style="cursor: default;">No locations added yet.</li>
+          {%- endif -%}
+        </ul>
+      </div>
+
+      <div class="locator-map-panel">
+        {%- if section.blocks.size > 0 -%}
+          {%- assign first_address = section.blocks.first.settings.address | url_encode -%}
+          <iframe 
+            id="locator-iframe-{{ section.id }}"
+            loading="lazy" 
+            allowfullscreen 
+            src="https://maps.google.com/maps?q={{ first_address }}&z={{ section.settings.map_zoom }}&output=embed">
+          </iframe>
+        {%- else -%}
+          <div style="display: flex; align-items: center; justify-content: center; height: 100%;">Add a location block to load map.</div>
+        {%- endif -%}
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+  (function() {
+    const initLocator = function() {
+      const sectionId = '{{ section.id }}';
+      const zoomLevel = '{{ section.settings.map_zoom }}';
+      const items = document.querySelectorAll(`#locator-list-${sectionId} .locator-item`);
+      const iframe = document.getElementById(`locator-iframe-${sectionId}`);
+
+      items.forEach(item => {
+        item.addEventListener('click', function(e) {
+          if (e.target.classList.contains('locator-btn')) return;
+
+          items.forEach(i => i.classList.remove('is-active'));
+          this.classList.add('is-active');
+
+          const address = this.getAttribute('data-address');
+          if (address && iframe) {
+            const encodedAddress = encodeURIComponent(address);
+            iframe.src = `https://maps.google.com/maps?q=${encodedAddress}&z=${zoomLevel}&output=embed`;
+          }
+        });
+      });
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initLocator);
+    } else {
+      initLocator();
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.store-locator.name",
+  "tag": "section",
+  "class": "section",
+  "blocks": [
+    {
+      "type": "location",
+      "name": "t:sections.store-locator.blocks.location.name",
+      "limit": 10,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:sections.store-locator.blocks.location.settings.title.label"
+        },
+        {
+          "type": "text",
+          "id": "address",
+          "label": "t:sections.map.settings.map_address.label"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "t:sections.all.button_label.label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.all.button_link.label"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "range",
+      "id": "map_zoom",
+      "min": 4,
+      "max": 17,
+      "step": 1,
+      "label": "t:sections.map.settings.map_zoom.label",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        { "label": "400px", "value": "400px" },
+        { "label": "450px", "value": "450px" },
+        { "label": "500px", "value": "500px" },
+        { "label": "550px", "value": "550px" },
+        { "label": "600px", "value": "600px" },
+        { "label": "650px", "value": "650px" },
+        { "label": "700px", "value": "700px" },
+        { "label": "750px", "value": "750px" },
+        { "label": "100vh", "value": "100vh" }
+      ],
+      "default": "600px",
+      "label": "t:sections.all.image_ratio.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "default": false,
+      "label": "t:sections.all.full_width.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_divider",
+      "default": false,
+      "label": "t:sections.all.show_divider.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.mobile_layout.header.content"
+    },
+    {
+      "type": "select",
+      "id": "mobile_image_ratio",
+      "options": [
+        { "label": "Auto", "value": "auto" },
+        { "label": "200px", "value": "200px" },
+        { "label": "250px", "value": "250px" },
+        { "label": "300px", "value": "300px" },
+        { "label": "400px", "value": "400px" },
+        { "label": "500px", "value": "500px" }
+      ],
+      "default": "400px",
+      "label": "t:sections.all.mobile_layout.mobile_image_ratio.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.colors.header.content"
+    },
+    {
+      "type": "color",
+      "id": "colors_overlay",
+      "label": "t:sections.all.colors.colors_overlay.label",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "colors_text",
+      "label": "t:sections.all.colors.colors_text.label",
+      "default": "#212121"
+    },
+    {
+      "type": "color",
+      "id": "colors_button_label",
+      "label": "t:sections.all.colors.colors_button_label.label",
+      "default": "#F57900"
+    },
+    {
+      "type": "color",
+      "id": "colors_border",
+      "label": "t:sections.all.colors.colors_border.label",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.header.content"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top.label",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom.label",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "OD Store Locator"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.overlay"]
+  }
+}
+{% endschema %}

@@ -1,0 +1,309 @@
+{% assign omawild_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .hero-section-{{ omawild_id }} {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: {{ block.settings.background_color }};
+    padding: 40px 20px;
+    box-sizing: border-box;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    overflow: hidden;
+  }
+
+  .hero-wrap-{{ omawild_id }} {
+    max-width: {{ block.settings.content_max_width }}px;
+    width: 100%;
+    text-align: {{ block.settings.text_alignment }};
+    {% if block.settings.text_alignment == 'left' %}
+      margin-left: 0;
+      margin-right: auto;
+    {% else %}
+      margin-left: auto;
+      margin-right: auto;
+    {% endif %}
+  }
+
+  .hero-eyebrow-{{ omawild_id }} {
+    font-size: {{ block.settings.eyebrow_size }}px;
+    color: {{ block.settings.eyebrow_color }};
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .hero-heading-{{ omawild_id }} {
+    font-size: {{ block.settings.heading_size }}px;
+    color: {{ block.settings.heading_color }};
+    margin: 0 0 30px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  .hero-cycle-{{ omawild_id }} {
+    display: inline-block;
+    color: {{ block.settings.accent_color }};
+    min-width: 160px;
+    text-align: left;
+  }
+
+  .hero-subtitle-{{ omawild_id }} {
+    font-size: {{ block.settings.subtitle_size }}px;
+    color: {{ block.settings.subtitle_color }};
+    line-height: 1.6;
+    margin: 0 0 40px;
+    max-width: 800px;
+    {% if block.settings.text_alignment == 'left' %}
+      margin-left: 0;
+      margin-right: auto;
+    {% else %}
+      margin-left: auto;
+      margin-right: auto;
+    {% endif %}
+  }
+
+  .hero-subtitle-{{ omawild_id }} .hero-word-{{ omawild_id }} {
+    display: inline-block;
+    opacity: 0;
+    filter: blur(12px);
+    transform: translateY(14px);
+    animation: hero-blur-in-{{ omawild_id }} 0.8s ease forwards;
+  }
+
+  @keyframes hero-blur-in-{{ omawild_id }} {
+    to {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0);
+    }
+  }
+
+  .hero-button-group-{{ omawild_id }} {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: {% if block.settings.text_alignment == 'left' %}flex-start{% else %}center{% endif %};
+    width: 100%;
+  }
+
+  .hero-button-{{ omawild_id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 32px;
+    background-color: {{ block.settings.button_color }};
+    color: {{ block.settings.button_text_color }};
+    border: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: {{ block.settings.button_size }}px;
+    cursor: pointer;
+    user-select: none;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  .hero-button-{{ omawild_id }}:hover {
+    background-color: {{ block.settings.button_hover_color }};
+    transform: translateY(-2px);
+    color: {{ block.settings.button_text_color }};
+  }
+
+  .hero-button-secondary-{{ omawild_id }} {
+    background-color: transparent;
+    border: 1px solid {{ block.settings.button_color }};
+    color: {{ block.settings.button_color }};
+  }
+
+  .hero-button-secondary-{{ omawild_id }}:hover {
+    background-color: {{ block.settings.button_color }};
+    color: {{ block.settings.button_text_color }};
+  }
+
+  .hero-start-cue-{{ omawild_id }} {
+    margin-top: 60px;
+    font-size: 14px;
+    color: {{ block.settings.subtitle_color }};
+    opacity: 0.7;
+    text-align: {{ block.settings.text_alignment }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .hero-heading-{{ omawild_id }} {
+      font-size: calc({{ block.settings.heading_size }}px * 0.65);
+    }
+    .hero-eyebrow-{{ omawild_id }} {
+      font-size: calc({{ block.settings.eyebrow_size }}px * 0.85);
+    }
+    .hero-subtitle-{{ omawild_id }} {
+      font-size: calc({{ block.settings.subtitle_size }}px * 0.9);
+    }
+    .hero-button-group-{{ omawild_id }} {
+      flex-direction: column;
+      align-items: {% if block.settings.text_alignment == 'left' %}flex-start{% else %}center{% endif %};
+      gap: 12px;
+    }
+    .hero-button-{{ omawild_id }} {
+      font-size: calc({{ block.settings.button_size }}px * 0.9);
+      padding: 14px 28px;
+      width: auto;
+      min-width: 180px;
+      justify-content: center;
+    }
+  }
+{% endstyle %}
+
+<hero-{{ omawild_id }} class="hero-section-{{ omawild_id }}" {{ block.shopify_attributes }}>
+  <div class="hero-wrap-{{ omawild_id }}">
+    {% if block.settings.eyebrow_text != blank %}
+      <div class="hero-eyebrow-{{ omawild_id }}">
+        {{ block.settings.eyebrow_text }}
+      </div>
+    {% endif %}
+
+    <h2 class="hero-heading-{{ omawild_id }}">
+      {% if block.settings.heading_prefix != blank %}
+        {{ block.settings.heading_prefix }}
+      {% endif %}
+      
+      {% if block.settings.cycling_words != blank %}
+        <span class="hero-cycle-{{ omawild_id }}" data-words="{{ block.settings.cycling_words }}"></span>
+      {% endif %}
+      
+      {% if block.settings.heading_suffix != blank %}
+        {{ block.settings.heading_suffix }}
+      {% endif %}
+    </h2>
+
+    {% if block.settings.subtitle_text != blank %}
+      <p class="hero-subtitle-{{ omawild_id }}" data-animate-words>
+        {{ block.settings.subtitle_text }}
+      </p>
+    {% endif %}
+
+    {% if block.settings.show_button_1 or block.settings.show_button_2 %}
+      <div class="hero-button-group-{{ omawild_id }}">
+        {% if block.settings.show_button_1 and block.settings.button_1_text != blank %}
+          <a href="{{ block.settings.button_1_link | default: '#' }}" class="hero-button-{{ omawild_id }}">
+            {{ block.settings.button_1_text }}
+            <span aria-hidden="true">→</span>
+          </a>
+        {% endif %}
+
+        {% if block.settings.show_button_2 and block.settings.button_2_text != blank %}
+          <a href="{{ block.settings.button_2_link | default: '#' }}" class="hero-button-{{ omawild_id }} hero-button-secondary-{{ omawild_id }}">
+            {{ block.settings.button_2_text }}
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if block.settings.show_start_cue %}
+      <div class="hero-start-cue-{{ omawild_id }}">
+        {{ block.settings.start_cue_text }}
+      </div>
+    {% endif %}
+  </div>
+</hero-{{ omawild_id }}>
+
+<script>
+  (function() {
+    if (customElements.get('hero-{{ omawild_id }}')) return;
+
+    class MovieHero{{ omawild_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.cycleElement = null;
+        this.words = [];
+        this.currentIndex = 0;
+        this.cycleInterval = null;
+        this.observer = null;
+        this.initialText = '';
+      }
+
+      connectedCallback() {
+        this.cycleElement = this.querySelector('.hero-cycle-{{ omawild_id }}');
+        const subtitle = this.querySelector('[data-animate-words]');
+        if (subtitle) {
+          this.initialText = subtitle.textContent.trim();
+        }
+        
+        this.observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              this.animateSubtitle();
+              if (this.cycleElement && !this.cycleInterval) {
+                this.initCyclingText();
+              }
+            } else {
+              if (this.cycleInterval) {
+                clearInterval(this.cycleInterval);
+                this.cycleInterval = null;
+              }
+              this.resetSubtitle();
+            }
+          });
+        }, { threshold: 0.3 });
+        
+        this.observer.observe(this);
+      }
+
+      disconnectedCallback() {
+        if (this.cycleInterval) clearInterval(this.cycleInterval);
+        if (this.observer) this.observer.disconnect();
+      }
+
+      initCyclingText() {
+        const wordsAttr = this.cycleElement.getAttribute('data-words');
+        if (!wordsAttr) return;
+
+        this.words = wordsAttr.split(',').map(word => word.trim());
+        if (this.words.length === 0) return;
+
+        this.cycleElement.textContent = this.words[0];
+        this.currentIndex = 0;
+
+        this.cycleInterval = setInterval(() => {
+          this.currentIndex = (this.currentIndex + 1) % this.words.length;
+          this.cycleElement.textContent = this.words[this.currentIndex];
+        }, 2000);
+      }
+
+      animateSubtitle() {
+        const subtitle = this.querySelector('[data-animate-words]');
+        if (!subtitle || subtitle.getAttribute('data-animated') === 'true') return;
+
+        const words = this.initialText.split(/\s+/);
+        subtitle.innerHTML = '';
+        
+        words.forEach((word, index) => {
+          const span = document.createElement('span');
+          span.className = 'hero-word-{{ omawild_id }}';
+          span.textContent = word;
+          span.style.animationDelay = (index * 0.04) + 's';
+          subtitle.appendChild(span);
+          
+          if (index < words.length - 1) {
+            subtitle.appendChild(document.createTextNode(' '));
+          }
+        });
+
+        subtitle.setAttribute('data-animated', 'true');
+      }
+
+      resetSubtitle() {
+        const subtitle = this.querySelector('[data-animate-words]');
+        if (!subtitle) return;
+        subtitle.removeAttribute('data-animated');
+        subtitle.textContent = this.initialText;
+      }
+    }
+
+    customElements.define('hero-{{ omawild_id }}', MovieHero{{ omawild_id }});
+  })();
+</script>

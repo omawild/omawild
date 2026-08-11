@@ -1,0 +1,457 @@
+{% comment %}
+  OD Interstitial Slide - High Fidelity Standalone Narrative Section
+  Integrated with theme global narrative.css / narrative.js frame calculations
+{% endcomment %}
+
+<style>
+  /* Bind wrapper safely to native narrative viewport selectors */
+  #shopify-section-{{ section.id }} {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    height: 100vh;
+    height: 100dvh; /* Modern mobile dynamic viewport safety fallback */
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding: clamp(40px, 8vh, 100px) 24px;
+    box-sizing: border-box;
+    will-change: transform;
+  }
+
+  /* Structural Narrative Class Integration */
+  #shopify-section-{{ section.id }} .narrative-slide-inner,
+  #shopify-section-{{ section.id }} .interstitial-container {
+    width: 100%;
+    max-width: {{ section.settings.content_width }}px;
+    display: flex;
+    flex-direction: column;
+    align-items: {{ section.settings.alignment }};
+    text-align: {{ section.settings.alignment }};
+    justify-content: center;
+    position: relative;
+  }
+
+  /* Hardware-Accelerated Animation Engine */
+  #shopify-section-{{ section.id }} .fade-el {
+    opacity: 0;
+    transform: translate3d(0, 15px, 0);
+    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  /* Trigger layout reveals when parent is active (listening to narrative.js) */
+  #shopify-section-{{ section.id }}.is-active .fade-el,
+  #shopify-section-{{ section.id }}.narrative-active .fade-el {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  /* Structural Typography Blocks */
+  #shopify-section-{{ section.id }} .block-eyebrow {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 600;
+    opacity: 0.6;
+    margin-bottom: clamp(12px, 2vh, 20px);
+  }
+
+  #shopify-section-{{ section.id }} .block-headline {
+    font-size: clamp(28px, 4.2vw, 46px);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: clamp(16px, 2.5vh, 24px);
+    letter-spacing: -0.02em;
+  }
+
+  #shopify-section-{{ section.id }} .block-body {
+    font-size: clamp(14px, 1.4vw, 16px);
+    line-height: 1.6;
+    opacity: 0.75;
+    margin-bottom: clamp(20px, 3.5vh, 32px);
+    width: 100%;
+  }
+
+  /* Component: Tag Layout Design */
+  #shopify-section-{{ section.id }} .tag-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: clamp(16px, 3vh, 28px);
+    justify-content: {% if section.settings.alignment == 'center' %}center{% else %}flex-start{% endif %};
+  }
+
+  /* Component: Button Layout Design */
+  #shopify-section-{{ section.id }} .btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: clamp(16px, 3vh, 28px);
+    justify-content: {% if section.settings.alignment == 'center' %}center{% else %}flex-start{% endif %};
+  }
+
+  #shopify-section-{{ section.id }} .btn {
+    display: inline-block;
+    padding: 12px 28px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+
+  /* Absolute Positioned Scroll Cue Hint */
+  #shopify-section-{{ section.id }} .scroll-hint {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translate3d(-50%, 0, 0);
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    font-weight: 500;
+    opacity: 0.4;
+    animation: od_bounce 2s infinite;
+    pointer-events: none;
+    z-index: 10;
+  }
+  
+  @keyframes od_bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translate3d(-50%, 0, 0); }
+    40% { transform: translate3d(-50%, -6px, 0); }
+    60% { transform: translate3d(-50%, -3px, 0); }
+  }
+
+  /* Scaled down device height compression */
+  @media (max-height: 680px) {
+    #shopify-section-{{ section.id }} {
+      padding: 30px 20px;
+    }
+    #shopify-section-{{ section.id }} .scroll-hint {
+      display: none;
+    }
+  }
+</style>
+
+<div class="interstitial-container narrative-slide-inner">
+  {% for block in section.blocks %}
+    {% comment %} Replaced custom filter with native Liquid 'times' math {% endcomment %}
+    <div class="fade-el" style="transition-delay: {{ forloop.index0 | times: 0.06 }}s;" {{ block.shopify_attributes }}>
+      
+      {% case block.type %}
+        {% when 'eyebrow' %}
+          <p class="block-eyebrow">{{ block.settings.text }}</p>
+
+        {% when 'headline' %}
+          <h2 class="block-headline">{{ block.settings.text }}</h2>
+
+        {% when 'body_text' %}
+          <div class="block-body">{{ block.settings.text }}</div>
+
+        {% when 'tags' %}
+          <style>
+            #block-{{ block.id }}-tags .pill-tag {
+              padding: 8px 18px;
+              font-size: 13px;
+              font-weight: 500;
+              border: 1px solid {{ block.settings.border_color }};
+              background-color: {{ block.settings.bg_color }};
+              color: {{ block.settings.text_color }};
+              border-radius: {{ block.settings.tag_radius }}px;
+            }
+          </style>
+          <div id="block-{{ block.id }}-tags" class="tag-group">
+            {% if block.settings.tag1 != blank %}<span class="pill-tag">{{ block.settings.tag1 }}</span>{% endif %}
+            {% if block.settings.tag2 != blank %}<span class="pill-tag">{{ block.settings.tag2 }}</span>{% endif %}
+            {% if block.settings.tag3 != blank %}<span class="pill-tag">{{ block.settings.tag3 }}</span>{% endif %}
+          </div>
+
+        {% when 'button' %}
+          <style>
+            #btn-{{ block.id }} {
+              border: 1px solid {{ block.settings.border_color_default }};
+              background-color: {{ block.settings.bg_color_default }};
+              color: {{ block.settings.text_color_default }};
+              border-radius: {{ block.settings.button_radius }}px;
+            }
+            #btn-{{ block.id }}:hover {
+              border-color: {{ block.settings.border_color_hover }};
+              background-color: {{ block.settings.bg_color_hover }};
+              color: {{ block.settings.text_color_hover }};
+            }
+          </style>
+          <div class="btn-group">
+            <a id="btn-{{ block.id }}" class="btn" href="{{ block.settings.url }}">{{ block.settings.text }}</a>
+          </div>
+      {% endcase %}
+
+    </div>
+  {% endfor %}
+</div>
+
+{% if section.settings.show_scroll_hint %}
+  <div class="scroll-hint">{{ section.settings.scroll_hint_text }} &darr;</div>
+{% endif %}
+
+<script>
+  (() => {
+    const element = document.getElementById('shopify-section-{{ section.id }}');
+    
+    // Bind to the class naming conventions expected by narrative.js
+    element.classList.add('omawild-snap-slide', 'narrative-section', 'narrative-slide');
+
+    // Hybrid Observer: Works with or without narrative.js engine loaded!
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-active', 'narrative-active');
+          window.dispatchEvent(new CustomEvent('omawildSlideChanged', { detail: { activeId: '{{ section.id }}' } }));
+        } else {
+          entry.target.classList.remove('is-active', 'narrative-active');
+        }
+      });
+    }, { 
+      threshold: 0.15,
+      rootMargin: "0px 0px -10% 0px"
+    });
+
+    observer.observe(element);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "OD Interstitial Slide",
+  "settings": [
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Text Alignment",
+      "options": [
+        { "value": "flex-start", "label": "Left Aligned" },
+        { "value": "center", "label": "Center Aligned" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Slide Background Color",
+      "default": "#FAF9F6"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Slide Main Text Color",
+      "default": "#1E2819"
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "min": 500,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "label": "Content Box Max Width",
+      "default": 800
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scroll_hint",
+      "label": "Show Scroll Indicator Hint",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "scroll_hint_text",
+      "label": "Scroll Cue Label",
+      "default": "Trace the Journey"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "eyebrow",
+      "name": "Eyebrow Label",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Eyebrow Copy",
+          "default": "Chapter 02 / Mission Architecture"
+        }
+      ]
+    },
+    {
+      "type": "headline",
+      "name": "Bold Headline",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Headline Text",
+          "default": "Omawild is a conservation-led food brand making exceptional products."
+        }
+      ]
+    },
+    {
+      "type": "body_text",
+      "name": "Paragraph Copy",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Body Copy",
+          "default": "<p>We partner directly with localized agroforestry hubs to protect native biodiversity.</p>"
+        }
+      ]
+    },
+    {
+      "type": "tags",
+      "name": "Pill Tags Group",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "tag1",
+          "label": "Pill Tag 1",
+          "default": "Rainforest Shade Canopy"
+        },
+        {
+          "type": "text",
+          "id": "tag2",
+          "label": "Pill Tag 2",
+          "default": "Fair-Trade Cooperatives"
+        },
+        {
+          "type": "text",
+          "id": "tag3",
+          "label": "Pill Tag 3",
+          "default": "Mycelial Restoration"
+        },
+        {
+          "type": "header",
+          "content": "Custom Tag Styles"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Tag Background Fill",
+          "default": "transparent"
+        },
+        {
+          "type": "color",
+          "id": "border_color",
+          "label": "Tag Border Color",
+          "default": "#1E2819"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Tag Text Color",
+          "default": "#1E2819"
+        },
+        {
+          "type": "range",
+          "id": "tag_radius",
+          "min": 0,
+          "max": 50,
+          "step": 1,
+          "unit": "px",
+          "label": "Tag Border Radius",
+          "default": 50
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Action Button",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Button Label",
+          "default": "Explore Sourcing Maps"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Button Link"
+        },
+        {
+          "type": "range",
+          "id": "button_radius",
+          "min": 0,
+          "max": 50,
+          "step": 1,
+          "unit": "px",
+          "label": "Button Border Radius",
+          "default": 50
+        },
+        {
+          "type": "header",
+          "content": "State: Default Colors"
+        },
+        {
+          "type": "color",
+          "id": "bg_color_default",
+          "label": "Background Fill",
+          "default": "transparent"
+        },
+        {
+          "type": "color",
+          "id": "border_color_default",
+          "label": "Border Color",
+          "default": "#1E2819"
+        },
+        {
+          "type": "color",
+          "id": "text_color_default",
+          "label": "Text / Font Color",
+          "default": "#1E2819"
+        },
+        {
+          "type": "header",
+          "content": "State: Hover Colors"
+        },
+        {
+          "type": "color",
+          "id": "bg_color_hover",
+          "label": "Background Fill (Hover)",
+          "default": "#1E2819"
+        },
+        {
+          "type": "color",
+          "id": "border_color_hover",
+          "label": "Border Color (Hover)",
+          "default": "#1E2819"
+        },
+        {
+          "type": "color",
+          "id": "text_color_hover",
+          "label": "Text / Font Color (Hover)",
+          "default": "#FAF9F6"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "OD Interstitial Slide",
+      "blocks": [
+        { "type": "eyebrow" },
+        { "type": "headline" },
+        { "type": "body_text" },
+        { "type": "tags" }
+      ]
+    }
+  ]
+}
+{% endschema %}

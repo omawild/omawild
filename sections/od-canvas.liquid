@@ -1,0 +1,484 @@
+{%- style -%}
+ #shopify-section-{{ section.id }} {
+   --color-overlay-opacity: {{ section.settings.colors_overlay_opacity | divided_by: 100.0 }};
+   --color-overlay: {{ section.settings.colors_overlay.red }}, {{ section.settings.colors_overlay.green }}, {{ section.settings.colors_overlay.blue }};
+   {%- if section.settings.max_width == 1600 -%}
+     --container-max-width: 100%;
+   {%- else -%}
+     --container-max-width: {{ section.settings.max_width }}px;
+   {%- endif -%}
+   --universal-buffer: {{ section.settings.side_padding }}px;
+   --wrapper-padding-top: {{ section.settings.padding_top }}px;
+   --wrapper-padding-bottom: {{ section.settings.padding_bottom }}px;
+   --section-height-desktop: {{ section.settings.height_desktop }};
+   --section-height-mobile: {{ section.settings.height_mobile }};
+   --block-spacing: {{ section.settings.block_spacing }}px;
+ }
+
+ .mod-section-{{ section.id }} {
+   position: relative;
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   background-color: {{ section.settings.background_color | default: '#ffffff' }};
+   min-height: var(--section-height-desktop);
+ }
+
+ .mod-section-{{ section.id }} .mod-background__media {
+   position: absolute;
+   top: 0; left: 0; width: 100%; height: var(--section-height-desktop);
+   z-index: 1; overflow: hidden;
+ }
+
+.mod-section-{{ section.id }} .image-fit,
+.mod-section-{{ section.id }} video.image-fit {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.background-poster {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.background-video {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  opacity: 1 !important;
+  pointer-events: none;
+}
+
+/* Hide video via CSS on mobile as an immediate visual fallback */
+@media screen and (max-width: 749px) {
+  .background-video {
+    display: none !important;
+  }
+}
+
+ .mod-section-{{ section.id }} 
+ .mod-background__media::after {
+   content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+   background: rgba(var(--color-overlay), var(--color-overlay-opacity));
+   z-index: 3;
+ }
+
+ .mod-section-{{ section.id }} .mod-content-container {
+   position: relative; z-index: 4; width: 100%; display: flex;
+   justify-content: {{ section.settings.content_horizontal_alignment }}; align-items: {{ section.settings.content_vertical_alignment }};
+   padding: var(--wrapper-padding-top) var(--universal-buffer) var(--wrapper-padding-bottom);
+   box-sizing: border-box; min-height: var(--section-height-desktop);
+ }
+
+ .mod-section-{{ section.id }} .mod-blocks-column {
+   width: 100%; max-width: var(--container-max-width);
+   display: flex; flex-direction: column; align-items: center; 
+   {%- if section.settings.content_horizontal_alignment == 'flex-start' -%}
+     margin: 0 auto 0 0;
+   {%-  elsif section.settings.content_horizontal_alignment == 'flex-end' -%}
+     margin: 0 0 0 auto;
+   {%- else -%}
+     margin: 0 auto;
+   {%- endif -%}
+ }
+
+ .mod-block-wrapper:last-child { margin-bottom: 0; }
+ .mod-block-wrapper {
+   width: 100%;
+   margin-bottom: var(--block-spacing);
+ }
+
+ /* Accordion Styles */
+ .mod-accordion { width: 100%; border-bottom: 1px solid #e8e8e8; }
+ .mod-accordion summary {
+   display: flex; justify-content: space-between; align-items: center;
+   cursor: pointer; list-style: none; outline: none;
+ }
+ .mod-accordion summary::-webkit-details-marker { display: none; }
+ .mod-accordion-icon { position: relative; width: 16px; height: 16px; flex-shrink: 0; margin-left: 20px; }
+ .mod-accordion-icon::before, .mod-accordion-icon::after { content: ''; position: absolute; background-color: currentColor; transition: transform 0.3s ease; }
+ .mod-accordion-icon::before { top: 50%; left: 0; width: 100%; height: 1.5px; transform: translateY(-50%); }
+ .mod-accordion-icon::after { top: 0; left: 50%; width: 1.5px; height: 100%; transform: translateX(-50%); }
+ .mod-accordion[open] .mod-accordion-icon::after { transform: translateX(-50%) rotate(90deg); opacity: 0; }
+ .mod-accordion[open] .mod-accordion-icon::before { transform: translateY(-50%) rotate(180deg); }
+ .mod-accordion-title { margin: 0; flex-grow: 1; line-height: 1.2; }
+  
+  @media screen and (max-width: 749px) {
+   .mod-section-{{ section.id }} { 
+     min-height: var(--section-height-mobile); 
+     --universal-buffer: {{ section.settings.side_padding_mobile }}px; 
+   }
+   .mod-section-{{ section.id }} .mod-background__media { height: var(--section-height-mobile); }
+   .mod-section-{{ section.id }} .mod-content-container { min-height: var(--section-height-mobile); }
+   .mod-btn-group { flex-direction: column !important; gap: 8px !important; }
+   .mod-btn { width: 100%; }
+ }
+
+ .mod-callout { width: 100%; box-sizing: border-box; border-radius: 1px; }
+ .mod-btn-group { display: flex; flex-wrap: wrap; width: 100%; gap: 12px; }
+ .mod-btn {font-family: var(--font-heading-family); font-style: var(--font-heading-style),display: inline-flex; align-items: center; justify-content: center; padding: 14px 24px; text-decoration: none; font-size: 16px; font-weight: 500; min-width: 180px; text-align: center; border-radius: 1px; transition: opacity 0.2s ease-in-out; }
+ .mod-btn:hover { opacity: 0.8; }
+ .mod-gallery { display: grid; width: 100%; gap: var(--gallery-gutter); }
+ .mod-gallery-img { display: block; width: 100%; height: 100%; object-fit: cover; }
+ .aspect-square { aspect-ratio: 1 / 1; } .aspect-portrait { aspect-ratio: 3 / 4; } .aspect-landscape { aspect-ratio: 16 / 9; } .aspect-auto { height: auto; }
+{%- endstyle -%}
+
+<section class="mod-section-{{ section.id }}">
+ <div class="mod-background__media">
+  {%- if section.settings.image != blank -%}
+    <picture>
+      <source 
+        media="(max-width: 749px)" 
+        srcset="{{ section.settings.image | image_url: width: 750, format: 'webp' }} 1x, {{ section.settings.image | image_url: width: 1500, format: 'webp' }} 2x"
+        type="image/webp"
+      >
+      <source 
+        media="(min-width: 750px)" 
+        srcset="{{ section.settings.image | image_url: width: 1500, format: 'webp' }} 1x, {{ section.settings.image | image_url: width: 3000, format: 'webp' }} 2x"
+        type="image/webp"
+      >
+      <img 
+        src="{{ section.settings.image | image_url: width: 1500 }}" 
+        alt="{{ section.settings.image.alt | escape | default: 'Background Banner' }}"
+        class="image-fit background-poster"
+        fetchpriority="high"
+        loading="eager"
+        decoding="async"
+      >
+    </picture>
+  {%- endif -%}
+
+  {%- if section.settings.background_video != blank -%}
+    {%- assign video_source = section.settings.background_video.sources | where: 'format', 'mp4' | first -%}
+    {%- if video_source == blank -%}
+      {%- assign video_source = section.settings.background_video.sources.first -%}
+    {%- endif -%}
+    
+    <video 
+      class="image-fit background-video"
+      autoplay 
+      loop 
+      muted 
+      playsinline
+      webkit-playsinline
+      preload="none"
+    >
+      <source src="{{ video_source.url }}" type="{{ video_source.mime_type }}">
+    </video>
+  {%- endif -%}
+</div>
+ 
+  <div class="mod-content-container">
+   <div class="mod-blocks-column">
+     {%- for block in section.blocks -%}
+       <div class="mod-block-wrapper" {{ block.shopify_attributes }}>
+         {%- case block.type -%}
+           {%- when 'label' -%}
+             {%- if block.settings.section_label != blank -%}
+               <div class="mod-label-{{ block.id }}">
+                 {{ block.settings.section_label }}
+               </div>
+               <style>
+                 .mod-label-{{ block.id }} {
+                   display: block !important;
+                   font-size: 12px !important;
+                   letter-spacing: 0.15em !important;
+                   color: {{ block.settings.label_color | default: '#666666' }} !important;
+                   text-transform: uppercase !important;
+                   margin: 0 0 10px 0 !important;
+                   width: 100%;
+                   text-align: {{ block.settings.label_alignment | default: 'left' }};
+                   font-weight: 500;
+                 }
+               </style>
+             {%- endif -%}
+
+           {%- when 'heading' -%}
+             {%- if block.settings.heading_text != blank -%}
+               {%- assign h_tag = block.settings.heading_tag | default: 'h2' -%}
+               {%- assign b_size = block.settings.heading_size -%}
+               <{{ h_tag }} class="raw-heading heading-{{ block.id }}" style="color: {{ block.settings.color }}; text-align: {{ block.settings.alignment }};">
+                 {{ block.settings.heading_text }}
+               </{{ h_tag }}>
+               <style>
+                 .heading-{{ block.id }} {
+                   font-size: clamp({{ b_size | times: 0.5 }}px, 5vw + 16px, {{ b_size }}px) !important;
+                   line-height: {{ block.settings.line_height }} !important;
+                   letter-spacing: -0.02em !important;
+                   font-weight: 700;
+                   margin: 0 !important;
+                   margin-top: {{ block.settings.margin_top }}px !important;
+                   margin-bottom: {{ block.settings.margin_bottom }}px !important;
+                   word-wrap: break-word;
+                   overflow-wrap: break-word;
+                 }
+               </style>
+             {%- endif -%}
+          
+           {%- when 'text' -%}
+             {%- if block.settings.body_content != blank -%}
+               <div class="raw-body-text rte text-{{ block.id }}" style="color: {{ block.settings.color }}; text-align: {{ block.settings.alignment }};">
+                 {{ block.settings.body_content }}
+               </div>
+               <style>
+                 .text-{{ block.id }} p,
+                 .text-{{ block.id }} li {
+                   font-size: clamp({{ block.settings.size | times: 0.85 }}px, 1vw + 10px, {{ block.settings.size }}px) !important;
+                   line-height: {{ block.settings.line_height }} !important;
+                   margin: 0 0 10px 0 !important;
+                 }
+                 .text-{{ block.id }} p:last-child { margin-bottom: 0 !important; }
+                 @media screen and (max-width: 749px) {
+                   .text-{{ block.id }} p,
+                   .text-{{ block.id }} li {
+                     line-height: {{ block.settings.line_height_mobile }} !important;
+                   }
+                 }
+               </style>
+             {%- endif -%}
+
+           {%- when 'collapsible_tab' -%}
+             {%- if block.settings.title != blank or block.settings.content != blank -%}
+               {%- assign tab_h_tag = block.settings.heading_tag | default: 'h3' -%}
+               <details class="mod-accordion tab-{{ block.id }}" {% if block.settings.open_default %}open{% endif %} style="border-color: {{ block.settings.border_color }};">
+                 <summary style="color: {{ block.settings.title_color }}; padding-top: {{ block.settings.padding_top }}px; padding-bottom: {{ block.settings.padding_bottom }}px;">
+                   <{{ tab_h_tag }} class="mod-accordion-title" style="font-size: {{ block.settings.title_size }}px;">{{ block.settings.title }}</{{ tab_h_tag }}>
+                   <span class="mod-accordion-icon"></span>
+                 </summary>
+                 <div class="mod-accordion-content rte tab-content-{{ block.id }}" style="color: {{ block.settings.text_color }}; padding-bottom: {{ block.settings.padding_bottom }}px;">{{ block.settings.content }}</div>
+               </details>
+               <style>
+                 .tab-content-{{ block.id }} p { font-size: clamp(14px, 1vw + 13px, {{ block.settings.text_size }}px) !important; line-height: {{ block.settings.line_height }} !important; margin: 0 0 14px 0 !important; }
+                 .tab-content-{{ block.id }} p:last-child { margin-bottom: 0 !important; }
+                 @media screen and (max-width: 749px) { .tab-content-{{ block.id }} p { line-height: {{ block.settings.line_height_mobile }} !important; } }
+               </style>
+             {%- endif -%}
+
+           {%- when 'callout' -%}
+             {%- if block.settings.title != blank or block.settings.text != blank -%}
+               {%- assign callout_h_tag = block.settings.callout_heading_tag | default: 'h3' -%}
+               {%- assign callout_bg = block.settings.bg_color -%}
+               {%- assign box_align = block.settings.box_alignment -%}
+               {%- assign c_h_size = block.settings.title_size -%}
+               <div class="mod-callout callout-{{ block.id }}" style="background-color: rgba({{ callout_bg.red }}, {{ callout_bg.green }}, {{ callout_bg.blue }}, {{ block.settings.bg_opacity | divided_by: 100.0 }}); border: {{ block.settings.border_thickness }}px solid {{ block.settings.border_color }}; max-width: {{ block.settings.box_width }}px; padding: {{ block.settings.padding_vertical }}px {{ block.settings.padding_horizontal }}px; {% if box_align == 'left' %}margin-left: 0; margin-right: auto;{% elsif box_align == 'right' %}margin-left: auto; margin-right: 0;{% else %}margin-left: auto; margin-right: auto;{% endif %}">
+                 <div class="callout-inner" style="text-align: {{ block.settings.alignment }};">
+                   {%- if block.settings.title != blank -%}
+                     <{{ callout_h_tag }} class="callout-h-{{ block.id }}" style="margin: 0 0 12px 0; color: {{ block.settings.title_color }};">
+                       {{ block.settings.title }}
+                     </{{ callout_h_tag }}>
+                   {%- endif -%}
+                   <div class="callout-b-{{ block.id }} rte">{{ block.settings.text }}</div>
+                 </div>
+               </div>
+               <style>
+                 .callout-h-{{ block.id }} {
+                   font-size: clamp({{ c_h_size | times: 0.8 }}px, 4vw + 12px, {{ c_h_size }}px) !important;
+                   line-height: 1 !important;
+                   font-weight: 700;
+                 }
+                 .callout-b-{{ block.id }} p, .callout-b-{{ block.id }} li {
+                   color: {{ block.settings.text_color }} !important;
+                   font-size: clamp(14px, 1vw + 13px, {{ block.settings.text_size }}px) !important;
+                   line-height: {{ block.settings.line_height }} !important;
+                   margin-bottom: 0.5em;
+                 }
+                 @media screen and (max-width: 749px) {
+                   .callout-b-{{ block.id }} p { line-height: {{ block.settings.line_height_mobile }} !important; }
+                 }
+               </style>
+             {%- endif -%}
+
+           {%- when 'buttons' -%}
+             {%- if block.settings.btn_1_text != blank or block.settings.btn_2_text != blank -%}
+               <div class="mod-btn-group group-{{ block.id }}" style="justify-content: {{ block.settings.alignment }};">
+                 {%- if block.settings.btn_1_text != blank -%}<a href="{{ block.settings.btn_1_link }}" class="mod-btn btn-1-{{ block.id }}">{{ block.settings.btn_1_text }}</a>{%- endif -%}
+                 {%- if block.settings.btn_2_text != blank -%}<a href="{{ block.settings.btn_2_link }}" class="mod-btn btn-2-{{ block.id }}">{{ block.settings.btn_2_text }}</a>{%- endif -%}
+               </div>
+               <style>
+                 .btn-1-{{ block.id }} { background-color: {{ block.settings.btn_1_bg }}; color: {{ block.settings.btn_1_text_col }}; }
+                 .btn-2-{{ block.id }} { background-color: {{ block.settings.btn_2_bg }}; color: {{ block.settings.btn_2_text_col }}; }
+               </style>
+             {%- endif -%}
+
+           {%- when 'gallery' -%}
+             {%- if block.settings.image_1 != blank or block.settings.image_2 != blank -%}
+               <div class="mod-gallery gallery-{{ block.id }}" style="grid-template-columns: repeat({{ block.settings.columns_desktop }}, 1fr); --gallery-gutter: {{ block.settings.gutter }}px;">
+                 {%- for i in (1..4) -%}
+                   {%- assign img_key = 'image_' | append: i -%}
+                   {%- if block.settings[img_key] != blank -%}<div class="mod-gallery-item aspect-{{ block.settings.aspect_ratio }}">{{ block.settings[img_key] | image_url: width: 1200 | image_tag: loading: 'lazy', class: 'mod-gallery-img' }}</div>{%- endif -%}
+                 {%- endfor -%}
+               </div>
+             {%- endif -%}
+         {%- endcase -%}
+       </div>
+     {%- endfor -%}
+   </div>
+ </div>
+</section>
+
+<script>
+  // Strictly prevent asset load initialized over mobile data scales
+  document.addEventListener("DOMContentLoaded", function() {
+    if (window.innerWidth < 750) {
+      const mobileVideo = document.querySelector('.mod-section-{{ section.id }} .background-video');
+      if (mobileVideo) {
+        mobileVideo.remove();
+      }
+    }
+  });
+</script>
+
+{% schema %}
+{
+ "name": "OD Canvas",
+ "tag": "section",
+ "settings": [
+   { "type": "header", "content": "Global Layout" },
+   { "type": "range", "id": "max_width", "label": "Content Max Width", "min": 400, "max": 1600, "step": 50, "unit": "px", "default": 1000, "info": "1600px behaves as infinite full-width." },
+   { "type": "select", "id": "content_horizontal_alignment", "label": "Content Horizontal Alignment", "default": "flex-start", "options": [ { "value": "flex-start", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "flex-end", "label": "Right" } ] },
+   { "type": "select", "id": "content_vertical_alignment", "label": "Content Vertical Alignment", "default": "flex-end", "options": [ { "value": "flex-start", "label": "Top" }, { "value": "center", "label": "Middle" }, { "value": "flex-end", "label": "Bottom" } ] },
+   { "type": "select", "id": "height_desktop", "label": "Background Height (Desktop)", "default": "600px", "options": [ { "value": "auto", "label": "Adapt to Content" }, { "value": "350px", "label": "350px" },{ "value": "400px", "label": "400px" },{ "value": "450px", "label": "450px" }, { "value": "500px", "label": "500px" }, { "value": "600px", "label": "600px" }, { "value": "800px", "label": "800px" }, { "value": "100vh", "label": "Full Screen (100vh)" } ] },
+   { "type": "select", "id": "height_mobile", "label": "Background Height (Mobile)", "default": "400px", "options": [ { "value": "auto", "label": "Adapt to Content" }, { "value": "300px", "label": "300px" }, { "value": "350px", "label": "350px" }, { "value": "400px", "label": "400px" },{ "value": "450px", "label": "450px" },  { "value": "500px", "label": "500px" }, { "value": "100vh", "label": "Full Screen (100vh)" } ] },
+   { "type": "header", "content": "Spacing" },
+   { "type": "range", "id": "side_padding", "label": "Universal Side Padding (Desktop)", "min": 0, "max": 80, "step": 2, "unit": "px", "default": 40 },
+   { "type": "range", "id": "side_padding_mobile", "label": "Universal Side Padding (Mobile)", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 16 },
+   { "type": "range", "id": "block_spacing", "label": "Space Between Blocks", "min": 0, "max": 22, "step": 2, "unit": "px", "default": 12 },
+   { "type": "range", "id": "padding_top", "label": "Wrapper Top Buffer", "min": 0, "max": 60, "step": 2, "unit": "px", "default": 40 },
+   { "type": "range", "id": "padding_bottom", "label": "Wrapper Bottom Buffer", "min": 0, "max": 60, "step": 2, "unit": "px", "default": 40 },
+   { "type": "header", "content": "Background" },
+   { "type": "image_picker", "id": "image", "label": "Background Image" },
+   { "type": "video", "id": "background_video", "label": "Background Video" },
+   { "type": "color", "id": "background_color", "label": "Background Color", "default": "#ffffff" },
+   { "type": "range", "id": "colors_overlay_opacity", "label": "Overlay Opacity", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 0 },
+   { "type": "color", "id": "colors_overlay", "label": "Overlay Color", "default": "#000000" }
+ ],
+ "blocks": [
+   {
+     "type": "label",
+     "name": "Label",
+     "settings": [
+       { "type": "inline_richtext", "id": "section_label", "label": "Label Text", "default": "The Process" },
+       { "type": "select", "id": "label_alignment", "label": "Label Alignment", "default": "left", "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "right", "label": "Right" } ] },
+       { "type": "color", "id": "label_color", "label": "Label Color", "default": "#666666" }
+     ]
+   },
+   {
+     "type": "heading",
+     "name": "Heading",
+     "settings": [
+       { "type": "header", "content": "Alignment & Spacing" },
+       { "type": "select", "id": "alignment", "label": "Alignment", "default": "left", "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "right", "label": "Right" } ] },
+       { "type": "range", "id": "margin_top", "label": "Top Margin", "min": 0, "max": 20, "step": 2, "unit": "px", "default": 4 },
+       { "type": "range", "id": "margin_bottom", "label": "Bottom Margin", "min": 0, "max": 20, "step": 2, "unit": "px", "default": 2 },
+       { "type": "header", "content": "Content" },
+       { "type": "select", "id": "heading_tag", "label": "Heading Tag", "default": "h2", "options": [ { "value": "h1", "label": "H1" }, { "value": "h2", "label": "H2" }, { "value": "h3", "label": "H3" }, { "value": "h4", "label": "H4" } ] },
+       { "type": "inline_richtext", "id": "heading_text", "label": "Heading Text", "default": "Add a Heading" },
+       { "type": "range", "id": "heading_size", "label": "Heading Size", "min": 20, "max": 100, "step": 2, "unit": "px", "default": 40 },
+       { "type": "range", "id": "line_height", "label": "Line Height", "min": 0.8, "max": 1.6, "step": 0.1, "default": 1.0 },
+       { "type": "color", "id": "color", "label": "Text Color", "default": "#161616" }
+     ]
+   },
+   {
+     "type": "text",
+     "name": "Body Text",
+     "settings": [
+       { "type": "select", "id": "alignment", "label": "Alignment", "default": "left", "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "right", "label": "Right" } ] },
+       { "type": "richtext", "id": "body_content", "label": "Body Content", "default": "<p>Share your story here.</p>" },
+       { "type": "range", "id": "size", "label": "Font Size", "min": 12, "max": 40, "step": 1, "unit": "px", "default": 16 },
+       { "type": "range", "id": "line_height", "label": "Line Height (Desktop)", "min": 1.0, "max": 2.4, "step": 0.1, "default": 1.4 },
+       { "type": "range", "id": "line_height_mobile", "label": "Line Height (Mobile)", "min": 1.0, "max": 2.4, "step": 0.1, "default": 1.3 },
+       { "type": "color", "id": "color", "label": "Text Color", "default": "#333333" }
+     ]
+   },
+   {
+     "type": "collapsible_tab",
+     "name": "Collapsible Tab",
+     "settings": [
+       { "type": "checkbox", "id": "open_default", "label": "Open by default", "default": false },
+       { "type": "header", "content": "Content" },
+       { "type": "select", "id": "heading_tag", "label": "Title Tag", "default": "h3", "options": [ { "value": "h2", "label": "H2" }, { "value": "h3", "label": "H3" }, { "value": "h4", "label": "H4" }, { "value": "h5", "label": "H5" } ] },
+       { "type": "text", "id": "title", "label": "Title Text", "default": "Frequently Asked Question" },
+       { "type": "richtext", "id": "content", "label": "Body Text", "default": "<p>Provide detailed information here.</p>" },
+       { "type": "header", "content": "Typography Styling" },
+       { "type": "range", "id": "title_size", "label": "Title Size", "min": 14, "max": 40, "step": 1, "unit": "px", "default": 18 },
+       { "type": "range", "id": "text_size", "label": "Body Text Size", "min": 12, "max": 30, "step": 1, "unit": "px", "default": 16 },
+       { "type": "color", "id": "title_color", "label": "Title Color", "default": "#161616" },
+       { "type": "color", "id": "text_color", "label": "Body Text Color", "default": "#333333" },
+       { "type": "range", "id": "line_height", "label": "Body Line Height (Desktop)", "min": 1.0, "max": 2.0, "step": 0.1, "default": 1.4 },
+       { "type": "range", "id": "line_height_mobile", "label": "Body Line Height (Mobile)", "min": 1.0, "max": 2.0, "step": 0.1, "default": 1.3 },
+       { "type": "header", "content": "Vertical Spacing" },
+       { "type": "range", "id": "padding_top", "label": "Padding Top", "min": 0, "max": 80, "step": 2, "unit": "px", "default": 12 },
+       { "type": "range", "id": "padding_bottom", "label": "Padding Bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "default": 12 },
+       { "type": "color", "id": "border_color", "label": "Border Color", "default": "#e8e8e8" }
+     ]
+   },
+   {
+     "type": "callout",
+     "name": "Callout",
+     "settings": [
+       { "type": "header", "content": "Alignment & Layout" },
+       { "type": "select", "id": "box_alignment", "label": "Box Horizontal Alignment", "default": "center", "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "right", "label": "Right" } ] },
+       { "type": "select", "id": "alignment", "label": "Internal Text Alignment", "default": "left", "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" } ] },
+       { "type": "header", "content": "Content" },
+       { "type": "select", "id": "callout_heading_tag", "label": "Heading Tag", "default": "h3", "options": [ { "value": "h1", "label": "H1" }, { "value": "h2", "label": "H2" }, { "value": "h3", "label": "H3" }, { "value": "h4", "label": "H4" }, { "value": "p", "label": "Paragraph" } ] },
+       { "type": "text", "id": "title", "label": "Heading Text", "default": "Callout Header" },
+       { "type": "range", "id": "title_size", "label": "Heading Size", "min": 18, "max": 80, "step": 2, "unit": "px", "default": 24 },
+       { "type": "richtext", "id": "text", "label": "Body Text", "default": "<p>Your content here.</p>" },
+       { "type": "header", "content": "Typography Styling" },
+       { "type": "range", "id": "text_size", "label": "Body Text Size", "min": 12, "max": 30, "step": 1, "unit": "px", "default": 16 },
+       { "type": "color", "id": "title_color", "label": "Heading Color", "default": "#161616" },
+       { "type": "color", "id": "text_color", "label": "Text Color", "default": "#333333" },
+       { "type": "range", "id": "line_height", "label": "Body Line Height (Desktop)", "min": 1.0, "max": 2.2, "step": 0.1, "default": 1.5 },
+       { "type": "range", "id": "line_height_mobile", "label": "Body Line Height (Mobile)", "min": 1.0, "max": 2.2, "step": 0.1, "default": 1.3 },
+       { "type": "header", "content": "Box Styling" },
+       { "type": "range", "id": "box_width", "label": "Box Max Width", "min": 200, "max": 1200, "step": 50, "unit": "px", "default": 1000 },
+       { "type": "range", "id": "padding_vertical", "label": "Vertical Padding", "min": 0, "max": 120, "step": 5, "unit": "px", "default": 40 },
+       { "type": "range", "id": "padding_horizontal", "label": "Horizontal Padding", "min": 0, "max": 120, "step": 5, "unit": "px", "default": 40 },
+       { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#f4f4f4" },
+       { "type": "range", "id": "bg_opacity", "label": "Background Opacity", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 100 },
+       { "type": "range", "id": "border_thickness", "label": "Border Thickness", "min": 0, "max": 10, "step": 1, "unit": "px", "default": 1 },
+       { "type": "color", "id": "border_color", "label": "Border Color", "default": "#E8E8E8" }
+     ]
+   },
+   {
+     "type": "buttons",
+     "name": "Buttons",
+     "settings": [
+       { "type": "select", "id": "alignment", "label": "Alignment", "default": "center", "options": [ { "value": "flex-start", "label": "Left" }, { "value": "center", "label": "Center" } ] },
+       { "type": "text", "id": "btn_1_text", "label": "Button 1 Text", "default": "Action 1" },
+       { "type": "url", "id": "btn_1_link", "label": "Link 1" },
+       { "type": "color", "id": "btn_1_bg", "label": "BG 1", "default": "#000000" },
+       { "type": "color", "id": "btn_1_text_col", "label": "Text 1", "default": "#ffffff" },
+       { "type": "text", "id": "btn_2_text", "label": "Button 2 Text", "default": "Action 2" },
+       { "type": "url", "id": "btn_2_link", "label": "Link 2" },
+       { "type": "color", "id": "btn_2_bg", "label": "BG 2", "default": "#ffffff" },
+       { "type": "color", "id": "btn_2_text_col", "label": "Text 2", "default": "#000000" }
+     ]
+   },
+   {
+     "type": "gallery",
+     "name": "Gallery",
+     "settings": [
+       { "type": "image_picker", "id": "image_1", "label": "Image 1" },
+       { "type": "image_picker", "id": "image_2", "label": "Image 2" },
+       { "type": "image_picker", "id": "image_3", "label": "Image 3" },
+       { "type": "image_picker", "id": "image_4", "label": "Image 4" },
+       { "type": "select", "id": "aspect_ratio", "label": "Aspect Ratio", "default": "square", "options": [ { "value": "auto", "label": "Original" }, { "value": "square", "label": "Square (1:1)" }, { "value": "portrait", "label": "Portrait (3:4)" }, { "value": "landscape", "label": "Landscape (16:9)" } ] },
+       { "type": "range", "id": "columns_desktop", "label": "Desktop Columns", "min": 1, "max": 4, "step": 1, "default": 3 },
+       { "type": "range", "id": "gutter", "label": "Gutter Space", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 10 }
+     ]
+   }
+ ],
+ "presets": [
+   {
+     "name": "OD Canvas",
+     "blocks": []
+   }
+ ]
+}
+{% endschema %}

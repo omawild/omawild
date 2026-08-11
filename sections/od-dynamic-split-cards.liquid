@@ -1,0 +1,293 @@
+{%- assign omawild_id = section.id | replace: '_', '' | replace: '-', '' | downcase -%}
+{%- assign label_tag = section.settings.label_tag | default: 'h3' -%}
+
+{% style %}
+/* --- 1. Foundation --- */
+  .section-{{ omawild_id }} {
+    width: 100%;
+    background-color: {{ section.settings.background_color }};
+    padding-top: {{ section.settings.section_padding_top }}px;
+    padding-bottom: {{ section.settings.section_padding_bottom }}px;
+    display: block;
+  }
+
+  .container-{{ omawild_id }} {
+    {% if section.settings.full_width %}
+      max-width: 100%;
+    {% else %}
+      max-width: {{ section.settings.max_width }}px;
+    {% endif %}
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: {{ section.settings.mobile_side_padding }}px;
+    padding-right: {{ section.settings.mobile_side_padding }}px;
+    width: 100%;
+  }
+
+  .grid-{{ omawild_id }} {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: {{ section.settings.grid_gap_mobile }}px;
+  }
+
+/* --- 2. Typography & Left Content Styles --- */
+  {%- assign h_tag = section.settings.label_tag | default: 'h2' -%}
+  {%- assign desktop_size = section.settings.heading_size -%}
+
+  {%- case h_tag -%}
+    {%- when 'h1' -%}{%- assign floor_ratio = 1 -%}{%- assign hard_min = 30 -%}
+    {%- when 'h2' -%}{%- assign floor_ratio = 0.2 -%}{%- assign hard_min = 20 -%}
+    {%- when 'h3' -%}{%- assign floor_ratio = 0.4 -%}{%- assign hard_min = 18 -%}
+    {%- when 'h4' -%}{%- assign floor_ratio = 0.2 -%}{%- assign hard_min = 16 -%}
+  {%- endcase -%}
+
+  {%- assign calculated_floor = desktop_size | times: floor_ratio | round -%}
+  {%- if calculated_floor < hard_min -%}{%- assign final_floor = hard_min -%}{%- else -%}{%- assign final_floor = calculated_floor -%}{%- endif -%}
+
+  .label-{{ omawild_id }} {
+    display: block !important;
+    font-family: var(--font-body-family) !important;
+    font-size: 12px !important;
+    letter-spacing: 0.15em !important;
+    font-weight: 400 !important;
+    color: {{ section.settings.label_color }} !important;
+    text-transform: uppercase !important;
+    margin: 0 0 20px 0 !important;
+    line-height: 1.2 !important;
+    font-style: normal !important;
+  }
+
+  .main-heading-{{ omawild_id }} :is(h1, h2, h3, h4, h5, h6) {
+    font-size: clamp({{ final_floor }}px, 5vw + 20px, {{ desktop_size }}px) !important;
+    line-height: 1 !important;
+    letter-spacing: -0.02em !important;
+    color: {{ section.settings.heading_color }} !important;
+    font-weight: 700;
+    display: block;
+    margin-top: 0 !important;
+    margin-bottom: 22px !important;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .text-{{ omawild_id }} p {
+    font-size: clamp({{ section.settings.text_size | times: 0.85 }}px, 1vw + 10px, {{ section.settings.text_size }}px) !important;
+    line-height: {{ section.settings.body_line_height }} !important;
+    color: {{ section.settings.text_color }} !important;
+    margin-top: 0 !important;
+    margin-bottom: 20px !important;
+  }
+
+  .text-{{ omawild_id }} strong {
+    color: {{ section.settings.emphasis_color }} !important;
+  }
+
+  .text-{{ omawild_id }} a {
+    color: {{ section.settings.link_color }} !important;
+  }
+
+  .body-block-{{ omawild_id }} a:hover {
+    filter: brightness(1.2);
+  }
+
+  /* --- Dynamic Image Ratios --- */
+  .left-image-{{ omawild_id }} {
+    margin-top: 25px;
+    display: block;
+    width: 100%;
+  }
+  
+  .left-image-{{ omawild_id }} img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    {% unless section.settings.image_ratio == 'adapt' %}
+      aspect-ratio: {{ section.settings.image_ratio }};
+      object-fit: cover;
+    {% endunless %}
+  }
+
+
+/* --- 3. Cards --- */
+  .stats-{{ omawild_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: {{ section.settings.stat_gap }}px;
+  }
+
+  .stat-card-{{ omawild_id }} {
+    background-color: {{ section.settings.card_background }};
+    border: 1px solid {{ section.settings.card_border_color }};
+    border-radius: 1px;
+    padding: {{ section.settings.card_padding }}px;
+  }
+
+  .stat-label-{{ omawild_id }} {
+    font-family: var(--font-heading-family) !important; 
+    font-weight: 600 !important;
+    font-size: clamp({{ section.settings.stat_label_size | times: 0.85 }}px, 4vw, {{ section.settings.stat_label_size }}px) !important;
+    color: {{ section.settings.stat_label_color }} !important;
+    letter-spacing: -0.02em !important;
+    line-height: {{ section.settings.stat_label_height }} !important;
+    margin-bottom: {{ section.settings.stat_label_margin_bottom }}px !important;
+    display: block !important;
+  }
+
+  .stat-body-{{ omawild_id }} {
+    font-family: var(--font-body-family) !important;
+    font-size: {{ section.settings.stat_body_size }}px !important;
+    line-height: 1.3 !important;
+    color: {{ section.settings.stat_body_color }} !important;
+    display: block !important;
+  }
+
+/* --- 4. Responsive & Sticky Behavior --- */
+  @media screen and (min-width: 750px) {
+    .container-{{ omawild_id }} {
+      padding-left: {{ section.settings.desktop_side_padding }}px;
+      padding-right: {{ section.settings.desktop_side_padding }}px;
+    }
+    
+    .grid-{{ omawild_id }} {
+      grid-template-columns: 1fr 1fr;
+      gap: {{ section.settings.grid_gap }}px;
+      align-items: start;
+    }
+
+    .text-{{ omawild_id }} {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 40px;
+      z-index: 2;
+    }
+  }
+{% endstyle %}
+
+<div class="section-{{ omawild_id }}" {{ section.shopify_attributes }}>
+  <div class="container-{{ omawild_id }}">
+    {% if section.settings.section_label != blank %}
+      <{{ label_tag }} class="label-{{ omawild_id }}">
+        {{ section.settings.section_label }}
+      </{{ label_tag }}>
+    {% endif %}
+
+    <div class="grid-{{ omawild_id }}">
+      <div class="text-{{ omawild_id }}">
+        {% if section.settings.heading != blank %}
+          <div class="main-heading-{{ omawild_id }}">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+        {% if section.settings.content != blank %}
+          {{ section.settings.content }}
+        {% endif %}
+        
+        {% if section.settings.left_side_image != blank %}
+          <div class="left-image-{{ omawild_id }}">
+            {{ section.settings.left_side_image | image_url: width: 1200 | image_tag: loading: 'lazy', sizes: '(min-width: 750px) 50vw, 100vw' }}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="stats-{{ omawild_id }}">
+        {% for block in section.blocks %}
+          {% if block.type == 'stat_card' %}
+            <div class="stat-card-{{ omawild_id }}" {{ block.shopify_attributes }}>
+              {% if block.settings.stat_label != blank %}
+                <div class="stat-label-{{ omawild_id }}">{{ block.settings.stat_label }}</div>
+              {% endif %}
+              {% if block.settings.stat_body != blank %}
+                <div class="stat-body-{{ omawild_id }}">{{ block.settings.stat_body }}</div>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+"name": "OD Dynamic Split Cards",
+"settings": [
+  { "type": "header", "content": "Layout" },
+  { "type": "checkbox", "id": "full_width", "label": "Make section full width (Infinite)", "default": true },
+  { "type": "range", "id": "max_width", "label": "Max width", "info": "Ignored if Full Width is checked", "min": 600, "max": 1600, "step": 50, "unit": "px", "default": 1000 },
+  { "type": "range", "id": "section_padding_top", "label": "Top padding", "min": 0, "max": 150, "step": 10, "unit": "px", "default": 40 },
+  { "type": "range", "id": "section_padding_bottom", "label": "Bottom padding", "min": 0, "max": 150, "step": 10, "unit": "px", "default": 40 },
+  { "type": "range", "id": "grid_gap", "label": "Column Gap (Desktop)", "min": 20, "max": 100, "step": 5, "unit": "px", "default": 50 },
+  { "type": "range", "id": "grid_gap_mobile", "label": "Column Gap (Mobile)", "min": 10, "max": 60, "step": 5, "unit": "px", "default": 30 },
+  { "type": "range", "id": "desktop_side_padding", "label": "Desktop Side Padding", "min": 0, "max": 150, "step": 5, "unit": "px", "default": 40 },
+  { "type": "range", "id": "mobile_side_padding", "label": "Mobile Side Padding", "min": 0, "max": 50, "step": 5, "unit": "px", "default": 20 },
+  { "type": "color", "id": "background_color", "label": "Background Colour", "default": "#ffffff" },
+
+  { "type": "header", "content": "Card Design" },
+  { "type": "color", "id": "card_background", "label": "Card Background", "default": "#ffffff" },
+  { "type": "color", "id": "card_border_color", "label": "Card Border", "default": "#e5e5e5" },
+  { "type": "range", "id": "card_padding", "label": "Card Padding", "min": 10, "max": 60, "default": 20 },
+  { "type": "range", "id": "stat_gap", "label": "Gap between cards", "min": 6, "max": 60, "step": 2, "unit": "px", "default": 10 },
+
+  { "type": "header", "content": "Type Size" },
+  { "type": "range", "id": "heading_size", "label": "Heading size", "min": 24, "max": 80, "step": 2, "unit": "px", "default": 40 },
+  { "type": "range", "id": "text_size", "label": "Body Size", "min": 12, "max": 30, "step": 1, "unit": "px", "default": 16 },
+  { "type": "range", "id": "stat_label_size", "label": "Stat Label Size", "min": 20, "max": 120, "default": 48 },
+  { "type": "range", "id": "stat_body_size", "label": "Stat Body Size", "min": 10, "max": 30, "default": 15 },
+
+  { "type": "header", "content": "Line Height & Margin" },
+  { "type": "range", "id": "body_line_height", "label": "Body Line Height", "min": 1.0, "max": 2.4, "step": 0.1, "default": 1.4 },
+  { "type": "range", "id": "stat_label_height", "label": "Stat Label Line Height", "min": 1.0, "max": 2.4, "step": 0.1, "default": 1 },
+  { "type": "range", "id": "stat_label_margin_bottom", "label": "Stat Label Margin Bottom", "min": 0, "max": 100, "step": 2, "unit": "px", "default": 16},
+
+  { "type": "header", "content": "Colors" },
+  { "type": "color", "id": "label_color", "label": "Label Color", "default": "#666666" },
+  { "type": "color", "id": "heading_color", "label": "Heading color", "default": "#1A1B18" },
+  { "type": "color", "id": "emphasis_color", "label": "Emphasis color", "default": "#B231C6" },
+  { "type": "color", "id": "link_color", "label": "Link color", "default": "#B231C6" },
+  { "type": "color", "id": "text_color", "label": "Text Color", "default": "#1B1B1B" },
+  { "type": "color", "id": "stat_label_color", "label": "Stat Label Color", "default": "#1A1B18" },
+  { "type": "color", "id": "stat_body_color", "label": "Stat Body Color", "default": "#1B1B1B" },
+
+  { "type": "header", "content": "Section Content" },
+  { "type": "select", "id": "label_tag", "label": "Label SEO Tag", "options": [{"value":"h1","label":"H1"},{"value":"h2","label":"H2"},{"value":"h3","label":"H3"},{"value":"p","label":"p"}], "default": "h3" },
+  { "type": "inline_richtext", "id": "section_label", "label": "Label Text", "default": "Label" },
+  { "type": "richtext", "id": "heading", "label": "Heading", "default": "<h2>Heading</h2>" },
+  { "type": "richtext", "id": "content", "label": "Body text", "default": "<p>Lorem ipsum dolor sit amet.</p>" },
+  { "type": "image_picker", "id": "left_side_image", "label": "Left Side Image (Optional)" },
+  { 
+    "type": "select", 
+    "id": "image_ratio", 
+    "label": "Image Ratio", 
+    "options": [
+      {"value": "adapt", "label": "Adapt to image"},
+      {"value": "1 / 1", "label": "Square (1:1)"},
+      {"value": "4 / 3", "label": "Landscape (4:3)"},
+      {"value": "16 / 9", "label": "Cinematic (16:9)"},
+      {"value": "3 / 4", "label": "Portrait (3:4)"}
+    ], 
+    "default": "adapt" 
+  }
+
+],
+"blocks": [
+  {
+    "type": "stat_card",
+    "name": "Stat Card",
+    "settings": [
+      { "type": "inline_richtext", "id": "stat_label", "label": "Stat Label", "default": "100%" },
+      { "type": "textarea", "id": "stat_body", "label": "Stat Body", "default": "Stat Description" }
+    ]
+  }
+],
+"presets": [
+  {
+    "name": "OD Dynamic Split Cards",
+    "blocks": [
+      { "type": "stat_card" },
+      { "type": "stat_card" }
+    ]
+  }
+]
+}
+{% endschema %}

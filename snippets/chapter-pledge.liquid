@@ -1,0 +1,339 @@
+{% assign omawild_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  /* The main cinematic slide parent wrapper */
+  .chapter2-slide-{{ omawild_id }} {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: {{ block.settings.background_color }};
+    padding: 60px 40px;
+    box-sizing: border-box;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  /* Responsive Core Layout Wrapper Grid */
+  .chapter2-grid-{{ omawild_id }} {
+    width: 100%;
+    max-width: {{ block.settings.content_max_width }}px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+  }
+
+  /* Both columns get clean split configuration space */
+  .chapter2-col-left-{{ omawild_id }},
+  .chapter2-col-right-{{ omawild_id }} {
+    flex: 1;
+    width: 50%;
+    position: relative;
+  }
+
+  /* --- LEFT BLOCK: PLEDGE CONTENT STYLES --- */
+  .pledge-badge-{{ omawild_id }} {
+    position: absolute;
+    top: {{ block.settings.badge_top_position }}px;
+    left: {{ block.settings.badge_left_position }}px;
+    width: {{ block.settings.badge_size }}px;
+    height: {{ block.settings.badge_size }}px;
+    z-index: 10;
+  }
+
+  .pledge-badge-svg-{{ omawild_id }} {
+    width: 100%;
+    height: 100%;
+    animation: pledge-rotate-{{ omawild_id }} {{ block.settings.badge_rotation_speed }}s linear infinite;
+  }
+
+  @keyframes pledge-rotate-{{ omawild_id }} {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .pledge-badge-center-{{ omawild_id }} {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: {{ block.settings.badge_center_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.badge_center_color }};
+  }
+
+  .pledge-percentage-{{ omawild_id }} {
+    font-size: {{ block.settings.percentage_font_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.percentage_color }};
+    margin: 20px 0;
+    line-height: 1;
+    background: {{ block.settings.percentage_gradient }};
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .pledge-heading-{{ omawild_id }} {
+    font-size: {{ block.settings.heading_font_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.heading_color }};
+    margin: 20px 0;
+    line-height: 1.2;
+  }
+
+  .pledge-description-{{ omawild_id }} {
+    font-size: {{ block.settings.description_font_size }}px;
+    color: {{ block.settings.description_color }};
+    line-height: 1.6;
+    margin-top: 20px;
+  }
+
+  /* --- RIGHT BLOCK: CALCULATOR STYLES --- */
+  .pledge-calc-container-{{ omawild_id }} {
+    padding: {{ block.settings.calculator_padding }}px;
+    background-color: {{ block.settings.calculator_bg_color }};
+    border-radius: {{ block.settings.calculator_border_radius }}px;
+    box-sizing: border-box;
+  }
+
+  .pledge-calc-label-{{ omawild_id }} {
+    font-size: {{ block.settings.calculator_label_size }}px;
+    color: {{ block.settings.calculator_text_color }};
+    margin-bottom: 15px;
+    font-weight: 600;
+  }
+
+  .pledge-calc-qty-{{ omawild_id }} {
+    font-size: {{ block.settings.calculator_qty_size }}px;
+    color: {{ block.settings.calculator_text_color }};
+    margin-bottom: 20px;
+  }
+
+  .pledge-calc-qty-{{ omawild_id }} b {
+    font-weight: 700;
+    color: {{ block.settings.calculator_highlight_color }};
+  }
+
+  .pledge-cups-{{ omawild_id }} {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .pledge-cup-{{ omawild_id }} {
+    width: {{ block.settings.cup_size }}px;
+    height: {{ block.settings.cup_size }}px;
+    border-radius: 50%;
+    background-color: {{ block.settings.cup_empty_color }};
+    transition: background-color 0.3s ease;
+  }
+
+  .pledge-cup-{{ omawild_id }}.filled {
+    background-color: {{ block.settings.cup_filled_color }};
+  }
+
+  .pledge-slider-{{ omawild_id }} {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: {{ block.settings.slider_track_color }};
+    outline: none;
+    margin-bottom: 25px;
+    appearance: none;
+  }
+
+  .pledge-slider-{{ omawild_id }}::-webkit-slider-thumb {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: {{ block.settings.slider_thumb_color }};
+    cursor: pointer;
+  }
+
+  .pledge-slider-{{ omawild_id }}::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: {{ block.settings.slider_thumb_color }};
+    cursor: pointer;
+    border: none;
+  }
+
+  .pledge-calc-output-{{ omawild_id }} {
+    font-size: {{ block.settings.calculator_output_size }}px;
+    color: {{ block.settings.calculator_text_color }};
+    line-height: 1.6;
+  }
+
+  .pledge-calc-output-{{ omawild_id }} .big {
+    font-size: {{ block.settings.calculator_big_number_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.calculator_highlight_color }};
+    display: inline-block;
+    margin-right: 8px;
+  }
+
+  /* --- MOBILE / NARROW TABLET BREAKPOINT LAYOUTS --- */
+  @media screen and (max-width: 989px) {
+    .chapter2-slide-{{ omawild_id }} {
+      padding: 40px 20px;
+      height: auto;
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+
+    .chapter2-grid-{{ omawild_id }} {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 40px;
+    }
+
+    .chapter2-col-left-{{ omawild_id }},
+    .chapter2-col-right-{{ omawild_id }} {
+      width: 100%;
+    }
+
+    .pledge-badge-{{ omawild_id }} {
+      width: calc({{ block.settings.badge_size }}px * 0.7);
+      height: calc({{ block.settings.badge_size }}px * 0.7);
+      top: {{ block.settings.badge_top_position | times: 0.5 }}px;
+      left: {{ block.settings.badge_left_position | times: 0.5 }}px;
+      right: auto;
+    }
+
+    .pledge-percentage-{{ omawild_id }} { font-size: calc({{ block.settings.percentage_font_size }}px * 0.6); }
+    .pledge-heading-{{ omawild_id }} { font-size: calc({{ block.settings.heading_font_size }}px * 0.7); }
+    .pledge-description-{{ omawild_id }} { font-size: calc({{ block.settings.description_font_size }}px * 0.9); }
+    .pledge-calc-container-{{ omawild_id }} { padding: {{ block.settings.calculator_padding | times: 0.7 }}px; }
+    .pledge-calc-label-{{ omawild_id }} { font-size: calc({{ block.settings.calculator_label_size }}px * 0.9); }
+    .pledge-calc-qty-{{ omawild_id }} { font-size: calc({{ block.settings.calculator_qty_size }}px * 0.9); }
+    .pledge-cup-{{ omawild_id }} { width: calc({{ block.settings.cup_size }}px * 0.8); height: calc({{ block.settings.cup_size }}px * 0.8); }
+    .pledge-calc-output-{{ omawild_id }} { font-size: calc({{ block.settings.calculator_output_size }}px * 0.9); }
+    .pledge-calc-output-{{ omawild_id }} .big { font-size: calc({{ block.settings.calculator_big_number_size }}px * 0.8); }
+  }
+{% endstyle %}
+
+<div class="chapter2-slide-{{ omawild_id }}" {{ block.shopify_attributes }}>
+  <div class="chapter2-grid-{{ omawild_id }}">
+    
+    <div class="chapter2-col-left-{{ omawild_id }}">
+      <movie-pledge-{{ omawild_id }}>
+        {% if block.settings.show_badge %}
+          <div class="pledge-badge-{{ omawild_id }}">
+            <svg class="pledge-badge-svg-{{ omawild_id }}" viewBox="0 0 100 100">
+              <defs>
+                <path id="pledge-circ-{{ omawild_id }}" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"></path>
+              </defs>
+              <text fill="{{ block.settings.badge_text_color }}" font-family="Inter, sans-serif" font-size="7.5" font-weight="600">
+                <textPath 
+                  href="#pledge-circ-{{ omawild_id }}" 
+                  startOffset="0%"
+                  textLength="238.7"
+                  lengthAdjust="spacing"
+                >
+                  {{ block.settings.badge_text | strip }}
+                </textPath>
+              </text>
+            </svg>
+            <div class="pledge-badge-center-{{ omawild_id }}">{{ block.settings.badge_center_text }}</div>
+          </div>
+        {% endif %}
+
+        <div class="pledge-content-{{ omawild_id }}">
+          {% if block.settings.percentage_text != blank %}
+            <div class="pledge-percentage-{{ omawild_id }}">{{ block.settings.percentage_text }}</div>
+          {% endif %}
+          {% if block.settings.heading != blank %}
+            <h2 class="pledge-heading-{{ omawild_id }}">{{ block.settings.heading }}</h2>
+          {% endif %}
+          {% if block.settings.description != blank %}
+            <div class="pledge-description-{{ omawild_id }}">{{ block.settings.description }}</div>
+          {% endif %}
+        </div>
+      </movie-pledge-{{ omawild_id }}>
+    </div>
+
+    <div class="chapter2-col-right-{{ omawild_id }}">
+      <movie-calculator-{{ omawild_id }}>
+        <div class="pledge-calc-container-{{ omawild_id }}">
+          <div class="pledge-calc-label-{{ omawild_id }}">{{ block.settings.calculator_label }}</div>
+          <div class="pledge-calc-qty-{{ omawild_id }}">
+            <b id="pledge-cups-week-{{ omawild_id }}">{{ block.settings.default_cups }}</b> {{ block.settings.cups_label }}
+          </div>
+          <div class="pledge-cups-{{ omawild_id }}" id="pledge-cup-row-{{ omawild_id }}" aria-hidden="true">
+            {% for i in (1..21) %}
+              <i class="pledge-cup-{{ omawild_id }} {% if i <= block.settings.default_cups %}filled{% endif %}"></i>
+            {% endfor %}
+          </div>
+          <input 
+            type="range" 
+            min="1" 
+            max="21" 
+            value="{{ block.settings.default_cups }}" 
+            class="pledge-slider-{{ omawild_id }}"
+            id="pledge-slider-{{ omawild_id }}"
+            aria-label="{{ block.settings.slider_aria_label }}"
+          >
+          <div class="pledge-calc-output-{{ omawild_id }}">
+            <span class="big" id="pledge-cups-year-{{ omawild_id }}">{{ block.settings.default_cups | times: 52 }}</span>
+            <span>{{ block.settings.output_text }}</span>
+          </div>
+        </div>
+      </movie-calculator-{{ omawild_id }}>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  (function() {
+    if (!customElements.get('movie-pledge-{{ omawild_id }}')) {
+      class MoviePledge{{ omawild_id }} extends HTMLElement {
+        connectedCallback() {
+          if (!{{ block.settings.enable_pause_on_hover }}) return;
+          const badge = this.querySelector('.pledge-badge-svg-{{ omawild_id }}');
+          if (!badge) return;
+          badge.addEventListener('mouseenter', () => { badge.style.animationPlayState = 'paused'; });
+          badge.addEventListener('mouseleave', () => { badge.style.animationPlayState = 'running'; });
+        }
+      }
+      customElements.define('movie-pledge-{{ omawild_id }}', MoviePledge{{ omawild_id }});
+    }
+
+    if (!customElements.get('movie-calculator-{{ omawild_id }}')) {
+      class MovieCalculator{{ omawild_id }} extends HTMLElement {
+        connectedCallback() {
+          this.slider = this.querySelector('#pledge-slider-{{ omawild_id }}');
+          this.cupsWeek = this.querySelector('#pledge-cups-week-{{ omawild_id }}');
+          this.cupsYear = this.querySelector('#pledge-cups-year-{{ omawild_id }}');
+          this.cupRow = this.querySelector('#pledge-cup-row-{{ omawild_id }}');
+          if (this.cupRow) this.cups = this.cupRow.querySelectorAll('.pledge-cup-{{ omawild_id }}');
+          if (this.slider) this.slider.addEventListener('input', this.handleSliderChange.bind(this));
+        }
+        handleSliderChange(event) {
+          const value = parseInt(event.target.value);
+          if (this.cupsWeek) this.cupsWeek.textContent = value;
+          if (this.cupsYear) this.cupsYear.textContent = value * 52;
+          if (this.cups) {
+            this.cups.forEach((cup, index) => {
+              if (index < value) cup.classList.add('filled');
+              else cup.classList.remove('filled');
+            });
+          }
+        }
+      }
+      customElements.define('movie-calculator-{{ omawild_id }}', MovieCalculator{{ omawild_id }});
+    }
+  })();
+</script>

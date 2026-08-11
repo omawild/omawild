@@ -1,0 +1,17 @@
+# Theme exports / backups — large binaries, never in git
+*.zip
+
+# Shopify CLI
+.shopify/
+node_modules/
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
+
+# Local-only CLI env (store domains, tokens)
+.env
+.env.*
+!.env.example

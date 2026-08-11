@@ -1,0 +1,234 @@
+{%- style -%}
+
+  #shopify-section-{{ section.id }} {
+    --section-padding-top: {{ section.settings.padding_top }}px;
+    --section-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --color-background: {{ section.settings.colors_background }};
+    --color-foreground: {{ section.settings.colors_text }};
+    --color-border: {{ section.settings.colors_border }};
+  }
+
+  .newsletter-v3-wrapper-{{ section.id }} {
+    padding: var(--section-padding-top) 3rem var(--section-padding-bottom) 3rem;
+    background: var(--color-background);
+    display: flex;
+    flex-direction: column;
+    align-items: {% if section.settings.alignment_text == 'left' %}flex-start{% elsif section.settings.alignment_text == 'right' %}flex-end{% else %}center{% endif %};
+    text-align: {{ section.settings.alignment_text }};
+  }
+
+  .newsletter-v3-wrapper-{{ section.id }} .od-newsletter-heading {
+    font-size: 44px !important;
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 1.5rem 0;
+    text-transform: none;
+  }
+
+  .newsletter__content-limit-{{ section.id }} {
+    max-width: {{ section.settings.content_max_width }}px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: inherit;
+  }
+
+  .newsletter__subheading-v3 {
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+    color: var(--color-foreground);
+    opacity: 0.8;
+  }
+
+  .newsletter-row-v3 {
+    display: flex;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .newsletter-input-v3 {
+    flex: 1;
+    padding: 14px 18px;
+    border: 1px solid {{ section.settings.colors_border }};
+    border-right: none;
+    border-radius: 0;
+    background-color: {{ section.settings.colors_background }};
+    font-family: inherit;
+    font-size: 14px;
+    letter-spacing: 0.01em !important;
+    color: #000000;
+  }
+
+  .newsletter-input-v3:focus {
+    border-color: #F57900 !important;
+    box-shadow: inset 0 0 0 1px #F57900;
+    position: relative;
+    z-index: 2;
+  }
+
+  .newsletter-button-v3 {
+    padding: 14px 28px;
+    background-color: #F57900;
+    color: #ffffff;
+    border: 1px solid #F57900;
+    font-family: inherit;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+
+  .newsletter-button-v3:hover {
+    background-color: #e66a00; 
+    border-color: #e66a00;
+  }
+
+  /* SUCCESS CARD STYLING - BRAND ORANGE VERSION */
+  .od-newsletter-success-{{ section.id }} {
+    background: #F57900; /* BRAND COLOUR */
+    color: #ffffff;
+    padding: 40px 80px;
+    border: none;
+    text-align: center;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .od-newsletter-success-{{ section.id }} p.success-heading {
+    color: #ffffff;
+    font-family: var(--font-heading-family);
+    font-size: 30px !important;
+    line-height: 1 !important;
+    margin: 0 0 20px 0;
+    font-weight: 700;
+    letter-spacing: 0em;
+    text-transform: none;
+  }
+
+  .od-newsletter-success-{{ section.id }} p.success-body {
+    font-size: 16px;
+    line-height: 1.3;
+    letter-spacing: 0;
+    opacity: 1;
+    margin: 0;
+    text-transform: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .newsletter-row-v3 { flex-direction: column; }
+    .newsletter-input-v3 { border-right: 1px solid {{ section.settings.colors_border }}; margin-bottom: 10px; }
+    .newsletter-v3-wrapper-{{ section.id }} .od-newsletter-heading { font-size: 32px !important; }
+  }
+{%- endstyle -%}
+
+<div class="newsletter-v3-wrapper-{{ section.id }}">
+  <div class="newsletter__content-limit-{{ section.id }}">
+    
+    {%- assign is_success = false -%}
+    {%- form 'customer' -%}
+      {%- if form.posted_successfully? -%}
+        {%- assign is_success = true -%}
+      {%- endif -%}
+    {%- endform -%}
+
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'heading' -%}
+          {%- unless is_success -%}
+            <{{ block.settings.heading_tag }} class="od-newsletter-heading" {{ block.shopify_attributes }}>
+              {{ block.settings.heading | replace: '&lt;br&gt;', '<br>' | replace: '<br>', '<br>' }}
+            </{{ block.settings.heading_tag }}>
+          {%- endunless -%}
+        
+        {%- when 'paragraph' -%}
+          {%- unless is_success -%}
+            <div class="newsletter__subheading-v3 rte" {{ block.shopify_attributes }}>
+              {{ block.settings.paragraph }}
+            </div>
+          {%- endunless -%}
+
+        {%- when 'email_form' -%}
+          {% form 'customer', class: 'newsletter-form', style: 'width: 100%;' %}
+            <input type="hidden" name="contact[tags]" value="newsletter"/>
+            
+            {%- if form.posted_successfully? -%}
+              <div class="od-newsletter-success-{{ section.id }}">
+                {%- comment -%} Added the classes below so the CSS can actually find these elements {%- endcomment -%}
+                <p class="success-heading">{{ block.settings.success_heading }}</p>
+                <p class="success-body">{{ block.settings.success_body }}</p>
+              </div>
+            {%- else -%}
+
+              <div class="newsletter-row-v3">
+                <input type="email" name="contact[email]" class="newsletter-input-v3" placeholder="your@email.com" required>
+                <button type="submit" class="newsletter-button-v3">
+                  {{ block.settings.button_label }}
+                </button>
+              </div>
+              {%- if form.errors -%}
+                <small style="color: #ff0000; margin-top: 10px; display: block;">
+                  {{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}
+                </small>
+              {%- endif -%}
+            {%- endif -%}
+          {% endform %}
+
+        {%- when 'signup_note' -%}
+          {%- unless is_success -%}
+            <div style="font-size: 12px; line-height: 1.2; margin-top: 12px; opacity: 0.7;" class="rte" {{ block.shopify_attributes }}>
+              {{ block.settings.note }}
+            </div>
+          {%- endunless -%}
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "OD Newsletter",
+  "tag": "section",
+  "settings": [
+    { "type": "select", "id": "alignment_text", "label": "Alignment", "options": [
+        { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "right", "label": "Right" }
+      ], "default": "center" },
+    { "type": "range", "id": "content_max_width", "min": 400, "max": 1000, "step": 50, "default": 400, "unit": "px", "label": "Max Width" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "default": 80, "unit": "px", "label": "Top Padding" },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "default": 80, "unit": "px", "label": "Bottom Padding" },
+    { "type": "header", "content": "Styling" },
+    { "type": "color", "id": "colors_background", "label": "Background", "default": "#FAF8F5" },
+    { "type": "color", "id": "colors_text", "label": "Text Colour", "default": "#1a1b18" },
+    { "type": "color", "id": "colors_border", "label": "Input Border", "default": "#d2d5d9" }
+  ],
+  "blocks": [
+    { "type": "heading", "name": "Heading", "limit": 1, "settings": [
+        { "type": "inline_richtext", "id": "heading", "default": "The adventure starts here.", "label": "Heading" },
+        { "type": "select", "id": "heading_tag", "options": [{ "value": "h3", "label": "H3" },{ "value": "h4", "label": "H4" },{ "value": "h5", "label": "H5" }, ], "default": "h4", "label": "Tag" }
+      ]
+    },
+    { "type": "paragraph", "name": "Paragraph", "settings": [
+        { "type": "richtext", "id": "paragraph", "default": "<p>Sign up for our newsletter.</p>", "label": "Text" }
+      ]
+    },
+    { 
+      "type": "email_form", 
+      "name": "Email Form", 
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "button_label", "default": "Join the expedition →", "label": "Button Label" },
+        { "type": "header", "content": "Post-Signup Success Message" },
+        { "type": "text", "id": "success_heading", "default": "Welcome to the adventure", "label": "Success Heading" },
+        { "type": "textarea", "id": "success_body", "default": "Check your inbox for your first trailhead map.", "label": "Success Body Text" }
+      ]
+    },
+    { "type": "signup_note", "name": "Signup Note", "limit": 1, "settings": [
+        { "type": "richtext", "id": "note", "default": "<p>Get wild on deals, stories, and more.</p>", "label": "Note Text" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "OD Newsletter", "blocks": [{ "type": "heading" }, { "type": "paragraph" }, { "type": "email_form" }, { "type": "signup_note" }] }
+  ]
+}
+{% endschema %}

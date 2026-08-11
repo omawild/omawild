@@ -1,0 +1,567 @@
+{% assign omawild_id = section.id | replace: '-', '' | replace: '_', '' | downcase %}
+
+{% style %}
+.hero-expedition-{{ omawild_id }} {
+  display: block;
+  width: 100%;
+}
+
+.hero-expedition__container-{{ omawild_id }} {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background-color: {{ section.settings.background_color }};
+}
+
+.hero-expedition__left-{{ omawild_id }} {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: {{ section.settings.content_padding }}px;
+  gap: {{ section.settings.content_gap }}px;
+}
+
+.hero-expedition__eyebrow-{{ omawild_id }} {
+  font-size: {{ section.settings.eyebrow_size }}px;
+  color: {{ section.settings.eyebrow_color }};
+  letter-spacing: 0.15em !important;
+  text-transform: uppercase;
+  font-weight: 500 !important;
+  margin-bottom: 0px !important;
+}
+
+h1.hero-expedition__headline-{{ omawild_id }} {
+  font-size: {{ section.settings.headline_size }}px !important;
+  letter-spacing: 0em !important;
+  line-height: 1 !important;
+  color: {{ section.settings.headline_color }} !important;
+  margin-top: 4px !important;
+  margin-bottom: 10px;
+  font-weight: 700 !important; 
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1.hero-expedition__headline-{{ omawild_id }} em,
+.hero-expedition__headline-{{ omawild_id }} em {
+  font-style: italic !important;
+  font-weight: 300 !important;
+  letter-spacing: 0em !important;
+  opacity: 1 !important;
+}
+
+.hero-expedition__subtext-{{ omawild_id }} {
+  font-size: {{ section.settings.subtext_size }}px;
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: 0.03em !important;
+  color: {{ section.settings.subtext_color }};
+  margin: 0;
+}
+
+.hero-expedition__signup-{{ omawild_id }} {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+  margin-bottom: 0px;
+}
+
+.hero-expedition__signup-label-{{ omawild_id }} {
+  font-size: {{ section.settings.signup_label_size }}px;
+  letter-spacing: 0.1em !important;
+  font-weight: 600;
+  color: {{ section.settings.text_color }};
+}
+
+.hero-expedition__signup-row-{{ omawild_id }} {
+  display: flex;
+  gap: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px !important;
+}
+
+.hero-expedition__input-{{ omawild_id }} {
+  flex: 1;
+  padding: 14px 18px;
+  border: 1px solid {{ section.settings.input_border_color }};
+  border-right: none;
+  border-radius: 0;
+  background-color: {{ section.settings.input_background }};
+  font-family: inherit;
+  font-size: {{ section.settings.input_font_size }}px;
+  letter-spacing: 0.01em !important;
+  color: {{ section.settings.input_text_color }};
+}
+
+.hero-expedition__input-{{ omawild_id }}:focus {
+  outline: none !important;
+  border-color: #F57900 !important;
+  box-shadow: inset 0 0 0 1px #F57900;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-expedition__input-{{ omawild_id }}::placeholder {
+  color: {{ section.settings.input_placeholder_color }};
+}
+
+.hero-expedition__button-{{ omawild_id }} {
+  padding: 14px 28px;
+  background-color: {{ section.settings.button_background }};
+  color: {{ section.settings.button_text_color }};
+  border: 1px solid {{ section.settings.button_background }};
+  border-radius: 0;
+  font-family: inherit;
+  font-size: {{ section.settings.button_font_size }}px;
+  font-weight: 600;
+  letter-spacing: 0.01em !important;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.3s ease;
+}
+
+.hero-expedition__button-{{ omawild_id }}:hover {
+  background-color: {{ section.settings.button_hover_background }};
+  border-color: {{ section.settings.button_hover_background }};
+}
+
+.hero-expedition__signup-note-{{ omawild_id }} {
+  font-size: {{ section.settings.note_font_size }}px;
+  line-height: 1.1 !important;
+  color: {{ section.settings.note_color }};
+  margin-top: 0 !important;
+}
+
+.hero-expedition__signup-note-{{ omawild_id }} a {
+  color: {{ section.settings.link_hover_color }};
+  text-decoration: underline;
+}
+
+.hero-expedition__right-{{ omawild_id }} {
+  position: relative;
+  overflow: hidden;
+  min-height: 500px;
+}
+
+.hero-expedition__image-{{ omawild_id }} {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media screen and (max-width: 989px) {
+  .hero-expedition__container-{{ omawild_id }} {
+    grid-template-columns: 1fr;
+  }
+  .hero-expedition__left-{{ omawild_id }} {
+    padding: {{ section.settings.content_padding | times: 0.6 }}px 20px;
+  }
+  h1.hero-expedition__headline-{{ omawild_id }} {
+    font-size: clamp(32px, 10vw, {{ section.settings.headline_size | times: 0.7 }}px) !important;
+  }
+  .hero-expedition__right-{{ omawild_id }} {
+    min-height: 400px;
+  }
+  .hero-expedition__signup-row-{{ omawild_id }} {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .hero-expedition__input-{{ omawild_id }} {
+    border-right: 1px solid {{ section.settings.input_border_color }};
+  }
+}
+{% endstyle %}
+
+<div class="hero-expedition-{{ omawild_id }}">
+  <div class="hero-expedition__container-{{ omawild_id }}">
+    <div class="hero-expedition__left-{{ omawild_id }}">
+    
+      {% if section.settings.eyebrow != blank %}
+        <p class="hero-expedition__eyebrow-{{ omawild_id }}">
+          {{ section.settings.eyebrow }}
+        </p>
+      {% endif %}
+
+      {% if section.settings.headline != blank %}
+        <h1 class="hero-expedition__headline-{{ omawild_id }}">
+          {{ section.settings.headline }}
+        </h1>
+      {% endif %}
+
+      {% if section.settings.subtext != blank %}
+        <p class="hero-expedition__subtext-{{ omawild_id }}">
+          {{ section.settings.subtext }}
+        </p>
+      {% endif %}
+
+      <div class="hero-expedition__signup-{{ omawild_id }}">
+        {% if section.settings.signup_label != blank %}
+          <div class="hero-expedition__signup-label-{{ omawild_id }}">
+            {{ section.settings.signup_label }}
+          </div>
+        {% endif %}
+
+        {%- form 'customer', id: "HeroExpeditionForm-{{ omawild_id }}", class: 'newsletter-form' -%}
+          {%- comment -%} Hidden Tracking Fields {%- endcomment -%}
+          <input type="hidden" name="contact[tags]" value="{{ section.settings.customer_tag }}">
+          <input type="hidden" name="contact[note][Registration Source]" value="{{ section.settings.customer_note }}">
+          
+          {% if form.posted_successfully? %}
+            <div class="hero-expedition__success-{{ omawild_id }}" style="padding: 12px; background: {{ section.settings.success_background }}; line-height: 1.3; color: {{ section.settings.success_text_color }};">
+              {{ section.settings.success_message }}
+            </div>
+          {% else %}
+            <div class="hero-expedition__signup-row-{{ omawild_id }}">
+              <input
+                type="email"
+                name="contact[email]"
+                class="hero-expedition__input-{{ omawild_id }}"
+                placeholder="{{ section.settings.email_placeholder }}"
+                value="{{ form.email }}"
+                aria-required="true"
+                autocorrect="off"
+                autocapitalize="off"
+                required
+              >
+              <button type="submit" class="hero-expedition__button-{{ omawild_id }}">
+                {{ section.settings.button_text }}
+              </button>
+            </div>
+          {% endif %}
+        {%- endform -%}
+
+        {% if section.settings.signup_note != blank %}
+          <div class="hero-expedition__signup-note-{{ omawild_id }}">
+            {{ section.settings.signup_note }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="hero-expedition__right-{{ omawild_id }}">
+      {% if section.settings.hero_image %}
+       <img
+         src="{{ section.settings.hero_image | image_url: width: 1200 }}"
+         class="hero-expedition__image-{{ omawild_id }}"
+         loading="lazy"
+         width="{{ section.settings.hero_image.width }}"
+         height="{{ section.settings.hero_image.height }}"
+         alt="{{ section.settings.hero_image.alt | escape }}"
+       >
+      {% else %}
+        <div style="background:#2c2c2c; width:100%; height:100%; min-height:400px;"></div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "OD Expedition Hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Tracking & Segments"
+    },
+    {
+      "type": "text",
+      "id": "customer_tag",
+      "label": "Internal CRM Note (Tags)",
+      "default": "example campaign name",
+      "info": "Use ALL lower case and space okay. Separate tags with commas."
+    },
+    {
+      "type": "text",
+      "id": "customer_note",
+      "label": "Internal CRM Note (Customer Source)",
+      "default": "Replace with the Page Name",
+      "info": "Appears in Customer Admin notes. Consider using the URL/page name."
+    },
+    {
+      "type": "header",
+      "content": "Eyebrow Text"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Join the expedition · Summer 2026"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size",
+      "label": "Font size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Text color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Headline"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Every trail leads somewhere <em>extraordinary</em>. Start each day like it's the one you'll remember."
+    },
+    {
+      "type": "range",
+      "id": "headline_size",
+      "label": "Font size",
+      "min": 24,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 44
+    },
+    {
+      "type": "color",
+      "id": "headline_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Subtext"
+    },
+    {
+      "type": "text",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Specialty instant coffee, crafted for every adventure from the sea to summit."
+    },
+    {
+      "type": "range",
+      "id": "subtext_size",
+      "label": "Font size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 17
+    },
+    {
+      "type": "color",
+      "id": "subtext_color",
+      "label": "Text color",
+      "default": "#626262"
+    },
+    {
+      "type": "header",
+      "content": "Email Signup"
+    },
+    {
+      "type": "text",
+      "id": "signup_label",
+      "label": "Signup label",
+      "default": "Become a Trailblazer"
+    },
+    {
+      "type": "range",
+      "id": "signup_label_size",
+      "label": "Label font size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Email placeholder",
+      "default": "your@email.com"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Join the expedition →"
+    },
+    {
+      "type": "richtext",
+      "id": "signup_note",
+      "label": "Signup note",
+      "default": "<p>Get wild on deals, expedition stories, activism awareness, events and more. <a href=\"/pages/origins\">Why we exist →</a></p>"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "Welcome to the expedition! Check your email to confirm."
+    },
+    {
+      "type": "header",
+      "content": "Input Style"
+    },
+    {
+      "type": "range",
+      "id": "input_font_size",
+      "label": "Font size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "input_background",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "input_text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "input_placeholder_color",
+      "label": "Placeholder color",
+      "default": "#999999"
+    },
+    {
+      "type": "color",
+      "id": "input_border_color",
+      "label": "Border color",
+      "default": "#d2d5d9"
+    },
+    {
+      "type": "header",
+      "content": "Button style"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Font size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Background",
+      "default": "#F57900"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Hover background",
+      "default": "#CF6600"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Note style"
+    },
+    {
+      "type": "range",
+      "id": "note_font_size",
+      "label": "Font size",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "note_color",
+      "label": "Text color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "link_hover_color",
+      "label": "Link hover color",
+      "default": "#Ed4722"
+    },
+    {
+      "type": "header",
+      "content": "Message style"
+    },
+    {
+      "type": "color",
+      "id": "success_background",
+      "label": "Success background",
+      "default": "#d4edda"
+    },
+    {
+      "type": "color",
+      "id": "success_text_color",
+      "label": "Success text color",
+      "default": "#155724"
+    },
+    {
+      "type": "header",
+      "content": "Hero image"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "content_padding",
+      "label": "Content padding",
+      "min": 20,
+      "max": 150,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "content_gap",
+      "label": "Content spacing",
+      "min": 5,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "OD Expedition Hero"
+    }
+  ]
+}
+{% endschema %}

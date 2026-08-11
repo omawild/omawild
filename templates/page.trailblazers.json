@@ -1,0 +1,318 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "narrow": false,
+        "padding_top": 60,
+        "padding_bottom": 72
+      }
+    },
+    "od_hero_expedition_Uib6hK": {
+      "type": "od-hero-expedition",
+      "name": "OD Expedition Hero",
+      "settings": {
+        "customer_tag": "Prelaunch Expedition 2026",
+        "customer_note": "Trailblazers",
+        "eyebrow": "Join the expedition · Summer 2026",
+        "eyebrow_size": 12,
+        "eyebrow_color": "#666666",
+        "headline": "Every trail leads somewhere <em>extraordinary</em>.",
+        "headline_size": 44,
+        "headline_color": "#000000",
+        "subtext": "Start your day like is the one you’ll remember: specialty instant coffee, crafted for every adventure from the sea to summit.",
+        "subtext_size": 17,
+        "subtext_color": "#626262",
+        "signup_label": "Become a Trailblazer",
+        "signup_label_size": 15,
+        "email_placeholder": "your@email.com",
+        "button_text": "Join the expedition →",
+        "signup_note": "<p>Omawild launches this summer. Join the expedition before we set off. <a href=\"/pages/origins\" title=\"Origins\">Where this all began →</a></p>",
+        "success_message": "Welcome to the expedition! Check your email to confirm.",
+        "input_font_size": 14,
+        "input_background": "#faf8f5",
+        "input_text_color": "#000000",
+        "input_placeholder_color": "#999999",
+        "input_border_color": "#d2d5d9",
+        "button_font_size": 14,
+        "button_background": "#f57900",
+        "button_hover_background": "#cf6600",
+        "button_text_color": "#ffffff",
+        "note_font_size": 12,
+        "note_color": "#666666",
+        "link_color": "#000000",
+        "link_hover_color": "#b231c6",
+        "success_background": "#d4edda",
+        "success_text_color": "#155724",
+        "hero_image": "shopify://shop_images/summit-with-friends-01.png",
+        "content_padding": 50,
+        "content_gap": 12,
+        "background_color": "#faf8f5"
+      }
+    },
+    "od_sticky_split_feature_Dn4FqW": {
+      "type": "od-sticky-split-feature",
+      "blocks": {
+        "body_text_kMDNKn": {
+          "type": "body_text",
+          "disabled": true,
+          "settings": {
+            "content": "<p>Focusing on the <strong>long-term health</strong> of our soil.</p>"
+          }
+        },
+        "stat_card_EMitRk": {
+          "type": "stat_card",
+          "settings": {
+            "stat_label": "Single Origin",
+            "stat_body": "<p>Every harvest begins in a food forest that changed how we see food, farming, and our relationship with this planet.</p>"
+          }
+        },
+        "stat_card_weRrCj": {
+          "type": "stat_card",
+          "settings": {
+            "stat_label": "Farmed Regeneratively",
+            "stat_body": "<p>Our beans grow in living food forests that rebuild soil health and restore biodiversity. Every cup restores the land from where they came.</p>"
+          }
+        },
+        "stat_card_gT38gE": {
+          "type": "stat_card",
+          "settings": {
+            "stat_label": "Peak Preservation",
+            "stat_body": "<p>The long approach from bean to cup: a slow brew followed by sublimation freeze-drying. Every flavour and nutrient, preserved until the moment you need them.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "body_text_kMDNKn",
+        "stat_card_EMitRk",
+        "stat_card_weRrCj",
+        "stat_card_gT38gE"
+      ],
+      "name": "OD Sticky Split Blocks",
+      "settings": {
+        "flip_layout": true,
+        "max_width": 1000,
+        "section_padding_top": 40,
+        "section_padding_bottom": 40,
+        "grid_gap": 60,
+        "mobile_padding_horizontal": 20,
+        "background_color": "#ffffff",
+        "image_ratio": "4 / 3",
+        "heading_size": 38,
+        "text_size": 16,
+        "body_line_height": 1.4,
+        "label_color": "#666666",
+        "heading_color": "#1a1b18",
+        "text_color": "#1b1b1b",
+        "emphasis_color": "#b231c6",
+        "link_color": "#b231c6",
+        "card_background": "#f9f9f9",
+        "card_border_color": "#eeeeee",
+        "card_padding": 24,
+        "cards_per_row_desktop": "1",
+        "stat_gap": 12,
+        "stat_label_size": 23,
+        "stat_body_size": 14,
+        "stat_label_height": 1,
+        "stat_body_height": 1.3,
+        "stat_label_margin_bottom": 8,
+        "stat_label_color": "#1a1b18",
+        "stat_body_color": "#333333",
+        "stat_emphasis_color": "#b231c6",
+        "label_tag": "h3",
+        "section_label": "<strong>Opt outside</strong>",
+        "heading": "<h2>Fuel for the distance</h2>"
+      }
+    },
+    "od_notice_board_eHTD3t": {
+      "type": "od-notice-board",
+      "blocks": {
+        "notice_box_BhA4Tk": {
+          "type": "notice_box",
+          "settings": {
+            "card_padding_vertical": 40,
+            "card_padding_horizontal": 40,
+            "card_padding_vertical_mobile": 24,
+            "card_padding_horizontal_mobile": 20,
+            "content_alignment": "center",
+            "label_tag": "h3",
+            "section_label": "WHERE LIFE BEGINS",
+            "heading": "<h2>We're brewing something special for the summer</h2>",
+            "content": "<p>Come back soon</p>",
+            "label_size": 12,
+            "heading_size": 40,
+            "text_size": 15,
+            "heading_line_height": 1,
+            "body_line_height": 1.4,
+            "body_line_height_mobile": 1.3,
+            "heading_to_body_gap": 18,
+            "label_color": "#666666",
+            "heading_color": "#161616",
+            "emphasis_color": "#b231c6",
+            "text_color": "#333333",
+            "image_width": 200,
+            "image_aspect_ratio": "1 / 1",
+            "image_fit": "cover",
+            "image_radius": 0,
+            "image_margin_top": 20,
+            "card_background": "#ffffff",
+            "card_border_color": "#e5e5e5",
+            "card_border_width": 1,
+            "card_border_radius": 2
+          }
+        }
+      },
+      "block_order": [
+        "notice_box_BhA4Tk"
+      ],
+      "name": "OD Notice Board",
+      "settings": {
+        "image": "shopify://shop_images/jatiluwih-rice-fields.png",
+        "background_color": "#ffffff",
+        "colors_overlay_opacity": 0,
+        "colors_overlay": "#000000",
+        "image_ratio": "500",
+        "image_ratio_mobile": "500",
+        "max_width": 800,
+        "side_padding": 10,
+        "inner_padding_top": 60,
+        "inner_padding_bottom": 60,
+        "inner_padding_top_mobile": 20,
+        "inner_padding_bottom_mobile": 20
+      }
+    },
+    "od_faq_gAnj7m": {
+      "type": "od-faq",
+      "blocks": {
+        "question_p7Rj6d": {
+          "type": "question",
+          "settings": {
+            "title": "What's freeze-dried coffee? How is it different from spray-dried?",
+            "text": ""
+          }
+        },
+        "question_DjnWeU": {
+          "type": "question",
+          "settings": {
+            "title": "What is regenerative agriculture?",
+            "text": ""
+          }
+        },
+        "question_yEphtm": {
+          "type": "question",
+          "settings": {
+            "title": "Where is the coffee from?",
+            "text": ""
+          }
+        }
+      },
+      "block_order": [
+        "question_p7Rj6d",
+        "question_DjnWeU",
+        "question_yEphtm"
+      ],
+      "name": "OD FAQ",
+      "settings": {
+        "bg_color": "rgba(0,0,0,0)",
+        "section_width": 1000,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "heading": "Frequently Asked Questions",
+        "heading_size": "h2",
+        "heading_tag": "h2",
+        "heading_alignment": "left",
+        "answer_line_height": 1.3,
+        "question_heading_tag": "h3",
+        "colors_highlight": "#ffb503",
+        "enable_highlight": false,
+        "highlight_style": "marker",
+        "open_logic": "none",
+        "icon_color": "#787878",
+        "icon_border_weight": 1
+      }
+    },
+    "od_newsletter_qQ98pL": {
+      "type": "od-newsletter",
+      "blocks": {
+        "heading_zdTjfM": {
+          "type": "heading",
+          "settings": {
+            "heading": "The adventure starts here.",
+            "heading_tag": "h5"
+          }
+        },
+        "paragraph_fjJrAG": {
+          "type": "paragraph",
+          "settings": {
+            "paragraph": "<p>Beat the crowds to the start line and break trail with us this summer. Launching 2026.</p>"
+          }
+        },
+        "email_form_VcLxVF": {
+          "type": "email_form",
+          "settings": {
+            "button_label": "Secure Your Start →",
+            "success_heading": "Welcome to the adventure",
+            "success_body": "Check your inbox for your first trailhead map."
+          }
+        },
+        "signup_note_rBVVQU": {
+          "type": "signup_note",
+          "settings": {
+            "note": "<p>Get wild on deals, expedition stories, activism awareness, events and more.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_zdTjfM",
+        "paragraph_fjJrAG",
+        "email_form_VcLxVF",
+        "signup_note_rBVVQU"
+      ],
+      "name": "OD Newsletter",
+      "settings": {
+        "alignment_text": "center",
+        "content_max_width": 400,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "colors_background": "#faf8f5",
+        "colors_text": "#1a1b18",
+        "colors_border": "#d2d5d9"
+      }
+    },
+    "od_new_hero_PzV7Y4": {
+      "type": "ow-mgs-hero",
+      "name": "Hero Simple",
+      "settings": {
+        "logo_image": "shopify://shop_images/omawild_logo.svg",
+        "logo_svg_code": "",
+        "headline_image": "shopify://shop_images/welcome-expedition.svg",
+        "headline_svg_code": "",
+        "emblem_image": "shopify://shop_images/planet-emblem.svg",
+        "emblem_svg_code": "",
+        "tagline": "Coffee’s just the bait to reel you in",
+        "hero_image": "shopify://shop_images/Gemini_Generated_Image_kgjhkgjhkgjhkgjh.png",
+        "background_color": "#FCD0FD",
+        "text_color": "#FF3F00"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "od_hero_expedition_Uib6hK",
+    "od_sticky_split_feature_Dn4FqW",
+    "od_notice_board_eHTD3t",
+    "od_faq_gAnj7m",
+    "od_newsletter_qQ98pL",
+    "od_new_hero_PzV7Y4"
+  ]
+}

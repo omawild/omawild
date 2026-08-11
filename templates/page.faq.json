@@ -1,0 +1,104 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "narrow": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "modular_canvas_4dYc9X": {
+      "type": "od-canvas",
+      "blocks": {
+        "collapsible_tab_yimAPR": {
+          "type": "collapsible_tab",
+          "settings": {
+            "open_default": true,
+            "heading_tag": "h2",
+            "title": "Frequently Asked Question",
+            "content": "<p>Provide detailed information here.</p>",
+            "title_size": 24,
+            "title_color": "#000000",
+            "text_color": "#333333",
+            "text_size": 16,
+            "padding_top": 4,
+            "padding_bottom": 12,
+            "line_height": 1.4,
+            "line_height_mobile": 1.3,
+            "border_color": "#bebebe"
+          }
+        },
+        "collapsible_tab_ppdad6": {
+          "type": "collapsible_tab",
+          "settings": {
+            "open_default": true,
+            "heading_tag": "h2",
+            "title": "Frequently Asked Question",
+            "content": "<p>Provide detailed information here.</p>",
+            "title_size": 24,
+            "title_color": "#000000",
+            "text_color": "#333333",
+            "text_size": 16,
+            "padding_top": 4,
+            "padding_bottom": 12,
+            "line_height": 1.4,
+            "line_height_mobile": 1.3,
+            "border_color": "#bebebe"
+          }
+        },
+        "collapsible_tab_emLJAm": {
+          "type": "collapsible_tab",
+          "settings": {
+            "open_default": true,
+            "heading_tag": "h2",
+            "title": "Frequently Asked Question",
+            "content": "<p>Provide detailed information here.</p>",
+            "title_size": 24,
+            "title_color": "#000000",
+            "text_color": "#333333",
+            "text_size": 16,
+            "padding_top": 4,
+            "padding_bottom": 12,
+            "line_height": 1.4,
+            "line_height_mobile": 1.3,
+            "border_color": "#bebebe"
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_tab_yimAPR",
+        "collapsible_tab_ppdad6",
+        "collapsible_tab_emLJAm"
+      ],
+      "name": "FAQs",
+      "settings": {
+        "max_width": 1000,
+        "height_desktop": "auto",
+        "height_mobile": "auto",
+        "content_vertical_alignment": "center",
+        "side_padding": 20,
+        "block_spacing": 20,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "background_color": "#ffffff",
+        "colors_overlay_opacity": 0,
+        "colors_overlay": "#000000"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "modular_canvas_4dYc9X"
+  ]
+}

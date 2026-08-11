@@ -1,0 +1,371 @@
+{%- assign omawild_id = section.id | replace: '_', '' | replace: '-', '' | downcase -%}
+{%- assign label_tag = section.settings.label_tag | default: 'h3' -%}
+
+{% style %}
+/* --- 1. Foundation --- */
+ .section-{{ omawild_id }} {
+   width: 100%;
+   background-color: {{ section.settings.background_color }};
+   padding-top: {{ section.settings.section_padding_top }}px;
+   padding-bottom: {{ section.settings.section_padding_bottom }}px;
+   display: block;
+   --gap: {{ section.settings.stat_gap }}px;
+ }
+
+ .container-{{ omawild_id }} {
+   max-width: {{ section.settings.max_width }}px;
+   margin: 0 auto;
+   padding: 0 {{ section.settings.mobile_padding_horizontal }}px;
+   width: 100%;
+   box-sizing: border-box;
+   display: flex;
+   flex-direction: column;
+   align-items: {% if section.settings.content_alignment == 'center' %}center{% elsif section.settings.content_alignment == 'right' %}flex-end{% else %}flex-start{% endif %};
+   text-align: {{ section.settings.content_alignment }};
+ }
+
+/* --- 2. Typography Styles --- */
+ .label-{{ omawild_id }} {
+   display: block !important;
+   font-family: var(--font-body-family) !important; 
+   font-size: 12px !important;
+   letter-spacing: 0.15em !important;
+   font-weight: 400 !important; 
+   color: {{ section.settings.label_color }} !important;
+   text-transform: uppercase !important;
+   margin: 0 0 20px 0 !important;
+   line-height: 1.2 !important;
+   width: 100%;
+ }
+    
+ .main-heading-{{ omawild_id }} {
+   width: 100%;
+   margin-bottom: 22px;
+ }
+
+ .main-heading-{{ omawild_id }} :is(h1, h2, h3, h4, h5, h6) {
+   font-size: clamp({{ section.settings.heading_size | times: 0.6 }}px, 5vw + 10px, {{ section.settings.heading_size }}px) !important;
+   line-height: 1 !important; 
+   letter-spacing: -0.02em !important;
+   color: {{ section.settings.heading_color }} !important;
+   font-weight: 700;
+   margin: 0 !important;
+ }
+
+.body-text-{{ omawild_id }} {
+    width: 100%;
+    margin: 0 0 12px 0 !important;
+ }
+
+ .body-text-{{ omawild_id }} p {
+   font-size: clamp({{ section.settings.text_size | times: 0.85 }}px, 1vw + 10px, {{ section.settings.text_size }}px) !important;
+   line-height: {{ section.settings.body_line_height }} !important;
+   color: {{ section.settings.text_color }} !important;
+   margin: 0 0 9px 0 !important; 
+ }
+
+ .body-text-{{ omawild_id }} p:last-child {
+    margin-bottom: 13px !important; 
+ }
+ .body-text-{{ omawild_id }} strong {
+   color: {{ section.settings.emphasis_color }} !important;
+ }
+
+ .body-text-{{ omawild_id }} a {
+   color: {{ section.settings.link_color }} !important; 
+   transition: opacity 0.2s ease;
+ }
+
+ .body-text-{{ omawild_id }} a:hover {
+   opacity: 0.7;
+ }
+
+/* --- 3. The Grid & Cards --- */
+ .stats-grid-wrapper-{{ omawild_id }} {
+   display: flex;
+   flex-wrap: wrap;
+   gap: var(--gap);
+   width: 100%;
+   justify-content: {% if section.settings.content_alignment == 'center' %}center{% elsif section.settings.content_alignment == 'right' %}flex-end{% else %}flex-start{% endif %};
+   margin-bottom: 10px;
+ }
+
+ .stat-card-{{ omawild_id }} {
+   background-color: {{ section.settings.card_background }} !important;
+   border: 1px solid {{ section.settings.card_border_color }} !important;
+   padding: {{ section.settings.card_padding }}px !important;
+   flex: 1 1 100%; 
+   box-sizing: border-box;
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-start;
+   text-align: {{ section.settings.content_alignment }};
+ }
+
+ .stat-label-{{ omawild_id }} {
+    font-family: var(--font-heading-family) !important; 
+    font-weight: 600 !important;
+    font-size: clamp({{ section.settings.stat_label_size | times: 0.85 }}px, 4vw, {{ section.settings.stat_label_size }}px) !important;
+    color: {{ section.settings.stat_label_color }} !important;
+    letter-spacing: -0.02em !important;
+    line-height: {{ section.settings.stat_label_height }} !important;
+    margin-bottom: 14px !important;
+    display: block !important;
+  }
+
+  .stat-body-{{ omawild_id }} {
+      font-family: var(--font-body-family) !important;
+      font-size: {{ section.settings.stat_body_size }}px !important;
+      line-height: {{ section.settings.stat_body_height }} !important;
+      color: {{ section.settings.stat_body_color }} !important;
+      display: block !important;
+  }
+
+  .stat-body-{{ omawild_id }} p {
+      margin: 0 0 10px 0 !important; /* Space between paragraphs in the card */
+  }
+
+  .stat-body-{{ omawild_id }} p:last-child {
+      margin-bottom: 0 !important; /* Keeps card padding consistent */
+  }
+  .stat-body-{{ omawild_id }} a {
+   color: {{ section.settings.link_color }} !important;
+ }
+
+ .stat-body-{{ omawild_id }} a:hover {
+   filter: brightness(1.2);
+ }
+
+/* --- 4. Button Block Styles --- */
+ .mod-btn-group-{{ omawild_id }} { 
+    display: flex; 
+    flex-wrap: wrap; 
+    width: 100%; 
+    gap: 12px; 
+    margin-top: 10px;
+    margin-bottom: 30px;
+ }
+  
+ .mod-btn-{{ omawild_id }} { 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 14px 24px; 
+    text-decoration: none; 
+    font-size: 15px; 
+    font-weight: 500; 
+    min-width: 180px; 
+    text-align: center; 
+    border-radius: 1px; 
+    transition: opacity 0.2s ease-in-out;
+    border: 1px solid transparent;
+ }
+
+ .mod-btn-{{ omawild_id }}:hover { opacity: 0.8; }
+
+/* --- 5. Responsive --- */
+ @media screen and (max-width: 749px) {
+   .mod-btn-group-{{ omawild_id }} { 
+      flex-direction: column !important; 
+      gap: 8px !important; 
+   }
+   .mod-btn-{{ omawild_id }} { 
+      width: 100%; 
+   }
+    /* If you want 2 cards side-by-side on mobile, uncomment the line below */
+    /* .stat-card-{{ omawild_id }} { flex: 0 0 calc(50% - (var(--gap) / 2)); } */
+ }
+
+ @media screen and (min-width: 750px) {
+   .stat-card-{{ omawild_id }} {
+     /* Math fix: (100% / 3) minus (2/3 of the total gap space) */
+     flex: 0 0 calc(33.333% - (var(--gap) * 2 / 3));
+     min-height: {{ section.settings.card_min_height }}px;
+   }
+
+   {%- assign cards_desktop = section.settings.cards_per_row -%}
+   {%- assign gap_factor = cards_desktop | minus: 1 | append: '.0' | divided_by: cards_desktop -%}
+   
+   .stat-card-{{ omawild_id }} {
+     flex: 0 0 calc({{ 100.0 | divided_by: cards_desktop }}% - (var(--gap) * {{ gap_factor }}));
+     min-height: {{ section.settings.card_min_height }}px;
+   }
+ }
+{% endstyle %}
+
+<div class="section-{{ omawild_id }}" {{ section.shopify_attributes }}>
+  <div class="container-{{ omawild_id }}">
+    
+    {% if section.settings.section_label != blank %}
+      <{{ label_tag }} class="label-{{ omawild_id }}">
+        {{ section.settings.section_label }}
+      </{{ label_tag }}>
+    {% endif %}
+
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        
+        {%- when 'heading' -%}
+          <div class="main-heading-{{ omawild_id }}" {{ block.shopify_attributes }}>
+            {{ block.settings.heading }}
+          </div>
+
+        {%- when 'body_text' -%}
+          <div class="body-text-{{ omawild_id }}" {{ block.shopify_attributes }}>
+            {{ block.settings.content }}
+          </div>
+
+        {%- when 'buttons' -%}
+          <div class="mod-btn-group-{{ omawild_id }} group-{{ block.id }}" style="justify-content: {{ block.settings.alignment }};" {{ block.shopify_attributes }}>
+            {%- if block.settings.btn_1_text != blank -%}
+              <a href="{{ block.settings.btn_1_link }}" class="mod-btn-{{ omawild_id }} btn-1-{{ block.id }}">
+                {{ block.settings.btn_1_text }}
+              </a>
+            {%- endif -%}
+            {%- if block.settings.btn_2_text != blank -%}
+              <a href="{{ block.settings.btn_2_link }}" class="mod-btn-{{ omawild_id }} btn-2-{{ block.id }}">
+                {{ block.settings.btn_2_text }}
+              </a>
+            {%- endif -%}
+          </div>
+          <style>
+            .btn-1-{{ block.id }} { background-color: {{ block.settings.btn_1_bg }}; color: {{ block.settings.btn_1_text_col }}; border-color: {{ block.settings.btn_1_bg }}; }
+            .btn-2-{{ block.id }} { background-color: {{ block.settings.btn_2_bg }}; color: {{ block.settings.btn_2_text_col }}; border-color: {{ block.settings.btn_2_text_col | color_modify: 'alpha', 0.1 }}; }
+          </style>
+
+        {%- when 'stat_card' -%}
+          {%- assign prev_index = forloop.index0 | minus: 1 -%}
+          {%- assign next_index = forloop.index0 | plus: 1 -%}
+          {%- assign prev_block_type = section.blocks[prev_index].type -%}
+          {%- assign next_block_type = section.blocks[next_index].type -%}
+
+          {%- if forloop.first or prev_block_type != 'stat_card' -%}
+            {%- comment -%} theme-check-disable UnclosedHTMLElement {%- endcomment -%}
+            <div class="stats-grid-wrapper-{{ omawild_id }}">
+          {%- endif -%}
+
+            <div class="stat-card-{{ omawild_id }}" {{ block.shopify_attributes }}>
+              {% if block.settings.stat_label != blank %}
+                <div class="stat-label-{{ omawild_id }}">
+                  {{ block.settings.stat_label }}
+                </div>
+              {% endif %}
+              {% if block.settings.stat_body != blank %}
+                <div class="stat-body-{{ omawild_id }}">
+                  {{ block.settings.stat_body }}
+                </div>
+              {% endif %}
+            </div>
+
+          {%- if forloop.last or next_block_type != 'stat_card' -%}
+            </div>
+            {%- comment -%} theme-check-enable UnclosedHTMLElement {%- endcomment -%}
+          {%- endif -%}
+
+      {%- endcase -%}
+    {%- endfor -%}
+
+  </div>
+</div>
+
+{% schema %}
+{
+ "name": "OD Modular Card Stack",
+ "settings": [
+   { "type": "header", "content": "Layout" },
+   { "type": "select", "id": "content_alignment", "label": "Content Alignment", "options": [
+       { "value": "left", "label": "Left" },
+       { "value": "center", "label": "Center" },
+       { "value": "right", "label": "Right" }
+     ], "default": "left" 
+   },
+   { "type": "range", "id": "max_width", "label": "Max width", "min": 600, "max": 1600, "step": 50, "unit": "px", "default": 1000 },
+   { "type": "range", "id": "section_padding_top", "label": "Top padding", "min": 0, "max": 150, "step": 10, "unit": "px", "default": 40 },
+   { "type": "range", "id": "section_padding_bottom", "label": "Bottom padding", "min": 0, "max": 150, "step": 10, "unit": "px", "default": 40 },
+   { "type": "range", "id": "mobile_padding_horizontal", "label": "Side Padding (Mobile)", "min": 10, "max": 50, "step": 5, "unit": "px", "default": 20 },
+   { "type": "color", "id": "background_color", "label": "Section Background", "default": "#ffffff" },
+
+   { "type": "header", "content": "Card Styles" },
+   { "type": "color", "id": "card_background", "label": "Card Background", "default": "#ffffff" },
+   { "type": "color", "id": "card_border_color", "label": "Card Border", "default": "#e5e5e5" },
+   { "type": "range", "id": "card_padding", "label": "Card Padding", "min": 0, "max": 40, "default": 20 },
+   { "type": "range", "id": "card_min_height", "label": "Card Min Height", "min": 50, "max": 500, "step": 10, "unit": "px", "default": 150 },
+   { "type": "range", "id": "stat_gap", "label": "Gap between cards", "min": 0, "max": 30, "step": 2, "unit": "px", "default": 10 },
+   { "type": "range", "id": "cards_per_row", "label": "Cards per row (Desktop)", "min": 1, "max": 4, "step": 1, "default": 3},
+
+   { "type": "header", "content": "Colors" },  
+   { "type": "color", "id": "label_color", "label": "Section Label Color", "default": "#666666" },
+   { "type": "color", "id": "heading_color", "label": "Heading color", "default": "#1A1B18" },
+   { "type": "color", "id": "emphasis_color", "label": "Emphasis color", "default": "#B231C6" },
+      { "type": "color", "id": "link_color", "label": "Link color", "default": "#B231C6" },
+   { "type": "color", "id": "text_color", "label": "Body Text Color", "default": "#1B1B1B" },
+   { "type": "color", "id": "stat_label_color", "label": "Stat Label Color", "default": "#1A1B18" },
+   { "type": "color", "id": "stat_body_color", "label": "Stat Body Color", "default": "#1B1B1B" },
+
+   { "type": "header", "content": "Type Size" },
+   { "type": "range", "id": "heading_size", "label": "Heading size", "min": 24, "max": 80, "step": 2, "unit": "px", "default": 40 },
+   { "type": "range", "id": "text_size", "label": "Body Size", "min": 12, "max": 30, "default": 16 },
+   { "type": "range", "id": "body_line_height", "label": "Body Line Height", "min": 1.0, "max": 2.4, "step": 0.1, "default": 1.3 },
+   { "type": "range", "id": "stat_label_size", "label": "Stat Label Size", "min": 18, "max": 50, "default": 30 },
+   { "type": "range", "id": "stat_label_height", "label": "Stat Label Line Height", "min": 1.0, "max": 2.4, "step": 0.1, "default": 1 },
+   { "type": "range", "id": "stat_body_size", "label": "Stat Body Size", "min": 10, "max": 30, "default": 15 },
+   { "type": "range", "id": "stat_body_height", "label": "Stat Body Line Height", "min": 1.0, "max": 2.4, "step": 0.1, "default": 1.1 },
+
+
+   { "type": "header", "content": "Section Content" },
+   { "type": "select", "id": "label_tag", "label": "Label SEO Tag", "options": [{"value":"h1","label":"H1"},{"value":"h2","label":"H2"},{"value":"h3","label":"H3"},{"value":"p","label":"p"}], "default": "h3" },
+   { "type": "inline_richtext", "id": "section_label", "label": "Section Label Text", "default": "Label" }
+ ],
+ "blocks": [
+   {
+     "type": "heading",
+     "name": "Heading",
+     "settings": [
+       { "type": "richtext", "id": "heading", "label": "Heading", "default": "<h2>Heading</h2>" }
+     ]
+   },
+   {
+     "type": "body_text",
+     "name": "Body Text",
+     "settings": [
+       { "type": "richtext", "id": "content", "label": "Body text", "default": "<p>Lorem ipsum dolor sit amet.</p>" }
+     ]
+   },
+   {
+      "type": "buttons",
+      "name": "Buttons",
+      "settings": [
+        { "type": "select", "id": "alignment", "label": "Alignment", "default": "center", "options": [ { "value": "flex-start", "label": "Left" }, { "value": "center", "label": "Center" } ] },
+        { "type": "text", "id": "btn_1_text", "label": "Button 1 Text", "default": "Action 1" },
+        { "type": "url", "id": "btn_1_link", "label": "Link 1" },
+        { "type": "color", "id": "btn_1_bg", "label": "BG 1", "default": "#000000" },
+        { "type": "color", "id": "btn_1_text_col", "label": "Text 1", "default": "#ffffff" },
+        { "type": "text", "id": "btn_2_text", "label": "Button 2 Text", "default": "Action 2" },
+        { "type": "url", "id": "btn_2_link", "label": "Link 2" },
+        { "type": "color", "id": "btn_2_bg", "label": "BG 2", "default": "#ffffff" },
+        { "type": "color", "id": "btn_2_text_col", "label": "Text 2", "default": "#000000" }
+      ]
+    },
+   {
+     "type": "stat_card",
+     "name": "Stat Card",
+     "settings": [
+       { "type": "inline_richtext", "id": "stat_label", "label": "Stat Label", "default": "0" },
+       { "type": "richtext", "id": "stat_body", "label": "Stat Body Text", "default": "<p>Stat body text here.</p>" }
+      ]
+   }
+ ],
+ "presets": [
+   { 
+     "name": "OD Modular Card Stack", 
+     "blocks": [
+       { "type": "heading" },
+       { "type": "body_text" },
+       { "type": "stat_card" },
+       { "type": "stat_card" },
+       { "type": "stat_card" }     
+      ] 
+   }
+ ]
+}
+{% endschema %}

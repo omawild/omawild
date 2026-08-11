@@ -1,0 +1,74 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "narrow": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "notice_board_z8qneV": {
+      "type": "od-notice-board",
+      "blocks": {
+        "notice_box_dtWJL3": {
+          "type": "notice_box",
+          "settings": {
+            "card_padding_vertical": 34,
+            "card_padding_horizontal": 34,
+            "card_padding_vertical_mobile": 24,
+            "card_padding_horizontal_mobile": 20,
+            "content_alignment": "left",
+            "label_tag": "h3",
+            "section_label": "WHERE LIFE BEGINS",
+            "heading": "<h1>To be alive</h1>",
+            "content": "<p>If we’re lucky, we get 4,000 weeks on this planet. Yet most of us spend them on autopilot, moving through the motions in the rush of everyday life. And somewhere along the way, we lose ourselves to yesterday and tomorrow, forgetting the thrill of being alive.</p><p>And sometimes, all it takes is a moment that brings our attention back to ourselves. In moments of discomfort, uncertainty, and humility. They are often found in the adventures that force us to reckon with the moment and go all in, reminding us what it feels like to be alive.</p><p>The real invitation is to carry that into the ordinary moments that ask nothing of us except our full attention. Into the quiet space between what we do and what we notice. Into the simple miracle that we are here, now.</p><p>And when we remember our lives are but a flicker against the vastness of the universe, we stop measuring life by what we accumulate and begin measuring it by how deeply we experience it.</p>",
+            "label_size": 13,
+            "heading_size": 40,
+            "text_size": 16,
+            "heading_line_height": 1.1,
+            "body_line_height": 1.4,
+            "body_line_height_mobile": 1.3,
+            "heading_to_body_gap": 20,
+            "label_color": "#666666",
+            "heading_color": "#161616",
+            "emphasis_color": "#b231c6",
+            "text_color": "#333333",
+            "image_width": 200,
+            "image_aspect_ratio": "1 / 1",
+            "image_fit": "cover",
+            "image_radius": 0,
+            "image_margin_top": 20,
+            "card_background": "#ffffff",
+            "card_border_color": "#e5e5e5",
+            "card_border_width": 1,
+            "card_border_radius": 2
+          }
+        }
+      },
+      "block_order": [
+        "notice_box_dtWJL3"
+      ],
+      "name": "Notice Board",
+      "settings": {
+        "image": "shopify://shop_images/ultrarunnermock.png",
+        "background_color": "#ffffff",
+        "colors_overlay_opacity": 30,
+        "colors_overlay": "#000000",
+        "image_ratio": "400",
+        "image_ratio_mobile": "500",
+        "max_width": 800,
+        "side_padding": 20,
+        "inner_padding_top": 60,
+        "inner_padding_bottom": 60,
+        "inner_padding_top_mobile": 20,
+        "inner_padding_bottom_mobile": 20
+      }
+    }
+  },
+  "order": [
+    "main",
+    "notice_board_z8qneV"
+  ]
+}

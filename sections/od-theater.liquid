@@ -1,0 +1,952 @@
+<div class="movie-theater-container" data-movie-container>
+  {% if section.blocks.size == 0 %}
+    <div class="movie-theater-empty">
+      <p>Add chapters in the sidebar to start creating your movie.</p>
+    </div>
+  {% endif %}
+
+  {% for block in section.blocks %}
+    <div class="movie-theater-slide-wrapper" data-narrative-chapter-slide style="width: 100%; height: 100%; flex-shrink: 0;">
+      {% case block.type %}
+        {% when 'chapter_open' %}
+          {% render 'chapter-open', block: block %}
+        {% when 'chapter_pledge' %}
+          {% render 'chapter-pledge', block: block %}
+        {% when 'chapter_map' %}
+          {% render 'chapter-map', block: block %}
+        {% when 'chapter_offerings' %}
+          {% render 'chapter-offerings', block: block %}
+        {% when 'chapter_info' %}
+          {% render 'chapter-info', block: block %}
+      {% endcase %}
+    </div>
+  {% endfor %}
+</div>
+
+{% style %}
+  .movie-theater-container {
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    background-color: {{ section.settings.theater_bg_color }};
+  }
+  .movie-theater-slide-wrapper {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+  .movie-theater-container::-webkit-scrollbar {
+    display: none;
+  }
+  .movie-theater-container {
+    -ms-overflow-style: none;  
+    scrollbar-width: none;  
+  }
+  .movie-theater-empty {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888888;
+    font-family: sans-serif;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+{% endstyle %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.querySelector('[data-movie-container]');
+    if (!container) return;
+
+    const getChapters = () => Array.from(container.querySelectorAll('[data-narrative-chapter-slide]'));
+
+    // Global background tap click action handler logic
+    container.addEventListener('click', (e) => {
+      const currentSlide = e.target.closest('[data-narrative-chapter-slide]');
+      if (!currentSlide) return;
+
+      const chapters = getChapters();
+      const currentSlideIndex = chapters.indexOf(currentSlide);
+
+      if (currentSlideIndex !== -1 && currentSlideIndex < chapters.length - 1) {
+        container.scrollTo({ 
+          top: (currentSlideIndex + 1) * container.clientHeight, 
+          behavior: 'smooth' 
+        });
+      }
+    });
+
+    // Arrow Key listener metrics control logic mapping matrix
+    window.addEventListener('keydown', (e) => {
+      const currentIndex = Math.round(container.scrollTop / container.clientHeight);
+      const chaptersCount = getChapters().length;
+      
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (currentIndex < chaptersCount - 1) {
+          container.scrollTo({ top: (currentIndex + 1) * container.clientHeight, behavior: 'smooth' });
+        }
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (currentIndex > 0) {
+          container.scrollTo({ top: (currentIndex - 1) * container.clientHeight, behavior: 'smooth' });
+        }
+      }
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "OD Cinematic Narrative",
+  "settings": [
+    {
+      "type": "color",
+      "id": "theater_bg_color",
+      "label": "Theater Default Background",
+      "default": "#ffffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "chapter_open",
+      "name": "Chapter Open",
+      "settings": [
+        { "type": "text", "id": "eyebrow_text", "label": "Eyebrow text", "default": "Outdoor provisions" },
+        { "type": "text", "id": "heading_prefix", "label": "Heading prefix", "default": "Every " },
+        { "type": "textarea", "id": "cycling_words", "label": "Cycling headling (Comma separated)", "default": "individual,team,organisation,generation" },
+        { "type": "text", "id": "heading_suffix", "label": "Heading suffix", "default": "shapes the future." },
+        { "type": "textarea", "id": "subtitle_text", "label": "Subtitle", "default": "The future isn't shaped by a single decision" },
+        { "type": "text", "id": "button_text", "label": "Button text", "default": "Begin" },
+        { "type": "checkbox", "id": "show_start_cue", "label": "Show start cue", "default": true },
+        { "type": "text", "id": "start_cue_text", "label": "Start cue", "default": "Tap anywhere, or use ← → keys" },
+        { "type": "range", "id": "content_max_width", "label": "Max width", "min": 600, "max": 1400, "step": 100, "default": 1000 },
+        { "type": "color", "id": "background_color", "label": "Background", "default": "#ffffff" },
+        { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#666666" },
+        { "type": "color", "id": "heading_color", "label": "Heading color", "default": "#000000" },
+        { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#ff551d" },
+        { "type": "color", "id": "subtitle_color", "label": "Subtitle color", "default": "#333333" },
+        { "type": "color", "id": "button_color", "label": "Button background", "default": "#000000" },
+        { "type": "color", "id": "button_hover_color", "label": "Button hover", "default": "#333333" },
+        { "type": "color", "id": "button_text_color", "label": "Button text color", "default": "#ffffff" },
+        { "type": "range", "id": "eyebrow_size", "label": "Eyebrow size", "min": 10, "max": 24, "default": 14 },
+        { "type": "range", "id": "heading_size", "label": "Heading size", "min": 30, "max": 120, "default": 60 },
+        { "type": "range", "id": "subtitle_size", "label": "Subtitle size", "min": 14, "max": 28, "default": 18 },
+        { "type": "range", "id": "button_size", "label": "Button size", "min": 12, "max": 24, "default": 16 },
+        { "type": "range", "id": "button_border_radius", "label": "Button radius", "min": 0, "max": 40, "default": 4 }
+      ]
+    },
+    {
+      "type": "chapter_pledge",
+      "name": "Chapter Two (Pledge Calc)",
+      "settings": [
+        { "type": "header", "content": "Global Layout Settings" },
+        { "type": "color", "id": "background_color", "label": "Slide Background Color", "default": "#333333" },
+        { "type": "range", "id": "content_max_width", "label": "Content Container Max Width", "min": 800, "max": 1600, "step": 50, "default": 1200 },
+        
+        { "type": "header", "content": "Content" },
+        { "type": "text", "id": "chapter_text", "label": "Chapter label", "default": "Chapter 04 — The Pledge" },
+        { "type": "text", "id": "percentage_text", "label": "Big stat highlight", "default": "1%" },
+        { "type": "inline_richtext", "id": "heading", "label": "Headline text", "default": "Give back to our home planet." },
+        { "type": "richtext", "id": "description", "label": "Description body", "default": "<p>We commit to donating 1% of our annual sales to environmental causes.</p>" },
+        
+        { "type": "header", "content": "Pledge Colours" },
+        { "type": "color", "id": "chapter_color", "label": "Chapter text color", "default": "#a8a8a8" },
+        { "type": "color", "id": "percentage_color", "label": "Stat color", "default": "#f0a92b" },
+        { "type": "color_background", "id": "percentage_gradient", "label": "Stat color (Gradient mask fallback)" },
+        { "type": "color", "id": "heading_color", "label": "Headline color", "default": "#ffffff" },
+        { "type": "color", "id": "description_color", "label": "Description color", "default": "#e0e0e0" },
+
+        { "type": "header", "content": "Pledge Sizing" },
+        { "type": "range", "id": "chapter_font_size", "label": "Chapter text size", "min": 12, "max": 24, "default": 14 },
+        { "type": "range", "id": "percentage_font_size", "label": "Stat size", "min": 40, "max": 180, "step": 5, "default": 120 },
+        { "type": "range", "id": "heading_font_size", "label": "Headline size", "min": 20, "max": 80, "default": 42 },
+        { "type": "range", "id": "description_font_size", "label": "Description size", "min": 12, "max": 24, "default": 16 },
+        
+        { "type": "header", "content": "Pledge Location" },
+        { "type": "checkbox", "id": "show_badge", "label": "Display Badge", "default": true },
+        { "type": "text", "id": "badge_text", "label": "Rotating Text", "default": "· 1% FOR THE PLANET · 1% FOR THE PLANET " },
+        { "type": "text", "id": "badge_center_text", "label": "Central Text", "default": "1%" },
+        { "type": "range", "id": "badge_size", "label": "Scale", "min": 80, "max": 220, "step": 10, "default": 130 },
+        { "type": "range", "id": "badge_center_size", "label": "Central Font Size", "min": 12, "max": 40, "default": 24 },
+        { "type": "range", "id": "badge_top_position", "label": "Y Offset", "min": -100, "max": 200, "step": 5, "default": -20 },
+        { "type": "range", "id": "badge_right_position", "label": "X Offset", "min": -100, "max": 200, "step": 5, "default": -20 },
+        { "type": "range", "id": "badge_rotation_speed", "label": "Spin Velocity", "min": 5, "max": 40, "step": 5, "default": 30 },
+        { "type": "color", "id": "badge_text_color", "label": "Rotating Text Color", "default": "#f3ead9" },
+        { "type": "color", "id": "badge_center_color", "label": "Central Text Color", "default": "#ffffff" },
+        { "type": "checkbox", "id": "enable_pause_on_hover", "label": "Mouseover Pause", "default": true },
+
+        { "type": "header", "content": "Calculator" },
+        { "type": "text", "id": "calculator_label", "label": "Title callout label", "default": "How do you take your mornings?" },
+        { "type": "text", "id": "cups_label", "label": "Metrics dynamic label counter", "default": "cups a week" },
+        { "type": "text", "id": "output_text", "label": "Calculation explanation metrics description", "default": "mornings a year — and 1% of every one, returned to the planet." },
+        { "type": "text", "id": "slider_aria_label", "label": "Accessibility slider label override", "default": "Cups per week counter" },
+
+        { "type": "header", "content": "Calculator Styling" },
+        { "type": "range", "id": "default_cups", "label": "Initial slider value", "min": 1, "max": 21, "default": 14 },
+        { "type": "color", "id": "calculator_bg_color", "label": "Card background", "default": "#262626" },
+        { "type": "color", "id": "calculator_text_color", "label": "Card text color", "default": "#ffffff" },
+        { "type": "color", "id": "calculator_highlight_color", "label": "Card focus metric accent", "default": "#f0a92b" },
+        { "type": "range", "id": "calculator_padding", "label": "Internal structural container gutters buffer", "min": 10, "max": 80, "step": 5, "default": 40 },
+        { "type": "range", "id": "calculator_border_radius", "label": "Card border radius", "min": 0, "max": 40, "default": 16 },
+        { "type": "range", "id": "calculator_label_size", "label": "Header size", "min": 12, "max": 32, "default": 20 },
+        { "type": "range", "id": "calculator_qty_size", "label": "Sliding current dynamic focus state value", "min": 12, "max": 32, "default": 18 },
+        { "type": "range", "id": "calculator_output_size", "label": "Computed textual output descriptions summary", "min": 12, "max": 32, "default": 16 },
+        { "type": "range", "id": "calculator_big_number_size", "label": "Aggregated metric size", "min": 24, "max": 80, "default": 48 },
+        
+        { "type": "header", "content": "Calculator Node Glyphs Matrix Styling Settings" },
+        { "type": "range", "id": "cup_size", "label": "Node array scale dimension boundaries", "min": 8, "max": 40, "default": 16 },
+        { "type": "color", "id": "cup_filled_color", "label": "Filled active node state matrix background highlight", "default": "#f0a92b" },
+        { "type": "color", "id": "cup_empty_color", "label": "Inactive background spacer baseline elements state fill", "default": "#404040" },
+        
+        { "type": "header", "content": "Native Slider Range Control Style Mapping" },
+        { "type": "color", "id": "slider_track_color", "label": "Slider stroke color", "default": "#404040" },
+        { "type": "color", "id": "slider_thumb_color", "label": "Slider cursor accent", "default": "#f0a92b" }
+      ]
+    },
+    {
+    "type": "chapter_map",
+    "name": "Chapter Three (Map)",
+    "settings": [
+      { "type": "header", "content": "Global Layout" },
+      { "type": "color", "id": "background_color", "label": "Background Color", "default": "#1a1a1a" },
+      { "type": "range", "id": "content_max_width", "label": "Content Container Width", "min": 800, "max": 1600, "step": 50, "default": 1200 },
+      
+      { "type": "header", "content": "Right Column Styles" },
+      { "type": "inline_richtext", "id": "heading", "label": "Title", "default": "An expedition, a season of change" },
+      { "type": "richtext", "id": "description", "label": "Description", "default": "<p>Our journey began in the highlands of Indonesia, where we discovered not just exceptional coffee, but a community dedicated to preserving their land and traditions.</p>" },
+      { "type": "range", "id": "heading_font_size", "label": "Title Size", "min": 24, "max": 80, "step": 2, "default": 42 },
+      { "type": "range", "id": "description_font_size", "label": "Description Size", "min": 14, "max": 24, "step": 1, "default": 16 },
+      { "type": "color", "id": "heading_color", "label": "Title Color", "default": "#ffffff" },
+      { "type": "color", "id": "description_color", "label": "Description Color", "default": "#b3b3b3" },
+
+      { "type": "header", "content": "Left Column Media" },
+      { "type": "image_picker", "id": "main_image", "label": "Base Map" },
+      { "type": "range", "id": "image_border_radius", "label": "Base Map Corner", "min": 0, "max": 40, "step": 4, "default": 12 },
+      { "type": "range", "id": "pin_size", "label": "Pin Vector Interaction Blueprint Scale", "min": 16, "max": 40, "step": 2, "default": 20 },
+
+      { "type": "header", "content": "Modal Card Box Styles" },
+      { "type": "range", "id": "modal_width_limit", "label": "Modal Max Width", "min": 350, "max": 800, "step": 50, "default": 450 },
+      { "type": "color", "id": "modal_background", "label": "Card Background", "default": "#262626" },
+      { "type": "color", "id": "modal_text_main", "label": "Card Headline Color", "default": "#ffffff" },
+      { "type": "color", "id": "modal_text_sub", "label": "Card Dynamic Color", "default": "#cccccc" },
+
+      { "type": "header", "content": "Pin 1" },
+      { "type": "checkbox", "id": "enable_pin_1", "label": "Show Hotspot Pin", "default": true },
+      { "type": "range", "id": "pin_coord_x_1", "label": "X Coordinate", "min": 0, "max": 100, "step": 1, "default": 45 },
+      { "type": "range", "id": "pin_coord_y_1", "label": "Y Coordinate", "min": 0, "max": 100, "step": 1, "default": 60 },
+      { "type": "color", "id": "pin_tint_1", "label": "Hotspot Color", "default": "#2fae74" },
+      { "type": "image_picker", "id": "pin_image_1", "label": "Modal Image Picker" },
+      { "type": "text", "id": "pin_title_1", "label": "Modal Headline", "default": "Garut · West Java" },
+      { "type": "textarea", "id": "pin_description_1", "label": "Modal Description", "default": "The conservation work that kept calling us back to Indonesia — and the reserves our coffee now comes from." },
+
+      { "type": "header", "content": "Pin 2" },
+      { "type": "checkbox", "id": "enable_pin_2", "label": "Show Hotspot Pin", "default": false },
+      { "type": "range", "id": "pin_coord_x_2", "label": "X Coordinate", "min": 0, "max": 100, "step": 1, "default": 20 },
+      { "type": "range", "id": "pin_coord_y_2", "label": "Y Coordinate", "min": 0, "max": 100, "step": 1, "default": 30 },
+      { "type": "color", "id": "pin_tint_2", "label": "Hotspot Color", "default": "#2fae74" },
+      { "type": "image_picker", "id": "pin_image_2", "label": "Modal Image Picker" },
+      { "type": "text", "id": "pin_title_2", "label": "Modal Headline" },
+      { "type": "textarea", "id": "pin_description_2", "label": "Modal Description" },
+
+      { "type": "header", "content": "Pin 3" },
+      { "type": "checkbox", "id": "enable_pin_3", "label": "Show Hotspot Pin", "default": false },
+      { "type": "range", "id": "pin_coord_x_3", "label": "X Coordinate", "min": 0, "max": 100, "step": 1, "default": 75 },
+      { "type": "range", "id": "pin_coord_y_3", "label": "Y Coordinate", "min": 0, "max": 100, "step": 1, "default": 40 },
+      { "type": "color", "id": "pin_tint_3", "label": "Hotspot Color", "default": "#2fae74" },
+      { "type": "image_picker", "id": "pin_image_3", "label": "Modal Image Picker" },
+      { "type": "text", "id": "pin_title_3", "label": "Modal Headline" },
+      { "type": "textarea", "id": "pin_description_3", "label": "Modal Description" }
+    ]
+  },
+  
+  {
+  "type": "chapter_offerings",
+  "name": "Chapter Four (Product)",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "text",
+      "id": "chapter_text",
+      "label": "Chapter text",
+      "default": "Chapter 04 — Dynamic Collection"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Adventures start with coffee."
+    },
+    {
+      "type": "range",
+      "id": "chapter_font_size",
+      "label": "Chapter font size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "label": "Title font size",
+      "min": 24,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "header",
+      "content": "Global Card Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show product price",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Product Slot 1"
+    },
+    {
+      "type": "product",
+      "id": "product_1",
+      "label": "Select Product 1"
+    },
+    {
+      "type": "text",
+      "id": "product_1_tab_label",
+      "label": "Tab Label",
+    },
+    {
+      "type": "text",
+      "id": "product_1_type",
+      "label": "Small Badge Label",
+    },
+    {
+      "type": "text",
+      "id": "product_1_origin",
+      "label": "Subtext (Origin/Region)",
+      "default": "Garut, West Java • Indonesia"
+    },
+    {
+      "type": "textarea",
+      "id": "product_1_note",
+      "label": "Description",
+      "default": "A delicate, tea-like body with vibrant floral aromas of jasmine and fresh citrus. Features clean notes of bergamot and honeyed sweetness on the finish."
+    },
+    {
+      "type": "text",
+      "id": "product_1_tags",
+      "label": "Tags",
+      "default": "POUR-OVER • COLD BREW • NITRO"
+    },
+    {
+      "type": "header",
+      "content": "Product Slot 2"
+    },
+    {
+      "type": "product",
+      "id": "product_2",
+      "label": "Select Product 2"
+    },
+    {
+      "type": "text",
+      "id": "product_2_tab_label",
+      "label": "Tab Label",
+    },
+    {
+      "type": "text",
+      "id": "product_2_type",
+      "label": "Small Badge Label",
+    },
+    {
+      "type": "text",
+      "id": "product_2_origin",
+      "label": "Subtext (Origin/Region)",
+    },
+    {
+      "type": "textarea",
+      "id": "product_2_note",
+      "label": "Description",
+    },
+    {
+      "type": "text",
+      "id": "product_2_tags",
+      "label": "Tags",
+    },
+    {
+      "type": "header",
+      "content": "Product Slot 3"
+    },
+    {
+      "type": "product",
+      "id": "product_3",
+      "label": "Select Product 3"
+    },
+    {
+      "type": "text",
+      "id": "product_3_tab_label",
+      "label": "Tab Label",
+    },
+    {
+      "type": "text",
+      "id": "product_3_type",
+      "label": "Small Badge Label",
+    },
+    {
+      "type": "text",
+      "id": "product_3_origin",
+      "label": "Subtext (Origin/Region)",
+    },
+    {
+      "type": "textarea",
+      "id": "product_3_note",
+      "label": "Description",
+    },
+    {
+      "type": "text",
+      "id": "product_3_tags",
+      "label": "Tags",
+    },
+    {
+      "type": "header",
+      "content": "Image Layout & Styling"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image ratio",
+      "options": [
+        { "value": "square", "label": "Square (1:1)" },
+        { "value": "portrait", "label": "Portrait (3:4)" },
+        { "value": "landscape", "label": "Landscape (4:3)" },
+        { "value": "wide", "label": "Wide (16:9)" }
+      ],
+      "default": "square"
+    },
+    {
+      "type": "range",
+      "id": "image_scale",
+      "label": "Image width",
+      "min": 20,
+      "max": 50,
+      "step": 5,
+      "unit": "%",
+      "default": 35
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Image border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "image_bg_color",
+      "label": "Image background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Card Layout"
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "label": "Padding",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "card_border_width",
+      "label": "Border width",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Border",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "header",
+      "content": "Sizing & Spacing"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Maximum width",
+      "min": 800,
+      "max": 1600,
+      "step": 100,
+      "unit": "px",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "checkbox",
+      "id": "center_layout",
+      "label": "Center layout",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "label": "Top and bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "desktop_side_padding",
+      "label": "Side Padding (Desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "mobile_side_padding",
+      "label": "Side Padding (Mobile)",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#a23a5b"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider",
+      "default": "#d2d5d9"
+    },
+    {
+      "type": "header",
+      "content": "Tabs Styling"
+    },
+    {
+      "type": "range",
+      "id": "tab_font_size",
+      "label": "Font size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "tab_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "tab_border_color",
+      "label": "Border",
+      "default": "#d2d5d9"
+    },
+    {
+      "type": "color",
+      "id": "tab_hover_bg",
+      "label": "Hover background",
+      "default": "#f3f3f3"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_text_color",
+      "label": "Active text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Font Sizes"
+    },
+    {
+      "type": "range",
+      "id": "type_font_size",
+      "label": "Badge font size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "tag_border_radius",
+      "label": "Badge Border Radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "product_name_size",
+      "label": "Product Title",
+      "min": 16,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "detail_font_size",
+      "label": "Description",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "tags_font_size",
+      "label": "Tags",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    }
+  ]
+},
+
+{
+  "type": "chapter_info",
+  "name": "Chapter Info",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content Maximum Width",
+      "min": 400,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "default": 800
+    },
+    {
+      "type": "header",
+      "content": "Eyebrow (Chapter Label)"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow Text",
+      "default": "Chapter 01 — The Awakening"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size",
+      "label": "Eyebrow Font Size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#a23a5b"
+    },
+    {
+      "type": "header",
+      "content": "Heading Settings"
+    },
+    {
+      "type": "text",
+      "id": "heading_prefix",
+      "label": "Heading Prefix",
+      "default": "We brew with"
+    },
+    {
+      "type": "text",
+      "id": "cycling_words",
+      "label": "Cycling Words (Comma Separated)",
+      "default": "passion, precision, purpose"
+    },
+    {
+      "type": "text",
+      "id": "heading_suffix",
+      "label": "Heading Suffix",
+      "default": "every single morning."
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading Font Size",
+      "min": 24,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 54
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Cycling Accent Color",
+      "default": "#a23a5b"
+    },
+    {
+      "type": "header",
+      "content": "Subtitle Settings"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle_text",
+      "label": "Subtitle Text",
+      "default": "Every bean tells a unique narrative of soil, elevation, and dedicated hands. Our cinematic approach captures that journey step-by-step to redefine your ritual."
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Subtitle Font Size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle Color",
+      "default": "#4a4a4a"
+    },
+    {
+      "type": "header",
+      "content": "Button 1 Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_button_1",
+      "label": "Show Button 1",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "button_1_text",
+      "label": "Button 1 Label",
+      "default": "Explore Blends"
+    },
+    {
+      "type": "url",
+      "id": "button_1_link",
+      "label": "Button 1 Link"
+    },
+    {
+      "type": "header",
+      "content": "Button 2 Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_button_2",
+      "label": "Show Button 2",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "button_2_text",
+      "label": "Button 2 Label",
+      "default": "Our Story"
+    },
+    {
+      "type": "url",
+      "id": "button_2_link",
+      "label": "Button 2 Link"
+    },
+    {
+      "type": "header",
+      "content": "Global Button Design"
+    },
+    {
+      "type": "range",
+      "id": "button_size",
+      "label": "Button Font Size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Button Border Radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Primary Button Background",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Primary Button Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Primary Button Hover Background",
+      "default": "#a23a5b"
+    },
+    {
+      "type": "header",
+      "content": "Footer Interaction Cue"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_start_cue",
+      "label": "Show Interaction Cue",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "start_cue_text",
+      "label": "Interaction Cue Text",
+      "default": "Scroll Down to Begin"
+    },
+    {
+      "type": "header",
+      "content": "Section Frame Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Global Section Background",
+      "default": "#ffffff"
+    }
+  ]
+}
+
+
+  ],
+  "presets": [
+    {
+      "name": "OD Cinematic Narrative",
+      "blocks": [
+        { "type": "chapter_open" },
+        { "type": "chapter_pledge" },
+        { "type": "chapter_map" },
+        { "type": "chapter_offerings" },
+        { "type": "chapter_info" }
+      ]
+    }
+  ]
+}
+{% endschema %}

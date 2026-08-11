@@ -1,0 +1,293 @@
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --banner-height: {{ section.settings.image_ratio }};
+    --content-buffer-top: {{ section.settings.inner_padding_top }}px;
+    --content-buffer-bottom: {{ section.settings.inner_padding_bottom }}px;
+    --content-buffer-side: {{ section.settings.side_padding }}px;
+    --color-overlay-opacity: {{ section.settings.colors_overlay_opacity | divided_by: 100.0 }};
+    --color-overlay: {{ section.settings.colors_overlay.red }}, {{ section.settings.colors_overlay.green }}, {{ section.settings.colors_overlay.blue }};
+    --fixed-card-width: {{ section.settings.max_width }}px;
+  }
+
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} {
+      --banner-height: {{ section.settings.image_ratio_mobile }};
+      --fixed-card-width: 100%; 
+    }
+  }
+
+  #Banner-{{ section.id }}.banner {
+    height: var(--banner-height);
+    min-height: var(--banner-height);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: {{ section.settings.background_color | default: 'transparent' }};
+  }
+
+  #Banner-{{ section.id }} .banner__media {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+  }
+
+  #Banner-{{ section.id }} .image-fit {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  #Banner-{{ section.id }} .banner__media::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(var(--color-overlay), var(--color-overlay-opacity));
+    z-index: 2;
+  }
+
+  #Banner-{{ section.id }} .banner__content {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    position: relative;
+  }
+
+  #Banner-{{ section.id }} .banner__box {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  #Banner-{{ section.id }} .modular-page-container {
+    max-height: 100%;
+    overflow-y: auto;
+    padding-top: var(--content-buffer-top);
+    padding-bottom: var(--content-buffer-bottom);
+    padding-left: var(--content-buffer-side);
+    padding-right: var(--content-buffer-side);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  #Banner-{{ section.id }} .modular-page-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .raw-heading, .raw-body-text {
+    margin: 0;
+    width: 100%;
+    word-break: break-word;
+  }
+
+  .modular-block-wrapper {
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: var(--fixed-card-width);
+    flex-shrink: 0;
+  }
+
+  /* BRAND HYPERLINK LOGIC
+     Forces #FF7E00 orange and bold styling across all RTE elements in this section
+  */
+  #Banner-{{ section.id }} .rte a,
+  #Banner-{{ section.id }} .rte a span,
+  #Banner-{{ section.id }} .rte a strong {
+    color: #FF7E00 !important;
+    text-decoration: underline !important;
+    text-underline-offset: 4px;
+    font-weight: 600 !important;
+    opacity: 1 !important;
+    transition: opacity 0.3s ease;
+  }
+  #Banner-{{ section.id }} .rte a:hover {
+    opacity: 0.7 !important;
+  }
+{%- endstyle -%}
+
+<div id="Banner-{{ section.id }}" class="banner">
+  {%- if section.settings.image != blank -%}
+    <div class="banner__media">
+      {{ section.settings.image | image_url: width: 3840 | image_tag: loading: 'lazy', class: 'image-fit' }}
+    </div>
+  {%- endif -%}
+
+  <div class="banner__content">
+    <div class="banner__box">
+      <div class="modular-page-container">
+        {%- for block in section.blocks -%}
+          <div class="modular-block-wrapper" id="Block-{{ block.id }}" {{ block.shopify_attributes }}>
+            {%- case block.type -%}
+              {%- when 'heading' -%}
+                {%- assign h_tag = block.settings.heading_tag | default: 'h2' -%}
+                <{{ h_tag }} class="raw-heading heading-{{ block.id }}" style="color: {{ block.settings.color }}; text-align: {{ block.settings.alignment }}; line-height: {{ block.settings.line_height }};">
+                  {{ block.settings.heading_text }}
+                </{{ h_tag }}>
+                <style>
+                  .heading-{{ block.id }} { font-size: {{ block.settings.size }}px !important; margin-bottom: {{ block.settings.margin_bottom }}px !important; }
+                  @media screen and (max-width: 749px) {
+                    .heading-{{ block.id }} { 
+                      font-size: clamp(24px, 5vw + 10px, {{ block.settings.size }}px) !important; 
+                      margin-bottom: {{ block.settings.margin_bottom | divided_by: 2 }}px !important; 
+                    }
+                  }
+                </style>
+
+              {%- when 'text' -%}
+                <div class="raw-body-text rte text-{{ block.id }}" style="color: {{ block.settings.color }}; text-align: {{ block.settings.alignment }};">
+                  {{ block.settings.body_content }}
+                </div>
+                <style>
+                  .text-{{ block.id }} { margin-bottom: {{ block.settings.margin_bottom }}px !important; }
+                  .text-{{ block.id }} p, 
+                  .text-{{ block.id }} li,
+                  .text-{{ block.id }} span { 
+                    font-size: {{ block.settings.size }}px !important; 
+                    line-height: {{ block.settings.line_height }} !important; 
+                    margin: 0 !important;
+                  }
+                  @media screen and (max-width: 749px) {
+                    .text-{{ block.id }} p,
+                    .text-{{ block.id }} li,
+                    .text-{{ block.id }} span { 
+                       font-size: clamp(15px, 1vw + 10px, {{ block.settings.size }}px) !important; 
+                    }
+                  }
+                </style>
+
+              {%- when 'notice_box' -%}
+                <div class="notice-box-card-{{ block.id }} notice-box-card">
+                  {%- if block.settings.section_label != blank -%}
+                    <{{ block.settings.label_tag }} class="notice-label">{{ block.settings.section_label }}</{{ block.settings.label_tag }}>
+                  {%- endif -%}
+                  {%- if block.settings.heading != blank -%}<div class="notice-heading">{{ block.settings.heading }}</div>{%- endif -%}
+                  {%- if block.settings.content != blank -%}<div class="notice-body rte">{{ block.settings.content }}</div>{%- endif -%}
+                </div>
+                <style>
+                  .notice-box-card-{{ block.id }} {
+                    background: {{ block.settings.card_background }};
+                    border: {{ block.settings.card_border_width }}px solid {{ block.settings.card_border_color }};
+                    border-radius: {{ block.settings.card_border_radius }}px;
+                    padding: {{ block.settings.card_padding_vertical }}px {{ block.settings.card_padding_horizontal }}px;
+                    text-align: {{ block.settings.content_alignment }};
+                  }
+                  .notice-box-card-{{ block.id }} .notice-label { font-size: {{ block.settings.label_size }}px; color: {{ block.settings.label_color }}; margin-bottom: {{ block.settings.label_margin_bottom }}px; display: block; }
+                  .notice-box-card-{{ block.id }} .notice-heading * { font-size: {{ block.settings.heading_size }}px; line-height: {{ block.settings.heading_line_height }}; color: {{ block.settings.heading_color }}; margin-bottom: {{ block.settings.heading_to_body_gap }}px; margin-top: 0; }
+                  .notice-box-card-{{ block.id }} .notice-heading strong { color: {{ block.settings.emphasis_color }}; }
+                  .notice-box-card-{{ block.id }} .notice-body,
+                  .notice-box-card-{{ block.id }} .notice-body p,
+                  .notice-box-card-{{ block.id }} .notice-body span { 
+                    font-size: {{ block.settings.text_size }}px; 
+                    line-height: {{ block.settings.body_line_height }}; 
+                    color: {{ block.settings.text_color }}; 
+                  }
+                </style>
+            {%- endcase -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "OD Scroll Board",
+  "tag": "section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Desktop Image" },
+    { "type": "color", "id": "background_color", "label": "Background Color", "default": "#ffffff" },
+    { "type": "select", "id": "image_ratio", "label": "Desktop Banner Height", "default": "650px", "options": [ { "label": "650px", "value": "650px" }, { "label": "800px", "value": "800px" }, { "label": "100vh", "value": "100vh" } ] },
+    { "type": "select", "id": "image_ratio_mobile", "label": "Mobile Banner Height", "default": "500px", "options": [ { "label": "400px", "value": "400px" }, { "label": "500px", "value": "500px" }, { "label": "600px", "value": "600px" }, { "label": "100vh", "value": "100vh" } ] },
+    { "type": "header", "content": "Global Layout" },
+    { "type": "range", "id": "max_width", "label": "Universal Card Width", "min": 300, "max": 1600, "step": 20, "unit": "px", "default": 1100 },
+    { "type": "header", "content": "Container Buffers" },
+    { "type": "range", "id": "inner_padding_top", "label": "Top Buffer", "min": 0, "max": 200, "step": 10, "unit": "px", "default": 60 },
+    { "type": "range", "id": "inner_padding_bottom", "label": "Bottom Buffer", "min": 0, "max": 200, "step": 10, "unit": "px", "default": 60 },
+    { "type": "range", "id": "side_padding", "label": "Universal Side Padding (Safety Zone)", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 10 },
+    { "type": "header", "content": "Overlay Styling" },
+    { "type": "range", "id": "colors_overlay_opacity", "label": "Overlay Opacity", "min": 0, "max": 100, "step": 4, "unit": "%", "default": 28 },
+    { "type": "color", "id": "colors_overlay", "label": "Overlay Color", "default": "#000000" }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        { "type": "inline_richtext", "id": "heading_text", "label": "Heading Text", "default": "Add a Heading" },
+        { "type": "select", "id": "heading_tag", "label": "Heading Tag", "default": "h2", "options": [ { "value": "h1", "label": "H1" }, { "value": "h2", "label": "H2" }, { "value": "h3", "label": "H3" }, { "value": "h4", "label": "H4" }, { "value": "h5", "label": "H5" } ] },
+        { "type": "range", "id": "size", "label": "Font Size", "min": 20, "max": 120, "step": 2, "unit": "px", "default": 48 },
+        { "type": "range", "id": "line_height", "label": "Line Height", "min": 0.8, "max": 1.6, "step": 0.1, "default": 1.1 },
+        { "type": "color", "id": "color", "label": "Text Color", "default": "#000000" },
+        { "type": "select", "id": "alignment", "label": "Alignment", "default": "center", "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "right", "label": "Right" } ] },
+        { "type": "range", "id": "margin_bottom", "label": "Bottom Margin", "min": 0, "max": 100, "step": 5, "unit": "px", "default": 0 }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Body Text",
+      "settings": [
+        { "type": "richtext", "id": "body_content", "label": "Body Content", "default": "<p>Share your story here.</p>" },
+        { "type": "range", "id": "size", "label": "Font Size", "min": 12, "max": 40, "step": 1, "unit": "px", "default": 16 },
+        { "type": "range", "id": "line_height", "label": "Line Height", "min": 1.0, "max": 2.4, "step": 0.1, "default": 1.4 },
+        { "type": "color", "id": "color", "label": "Text Color", "default": "#333333" },
+        { "type": "select", "id": "alignment", "label": "Alignment", "default": "left", "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "right", "label": "Right" } ] },
+        { "type": "range", "id": "margin_bottom", "label": "Bottom Margin", "min": 0, "max": 100, "step": 5, "unit": "px", "default": 0 }
+      ]
+    },
+    {
+      "type": "notice_box",
+      "name": "Notice Box",
+      "settings": [
+        { "type": "header", "content": "Internal Padding (Air)" },
+        { "type": "range", "id": "card_padding_vertical", "label": "Vertical Air", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 30 },
+        { "type": "range", "id": "card_padding_horizontal", "label": "Horizontal Air", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 30 },
+        { "type": "select", "id": "content_alignment", "label": "Text Alignment", "default": "center", "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "right", "label": "Right" } ] },
+        { "type": "header", "content": "Section Label" },
+        { "type": "inline_richtext", "id": "section_label", "label": "Label Text", "default": "NOTICE" },
+        { "type": "select", "id": "label_tag", "label": "Label Tag", "default": "h3", "options": [ { "value": "h3", "label": "H3" }, { "value": "h4", "label": "H4" } ] },
+        { "type": "range", "id": "label_size", "label": "Label Size", "min": 10, "max": 24, "default": 12 },
+        { "type": "color", "id": "label_color", "label": "Label color", "default": "#666666" },
+        { "type": "range", "id": "label_margin_bottom", "label": "Label Bottom Margin", "min": 0, "max": 60, "default": 14 },
+        { "type": "header", "content": "Headings" },
+        { "type": "richtext", "id": "heading", "label": "Heading Text", "default": "<h2>Your Awesome Heading</h2>" },
+        { "type": "range", "id": "heading_size", "label": "Heading Size", "min": 20, "max": 120, "default": 44 },
+        { "type": "range", "id": "heading_line_height", "label": "Line Height", "min": 0.8, "max": 1.6, "step": 0.1, "default": 1.1 },
+        { "type": "range", "id": "heading_to_body_gap", "label": "Bottom Margin", "min": 0, "max": 80, "default": 20 },
+        { "type": "color", "id": "heading_color", "label": "Heading Color", "default": "#000000" },
+        { "type": "color", "id": "emphasis_color", "label": "Emphasis Color (Bold)", "default": "#B231C6" },
+        { "type": "header", "content": "Body Text" },
+        { "type": "richtext", "id": "content", "label": "Body Text", "default": "<p>Add your content here...</p>" },
+        { "type": "range", "id": "text_size", "label": "Font Size", "min": 12, "max": 40, "default": 15 },
+        { "type": "range", "id": "body_line_height", "label": "Line Height", "min": 1.0, "max": 2.4, "step": 0.1, "default": 1.4 },
+        { "type": "color", "id": "text_color", "label": "Text Color", "default": "#000000" },
+        { "type": "header", "content": "Card Visuals" },
+        { "type": "color", "id": "card_background", "label": "Card Background", "default": "rgba(255, 255, 255, 0.9)" },
+        { "type": "color", "id": "card_border_color", "label": "Border Color", "default": "#e5e5e5" },
+        { "type": "range", "id": "card_border_width", "label": "Border Width", "min": 0, "max": 10, "default": 1 },
+        { "type": "range", "id": "card_border_radius", "label": "Corner Radius", "min": 0, "max": 60, "default": 2 }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "OD Scroll Board", "blocks": [{ "type": "notice_box" }] }
+  ]
+}
+{% endschema %}
