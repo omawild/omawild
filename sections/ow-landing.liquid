@@ -244,7 +244,25 @@
                   <div class="product-name">{{ p_name }}</div>
                   <p class="product-desc paragraph">{{ p_desc }}</p>
                   {%- if prod != blank -%}
-                    <p class="product-price">{{ prod.price | money }}</p>
+                    {%- comment -%}
+                      prod.price is the lowest variant price. On a product whose
+                      variants differ in price that reads as a flat price, so
+                      say "From" instead of quietly understating it.
+                    {%- endcomment -%}
+                    {%- comment -%}
+                      Format the money value first. `t: price: prod.price | money`
+                      would apply money to the translated string rather than to
+                      the price — the same argument-parsing trap as the form tag
+                      above.
+                    {%- endcomment -%}
+                    {%- assign price_str = prod.price | money -%}
+                    <p class="product-price">
+                      {%- if prod.price_varies -%}
+                        {{ 'products.product.price.from_price_html' | t: price: price_str }}
+                      {%- else -%}
+                        {{ price_str }}
+                      {%- endif -%}
+                    </p>
                     {%- comment -%}
                       A plain {% form 'product' %} posts to /cart/add and lands
                       on the cart page. Be Yours' <product-form> custom element
@@ -260,15 +278,27 @@
                     {%- endcomment -%}
                     {%- assign product_form_id = 'ow-product-form-' | append: i -%}
                     {%- form 'product', prod, id: product_form_id, class: 'product-card-form' -%}
-                      <select class="product-dropdown" name="id">
-                        {%- for variant in prod.variants -%}
-                          <option value="{{ variant.id }}"
-                                  {% if variant == prod.selected_or_first_available_variant %}selected{% endif %}
-                                  {% unless variant.available %}disabled{% endunless %}>
-                            {{ variant.title }}
-                          </option>
-                        {%- endfor -%}
-                      </select>
+                      {%- comment -%}
+                        A single-variant product has one variant literally titled
+                        "Default Title". Rendering the dropdown regardless would
+                        show that string as if it were a size option, so the
+                        selector is only drawn when there is a real choice to
+                        make; otherwise the variant id goes in a hidden input so
+                        the form still posts.
+                      {%- endcomment -%}
+                      {%- if prod.has_only_default_variant -%}
+                        <input type="hidden" name="id" value="{{ prod.selected_or_first_available_variant.id }}">
+                      {%- else -%}
+                        <select class="product-dropdown" name="id" aria-label="{{ p_name | escape }} options">
+                          {%- for variant in prod.variants -%}
+                            <option value="{{ variant.id }}"
+                                    {% if variant == prod.selected_or_first_available_variant %}selected{% endif %}
+                                    {% unless variant.available %}disabled{% endunless %}>
+                              {{ variant.title }}
+                            </option>
+                          {%- endfor -%}
+                        </select>
+                      {%- endif -%}
                       <button class="product-atc" type="submit" {% unless prod.available %}disabled{% endunless %}>
                         {%- if prod.available -%}{{ block.settings.atc_label }}{%- else -%}{{ 'products.product.sold_out' | t }}{%- endif -%}
                       </button>
