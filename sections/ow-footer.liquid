@@ -74,10 +74,20 @@
       {%- assign menu = section.settings[menu_key] -%}
       {%- if menu != blank and menu.links.size > 0 -%}
         <div class="footer-nav-section">
-          <div class="footer-nav-section-head" onclick="toggleFooterNav(this)">
+          {%- comment -%}
+            A real <button>, not a div: it has to be reachable by keyboard and
+            announce its own state. type="button" keeps it from submitting the
+            newsletter form it shares a page with. aria-expanded is seeded
+            false and then corrected by ow-chrome.js, which owns the truth of
+            whether the links are actually visible at the current width.
+          {%- endcomment -%}
+          <button type="button"
+                  class="footer-nav-section-head"
+                  aria-expanded="false"
+                  onclick="toggleFooterNav(this)">
             {{ section.settings[title_key] | default: menu.title }}
             <img src="{{ 'ow-bullet.svg' | asset_url }}" alt="" width="16" height="16">
-          </div>
+          </button>
           <div class="footer-nav-links">
             {%- for link in menu.links -%}
               <a href="{{ link.url }}">{{ link.title }}</a>

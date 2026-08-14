@@ -97,3 +97,18 @@ button,a{cursor:pointer;font-family:var(--f);}
   .ann-marquee-track{animation:none;}
   .regen-ann,.fade-up{transition:none;opacity:1;transform:none;}
 }
+
+/* ════════════════════════════════
+   VENDOR OVERRIDES
+   Corrections to RoarTheme UI we do not own. Kept here, as overrides, so the
+   vendor files stay byte-identical for the next theme upgrade (rule 3).
+════════════════════════════════ */
+
+/* base.css sets .field__input{font-size:1.3rem} = 13px. iOS Safari zooms the
+   whole page whenever a focused input is under 16px and never zooms back out,
+   which strands mobile visitors on a zoomed, sideways-scrolling page. Our own
+   forms are already 16px; the newsletter popup is the one that is not.
+   Specificity 0,2,0 beats the vendor's 0,1,0 regardless of load order.
+   Declared in px, not rem, so it cannot be undone by a change to the 62.5%
+   root font-size the vendor scale depends on. */
+.popup__newsletter .field__input{font-size:16px;}

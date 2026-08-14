@@ -101,22 +101,38 @@
   display:flex;flex-direction:column;align-items:center;gap:12px;
   margin-bottom:32px;
 }
-/* Annotation card carousel (mobile) */
+/* Annotation card carousel — same behaviour at every width: whole cards only,
+   never a clipped sliver. The container is exactly the content box, with no
+   padding and no negative-margin bleed, because a scroll container's padding
+   does NOT clip its overflow — content scrolls straight through it and stays
+   visible. Any inset here would let the next card show through the gutter. */
 .regen-cards-mobile{
   overflow-x:auto;-webkit-overflow-scrolling:touch;
-  scrollbar-width:none;margin:0 -24px;
-  padding:0 24px;
+  scrollbar-width:none;
+  width:100%;
+  margin:0 auto;
 }
 .regen-cards-mobile::-webkit-scrollbar{display:none;}
 .regen-cards-track{
   display:flex;gap:12px;
-  width:max-content;padding-bottom:4px;
+  width:100%;padding-bottom:4px;
 }
+/* Trailing end-cap. The cards are sized to divide the row exactly (three at a
+   time on desktop), so six of them overflow to precisely two pages with the
+   last card landing flush against the scroll clip edge — and a real scroll
+   falls a hair short of the exact max pixel, clipping the last card's right
+   border. This invisible tail (the 12px gap plus this 12px spacer) means card 6
+   always stops short of the edge instead. Arrow paging targets card offsetLeft
+   and is unaffected. */
+.regen-cards-track::after{content:"";flex:0 0 12px;}
+/* One whole card per view on mobile; the desktop block below re-cuts this to
+   three. Sized as a share of the row rather than a fixed px width so the cards
+   always divide the visible area exactly, leaving nothing hanging over an edge. */
 .regen-card{
   background:var(--wonderland);
   border:1px solid var(--solar);
   padding:12px 10px;
-  width:220px;flex-shrink:0;
+  flex:0 0 100%;
   text-align:center;
 }
 .regen-card-num{
@@ -171,16 +187,50 @@
     font-size:var(--h2);max-width:600px;
     margin:0 auto 40px;
   }
-  .regen-cards-mobile,.regen-nav{display:none;}
-  .regen-desktop{
-    display:grid;
-    grid-template-columns:200px 1fr 200px;
-    align-items:center;
-    gap:0 32px;
-    padding:48px 40px 0;
-    max-width:1200px;
+  /* Desktop mirrors the mobile presentation: the same card carousel, arrows and
+     dotted illustration, scaled up for the wider canvas. The gutter-annotation
+     layout below (.regen-desktop) is retired — its markup and the observer that
+     revealed it are left in place but never shown, so this is one CSS line to
+     revert if the annotations are wanted back. */
+  .regen-desktop{display:none;}
+  /* Width matches .regen-inner's content box (1200px cap minus its 40px
+     gutters) so the carousel lines up with the headline above it — but as the
+     container's own width, not as padding, so the edges clip. */
+  .regen-cards-mobile{
+    display:block;
+    width:min(100% - 80px, 1120px);
     margin:0 auto;
+    padding:0;
   }
+  /* Exactly three cards per view. The track drops to width:100% so the cards
+     can size themselves as a third of the visible width (minus the two 12px
+     gaps between them); the six cards then overflow the track and the parent
+     scrolls. Sizing this way rather than with a fixed px width means the three
+     cards keep filling the row at any viewport between 800px and the 1200px
+     cap, with no breakpoint to maintain. ow-landing.js reads the rendered width
+     back at click time, so the arrows page by exactly three. */
+  /* Three whole cards per view: each takes a third of the row once the two
+     12px gaps between them are removed. Because the container carries no
+     padding, six cards divide into exactly two pages of three with no
+     remainder, so paging always lands flush against both edges. */
+  .regen-card{flex:0 0 calc((100% - 24px) / 3);padding:16px 14px;}
+  .regen-card-text{font-size:15px;line-height:18px;}
+  .regen-nav{display:flex;margin-top:28px;}
+  /* The illustration is a 2:1 image that rendered 1120×561 — 62% of a 900px
+     viewport on its own, which made the section feel endless. Capping the
+     HEIGHT at 55vh and deriving the width from the aspect ratio keeps the box
+     and the image exactly the same size at every viewport. That equality is
+     load-bearing: .regen-dot markers are positioned in percentages against this
+     box, so a box even slightly wider than the image slides all six dots off
+     their landmarks. Capping height on the <img> alone would do exactly that. */
+  .regen-illustration{
+    display:block;
+    width:100%;
+    max-width:min(1120px, calc(55vh * 1399 / 700));
+    aspect-ratio:1399 / 700;
+    margin:40px auto 0;
+  }
+  .regen-illustration img.illus{width:100%;height:100%;}
   .regen-ann-col{
     display:flex;flex-direction:column;
     justify-content:space-around;
@@ -208,7 +258,6 @@
     position:relative;
   }
   .regen-desktop-illus img{width:100%;height:auto;display:block;}
-  .regen-illustration{display:none;}
 }
 
 /* ════════════════════════════════

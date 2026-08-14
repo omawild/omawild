@@ -73,20 +73,99 @@
   function init() {
     const signal = teardown();
 
-    // ── REGEN CARD SCROLL (mobile) ──
+    // Native scrollTo({behavior:'smooth'}) animates over a fixed duration
+    // regardless of distance, so paging three cards at once covered 1132px in
+    // ~550ms — around 2000px/s, which reads as a teleport rather than a scroll.
+    // This paces the animation to the distance instead, so a one-card step and
+    // a three-card page travel at a comparable speed and both look like
+    // scrolling. Clamped so short hops are not sluggish and long ones not slow.
+    function glideScroll(el, to) {
+      const from = el.scrollLeft;
+      const delta = to - from;
+      if (Math.abs(delta) < 1) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        el.scrollLeft = to;
+        return;
+      }
+      if (el._regenAnim) cancelAnimationFrame(el._regenAnim);
+      const duration = Math.min(1000, Math.max(420, Math.abs(delta) * 0.7));
+      const start = performance.now();
+      function frame(now) {
+        const p = Math.min(1, (now - start) / duration);
+        // easeInOutCubic — accelerates away and settles, rather than the
+        // constant-velocity slide a linear curve would give.
+        const e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        el.scrollLeft = from + delta * e;
+        el._regenAnim = p < 1 ? requestAnimationFrame(frame) : null;
+      }
+      el._regenAnim = requestAnimationFrame(frame);
+    }
+
+    // ── REGEN CARD SCROLL (both breakpoints) ──
     const regenTrack = document.getElementById('regenTrack');
     const regenPrev  = document.getElementById('regenPrev');
     const regenNext  = document.getElementById('regenNext');
-    const CARD_W = 220 + 12;
+    // The step used to be a hardcoded 220 + 12. The carousel now runs on desktop
+    // too, where the cards are 300px, so the step is measured from the rendered
+    // card and the CSS gap instead — a hardcoded value would leave the arrows
+    // scrolling less than a full card and drifting further out of alignment
+    // with every click.
+    function regenCardStep() {
+      const first = regenTrack && regenTrack.children[0];
+      if (!first) return 0;
+      const gap = parseFloat(getComputedStyle(regenTrack).columnGap) || 0;
+      return first.getBoundingClientRect().width + gap;
+    }
+    // Cards per view: 1 on mobile, 3 on desktop where the CSS sizes them to a
+    // third of the row. Measured off the track's CONTENT width — clientWidth
+    // includes the container's own horizontal padding, and counting that would
+    // read mobile as 1.7 cards and page two at a time.
+    function regenPageSize() {
+      const wrap = regenTrack && regenTrack.parentElement;
+      const step = regenCardStep();
+      if (!wrap || !step) return 1;
+      const cs = getComputedStyle(wrap);
+      const inner = wrap.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      // Rounded, not floored: three cards sized to fit exactly measure 2.97 of
+      // a row once sub-pixel widths are included, and flooring would page by 2.
+      return Math.max(1, Math.round(inner / step));
+    }
     let regenIdx = 0;
     function scrollRegen(dir) {
       const cards = regenTrack.children.length;
-      regenIdx = Math.max(0, Math.min(cards - 1, regenIdx + dir));
-      regenTrack.parentElement.scrollTo({ left: regenIdx * CARD_W, behavior: 'smooth' });
+      const page = regenPageSize();
+      // Stop the last page flush with the end rather than scrolling past it
+      // into empty space.
+      const maxIdx = Math.max(0, cards - page);
+      regenIdx = Math.max(0, Math.min(maxIdx, regenIdx + dir * page));
+      const first = regenTrack.children[0];
+      const target = regenTrack.children[regenIdx];
+      if (!first || !target) return;
+      // Offset between the two cards rather than index × step, so the maths
+      // stays right however the scroll container is sized.
+      glideScroll(regenTrack.parentElement, target.offsetLeft - first.offsetLeft);
     }
+    // Crossing the 800px breakpoint changes the page size between 1 and 3, which
+    // leaves the stored index pointing at a position that is no longer a page
+    // boundary — the carousel ends up parked mid-card. Re-snap to the nearest
+    // valid page and jump there without animating, since the user is dragging a
+    // window edge rather than asking to move through the cards.
+    function syncRegenToBreakpoint() {
+      if (!regenTrack || !regenTrack.children.length) return;
+      const page = regenPageSize();
+      const cards = regenTrack.children.length;
+      regenIdx = Math.min(Math.max(0, cards - page), Math.round(regenIdx / page) * page);
+      const first = regenTrack.children[0];
+      const target = regenTrack.children[regenIdx];
+      if (first && target) {
+        regenTrack.parentElement.scrollLeft = target.offsetLeft - first.offsetLeft;
+      }
+    }
+
     if (regenTrack && regenPrev && regenNext) {
       regenPrev.addEventListener('click', () => scrollRegen(-1), { signal });
       regenNext.addEventListener('click', () => scrollRegen(1), { signal });
+      window.addEventListener('resize', syncRegenToBreakpoint, { signal });
     }
 
     // ── PRODUCT CAROUSEL (mobile) ──
