@@ -45,18 +45,43 @@ shopify theme list --store eryn-tech-dev.myshopify.com
 git diff vendor-baseline-8.5.0 --stat          # everything we've changed vs. the export
 ```
 
-## Known backlog (not yet fixed — deliberate)
+## Known backlog
 
-`shopify theme check` currently reports 14 errors, all in custom code:
+`shopify theme check` reports **1 offense** (222 files) as of 13 Aug 2026, down from
+14. The one remaining is deliberate and is described below — treat that as the
+expected baseline, and anything above it as a regression.
 
-- `sections/od-product-collection.liquid:398` — a Liquid `{% if %}` is spliced into an
-  HTML **tag name** (`<{% if product %}a href=…{% else %}div{% endif %}>`). It renders
-  correctly but theme-check cannot parse the file, so the whole file goes unlinted.
-  Fix by branching the full element instead of the tag name.
-- 6 × `ImgWidthAndHeight` — `od-featured-products`, `ow-home-products`, `od-canvas`,
-  `chapter-map`. Missing `width`/`height` causes cumulative layout shift.
-- 3 × `UndefinedObject`, 2 × `HardcodedRoutes` (use `routes.*`, breaks on non-`/en`
-  markets), 2 × `RemoteAsset` (third-party asset on the critical path).
+### The one accepted offense
+
+`layout/theme.liquid:7` — `RemoteAsset` on the Adobe Typekit stylesheet:
+
+```liquid
+<link rel="stylesheet" href="https://use.typekit.net/rjm5uoy.css">
+```
+
+The rule is correct on the merits: a render-blocking stylesheet on a third-party
+host sits on the critical path and cannot be served from the Shopify CDN. It stays
+anyway, because kit `rjm5uoy` is the only thing loading those webfonts. No file in
+the theme references the kit id, so nothing *fetches* it a second way — but that
+does not prove no stylesheet still names a family it provides, and a page that asks
+for a missing family falls back silently rather than erroring. Removing the link is
+a font change, not a lint fix, so it needs a visual check on a rendered page first.
+
+It carries **no `theme-check-disable`** on purpose. Silencing it would make the
+theme report 0 and quietly bury a real performance finding; leaving it visible keeps
+the cost in view every time the linter runs. To retire it properly: self-host the
+fonts in `assets/` behind `asset_url`, the way `snippets/ow-fonts.liquid` already
+does for Neue Haas Grotesk, then delete the link.
+
+### Notes worth keeping
+
+- The `od-product-collection.liquid` tag-name splice hid three further offenses in
+  that file — theme-check skips a file it cannot parse, so a `LiquidHTMLSyntaxError`
+  understates the true count. Fixing one syntax error took the total 14 → 16 → 1.
+- `sections/od-canvas.liquid` carries the only `theme-check-disable` in the theme, on
+  a `RemoteAsset` false positive (a Shopify-hosted video object, which `asset_url`
+  cannot apply to). It is scoped to one line and justified in a comment. If you add
+  another disable, justify it the same way or the rule stops meaning anything.
 
 ## Upgrading the theme
 
