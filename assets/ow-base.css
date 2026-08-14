@@ -49,7 +49,7 @@ html{scroll-behavior:smooth;}
 .paragraph{font-weight:400;font-size:14px;line-height:20px;}
 .h2{font-weight:700;font-size:var(--h2);line-height:var(--h2-lh);}
 .h3{font-weight:600;font-size:var(--h3);line-height:var(--h3-lh);}
-body{font-family:var(--f);background:var(--wonderland);color:var(--electric);overflow-x:hidden;}
+body{font-family:var(--f);background:var(--sand);color:var(--electric);overflow-x:hidden;}
 img{display:block;max-width:100%;}
 button,a{cursor:pointer;font-family:var(--f);}
 

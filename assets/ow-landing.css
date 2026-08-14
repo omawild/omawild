@@ -9,11 +9,11 @@
   display:grid;
   grid-template-columns:1fr;
   position:relative;
-  background:var(--wonderland);
+  background:var(--sand);
   /* Both columns share row height automatically in grid */
 }
 .hero-left{
-  background:var(--wonderland);
+  background:var(--sand);
   padding:40px 20px;
   display:flex;
   flex-direction:column;
