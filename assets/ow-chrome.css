@@ -152,10 +152,18 @@
   padding:8px 10px;border-radius:2px;cursor:pointer;
   font-size:14px;font-weight:400;color:var(--electric);white-space:nowrap;
 }
-.navbar-region-option .fi{width:24px;height:18px;border-radius:2px;flex-shrink:0;}
-.navbar-region-option:hover,
-.navbar-region-option[aria-selected="true"]{background:rgba(255,63,0,.1);}
-.navbar-region-currency{opacity:.6;margin-left:auto;padding-left:16px;}
+.navbar-region-option .fi{
+  width:24px;height:18px;border-radius:2px;flex-shrink:0;
+  background-size:cover;background-repeat:no-repeat;background-position:center;
+}
+.navbar-region-option:hover{background:rgba(255,63,0,.1);}
+/* The current country stays in the list, dimmed and inert, so the list does
+   not change length as the selection moves. It is the only aria-disabled row,
+   and it carries no data-country, so ow-chrome.js never binds a click to it. */
+.navbar-region-option--current{
+  opacity:.45;cursor:default;
+}
+.navbar-region-option--current:hover{background:none;}
 .navbar-menu-btn{
   background:none;border:none;padding:4px;
   display:flex;align-items:center;justify-content:center;
