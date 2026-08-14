@@ -58,24 +58,22 @@ const navbar    = document.getElementById('navbar');
 const hero      = document.getElementById('hero');
 
 function getAnnBarHeight() {
-  // Height of the fixed ann bars only. The navbar is deliberately NOT counted:
-  // it reserves its own space in normal flow via .navbar-slot, and once it goes
-  // fixed it overlays content rather than pushing it. Counting it here is what
-  // used to jerk the page down 54px at the moment the navbar appeared.
+  // Sum the height of the fixed announcement bars.
   let h = 0;
   topChrome.querySelectorAll('.ann-bar').forEach(el => { h += el.getBoundingClientRect().height; });
+  // Pages with no #hero show the navbar from first paint, so it occupies real
+  // space at the top of the viewport and body padding has to clear it too.
+  // On the landing page it is deliberately NOT counted: the padding would have
+  // to grow by 54px at the moment the navbar fades in, jerking the page down
+  // mid-scroll. There the revealed bar overlays content instead.
+  if (!hero) { h += navbar.getBoundingClientRect().height; }
   // Round up so we always over-cover by a fraction of a px rather than
   // under-cover and reveal a sliver of the body background.
   return Math.ceil(h);
 }
 
 function applyBodyPadding() {
-  // Body needs padding = ann bars only (navbar slides in on top, doesn't push content)
-  const h = getAnnBarHeight();
-  document.body.style.paddingTop = h + 'px';
-  // The fixed navbar parks directly beneath the bars; ow-chrome.css reads this
-  // to place it, so the two stay in step when the bars reflow.
-  document.documentElement.style.setProperty('--ann-h', h + 'px');
+  document.body.style.paddingTop = getAnnBarHeight() + 'px';
 }
 
 applyBodyPadding();
@@ -89,19 +87,19 @@ if ('ResizeObserver' in window) {
   new ResizeObserver(applyBodyPadding).observe(topChrome);
 }
 
-// Lift the navbar to fixed once the hero has fully left the viewport. Before
-// that it stays in normal flow and scrolls away with the hero, so at the top of
-// the page it is simply present and static -- no reveal, nothing hidden.
+// Fade the navbar in once the hero has fully left the viewport, and fade it
+// back out when the hero returns. The navbar ships hidden, so at the top of the
+// landing page there is no navbar at all -- the hero owns the whole viewport.
 //
 // Only the landing page has a #hero. Everywhere else there is nothing to scroll
-// past, so the navbar is pinned from first paint, with --no-reveal to skip the
-// slide-in animation. Guarding here matters more than it looks: this is one
+// past, so the navbar is shown from first paint, with --no-reveal to skip the
+// slide-in transition. Guarding here matters more than it looks: this is one
 // classic script, so an exception on .observe(null) would kill every handler
 // declared below it (menu modal, email form, mobile menu, region selector).
 //
 // The reveal and the un-reveal deliberately use DIFFERENT thresholds. A single
 // observer flips both ways at the same pixel, so parking the scroll exactly on
-// the hero's bottom edge and nudging the wheel replays the 380ms animation over
+// the hero's bottom edge and nudging the wheel replays the 380ms transition over
 // and over. Splitting them leaves a dead band -- between the two edges neither
 // observer fires and the navbar simply holds its current state.
 const REVEAL_HYSTERESIS = 120;
