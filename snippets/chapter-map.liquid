@@ -355,8 +355,10 @@
         {% if context_image != blank %}
           <img 
             class="chapter3-modal-img-{{ omawild_id }}" 
-            src="{{ context_image | image_url: width: 800 }}" 
-            alt="{{ context_image.alt | escape }}" 
+            src="{{ context_image | image_url: width: 800 }}"
+            width="800"
+            height="{{ 800 | divided_by: context_image.aspect_ratio | round }}"
+            alt="{{ context_image.alt | escape }}"
             loading="lazy"
           >
         {% endif %}

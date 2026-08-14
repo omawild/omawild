@@ -394,8 +394,13 @@
             {%- when 'collection' -%}
               {%- assign product = all_products[block.settings.product_item] -%}
               
-              {%- comment -%} Convert card root element dynamically based on product presence {%- endcomment -%}
-              <{% if product != blank %}a href="{{ product.url }}"{% else %}div{% endif %} class="card-{{ section.id }} {% if block.settings.highlight_card %}is-highlighted{% endif %}" {{ block.shopify_attributes }}>
+              {%- comment -%}
+                The card body is identical whether or not a product is linked, so
+                capture it once and pick the root element around it. Branching the
+                tag name itself is unparseable HTML and takes this file out of
+                theme-check entirely.
+              {%- endcomment -%}
+              {%- capture card_body -%}
                 <div class="image-wrap-{{ section.id }}">
                   {%- if block.settings.highlight_card and block.settings.banner_text != blank -%}
                     <div class="banner-{{ section.id }}">
@@ -404,9 +409,9 @@
                   {%- endif -%}
 
                   {%- if block.settings.custom_image != blank -%}
-                    <img src="{{ block.settings.custom_image | image_url: width: 800 }}" alt="{{ product.title | escape }}" loading="lazy">
+                    <img src="{{ block.settings.custom_image | image_url: width: 800 }}" width="800" height="{{ 800 | divided_by: block.settings.custom_image.aspect_ratio | round }}" alt="{{ product.title | escape }}" loading="lazy">
                   {%- elsif product.featured_image != blank -%}
-                    <img src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.title | escape }}" loading="lazy">
+                    <img src="{{ product.featured_image | image_url: width: 800 }}" width="800" height="{{ 800 | divided_by: product.featured_image.aspect_ratio | round }}" alt="{{ product.title | escape }}" loading="lazy">
                   {%- else -%}
                     {{ 'product-1' | placeholder_svg_tag }}
                   {%- endif -%}
@@ -470,7 +475,7 @@
                   <div class="im8-cta-form-container-{{ section.id }}">
                     {%- if product != blank and product.available -%}
                       {%- if section.settings.button_action == 'buy_now' -%}
-                        <form action="/cart/add" method="post" enctype="multipart/form-data" class="im8-cta-form-{{ section.id }}">
+                        <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" class="im8-cta-form-{{ section.id }}">
                           <input type="hidden" name="id" value="{{ product.first_available_variant.id }}">
                           <input type="hidden" name="return_to" value="/checkout">
                           <button type="submit" class="im8-cta-{{ section.id }}">BUY NOW</button>
@@ -490,7 +495,15 @@
                     {%- endif -%}
                   </div>
                 </div>
-              </{% if product != blank %}a{% else %}div{% endif %}>
+              {%- endcapture -%}
+
+              {%- capture card_class -%}card-{{ section.id }}{% if block.settings.highlight_card %} is-highlighted{% endif %}{%- endcapture -%}
+
+              {%- if product != blank -%}
+                <a href="{{ product.url }}" class="{{ card_class }}" {{ block.shopify_attributes }}>{{ card_body }}</a>
+              {%- else -%}
+                <div class="{{ card_class }}" {{ block.shopify_attributes }}>{{ card_body }}</div>
+              {%- endif -%}
           {%- endcase -%}
         {%- endfor -%}
       </div>

@@ -142,8 +142,10 @@
         srcset="{{ section.settings.image | image_url: width: 1500, format: 'webp' }} 1x, {{ section.settings.image | image_url: width: 3000, format: 'webp' }} 2x"
         type="image/webp"
       >
-      <img 
-        src="{{ section.settings.image | image_url: width: 1500 }}" 
+      <img
+        src="{{ section.settings.image | image_url: width: 1500 }}"
+        width="1500"
+        height="{{ 1500 | divided_by: section.settings.image.aspect_ratio | round }}"
         alt="{{ section.settings.image.alt | escape | default: 'Background Banner' }}"
         class="image-fit background-poster"
         fetchpriority="high"
@@ -168,7 +170,14 @@
       webkit-playsinline
       preload="none"
     >
+      {%- comment -%}
+        Not a remote asset: `background_video.sources` is a Shopify-hosted video
+        object, so its url is already on the Shopify CDN. `asset_url` cannot apply
+        to it — that filter is for files in the theme's assets/ directory.
+      {%- endcomment -%}
+      {% # theme-check-disable RemoteAsset %}
       <source src="{{ video_source.url }}" type="{{ video_source.mime_type }}">
+      {% # theme-check-enable RemoteAsset %}
     </video>
   {%- endif -%}
 </div>
