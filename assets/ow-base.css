@@ -70,7 +70,7 @@ button,a{cursor:pointer;font-family:var(--f);}
 
 .btn-outline{
   display:inline-flex;align-items:center;justify-content:center;
-  background:#fff;color:var(--electric);
+  background:var(--sand);color:var(--electric);
   font-weight:600;font-size:var(--cta);line-height:var(--cta-lh);
   padding:11px 17px;border-radius:100px;
   border:2px solid var(--electric);
