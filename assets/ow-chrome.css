@@ -70,7 +70,7 @@
    than across them. */
 .navbar{
   position:relative;
-  background:var(--wonderland);
+  background:var(--sand);
   height:54px;
   display:flex;align-items:center;justify-content:space-between;
   padding:0 20px;

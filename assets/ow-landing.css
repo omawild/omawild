@@ -9,11 +9,11 @@
   display:grid;
   grid-template-columns:1fr;
   position:relative;
-  background:var(--wonderland);
+  background:var(--sand);
   /* Both columns share row height automatically in grid */
 }
 .hero-left{
-  background:var(--wonderland);
+  background:var(--sand);
   padding:40px 20px;
   display:flex;
   flex-direction:column;
@@ -483,11 +483,16 @@
 /* ════════════════════════════════
    WHY SECTION
 ════════════════════════════════ */
+/* Deliberately NOT a framed card, unlike .partner below. The frame/inner split
+   is kept only so the markup stays shared with the other sections — both halves
+   are sand, so the section reads as bare content on the page. The 10px on .why
+   is retained because .why-inner's padding is tuned against it. No border-radius
+   here: with no colour change across the edge there is nothing for it to round. */
 .why{
-  background:#fff;padding:10px 10px;
+  background:var(--sand);padding:10px 10px;
 }
 .why-inner{
-  background:var(--sand);border-radius:10px;
+  background:var(--sand);
   padding:30px 20px 40px;
   text-align:center;
 }
