@@ -483,11 +483,15 @@
 /* ════════════════════════════════
    WHY SECTION
 ════════════════════════════════ */
+/* Frame and card are inverted relative to .partner below: there the frame
+   carries the colour and the inner card is white. Here the frame is the page
+   colour and only the card is drawn, because a sand inner on a sand page left
+   the 10px frame reading as a stray white outline. */
 .why{
-  background:#fff;padding:10px 10px;
+  background:var(--sand);padding:10px 10px;
 }
 .why-inner{
-  background:var(--sand);border-radius:10px;
+  background:#fff;border-radius:10px;
   padding:30px 20px 40px;
   text-align:center;
 }
