@@ -141,7 +141,13 @@
 .regen-illustration{
   position:relative;margin:24px -24px 0;
 }
-.regen-illustration img.illus{width:100%;display:block;}
+/* height:auto is load-bearing. image_tag emits width/height attributes (theme
+   check's ImgWidthAndHeight requires them), and those are presentational hints
+   mapped to the CSS width/height properties. width:100% overrides the width
+   hint but leaves the height hint at its literal pixel value, which stretches
+   the illustration into a portrait box. The source HTML had no attributes to
+   fight with, so it never needed this. */
+.regen-illustration img.illus{width:100%;height:auto;display:block;}
 /* dot markers */
 .regen-dot{
   position:absolute;
@@ -201,7 +207,7 @@
   .regen-desktop-illus{
     position:relative;
   }
-  .regen-desktop-illus img{width:100%;display:block;}
+  .regen-desktop-illus img{width:100%;height:auto;display:block;}
   .regen-illustration{display:none;}
 }
 
