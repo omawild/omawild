@@ -1,8 +1,4 @@
 {%- liquid
-  assign body_font_bold = settings.type_body_font | font_modify: 'weight', '600'
-  assign body_font_italic = settings.type_body_font | font_modify: 'style', 'italic'
-  assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
-  assign header_font_bold = settings.type_header_font | font_modify: 'weight', '600'
   assign button_font_baseline = settings.type_header_font.baseline_ratio | times: 10 | round
   if settings.type_button_font == 'body'
     assign button_font_baseline = settings.type_body_font.baseline_ratio | times: 10 | round
@@ -15,12 +11,13 @@
   endif
 %}
 {%- style -%}
-  {{ settings.type_body_font | font_face: font_display: 'swap' }}
-  {{ body_font_bold | font_face: font_display: 'swap' }}
-  {{ body_font_italic | font_face: font_display: 'swap' }}
-  {{ body_font_bold_italic | font_face: font_display: 'swap' }}
-  {{ settings.type_header_font | font_face: font_display: 'swap' }}
-  {{ header_font_bold | font_face: font_display: 'swap' }}
+  {%- comment -%}
+    The six font_face declarations for the theme-editor picker fonts were
+    removed: snippets/ow-fonts.liquid overrides --font-body-family and
+    --font-heading-family with the self-hosted NHD faces, so nothing rendered
+    them and they only cost bytes. The family tokens below are still written
+    here, then overridden by ow-fonts, which is rendered immediately after.
+  {%- endcomment -%}
 
   :root {
     --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};

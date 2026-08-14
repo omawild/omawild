@@ -15,9 +15,6 @@
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
     {%- endif -%}
 
-    {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
-      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
-    {%- endunless -%}
 
     <title>
       {{ page_title }}
@@ -64,27 +61,6 @@
 
     <link rel="stylesheet" href="{{ 'apps.css' | asset_url }}" media="print" fetchpriority="low" onload="this.media='all'">
 
-    {% # theme-check-disable %}
-    {%- unless settings.type_body_font.system? -%}
-      <link
-        rel="preload"
-        as="font"
-        href="{{ settings.type_body_font | font_url }}"
-        type="font/woff2"
-        crossorigin
-      >
-    {%- endunless -%}
-    {%- unless settings.type_header_font.system? -%}
-      <link
-        rel="preload"
-        as="font"
-        href="{{ settings.type_header_font | font_url }}"
-        type="font/woff2"
-        crossorigin
-      >
-    {%- endunless -%}
-    {% # theme-check-enable %}
-    
     {%- if settings.predictive_search_enabled -%}
       <link rel="stylesheet" href="{{ 'component-predictive-search.css' | asset_url }}" media="print" onload="this.media='all'">
     {%- endif -%}

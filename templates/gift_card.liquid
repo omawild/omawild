@@ -17,10 +17,6 @@
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
     {%- endif -%}
 
-    {%- unless settings.type_header_font.system? -%}
-      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
-    {%- endunless -%}
-
     {%- assign formatted_initial_value = gift_card.initial_value | money_without_trailing_zeros: gift_card.currency | strip_html -%}
     <title>{{ 'gift_cards.issued.title' | t: value: formatted_initial_value, shop: shop.name }}</title>
 
@@ -32,27 +28,12 @@
     {{ content_for_header }}
 
     {% render 'css-variables' %}
+    {%- comment -%}
+      Must follow css-variables: ow-fonts overrides the same :root font tokens
+      at equal specificity, so the later block wins.
+    {%- endcomment -%}
+    {% render 'ow-fonts' %}
 
-    {% # theme-check-disable %}
-    {%- unless settings.type_body_font.system? -%}
-      <link
-        rel="preload"
-        as="font"
-        href="{{ settings.type_body_font | font_url }}"
-        type="font/woff2"
-        crossorigin
-      >
-    {%- endunless -%}
-    {%- unless settings.type_header_font.system? -%}
-      <link
-        rel="preload"
-        as="font"
-        href="{{ settings.type_header_font | font_url }}"
-        type="font/woff2"
-        crossorigin
-      >
-    {%- endunless -%}
-    {% # theme-check-enable %}
 
     {{ 'template-giftcard.css' | asset_url | stylesheet_tag }}
   </head>
