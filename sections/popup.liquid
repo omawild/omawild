@@ -123,6 +123,8 @@
                     <div {{ block.shopify_attributes }}>
                       {%- assign return_url = section.settings.return_url | default: 'back' | append: '' -%}
                       {% form 'customer', class: 'popup__newsletter', id: 'form__popup_newsletter', return_to: return_url %}
+                        {%- comment -%} Hoisted: `form` is out of scope at the floating block below. {%- endcomment -%}
+                        {%- assign newsletter_posted = form.posted_successfully? -%}
                         <input type="hidden" name="contact[tags]" value="newsletter"/>
                         {%- if form.errors -%}
                           <small class="form__message errors" id="Newsletter-error--{{ section.id }}">
@@ -188,7 +190,7 @@
     </div>
     {%- endunless -%}
 
-    {%- if floating and form.posted_successfully? == false -%}      {%- style -%}
+    {%- if floating and newsletter_posted != true -%}      {%- style -%}
         #shopify-section-{{ section.id }} .popup-floating {
           --color-foreground: {{ floating.settings.colors_text.red }}, {{ floating.settings.colors_text.green }}, {{ floating.settings.colors_text.blue }};
           --color-link: var(--color-foreground);
