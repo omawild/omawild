@@ -136,7 +136,15 @@
 .navbar-link-dropdown:focus-within .navbar-link-chevron{transform:rotate(180deg);}
 .navbar-right{display:flex;align-items:center;gap:24px;}
 .navbar-icons{display:flex;align-items:center;gap:16px;}
-.navbar-icons a{display:flex;}
+/* 44×44 hit area on a 30px icon, pulled back to a 30px layout footprint by the
+   negative margin. Done this way rather than by growing the box because the
+   navbar has under 20px of slack at 320px — widening these three would push the
+   menu button off-screen. The hit areas grow 7px into the 16px gap from each
+   side, so adjacent targets stop 2px short of touching and cannot steal taps. */
+.navbar-icons a{
+  display:flex;align-items:center;justify-content:center;
+  width:44px;height:44px;margin:-7px;
+}
 .navbar-icons img{width:30px;height:30px;}
 /* Region / language / currency selector: flag + code + chevron,
    opens a listbox of the markets we currently ship to. */
@@ -264,8 +272,14 @@
 }
 /* Desktop only — on mobile the social icons move down into
    .footer-bottom-row instead. */
-.footer-social{display:none;gap:10px;justify-content:center;margin-bottom:24px;}
-.footer-social a{display:flex;}
+.footer-social{display:none;gap:0;justify-content:center;margin-bottom:24px;}
+/* 44×44 minimum tap target on a 24px icon. Unlike the navbar there is room to
+   spare here, so the box grows rather than being pulled back — gap drops from
+   10 to 0 because the padding now supplies 20px of separation on its own. */
+.footer-social a{
+  display:flex;align-items:center;justify-content:center;
+  min-width:44px;min-height:44px;
+}
 .footer-social img{width:24px;height:24px;}
 .footer-nav{
   display:flex;flex-direction:column;gap:0;
@@ -275,11 +289,21 @@
   border-bottom:1px solid rgba(255,63,0,.2);
   padding:10px 0;
 }
+/* Rendered as a <button> for keyboard and screen-reader access, so the browser
+   defaults (grey ground, border, system font, centred text) have to be undone
+   before it reads as the heading it looks like. */
 .footer-nav-section-head{
   display:flex;align-items:center;gap:6px;
   font-size:13px;font-weight:600;letter-spacing:.06em;
   text-transform:uppercase;color:var(--electric);
   cursor:pointer;
+  width:100%;text-align:left;
+  background:none;border:none;
+  font-family:inherit;
+}
+.footer-nav-section-head:focus-visible{
+  outline:2px solid var(--electric);
+  outline-offset:2px;
 }
 .footer-nav-section-head img{width:14px;height:14px;transition:transform .2s;}
 .footer-nav-section-head.open img{transform:rotate(180deg);}
@@ -301,13 +325,41 @@
 .footer-bottom-row .footer-social{display:flex;margin-bottom:0;}
 .footer-1ftp{margin:0 auto 20px;height:52px;width:122px;}
 .footer-1ftp img{height:100%;width:auto;}
-/* Oversized, edge-bleeding wordmark on mobile; contained on desktop. */
-/* Full-bleed edge-to-edge on mobile — breaks out of .footer's own
-   horizontal padding via the viewport-width trick so it always spans
-   exactly 100vw with no cropping, at any screen size. */
-.footer-logo{display:block;width:100vw;margin:20px calc(50% - 50vw) 20px;}
+/* Contained wordmark at both breakpoints, capped at 280px on mobile and 320px
+   on desktop. This was previously full-bleed on mobile (width:100vw via the
+   negative-margin trick), which read as oversized on a phone — the wordmark
+   touched both screen edges with no gutter. Capping below the 320px intrinsic
+   width also means it is only ever downscaled, so it stays crisp. */
+.footer-logo{display:block;width:100%;max-width:280px;margin:20px auto;}
 .footer-logo img{width:100%;height:auto;display:block;}
 .footer-copy{font-size:13px;font-weight:600;text-transform:uppercase;color:var(--electric);}
+
+/* ── Mobile footer rhythm ──
+   The footer measured 600px on a 390×844 screen — 71% of the viewport. Only
+   377px of that was content; 172px was margins and 70px was section padding,
+   all inherited from the desktop spacing. This block tightens the gaps for
+   mobile only, so the desktop footer keeps its original rhythm untouched.
+   Scoped to max-width:799px to sit exactly against the min-width:800px
+   desktop block below, leaving no gap or overlap between the two. */
+@media(max-width:799px){
+  .footer{padding:28px 24px 20px;}
+  .footer-head{margin-bottom:14px;}
+  .footer-tagline{margin-bottom:14px;}
+  .footer-email{margin-bottom:16px;}
+  .footer-nav{margin-bottom:16px;}
+  .footer-bottom-row{margin-bottom:16px;}
+  .footer-1ftp{margin-bottom:14px;}
+  .footer-logo{margin-top:14px;margin-bottom:14px;}
+
+  /* The accordion row was a 342×23 target. Moving the section's padding onto
+     the heading itself makes the clickable element fill the row — 44px tall
+     without adding any height to the footer, since the padding already existed
+     on the parent. */
+  .footer-nav-section{padding:0;}
+  .footer-nav-section-head{min-height:44px;padding:11px 0;}
+  .footer-nav-links{padding-bottom:10px;}
+}
+
 /* Desktop footer */
 @media(min-width:800px){
   .footer{padding:60px 40px 30px;}

@@ -255,7 +255,25 @@ function toggleFooterNav(head) {
   const links = head.nextElementSibling;
   links.classList.toggle('open');
   head.classList.toggle('open');
+  head.setAttribute('aria-expanded', links.classList.contains('open') ? 'true' : 'false');
 }
+
+// The accordion only exists below 800px — above it, CSS shows every link list
+// unconditionally and toggleFooterNav bails out. A button left reporting
+// aria-expanded="false" next to visible links would lie to a screen reader, so
+// the flag is recomputed from what is actually on screen: true on desktop
+// always, and on mobile whatever the .open class currently says.
+function syncFooterNavExpanded() {
+  const desktop = window.innerWidth >= 800;
+  document.querySelectorAll('.footer-nav-section-head').forEach(head => {
+    const links = head.nextElementSibling;
+    const open = desktop || (links && links.classList.contains('open'));
+    head.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+}
+
+document.addEventListener('DOMContentLoaded', syncFooterNavExpanded);
+window.addEventListener('resize', syncFooterNavExpanded);
 
 // ── REGION / LANGUAGE / CURRENCY SELECTOR ──
 // Two instances on the page (navbar, mobile menu modal) — each wired up
