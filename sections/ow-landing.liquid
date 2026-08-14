@@ -103,7 +103,22 @@
             </div>
           {%- endfor -%}
         </div>
-        <div class="regen-desktop-illus">
+        {%- comment -%}
+          This div must never render empty. Vendor base.css hides every empty
+          element on the page:
+
+            div:empty:not(.ignore-empty) { display:none }
+
+          and this is the centre (1fr) track of the three-column grid. Hidden,
+          it leaves the grid two children, so the right annotation column is
+          auto-placed into the centre track and the desktop layout collapses —
+          while mobile keeps working, because .regen-illustration always holds
+          the six .regen-dot divs and so is never :empty.
+
+          .ignore-empty is the vendor rule's own opt-out, so the grid keeps its
+          three tracks whether or not a merchant has set an illustration.
+        {%- endcomment -%}
+        <div class="regen-desktop-illus ignore-empty">
           {%- if block.settings.illustration -%}
             {{ block.settings.illustration | image_url: width: 1600 | image_tag: alt: block.settings.illustration_alt }}
           {%- endif -%}
