@@ -1,9 +1,13 @@
 {%- comment -%}
-  ow-fonts — Neue Haas Display @font-face declarations.
+  ow-fonts — Neue Haas Display @font-face declarations, and the tokens that
+  make NHD the only family the theme renders in.
 
   Lives in a snippet rather than in ow-base.css because asset_url is Liquid and
-  plain .css assets are not rendered through Liquid. Rendered from the header
-  section group so the faces are declared once, on every page.
+  plain .css assets are not rendered through Liquid. Rendered from layout/theme
+  .liquid and layout/password.liquid, directly after `render 'css-variables'`,
+  so the faces are declared on every page — including ones that do not render
+  the ow-header section — and so the :root block below lands *after* the
+  vendor's and wins the cascade at equal specificity, without !important.
 
   Source: neue-haas-grotesk-display-pro.zip, converted TTF -> woff2 with
   fontTools (395K -> 102K across the four weights).
@@ -20,6 +24,16 @@
   font-display:swap renders fallback text immediately and swaps when the face
   arrives, so a slow font never blocks first paint. Type metrics shift slightly
   on swap; that is the intended trade against invisible text.
+
+  The :root block overrides the two family tokens snippets/css-variables.liquid
+  fills from the theme editor's font_picker settings. Every vendor stylesheet
+  reads those two, so overriding them is what retires the picker fonts theme
+  wide. --font-navigation-family, --font-button-family and --font-price-family
+  are aliases of body/heading in css-variables, so they follow for free.
+
+  Headings are Medium (600), body is Roman (400). Anything asking for bold text
+  by name still resolves to the 700 face; 900 Black stays available to
+  ow-base.css for display type.
 {%- endcomment -%}
 
 <style>
@@ -50,5 +64,15 @@
     font-weight: 400;
     font-style: normal;
     font-display: swap;
+  }
+
+  :root {
+    --font-body-family: 'NHD', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-body-style: normal;
+    --font-body-weight: 400;
+
+    --font-heading-family: 'NHD', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-heading-style: normal;
+    --font-heading-weight: 600;
   }
 </style>

@@ -19,7 +19,6 @@
   renders before section content.
 {%- endcomment -%}
 
-{% render 'ow-fonts' %}
 {{ 'ow-base.css' | asset_url | stylesheet_tag }}
 {{ 'ow-chrome.css' | asset_url | stylesheet_tag }}
 {%- if section.settings.show_region_selector -%}
