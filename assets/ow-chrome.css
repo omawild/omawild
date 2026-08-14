@@ -43,25 +43,42 @@
   to{transform:translateX(-50%);}
 }
 
-/* ── NAVBAR ── */
+/* ── NAVBAR ──
+   Two phases on the landing page:
+   1. At rest the navbar is a normal in-flow element sitting directly below the
+      fixed ann bars, and it scrolls away with the hero like any other content.
+   2. Once the hero clears the viewport, ow-chrome.js adds .visible, which lifts
+      the navbar to position:fixed just under the bars and fades it in.
+   .navbar-slot reserves the navbar's 54px of flow space in BOTH phases, so
+   going fixed never pulls the content below it upwards. Pages with no #hero
+   get .visible on load, and the slot keeps content clear of the fixed bar
+   there too. */
+.navbar-slot{height:54px;}
 .navbar{
-  /* sits inside #top-chrome in normal flow */
   position:relative;
   background:var(--wonderland);
   height:54px;
   display:flex;align-items:center;justify-content:space-between;
   padding:0 20px;
-  /* hidden until hero scrolls out of view */
-  transform:translateY(-100%);
-  opacity:0;
-  transition:transform .38s cubic-bezier(.4,0,.2,1), opacity .38s;
-  /* prevent hidden navbar from causing layout shift inside #top-chrome */
-  margin-bottom:calc(-54px);
 }
+/* --ann-h is the measured ann-bar height, set by ow-chrome.js. z-index sits
+   just under #top-chrome (200) so the reveal slides out from behind the bars
+   rather than across them. */
 .navbar.visible{
-  transform:translateY(0);
-  opacity:1;
-  margin-bottom:0;
+  position:fixed;left:0;right:0;
+  top:var(--ann-h,0px);
+  z-index:199;
+  animation:navbar-reveal .38s cubic-bezier(.4,0,.2,1) both;
+}
+@keyframes navbar-reveal{
+  from{transform:translateY(-100%);opacity:0;}
+  to{transform:translateY(0);opacity:1;}
+}
+/* Pages without a hero pin the navbar from first paint — there is nothing to
+   reveal, so playing the slide on load would just look like a glitch. */
+.navbar.visible.navbar--no-reveal{animation:none;}
+@media(prefers-reduced-motion:reduce){
+  .navbar.visible{animation:none;}
 }
 .navbar-logo img{height:22px;width:auto;}
 /* Links sit centered on the bar itself, independent of the logo/right

@@ -58,14 +58,12 @@ const navbar    = document.getElementById('navbar');
 const hero      = document.getElementById('hero');
 
 function getAnnBarHeight() {
-  // Sum height of all visible ann-bars inside top-chrome, plus the
-  // navbar itself if it's currently visible (on pages where the navbar
-  // is shown immediately rather than revealed on scroll, it occupies
-  // real space and body padding needs to account for it too).
+  // Height of the fixed ann bars only. The navbar is deliberately NOT counted:
+  // it reserves its own space in normal flow via .navbar-slot, and once it goes
+  // fixed it overlays content rather than pushing it. Counting it here is what
+  // used to jerk the page down 54px at the moment the navbar appeared.
   let h = 0;
   topChrome.querySelectorAll('.ann-bar').forEach(el => { h += el.getBoundingClientRect().height; });
-  const visibleNavbar = topChrome.querySelector('.navbar.visible');
-  if (visibleNavbar) { h += visibleNavbar.getBoundingClientRect().height; }
   // Round up so we always over-cover by a fraction of a px rather than
   // under-cover and reveal a sliver of the body background.
   return Math.ceil(h);
@@ -73,12 +71,11 @@ function getAnnBarHeight() {
 
 function applyBodyPadding() {
   // Body needs padding = ann bars only (navbar slides in on top, doesn't push content)
-  document.body.style.paddingTop = getAnnBarHeight() + 'px';
-}
-
-function updateNavbarTop() {
-  // Navbar position is relative inside top-chrome, so it auto-stacks below bars
-  // Nothing needed here — CSS handles it
+  const h = getAnnBarHeight();
+  document.body.style.paddingTop = h + 'px';
+  // The fixed navbar parks directly beneath the bars; ow-chrome.css reads this
+  // to place it, so the two stay in step when the bars reflow.
+  document.documentElement.style.setProperty('--ann-h', h + 'px');
 }
 
 applyBodyPadding();
@@ -92,22 +89,42 @@ if ('ResizeObserver' in window) {
   new ResizeObserver(applyBodyPadding).observe(topChrome);
 }
 
-// Show navbar once hero bottom passes the top of the viewport.
+// Lift the navbar to fixed once the hero has fully left the viewport. Before
+// that it stays in normal flow and scrolls away with the hero, so at the top of
+// the page it is simply present and static -- no reveal, nothing hidden.
+//
 // Only the landing page has a #hero. Everywhere else there is nothing to scroll
-// past, so the navbar is shown immediately -- which is the case getAnnBarHeight()
-// above already accounts for. Guarding here matters more than it looks: this is
-// one classic script, so an exception on .observe(null) would kill every handler
+// past, so the navbar is pinned from first paint, with --no-reveal to skip the
+// slide-in animation. Guarding here matters more than it looks: this is one
+// classic script, so an exception on .observe(null) would kill every handler
 // declared below it (menu modal, email form, mobile menu, region selector).
+//
+// The reveal and the un-reveal deliberately use DIFFERENT thresholds. A single
+// observer flips both ways at the same pixel, so parking the scroll exactly on
+// the hero's bottom edge and nudging the wheel replays the 380ms animation over
+// and over. Splitting them leaves a dead band -- between the two edges neither
+// observer fires and the navbar simply holds its current state.
+const REVEAL_HYSTERESIS = 120;
 if (hero) {
+  // Reveal once the hero is entirely above the viewport.
   new IntersectionObserver(
     ([e]) => {
-      navbar.classList.toggle('visible', !e.isIntersecting);
+      if (!e.isIntersecting) { navbar.classList.add('visible'); }
     },
-    { threshold: 0, rootMargin: '0px 0px 0px 0px' }
+    { threshold: 0 }
+  ).observe(hero);
+
+  // Un-reveal only after REVEAL_HYSTERESIS px of hero has scrolled back into
+  // view. A negative top rootMargin shrinks the observer's root box down from
+  // the top of the viewport, which is what moves this edge below the first one.
+  new IntersectionObserver(
+    ([e]) => {
+      if (e.isIntersecting) { navbar.classList.remove('visible'); }
+    },
+    { threshold: 0, rootMargin: '-' + REVEAL_HYSTERESIS + 'px 0px 0px 0px' }
   ).observe(hero);
 } else {
-  navbar.classList.add('visible');
-  applyBodyPadding();
+  navbar.classList.add('visible', 'navbar--no-reveal');
 }
 
 // ── MENU MODAL ──
