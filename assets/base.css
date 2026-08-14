@@ -31,10 +31,10 @@
   --color-button-text: var(--color-base-outline-button-labels);
 }
 
-/* Typography */
-:root {
-  --font-body-family: "Neue Haas Grotesk", sans-serif !important;
-}
+/* Typography — see snippets/ow-fonts.liquid.
+   This block used to force --font-body-family to "Neue Haas Grotesk", a family
+   no @font-face in the theme ever declared, so body text silently fell back to
+   sans-serif. ow-fonts now sets the token to the 'NHD' faces we self-host. */
 
 
 /* Links */
