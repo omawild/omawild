@@ -1,12 +1,12 @@
 option-table div {
-  font-family: museo-sans, sans-serif;
-  font-weight: 500;
+  font-family: var(--font-body-family);
+  font-weight: 400;
   font-style: normal;
 }
 
 option-table .data-headers div,
 option-table .data-checks div:first-child {
-  font-family: museo-sans, sans-serif;
+  font-family: var(--font-body-family);
   font-weight: 700;
   font-style: normal;
 }
