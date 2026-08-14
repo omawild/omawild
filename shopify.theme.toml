@@ -14,7 +14,12 @@ store = "eryn-tech-dev.myshopify.com"
 
 [environments.staging]
 store = "eryn-tech-dev.myshopify.com"
-theme = "157548576956"  # "Be Yours 8.5.0 (dev)", unpublished
+theme = "157548576956"  # "Be Yours 8.5.0 (dev)" — WARNING: [live], not unpublished.
+# Verified 14 Aug 2026 with `shopify theme list`: this theme carries the [live]
+# role on the dev store. The comment here previously said "unpublished", which
+# made `--environment staging` look safe when it is in fact a push to a live
+# theme. Do not push here. For a review build use:
+#   shopify theme push --store eryn-tech-dev.myshopify.com --unpublished --theme "<name>"
 # Seeded 2026-08-10 with the full export (.shopifyignore temporarily bypassed).
 # From here on pushes honour .shopifyignore: code deploys, content does not.
 # Editor:  https://eryn-tech-dev.myshopify.com/admin/themes/157548576956/editor
