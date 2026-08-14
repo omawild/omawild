@@ -260,9 +260,9 @@ function toggleFooterNav(head) {
 }
 
 // ── REGION / LANGUAGE / CURRENCY SELECTOR ──
-// There are now three instances on the page (navbar, footer desktop
-// corner, footer mobile row) — each wired up independently by class
-// rather than id. Open/close is handled entirely by CSS (:hover /
+// Two instances on the page (navbar, mobile menu modal) — each wired up
+// independently by class rather than id. Open/close is handled by CSS
+// for the navbar instance (:hover /
 // :focus-within, same mechanism as the Discover dropdown) so there is no
 // JS-managed open state that can get stuck across a navbar hide/show
 // scroll cycle. This listener only handles selecting an option.
@@ -270,7 +270,10 @@ document.querySelectorAll('.navbar-region').forEach(regionEl => {
   const flagEl = regionEl.querySelector('.navbar-region-flag');
   const labelEl = regionEl.querySelector('.navbar-region-label');
 
-  regionEl.querySelectorAll('.navbar-region-option').forEach(option => {
+  // The first row is the current country, rendered inert (aria-disabled, no
+  // data-country). Selecting it would be a no-op reload, so it gets no
+  // listener at all — the [data-country] filter does that on its own.
+  regionEl.querySelectorAll('.navbar-region-option[data-country]').forEach(option => {
     option.addEventListener('click', () => {
       regionEl.querySelectorAll('.navbar-region-option').forEach(o => o.setAttribute('aria-selected', 'false'));
       option.setAttribute('aria-selected', 'true');
@@ -279,17 +282,17 @@ document.querySelectorAll('.navbar-region').forEach(regionEl => {
       regionEl.querySelector('.navbar-lang').blur();
       regionEl.classList.remove('expanded');
 
-      // Actually switch market/language. The option carries the ISO codes from
+      // Actually switch market. The option carries the ISO country code from
       // snippets/ow-region-selector.liquid; submitting Shopify's localization
-      // form reloads the page in that country and locale. The cosmetic updates
-      // above still run first so the control does not appear frozen during the
-      // reload. If the markup is not inside a localization form (i.e. the
-      // selector was rendered without Shopify data), this is a no-op and the
-      // selector stays cosmetic.
+      // form reloads the page in that country. locale_code is left at whatever
+      // the snippet rendered, so the shopper's language survives the switch —
+      // this selector deliberately does not offer a language choice. The
+      // cosmetic updates above run first so the control does not appear frozen
+      // during the reload. Without the form (selector rendered outside Shopify
+      // data) this is a no-op and the control stays cosmetic.
       const form = regionEl.querySelector('form.navbar-region-form');
-      if (form && option.dataset.country && option.dataset.locale) {
+      if (form) {
         form.querySelector('[name="country_code"]').value = option.dataset.country;
-        form.querySelector('[name="locale_code"]').value = option.dataset.locale;
         form.submit();
       }
     });

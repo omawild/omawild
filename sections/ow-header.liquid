@@ -97,14 +97,43 @@
       {%- endfor -%}
     </ul>
     <div class="navbar-right">
+      {%- if section.settings.show_region_selector -%}
+        {% render 'ow-region-selector',
+             id_suffix: 'header',
+             inline: false,
+             country_filter: section.settings.region_countries %}
+      {%- endif -%}
       <div class="navbar-icons">
+        {%- comment -%}
+          Search and account are plain links to Shopify's own routes — no
+          bespoke drawer, no vendor JS. routes.* resolves per-locale, so these
+          stay correct under every market the region selector can switch to;
+          a hardcoded '/search' would not.
+        {%- endcomment -%}
+        {%- if section.settings.show_search -%}
+          <a href="{{ routes.search_url }}" aria-label="{{ 'general.search.search' | t }}">
+            <img src="{{ 'ow-icon-search.svg' | asset_url }}" alt="" width="30" height="30">
+          </a>
+        {%- endif -%}
+
+        {%- comment -%}
+          Guarded on customer_accounts_enabled: with accounts off, every account
+          route redirects to the homepage, so the icon would be a dead control.
+          Logged in goes to the account page, logged out to login — which is
+          also where Shopify puts the "create account" link, so one icon covers
+          sign in and sign up.
+        {%- endcomment -%}
+        {%- if section.settings.show_account and shop.customer_accounts_enabled -%}
+          <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}"
+             aria-label="{% if customer %}{{ 'customer.account.title' | t }}{% else %}{{ 'customer.login_page.sign_in' | t }}{% endif %}">
+            <img src="{{ 'ow-icon-account.svg' | asset_url }}" alt="" width="30" height="30">
+          </a>
+        {%- endif -%}
+
         <a href="{{ routes.cart_url }}" aria-label="{{ 'templates.cart.cart' | t }} ({{ cart.item_count }})">
           <img src="{{ 'ow-icon-cart.svg' | asset_url }}" alt="" width="30" height="30">
         </a>
       </div>
-      {%- if section.settings.show_region_selector -%}
-        {% render 'ow-region-selector', id_suffix: 'header', inline: false %}
-      {%- endif -%}
       <button class="navbar-menu-btn" id="menuBtn" aria-label="Open menu">
         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path fill-rule="evenodd" clip-rule="evenodd" d="M5 6.25C4.30965 6.25 3.75 6.80965 3.75 7.5C3.75 8.19035 4.30965 8.75 5 8.75H25C25.6904 8.75 26.25 8.19035 26.25 7.5C26.25 6.80965 25.6904 6.25 25 6.25H5ZM3.75 15C3.75 14.3096 4.30965 13.75 5 13.75H25C25.6904 13.75 26.25 14.3096 26.25 15C26.25 15.6904 25.6904 16.25 25 16.25H5C4.30965 16.25 3.75 15.6904 3.75 15ZM3.75 22.5C3.75 21.8096 4.30965 21.25 5 21.25H25C25.6904 21.25 26.25 21.8096 26.25 22.5C26.25 23.1904 25.6904 23.75 25 23.75H5C4.30965 23.75 3.75 23.1904 3.75 22.5Z" fill="#FF3F00"/>
@@ -131,7 +160,10 @@
   <nav class="menu-nav"></nav>
   <div class="menu-bottom">
     {%- if section.settings.show_region_selector -%}
-      {% render 'ow-region-selector', id_suffix: 'menu', inline: true %}
+      {% render 'ow-region-selector',
+           id_suffix: 'menu',
+           inline: true,
+           country_filter: section.settings.region_countries %}
     {%- endif -%}
     <div class="menu-bottom-links">
       {%- for link in section.settings.menu_bottom.links -%}
@@ -149,7 +181,11 @@
   "settings": [
     { "type": "link_list", "id": "menu", "label": "Main menu", "default": "main-menu" },
     { "type": "link_list", "id": "menu_bottom", "label": "Menu modal footer links" },
-    { "type": "checkbox", "id": "show_region_selector", "label": "Show country/language selector", "default": true }
+    { "type": "checkbox", "id": "show_search", "label": "Show search icon", "default": true },
+    { "type": "checkbox", "id": "show_account", "label": "Show account icon", "default": true, "info": "Hidden automatically if customer accounts are disabled in Settings > Customer accounts." },
+    { "type": "header", "content": "Country selector" },
+    { "type": "checkbox", "id": "show_region_selector", "label": "Show country selector", "default": true },
+    { "type": "text", "id": "region_countries", "label": "Countries to show", "info": "Comma-separated ISO codes, e.g. HK, TW, GB, US. Leave blank to show every country your Markets settings publish. This can only narrow that list — to ADD a country, publish it in Settings > Markets first. Codes Markets does not publish are ignored, and the shopper's current country always appears." }
   ],
   "blocks": [
     {

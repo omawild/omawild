@@ -1,32 +1,82 @@
 {%- comment -%}
-  ow-region-selector — the country/language picker from the Omawild design,
-  backed by Shopify's real localization form.
+  ow-region-selector — the country/currency picker in the navbar and the mobile
+  menu, backed by Shopify's real localization form.
 
   Accepts:
   - id_suffix: {String} unique per instance ('header', 'menu') — the selector
-    appears twice per page and form ids must not collide.
+    appears more than once per page and form ids must not collide.
   - inline: {Boolean} true adds navbar-region--inline, the menu-modal variant.
+  - country_filter: {String} optional comma-separated ISO codes ('HK, TW, GB').
+    Blank shows every country Markets publishes. See THE FILTER IS A NARROWING
+    below — it cannot add a country.
 
   Usage:
   {% render 'ow-region-selector', id_suffix: 'header', inline: false %}
 
-  The design mocked up three fixed rows (HK·English·HKD, TW·English·TWD,
-  TW·繁中·TWD). Here the rows are generated from the markets and languages the
-  store actually publishes, so the list stays correct as markets change.
+  THE FILTER IS A NARROWING, NOT A LIST. localization.available_countries comes
+  from the store's Markets settings; Liquid cannot invent a country that Markets
+  does not publish, and shipping to one it does not cover would fail at
+  checkout. So country_filter can only hide rows. A code in the filter that
+  Markets does not publish is silently ignored, which is the safe direction.
 
-  The flag comes from flag-icons: its class names are ISO 3166-1 alpha-2
-  lowercased, which is exactly country.iso_code | downcase — so 'TW' -> 'fi-tw'
-  with no mapping table.
+  The current country always renders, filter or no filter. Hiding the market the
+  shopper is actually in would leave the button showing a country absent from
+  its own list.
 
-  Selecting a row submits the localization form (ow-chrome.js). Without JS the
-  rows still submit, because each is a real <button> inside the form.
+  COUNTRY ONLY, BY DESIGN. An earlier version looped countries × languages and
+  labelled the button with the language endonym ('EN'), following the Figma
+  export. The store's actual design — and the live vendor header this replaced —
+  is country and currency:
+
+    button   HK ($)
+    row      Hong Kong SAR (HKD $)
+
+  Language is not offered here. The hidden locale_code below carries the current
+  locale through the form so switching country does not silently reset it.
+
+  The current country renders first and is inert: no data-country, so the click
+  handler in ow-chrome.js ignores it. That keeps the list a stable length
+  instead of shuffling as the selection moves.
+
+  The flag comes from ow-flags.css, a vendored slice of flag-icons whose class
+  names are ISO 3166-1 alpha-2 lowercased — exactly country.iso_code | downcase,
+  so 'TW' -> 'fi-tw' with no mapping table. A country whose flag has not been
+  vendored yet renders an empty box; add it per the instructions in that file.
 {%- endcomment -%}
 
-{%- if localization.available_countries.size > 1 or localization.available_languages.size > 1 -%}
+{%- assign current = localization.country -%}
+
+{%- comment -%}
+  Resolve the filter, then count how many countries survive it. The selector is
+  only worth rendering when the shopper can actually switch to something, so the
+  count — not available_countries.size — decides. Without this, a filter that
+  narrows to a single market would render a dropdown whose only row is the inert
+  current one.
+{%- endcomment -%}
+{%- assign allowed = '' -%}
+{%- if country_filter != blank -%}
+  {%- assign allowed = country_filter | upcase | replace: ' ', '' | split: ',' -%}
+{%- endif -%}
+
+{%- assign switchable = 0 -%}
+{%- for country in localization.available_countries -%}
+  {%- if country.iso_code == current.iso_code -%}{%- continue -%}{%- endif -%}
+  {%- comment -%}
+    `unless` rather than `if ... contains x == false`. Liquid has no operator
+    precedence — it evaluates right to left and does not group — so a comparison
+    chained onto `contains` inside an `and` does not mean what it reads like.
+  {%- endcomment -%}
+  {%- if allowed != '' -%}
+    {%- unless allowed contains country.iso_code -%}{%- continue -%}{%- endunless -%}
+  {%- endif -%}
+  {%- assign switchable = switchable | plus: 1 -%}
+{%- endfor -%}
+
+{%- if switchable > 0 -%}
   <div class="navbar-region{% if inline %} navbar-region--inline{% endif %}">
     <button class="navbar-lang" aria-haspopup="listbox" aria-expanded="false">
-      <span class="fi fi-{{ localization.country.iso_code | downcase }} navbar-region-flag"></span>
-      <span class="navbar-region-label">{{ localization.language.endonym_name | upcase }}</span>
+      <span class="fi fi-{{ current.iso_code | downcase }} navbar-region-flag"></span>
+      <span class="navbar-region-label">{{ current.iso_code }} ({{ current.currency.symbol }})</span>
       <img class="navbar-lang-chevron" src="{{ 'ow-chevron-lang.svg' | asset_url }}" alt="" width="16" height="16">
     </button>
 
@@ -39,27 +89,37 @@
     {%- endcomment -%}
     {%- assign region_form_id = 'ow-localization-' | append: id_suffix -%}
     {%- form 'localization', id: region_form_id, class: 'navbar-region-form' -%}
-      <input type="hidden" name="country_code" value="{{ localization.country.iso_code }}">
+      <input type="hidden" name="country_code" value="{{ current.iso_code }}">
       <input type="hidden" name="locale_code" value="{{ localization.language.iso_code }}">
       <ul class="navbar-region-list" role="listbox" aria-label="{{ 'localization.country_label' | t | default: 'Ship to' }}">
+        <li class="navbar-region-option navbar-region-option--current"
+            role="option"
+            aria-selected="true"
+            aria-disabled="true">
+          <span class="fi fi-{{ current.iso_code | downcase }}"></span>
+          {{ current.name }} ({{ current.currency.iso_code }} {{ current.currency.symbol }})
+        </li>
         {%- for country in localization.available_countries -%}
-          {%- for language in localization.available_languages -%}
-            {%- assign is_current = false -%}
-            {%- if country.iso_code == localization.country.iso_code and language.iso_code == localization.language.iso_code -%}
-              {%- assign is_current = true -%}
-            {%- endif -%}
-            <li class="navbar-region-option"
-                role="option"
-                data-flag="fi-{{ country.iso_code | downcase }}"
-                data-label="{{ language.endonym_name | upcase | escape }}"
-                data-country="{{ country.iso_code }}"
-                data-locale="{{ language.iso_code }}"
-                aria-selected="{{ is_current }}">
-              <span class="fi fi-{{ country.iso_code | downcase }}"></span>
-              {{ country.name }} · {{ language.endonym_name | capitalize }}
-              <span class="navbar-region-currency">{{ country.currency.iso_code }}</span>
-            </li>
-          {%- endfor -%}
+          {%- if country.iso_code == current.iso_code -%}
+            {%- continue -%}
+          {%- endif -%}
+          {%- if allowed != '' -%}
+            {%- unless allowed contains country.iso_code -%}
+              {%- continue -%}
+            {%- endunless -%}
+          {%- endif -%}
+          {%- capture option_label -%}
+            {{- country.iso_code }} ({{ country.currency.symbol }})
+          {%- endcapture -%}
+          <li class="navbar-region-option"
+              role="option"
+              data-flag="fi-{{ country.iso_code | downcase }}"
+              data-label="{{ option_label | escape }}"
+              data-country="{{ country.iso_code }}"
+              aria-selected="false">
+            <span class="fi fi-{{ country.iso_code | downcase }}"></span>
+            {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
+          </li>
         {%- endfor -%}
       </ul>
     {%- endform -%}
