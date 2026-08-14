@@ -1,3 +1,4 @@
+
 {% if localization.language.iso_code == "fr" or localization.language.iso_code contains "fr-" %}
     {% capture goback %} Retournez en arrière {% endcapture %}
     {% capture lastArticles %} Dernières nouvelles {% endcapture %}
@@ -24,7 +25,7 @@
 {% elsif localization.language.iso_code == "en" or localization.language.iso_code contains "en-" %}
     {% capture goback %} Go back {% endcapture %}
     {% capture lastArticles %} Latest News {% endcapture %}
-    {% capture author %} Written by {% endcapture %}
+    {% capture author %} Written by: {% endcapture %}
     {% capture datePublished %} Published on {% endcapture %}
     {% capture dateModified %} Last updated on {% endcapture %}
     {% capture timeToRead %} Time to read {% endcapture %}
@@ -320,134 +321,94 @@
     {% capture commentButton %} Indsend {% endcapture %}
     {% capture commentSuccessMessage %} Din kommentar er blevet tilføjet med succes {% endcapture %}
     {% capture commentErrorMessage %} Der opstod en fejl ved indsendelse af din kommentar. {% endcapture %}
-
      {% else %}
-      {% capture goback %}  {% endcapture %}
-      {% capture lastArticles %}  {% endcapture %}
-      {% capture author %}  {% endcapture %}
-      {% capture datePublished %}  {% endcapture %}
-      {% capture dateModified %}  {% endcapture %}
-      {% capture timeToRead %}  {% endcapture %}
-      {% capture productSideBar %}  {% endcapture %}
-      {% capture ctaText %}  {% endcapture %}
-      {% capture commentsListTitle %}  {% endcapture %}
-      {% capture commentsTitle %}  {% endcapture %}
-      {% capture commentNamePlaceholder %}  {% endcapture %}
-      {% capture commentNameLabel %}  {% endcapture %}
-      {% capture commentNameError %}  {% endcapture %}
-      {% capture commentEmailPlaceholder %}  {% endcapture %}
-      {% capture commentEmailLabel %}  {% endcapture %}
-      {% capture commentEmailError %}  {% endcapture %}
-      {% capture commentMessagePlaceholder %}  {% endcapture %}
-      {% capture commentMessageLabel %}  {% endcapture %}
-      {% capture commentMessageError %}  {% endcapture %}
-      {% capture commentButton %}  {% endcapture %}
-      {% capture commentSuccessMessage %}  {% endcapture %}
-      {% capture commentErrorMessage %}  {% endcapture %}
+    {% capture goback %}  {% endcapture %}
+    {% capture lastArticles %}  {% endcapture %}
+    {% capture author %}  {% endcapture %}
+     {% capture datePublished %}  {% endcapture %}
+    {% capture dateModified %}  {% endcapture %}
+    {% capture timeToRead %}  {% endcapture %}
+    {% capture productSideBar %}  {% endcapture %}
+    {% capture ctaText %}  {% endcapture %}
+    {% capture commentsListTitle %}  {% endcapture %}
+    {% capture commentsTitle %}  {% endcapture %}
+    {% capture commentNamePlaceholder %}  {% endcapture %}
+    {% capture commentNameLabel %}  {% endcapture %}
+    {% capture commentNameError %}  {% endcapture %}
+    {% capture commentEmailPlaceholder %}  {% endcapture %}
+    {% capture commentEmailLabel %}  {% endcapture %}
+    {% capture commentEmailError %}  {% endcapture %}
+    {% capture commentMessagePlaceholder %}  {% endcapture %}
+    {% capture commentMessageLabel %}  {% endcapture %}
+    {% capture commentMessageError %}  {% endcapture %}
+    {% capture commentButton %}  {% endcapture %}
+    {% capture commentSuccessMessage %}  {% endcapture %}
+    {% capture commentErrorMessage %}  {% endcapture %}
 {% endif %}
     {% capture titleSideBarClass %} undefined {% endcapture %}
-
-  <script async src="https://d2xvgzwm836rzd.cloudfront.net/lazysizes-bloggle.min.js"></script>
-  <link href="https://d2xvgzwm836rzd.cloudfront.net/article-layout.min.css" type="text/css" rel="stylesheet">
-
-  <div id="bloggle_article-layout" class="sideBar__right{%if localization.language.iso_code == "ar" or localization.language.iso_code == "he" %} blggle-rtl{%endif%}">
-  
-    <div id="bloggle_article" >
-      <div id="article" class="flex-column-reverse">
-        <div id="article-header" class="text__center">
-          <h1 id="bloggle--article-title" class="">{{article.title }}</h1>
-
-          <div class="info_header">
-            <p id="bloggle--blog-item-author" >{{author}}<span id="author"> {{ article.author }}</span></p>
-            <p id="separator">|</p>
-            <p id="bloggle--blog-item-author" >{{datePublished}} <span>{{ article.published_at | time_tag: format: 'date'}}</span></p>
-            <p id="separator">|</p>
-           
-            {% assign wordCount = article.content | strip_html | split: ' ' | size %}
-            {% if wordCount %}
-              {% assign timeToReadMin = wordCount | divided_by: 225 %}
-              <p id="bloggle--blog-item-ttread" >{{ timeToRead }} <span id='time'>{{ timeToReadMin }}</span> min</p>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-
-      <div class="bloggle_rte rte" id="bloggle_rte" >
-        <div id="article-content" class="flex-column-reverse">
-
-          <div id="article-content" class="text_left">
-            {{ article.content }}
-
-            <div id="bloggle--blog-item-goback" class="bloggle--goback-bottom">
-              <a href="{{blog.url}}">&#8592 {{goback}}</a>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </div>
-
   <style>
     .bloggle_rte p:not(.bggle-font) {
-      font-size: 15px;
-      line-height: 1.4em;
-      margin-top: 0 !important;
-      margin-bottom: 1.2rem !important; 
+      font-size: 14px;
+      line-height: 1.6em;
     }
     .bloggle_rte a,.bloggle_rte li,.bloggle_rte ul,.bloggle_rte strong, .bloggle_rte span, .bloggle_rte ol {
       font-size: inherit;
       line-height: inherit;
     }
-
-    /* Standardizes image element behavior */
-    .bloggle_rte img {
-      max-width: 100% !important;
-      height: auto !important;
-      display: block;
-      margin-left: auto !important;
-      margin-right: auto !important;
-      margin-top: 0 !important;
-      margin-bottom: 0.5rem !important; /* Small gap between image and its caption below it */
-    }
-
-    /* Controls the outer container blocks generated by the editor around images */
-    .bloggle_rte p:has(img), 
-    .bloggle_rte div:has(img),
-    .bloggle_rte figure {
-      margin-top: 0 !important;
-      margin-bottom: 1.5rem !important; /* Uniform gap pushing down to the next image or paragraph */
-      padding: 0 !important;
-    }
-
-    /* If two image containers are directly stacked on top of each other, normalize the spacing */
-    .bloggle_rte p:has(img) + p:has(img),
-    .bloggle_rte div:has(img) + div:has(img) {
-      margin-top: 0 !important;
-    }
-
-    /* Constrains the actual content reading width so text and images line up cleanly */
-    #article-content.text_left {
-      max-width: 760px !important; 
-      margin-left: auto !important;
-      margin-right: auto !important;
-      box-sizing: border-box;
-      margin-top: 20px !important; /* Adds standard spacing right under the author metadata line */
-    }
-
-    /* Changes the font size of "written by", date, and time to read */
-    .info_header, 
-    .info_header p, 
-    .info_header span {
-      font-size: 13px !important; 
-      color: #666666; 
-      margin-bottom: 0 !important; 
-    }
-    .info_header id="separator" {
-      margin: 0; 
-      font-size: 13px;
-    }
   </style>
+  <script async src="https://d2xvgzwm836rzd.cloudfront.net/lazysizes-bloggle.min.js"></script>
+  <link href="https://d2xvgzwm836rzd.cloudfront.net/article-layout.min.css" type="text/css" rel="stylesheet">
+  <div id="bloggle_article-layout" class="sideBar__right{%if localization.language.iso_code == "ar" or localization.language.iso_code == "he" %} blggle-rtl{%endif%}">
+  <div id="bloggle_article" >
+      <div id="article" class="flex-column-reverse">
+      {% if article.image %}
+      <img class="bloggle--blog-item-img" src="{{ article.image | img_url:'1200x' }}" alt="{{ article.image.alt }}">
+      {% endif %}
+    <div id="article-header" class="text__center">
+      
+       
+      <h1 id="bloggle--article-title" class="">{{article.title }}</h1>
+      <div class="info_header">
+        <p id="bloggle--blog-item-author" >{{author}}<span id="author"> {{ article.author }}</span></p>
+        <p id="separator">|</p>
+         <p id="bloggle--blog-item-author" >{{datePublished}} <span>{{ article.published_at | time_tag: format: 'date'}}</span></p>
+          
+           
+        <p id="separator">|</p>
+        {% assign wordCount = article.content | strip_html | split: ' ' | size %}
+               {% if wordCount %}
+                 {% assign timeToReadMin = wordCount | divided_by: 225 %}
+                 <p id="bloggle--blog-item-ttread" >{{ timeToRead }} <span id='time'>{{ timeToReadMin }}</span> min</p>
+               {% endif %}
+      </div>
+    </div>
+  </div>
+    <div class="bloggle_rte rte" id="bloggle_rte">
+      {{ article.content }}
+    <div id="bloggle--blog-item-goback" class="bloggle--goback-bottom">
+         <a href="{{blog.url}}">&#8592 {{goback}}</a>
+      </div>
+    </div>
+
+          <div id="share-buttons" class="share-buttons" >
+        <div class="twitter-share">
+          <svg style="margin-right: 2px;color: #000000;width: 28px;" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="svg5" x="0px" y="0px" viewBox="0 0 1668.56 1221.19" xml:space="preserve"> <g id="layer1" transform="translate(52.390088,-25.058597)"><path fill="#000000" id="path1009" d="M283.94,167.31l386.39,516.64L281.5,1104h87.51l340.42-367.76L984.48,1104h297.8L874.15,558.3l361.92-390.99   h-87.51l-313.51,338.7l-253.31-338.7H283.94z M412.63,231.77h136.81l604.13,807.76h-136.81L412.63,231.77z"/></g> </svg>
+          <a target='_blank' href="https://twitter.com/share?url={{shop.url}}{{article.url}}&text=Check%20out%20this%20post%21%20" class="twitter-share-button-bloggle" data-text="Look what I just read" data-show-count="false">Tweet</a>
+        </div>
+        <div class="facebook-share">
+           <svg class="custom--icon" xmlns="http://www.w3.org/2000/svg" width="12.135" height="22.446" viewBox="0 0 12.135 22.446"><path style="fill:#000000;" d="M33.755,0,30.845,0c-3.27,0-5.383,2.168-5.383,5.524V8.071H22.535a.458.458,0,0,0-.458.458v3.69a.458.458,0,0,0,.458.458h2.927v9.312a.458.458,0,0,0,.458.458h3.818a.458.458,0,0,0,.458-.458V12.677h3.422a.458.458,0,0,0,.458-.458V8.529a.458.458,0,0,0-.458-.458H30.2V5.912c0-1.038.247-1.565,1.6-1.565h1.961a.458.458,0,0,0,.457-.458V.462A.458.458,0,0,0,33.755,0Z" transform="translate(-22.077)"/></svg>
+          <a target='_blank' href="https://www.facebook.com/share.php?u={{shop.url}}{{article.url}}">Share</a>
+        </div>
+        <div class="pinterest-share">
+          <svg class="custom--icon" xmlns="http://www.w3.org/2000/svg" width="15.463" height="19.032" viewBox="0 0 15.463 19.032"><path style="fill:#000000;" d="M10.24,0C5.023,0,2.25,3.343,2.25,6.988c0,1.69.944,3.8,2.457,4.467.431.194.374-.043.745-1.462a.337.337,0,0,0-.081-.331c-2.162-2.5-.422-7.641,4.561-7.641C17.143,2.021,15.8,12,11.186,12A1.7,1.7,0,0,1,9.393,9.913a22.6,22.6,0,0,0,1-3.842c0-2.5-3.719-2.126-3.719,1.182A4,4,0,0,0,7.04,8.964S5.843,13.8,5.621,14.7a12.829,12.829,0,0,0,.088,4.217.125.125,0,0,0,.228.058,14.955,14.955,0,0,0,1.97-3.71c.147-.543.753-2.748.753-2.748a3.288,3.288,0,0,0,2.774,1.323c3.645,0,6.279-3.2,6.279-7.179C17.7,2.852,14.439,0,10.24,0Z" transform="translate(-2.25)"/></svg>
+            <a target='_blank' href="https://www.pinterest.com/pin/create/button/?url={{shop.url}}{{article.url}}">Pin it</a>
+        </div>
+      </div>
+  </div>
+
+  
+  </div>
+
 
   <style>
       .bggle--icon {
@@ -462,7 +423,7 @@
       }
       @media screen and (min-width: 768px) {
         #bloggle_sideBar .bggle--product-info {
-          margin-top: 10px;
+          margin-top: 15px;
         }
       }
       #bloggle_sideBar .bggle--product-info p, #bloggle_sideBar p, #bloggle_sideBar li{
@@ -486,7 +447,7 @@
       #bloggle_article-layout {
         width: 1100px !important;
         max-width: 100% !important;
-        margin-top: 10px;
+        margin-top: 20px;
       }
       
 
@@ -518,6 +479,53 @@
         height: 120px;
         transform: translateY(120px);
         transition: all 0.3s ease;
+        background: #ffffff;
+      }
+      #bloggle_sideBar.bggle-sideBar--blocks .bggle_button-link {
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+      #bloggle_sideBar.bggle-sideBar--blocks .bggle--compare {
+        display: none;
+      }
+
+      .bloggle_sideBar-V2 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+      .bloggle_sideBar-V2 .bggle--sideBar-block {
+        display: none;
+        padding: 0 !important;
+      }
+      .bloggle_sideBar-V2 .bggle--sideBar-block--product {
+        display: block !important;
+      }
+      .bloggle_sideBar-V2 .bggle_button-link > div {
+        flex-direction: row !important;
+        align-items: center;
+      }
+      .bloggle_sideBar-V2 .bggle_button-link > div > button.button {
+        margin-top: 0px !important;
+      }
+      .bloggle_sideBar-V2 .bloggle_product--infos {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left !important;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-bottom: 0 !important;
+      }
+      .bloggle_sideBar-V2 .bloggle_product--img, .bloggle_sideBar-V2 .bggle--product-item-img {
+        margin-bottom: 0 !important;
+      }
+      .bloggle_sideBar-V2 .bggle--product-price {
+        color: #646464;
+        font-size: 0.8em;
+        margin: 0px !important;
       }
       }
        
@@ -543,3 +551,19 @@
       }
 
   </style>
+<script>
+  function handleScroll() {
+    const sidebar = document.querySelector('#bloggle_sideBar');
+    const product = document.querySelector('#bggle--product-related');
+    const isSmallScreen = window.innerWidth < 768;
+    if(isSmallScreen && product){
+      if (window.scrollY > 120) {
+      sidebar.style.transform = 'translateY(0px)';
+    } else {
+      sidebar.style.transform = 'translateY(120px)';
+    }
+    }
+  }
+  window.addEventListener('scroll', handleScroll);
+</script>
+
