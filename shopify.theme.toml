@@ -1,31 +1,36 @@
 # Shopify CLI theme environments.
-# Named environments mean you type `--environment staging`, never a raw theme ID,
-# so a mistyped digit can't push over the wrong theme.
+#
+# Only non-destructive defaults live here. Anything that WRITES to a store takes
+# explicit `--store` and `--theme` flags instead, so the target is always legible
+# in the command itself rather than hidden behind a name.
 #
 #   shopify theme dev  --environment development   # hot-reload preview, pushes nothing
-#   shopify theme push --environment staging       # publish to the unpublished dev theme
 #
-# Find theme IDs with: shopify theme list --store eryn-tech-dev.myshopify.com
+# Find theme IDs with: shopify theme list --store <your-store>.myshopify.com
 
 [environments.development]
 store = "eryn-tech-dev.myshopify.com"
 # `theme dev` creates and reuses a personal development theme automatically.
 # Leave `theme` unset here so each developer gets their own.
 
-[environments.staging]
-store = "eryn-tech-dev.myshopify.com"
-theme = "157548576956"  # "Be Yours 8.5.0 (dev)" — WARNING: [live], not unpublished.
-# Verified 14 Aug 2026 with `shopify theme list`: this theme carries the [live]
-# role on the dev store. The comment here previously said "unpublished", which
-# made `--environment staging` look safe when it is in fact a push to a live
-# theme. Do not push here. For a review build use:
-#   shopify theme push --store eryn-tech-dev.myshopify.com --unpublished --theme "<name>"
-# Seeded 2026-08-10 with the full export (.shopifyignore temporarily bypassed).
-# From here on pushes honour .shopifyignore: code deploys, content does not.
-# Editor:  https://eryn-tech-dev.myshopify.com/admin/themes/157548576956/editor
-# Preview: https://eryn-tech-dev.myshopify.com?preview_theme_id=157548576956
+# DELIBERATELY NO `staging` ENVIRONMENT — removed 14 Aug 2026.
+#
+# It used to name theme 157548576956 on eryn-tech-dev. `shopify theme list`
+# showed that theme's role as [live], so `--environment staging` was a push to a
+# live storefront while reading as the safe option. The point of named
+# environments is that you cannot mistype your way onto the wrong theme; an
+# environment pointing at a live theme inverts that.
+#
+# It is not replaced, because there is no single right answer: we work against
+# different stores. Each person pushes to their own unpublished review theme
+# with explicit flags, so the store is always visible in the command you type:
+#
+#   shopify theme push --store <your-store>.myshopify.com --theme <your-theme-id>
+#
+# See README.md → "Set up your review theme" for how to create that theme.
+# `--environment staging` now fails loudly. That is the intended behaviour.
 
-# NOTE: there is deliberately no `production` environment.
+# NOTE: there is likewise no `production` environment.
 # Going live is a manual "Publish" in the Shopify admin after reviewing the
 # staging preview — never a CLI push. `shopify theme push --live` requires an
 # explicit `--allow-live` flag; do not add it to any script.

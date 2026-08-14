@@ -10,6 +10,15 @@ README.md
 CLAUDE.md
 *.zip
 node_modules/*
+docs/*
+.claude/*
+.playwright-mcp/*
+
+# Local credentials and store config. `.gitignore` keeps these out of git, but
+# `theme push` uploads from DISK, not from git — without this line a `.env`
+# holding a store domain or CLI token would be served from the storefront.
+.env
+.env.*
 
 # ---------------------------------------------------------------------------
 # Merchant-editable content. These files are rewritten every time someone saves

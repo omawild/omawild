@@ -10,6 +10,7 @@ node_modules/
 # Root-level only: assets/*.png are real theme files and must stay tracked.
 .playwright-mcp/
 /*.png
+/*.jpg
 
 # Editor / OS
 .DS_Store

@@ -3,18 +3,51 @@
 **Be Yours 8.5.0** by RoarTheme (paid third-party theme).
 Docs: https://roartheme.co/blogs/beyours
 
-- **Development store:** `eryn-tech-dev.myshopify.com` — all CLI commands target this.
-- **Export provenance:** the baseline zip was exported from `f2e01f-77.myshopify.com`
-  on 11 Aug 2026. Confirm that is the production store before any go-live.
+Human-facing setup and daily workflow live in `README.md`. This file is the
+rules of the codebase.
 
-This is a vendor theme we customize, not a theme we own. Everything below follows
-from that.
+## STOP — read before running anything
+
+**Four commands here reach the customer-facing storefront. None of them look
+dangerous. Never run any of them without the user asking for that specific
+outcome in that specific moment.**
+
+1. **`git push origin main` IS the production deploy.** `main` is wired to the
+   production store via Shopify's GitHub integration; pushing it changes the live
+   storefront with no preview and no confirmation. Work on a branch, push that
+   branch by name. Never `git push` while on `main`, and never `git push origin
+   HEAD:main`. Expect `origin/main` to move on its own — theme-editor saves sync
+   back into git as `shopify[bot]` commits — so fetch and rebase, never force-push.
+2. **Never `shopify theme push --live` or `--allow-live`.** Going live is a human
+   clicking Publish in the Shopify admin. Do not add either flag to any script,
+   task, or alias, even one the user seems to want.
+3. **Never `--environment staging`.** No such environment exists any more, on
+   purpose: it used to name a **live** theme while reading as the safe option.
+   Every push takes explicit `--store` and `--theme` so the target is legible in
+   the command itself. Do not re-add it.
+4. **Never hand-edit `config/settings_data.json` or `templates/*.json`.** See
+   rule 2 below.
+
+**Before any `shopify theme push`, confirm the target is an unpublished theme.**
+`shopify theme list --store <store>` shows the role. If the theme is `[live]`,
+stop and tell the user rather than pushing. If the CLI's own prompt says "live
+theme", the answer is no.
+
+**We work against different stores.** There is no single correct store domain in
+this repo — the user's `.env` holds theirs (`SHOP_STORE`, `SHOP_THEME`). Read it
+or ask; never assume a store from anything written elsewhere in this file, and
+never carry a store domain over from another session.
+
+**Provenance:** the baseline zip was exported from `f2e01f-77.myshopify.com` on
+11 Aug 2026. Confirm that is the production store before any go-live.
 
 ## Rules
 
-1. **Never `shopify theme push --live`.** Push to `--environment staging`, review the
-   preview URL, then publish manually in the Shopify admin. Do not add `--allow-live`
-   to any script.
+This is a vendor theme we customize, not a theme we own. Everything below
+follows from that.
+
+1. **`shopify theme check` must pass before any push.** 0 offenses is the
+   baseline. Do not silence a rule to make it pass — fix the code or ask.
 2. **Never edit `config/settings_data.json` or `templates/*.json` by hand.** They are
    owned by the theme editor and are listed in `.shopifyignore`. A new section added
    in code must be placed once via the theme editor before it appears on a page.
@@ -23,8 +56,9 @@ from that.
    belongs in new sections/snippets, or in a CSS file loaded after the vendor CSS.
 4. **When a vendor file must be edited, keep the diff minimal and commit it alone**
    with a message explaining why, so `git diff vendor-baseline-8.5.0` stays readable.
-5. **`shopify theme check` must pass before pushing.** Do not silence a rule to make it
-   pass — fix the code or ask.
+5. **Ask before touching anything outside the theme.** `.shopifyignore`,
+   `shopify.theme.toml`, `.gitignore` and `.env` decide what reaches a store.
+   A change there is a deploy-safety change, not a code change.
 
 ## Ownership map
 
@@ -37,13 +71,26 @@ from that.
 
 ## Commands
 
+`$SHOP_STORE` and `$SHOP_THEME` come from the user's untracked `.env` — read it
+rather than hardcoding a store. See README.md.
+
 ```bash
-shopify theme dev  --environment development   # local preview, hot reload, pushes nothing
-shopify theme check                            # lint; must be clean
-shopify theme push --environment staging       # deploy to the unpublished staging theme
-shopify theme list --store eryn-tech-dev.myshopify.com
+shopify theme check                            # lint; must be clean before any push
+shopify theme list --store $SHOP_STORE         # confirm the target is NOT [live]
+shopify theme push --store $SHOP_STORE --theme $SHOP_THEME   # to their review theme
 git diff vendor-baseline-8.5.0 --stat          # everything we've changed vs. the export
 ```
+
+`shopify theme dev` is documented but **404s on every route in this repo** —
+`.shopifyignore` withholds `templates/*.json`, so the scratch theme the CLI
+builds has no routes to render. Don't reach for it, and don't diagnose the 404
+as a code problem. Note that opening any `?preview_theme_id=` link sets a
+persistent cookie that will keep 404ing the real storefront afterwards; clear it
+with `?preview_theme_id=` (empty) before concluding a store is broken.
+
+To verify front-end changes without a push, build a static harness that loads
+the real `assets/ow-*.css` / `ow-*.js` against markup mirroring the section's
+output, and assert with `getComputedStyle` / `getBoundingClientRect`.
 
 ## Known backlog
 
