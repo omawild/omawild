@@ -14,7 +14,12 @@
 }
 
 /* ── ANNOUNCEMENT BARS ── */
+/* position+z-index lift the bars above the navbar, which is their positioned
+   sibling. Without this the navbar paints on top of them and its reveal slides
+   across the bars at low opacity instead of emerging from behind them — the
+   slide is then invisible and the bar just snaps into place. */
 .ann-bar{
+  position:relative;z-index:1;
   width:100%;padding:10px 24px;text-align:center;
   font-size:12px;font-weight:600;letter-spacing:.02em;
   line-height:1.4;
@@ -44,41 +49,51 @@
 }
 
 /* ── NAVBAR ──
-   Two phases on the landing page:
-   1. At rest the navbar is a normal in-flow element sitting directly below the
-      fixed ann bars, and it scrolls away with the hero like any other content.
-   2. Once the hero clears the viewport, ow-chrome.js adds .visible, which lifts
-      the navbar to position:fixed just under the bars and fades it in.
-   .navbar-slot reserves the navbar's 54px of flow space in BOTH phases, so
-   going fixed never pulls the content below it upwards. Pages with no #hero
-   get .visible on load, and the slot keeps content clear of the fixed bar
-   there too. */
-.navbar-slot{height:54px;}
+   The navbar is the last child of the fixed #top-chrome stack, so it auto-sits
+   directly below the announcement bars with no positioning of its own.
+
+   It ships HIDDEN and stays hidden until ow-chrome.js adds .visible — on the
+   landing page once the hero has scrolled out of view, on every other page
+   immediately (there is no #hero to wait for). The hidden state is a transform,
+   not display:none, so the reveal can be animated and the bar stays measurable.
+
+   margin-bottom is negative and PERMANENT: it keeps the navbar out of
+   #top-chrome's own height in both states, so revealing it never reflows the
+   fixed stack. What clears content below it is body padding-top, which
+   ow-chrome.js computes — and deliberately counts the navbar only on pages
+   without a hero, where it is visible from first paint. On the landing page the
+   revealed bar overlays content instead; adding 54px of padding mid-scroll
+   jerked the page down at the exact moment the navbar appeared.
+
+   The hidden navbar sits directly behind the ann bars (they carry z-index:1 for
+   exactly this reason), so the reveal slides it out from underneath them rather
+   than across them. */
 .navbar{
   position:relative;
   background:var(--wonderland);
   height:54px;
   display:flex;align-items:center;justify-content:space-between;
   padding:0 20px;
+  margin-bottom:-54px;
+  transform:translateY(-100%);
+  opacity:0;
+  transition:transform .38s cubic-bezier(.4,0,.2,1), opacity .38s;
 }
-/* --ann-h is the measured ann-bar height, set by ow-chrome.js. z-index sits
-   just under #top-chrome (200) so the reveal slides out from behind the bars
-   rather than across them. */
 .navbar.visible{
-  position:fixed;left:0;right:0;
-  top:var(--ann-h,0px);
-  z-index:199;
-  animation:navbar-reveal .38s cubic-bezier(.4,0,.2,1) both;
-}
-@keyframes navbar-reveal{
-  from{transform:translateY(-100%);opacity:0;}
-  to{transform:translateY(0);opacity:1;}
+  transform:translateY(0);
+  opacity:1;
 }
 /* Pages without a hero pin the navbar from first paint — there is nothing to
    reveal, so playing the slide on load would just look like a glitch. */
-.navbar.visible.navbar--no-reveal{animation:none;}
+.navbar--no-reveal{transition:none;}
+/* Reduced motion drops the 54px SLIDE but keeps the fade. The preference is
+   about movement, not cross-fades, and killing the whole transition makes the
+   bar snap on mid-scroll — which reads as a glitch, not as calm. Without the
+   slide the hidden bar rests over page content instead of behind the ann bars,
+   so it must stop intercepting clicks while it is invisible. */
 @media(prefers-reduced-motion:reduce){
-  .navbar.visible{animation:none;}
+  .navbar{transform:none;transition:opacity .38s;pointer-events:none;}
+  .navbar.visible{transform:none;pointer-events:auto;}
 }
 .navbar-logo img{height:22px;width:auto;}
 /* Links sit centered on the bar itself, independent of the logo/right

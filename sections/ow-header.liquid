@@ -9,11 +9,10 @@
   section would put them outside that container and the padding maths would be
   wrong. Blocks keep one section == one fixed container.
 
-  WHY THE NAVBAR SITS OUTSIDE #top-chrome: it has two phases on the landing
-  page. At rest it is a normal in-flow element that scrolls away with the hero,
-  which is impossible inside a position:fixed parent. Only once the hero clears
-  the viewport does ow-chrome.js promote it to fixed. .navbar-slot holds its
-  54px of flow space through both phases so the promotion shifts nothing.
+  WHY THE NAVBAR IS THE LAST CHILD OF #top-chrome: it is fixed chrome too, and
+  as the last child of that flex column it stacks under the bars for free. It
+  renders hidden and ow-chrome.js fades it in — on the landing page only once
+  the hero has scrolled out of view, on every other page immediately.
 
   CONSEQUENCE OF REPLACING THE VENDOR HEADER: Be Yours' <cart-drawer> lives
   inside sections/header.liquid, so it is no longer rendered. assets/product-form.js
@@ -66,9 +65,7 @@
 
     {%- endcase -%}
   {%- endfor -%}
-</div><!-- /#top-chrome -->
 
-<div class="navbar-slot">
   <nav class="navbar" id="navbar" aria-label="Site navigation">
     <a class="navbar-logo" href="{{ routes.root_url }}">
       <img src="{{ 'ow-logo.svg' | asset_url }}" alt="{{ shop.name | escape }}" width="480" height="80">
@@ -141,7 +138,7 @@
       </button>
     </div>
   </nav>
-</div><!-- /.navbar-slot -->
+</div><!-- /#top-chrome -->
 
 {%- comment -%}
   Menu modal. The nav list is populated at runtime by ow-chrome.js from
