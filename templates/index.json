@@ -1,1 +1,784 @@
-{"sections":{"od_new_hero_MXyVc3":{"type":"ow-mgs-hero","name":"Hero Simple","settings":{"logo_svg_code":"","headline_image":"shopify:\/\/shop_images\/welcome-expedition.svg","headline_svg_code":"","emblem_image":"shopify:\/\/shop_images\/planet-emblem.svg","emblem_svg_code":"","tagline":"Coffee’s just the bait to reel you in","hero_image":"shopify:\/\/shop_images\/two-friends-snowy-mountain-omawild-compressed.jpg","background_color":"#fcd0fd","text_color":"#ff3f00"}},"od_canvas_idg6hh":{"type":"od-canvas","blocks":{"callout_FWigdt":{"type":"callout","settings":{"box_alignment":"left","alignment":"left","callout_heading_tag":"h2","title":"Adventures start with coffee","title_size":50,"text":"<p>From forest reserves protecting biodiversity<\/p>","text_size":16,"title_color":"#ffffff","text_color":"#ffffff","line_height":1.3,"line_height_mobile":1.3,"box_width":450,"padding_vertical":10,"padding_horizontal":0,"bg_color":"#f4f4f4","bg_opacity":0,"border_thickness":0,"border_color":"#e8e8e8"}},"buttons_Nif9gM":{"type":"buttons","settings":{"alignment":"flex-start","btn_1_text":"Explore the Collection →","btn_1_link":"shopify:\/\/collections\/all","btn_1_bg":"#f57900","btn_1_text_col":"#ffffff","btn_2_text":"","btn_2_link":"","btn_2_bg":"#ffffff","btn_2_text_col":"#000000"}}},"block_order":["callout_FWigdt","buttons_Nif9gM"],"disabled":true,"name":"OD Canvas","settings":{"max_width":1450,"content_horizontal_alignment":"flex-start","content_vertical_alignment":"flex-end","height_desktop":"500px","height_mobile":"450px","side_padding":40,"side_padding_mobile":22,"block_spacing":12,"padding_top":40,"padding_bottom":40,"image":"shopify:\/\/shop_images\/two-friends-snowy-mountain-omawild-compressed.jpg","background_video":"shopify:\/\/files\/videos\/girls-in-the-himalayas-short-omawild.mp4","background_color":"#ffffff","colors_overlay_opacity":30,"colors_overlay":"#000000"}},"od_featured_products_GrektF":{"type":"od-featured-products","blocks":{"collection_YPwPtK":{"type":"collection","settings":{"product_item":"wildbloom","highlight_card":false,"banner_text":"★ BEST VALUE","collection_tag":"Bright & Floral","collection_title":"Wild Bloom","collection_blurb":"Vibrant and expressive coffees bursting with florals, tropical fruit, berries, citrus, and tea-like notes.","price_caption":"","benefit_1":"Best for pour-over","benefit_2":"Exceptional for cold brew","benefit_3":"Great for nitro","show_subscription_notice":true,"subscription_notice_text":"For subscriptions, [click here].","subscription_custom_url":"{{ block.settings.product_item.url }}"}},"collection_7A9XCX":{"type":"collection","settings":{"product_item":"forest-trail-garut-washed-arabica-specialty-grade","highlight_card":false,"banner_text":"★ BEST VALUE","custom_image":"shopify:\/\/shop_images\/forest-trail.jpg","collection_tag":"Bold & Comforting","collection_title":"Forest Trail","collection_blurb":"Comforting and approachable coffees layered with chocolate, caramel, roasted nuts, and rich sweetness.","price_caption":"","benefit_1":"Crafted for espresso","benefit_2":"Brews rich in a moka pot","benefit_3":"Shines in milk-based beverages","show_subscription_notice":true,"subscription_notice_text":"For subscriptions, [click here]","subscription_custom_url":"{{ block.settings.product_item.url }}"}},"collection_xXGJWc":{"type":"collection","settings":{"product_item":"limited-reserve-garut-wine","highlight_card":false,"banner_text":"★ BEST VALUE","collection_tag":"Anaerobic Fermentation","collection_title":"Limited Reserve","collection_blurb":"A rare micro-lot production that blurs the line between coffee, tea, fruit, and wine.","price_caption":"","benefit_1":"Best for pour-over and hot over ice","benefit_2":"Exceptional for cold brew & nitro","benefit_3":"Rare micro-lot","show_subscription_notice":true,"subscription_notice_text":"For subscriptions, [click here].","subscription_custom_url":"{{ block.settings.product_item.url }}"}}},"block_order":["collection_YPwPtK","collection_7A9XCX","collection_xXGJWc"],"name":"OD Featured Products","settings":{"header_alignment":"flex-start","limit_header_width":false,"header_max_width":650,"heading_size":38,"heading":"Specialty coffee for the planet","subheading":"<p>Discover the flavours of every adventure while leaving a lighter footprint<\/p>","heading_tag":"h2","background_color":"#ffffff","heading_color":"#1a1b18","text_color":"#1b1b1b","benefit_text_color":"#1b1b1b","descriptor_color":"#b231c6","price_color":"#0e0310","emphasis_color":"#f57900","view_all_label":"View All","view_all_link":"","section_padding_top":10,"section_padding_bottom":30,"mobile_padding_horizontal":24,"desktop_padding_horizontal":40,"grid_gap":20,"price_row_margin_bottom":16,"price_caption_margin_bottom":4,"image_aspect_ratio":"1\/1","button_action":"buy_now","button_bg_color":"#f57900","button_text_color":"#ffffff"}},"od_product_collection_YLwgbr":{"type":"od-product-collection","blocks":{"collection_Hy9aJ3":{"type":"collection","settings":{"product_item":"wildbloom","highlight_card":false,"banner_text":"","collection_tag":"Bright & Floral","collection_title":"Wild Bloom","collection_blurb":"Vibrant and expressive coffees bursting with florals, tropical fruit, berries, citrus, and tea-like notes.","price_caption":"","benefit_1":"Best for pour-over and cold brew","benefit_2":"Stay cool in the summer heat","benefit_3":"Great with nitro"}},"collection_nzGiWy":{"type":"collection","settings":{"product_item":"","highlight_card":false,"banner_text":"","custom_image":"shopify:\/\/shop_images\/forest-trail.jpg","collection_tag":"Bold & Comforting","collection_title":"Forest Trail","collection_blurb":"Comforting and approachable coffees layered with chocolate, caramel, roasted nuts, and rich sweetness.","price_caption":"","benefit_1":"Espresso & Moka pot","benefit_2":"Pairs well with milk","benefit_3":""}},"collection_WjfNWk":{"type":"collection","settings":{"product_item":"limited-reserve-garut-wine","highlight_card":false,"banner_text":"","collection_tag":"Anaerobic Fermentation","collection_title":"Limited Reserve","collection_blurb":"A rare micro-lot production that blurs the line between coffee, tea, fruit, and wine.","price_caption":"","benefit_1":"Best for pour-over and hot over ice","benefit_2":"Insanely delicious cold brew","benefit_3":"Rare micro-lot"}}},"block_order":["collection_Hy9aJ3","collection_nzGiWy","collection_WjfNWk"],"disabled":true,"name":"OD Product Collection","settings":{"heading":"Wild Origins","subheading":"<p>Discover the flavours that move you.<\/p>","heading_tag":"h2","heading_size":38,"background_color":"#ffffff","heading_color":"#1a1b18","text_color":"#1b1b1b","benefit_text_color":"#0e0310","descriptor_color":"#b231c6","price_color":"#f57900","emphasis_color":"#0e0310","view_all_label":"","view_all_link":"shopify:\/\/pages\/wholesale","section_padding_top":10,"section_padding_bottom":30,"mobile_padding_horizontal":22,"desktop_padding_horizontal":40,"grid_gap":18,"price_row_margin_bottom":14,"price_caption_margin_bottom":6,"image_aspect_ratio":"1\/1","button_action":"add_to_cart","button_bg_color":"#f57900","button_text_color":"#ffffff"}},"image_banner_hbwHKb":{"type":"image-banner","blocks":{"heading_wfxhzQ":{"type":"heading","settings":{"heading":"<strong>Fund Planet Earth<\/strong>","heading_size":"h1"}},"text_zEmLhV":{"type":"text","settings":{"text":"<p>Everything we eat and everything we drink leaves a mark on our planet. We believe restoring it begins with our food. At Omawild, we're building an ambitious fund to rewild our home planet, starting with specialty coffee sourced from the forest reserves of Indonesia.<\/p>"}},"button_BzdgU6":{"type":"button","settings":{"button_label":"Our Blueprint Ahead →","button_link":"shopify:\/\/pages\/one-percent-for-the-planet","button_size":"medium","button_style_secondary":false}}},"block_order":["heading_wfxhzQ","text_zEmLhV","button_BzdgU6"],"name":"Fund Planet Earth","settings":{"image":"shopify:\/\/shop_images\/two-friends-snowy-mountain-omawild-compressed.jpg","colors_overlay":"#145fda","colors_overlay_opacity":100,"fit_to_content":true,"banner_height":450,"content_max_width":900,"vertical_content_alignment":"middle","horizontal_content_alignment":"left","text_alignment":"left","colors_text":"#ffffff","colors_button_label":"#145fda","colors_button_background":"#ffffff","padding_top":40,"padding_bottom":40,"desktop_gutter":40,"mobile_gutter":22}},"image_with_text_wJUzep":{"type":"image-with-text","blocks":{"heading_pDGXaa":{"type":"heading","settings":{"heading":"Omawild began during an expedition across Bali, where conservation work kept calling us back to Indonesia.","heading_size":"h2","heading_tag":"h2","enable_highlight":false,"highlight_style":"marker"}},"text_m4Jffi":{"type":"text","disabled":true,"settings":{"text":"<p>Omawild began during an expedition across Bali, where conservation work kept calling us back to Indonesia. That journey led us into communities protecting forest reserves, restoring coral reefs, and improving soil health across some of the most biodiverse places on our planet. Those experiences left us forever changed.<\/p>","text_size":"typeset","secondary_color":false,"enable_highlight":false,"highlight_style":"marker"}},"button_YwYMt4":{"type":"button","settings":{"button_size":"medium","button_label":"Where Adventure Led Us →","button_link":"shopify:\/\/pages\/about","button_style_secondary":false,"button_alt_label":"","button_alt_link":"","button_alt_style_secondary":false}}},"block_order":["heading_pDGXaa","text_m4Jffi","button_YwYMt4"],"name":"t:sections.image-with-text.presets.name","settings":{"image":"shopify:\/\/shop_images\/OS04-naeca-2023.jpg","image_position":"center center","layout":"image_first","text_box_position":"middle","text_alignment":"left","image_ratio":"500px","enlarge_content":false,"full_width":false,"show_divider":false,"image_behavior":"none","mobile_layout":"image_first","mobile_text_alignment":"left","mobile_image_ratio":"auto","enable_video_looping":false,"video_url":"","use_custom_colors":false,"colors_button_label":"#ffffff","colors_button_background":"#f57900","colors_text":"#212326","colors_background":"#ffffff","gradient_background":"","colors_highlight":"#ffb503","padding_top":36,"padding_bottom":36}},"image_banner_6dVMqz":{"type":"image-banner","blocks":{"heading_7Kd8Ee":{"type":"heading","name":"Ligher footprint","settings":{"heading":"Designed to leave a lighter footprint on the world we love","heading_size":"h1"}},"button_EMDjzc":{"type":"button","disabled":true,"settings":{"button_label":"Learn More","button_link":"shopify:\/\/pages\/our-ethos","button_size":"medium","button_style_secondary":false}}},"block_order":["heading_7Kd8Ee","button_EMDjzc"],"name":"Lighter Footprint","settings":{"image":"shopify:\/\/shop_images\/canyonclimber.png","colors_overlay":"#1a1b18","colors_overlay_opacity":48,"fit_to_content":false,"banner_height":280,"content_max_width":800,"vertical_content_alignment":"middle","horizontal_content_alignment":"center","text_alignment":"center","colors_text":"#ffffff","colors_button_label":"#1a1b18","colors_button_background":"#ffffff","padding_top":0,"padding_bottom":0,"desktop_gutter":40,"mobile_gutter":20}},"od_row_of_cards_qyVUNM":{"type":"od-card-gallery-horizontal","blocks":{"card_6ratRB":{"type":"card","settings":{"image":"shopify:\/\/shop_images\/01-climb.png","title":"Climb High","body":""}},"card_V4trRi":{"type":"card","settings":{"image":"shopify:\/\/shop_images\/02-ride.png","title":"Ride Hard","body":""}},"card_qHf4Yb":{"type":"card","settings":{"image":"shopify:\/\/shop_images\/03-hike.png","title":"Hike Out","body":""}},"card_q3D9id":{"type":"card","settings":{"image":"shopify:\/\/shop_images\/04-run.png","title":"Run Far","body":""}},"card_ymn3Uw":{"type":"card","settings":{"image":"shopify:\/\/shop_images\/05-travel.png","title":"Travel Hot","body":""}},"card_yhJ6X9":{"type":"card","settings":{"image":"shopify:\/\/shop_images\/06-surf.png","title":"Surf Steady","body":""}}},"block_order":["card_6ratRB","card_V4trRi","card_qHf4Yb","card_q3D9id","card_ymn3Uw","card_yhJ6X9"],"name":"Adventures","settings":{"section_padding_top":40,"section_padding_bottom":40,"gallery_padding_left":40,"gallery_padding_top_mobile":30,"gallery_padding_bottom_mobile":30,"gallery_padding_left_mobile":20,"text_alignment":"left","overlay_color":"#000000","overlay_opacity":20,"card_width":320,"card_width_mobile":280,"card_gap":20,"aspect_ratio":"133","card_border_radius":8,"card_padding":20,"scrollbar_color":"#d2d5d9","card_title_size":18,"card_body_size":14,"card_title_color":"#ffffff","card_body_color":"#ffffff","header_text":"Adventures that move you","body_text":"","body_spacing":0,"header_size":34,"body_size":16,"header_color":"#1a1b18","body_color":"#000000"}},"value_grid_rQexPV":{"type":"od-value-grid","blocks":{"usp_x4JKw9":{"type":"usp","settings":{"title":"Giving back 1% to our home planet","link_label":"Learn More →","link_url":"shopify:\/\/pages\/one-percent-for-the-planet"}},"usp_h8bXGV":{"type":"usp","disabled":true,"settings":{"title":"Sharing 3% revenue with our farms","link_label":"Coming soon","link_url":""}},"usp_9hnbH3":{"type":"usp","settings":{"title":"Supporting grassroot nonprofits","link_label":"Coming soon","link_url":""}},"usp_7NtDbi":{"type":"usp","settings":{"title":"Fuelling adventures with regenerative ingredients","link_label":"Coming soon","link_url":""}}},"block_order":["usp_x4JKw9","usp_h8bXGV","usp_9hnbH3","usp_7NtDbi"],"name":"Value Grid","settings":{"heading":"","header_alignment":"left","content_alignment":"flex-start","global_icon_width":70,"global_title_size":24,"mobile_title_size":18,"full_width":false,"max_width":1400,"section_padding_top":40,"section_padding_bottom":40,"desktop_padding_horizontal":40,"mobile_padding_horizontal":30,"background_color":"#0e0310","heading_color":"#ffffff","text_color":"#ffffff"}},"od_newsletter_B6PUqr":{"type":"od-newsletter","blocks":{"heading_QJL9jf":{"type":"heading","settings":{"heading":"<strong>Humans need adventure<\/strong>","heading_tag":"h4"}},"paragraph_yRQm4b":{"type":"paragraph","settings":{"paragraph":"<p>And a healthy planet makes it all possible.<\/p>"}},"email_form_GEX73d":{"type":"email_form","settings":{"button_label":"Join the expedition →","success_heading":"Welcome to the adventure","success_body":"Check your inbox for your first trailhead map."}},"signup_note_eAMYVT":{"type":"signup_note","settings":{"note":"<p>Get wild on deals, stories, and more.<\/p>"}}},"block_order":["heading_QJL9jf","paragraph_yRQm4b","email_form_GEX73d","signup_note_eAMYVT"],"disabled":true,"name":"OD Newsletter","settings":{"alignment_text":"center","content_max_width":400,"padding_top":80,"padding_bottom":80,"colors_background":"#faf8f5","colors_text":"#1a1b18","colors_border":"#d2d5d9"}}},"order":["od_new_hero_MXyVc3","od_canvas_idg6hh","od_featured_products_GrektF","od_product_collection_YLwgbr","image_banner_hbwHKb","image_with_text_wJUzep","image_banner_6dVMqz","od_row_of_cards_qyVUNM","value_grid_rQexPV","od_newsletter_B6PUqr"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "od_new_hero_MXyVc3": {
+      "type": "ow-mgs-hero",
+      "disabled": true,
+      "name": "Hero Simple",
+      "settings": {
+        "logo_svg_code": "",
+        "headline_image": "shopify://shop_images/welcome-expedition.svg",
+        "headline_svg_code": "",
+        "emblem_image": "shopify://shop_images/planet-emblem.svg",
+        "emblem_svg_code": "",
+        "tagline": "Coffee’s just the bait to reel you in",
+        "hero_image": "shopify://shop_images/two-friends-snowy-mountain-omawild-compressed.jpg",
+        "background_color": "#fcd0fd",
+        "text_color": "#ff3f00"
+      }
+    },
+    "od_canvas_idg6hh": {
+      "type": "od-canvas",
+      "blocks": {
+        "callout_FWigdt": {
+          "type": "callout",
+          "settings": {
+            "box_alignment": "left",
+            "alignment": "left",
+            "callout_heading_tag": "h2",
+            "title": "Adventures start with coffee",
+            "title_size": 50,
+            "text": "<p>From forest reserves protecting biodiversity</p>",
+            "text_size": 16,
+            "title_color": "#ffffff",
+            "text_color": "#ffffff",
+            "line_height": 1.3,
+            "line_height_mobile": 1.3,
+            "box_width": 450,
+            "padding_vertical": 10,
+            "padding_horizontal": 0,
+            "bg_color": "#f4f4f4",
+            "bg_opacity": 0,
+            "border_thickness": 0,
+            "border_color": "#e8e8e8"
+          }
+        },
+        "buttons_Nif9gM": {
+          "type": "buttons",
+          "settings": {
+            "alignment": "flex-start",
+            "btn_1_text": "Explore the Collection →",
+            "btn_1_link": "shopify://collections/all",
+            "btn_1_bg": "#f57900",
+            "btn_1_text_col": "#ffffff",
+            "btn_2_text": "",
+            "btn_2_link": "",
+            "btn_2_bg": "#ffffff",
+            "btn_2_text_col": "#000000"
+          }
+        }
+      },
+      "block_order": [
+        "callout_FWigdt",
+        "buttons_Nif9gM"
+      ],
+      "disabled": true,
+      "name": "OD Canvas",
+      "settings": {
+        "max_width": 1450,
+        "content_horizontal_alignment": "flex-start",
+        "content_vertical_alignment": "flex-end",
+        "height_desktop": "500px",
+        "height_mobile": "450px",
+        "side_padding": 40,
+        "side_padding_mobile": 22,
+        "block_spacing": 12,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "image": "shopify://shop_images/two-friends-snowy-mountain-omawild-compressed.jpg",
+        "background_video": "shopify://files/videos/girls-in-the-himalayas-short-omawild.mp4",
+        "background_color": "#ffffff",
+        "colors_overlay_opacity": 30,
+        "colors_overlay": "#000000"
+      }
+    },
+    "od_featured_products_GrektF": {
+      "type": "od-featured-products",
+      "blocks": {
+        "collection_YPwPtK": {
+          "type": "collection",
+          "settings": {
+            "product_item": "wildbloom",
+            "highlight_card": false,
+            "banner_text": "★ BEST VALUE",
+            "collection_tag": "Bright & Floral",
+            "collection_title": "Wild Bloom",
+            "collection_blurb": "Vibrant and expressive coffees bursting with florals, tropical fruit, berries, citrus, and tea-like notes.",
+            "price_caption": "",
+            "benefit_1": "Best for pour-over",
+            "benefit_2": "Exceptional for cold brew",
+            "benefit_3": "Great for nitro",
+            "show_subscription_notice": true,
+            "subscription_notice_text": "For subscriptions, [click here].",
+            "subscription_custom_url": "{{ block.settings.product_item.url }}"
+          }
+        },
+        "collection_7A9XCX": {
+          "type": "collection",
+          "settings": {
+            "product_item": "forest-trail-garut-washed-arabica-specialty-grade",
+            "highlight_card": false,
+            "banner_text": "★ BEST VALUE",
+            "custom_image": "shopify://shop_images/forest-trail.jpg",
+            "collection_tag": "Bold & Comforting",
+            "collection_title": "Forest Trail",
+            "collection_blurb": "Comforting and approachable coffees layered with chocolate, caramel, roasted nuts, and rich sweetness.",
+            "price_caption": "",
+            "benefit_1": "Crafted for espresso",
+            "benefit_2": "Brews rich in a moka pot",
+            "benefit_3": "Shines in milk-based beverages",
+            "show_subscription_notice": true,
+            "subscription_notice_text": "For subscriptions, [click here]",
+            "subscription_custom_url": "{{ block.settings.product_item.url }}"
+          }
+        },
+        "collection_xXGJWc": {
+          "type": "collection",
+          "settings": {
+            "product_item": "limited-reserve-garut-wine",
+            "highlight_card": false,
+            "banner_text": "★ BEST VALUE",
+            "collection_tag": "Anaerobic Fermentation",
+            "collection_title": "Limited Reserve",
+            "collection_blurb": "A rare micro-lot production that blurs the line between coffee, tea, fruit, and wine.",
+            "price_caption": "",
+            "benefit_1": "Best for pour-over and hot over ice",
+            "benefit_2": "Exceptional for cold brew & nitro",
+            "benefit_3": "Rare micro-lot",
+            "show_subscription_notice": true,
+            "subscription_notice_text": "For subscriptions, [click here].",
+            "subscription_custom_url": "{{ block.settings.product_item.url }}"
+          }
+        }
+      },
+      "block_order": [
+        "collection_YPwPtK",
+        "collection_7A9XCX",
+        "collection_xXGJWc"
+      ],
+      "disabled": true,
+      "name": "OD Featured Products",
+      "settings": {
+        "header_alignment": "flex-start",
+        "limit_header_width": false,
+        "header_max_width": 650,
+        "heading_size": 38,
+        "heading": "Specialty coffee for the planet",
+        "subheading": "<p>Discover the flavours of every adventure while leaving a lighter footprint</p>",
+        "heading_tag": "h2",
+        "background_color": "#ffffff",
+        "heading_color": "#1a1b18",
+        "text_color": "#1b1b1b",
+        "benefit_text_color": "#1b1b1b",
+        "descriptor_color": "#b231c6",
+        "price_color": "#0e0310",
+        "emphasis_color": "#f57900",
+        "view_all_label": "View All",
+        "view_all_link": "",
+        "section_padding_top": 10,
+        "section_padding_bottom": 30,
+        "mobile_padding_horizontal": 24,
+        "desktop_padding_horizontal": 40,
+        "grid_gap": 20,
+        "price_row_margin_bottom": 16,
+        "price_caption_margin_bottom": 4,
+        "image_aspect_ratio": "1/1",
+        "button_action": "buy_now",
+        "button_bg_color": "#f57900",
+        "button_text_color": "#ffffff"
+      }
+    },
+    "od_product_collection_YLwgbr": {
+      "type": "od-product-collection",
+      "blocks": {
+        "collection_Hy9aJ3": {
+          "type": "collection",
+          "settings": {
+            "product_item": "wildbloom",
+            "highlight_card": false,
+            "banner_text": "",
+            "collection_tag": "Bright & Floral",
+            "collection_title": "Wild Bloom",
+            "collection_blurb": "Vibrant and expressive coffees bursting with florals, tropical fruit, berries, citrus, and tea-like notes.",
+            "price_caption": "",
+            "benefit_1": "Best for pour-over and cold brew",
+            "benefit_2": "Stay cool in the summer heat",
+            "benefit_3": "Great with nitro"
+          }
+        },
+        "collection_nzGiWy": {
+          "type": "collection",
+          "settings": {
+            "product_item": "",
+            "highlight_card": false,
+            "banner_text": "",
+            "custom_image": "shopify://shop_images/forest-trail.jpg",
+            "collection_tag": "Bold & Comforting",
+            "collection_title": "Forest Trail",
+            "collection_blurb": "Comforting and approachable coffees layered with chocolate, caramel, roasted nuts, and rich sweetness.",
+            "price_caption": "",
+            "benefit_1": "Espresso & Moka pot",
+            "benefit_2": "Pairs well with milk",
+            "benefit_3": ""
+          }
+        },
+        "collection_WjfNWk": {
+          "type": "collection",
+          "settings": {
+            "product_item": "limited-reserve-garut-wine",
+            "highlight_card": false,
+            "banner_text": "",
+            "collection_tag": "Anaerobic Fermentation",
+            "collection_title": "Limited Reserve",
+            "collection_blurb": "A rare micro-lot production that blurs the line between coffee, tea, fruit, and wine.",
+            "price_caption": "",
+            "benefit_1": "Best for pour-over and hot over ice",
+            "benefit_2": "Insanely delicious cold brew",
+            "benefit_3": "Rare micro-lot"
+          }
+        }
+      },
+      "block_order": [
+        "collection_Hy9aJ3",
+        "collection_nzGiWy",
+        "collection_WjfNWk"
+      ],
+      "disabled": true,
+      "name": "OD Product Collection",
+      "settings": {
+        "heading": "Wild Origins",
+        "subheading": "<p>Discover the flavours that move you.</p>",
+        "heading_tag": "h2",
+        "heading_size": 38,
+        "background_color": "#ffffff",
+        "heading_color": "#1a1b18",
+        "text_color": "#1b1b1b",
+        "benefit_text_color": "#0e0310",
+        "descriptor_color": "#b231c6",
+        "price_color": "#f57900",
+        "emphasis_color": "#0e0310",
+        "view_all_label": "",
+        "view_all_link": "shopify://pages/wholesale",
+        "section_padding_top": 10,
+        "section_padding_bottom": 30,
+        "mobile_padding_horizontal": 22,
+        "desktop_padding_horizontal": 40,
+        "grid_gap": 18,
+        "price_row_margin_bottom": 14,
+        "price_caption_margin_bottom": 6,
+        "image_aspect_ratio": "1/1",
+        "button_action": "add_to_cart",
+        "button_bg_color": "#f57900",
+        "button_text_color": "#ffffff"
+      }
+    },
+    "image_banner_hbwHKb": {
+      "type": "image-banner",
+      "blocks": {
+        "heading_wfxhzQ": {
+          "type": "heading",
+          "settings": {
+            "heading": "<strong>Fund Planet Earth</strong>",
+            "heading_size": "h1"
+          }
+        },
+        "text_zEmLhV": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Everything we eat and everything we drink leaves a mark on our planet. We believe restoring it begins with our food. At Omawild, we're building an ambitious fund to rewild our home planet, starting with specialty coffee sourced from the forest reserves of Indonesia.</p>"
+          }
+        },
+        "button_BzdgU6": {
+          "type": "button",
+          "settings": {
+            "button_label": "Our Blueprint Ahead →",
+            "button_link": "shopify://pages/one-percent-for-the-planet",
+            "button_size": "medium",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_wfxhzQ",
+        "text_zEmLhV",
+        "button_BzdgU6"
+      ],
+      "disabled": true,
+      "name": "Fund Planet Earth",
+      "settings": {
+        "image": "shopify://shop_images/two-friends-snowy-mountain-omawild-compressed.jpg",
+        "colors_overlay": "#145fda",
+        "colors_overlay_opacity": 100,
+        "fit_to_content": true,
+        "banner_height": 450,
+        "content_max_width": 900,
+        "vertical_content_alignment": "middle",
+        "horizontal_content_alignment": "left",
+        "text_alignment": "left",
+        "colors_text": "#ffffff",
+        "colors_button_label": "#145fda",
+        "colors_button_background": "#ffffff",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "desktop_gutter": 40,
+        "mobile_gutter": 22
+      }
+    },
+    "image_with_text_wJUzep": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_pDGXaa": {
+          "type": "heading",
+          "settings": {
+            "heading": "Omawild began during an expedition across Bali, where conservation work kept calling us back to Indonesia.",
+            "heading_size": "h2",
+            "heading_tag": "h2",
+            "enable_highlight": false,
+            "highlight_style": "marker"
+          }
+        },
+        "text_m4Jffi": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "text": "<p>Omawild began during an expedition across Bali, where conservation work kept calling us back to Indonesia. That journey led us into communities protecting forest reserves, restoring coral reefs, and improving soil health across some of the most biodiverse places on our planet. Those experiences left us forever changed.</p>",
+            "text_size": "typeset",
+            "secondary_color": false,
+            "enable_highlight": false,
+            "highlight_style": "marker"
+          }
+        },
+        "button_YwYMt4": {
+          "type": "button",
+          "settings": {
+            "button_size": "medium",
+            "button_label": "Where Adventure Led Us →",
+            "button_link": "shopify://pages/about",
+            "button_style_secondary": false,
+            "button_alt_label": "",
+            "button_alt_link": "",
+            "button_alt_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_pDGXaa",
+        "text_m4Jffi",
+        "button_YwYMt4"
+      ],
+      "disabled": true,
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/OS04-naeca-2023.jpg",
+        "image_position": "center center",
+        "layout": "image_first",
+        "text_box_position": "middle",
+        "text_alignment": "left",
+        "image_ratio": "500px",
+        "enlarge_content": false,
+        "full_width": false,
+        "show_divider": false,
+        "image_behavior": "none",
+        "mobile_layout": "image_first",
+        "mobile_text_alignment": "left",
+        "mobile_image_ratio": "auto",
+        "enable_video_looping": false,
+        "video_url": "",
+        "use_custom_colors": false,
+        "colors_button_label": "#ffffff",
+        "colors_button_background": "#f57900",
+        "colors_text": "#212326",
+        "colors_background": "#ffffff",
+        "gradient_background": "",
+        "colors_highlight": "#ffb503",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_banner_6dVMqz": {
+      "type": "image-banner",
+      "blocks": {
+        "heading_7Kd8Ee": {
+          "type": "heading",
+          "name": "Ligher footprint",
+          "settings": {
+            "heading": "Designed to leave a lighter footprint on the world we love",
+            "heading_size": "h1"
+          }
+        },
+        "button_EMDjzc": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "button_label": "Learn More",
+            "button_link": "shopify://pages/our-ethos",
+            "button_size": "medium",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_7Kd8Ee",
+        "button_EMDjzc"
+      ],
+      "disabled": true,
+      "name": "Lighter Footprint",
+      "settings": {
+        "image": "shopify://shop_images/canyonclimber.png",
+        "colors_overlay": "#1a1b18",
+        "colors_overlay_opacity": 48,
+        "fit_to_content": false,
+        "banner_height": 280,
+        "content_max_width": 800,
+        "vertical_content_alignment": "middle",
+        "horizontal_content_alignment": "center",
+        "text_alignment": "center",
+        "colors_text": "#ffffff",
+        "colors_button_label": "#1a1b18",
+        "colors_button_background": "#ffffff",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "desktop_gutter": 40,
+        "mobile_gutter": 20
+      }
+    },
+    "od_row_of_cards_qyVUNM": {
+      "type": "od-card-gallery-horizontal",
+      "blocks": {
+        "card_6ratRB": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/01-climb.png",
+            "title": "Climb High",
+            "body": ""
+          }
+        },
+        "card_V4trRi": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/02-ride.png",
+            "title": "Ride Hard",
+            "body": ""
+          }
+        },
+        "card_qHf4Yb": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/03-hike.png",
+            "title": "Hike Out",
+            "body": ""
+          }
+        },
+        "card_q3D9id": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/04-run.png",
+            "title": "Run Far",
+            "body": ""
+          }
+        },
+        "card_ymn3Uw": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/05-travel.png",
+            "title": "Travel Hot",
+            "body": ""
+          }
+        },
+        "card_yhJ6X9": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/06-surf.png",
+            "title": "Surf Steady",
+            "body": ""
+          }
+        }
+      },
+      "block_order": [
+        "card_6ratRB",
+        "card_V4trRi",
+        "card_qHf4Yb",
+        "card_q3D9id",
+        "card_ymn3Uw",
+        "card_yhJ6X9"
+      ],
+      "disabled": true,
+      "name": "Adventures",
+      "settings": {
+        "section_padding_top": 40,
+        "section_padding_bottom": 40,
+        "gallery_padding_left": 40,
+        "gallery_padding_top_mobile": 30,
+        "gallery_padding_bottom_mobile": 30,
+        "gallery_padding_left_mobile": 20,
+        "text_alignment": "left",
+        "overlay_color": "#000000",
+        "overlay_opacity": 20,
+        "card_width": 320,
+        "card_width_mobile": 280,
+        "card_gap": 20,
+        "aspect_ratio": "133",
+        "card_border_radius": 8,
+        "card_padding": 20,
+        "scrollbar_color": "#d2d5d9",
+        "card_title_size": 18,
+        "card_body_size": 14,
+        "card_title_color": "#ffffff",
+        "card_body_color": "#ffffff",
+        "header_text": "Adventures that move you",
+        "body_text": "",
+        "body_spacing": 0,
+        "header_size": 34,
+        "body_size": 16,
+        "header_color": "#1a1b18",
+        "body_color": "#000000"
+      }
+    },
+    "value_grid_rQexPV": {
+      "type": "od-value-grid",
+      "blocks": {
+        "usp_x4JKw9": {
+          "type": "usp",
+          "settings": {
+            "title": "Giving back 1% to our home planet",
+            "link_label": "Learn More →",
+            "link_url": "shopify://pages/one-percent-for-the-planet"
+          }
+        },
+        "usp_h8bXGV": {
+          "type": "usp",
+          "disabled": true,
+          "settings": {
+            "title": "Sharing 3% revenue with our farms",
+            "link_label": "Coming soon",
+            "link_url": ""
+          }
+        },
+        "usp_9hnbH3": {
+          "type": "usp",
+          "settings": {
+            "title": "Supporting grassroot nonprofits",
+            "link_label": "Coming soon",
+            "link_url": ""
+          }
+        },
+        "usp_7NtDbi": {
+          "type": "usp",
+          "settings": {
+            "title": "Fuelling adventures with regenerative ingredients",
+            "link_label": "Coming soon",
+            "link_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "usp_x4JKw9",
+        "usp_h8bXGV",
+        "usp_9hnbH3",
+        "usp_7NtDbi"
+      ],
+      "disabled": true,
+      "name": "Value Grid",
+      "settings": {
+        "heading": "",
+        "header_alignment": "left",
+        "content_alignment": "flex-start",
+        "global_icon_width": 70,
+        "global_title_size": 24,
+        "mobile_title_size": 18,
+        "full_width": false,
+        "max_width": 1400,
+        "section_padding_top": 40,
+        "section_padding_bottom": 40,
+        "desktop_padding_horizontal": 40,
+        "mobile_padding_horizontal": 30,
+        "background_color": "#0e0310",
+        "heading_color": "#ffffff",
+        "text_color": "#ffffff"
+      }
+    },
+    "od_newsletter_B6PUqr": {
+      "type": "od-newsletter",
+      "blocks": {
+        "heading_QJL9jf": {
+          "type": "heading",
+          "settings": {
+            "heading": "<strong>Humans need adventure</strong>",
+            "heading_tag": "h4"
+          }
+        },
+        "paragraph_yRQm4b": {
+          "type": "paragraph",
+          "settings": {
+            "paragraph": "<p>And a healthy planet makes it all possible.</p>"
+          }
+        },
+        "email_form_GEX73d": {
+          "type": "email_form",
+          "settings": {
+            "button_label": "Join the expedition →",
+            "success_heading": "Welcome to the adventure",
+            "success_body": "Check your inbox for your first trailhead map."
+          }
+        },
+        "signup_note_eAMYVT": {
+          "type": "signup_note",
+          "settings": {
+            "note": "<p>Get wild on deals, stories, and more.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_QJL9jf",
+        "paragraph_yRQm4b",
+        "email_form_GEX73d",
+        "signup_note_eAMYVT"
+      ],
+      "disabled": true,
+      "name": "OD Newsletter",
+      "settings": {
+        "alignment_text": "center",
+        "content_max_width": 400,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "colors_background": "#faf8f5",
+        "colors_text": "#1a1b18",
+        "colors_border": "#d2d5d9"
+      }
+    },
+    "ow_landing_CeJPae": {
+      "type": "ow-landing",
+      "blocks": {
+        "hero_cy8t9i": {
+          "type": "hero",
+          "settings": {
+            "logo_alt": "Omawild",
+            "headline_alt": "Welcome to the Expedition",
+            "submark_alt": "Drink for Planet Earth",
+            "tagline": "Coffee's just the bait to reel you in",
+            "image_alt": "Omawild product"
+          }
+        },
+        "regen_ewPzgp": {
+          "type": "regen",
+          "settings": {
+            "headline": "The most powerful climate solution is in what you eat and drink",
+            "cta_text": "Drink for Planet Earth",
+            "cta_link": "",
+            "link_text": "Or learn about regen",
+            "illustration_alt": "Regenerative farm ecosystem — Garut, West Java",
+            "ann_1": "Tree canopies cool soil temperature by up to 10°C and create vital wildlife habitats",
+            "ann_2": "Deep roots act like underground anchors, preventing landslides and soil erosion",
+            "ann_3": "Crop diversification increases soil microbial activity and nutrient availability",
+            "ann_4": "Healthy soil sequesters 3x more carbon than the atmosphere",
+            "ann_5": "One hectare of living soil holds up to 50,000 litres of water",
+            "ann_6": "Roots, rocks, and rivers: the oldest water filtration technology"
+          }
+        },
+        "prop_scroller_9GFD4B": {
+          "type": "prop_scroller",
+          "settings": {
+            "items": "REGENERATIVE INGREDIENTS, 1% FOR THE PLANET, 100% RECYCLABLE PACKAGING, DIRECT FARM RELATIONSHIPS"
+          }
+        },
+        "products_rWKmJJ": {
+          "type": "products",
+          "settings": {
+            "heading": "Drink for Planet Earth",
+            "subhead": "Clean caffeine without the damn jitters so you can feel great while doing the work of protecting the places that inspire your next adventure.",
+            "atc_label": "Add to Cart",
+            "p1_name": "Wild Bloom",
+            "p1_grade": "GRADE 1",
+            "p1_tag": "FRUITY & FLORAL",
+            "p1_desc": "Tastes like the sip you steal before anyone else is awake: bright, floral — and a little unhinged. Best for pour-over, cold brew, and nitro.",
+            "p1_price": "TWD 560",
+            "p1_options": "Whole Beans · 200g, Whole Beans · 125g",
+            "p1_product": "",
+            "p2_name": "Forest Trail",
+            "p2_grade": "GRADE 1",
+            "p2_tag": "NUTTY ESPRESSO",
+            "p2_desc": "Coffee for comfort with sweet notes of chocolate and toasty nuts — and a hug from the inside. Best for espresso & milk-based drinks.",
+            "p2_price": "TWD 540",
+            "p2_options": "Whole Beans · 200g, Whole Beans · 125g",
+            "p2_product": "",
+            "p3_name": "Limited Reserve",
+            "p3_grade": "GRADE 1",
+            "p3_tag": "RARE FUNK",
+            "p3_desc": "A rare micro-lot production that blurs the line between coffee, tea, fruit, and wine. Best for pour-over, cold brew, and nitro.",
+            "p3_price": "TWD 800",
+            "p3_options": "Whole Beans · 100g",
+            "p3_product": ""
+          }
+        },
+        "partner_pqcqAm": {
+          "type": "partner",
+          "settings": {
+            "heading": "Are you an impact-driven company, hotel, or retailer who loves great caffeine? Ditch your conventional coffee and drink for the future you're building.",
+            "cta_text": "Become a partner",
+            "cta_link": ""
+          }
+        },
+        "about_ViCPCW": {
+          "type": "about",
+          "settings": {
+            "heading": "Omawild began during an expedition across Bali when we plunged our entire life savings into conservation",
+            "body": "Until we went broke and realised nature needed a better business model...",
+            "cta_text": "Follow our rabbit hole",
+            "cta_link": "",
+            "c1_alt": "Bali expedition",
+            "c1_caption": "It started in 2023 with a one-way ticket to Bali. Forget \"Eat, Pray, Love\" — more Dig, Sweat, Build.",
+            "c2_alt": "Conservation work",
+            "c2_caption": "Into forests, reefs, and degraded land being brought back to life. One cup at a time.",
+            "c3_alt": "West Java farm",
+            "c3_caption": "Found a farm in West Java that grows the best coffee I've ever tasted — and runs on regenerative principles.",
+            "c4_alt": "Omawild launch",
+            "c4_caption": "Omawild is the business model conservation never had."
+          }
+        },
+        "tagline_HbqeKz": {
+          "type": "tagline",
+          "settings": {
+            "heading": "Drink like you give a damn"
+          }
+        },
+        "why_VJTeee": {
+          "type": "why",
+          "settings": {
+            "heading_line1": "There are many reasons to give a damn.",
+            "heading_line2": "And we don't need the same reasons.",
+            "intro": "Maybe you're here for the vibes and adventure. Or for a damn good cup of coffee. And you don't have to care about the climate for any of that, but there's one thing none of us can opt out of: everything that sustains the fun in this world runs on healthy ecosystems. So drink like you give a damn, whatever your reason. And we will do our part:",
+            "col1_title": "Regenerative Farming",
+            "col1_body": "Soil health is nurtured by the farmers we grow alongside, season after season, through regenerative agriculture: our direct mechanism for better food and climate resilience.",
+            "col2_title": "1% for the Planet",
+            "col2_body": "Regenerative farming is just one part of caring for our planet. As members of 1% for the Planet, we give at minimum one percent of annual sales to environmental organisations working hard beyond our own supply chains.",
+            "col3_title": "Fully Recyclable",
+            "col3_body": "Pretty \"paper\" bags that can't be recycled. BS \"compostable\" claims that don't actually degrade. None of that is eco-friendly. It's plain greenwashing. Ours is fully recyclable: one PE material from start to finish."
+          }
+        }
+      },
+      "block_order": [
+        "hero_cy8t9i",
+        "regen_ewPzgp",
+        "prop_scroller_9GFD4B",
+        "products_rWKmJJ",
+        "partner_pqcqAm",
+        "about_ViCPCW",
+        "tagline_HbqeKz",
+        "why_VJTeee"
+      ],
+      "name": "OW Landing",
+      "settings": {}
+    }
+  },
+  "order": [
+    "od_new_hero_MXyVc3",
+    "od_canvas_idg6hh",
+    "od_featured_products_GrektF",
+    "od_product_collection_YLwgbr",
+    "image_banner_hbwHKb",
+    "image_with_text_wJUzep",
+    "image_banner_6dVMqz",
+    "od_row_of_cards_qyVUNM",
+    "value_grid_rQexPV",
+    "od_newsletter_B6PUqr",
+    "ow_landing_CeJPae"
+  ]
+}
