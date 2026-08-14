@@ -5,6 +5,12 @@
 .shopify/
 node_modules/
 
+# Preview/QA artefacts. main syncs to the production theme via Shopify's GitHub
+# integration, so stray files at the repo root end up on the store.
+# Root-level only: assets/*.png are real theme files and must stay tracked.
+.playwright-mcp/
+/*.png
+
 # Editor / OS
 .DS_Store
 Thumbs.db
