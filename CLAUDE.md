@@ -47,38 +47,59 @@ git diff vendor-baseline-8.5.0 --stat          # everything we've changed vs. th
 
 ## Known backlog
 
-`shopify theme check` reports **1 offense** (222 files) as of 13 Aug 2026, down from
-14. The one remaining is deliberate and is described below — treat that as the
-expected baseline, and anything above it as a regression.
+`shopify theme check` reports **0 offenses** (222 files) as of 13 Aug 2026, down
+from 14. Treat 0 as the expected baseline and anything above it as a regression.
 
-### The one accepted offense
+### The Typekit offense, retired 13 Aug 2026
 
-`layout/theme.liquid:7` — `RemoteAsset` on the Adobe Typekit stylesheet:
+`layout/theme.liquid:7` used to carry a `RemoteAsset` error on the Adobe Typekit
+stylesheet, kept deliberately because the kit was believed to be the only source
+of the theme's webfonts. Fetching kit `rjm5uoy` settled it: it serves exactly two
+families, `neue-haas-grotesk-display` and `neue-haas-grotesk-text`, and neither is
+named anywhere in the theme. The link was deleted rather than silenced.
 
-```liquid
-<link rel="stylesheet" href="https://use.typekit.net/rjm5uoy.css">
-```
+## Typography
 
-The rule is correct on the merits: a render-blocking stylesheet on a third-party
-host sits on the critical path and cannot be served from the Shopify CDN. It stays
-anyway, because kit `rjm5uoy` is the only thing loading those webfonts. No file in
-the theme references the kit id, so nothing *fetches* it a second way — but that
-does not prove no stylesheet still names a family it provides, and a page that asks
-for a missing family falls back silently rather than erroring. Removing the link is
-a font change, not a lint fix, so it needs a visual check on a rendered page first.
+**The theme renders in one family: `NHD`, the self-hosted Neue Haas Display Pro
+faces in `assets/ow-nhd-*.woff2`.** There is no second font, by design.
 
-It carries **no `theme-check-disable`** on purpose. Silencing it would make the
-theme report 0 and quietly bury a real performance finding; leaving it visible keeps
-the cost in view every time the linter runs. To retire it properly: self-host the
-fonts in `assets/` behind `asset_url`, the way `snippets/ow-fonts.liquid` already
-does for Neue Haas Grotesk, then delete the link.
+`snippets/ow-fonts.liquid` declares the four faces (900 Black / 700 Bold /
+600 Medium / 400 Roman) and then overrides `--font-body-family` and
+`--font-heading-family`, the two tokens every vendor stylesheet reads. Headings
+are Medium (600), body is Roman (400). `--font-navigation-family`,
+`--font-button-family` and `--font-price-family` are aliases of those two in
+`snippets/css-variables.liquid`, so they follow automatically.
+
+It is rendered from `layout/theme.liquid` and `layout/password.liquid`,
+**immediately after `render 'css-variables'`**. That order is load-bearing: both
+write `:root` at equal specificity, so the later one wins. Do not move it.
+
+The theme editor's two `font_picker` settings are therefore cosmetic — nothing
+reads them. Leave them on a **system** font so `.system?` is true and Shopify
+stops emitting `font_face` output and `<link rel=preload>` tags for fonts that
+never render.
+
+Three traps that were live before this landed, worth not reintroducing:
+
+- `assets/base.css` forced `--font-body-family: "Neue Haas Grotesk" !important`.
+  No `@font-face` declares that name — ours are `'NHD'` — so body copy silently
+  fell back to `sans-serif`. `!important` on a custom property makes the
+  *assignment* unbeatable, so it could not be corrected from anywhere else.
+- `assets/section-option-table.css` asked for `museo-sans`, which nothing served.
+- New CSS should read `var(--font-body-family)`, never `settings.type_body_font`.
+  A weight of 500 will be synthesised; NHD ships 400/600/700/900 only.
 
 ### Notes worth keeping
 
 - The `od-product-collection.liquid` tag-name splice hid three further offenses in
   that file — theme-check skips a file it cannot parse, so a `LiquidHTMLSyntaxError`
   understates the true count. Fixing one syntax error took the total 14 → 16 → 1.
-- `sections/od-canvas.liquid` carries the only `theme-check-disable` in the theme, on
+- `layout/theme.liquid` and `layout/password.liquid` each wrap the picker-font
+  `<link rel=preload>` block in a `theme-check-disable`. Those came in with the
+  vendor export, not from us. Once the pickers are set to a system font the
+  block emits nothing, so the disables guard dead code — candidates for removal
+  at the next upgrade.
+- `sections/od-canvas.liquid` carries our only deliberate `theme-check-disable`, on
   a `RemoteAsset` false positive (a Shopify-hosted video object, which `asset_url`
   cannot apply to). It is scoped to one line and justified in a comment. If you add
   another disable, justify it the same way or the rule stops meaning anything.
