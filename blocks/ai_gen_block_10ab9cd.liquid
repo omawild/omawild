@@ -109,11 +109,9 @@
     cursor: pointer;
     border-radius: {{ block.settings.tab_border_radius }}px;
     transition: all 0.3s ease;
-    {% if settings.type_body_font %}
-      font-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
-      font-weight: {{ settings.type_body_font.weight }};
-      font-style: {{ settings.type_body_font.style }};
-    {% endif %}
+    font-family: var(--font-body-family);
+    font-weight: var(--font-body-weight);
+    font-style: var(--font-body-style);
     font-size: {{ block.settings.tab_font_size }}px;
   }
 
