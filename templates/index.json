@@ -648,17 +648,18 @@
       "type": "ow-landing",
       "blocks": {
         "hero_cy8t9i": {
-          "type": "hero",
+          "type": "ow-hero",
           "settings": {
             "logo_alt": "Omawild",
             "headline_alt": "Welcome to the Expedition",
             "submark_alt": "Drink for Planet Earth",
             "tagline": "Coffee's just the bait to reel you in",
             "image_alt": "Omawild product"
-          }
+          },
+          "blocks": {}
         },
         "regen_ewPzgp": {
-          "type": "regen",
+          "type": "ow-regen",
           "settings": {
             "headline": "The most powerful climate solution is in what you eat and drink",
             "cta_text": "Drink for Planet Earth",
@@ -671,53 +672,74 @@
             "ann_4": "Healthy soil sequesters 3x more carbon than the atmosphere",
             "ann_5": "One hectare of living soil holds up to 50,000 litres of water",
             "ann_6": "Roots, rocks, and rivers: the oldest water filtration technology"
-          }
+          },
+          "blocks": {}
         },
         "prop_scroller_9GFD4B": {
-          "type": "prop_scroller",
+          "type": "ow-prop-scroller",
           "settings": {
             "items": "REGENERATIVE INGREDIENTS, 1% FOR THE PLANET, 100% RECYCLABLE PACKAGING, DIRECT FARM RELATIONSHIPS"
-          }
+          },
+          "blocks": {}
         },
         "products_rWKmJJ": {
-          "type": "products",
+          "type": "ow-products",
           "settings": {
             "heading": "Drink for Planet Earth",
-            "subhead": "Clean caffeine without the damn jitters so you can feel great while doing the work of protecting the places that inspire your next adventure.",
-            "atc_label": "Add to Cart",
-            "p1_name": "Wild Bloom",
-            "p1_grade": "GRADE 1",
-            "p1_tag": "FRUITY & FLORAL",
-            "p1_desc": "Tastes like the sip you steal before anyone else is awake: bright, floral — and a little unhinged. Best for pour-over, cold brew, and nitro.",
-            "p1_price": "TWD 560",
-            "p1_options": "Whole Beans · 200g, Whole Beans · 125g",
-            "p1_product": "",
-            "p2_name": "Forest Trail",
-            "p2_grade": "GRADE 1",
-            "p2_tag": "NUTTY ESPRESSO",
-            "p2_desc": "Coffee for comfort with sweet notes of chocolate and toasty nuts — and a hug from the inside. Best for espresso & milk-based drinks.",
-            "p2_price": "TWD 540",
-            "p2_options": "Whole Beans · 200g, Whole Beans · 125g",
-            "p2_product": "",
-            "p3_name": "Limited Reserve",
-            "p3_grade": "GRADE 1",
-            "p3_tag": "RARE FUNK",
-            "p3_desc": "A rare micro-lot production that blurs the line between coffee, tea, fruit, and wine. Best for pour-over, cold brew, and nitro.",
-            "p3_price": "TWD 800",
-            "p3_options": "Whole Beans · 100g",
-            "p3_product": ""
-          }
+            "subhead": "Clean caffeine without the damn jitters so you can feel great while doing the work of protecting the places that inspire your next adventure."
+          },
+          "blocks": {
+            "ow_product_card_rnuHzo": {
+              "type": "ow-product-card",
+              "settings": {
+                "name": "Wild Bloom",
+                "grade": "GRADE 1",
+                "flavour": "FRUITY & FLORAL",
+                "description": "Tastes like the sip you steal before anyone else is awake: bright, floral — and a little unhinged. Best for pour-over, cold brew, and nitro.",
+                "atc_label": "Add to Cart"
+              },
+              "blocks": {}
+            },
+            "ow_product_card_2LlyqO": {
+              "type": "ow-product-card",
+              "settings": {
+                "name": "Forest Trail",
+                "grade": "GRADE 1",
+                "flavour": "NUTTY ESPRESSO",
+                "description": "Coffee for comfort with sweet notes of chocolate and toasty nuts — and a hug from the inside. Best for espresso & milk-based drinks.",
+                "atc_label": "Add to Cart"
+              },
+              "blocks": {}
+            },
+            "ow_product_card_C7tV19": {
+              "type": "ow-product-card",
+              "settings": {
+                "name": "Limited Reserve",
+                "grade": "GRADE 1",
+                "flavour": "RARE FUNK",
+                "description": "A rare micro-lot production that blurs the line between coffee, tea, fruit, and wine. Best for pour-over, cold brew, and nitro.",
+                "atc_label": "Add to Cart"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "ow_product_card_rnuHzo",
+            "ow_product_card_2LlyqO",
+            "ow_product_card_C7tV19"
+          ]
         },
         "partner_pqcqAm": {
-          "type": "partner",
+          "type": "ow-partner",
           "settings": {
             "heading": "Are you an impact-driven company, hotel, or retailer who loves great caffeine? Ditch your conventional coffee and drink for the future you're building.",
             "cta_text": "Become a partner",
             "cta_link": "shopify://pages/corporates"
-          }
+          },
+          "blocks": {}
         },
         "about_ViCPCW": {
-          "type": "about",
+          "type": "ow-about",
           "settings": {
             "heading": "Omawild began during an expedition across Bali when we plunged our entire life savings into conservation",
             "body": "Until we went broke and realised nature needed a better business model...",
@@ -731,16 +753,18 @@
             "c3_caption": "Found a farm in West Java that grows the best coffee I've ever tasted — and runs on regenerative principles.",
             "c4_alt": "Omawild launch",
             "c4_caption": "Omawild is the business model conservation never had."
-          }
+          },
+          "blocks": {}
         },
         "tagline_HbqeKz": {
-          "type": "tagline",
+          "type": "ow-tagline",
           "settings": {
             "heading": "Drink like you give a damn"
-          }
+          },
+          "blocks": {}
         },
         "why_VJTeee": {
-          "type": "why",
+          "type": "ow-why",
           "settings": {
             "heading_line1": "There are many reasons to give a damn.",
             "heading_line2": "And we don't need the same reasons.",
@@ -751,7 +775,8 @@
             "col2_body": "Regenerative farming is just one part of caring for our planet. As members of 1% for the Planet, we give at minimum one percent of annual sales to environmental organisations working hard beyond our own supply chains.",
             "col3_title": "Fully Recyclable",
             "col3_body": "Pretty \"paper\" bags that can't be recycled. BS \"compostable\" claims that don't actually degrade. None of that is eco-friendly. It's plain greenwashing. Ours is fully recyclable: one PE material from start to finish."
-          }
+          },
+          "blocks": {}
         }
       },
       "block_order": [
