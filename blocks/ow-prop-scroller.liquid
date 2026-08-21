@@ -1,0 +1,38 @@
+{%- comment -%}
+  Proposition scroller — one band of the OW Landing page, split out of
+  sections/ow-landing.liquid when that section moved to theme blocks so the
+  products band could own its cards as real children. The looping marquee of proposition strings.
+
+  Layout lives in assets/ow-landing.css and behaviour in assets/ow-landing.js;
+  both key off the class names and ids in this markup, so do not rename them.
+{%- endcomment -%}
+
+{%- comment -%}
+  Items are duplicated inline so the CSS marquee loops seamlessly — the
+  keyframe translates -50%, which only lines up if the track holds exactly
+  two copies of the list.
+{%- endcomment -%}
+{%- assign props = block.settings.items | split: ',' -%}
+<div class="prop-scroller" aria-hidden="true" {{ block.shopify_attributes }}>
+  <div class="prop-scroller-inner">
+    {%- for pass in (1..2) -%}
+      {%- for p in props -%}
+        <span>{{ p | strip }}</span><span>✷</span>
+      {%- endfor -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Proposition scroller",
+  "settings": [
+    {
+      "type": "text",
+      "id": "items",
+      "label": "Items (comma separated)",
+      "default": "REGENERATIVE INGREDIENTS, 1% FOR THE PLANET, 100% RECYCLABLE PACKAGING, DIRECT FARM RELATIONSHIPS"
+    }
+  ]
+}
+{% endschema %}

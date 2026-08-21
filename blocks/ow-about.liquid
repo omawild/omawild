@@ -1,0 +1,161 @@
+{%- comment -%}
+  About — one band of the OW Landing page, split out of
+  sections/ow-landing.liquid when that section moved to theme blocks so the
+  products band could own its cards as real children. The origin story plus a four-card swipeable carousel.
+
+  Layout lives in assets/ow-landing.css and behaviour in assets/ow-landing.js;
+  both key off the class names and ids in this markup, so do not rename them.
+{%- endcomment -%}
+
+<section class="about" {{ block.shopify_attributes }}>
+  <div class="about-story">
+    <h3 class="fade-up h3">{{ block.settings.heading }}</h3>
+    <p class="fade-up paragraph">{{ block.settings.body }}</p>
+    <a href="{{ block.settings.cta_link | default: '#' }}" class="btn-outline fade-up">{{ block.settings.cta_text }}</a>
+  </div>
+  <div class="about-cards-carousel">
+  <div class="about-cards-wrap" id="aboutCardsWrap" tabindex="0" role="region" aria-label="About carousel — swipe or use arrow keys to browse">
+    <div class="about-cards-track">
+      {%- for i in (1..4) -%}
+        {%- assign cap_key = 'c' | append: i | append: '_caption' -%}
+        {%- assign alt_key = 'c' | append: i | append: '_alt' -%}
+        {%- assign img_key = 'c' | append: i | append: '_image' -%}
+        {%- assign caption = block.settings[cap_key] -%}
+        {%- if caption != blank -%}
+          <div class="about-card">
+            <div class="about-card-img">
+              {%- if block.settings[img_key] -%}
+                {{ block.settings[img_key] | image_url: width: 800 | image_tag: alt: block.settings[alt_key] }}
+              {%- else -%}
+                <img src="{{ 'ow-about-card-placeholder.jpg' | asset_url }}" alt="{{ block.settings[alt_key] | escape }}" width="1024" height="768">
+              {%- endif -%}
+            </div>
+            <div class="about-card-caption">{{ caption }}</div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+  <div class="scroll-fade scroll-fade-left hide" aria-hidden="true"></div>
+  <div class="scroll-fade scroll-fade-right" aria-hidden="true"></div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Omawild began during an expedition across Bali when we plunged our entire life savings into conservation"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "Until we went broke and realised nature needed a better business model..."
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Follow our rabbit hole"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    },
+    {
+      "type": "paragraph",
+      "content": "Leave a caption blank to hide that card."
+    },
+    {
+      "type": "header",
+      "content": "Card 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "c1_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "c1_alt",
+      "label": "Alt text",
+      "default": "Bali expedition"
+    },
+    {
+      "type": "textarea",
+      "id": "c1_caption",
+      "label": "Caption",
+      "default": "It started in 2023 with a one-way ticket to Bali. Forget \"Eat, Pray, Love\" — more Dig, Sweat, Build."
+    },
+    {
+      "type": "header",
+      "content": "Card 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "c2_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "c2_alt",
+      "label": "Alt text",
+      "default": "Conservation work"
+    },
+    {
+      "type": "textarea",
+      "id": "c2_caption",
+      "label": "Caption",
+      "default": "Into forests, reefs, and degraded land being brought back to life. One cup at a time."
+    },
+    {
+      "type": "header",
+      "content": "Card 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "c3_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "c3_alt",
+      "label": "Alt text",
+      "default": "West Java farm"
+    },
+    {
+      "type": "textarea",
+      "id": "c3_caption",
+      "label": "Caption",
+      "default": "Found a farm in West Java that grows the best coffee I've ever tasted — and runs on regenerative principles."
+    },
+    {
+      "type": "header",
+      "content": "Card 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "c4_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "c4_alt",
+      "label": "Alt text",
+      "default": "Omawild launch"
+    },
+    {
+      "type": "textarea",
+      "id": "c4_caption",
+      "label": "Caption",
+      "default": "Omawild is the business model conservation never had."
+    }
+  ]
+}
+{% endschema %}

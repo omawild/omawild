@@ -1,0 +1,186 @@
+{%- comment -%}
+  Regenerative — one band of the OW Landing page, split out of
+  sections/ow-landing.liquid when that section moved to theme blocks so the
+  products band could own its cards as real children. The regenerative-farming band: headline, CTAs and six annotations.
+
+  Layout lives in assets/ow-landing.css and behaviour in assets/ow-landing.js;
+  both key off the class names and ids in this markup, so do not rename them.
+{%- endcomment -%}
+
+{%- comment -%}
+  The six annotation texts drive BOTH the mobile swipe cards and the desktop
+  gutter annotations — same copy, different presentation per breakpoint.
+  Desktop splits them 1,2,3 left and 4,5,6 right. The data-delay values are
+  the staggered reveal timings from the design and are intentionally fixed.
+{%- endcomment -%}
+<section class="regen" id="regenSection" {{ block.shopify_attributes }}>
+  <div class="regen-inner">
+    <h2 class="regen-headline fade-up h2">{{ block.settings.headline }}</h2>
+    <div class="regen-ctas fade-up">
+      <a href="{{ block.settings.cta_link | default: '#' }}" class="btn-primary">{{ block.settings.cta_text }}</a>
+      <button class="text-link">{{ block.settings.link_text }}</button>
+    </div>
+  </div>
+
+  <!-- Mobile: swipeable annotation cards -->
+  <div class="regen-cards-mobile">
+    <div class="regen-cards-track" id="regenTrack">
+      {%- for i in (1..6) -%}
+        {%- assign key = 'ann_' | append: i -%}
+        <div class="regen-card">
+          <div class="regen-card-num">0{{ i }}</div>
+          <div class="regen-card-text">{{ block.settings[key] }}</div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+  <div class="regen-nav">
+    <button id="regenPrev" aria-label="Previous"><img src="{{ 'ow-arrow-left.svg' | asset_url }}" alt="←" width="24" height="24"></button>
+    <button id="regenNext" aria-label="Next"><img src="{{ 'ow-arrow-right.svg' | asset_url }}" alt="→" width="24" height="24"></button>
+  </div>
+
+  <!-- Mobile illustration with numbered dots -->
+  <div class="regen-illustration">
+    {%- if block.settings.illustration -%}
+      {{ block.settings.illustration | image_url: width: 1200 | image_tag: class: 'illus', alt: block.settings.illustration_alt }}
+    {%- endif -%}
+    <div class="regen-dot" style="left:13%;top:28%">1</div>
+    <div class="regen-dot" style="left:10%;top:62%">2</div>
+    <div class="regen-dot" style="left:29%;top:48%">3</div>
+    <div class="regen-dot" style="left:62%;top:40%">4</div>
+    <div class="regen-dot" style="left:72%;top:60%">5</div>
+    <div class="regen-dot" style="left:90%;top:50%">6</div>
+  </div>
+
+  <!-- Desktop: gutter annotations flanking illustration -->
+  <div class="regen-desktop" id="regenDesktop">
+    <div class="regen-ann-col regen-ann-col--left">
+      {%- assign left_delays = '0,160,320' | split: ',' -%}
+      {%- for i in (1..3) -%}
+        {%- assign key = 'ann_' | append: i -%}
+        {%- assign d = forloop.index0 -%}
+        <div class="regen-ann" data-delay="{{ left_delays[d] }}">
+          <div class="regen-ann-text">{{ block.settings[key] }}</div>
+          <div class="regen-ann-tick"></div>
+        </div>
+      {%- endfor -%}
+    </div>
+    {%- comment -%}
+      This div must never render empty. Vendor base.css hides every empty
+      element on the page:
+
+        div:empty:not(.ignore-empty) { display:none }
+
+      and this is the centre (1fr) track of the three-column grid. Hidden,
+      it leaves the grid two children, so the right annotation column is
+      auto-placed into the centre track and the desktop layout collapses —
+      while mobile keeps working, because .regen-illustration always holds
+      the six .regen-dot divs and so is never :empty.
+
+      .ignore-empty is the vendor rule's own opt-out, so the grid keeps its
+      three tracks whether or not a merchant has set an illustration.
+    {%- endcomment -%}
+    <div class="regen-desktop-illus ignore-empty">
+      {%- if block.settings.illustration -%}
+        {{ block.settings.illustration | image_url: width: 1600 | image_tag: alt: block.settings.illustration_alt }}
+      {%- endif -%}
+    </div>
+    <div class="regen-ann-col regen-ann-col--right">
+      {%- assign right_delays = '80,240,400' | split: ',' -%}
+      {%- for i in (4..6) -%}
+        {%- assign key = 'ann_' | append: i -%}
+        {%- assign d = forloop.index0 -%}
+        <div class="regen-ann" data-delay="{{ right_delays[d] }}">
+          <div class="regen-ann-text">{{ block.settings[key] }}</div>
+          <div class="regen-ann-tick"></div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Regenerative",
+  "settings": [
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "The most powerful climate solution is in what you eat and drink"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Drink for Planet Earth"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Secondary link text",
+      "default": "Or learn about regen"
+    },
+    {
+      "type": "image_picker",
+      "id": "illustration",
+      "label": "Farm illustration"
+    },
+    {
+      "type": "text",
+      "id": "illustration_alt",
+      "label": "Illustration alt text",
+      "default": "Regenerative farm ecosystem — Garut, West Java"
+    },
+    {
+      "type": "header",
+      "content": "Annotations"
+    },
+    {
+      "type": "paragraph",
+      "content": "These six texts appear as swipeable cards on mobile and as gutter annotations on desktop (1–3 left, 4–6 right)."
+    },
+    {
+      "type": "text",
+      "id": "ann_1",
+      "label": "Annotation 1",
+      "default": "Tree canopies cool soil temperature by up to 10°C and create vital wildlife habitats"
+    },
+    {
+      "type": "text",
+      "id": "ann_2",
+      "label": "Annotation 2",
+      "default": "Deep roots act like underground anchors, preventing landslides and soil erosion"
+    },
+    {
+      "type": "text",
+      "id": "ann_3",
+      "label": "Annotation 3",
+      "default": "Crop diversification increases soil microbial activity and nutrient availability"
+    },
+    {
+      "type": "text",
+      "id": "ann_4",
+      "label": "Annotation 4",
+      "default": "Healthy soil sequesters 3x more carbon than the atmosphere"
+    },
+    {
+      "type": "text",
+      "id": "ann_5",
+      "label": "Annotation 5",
+      "default": "One hectare of living soil holds up to 50,000 litres of water"
+    },
+    {
+      "type": "text",
+      "id": "ann_6",
+      "label": "Annotation 6",
+      "default": "Roots, rocks, and rivers: the oldest water filtration technology"
+    }
+  ]
+}
+{% endschema %}

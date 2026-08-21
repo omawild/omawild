@@ -329,6 +329,19 @@
   display:flex;gap:16px;
   padding:0 24px;
 }
+/* Shopify renders each child of {% content_for 'blocks' %} inside its own
+   wrapper element, so the wrapper — not .product-card — is the grid/flex item,
+   and the card sizes to its own content instead of stretching to the row. A
+   card with no variant dropdown or a short description then stops short of the
+   others and the row goes ragged.
+
+   These two rules make that wrapper transparent to layout, and are written so
+   they hold whether or not it exists: .product-card is itself a column flex
+   container sized flex:0 0 260px, so the first rule restates what the card
+   already does when the track's direct child IS the card. */
+.products-track > *{display:flex;flex-direction:column;flex:0 0 260px;}
+.products-track > * > .product-card{flex:1 1 auto;width:100%;}
+
 .product-card{
   background:#FFDD8F;
   border:2px solid var(--electric);
@@ -378,6 +391,11 @@
   color:var(--electric);opacity:.88;
   text-align:left;
 }
+/* Stands in for the variant selector on a product that has no options, so the
+   footer keeps the same three rows on every card. Hidden rather than removed:
+   visibility:hidden still occupies its box, display:none would not. */
+.product-dropdown--spacer{visibility:hidden;}
+
 .product-dropdown,.product-atc{
   width:100%;border-radius:200px;
   border:2px solid var(--electric);
@@ -416,6 +434,7 @@
     transition:none;
   }
   .product-card{flex:unset;}
+  .products-track > *{flex:unset;}
 }
 @media(min-width:1200px){
   .products-track{grid-template-columns:repeat(3,1fr);max-width:960px;margin:0 auto;}

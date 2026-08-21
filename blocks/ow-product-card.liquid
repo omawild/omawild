@@ -1,0 +1,174 @@
+{%- comment -%}
+  Product Card — one card in the OW Landing products band.
+
+  Exactly one `product` setting, first in the schema. That is what gives every
+  other setting in this block a dynamic source scoped to this card's product,
+  so each field can be connected to one of that product's metafields — or typed
+  over by hand. Three products in one block, as this used to be, leaves every
+  field with an ambiguous context and no per-card binding at all.
+
+  Precedence: a text setting wins whenever it holds anything, whether typed or
+  connected to a metafield; blank falls through to the product. That only works
+  because these settings ship with no `default:` — pre-filled copy would win
+  permanently and the product could never show through.
+
+  Grade and flavour have no product equivalent and are not guessed from tags.
+  Blank means no badge, and the element is dropped rather than rendered empty:
+  both are filled colour pills, so an empty one leaves a visible stub.
+{%- endcomment -%}
+
+{%- assign prod = block.settings.product -%}
+{%- assign p_name = block.settings.name -%}
+{%- if p_name == blank -%}
+  {%- assign p_name = prod.title -%}
+{%- endif -%}
+{%- assign p_desc = block.settings.description -%}
+{%- if p_desc == blank -%}
+  {%- comment -%}
+    Product descriptions are rich text and unbounded, while the card has no line
+    clamp (.product-desc is flex:1) — a long one simply makes that card taller
+    than the two beside it and breaks the row. The design's copy runs ~28 words,
+    so 45 is generous headroom while still keeping the row even.
+
+    A merchant-written override is left at whatever length they chose;
+    truncating what someone typed into the field in front of them reads as a bug.
+  {%- endcomment -%}
+  {%- assign p_desc = prod.description | strip_html | strip | truncatewords: 45 -%}
+{%- endif -%}
+
+{%- if p_name == blank -%}
+  {%- comment -%}
+    An unconfigured card. On the storefront it draws nothing; in the theme
+    editor it has to stay visible and clickable, or the block a merchant just
+    added would vanish from the preview with no way to select it.
+  {%- endcomment -%}
+  {%- if request.design_mode -%}
+    <div class="product-card" {{ block.shopify_attributes }}>
+      <div class="product-card-body" style="padding:24px 16px;text-align:center;">
+        <div class="product-name">Empty card</div>
+        <p class="product-desc paragraph">Choose a product in Select Product to fill this card in.</p>
+      </div>
+    </div>
+  {%- endif -%}
+{%- else -%}
+  <div class="product-card" {{ block.shopify_attributes }}>
+    <div class="product-card-img-wrap" style="position:relative">
+      {%- if block.settings.grade != blank -%}
+        <div class="grade-tag">{{ block.settings.grade }}</div>
+      {%- endif -%}
+      <div class="product-card-img">
+        {%- if block.settings.image -%}
+          {{ block.settings.image | image_url: width: 600 | image_tag: alt: p_name }}
+        {%- elsif prod != blank and prod.featured_image -%}
+          {{ prod.featured_image | image_url: width: 600 | image_tag: alt: p_name }}
+        {%- else -%}
+          <img src="{{ 'ow-product-card-placeholder.jpg' | asset_url }}" alt="{{ p_name | escape }}" width="464" height="650">
+        {%- endif -%}
+      </div>
+    </div>
+    <div class="product-card-body">
+      {%- if block.settings.flavour != blank -%}
+        <span class="product-tag">{{ block.settings.flavour }}</span>
+      {%- endif -%}
+      <div class="product-name">{{ p_name }}</div>
+      {%- comment -%}
+        Kept even when empty: .product-desc carries flex:1 and is what pushes the
+        price and button to the foot of the card. Dropping it leaves a short,
+        top-heavy card that no longer lines up with the two beside it.
+      {%- endcomment -%}
+      <p class="product-desc paragraph">{{ p_desc }}</p>
+      {%- if prod != blank -%}
+        {%- comment -%}
+          prod.price is the lowest variant price. On a product whose variants
+          differ in price that reads as a flat price, so say "From" instead of
+          quietly understating it.
+
+          Format the money value first: `t: price: prod.price | money` would
+          apply money to the translated string rather than to the price.
+        {%- endcomment -%}
+        {%- assign price_str = prod.price | money -%}
+        <p class="product-price">
+          {%- if prod.price_varies -%}
+            {{ 'products.product.price.from_price_html' | t: price: price_str }}
+          {%- else -%}
+            {{ price_str }}
+          {%- endif -%}
+        </p>
+        {%- comment -%}
+          A plain {% form 'product' %} posts to /cart/add and lands on the cart
+          page. Be Yours' <product-form> custom element is deliberately not used
+          here: it drives the cart drawer, which lives in the vendor header we
+          replaced. The native post is the same fallback product-form.js itself
+          uses when no drawer is present.
+
+          Build the id first — a filter inside the tag's argument list is not
+          scoped to that argument, and Liquid ends up reading the filtered value
+          as a positional argument. It keys off the block id, so a form keeps its
+          identity when cards are reordered in the editor.
+        {%- endcomment -%}
+        {%- assign product_form_id = 'ow-product-form-' | append: block.id -%}
+        {%- form 'product', prod, id: product_form_id, class: 'product-card-form' -%}
+          {%- comment -%}
+            A single-variant product has one variant literally titled "Default
+            Title". Rendering the dropdown regardless would show that string as
+            if it were a size option, so the selector is only drawn when there is
+            a real choice to make; otherwise the variant id goes in a hidden
+            input so the form still posts.
+          {%- endcomment -%}
+          {%- if prod.has_only_default_variant -%}
+            <input type="hidden" name="id" value="{{ prod.selected_or_first_available_variant.id }}">
+            {%- comment -%}
+              The dropdown's slot is reserved even with nothing to choose, so the
+              price, selector and button sit at the same height on every card in
+              the row. Without it this card's footer is one row shorter and its
+              price drops into the gap while its neighbours' sits higher.
+
+              It is an empty <select> rather than a styled div so its box is
+              identical to a real selector's by construction — a div has to
+              reconstruct that height from a line box and lands a pixel out. It
+              carries no `name`, so it contributes nothing to the form post.
+            {%- endcomment -%}
+            <select class="product-dropdown product-dropdown--spacer" aria-hidden="true" tabindex="-1" disabled></select>
+          {%- else -%}
+            <select class="product-dropdown" name="id" aria-label="{{ p_name | escape }} options">
+              {%- for variant in prod.variants -%}
+                <option value="{{ variant.id }}"
+                        {% if variant == prod.selected_or_first_available_variant %}selected{% endif %}
+                        {% unless variant.available %}disabled{% endunless %}>
+                  {{ variant.title }}
+                </option>
+              {%- endfor -%}
+            </select>
+          {%- endif -%}
+          <button class="product-atc" type="submit" {% unless prod.available %}disabled{% endunless %}>
+            {%- if prod.available -%}{{ block.settings.atc_label }}{%- else -%}{{ 'products.product.sold_out' | t }}{%- endif -%}
+          </button>
+        {%- endform -%}
+      {%- else -%}
+        {%- comment -%}
+          Named but not linked. The button keeps the card's shape and reads as
+          plainly unfinished, which is the honest signal to whoever is editing.
+        {%- endcomment -%}
+        <button class="product-atc" type="button" disabled aria-disabled="true">{{ block.settings.atc_label }}</button>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Product Card",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Select Product", "info": "Drives the card image, price, variants and a working Add to Cart." },
+    { "type": "image_picker", "id": "image", "label": "Card image", "info": "Optional. Overrides the product's featured image." },
+    { "type": "header", "content": "Text overrides" },
+    { "type": "paragraph", "content": "Leave a field blank to use the product's own value. To override, type into it — or use the dynamic source icon beside it to connect one of this product's metafields." },
+    { "type": "text", "id": "name", "label": "Name", "info": "Blank uses the product title." },
+    { "type": "textarea", "id": "description", "label": "Description", "info": "Blank uses the product description, trimmed to 45 words." },
+    { "type": "text", "id": "grade", "label": "Grade tag", "info": "Blank hides the badge." },
+    { "type": "text", "id": "flavour", "label": "Flavour tag", "info": "Blank hides the tag." },
+    { "type": "header", "content": "Button" },
+    { "type": "text", "id": "atc_label", "label": "Button label", "default": "Add to Cart" }
+  ]
+}
+{% endschema %}

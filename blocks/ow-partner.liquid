@@ -1,0 +1,40 @@
+{%- comment -%}
+  Partner — one band of the OW Landing page, split out of
+  sections/ow-landing.liquid when that section moved to theme blocks so the
+  products band could own its cards as real children. The partner call-to-action band.
+
+  Layout lives in assets/ow-landing.css and behaviour in assets/ow-landing.js;
+  both key off the class names and ids in this markup, so do not rename them.
+{%- endcomment -%}
+
+<section class="partner" {{ block.shopify_attributes }}>
+  <div class="partner-inner fade-up">
+    <h3 class="h3">{{ block.settings.heading }}</h3>
+    <a href="{{ block.settings.cta_link | default: '#' }}" class="btn-outline">{{ block.settings.cta_text }}</a>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Partner",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Are you an impact-driven company, hotel, or retailer who loves great caffeine? Ditch your conventional coffee and drink for the future you're building."
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Become a partner"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    }
+  ]
+}
+{% endschema %}

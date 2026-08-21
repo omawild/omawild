@@ -1,0 +1,116 @@
+{%- comment -%}
+  Why — one band of the OW Landing page, split out of
+  sections/ow-landing.liquid when that section moved to theme blocks so the
+  products band could own its cards as real children. Three-column statement of what we do about it.
+
+  Layout lives in assets/ow-landing.css and behaviour in assets/ow-landing.js;
+  both key off the class names and ids in this markup, so do not rename them.
+{%- endcomment -%}
+
+<section class="why" {{ block.shopify_attributes }}>
+  <div class="why-inner fade-up">
+    {%- comment -%}
+      The line break carries class="br-desktop" — it only applies above the
+      desktop breakpoint, so the heading is two settings rather than one.
+    {%- endcomment -%}
+    <h3 class="h3">{{ block.settings.heading_line1 }}<br class="br-desktop"> {{ block.settings.heading_line2 }}</h3>
+    <p class="why-intro paragraph">{{ block.settings.intro }}</p>
+    <div class="why-cols">
+      <div class="why-col">
+        <div class="why-col-icon" role="img" aria-label="{{ block.settings.col1_title | escape }}">
+          <img src="{{ 'ow-why-icon-regen.svg' | asset_url }}" alt="" width="60" height="60">
+        </div>
+        <h3 class="why-col-title">{{ block.settings.col1_title }}</h3>
+        <p>{{ block.settings.col1_body }}</p>
+      </div>
+      <div class="why-col">
+        <div class="why-col-icon">
+          <img src="{{ 'ow-badge-1ftp.png' | asset_url }}" alt="{{ block.settings.col2_title | escape }}" width="376" height="160" style="height:52px;width:auto;">
+        </div>
+        <h3 class="why-col-title">{{ block.settings.col2_title }}</h3>
+        <p>{{ block.settings.col2_body }}</p>
+      </div>
+      <div class="why-col">
+        <div class="why-col-icon">
+          <img src="{{ 'ow-badge-recyclable.png' | asset_url }}" alt="{{ block.settings.col3_title | escape }}" width="160" height="160" style="height:48px;width:auto;">
+        </div>
+        <h3 class="why-col-title">{{ block.settings.col3_title }}</h3>
+        <p>{{ block.settings.col3_body }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Why",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading_line1",
+      "label": "Heading line 1",
+      "default": "There are many reasons to give a damn."
+    },
+    {
+      "type": "text",
+      "id": "heading_line2",
+      "label": "Heading line 2",
+      "default": "And we don't need the same reasons."
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro",
+      "default": "Maybe you're here for the vibes and adventure. Or for a damn good cup of coffee. And you don't have to care about the climate for any of that, but there's one thing none of us can opt out of: everything that sustains the fun in this world runs on healthy ecosystems. So drink like you give a damn, whatever your reason. And we will do our part:"
+    },
+    {
+      "type": "header",
+      "content": "Column 1"
+    },
+    {
+      "type": "text",
+      "id": "col1_title",
+      "label": "Title",
+      "default": "Regenerative Farming"
+    },
+    {
+      "type": "textarea",
+      "id": "col1_body",
+      "label": "Body",
+      "default": "Soil health is nurtured by the farmers we grow alongside, season after season, through regenerative agriculture: our direct mechanism for better food and climate resilience."
+    },
+    {
+      "type": "header",
+      "content": "Column 2"
+    },
+    {
+      "type": "text",
+      "id": "col2_title",
+      "label": "Title",
+      "default": "1% for the Planet"
+    },
+    {
+      "type": "textarea",
+      "id": "col2_body",
+      "label": "Body",
+      "default": "Regenerative farming is just one part of caring for our planet. As members of 1% for the Planet, we give at minimum one percent of annual sales to environmental organisations working hard beyond our own supply chains."
+    },
+    {
+      "type": "header",
+      "content": "Column 3"
+    },
+    {
+      "type": "text",
+      "id": "col3_title",
+      "label": "Title",
+      "default": "Fully Recyclable"
+    },
+    {
+      "type": "textarea",
+      "id": "col3_body",
+      "label": "Body",
+      "default": "Pretty \"paper\" bags that can't be recycled. BS \"compostable\" claims that don't actually degrade. None of that is eco-friendly. It's plain greenwashing. Ours is fully recyclable: one PE material from start to finish."
+    }
+  ]
+}
+{% endschema %}

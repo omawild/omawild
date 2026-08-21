@@ -1,0 +1,38 @@
+{%- comment -%}
+  Tagline banner — one band of the OW Landing page, split out of
+  sections/ow-landing.liquid when that section moved to theme blocks so the
+  products band could own its cards as real children. Full-bleed image with an overlaid heading.
+
+  Layout lives in assets/ow-landing.css and behaviour in assets/ow-landing.js;
+  both key off the class names and ids in this markup, so do not rename them.
+{%- endcomment -%}
+
+<section class="tagline" {{ block.shopify_attributes }}>
+  {%- if block.settings.image -%}
+    {{ block.settings.image | image_url: width: 1600 | image_tag: class: 'tagline-img', alt: '' }}
+  {%- else -%}
+    <img class="tagline-img" src="{{ 'ow-tagline.jpg' | asset_url }}" alt="" width="1600" height="670">
+  {%- endif -%}
+  <div class="tagline-overlay">
+    <h2>{{ block.settings.heading }}</h2>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Tagline banner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Drink like you give a damn"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image"
+    }
+  ]
+}
+{% endschema %}

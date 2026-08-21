@@ -1,0 +1,44 @@
+{%- comment -%}
+  Products band — the product carousel of the OW Landing page.
+
+  This block holds only the band's chrome: heading, subheading and the carousel
+  scaffolding. The cards themselves are ow-product-card children, rendered by
+  {% content_for 'blocks' %} straight into .products-track.
+
+  They are children rather than siblings on purpose. The theme editor scopes
+  dynamic sources per block — a block holding one `product` setting offers that
+  product's attributes and metafields to its own other settings — so a card has
+  to be its own block for its fields to bind to its own product. Making those
+  blocks children of this one is what stops them drifting off elsewhere in the
+  section: ow-product-card is not offered at section level, only inside here.
+
+  Layout lives in assets/ow-landing.css and behaviour in assets/ow-landing.js;
+  both key off these class names and ids, so do not rename them.
+{%- endcomment -%}
+
+<section class="products" {{ block.shopify_attributes }}>
+  <h2 class="fade-up h2">{{ block.settings.heading }}</h2>
+  <p class="products-subhead paragraph fade-up">{{ block.settings.subhead }}</p>
+
+  <div class="products-carousel">
+    <div class="products-track-wrap" id="productsTrackWrap" tabindex="0" role="region" aria-label="Product carousel — swipe or use arrow keys to browse">
+      <div class="products-track" id="productsTrack">
+        {% content_for 'blocks' %}
+      </div>
+    </div>
+    <div class="scroll-fade scroll-fade-left hide" aria-hidden="true"></div>
+    <div class="scroll-fade scroll-fade-right" aria-hidden="true"></div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Products band",
+  "blocks": [{ "type": "ow-product-card" }],
+  "settings": [
+    { "type": "paragraph", "content": "Add a Product Card to this band for each product you want to show. Three fit the desktop row." },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Drink for Planet Earth" },
+    { "type": "textarea", "id": "subhead", "label": "Subheading", "default": "Clean caffeine without the damn jitters so you can feel great while doing the work of protecting the places that inspire your next adventure." }
+  ]
+}
+{% endschema %}

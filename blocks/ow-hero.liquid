@@ -1,0 +1,77 @@
+{%- comment -%}
+  Hero — one band of the OW Landing page, split out of
+  sections/ow-landing.liquid when that section moved to theme blocks so the
+  products band could own its cards as real children. The logo, headline and submark are fixed SVG artwork from the design.
+
+  Layout lives in assets/ow-landing.css and behaviour in assets/ow-landing.js;
+  both key off the class names and ids in this markup, so do not rename them.
+{%- endcomment -%}
+
+<section class="hero" id="hero" {{ block.shopify_attributes }}>
+  <div class="hero-left">
+    <div class="hero-logo">
+      <img src="{{ 'ow-hero-logo.svg' | asset_url }}" alt="{{ block.settings.logo_alt | escape }}" width="480" height="80">
+    </div>
+    <div class="hero-headline-wrap">
+      <img class="hero-headline-svg" src="{{ 'ow-hero-headline.svg' | asset_url }}" alt="{{ block.settings.headline_alt | escape }}" width="461" height="162">
+    </div>
+    <div class="hero-submark">
+      <img src="{{ 'ow-hero-submark.svg' | asset_url }}" alt="{{ block.settings.submark_alt | escape }}" width="41" height="41">
+    </div>
+    <p class="hero-tagline">{{ block.settings.tagline }}</p>
+  </div>
+  <div class="hero-right">
+    {%- if block.settings.image -%}
+      {{ block.settings.image | image_url: width: 1200 | image_tag: alt: block.settings.image_alt }}
+    {%- else -%}
+      <img src="{{ 'ow-product-card-placeholder.jpg' | asset_url }}" alt="{{ block.settings.image_alt | escape }}" width="464" height="650">
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "The logo, headline and submark are fixed SVG artwork from the design. Only their alt text is editable here."
+    },
+    {
+      "type": "text",
+      "id": "logo_alt",
+      "label": "Logo alt text",
+      "default": "Omawild"
+    },
+    {
+      "type": "text",
+      "id": "headline_alt",
+      "label": "Headline alt text",
+      "default": "Welcome to the Expedition"
+    },
+    {
+      "type": "text",
+      "id": "submark_alt",
+      "label": "Submark alt text",
+      "default": "Drink for Planet Earth"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline",
+      "default": "Coffee's just the bait to reel you in"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Hero image alt text",
+      "default": "Omawild product"
+    }
+  ]
+}
+{% endschema %}
