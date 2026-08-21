@@ -692,10 +692,11 @@
             "ow_product_card_rnuHzo": {
               "type": "ow-product-card",
               "settings": {
+                "product": "forest-trail-garut-washed-arabica-specialty-grade",
                 "name": "Wild Bloom",
+                "description": "Tastes like the sip you steal before anyone else is awake: bright, floral — and a little unhinged. Best for pour-over, cold brew, and nitro.",
                 "grade": "GRADE 1",
                 "flavour": "FRUITY & FLORAL",
-                "description": "Tastes like the sip you steal before anyone else is awake: bright, floral — and a little unhinged. Best for pour-over, cold brew, and nitro.",
                 "atc_label": "Add to Cart"
               },
               "blocks": {}
@@ -703,10 +704,11 @@
             "ow_product_card_2LlyqO": {
               "type": "ow-product-card",
               "settings": {
+                "product": "",
                 "name": "Forest Trail",
+                "description": "Coffee for comfort with sweet notes of chocolate and toasty nuts — and a hug from the inside. Best for espresso & milk-based drinks.",
                 "grade": "GRADE 1",
                 "flavour": "NUTTY ESPRESSO",
-                "description": "Coffee for comfort with sweet notes of chocolate and toasty nuts — and a hug from the inside. Best for espresso & milk-based drinks.",
                 "atc_label": "Add to Cart"
               },
               "blocks": {}
@@ -714,10 +716,11 @@
             "ow_product_card_C7tV19": {
               "type": "ow-product-card",
               "settings": {
+                "product": "",
                 "name": "Limited Reserve",
+                "description": "A rare micro-lot production that blurs the line between coffee, tea, fruit, and wine. Best for pour-over, cold brew, and nitro.",
                 "grade": "GRADE 1",
                 "flavour": "RARE FUNK",
-                "description": "A rare micro-lot production that blurs the line between coffee, tea, fruit, and wine. Best for pour-over, cold brew, and nitro.",
                 "atc_label": "Add to Cart"
               },
               "blocks": {}
