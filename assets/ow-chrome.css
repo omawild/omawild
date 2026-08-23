@@ -463,9 +463,16 @@
              downwards into exactly the band it now occupies. Anything under
              #top-chrome's 200 restores the intended order.
 
+   The -1px is a seam closer, and it matters most on mobile. getAnnBarHeight()
+   rounds UP, which is right for body padding-top (it must never under-cover)
+   but wrong here: at 390px the bars measure 165.19 and report 166, leaving a
+   0.81px gap between the navbar's bottom edge and this bar for page content to
+   flicker through. Overlapping by a whole pixel instead is invisible precisely
+   because of the z-index below — the chrome paints over the overlap.
+
    The 3px scroll-indicator is deliberately left pinned at top:0 — it reads as a
    page-progress rail against the viewport edge, not as part of this stack. */
 .content-scrollspy .content-scrollspy__menu{
-  top:var(--ow-chrome-h,0px);
+  top:calc(var(--ow-chrome-h, 0px) - 1px);
   z-index:100;
 }
