@@ -55,7 +55,14 @@
 // ── FIXED TOP CHROME + NAVBAR REVEAL ──
 const topChrome = document.getElementById('top-chrome');
 const navbar    = document.getElementById('navbar');
-const hero      = document.getElementById('hero');
+// The element the navbar hides behind until it has scrolled clear. The landing
+// page has #hero; any other page opts in by naming its own through
+// data-navbar-reveal-target, which ow-header.liquid emits only on product
+// templates. Everything downstream still just reads `hero`, so the reveal
+// observers below did not have to change shape.
+const revealTarget = topChrome.dataset.navbarRevealTarget;
+const hero = document.getElementById('hero')
+  || (revealTarget ? document.querySelector(revealTarget) : null);
 
 function getAnnBarHeight() {
   // Sum the height of the fixed announcement bars.
@@ -72,26 +79,45 @@ function getAnnBarHeight() {
   return Math.ceil(h);
 }
 
-function applyBodyPadding() {
-  const h = getAnnBarHeight();
-  document.body.style.paddingTop = h + 'px';
-  // Publish the chrome's height so anything that has to dock *below* the fixed
-  // bars can find their bottom edge from CSS alone. Every recalculation route
-  // below (resize, fonts.ready, the ResizeObserver on #top-chrome) runs through
-  // here, so the value can never go stale. Today's only consumer is the vendor
-  // scrollspy nav -- see the override at the foot of ow-chrome.css.
-  document.documentElement.style.setProperty('--ow-chrome-h', h + 'px');
+function getChromeOffset() {
+  // What anything docking BELOW the chrome has to clear. Deliberately NOT the
+  // same number as the body padding above: the navbar counts here whenever it
+  // is actually on screen, including on pages where the padding ignores it. A
+  // bar docked at the ann bars' edge would otherwise be swallowed by the navbar
+  // the instant it reveals.
+  let h = 0;
+  topChrome.querySelectorAll('.ann-bar').forEach(el => { h += el.getBoundingClientRect().height; });
+  if (navbar.classList.contains('visible')) { h += navbar.getBoundingClientRect().height; }
+  return Math.ceil(h);
 }
 
-applyBodyPadding();
-window.addEventListener('resize', applyBodyPadding);
+function applyChrome() {
+  document.body.style.paddingTop = getAnnBarHeight() + 'px';
+  // Published so anything docking below the fixed bars can find their bottom
+  // edge from CSS alone. Every recalculation route (resize, fonts.ready, the
+  // ResizeObserver, and every navbar reveal) runs through here, so it cannot go
+  // stale. Today's only consumer is the vendor scrollspy nav -- see the
+  // override at the foot of ow-chrome.css.
+  document.documentElement.style.setProperty('--ow-chrome-h', getChromeOffset() + 'px');
+}
+
+// Single entry point for the navbar's visibility, so the docked bar can never
+// be updated in one place and forgotten in another. CSS transitions both the
+// navbar's transform and the bar's top over .38s, so they travel together.
+function setNavbarVisible(on) {
+  navbar.classList.toggle('visible', on);
+  applyChrome();
+}
+
+applyChrome();
+window.addEventListener('resize', applyChrome);
 // Recalculate after fonts load to avoid 1px gap
-document.fonts.ready.then(applyBodyPadding);
+document.fonts.ready.then(applyChrome);
 // Recalculate any time the announcement bars actually change size
 // (font swap, text reflow, orientation change, etc.) so the gap can never
 // reappear after first paint.
 if ('ResizeObserver' in window) {
-  new ResizeObserver(applyBodyPadding).observe(topChrome);
+  new ResizeObserver(applyChrome).observe(topChrome);
 }
 
 // Fade the navbar in once the hero has fully left the viewport, and fade it
@@ -114,7 +140,7 @@ if (hero) {
   // Reveal once the hero is entirely above the viewport.
   new IntersectionObserver(
     ([e]) => {
-      if (!e.isIntersecting) { navbar.classList.add('visible'); }
+      if (!e.isIntersecting) { setNavbarVisible(true); }
     },
     { threshold: 0 }
   ).observe(hero);
@@ -124,12 +150,15 @@ if (hero) {
   // the top of the viewport, which is what moves this edge below the first one.
   new IntersectionObserver(
     ([e]) => {
-      if (e.isIntersecting) { navbar.classList.remove('visible'); }
+      if (e.isIntersecting) { setNavbarVisible(false); }
     },
     { threshold: 0, rootMargin: '-' + REVEAL_HYSTERESIS + 'px 0px 0px 0px' }
   ).observe(hero);
 } else {
-  navbar.classList.add('visible', 'navbar--no-reveal');
+  // No hero and no named target: nothing to scroll past, so the navbar is shown
+  // from first paint. --no-reveal goes on first so it skips the slide-in.
+  navbar.classList.add('navbar--no-reveal');
+  setNavbarVisible(true);
 }
 
 // ── MENU MODAL ──

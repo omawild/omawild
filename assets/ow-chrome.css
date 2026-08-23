@@ -475,4 +475,21 @@
 .content-scrollspy .content-scrollspy__menu{
   top:calc(var(--ow-chrome-h, 0px) - 1px);
   z-index:100;
+  /* --ow-chrome-h counts the navbar only while it is on screen, so on product
+     pages this bar travels 54px when the navbar reveals. Same duration and
+     easing as .navbar's transform, so the two move as one object instead of
+     one snapping into place beside the other. The vendor's own opacity and
+     visibility transitions are restated because `transition` is a shorthand
+     and would otherwise drop them. */
+  transition:opacity var(--transition-duration) ease,
+             visibility var(--transition-duration) ease,
+             top .38s cubic-bezier(.4,0,.2,1);
+}
+@media(prefers-reduced-motion:reduce){
+  /* The navbar does not slide under reduced motion (it cross-fades in place),
+     so there is nothing for this bar to travel alongside. */
+  .content-scrollspy .content-scrollspy__menu{
+    transition:opacity var(--transition-duration) ease,
+               visibility var(--transition-duration) ease;
+  }
 }
