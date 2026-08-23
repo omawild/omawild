@@ -73,7 +73,14 @@ function getAnnBarHeight() {
 }
 
 function applyBodyPadding() {
-  document.body.style.paddingTop = getAnnBarHeight() + 'px';
+  const h = getAnnBarHeight();
+  document.body.style.paddingTop = h + 'px';
+  // Publish the chrome's height so anything that has to dock *below* the fixed
+  // bars can find their bottom edge from CSS alone. Every recalculation route
+  // below (resize, fonts.ready, the ResizeObserver on #top-chrome) runs through
+  // here, so the value can never go stale. Today's only consumer is the vendor
+  // scrollspy nav -- see the override at the foot of ow-chrome.css.
+  document.documentElement.style.setProperty('--ow-chrome-h', h + 'px');
 }
 
 applyBodyPadding();

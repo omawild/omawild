@@ -447,3 +447,25 @@
 .navbar-region.navbar-region--inline .navbar-region-option{padding:8px 0;}
 .menu-bottom-links{display:flex;gap:24px;margin-bottom:20px;}
 .menu-bottom-links a{font-size:15px;color:var(--electric);font-weight:400;text-decoration:none;}
+
+/* ── VENDOR SCROLLSPY NAV, DOCKED UNDER THE CHROME ──────────────────────────
+   sections/content-scrollspy.liquid ships its menu as position:fixed; top:0;
+   z-index:1000, so it parks itself on top of #top-chrome (z-index:200) rather
+   than below it. Its stylesheet is enqueued inside the section, in the body,
+   which means it loads *after* this file and source order cannot win — hence
+   the extra ancestor class here, to win on specificity (0,2,0 vs 0,1,0)
+   instead. Vendor files stay untouched.
+
+   top:      --ow-chrome-h is written by ow-chrome.js on every reflow of the
+             bars, so the nav follows the countdown bar's text changing and the
+             marquee wrapping, with no second measurement here.
+   z-index:  at 1000 the nav painted over the navbar's own dropdowns, which open
+             downwards into exactly the band it now occupies. Anything under
+             #top-chrome's 200 restores the intended order.
+
+   The 3px scroll-indicator is deliberately left pinned at top:0 — it reads as a
+   page-progress rail against the viewport edge, not as part of this stack. */
+.content-scrollspy .content-scrollspy__menu{
+  top:var(--ow-chrome-h,0px);
+  z-index:100;
+}

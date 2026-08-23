@@ -30,7 +30,16 @@
   {{ 'ow-flags.css' | asset_url | stylesheet_tag }}
 {%- endif -%}
 
-<div id="top-chrome">
+{%- comment -%}
+  `fixed-header` carries no styles anywhere in this theme. It is there purely as
+  a hook for the vendor scrollspy nav (assets/content-scrollspy.js), whose
+  calculateScrollOffsets() looks for a fixed header among
+  ['header','.header','.sticky-header','.fixed-header'] so that clicking one of
+  its links lands the heading below the chrome instead of underneath it. None of
+  those matched #top-chrome, so that offset was silently 0. Claiming the class
+  here fixes the jump without editing the vendor script.
+{%- endcomment -%}
+<div id="top-chrome" class="fixed-header">
   {%- for block in section.blocks -%}
     {%- case block.type -%}
 
