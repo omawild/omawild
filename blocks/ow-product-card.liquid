@@ -57,6 +57,20 @@
         <div class="grade-tag">{{ block.settings.grade }}</div>
       {%- endif -%}
       <div class="product-card-img">
+        {%- comment -%}
+          The image and the title both link to the product, but only the title is
+          exposed to assistive tech: two adjacent links to the same URL make a
+          screen reader announce every card twice. The image's link is taken out
+          of the tab order and out of the accessibility tree, which is safe
+          precisely because tabindex="-1" makes it unfocusable — aria-hidden on a
+          focusable element is the thing to avoid, not this.
+
+          Rendered only when a product is actually selected; a name-only card
+          would otherwise get href="" and reload the page.
+        {%- endcomment -%}
+        {%- if prod != blank -%}
+          <a class="product-card-img-link" href="{{ prod.url }}" tabindex="-1" aria-hidden="true">
+        {%- endif -%}
         {%- if block.settings.image -%}
           {{ block.settings.image | image_url: width: 600 | image_tag: alt: p_name }}
         {%- elsif prod != blank and prod.featured_image -%}
@@ -64,13 +78,22 @@
         {%- else -%}
           <img src="{{ 'ow-product-card-placeholder.jpg' | asset_url }}" alt="{{ p_name | escape }}" width="464" height="650">
         {%- endif -%}
+        {%- if prod != blank -%}
+          </a>
+        {%- endif -%}
       </div>
     </div>
     <div class="product-card-body">
       {%- if block.settings.flavour != blank -%}
         <span class="product-tag">{{ block.settings.flavour }}</span>
       {%- endif -%}
-      <div class="product-name">{{ p_name }}</div>
+      <div class="product-name">
+        {%- if prod != blank -%}
+          <a href="{{ prod.url }}">{{ p_name }}</a>
+        {%- else -%}
+          {{ p_name }}
+        {%- endif -%}
+      </div>
       {%- comment -%}
         Kept even when empty: .product-desc carries flex:1 and is what pushes the
         price and button to the foot of the card. Dropping it leaves a short,

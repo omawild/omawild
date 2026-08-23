@@ -356,6 +356,22 @@
   margin:14px;
 }
 .product-card-img img{width:100%;height:100%;object-fit:cover;}
+/* The image's link is a bare wrapper: it has to fill the square its parent
+   already defines (aspect-ratio:1/1) so the hit area matches what you see, and
+   so object-fit:cover above still resolves against a full-size box. An inline
+   <a> would collapse to the image's line box and leave a few px unclickable at
+   the bottom.
+
+   Hover matches the site convention for links — .navbar-links a in ow-chrome.css
+   fades to .6 over .2s. Same numbers here rather than a third hover style. */
+.product-card-img-link{display:block;width:100%;height:100%;}
+.product-card-img-link,
+.product-name a{transition:opacity .2s;}
+.product-card-img-link:hover,
+.product-name a:hover{opacity:.6;}
+/* Inherit so the title keeps its electric-blue uppercase treatment instead of
+   picking up the browser's default link colour and underline. */
+.product-name a{color:inherit;text-decoration:none;}
 .product-card-body{padding:12px 12px 0;display:flex;flex-direction:column;flex:1;gap:8px;}
 .grade-tag{
   position:absolute;top:0;left:0;
