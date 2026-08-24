@@ -1,7 +1,26 @@
 {%- comment -%}
   About — one band of the OW Landing page, split out of
   sections/ow-landing.liquid when that section moved to theme blocks so the
-  products band could own its cards as real children. The origin story plus a four-card swipeable carousel.
+  products band could own its cards as real children. The origin story plus a
+  swipeable carousel of cards.
+
+  Like ow-products, this block holds only the band's chrome: the story column
+  and the carousel scaffolding. The cards themselves are ow-about-card children
+  rendered by {% content_for 'blocks' %} straight into .about-cards-track, so
+  the merchant adds as many as the story needs and can reorder them.
+  ow-about-card is not offered at section level, only inside here, which is what
+  keeps a stray card from landing elsewhere on the page.
+
+  Twelve cards is the intended ceiling, but it is advisory only and lives in the
+  schema paragraph, not in code. A theme block's schema accepts exactly six
+  attributes — name, settings, blocks, presets, tag, class — so neither
+  `max_blocks` (a section-only key) nor a per-type `limit` is allowed here, and
+  both fail theme-check with ValidSchema. Nothing in the layout breaks past
+  twelve; the track just keeps scrolling. The one real lever is `max_blocks` on
+  sections/ow-landing.liquid, but Shopify counts every merchant-addable block in
+  the section against it — the bands and the product cards included — so it
+  cannot cap this band alone. Shopify's own ceiling there is 50 per section;
+  eight bands plus three product cards plus twelve about cards is 23.
 
   Layout lives in assets/ow-landing.css and behaviour in assets/ow-landing.js;
   both key off the class names and ids in this markup, so do not rename them.
@@ -14,37 +33,22 @@
     <a href="{{ block.settings.cta_link | default: '#' }}" class="btn-outline fade-up">{{ block.settings.cta_text }}</a>
   </div>
   <div class="about-cards-carousel">
-  <div class="about-cards-wrap" id="aboutCardsWrap" tabindex="0" role="region" aria-label="About carousel — swipe or use arrow keys to browse">
-    <div class="about-cards-track">
-      {%- for i in (1..12) -%}
-        {%- assign cap_key = 'c' | append: i | append: '_caption' -%}
-        {%- assign alt_key = 'c' | append: i | append: '_alt' -%}
-        {%- assign img_key = 'c' | append: i | append: '_image' -%}
-        {%- assign caption = block.settings[cap_key] -%}
-        {%- if caption != blank -%}
-          <div class="about-card">
-            <div class="about-card-img">
-              {%- if block.settings[img_key] -%}
-                {{ block.settings[img_key] | image_url: width: 800 | image_tag: alt: block.settings[alt_key] }}
-              {%- else -%}
-                <img src="{{ 'ow-about-card-placeholder.jpg' | asset_url }}" alt="{{ block.settings[alt_key] | escape }}" width="1024" height="768">
-              {%- endif -%}
-            </div>
-            <div class="about-card-caption">{{ caption }}</div>
-          </div>
-        {%- endif -%}
-      {%- endfor -%}
+    <div class="about-cards-wrap" id="aboutCardsWrap" tabindex="0" role="region" aria-label="About carousel — swipe or use arrow keys to browse">
+      <div class="about-cards-track">
+        {% content_for 'blocks' %}
+      </div>
     </div>
-  </div>
-  <div class="scroll-fade scroll-fade-left hide" aria-hidden="true"></div>
-  <div class="scroll-fade scroll-fade-right" aria-hidden="true"></div>
+    <div class="scroll-fade scroll-fade-left hide" aria-hidden="true"></div>
+    <div class="scroll-fade scroll-fade-right" aria-hidden="true"></div>
   </div>
 </section>
 
 {% schema %}
 {
   "name": "About",
+  "blocks": [{ "type": "ow-about-card" }],
   "settings": [
+    { "type": "paragraph", "content": "Add an About Card to this band for each beat of the story, up to 12. They scroll horizontally." },
     {
       "type": "textarea",
       "id": "heading",
@@ -67,262 +71,6 @@
       "type": "url",
       "id": "cta_link",
       "label": "Button link"
-    },
-    {
-      "type": "paragraph",
-      "content": "Leave a caption blank to hide that card."
-    },
-    {
-      "type": "header",
-      "content": "Card 1"
-    },
-    {
-      "type": "image_picker",
-      "id": "c1_image",
-      "label": "Image"
-    },
-    {
-      "type": "text",
-      "id": "c1_alt",
-      "label": "Alt text",
-      "default": "Bali expedition"
-    },
-    {
-      "type": "textarea",
-      "id": "c1_caption",
-      "label": "Caption",
-      "default": "It started in 2023 with a one-way ticket to Bali. Forget \"Eat, Pray, Love\" — more Dig, Sweat, Build."
-    },
-    {
-      "type": "header",
-      "content": "Card 2"
-    },
-    {
-      "type": "image_picker",
-      "id": "c2_image",
-      "label": "Image"
-    },
-    {
-      "type": "text",
-      "id": "c2_alt",
-      "label": "Alt text",
-      "default": "Conservation work"
-    },
-    {
-      "type": "textarea",
-      "id": "c2_caption",
-      "label": "Caption",
-      "default": "Into forests, reefs, and degraded land being brought back to life. One cup at a time."
-    },
-    {
-      "type": "header",
-      "content": "Card 3"
-    },
-    {
-      "type": "image_picker",
-      "id": "c3_image",
-      "label": "Image"
-    },
-    {
-      "type": "text",
-      "id": "c3_alt",
-      "label": "Alt text",
-      "default": "West Java farm"
-    },
-    {
-      "type": "textarea",
-      "id": "c3_caption",
-      "label": "Caption",
-      "default": "Found a farm in West Java that grows the best coffee I've ever tasted — and runs on regenerative principles."
-    },
-    {
-      "type": "header",
-      "content": "Card 4"
-    },
-    {
-      "type": "image_picker",
-      "id": "c4_image",
-      "label": "Image"
-    },
-    {
-      "type": "text",
-      "id": "c4_alt",
-      "label": "Alt text",
-      "default": "Omawild launch"
-    },
-    {
-      "type": "textarea",
-      "id": "c4_caption",
-      "label": "Caption",
-      "default": "Omawild is the business model conservation never had."
-    },
-    {
-      "type": "header",
-      "content": "Card 5"
-    },
-    {
-      "type": "image_picker",
-      "id": "c5_image",
-      "label": "Image"
-    },
-    {
-      "type": "text",
-      "id": "c5_alt",
-      "label": "Alt text",
-      "default": "Omawild launch"
-    },
-    {
-      "type": "textarea",
-      "id": "c5_caption",
-      "label": "Caption",
-      "default": "Omawild is the business model conservation never had."
-    },
-    {
-      "type": "header",
-      "content": "Card 6"
-    },
-    {
-      "type": "image_picker",
-      "id": "c6_image",
-      "label": "Image"
-    },
-    {
-      "type": "text",
-      "id": "c6_alt",
-      "label": "Alt text",
-      "default": "Omawild launch"
-    },
-    {
-      "type": "textarea",
-      "id": "c6_caption",
-      "label": "Caption",
-      "default": "Omawild is the business model conservation never had."
-    },
-    {
-      "type": "header",
-      "content": "Card 7"
-    },
-    {
-      "type": "image_picker",
-      "id": "c7_image",
-      "label": "Image"
-    },
-    {
-      "type": "text",
-      "id": "c7_alt",
-      "label": "Alt text",
-      "default": "Omawild launch"
-    },
-    {
-      "type": "textarea",
-      "id": "c7_caption",
-      "label": "Caption",
-      "default": "Omawild is the business model conservation never had."
-    },
-    {
-      "type": "header",
-      "content": "Card 8"
-    },
-    {
-      "type": "image_picker",
-      "id": "c8_image",
-      "label": "Image"
-    },
-    {
-      "type": "text",
-      "id": "c8_alt",
-      "label": "Alt text",
-      "default": "Omawild launch"
-    },
-    {
-      "type": "textarea",
-      "id": "c8_caption",
-      "label": "Caption",
-      "default": "Omawild is the business model conservation never had."
-    },
-    {
-      "type": "header",
-      "content": "Card 9"
-    },
-    {
-      "type": "image_picker",
-      "id": "c9_image",
-      "label": "Image"
-    },
-    {
-      "type": "text",
-      "id": "c9_alt",
-      "label": "Alt text",
-      "default": "Omawild launch"
-    },
-    {
-      "type": "textarea",
-      "id": "c9_caption",
-      "label": "Caption",
-      "default": "Omawild is the business model conservation never had."
-    },
-    {
-      "type": "header",
-      "content": "Card 10"
-    },
-    {
-      "type": "image_picker",
-      "id": "c10_image",
-      "label": "Image"
-    },
-    {
-      "type": "text",
-      "id": "c10_alt",
-      "label": "Alt text",
-      "default": "Omawild launch"
-    },
-    {
-      "type": "textarea",
-      "id": "c10_caption",
-      "label": "Caption",
-      "default": "Omawild is the business model conservation never had."
-    },
-    {
-      "type": "header",
-      "content": "Card 11"
-    },
-    {
-      "type": "image_picker",
-      "id": "c11_image",
-      "label": "Image"
-    },
-    {
-      "type": "text",
-      "id": "c11_alt",
-      "label": "Alt text",
-      "default": "Omawild launch"
-    },
-    {
-      "type": "textarea",
-      "id": "c11_caption",
-      "label": "Caption",
-      "default": "Omawild is the business model conservation never had."
-    },
-    {
-      "type": "header",
-      "content": "Card 12"
-    },
-    {
-      "type": "image_picker",
-      "id": "c12_image",
-      "label": "Image"
-    },
-    {
-      "type": "text",
-      "id": "c12_alt",
-      "label": "Alt text",
-      "default": "Omawild launch"
-    },
-    {
-      "type": "textarea",
-      "id": "c12_caption",
-      "label": "Caption",
-      "default": "Omawild is the business model conservation never had."
     }
   ]
 }
