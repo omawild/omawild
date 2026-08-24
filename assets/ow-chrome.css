@@ -147,7 +147,7 @@
 }
 .navbar-icons img{width:30px;height:30px;}
 /* Region / language / currency selector: flag + code + chevron,
-   opens a listbox of the markets we currently ship to. */
+   opens a panel of independent country and language lists + Save. */
 .navbar-region{position:relative;}
 .navbar-region::after{
   content:'';position:absolute;top:100%;left:0;right:0;height:10px;
@@ -162,14 +162,29 @@
   font-size:13px;font-weight:600;letter-spacing:.02em;
   text-transform:uppercase;color:var(--electric);
 }
-.navbar-region-list{
+/* Panel is sized by content — min-width is a floor, rows are
+   white-space:nowrap — so it grows leftward from right:0. Height is capped
+   so long country lists scroll inside the panel instead of running off the
+   viewport; overscroll-behavior stops that scroll chaining to the page. */
+.navbar-region-panel{
   display:none;position:absolute;top:calc(100% + 10px);right:0;
   background:var(--wonderland);border:2px solid var(--electric);
-  border-radius:2px;padding:8px;margin:0;list-style:none;
+  border-radius:2px;padding:8px;margin:0;
   min-width:250px;z-index:5;
+  max-height:min(70vh,420px);overflow-y:auto;overscroll-behavior:contain;
+  flex-direction:column;gap:8px;
 }
-.navbar-region:hover .navbar-region-list,
-.navbar-region:focus-within .navbar-region-list{display:block;}
+.navbar-region:hover .navbar-region-panel,
+.navbar-region:focus-within .navbar-region-panel{display:flex;}
+.navbar-region-section-label{
+  margin:0;padding:4px 10px 2px;
+  font-size:11px;font-weight:600;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--electric);opacity:.55;
+}
+.navbar-region-options{
+  list-style:none;margin:0;padding:0;
+  display:flex;flex-direction:column;gap:0;
+}
 .navbar-region-option{
   display:flex;align-items:center;gap:10px;
   padding:8px 10px;border-radius:2px;cursor:pointer;
@@ -180,13 +195,12 @@
   background-size:cover;background-repeat:no-repeat;background-position:center;
 }
 .navbar-region-option:hover{background:rgba(255,63,0,.1);}
-/* The current country stays in the list, dimmed and inert, so the list does
-   not change length as the selection moves. It is the only aria-disabled row,
-   and it carries no data-country, so ow-chrome.js never binds a click to it. */
-.navbar-region-option--current{
-  opacity:.45;cursor:default;
+.navbar-region-option--selected,
+.navbar-region-option[aria-selected="true"]{background:rgba(255,63,0,.15);}
+.navbar-region-save{
+  width:100%;margin-top:4px;padding:10px 14px;
+  font-size:13px;border-radius:2px;
 }
-.navbar-region-option--current:hover{background:none;}
 .navbar-menu-btn{
   background:none;border:none;padding:4px;
   display:flex;align-items:center;justify-content:center;
@@ -457,21 +471,25 @@
 .menu-bottom{margin-top:40px;}
 /* Inline region/lang selector — same line-item accordion pattern as
    Discover above, instead of the floating hover-popover used in the
-   navbar/footer (hover has no equivalent on touch). */
+   navbar (hover has no equivalent on touch). */
 .navbar-region.navbar-region--inline{border-bottom:1px solid rgba(255,63,0,.15);}
 /* No floating panel to bridge to here, and the empty hit-box would
-   otherwise sit on top of the expanded list's first tap target. */
+   otherwise sit on top of the expanded panel's first tap target. */
 .navbar-region.navbar-region--inline::after{display:none;}
 .navbar-region.navbar-region--inline .navbar-lang{width:100%;padding:18px 0;}
 .navbar-region.navbar-region--inline .navbar-lang-chevron{transform:none;}
 .navbar-region.navbar-region--inline.expanded .navbar-lang-chevron{transform:rotate(180deg);}
-.navbar-region.navbar-region--inline .navbar-region-list{
+/* The inline variant already lives inside the scrollable menu modal, so the
+   desktop height cap would give it a second, nested scroll area. */
+.navbar-region.navbar-region--inline .navbar-region-panel{
   display:none;position:static;
   border:none;background:none;box-shadow:none;
   padding:0 0 16px;margin:0;min-width:0;
+  max-height:none;overflow-y:visible;
 }
-.navbar-region.navbar-region--inline.expanded .navbar-region-list{display:flex;flex-direction:column;gap:2px;}
+.navbar-region.navbar-region--inline.expanded .navbar-region-panel{display:flex;}
 .navbar-region.navbar-region--inline .navbar-region-option{padding:8px 0;}
+.navbar-region.navbar-region--inline .navbar-region-section-label{padding-left:0;}
 .menu-bottom-links{display:flex;gap:24px;margin-bottom:20px;}
 .menu-bottom-links a{font-size:15px;color:var(--electric);font-weight:400;text-decoration:none;}
 

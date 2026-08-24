@@ -312,42 +312,84 @@ document.addEventListener('DOMContentLoaded', syncFooterNavExpanded);
 window.addEventListener('resize', syncFooterNavExpanded);
 
 // ── REGION / LANGUAGE / CURRENCY SELECTOR ──
-// Two instances on the page (navbar, mobile menu modal) — each wired up
-// independently by class rather than id. Open/close is handled by CSS
-// for the navbar instance (:hover /
-// :focus-within, same mechanism as the Discover dropdown) so there is no
-// JS-managed open state that can get stuck across a navbar hide/show
-// scroll cycle. This listener only handles selecting an option.
+// Two instances (navbar + mobile menu). Desktop open/close is CSS
+// (:hover / :focus-within). This only handles: selecting a row (pending),
+// Save (copy into hidden inputs + submit), and re-syncing selection from
+// the hidden inputs when the panel is re-opened so an abandoned pick does
+// not stick. Inline (mobile) is click-to-toggle .expanded.
 document.querySelectorAll('.navbar-region').forEach(regionEl => {
+  const form = regionEl.querySelector('form.navbar-region-form');
+  if (!form) return;
+
+  const countryInput = form.querySelector('[name="country_code"]');
+  const localeInput = form.querySelector('[name="locale_code"]');
   const flagEl = regionEl.querySelector('.navbar-region-flag');
   const labelEl = regionEl.querySelector('.navbar-region-label');
+  const countryOptions = regionEl.querySelectorAll('.navbar-region-option[data-country]');
+  const localeOptions = regionEl.querySelectorAll('.navbar-region-option[data-locale]');
 
-  // The first row is the current country, rendered inert (aria-disabled, no
-  // data-country). Selecting it would be a no-op reload, so it gets no
-  // listener at all — the [data-country] filter does that on its own.
-  regionEl.querySelectorAll('.navbar-region-option[data-country]').forEach(option => {
-    option.addEventListener('click', () => {
-      regionEl.querySelectorAll('.navbar-region-option').forEach(o => o.setAttribute('aria-selected', 'false'));
-      option.setAttribute('aria-selected', 'true');
-      flagEl.className = 'fi ' + option.dataset.flag + ' navbar-region-flag';
-      labelEl.textContent = option.dataset.label;
-      regionEl.querySelector('.navbar-lang').blur();
-      regionEl.classList.remove('expanded');
-
-      // Actually switch market. The option carries the ISO country code from
-      // snippets/ow-region-selector.liquid; submitting Shopify's localization
-      // form reloads the page in that country. locale_code is left at whatever
-      // the snippet rendered, so the shopper's language survives the switch —
-      // this selector deliberately does not offer a language choice. The
-      // cosmetic updates above run first so the control does not appear frozen
-      // during the reload. Without the form (selector rendered outside Shopify
-      // data) this is a no-op and the control stays cosmetic.
-      const form = regionEl.querySelector('form.navbar-region-form');
-      if (form) {
-        form.querySelector('[name="country_code"]').value = option.dataset.country;
-        form.submit();
-      }
+  function selectInList(options, clicked) {
+    options.forEach(o => {
+      const on = o === clicked;
+      o.setAttribute('aria-selected', on ? 'true' : 'false');
+      o.classList.toggle('navbar-region-option--selected', on);
     });
+  }
+
+  function syncFromInputs() {
+    const country = countryInput && countryInput.value;
+    const locale = localeInput && localeInput.value;
+    if (country && countryOptions.length) {
+      countryOptions.forEach(o => {
+        const on = o.dataset.country === country;
+        o.setAttribute('aria-selected', on ? 'true' : 'false');
+        o.classList.toggle('navbar-region-option--selected', on);
+      });
+    }
+    if (locale && localeOptions.length) {
+      localeOptions.forEach(o => {
+        const on = o.dataset.locale === locale;
+        o.setAttribute('aria-selected', on ? 'true' : 'false');
+        o.classList.toggle('navbar-region-option--selected', on);
+      });
+    }
+  }
+
+  countryOptions.forEach(option => {
+    option.addEventListener('click', () => selectInList(countryOptions, option));
+  });
+  localeOptions.forEach(option => {
+    option.addEventListener('click', () => selectInList(localeOptions, option));
+  });
+
+  // Re-sync when the shopper comes back to the panel without saving.
+  // mouseenter on the region (not focusin): focusin would re-fire when
+  // tabbing from a row to Save and wipe the pending selection.
+  regionEl.addEventListener('mouseenter', syncFromInputs);
+  const trigger = regionEl.querySelector('.navbar-lang');
+  if (trigger) trigger.addEventListener('focus', syncFromInputs);
+
+  form.addEventListener('submit', () => {
+    const countryOpt = regionEl.querySelector('.navbar-region-option[data-country][aria-selected="true"]');
+    const localeOpt = regionEl.querySelector('.navbar-region-option[data-locale][aria-selected="true"]');
+
+    if (countryOpt && countryInput) {
+      countryInput.value = countryOpt.dataset.country;
+      if (flagEl && countryOpt.dataset.flag) {
+        flagEl.className = 'fi ' + countryOpt.dataset.flag + ' navbar-region-flag';
+      }
+      if (labelEl && countryOpt.dataset.label) {
+        let label = countryOpt.dataset.label;
+        if (localeOpt && localeOpt.dataset.langShort) {
+          label += ' · ' + localeOpt.dataset.langShort;
+        }
+        labelEl.textContent = label;
+      }
+    }
+    if (localeOpt && localeInput) {
+      localeInput.value = localeOpt.dataset.locale;
+    }
+    // Native submit continues; page reloads on Shopify's response.
   });
 });
 
@@ -355,8 +397,24 @@ document.querySelectorAll('.navbar-region').forEach(regionEl => {
 // hover-driven — same accordion mechanism as the Discover group above.
 document.querySelectorAll('.navbar-region--inline').forEach(regionEl => {
   const toggle = regionEl.querySelector('.navbar-lang');
+  if (!toggle) return;
   toggle.addEventListener('click', () => {
     const isOpen = regionEl.classList.toggle('expanded');
     toggle.setAttribute('aria-expanded', String(isOpen));
+    if (isOpen) {
+      // Same abandoned-pick reset as desktop mouseenter.
+      const countryInput = regionEl.querySelector('[name="country_code"]');
+      const localeInput = regionEl.querySelector('[name="locale_code"]');
+      regionEl.querySelectorAll('.navbar-region-option[data-country]').forEach(o => {
+        const on = countryInput && o.dataset.country === countryInput.value;
+        o.setAttribute('aria-selected', on ? 'true' : 'false');
+        o.classList.toggle('navbar-region-option--selected', on);
+      });
+      regionEl.querySelectorAll('.navbar-region-option[data-locale]').forEach(o => {
+        const on = localeInput && o.dataset.locale === localeInput.value;
+        o.setAttribute('aria-selected', on ? 'true' : 'false');
+        o.classList.toggle('navbar-region-option--selected', on);
+      });
+    }
   });
 });
