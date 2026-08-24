@@ -343,8 +343,9 @@
               "type": "ow-about-card",
               "name": "About Card",
               "settings": {
-                "alt": "",
-                "caption": "Tell one beat of the story here."
+                "image": "shopify://shop_images/Origin-007.jpg",
+                "alt": "Jenny carrying Jonas onsite at a permaculture project in Tabanan, Bali.",
+                "caption": "What started as volunteering in 2023 became something we couldn’t walk away from. We kept returning."
               },
               "blocks": {}
             },
@@ -353,7 +354,7 @@
               "name": "About Card",
               "settings": {
                 "alt": "",
-                "caption": "Tell one beat of the story here."
+                "caption": "We cleaned up beaches and rivers chocked with plastic."
               },
               "blocks": {}
             },
@@ -361,8 +362,9 @@
               "type": "ow-about-card",
               "name": "About Card",
               "settings": {
-                "alt": "",
-                "caption": "Tell one beat of the story here."
+                "image": "shopify://shop_images/Origin-009.jpg",
+                "alt": "Jenny with clean up crew and local middle school students at a Sungai Watch river clean up in 2025.",
+                "caption": "We learned how Sungai Watch turns one of Bali’s biggest environmental problems into an opportunity."
               },
               "blocks": {}
             },
