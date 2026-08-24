@@ -39,20 +39,7 @@
   those matched #top-chrome, so that offset was silently 0. Claiming the class
   here fixes the jump without editing the vendor script.
 {%- endcomment -%}
-{%- comment -%}
-  data-navbar-reveal-target names the element the navbar stays hidden behind
-  until it has scrolled past — the product page's equivalent of the landing
-  page's #hero. It is emitted ONLY on product templates on purpose: resolving
-  a `__main` section from the DOM alone would also have caught the main section
-  of every collection, blog, cart and page template, silently hiding the navbar
-  site-wide. Scoping it here keeps the change to the page that asked for it.
-
-  `[id$='__main']` matches Shopify's generated section id (shopify-section-
-  template--<store id>__main), which is keyed on the section name in the
-  template JSON and so is stable across product templates.
-{%- endcomment -%}
-<div id="top-chrome" class="fixed-header"
-     {%- if template.name == 'product' %} data-navbar-reveal-target="#MainContent [id$='__main']"{% endif -%}>
+<div id="top-chrome" class="fixed-header">
   {%- for block in section.blocks -%}
     {%- case block.type -%}
 
