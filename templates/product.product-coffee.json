@@ -269,7 +269,7 @@
         "text_Abcqpb": {
           "type": "text",
           "settings": {
-            "text": "<p>Discover the story behind this coffee and what makes it possible.</p><ul><li><strong>Origin:</strong> {{ product.metafields.custom[\"origin-of-country\"].value }}</li><li><strong>Region: </strong>{{ product.metafields.custom.region.value }}</li><li><strong>Elevation: </strong>{{ product.metafields.custom.elevation_masl.value }} MASL</li><li><strong>Crop Year: </strong>{{ product.metafields.custom.crop_year.value }}</li><li><strong>Farm / Producer: </strong>{{ product.metafields.custom.farmer_producer.value }}</li><li><strong>Varietal: </strong>{{ product.metafields.custom.varietal_all_listed.value }}</li></ul><p></p>{{ product.description }}",
+            "text": "<p>Discover the story behind this coffee and what makes it possible.</p><ul><li><strong>Origin:</strong> {{ product.metafields.custom[\"origin-of-country\"].value }}</li><li><strong>Region: </strong>{{ product.metafields.custom.region.value }}</li><li><strong>Elevation: </strong>{{ product.metafields.custom.elevation_masl.value }} MASL</li><li><strong>Crop Year: </strong>{{ product.metafields.custom.crop_year.value }}</li><li><strong>Farm / Producer: </strong>{{ product.metafields.custom.farmer_producer.value }}</li><li><strong>Varietal: </strong>{{ product.metafields.custom.varietal_all_listed.value }}</li></ul>",
             "text_size": "typeset",
             "secondary_color": false,
             "enable_highlight": false,
@@ -315,7 +315,7 @@
         "colors_button_label": "#ffffff",
         "colors_button_background": "#1a1b18",
         "colors_text": "#212326",
-        "colors_background": "#F5F5F6",
+        "colors_background": "#FFFFFF",
         "gradient_background": "",
         "colors_highlight": "#ffb503",
         "padding_top": 36,
