@@ -1,0 +1,39 @@
+{%- comment -%}
+  About Card — one card in the OW Landing about carousel.
+
+  A child of ow-about, mirroring how ow-product-card sits inside ow-products:
+  the parent owns the band's chrome and the carousel scaffolding, each card is
+  its own block so the merchant can add, remove and reorder them. This replaced
+  a fixed `for i in (1..12)` loop over c1_… c12_ settings, which forced a
+  twelve-card schema on the editor no matter how many cards were wanted and
+  could not be reordered at all.
+
+  The root element is .about-card with no wrapper around it, because
+  assets/ow-landing.css styles `.about-cards-track > .about-card` and
+  assets/ow-landing.js measures the first .about-card to size a scroll step.
+  Do not rename it or nest it deeper.
+{%- endcomment -%}
+
+<div class="about-card" {{ block.shopify_attributes }}>
+  <div class="about-card-img">
+    {%- if block.settings.image -%}
+      {{ block.settings.image | image_url: width: 800 | image_tag: alt: block.settings.alt }}
+    {%- else -%}
+      <img src="{{ 'ow-about-card-placeholder.jpg' | asset_url }}" alt="{{ block.settings.alt | escape }}" width="1024" height="768">
+    {%- endif -%}
+  </div>
+  {%- if block.settings.caption != blank -%}
+    <div class="about-card-caption">{{ block.settings.caption }}</div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "About Card",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "Blank falls back to the built-in placeholder." },
+    { "type": "text", "id": "alt", "label": "Alt text" },
+    { "type": "textarea", "id": "caption", "label": "Caption", "default": "Tell one beat of the story here." }
+  ]
+}
+{% endschema %}
