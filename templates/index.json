@@ -248,8 +248,8 @@
                 "product": "limited-reserve-garut-wine",
                 "name": "Limited Reserve",
                 "description": "A rare micro-lot production that blurs the line between coffee, tea, fruit, and wine. Best for pour-over, cold brew, and nitro.",
-                "grade": "GRADE 1",
-                "flavour": "RARE FUNK",
+                "grade": "{{ closest.product.metafields.custom.coffee_grade | metafield_text }}",
+                "flavour": "{{ block.settings.product.metafields.custom.product_eyebrow.value }}",
                 "atc_label": "Add to Cart"
               },
               "blocks": {}
