@@ -162,11 +162,22 @@
   font-size:13px;font-weight:600;letter-spacing:.02em;
   text-transform:uppercase;color:var(--electric);
 }
+/* The panel is sized by its content — min-width is a floor, and rows are
+   white-space:nowrap — so it grows leftward from right:0 as labels get longer.
+   That is what a country/language row needs.
+
+   The cap is for HEIGHT. ow-region-selector renders countries x languages, so
+   the row count multiplies: five markets and three languages is fifteen rows,
+   which overruns a laptop viewport with nowhere to scroll. The list scrolls
+   inside itself instead of running off the bottom of the screen.
+   overscroll-behavior stops that scroll chaining to the page once it bottoms
+   out, which on a hover-opened dropdown reads as the page lurching. */
 .navbar-region-list{
   display:none;position:absolute;top:calc(100% + 10px);right:0;
   background:var(--wonderland);border:2px solid var(--electric);
   border-radius:2px;padding:8px;margin:0;list-style:none;
   min-width:250px;z-index:5;
+  max-height:min(70vh,420px);overflow-y:auto;overscroll-behavior:contain;
 }
 .navbar-region:hover .navbar-region-list,
 .navbar-region:focus-within .navbar-region-list{display:block;}
@@ -438,10 +449,13 @@
 .navbar-region.navbar-region--inline .navbar-lang{width:100%;padding:18px 0;}
 .navbar-region.navbar-region--inline .navbar-lang-chevron{transform:none;}
 .navbar-region.navbar-region--inline.expanded .navbar-lang-chevron{transform:rotate(180deg);}
+/* The inline variant already lives inside the scrollable menu modal, so the
+   desktop height cap would give it a second, nested scroll area. */
 .navbar-region.navbar-region--inline .navbar-region-list{
   display:none;position:static;
   border:none;background:none;box-shadow:none;
   padding:0 0 16px;margin:0;min-width:0;
+  max-height:none;overflow-y:visible;
 }
 .navbar-region.navbar-region--inline.expanded .navbar-region-list{display:flex;flex-direction:column;gap:2px;}
 .navbar-region.navbar-region--inline .navbar-region-option{padding:8px 0;}

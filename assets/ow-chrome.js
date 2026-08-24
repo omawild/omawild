@@ -335,16 +335,26 @@ document.querySelectorAll('.navbar-region').forEach(regionEl => {
       regionEl.classList.remove('expanded');
 
       // Actually switch market. The option carries the ISO country code from
-      // snippets/ow-region-selector.liquid; submitting Shopify's localization
-      // form reloads the page in that country. locale_code is left at whatever
-      // the snippet rendered, so the shopper's language survives the switch —
-      // this selector deliberately does not offer a language choice. The
-      // cosmetic updates above run first so the control does not appear frozen
-      // during the reload. Without the form (selector rendered outside Shopify
-      // data) this is a no-op and the control stays cosmetic.
+      // snippets/ow-region-selector.liquid, and — when the store publishes more
+      // than one language — an IETF locale tag alongside it. Shopify's
+      // localization form takes both in one submit, which is why the two are
+      // offered as a single choice rather than two controls.
+      //
+      // data-locale is absent on a single-language store. Leaving locale_code
+      // at whatever the snippet rendered is then correct: it carries the
+      // shopper's current language through the country switch rather than
+      // resetting it. Writing an undefined into the field instead would send an
+      // empty locale_code and drop them onto the market default.
+      //
+      // The cosmetic updates above run first so the control does not appear
+      // frozen during the reload. Without the form (selector rendered outside
+      // Shopify data) this is a no-op and the control stays cosmetic.
       const form = regionEl.querySelector('form.navbar-region-form');
       if (form) {
         form.querySelector('[name="country_code"]').value = option.dataset.country;
+        if (option.dataset.locale) {
+          form.querySelector('[name="locale_code"]').value = option.dataset.locale;
+        }
         form.submit();
       }
     });

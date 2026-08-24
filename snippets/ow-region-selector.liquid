@@ -1,6 +1,6 @@
 {%- comment -%}
-  ow-region-selector — the country/currency picker in the navbar and the mobile
-  menu, backed by Shopify's real localization form.
+  ow-region-selector — the country/currency/language picker in the navbar and
+  the mobile menu, backed by Shopify's real localization form.
 
   Accepts:
   - id_suffix: {String} unique per instance ('header', 'menu') — the selector
@@ -18,23 +18,38 @@
   does not publish, and shipping to one it does not cover would fail at
   checkout. So country_filter can only hide rows. A code in the filter that
   Markets does not publish is silently ignored, which is the safe direction.
+  The same one-way rule governs languages: available_languages is whatever
+  Settings > Languages publishes, and there is no setting here to extend it.
 
-  The current country always renders, filter or no filter. Hiding the market the
+  The current pair always renders, filter or no filter. Hiding the market the
   shopper is actually in would leave the button showing a country absent from
   its own list.
 
-  COUNTRY ONLY, BY DESIGN. An earlier version looped countries × languages and
-  labelled the button with the language endonym ('EN'), following the Figma
-  export. The store's actual design — and the live vendor header this replaced —
-  is country and currency:
+  COUNTRY x LANGUAGE, ONE FORM. Each row sets country and language together,
+  because Shopify's localization form takes country_code and locale_code in a
+  single submit — offering them as one choice is what the form actually models.
 
-    button   HK ($)
-    row      Hong Kong SAR (HKD $)
+  The cross-product is a genuine limitation, not a shortcut. Liquid exposes two
+  FLAT lists — localization.available_countries and
+  localization.available_languages ("the languages that are available on the
+  store") — and no per-market mapping between them. There is no
+  country.available_languages. So this pairs every surviving country with every
+  published language, and it cannot know that a language is published for one
+  market but not another. When that is wrong Shopify does not error: it falls
+  back to the market's default language, so the row appears to do nothing. If
+  the store ever publishes a language that is not global, narrow the countries
+  with country_filter, or the pairing has to move to a metafield recording the
+  mapping Liquid cannot see.
 
-  Language is not offered here. The hidden locale_code below carries the current
-  locale through the form so switching country does not silently reset it.
+  Row count is countries x languages, so it grows fast: 5 countries and 3
+  languages is 15 rows in a dropdown with no search. country_filter is the lever
+  if that gets unwieldy.
 
-  The current country renders first and is inert: no data-country, so the click
+  With one published language the language half disappears entirely and this
+  renders exactly as the country-only version did — button 'HK ($)', rows
+  'Hong Kong SAR (HKD $)'. Nothing to configure; the size check does it.
+
+  The current pair renders first and is inert: no data-country, so the click
   handler in ow-chrome.js ignores it. That keeps the list a stable length
   instead of shuffling as the selection moves.
 
@@ -42,12 +57,28 @@
   names are ISO 3166-1 alpha-2 lowercased — exactly country.iso_code | downcase,
   so 'TW' -> 'fi-tw' with no mapping table. A country whose flag has not been
   vendored yet renders an empty box; add it per the instructions in that file.
+
+  Language is labelled with endonym_name — the language's name in itself, so a
+  shopper who cannot read the CURRENT language still recognises their own. The
+  compact button label uses the primary subtag only: 'zh-TW' shows as ZH,
+  because 'TW ($) - ZH-TW' repeats the region twice in one label.
 {%- endcomment -%}
 
 {%- assign current = localization.country -%}
+{%- assign current_lang = localization.language -%}
 
 {%- comment -%}
-  Resolve the filter, then count how many countries survive it. The selector is
+  One published language means there is no language choice to offer. Everything
+  below keys off this rather than off available_languages.size directly, so the
+  country-only path stays readable.
+{%- endcomment -%}
+{%- assign multi_lang = false -%}
+{%- if localization.available_languages.size > 1 -%}
+  {%- assign multi_lang = true -%}
+{%- endif -%}
+
+{%- comment -%}
+  Resolve the filter, then count how many pairs survive it. The selector is
   only worth rendering when the shopper can actually switch to something, so the
   count — not available_countries.size — decides. Without this, a filter that
   narrows to a single market would render a dropdown whose only row is the inert
@@ -60,23 +91,36 @@
 
 {%- assign switchable = 0 -%}
 {%- for country in localization.available_countries -%}
-  {%- if country.iso_code == current.iso_code -%}{%- continue -%}{%- endif -%}
   {%- comment -%}
     `unless` rather than `if ... contains x == false`. Liquid has no operator
     precedence — it evaluates right to left and does not group — so a comparison
     chained onto `contains` inside an `and` does not mean what it reads like.
+    For the same reason the current-pair test below is a nested `if`, never
+    `a == b and c == d`.
   {%- endcomment -%}
   {%- if allowed != '' -%}
     {%- unless allowed contains country.iso_code -%}{%- continue -%}{%- endunless -%}
   {%- endif -%}
-  {%- assign switchable = switchable | plus: 1 -%}
+  {%- if multi_lang -%}
+    {%- for language in localization.available_languages -%}
+      {%- if country.iso_code == current.iso_code -%}
+        {%- if language.iso_code == current_lang.iso_code -%}{%- continue -%}{%- endif -%}
+      {%- endif -%}
+      {%- assign switchable = switchable | plus: 1 -%}
+    {%- endfor -%}
+  {%- else -%}
+    {%- if country.iso_code == current.iso_code -%}{%- continue -%}{%- endif -%}
+    {%- assign switchable = switchable | plus: 1 -%}
+  {%- endif -%}
 {%- endfor -%}
 
 {%- if switchable > 0 -%}
+  {%- assign current_lang_short = current_lang.iso_code | split: '-' | first | upcase -%}
+
   <div class="navbar-region{% if inline %} navbar-region--inline{% endif %}">
     <button class="navbar-lang" aria-haspopup="listbox" aria-expanded="false">
       <span class="fi fi-{{ current.iso_code | downcase }} navbar-region-flag"></span>
-      <span class="navbar-region-label">{{ current.iso_code }} ({{ current.currency.symbol }})</span>
+      <span class="navbar-region-label">{{ current.iso_code }} ({{ current.currency.symbol }}){% if multi_lang %} &middot; {{ current_lang_short }}{% endif %}</span>
       <img class="navbar-lang-chevron" src="{{ 'ow-chevron-lang.svg' | asset_url }}" alt="" width="16" height="16">
     </button>
 
@@ -90,36 +134,61 @@
     {%- assign region_form_id = 'ow-localization-' | append: id_suffix -%}
     {%- form 'localization', id: region_form_id, class: 'navbar-region-form' -%}
       <input type="hidden" name="country_code" value="{{ current.iso_code }}">
-      <input type="hidden" name="locale_code" value="{{ localization.language.iso_code }}">
-      <ul class="navbar-region-list" role="listbox" aria-label="{{ 'localization.country_label' | t | default: 'Ship to' }}">
+      <input type="hidden" name="locale_code" value="{{ current_lang.iso_code }}">
+      <ul class="navbar-region-list" role="listbox" aria-label="{{ 'localization.country_label' | t }}{% if multi_lang %} &amp; {{ 'localization.language_label' | t }}{% endif %}">
         <li class="navbar-region-option navbar-region-option--current"
             role="option"
             aria-selected="true"
             aria-disabled="true">
           <span class="fi fi-{{ current.iso_code | downcase }}"></span>
-          {{ current.name }} ({{ current.currency.iso_code }} {{ current.currency.symbol }})
+          {{ current.name }} ({{ current.currency.iso_code }} {{ current.currency.symbol }}){% if multi_lang %} &mdash; {{ current_lang.endonym_name }}{% endif %}
         </li>
         {%- for country in localization.available_countries -%}
-          {%- if country.iso_code == current.iso_code -%}
-            {%- continue -%}
-          {%- endif -%}
           {%- if allowed != '' -%}
             {%- unless allowed contains country.iso_code -%}
               {%- continue -%}
             {%- endunless -%}
           {%- endif -%}
-          {%- capture option_label -%}
-            {{- country.iso_code }} ({{ country.currency.symbol }})
-          {%- endcapture -%}
-          <li class="navbar-region-option"
-              role="option"
-              data-flag="fi-{{ country.iso_code | downcase }}"
-              data-label="{{ option_label | escape }}"
-              data-country="{{ country.iso_code }}"
-              aria-selected="false">
-            <span class="fi fi-{{ country.iso_code | downcase }}"></span>
-            {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
-          </li>
+
+          {%- if multi_lang -%}
+            {%- for language in localization.available_languages -%}
+              {%- if country.iso_code == current.iso_code -%}
+                {%- if language.iso_code == current_lang.iso_code -%}
+                  {%- continue -%}
+                {%- endif -%}
+              {%- endif -%}
+              {%- assign lang_short = language.iso_code | split: '-' | first | upcase -%}
+              {%- capture option_label -%}
+                {{- country.iso_code }} ({{ country.currency.symbol }}) &middot; {{ lang_short -}}
+              {%- endcapture -%}
+              <li class="navbar-region-option"
+                  role="option"
+                  data-flag="fi-{{ country.iso_code | downcase }}"
+                  data-label="{{ option_label | escape }}"
+                  data-country="{{ country.iso_code }}"
+                  data-locale="{{ language.iso_code }}"
+                  aria-selected="false">
+                <span class="fi fi-{{ country.iso_code | downcase }}"></span>
+                {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }}) &mdash; {{ language.endonym_name }}
+              </li>
+            {%- endfor -%}
+          {%- else -%}
+            {%- if country.iso_code == current.iso_code -%}
+              {%- continue -%}
+            {%- endif -%}
+            {%- capture option_label -%}
+              {{- country.iso_code }} ({{ country.currency.symbol }})
+            {%- endcapture -%}
+            <li class="navbar-region-option"
+                role="option"
+                data-flag="fi-{{ country.iso_code | downcase }}"
+                data-label="{{ option_label | escape }}"
+                data-country="{{ country.iso_code }}"
+                aria-selected="false">
+              <span class="fi fi-{{ country.iso_code | downcase }}"></span>
+              {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
+            </li>
+          {%- endif -%}
         {%- endfor -%}
       </ul>
     {%- endform -%}
