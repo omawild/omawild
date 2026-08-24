@@ -180,6 +180,7 @@
             "headline_alt": "Welcome to the Expedition",
             "submark_alt": "Drink for Planet Earth",
             "tagline": "Coffee's just the bait to reel you in",
+            "image": "shopify://shop_images/omawild-packaging.png",
             "image_alt": "Omawild product"
           },
           "blocks": {}
