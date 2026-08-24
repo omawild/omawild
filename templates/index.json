@@ -372,8 +372,9 @@
               "type": "ow-about-card",
               "name": "About Card",
               "settings": {
-                "alt": "",
-                "caption": "Tell one beat of the story here."
+                "image": "shopify://shop_images/Origin-010.jpg",
+                "alt": "Volunteering underwater, building artificial reefs to help restore coral populations in Tulamben, Bali.",
+                "caption": "We built artificial reefs to restore marine ecosystems that, with patience over many years, slowly came back to life."
               },
               "blocks": {}
             },
