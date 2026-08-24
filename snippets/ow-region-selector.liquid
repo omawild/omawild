@@ -1,24 +1,19 @@
 {%- comment -%}
-  ow-region-selector — the "Site preferences" country/language picker, backed
-  by Shopify's real localization form.
+  ow-region-selector — country/currency/language picker in the navbar and
+  mobile menu, backed by Shopify's real localization form.
 
-  Two INDEPENDENT native <select> fields, not paired rows. An earlier version
-  of this snippet cross-joined localization.available_countries with
-  localization.available_languages, generating one row per combination
-  ('Taiwan — English', 'Taiwan — Chinese', 'Canada — English', ...). That was
-  wrong: Liquid has no country.available_languages, so the cross-product could
-  not know a language is published for one market and not another, and the
-  row count multiplied fast enough to overrun the panel. Two selects avoid
-  both problems — each list is exactly what Shopify publishes, with no
-  invented pairing between them — matching how Dawn's own footer localization
-  form does it (two separate <select> elements, one shared submit).
+  Two INDEPENDENT lists (country rows + language rows) inside the original
+  dropdown panel chrome, with a Save button. Row click only updates the
+  pending selection; Save writes country_code / locale_code and submits.
+  An earlier cross-product pairing (every country x every language as one
+  row) was wrong: Liquid has no country.available_languages. An earlier
+  <dialog> rebuild kept independent fields but replaced this panel look.
 
   Accepts:
   - id_suffix: {String} unique per instance ('header', 'menu') — the selector
     appears more than once per page and form/field ids must not collide.
-  - inline: {Boolean} true renders the plain in-page variant used at the
-    bottom of the mobile menu — no dialog, no backdrop, no title, no Cancel.
-    false renders the desktop trigger button + "Site preferences" dialog.
+  - inline: {Boolean} true adds navbar-region--inline, the menu-modal
+    accordion variant (click-to-toggle instead of hover).
   - country_filter: {String} optional comma-separated ISO codes ('HK, TW, GB').
     Blank shows every country Markets publishes. See THE FILTER IS A NARROWING
     below — it cannot add a country.
@@ -36,27 +31,14 @@
 
   The shopper's current country always appears as an option, filter or no
   filter — hiding the market they are actually in would leave the selected
-  option absent from its own list, which HTML does not allow.
+  option absent from its own list.
 
-  ONE FORM, ONE SUBMIT. Both selects live inside a single
-  {% form 'localization' %} so a shopper picks country AND language, then
+  ONE FORM, ONE SUBMIT. Both lists live inside a single
+  {% form 'localization' %} so a shopper picks country and/or language, then
   presses Save once — Shopify's form takes country_code and locale_code in the
-  same submit, so this is what it actually models. Changing a <select> does
-  not submit by itself; assets/ow-chrome.js only wires up the dialog's
-  open/close and the desktop Cancel button, everything else is a plain HTML
-  form that works with JavaScript disabled.
-
-  DESKTOP IS A <dialog>. Opening it (the trigger button) does need
-  JavaScript — .showModal() has no CSS-only equivalent — so with JS disabled
-  the desktop trigger button becomes inert. That is a real regression against
-  the previous CSS-hover version for the no-JS case; accepted because a
-  Cancel/Save modal cannot be built any other way, and the storefront has no
-  other JS-free critical path gated on this control.
-
-  MOBILE HAS NO DIALOG. It renders inside the mobile menu takeover
-  (#menuModal), which is already the "modal" — wrapping it in a second one
-  would nest two dialogs. It is two labelled selects and a Save button, always
-  visible once the menu is open, no extra disclosure toggle.
+  same submit. assets/ow-chrome.js wires row selection and copies the chosen
+  values into the hidden inputs on Save; with JS disabled the hidden fields
+  still hold the current values so a naked Save is a no-op reload.
 {%- endcomment -%}
 
 {%- assign current = localization.country -%}
@@ -73,49 +55,24 @@
   {%- endif -%}
 
   {%- assign region_form_id = 'ow-localization-' | append: id_suffix -%}
+  {%- assign current_lang_short = current_lang.iso_code | split: '-' | first | upcase -%}
 
   <div class="navbar-region{% if inline %} navbar-region--inline{% endif %}">
-    {%- unless inline -%}
-      <button type="button" class="navbar-lang" data-region-trigger aria-haspopup="dialog" aria-expanded="false" aria-controls="{{ region_form_id }}-dialog">
-        <span class="fi fi-{{ current.iso_code | downcase }} navbar-region-flag"></span>
-        <span class="navbar-region-label">{{ current.iso_code }} ({{ current.currency.symbol }})</span>
-        <img class="navbar-lang-chevron" src="{{ 'ow-chevron-lang.svg' | asset_url }}" alt="" width="16" height="16">
-      </button>
-    {%- endunless -%}
+    <button type="button" class="navbar-lang" aria-haspopup="true" aria-expanded="false">
+      <span class="fi fi-{{ current.iso_code | downcase }} navbar-region-flag"></span>
+      <span class="navbar-region-label">{{ current.iso_code }} ({{ current.currency.symbol }}){% if multi_lang %} &middot; {{ current_lang_short }}{% endif %}</span>
+      <img class="navbar-lang-chevron" src="{{ 'ow-chevron-lang.svg' | asset_url }}" alt="" width="16" height="16">
+    </button>
 
-    {%- comment -%}
-      A real <dialog> on desktop (native focus trap, Escape-to-close,
-      ::backdrop) with no dialog chrome at all on mobile — same markup, the
-      inline modifier just strips the element down to a plain container via
-      CSS. Two variants of this file would drift; one that degrades does not.
-    {%- endcomment -%}
-    {%- comment -%}
-      `open` when inline: a <dialog> with no open attribute is display:none by
-      the UA stylesheet, engaged only via showModal()/show(). The inline
-      variant is never opened by JS — there is no trigger to open it, it is
-      meant to sit visibly in the mobile menu's flow — so without `open` here
-      it would render nothing at all. Only inline sets it; the desktop dialog
-      must start closed for showModal() in ow-chrome.js to have something to
-      do, and starting it open would also engage modal/top-layer behaviour
-      before any user action.
-    {%- endcomment -%}
-    <dialog class="region-panel" id="{{ region_form_id }}-dialog"{% if inline %} open{% endif %} aria-label="{{ 'localization.site_preferences_title' | t }}">
-      {%- unless inline -%}
-        <div class="region-panel-head">
-          <h3 class="region-panel-title">{{ 'localization.site_preferences_title' | t }}</h3>
-          <button type="button" class="region-panel-close" data-region-close aria-label="{{ 'accessibility.close' | t }}">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-            </svg>
-          </button>
-        </div>
-      {%- endunless -%}
+    {%- form 'localization', id: region_form_id, class: 'navbar-region-form' -%}
+      <input type="hidden" name="country_code" value="{{ current.iso_code }}">
+      <input type="hidden" name="locale_code" value="{{ current_lang.iso_code }}">
 
-      {%- form 'localization', id: region_form_id, class: 'region-form' -%}
+      <div class="navbar-region-panel">
         {%- if multi_country -%}
-          <div class="region-field">
-            <label for="{{ region_form_id }}-country">{{ 'localization.country_label' | t }}</label>
-            <select id="{{ region_form_id }}-country" name="country_code">
+          <div class="navbar-region-section">
+            <p class="navbar-region-section-label" id="{{ region_form_id }}-country-label">{{ 'localization.country_label' | t }}</p>
+            <ul class="navbar-region-options" role="listbox" aria-labelledby="{{ region_form_id }}-country-label">
               {%- for country in localization.available_countries -%}
                 {%- comment -%}
                   `unless` rather than `if ... contains x == false` — Liquid has
@@ -128,34 +85,43 @@
                     {%- unless allowed contains country.iso_code -%}{%- continue -%}{%- endunless -%}
                   {%- endif -%}
                 {%- endif -%}
-                <option value="{{ country.iso_code }}"{% if country.iso_code == current.iso_code %} selected{% endif %}>{{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})</option>
+                {%- capture option_label -%}
+                  {{- country.iso_code }} ({{ country.currency.symbol }})
+                {%- endcapture -%}
+                <li class="navbar-region-option{% if country.iso_code == current.iso_code %} navbar-region-option--selected{% endif %}"
+                    role="option"
+                    data-flag="fi-{{ country.iso_code | downcase }}"
+                    data-label="{{ option_label | escape }}"
+                    data-country="{{ country.iso_code }}"
+                    aria-selected="{% if country.iso_code == current.iso_code %}true{% else %}false{% endif %}">
+                  <span class="fi fi-{{ country.iso_code | downcase }}"></span>
+                  {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
+                </li>
               {%- endfor -%}
-            </select>
+            </ul>
           </div>
-        {%- else -%}
-          <input type="hidden" name="country_code" value="{{ current.iso_code }}">
         {%- endif -%}
 
         {%- if multi_lang -%}
-          <div class="region-field">
-            <label for="{{ region_form_id }}-lang">{{ 'localization.language_label' | t }}</label>
-            <select id="{{ region_form_id }}-lang" name="locale_code">
+          <div class="navbar-region-section">
+            <p class="navbar-region-section-label" id="{{ region_form_id }}-lang-label">{{ 'localization.language_label' | t }}</p>
+            <ul class="navbar-region-options" role="listbox" aria-labelledby="{{ region_form_id }}-lang-label">
               {%- for language in localization.available_languages -%}
-                <option value="{{ language.iso_code }}"{% if language.iso_code == current_lang.iso_code %} selected{% endif %}>{{ language.endonym_name | capitalize }}</option>
+                {%- assign lang_short = language.iso_code | split: '-' | first | upcase -%}
+                <li class="navbar-region-option{% if language.iso_code == current_lang.iso_code %} navbar-region-option--selected{% endif %}"
+                    role="option"
+                    data-locale="{{ language.iso_code }}"
+                    data-lang-short="{{ lang_short }}"
+                    aria-selected="{% if language.iso_code == current_lang.iso_code %}true{% else %}false{% endif %}">
+                  {{ language.endonym_name | capitalize }}
+                </li>
               {%- endfor -%}
-            </select>
+            </ul>
           </div>
-        {%- else -%}
-          <input type="hidden" name="locale_code" value="{{ current_lang.iso_code }}">
         {%- endif -%}
 
-        <div class="region-panel-actions">
-          {%- unless inline -%}
-            <button type="button" class="btn-outline region-cancel" data-region-close>{{ 'localization.cancel' | t }}</button>
-          {%- endunless -%}
-          <button type="submit" class="btn-primary region-save">{{ 'localization.save' | t }}</button>
-        </div>
-      {%- endform -%}
-    </dialog>
+        <button type="submit" class="btn-primary navbar-region-save">{{ 'localization.save' | t }}</button>
+      </div>
+    {%- endform -%}
   </div>
 {%- endif -%}

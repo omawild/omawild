@@ -311,64 +311,110 @@ function syncFooterNavExpanded() {
 document.addEventListener('DOMContentLoaded', syncFooterNavExpanded);
 window.addEventListener('resize', syncFooterNavExpanded);
 
-// ── SITE PREFERENCES DIALOG (region/language) ──
-// snippets/ow-region-selector.liquid renders two instances: the navbar
-// trigger + <dialog> (desktop) and a plain inline pair of <select>s inside
-// #menuModal (mobile, inline: true — no trigger, no <dialog>, this block
-// skips it entirely since regionEl.querySelector('dialog') is null there).
-//
-// The dialog itself needs no open-state class or outside-click detection —
-// <dialog>.showModal() supplies a real ::backdrop, native focus trapping, and
-// Escape-to-close for free. What is NOT free and has to be wired here:
-// opening it from the trigger button, and resetting the two <select>s to
-// whatever they were on open when the shopper cancels rather than saves —
-// otherwise a cancelled choice would still show in the control the next time
-// it opens, despite never having been submitted.
+// ── REGION / LANGUAGE / CURRENCY SELECTOR ──
+// Two instances (navbar + mobile menu). Desktop open/close is CSS
+// (:hover / :focus-within). This only handles: selecting a row (pending),
+// Save (copy into hidden inputs + submit), and re-syncing selection from
+// the hidden inputs when the panel is re-opened so an abandoned pick does
+// not stick. Inline (mobile) is click-to-toggle .expanded.
 document.querySelectorAll('.navbar-region').forEach(regionEl => {
-  const trigger = regionEl.querySelector('[data-region-trigger]');
-  const dialog = regionEl.querySelector('dialog.region-panel');
-  if (!trigger || !dialog) return;
+  const form = regionEl.querySelector('form.navbar-region-form');
+  if (!form) return;
 
-  const selects = dialog.querySelectorAll('select');
-  let snapshot = [];
+  const countryInput = form.querySelector('[name="country_code"]');
+  const localeInput = form.querySelector('[name="locale_code"]');
+  const flagEl = regionEl.querySelector('.navbar-region-flag');
+  const labelEl = regionEl.querySelector('.navbar-region-label');
+  const countryOptions = regionEl.querySelectorAll('.navbar-region-option[data-country]');
+  const localeOptions = regionEl.querySelectorAll('.navbar-region-option[data-locale]');
 
-  function open() {
-    snapshot = Array.from(selects).map(s => s.value);
-    trigger.setAttribute('aria-expanded', 'true');
-    dialog.showModal();
+  function selectInList(options, clicked) {
+    options.forEach(o => {
+      const on = o === clicked;
+      o.setAttribute('aria-selected', on ? 'true' : 'false');
+      o.classList.toggle('navbar-region-option--selected', on);
+    });
   }
 
-  function closeAndReset() {
-    selects.forEach((s, i) => { s.value = snapshot[i]; });
-    trigger.setAttribute('aria-expanded', 'false');
-    dialog.close();
-    trigger.focus();
+  function syncFromInputs() {
+    const country = countryInput && countryInput.value;
+    const locale = localeInput && localeInput.value;
+    if (country && countryOptions.length) {
+      countryOptions.forEach(o => {
+        const on = o.dataset.country === country;
+        o.setAttribute('aria-selected', on ? 'true' : 'false');
+        o.classList.toggle('navbar-region-option--selected', on);
+      });
+    }
+    if (locale && localeOptions.length) {
+      localeOptions.forEach(o => {
+        const on = o.dataset.locale === locale;
+        o.setAttribute('aria-selected', on ? 'true' : 'false');
+        o.classList.toggle('navbar-region-option--selected', on);
+      });
+    }
   }
 
-  trigger.addEventListener('click', open);
-
-  dialog.querySelectorAll('[data-region-close]').forEach(btn => {
-    btn.addEventListener('click', closeAndReset);
+  countryOptions.forEach(option => {
+    option.addEventListener('click', () => selectInList(countryOptions, option));
+  });
+  localeOptions.forEach(option => {
+    option.addEventListener('click', () => selectInList(localeOptions, option));
   });
 
-  // Native <dialog> fires 'cancel' on Escape before 'close' fires on any
-  // dismissal path — reset once here covers Escape, the X and Cancel buttons
-  // (both call closeAndReset directly above, so this runs twice for those,
-  // which is harmless: resetting an already-reset value is a no-op) and any
-  // future dismissal path added later without needing a matching reset call.
-  dialog.addEventListener('cancel', () => {
-    selects.forEach((s, i) => { s.value = snapshot[i]; });
-    trigger.setAttribute('aria-expanded', 'false');
-  });
+  // Re-sync when the shopper comes back to the panel without saving.
+  // mouseenter on the region (not focusin): focusin would re-fire when
+  // tabbing from a row to Save and wipe the pending selection.
+  regionEl.addEventListener('mouseenter', syncFromInputs);
+  const trigger = regionEl.querySelector('.navbar-lang');
+  if (trigger) trigger.addEventListener('focus', syncFromInputs);
 
-  // Backdrop click. <dialog> has no built-in light-dismiss — a click lands on
-  // the dialog element itself only when it hits the ::backdrop, since the
-  // visible panel content is sized to its own box, not the full viewport.
-  dialog.addEventListener('click', (e) => {
-    if (e.target === dialog) closeAndReset();
-  });
+  form.addEventListener('submit', () => {
+    const countryOpt = regionEl.querySelector('.navbar-region-option[data-country][aria-selected="true"]');
+    const localeOpt = regionEl.querySelector('.navbar-region-option[data-locale][aria-selected="true"]');
 
-  // Submitting (Save) navigates the page away immediately, so nothing further
-  // needs to run on that path — the dialog and its state stop existing along
-  // with the rest of the document.
+    if (countryOpt && countryInput) {
+      countryInput.value = countryOpt.dataset.country;
+      if (flagEl && countryOpt.dataset.flag) {
+        flagEl.className = 'fi ' + countryOpt.dataset.flag + ' navbar-region-flag';
+      }
+      if (labelEl && countryOpt.dataset.label) {
+        let label = countryOpt.dataset.label;
+        if (localeOpt && localeOpt.dataset.langShort) {
+          label += ' · ' + localeOpt.dataset.langShort;
+        }
+        labelEl.textContent = label;
+      }
+    }
+    if (localeOpt && localeInput) {
+      localeInput.value = localeOpt.dataset.locale;
+    }
+    // Native submit continues; page reloads on Shopify's response.
+  });
+});
+
+// Inline variant (mobile menu modal) is click-to-toggle, not
+// hover-driven — same accordion mechanism as the Discover group above.
+document.querySelectorAll('.navbar-region--inline').forEach(regionEl => {
+  const toggle = regionEl.querySelector('.navbar-lang');
+  if (!toggle) return;
+  toggle.addEventListener('click', () => {
+    const isOpen = regionEl.classList.toggle('expanded');
+    toggle.setAttribute('aria-expanded', String(isOpen));
+    if (isOpen) {
+      // Same abandoned-pick reset as desktop mouseenter.
+      const countryInput = regionEl.querySelector('[name="country_code"]');
+      const localeInput = regionEl.querySelector('[name="locale_code"]');
+      regionEl.querySelectorAll('.navbar-region-option[data-country]').forEach(o => {
+        const on = countryInput && o.dataset.country === countryInput.value;
+        o.setAttribute('aria-selected', on ? 'true' : 'false');
+        o.classList.toggle('navbar-region-option--selected', on);
+      });
+      regionEl.querySelectorAll('.navbar-region-option[data-locale]').forEach(o => {
+        const on = localeInput && o.dataset.locale === localeInput.value;
+        o.setAttribute('aria-selected', on ? 'true' : 'false');
+        o.classList.toggle('navbar-region-option--selected', on);
+      });
+    }
+  });
 });
