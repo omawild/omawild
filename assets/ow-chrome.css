@@ -328,8 +328,8 @@
 .footer-nav-section-head img{width:14px;height:14px;transition:transform .2s;}
 .footer-nav-section-head.open img{transform:rotate(180deg);}
 .footer-nav-links{
-  display:none;flex-direction:column;gap:12px;
-  padding-top:10px;
+  display:none;flex-direction:column;gap:6px;
+  padding-top:6px;
 }
 .footer-nav-links.open{display:flex;}
 .footer-nav-links a{
