@@ -92,7 +92,7 @@
 /* ════════════════════════════════
    REGEN SECTION
 ════════════════════════════════ */
-.regen{background:var(--salmon);padding:60px 24px;}
+.regen{background:var(--salmon);padding:60px 24px 0;}
 .regen-headline{
   color:var(--electric);text-align:center;
   max-width:300px;margin:0 auto 28px;
@@ -146,7 +146,7 @@
 /* Nav arrows */
 .regen-nav{
   display:flex;align-items:center;justify-content:center;
-  gap:48px;margin-top:20px;
+  gap:20px;margin-top:20px;
 }
 .regen-nav button{
   background:none;border:none;padding:4px;
@@ -200,7 +200,7 @@
      remainder, so paging always lands flush against both edges. */
   .regen-card{flex:0 0 calc((100% - 24px) / 3);padding:16px 14px;}
   .regen-card-text{font-size:15px;line-height:18px;}
-  .regen-nav{display:flex;margin-top:28px;}
+  .regen-nav{display:flex;gap:48px;margin-top:28px;}
   /* Wider than the card row above — markers are baked into the image, so the
      box no longer has to track overlay positions. Capped by viewport width and
      a generous height so the farm reads large without dominating the page. */
