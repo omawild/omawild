@@ -353,7 +353,8 @@
               "type": "ow-about-card",
               "name": "About Card",
               "settings": {
-                "alt": "",
+                "image": "shopify://shop_images/Origin-008.jpg",
+                "alt": "Jenny Hsu at a sorting facility to separate out waste from a recent river clean up.",
                 "caption": "We cleaned up beaches and rivers chocked with plastic."
               },
               "blocks": {}
