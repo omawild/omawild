@@ -392,6 +392,7 @@
               "type": "ow-about-card",
               "name": "About Card",
               "settings": {
+                "image": "shopify://shop_images/Origin-012.jpg",
                 "alt": "Jenny standing next to Omawild's first farm partners in Garut, West Java; alongside conservation educator Cecep and the main producer Faizal at the agroforestry coffee system.",
                 "caption": "So we asked: what if what sustains us could also sustain nature. Eventually, that became Omawild."
               },
