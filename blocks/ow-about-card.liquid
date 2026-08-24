@@ -8,6 +8,11 @@
   twelve-card schema on the editor no matter how many cards were wanted and
   could not be reordered at all.
 
+  The `presets` entry is what puts this in the theme editor's Add block picker.
+  Without it the block still renders and still validates, but it can only ever
+  arrive through a parent's preset tree — a merchant clicking "Add block" inside
+  the About band sees nothing to choose. The picker lists presets, not blocks.
+
   The root element is .about-card with no wrapper around it, because
   assets/ow-landing.css styles `.about-cards-track > .about-card` and
   assets/ow-landing.js measures the first .about-card to size a scroll step.
@@ -34,6 +39,7 @@
     { "type": "image_picker", "id": "image", "label": "Image", "info": "Blank falls back to the built-in placeholder." },
     { "type": "text", "id": "alt", "label": "Alt text" },
     { "type": "textarea", "id": "caption", "label": "Caption", "default": "Tell one beat of the story here." }
-  ]
+  ],
+  "presets": [{ "name": "About Card" }]
 }
 {% endschema %}
