@@ -146,58 +146,61 @@
   width:44px;height:44px;margin:-7px;
 }
 .navbar-icons img{width:30px;height:30px;}
-/* Region / language / currency selector: flag + code + chevron,
-   opens a listbox of the markets we currently ship to. */
+/* Region / language selector: flag + code + chevron, opens the "Site
+   preferences" dialog (desktop) — see JS in ow-chrome.js for showModal(). */
 .navbar-region{position:relative;}
-.navbar-region::after{
-  content:'';position:absolute;top:100%;left:0;right:0;height:10px;
-}
 .navbar-right .navbar-region{display:none;}
 .navbar-lang{display:flex;align-items:center;gap:8px;background:none;border:none;padding:0;cursor:pointer;white-space:nowrap;}
 .navbar-lang .fi{width:24px;height:18px;border-radius:2px;background-size:cover;flex-shrink:0;}
 .navbar-lang-chevron{width:16px;height:16px;transition:transform .15s;}
-.navbar-region:hover .navbar-lang-chevron,
-.navbar-region:focus-within .navbar-lang-chevron{transform:rotate(180deg);}
+.navbar-region[aria-expanded="true"] .navbar-lang-chevron,
+.navbar-lang[aria-expanded="true"] .navbar-lang-chevron{transform:rotate(180deg);}
 .navbar-lang span{
   font-size:13px;font-weight:600;letter-spacing:.02em;
   text-transform:uppercase;color:var(--electric);
 }
-/* The panel is sized by its content — min-width is a floor, and rows are
-   white-space:nowrap — so it grows leftward from right:0 as labels get longer.
-   That is what a country/language row needs.
 
-   The cap is for HEIGHT. ow-region-selector renders countries x languages, so
-   the row count multiplies: five markets and three languages is fifteen rows,
-   which overruns a laptop viewport with nowhere to scroll. The list scrolls
-   inside itself instead of running off the bottom of the screen.
-   overscroll-behavior stops that scroll chaining to the page once it bottoms
-   out, which on a hover-opened dropdown reads as the page lurching. */
-.navbar-region-list{
-  display:none;position:absolute;top:calc(100% + 10px);right:0;
-  background:var(--wonderland);border:2px solid var(--electric);
-  border-radius:2px;padding:8px;margin:0;list-style:none;
-  min-width:250px;z-index:5;
-  max-height:min(70vh,420px);overflow-y:auto;overscroll-behavior:contain;
+/* ── Site preferences dialog ──
+   A real <dialog>: showModal() supplies its own centring and the
+   ::backdrop, so this only needs to style the box itself. Sizing is
+   content-driven with a viewport-relative ceiling, not a fixed width —
+   two <select>s never need much more than this. */
+.region-panel{
+  border:none;border-radius:24px;padding:32px;
+  width:min(420px,calc(100vw - 48px));
+  box-shadow:0 20px 60px rgba(35,37,41,.25);
+  color:var(--electric);
 }
-.navbar-region:hover .navbar-region-list,
-.navbar-region:focus-within .navbar-region-list{display:block;}
-.navbar-region-option{
-  display:flex;align-items:center;gap:10px;
-  padding:8px 10px;border-radius:2px;cursor:pointer;
-  font-size:14px;font-weight:400;color:var(--electric);white-space:nowrap;
+.region-panel::backdrop{background:rgba(35,37,41,.45);}
+.region-panel-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:24px;
 }
-.navbar-region-option .fi{
-  width:24px;height:18px;border-radius:2px;flex-shrink:0;
-  background-size:cover;background-repeat:no-repeat;background-position:center;
+.region-panel-title{font-weight:700;font-size:20px;}
+.region-panel-close{background:none;border:none;padding:4px;color:var(--electric);display:flex;}
+.region-panel-close svg{width:20px;height:20px;display:block;}
+.region-field{display:flex;flex-direction:column;gap:6px;margin-bottom:18px;}
+.region-field label{
+  font-size:12px;font-weight:600;letter-spacing:.02em;
+  text-transform:uppercase;opacity:.6;
 }
-.navbar-region-option:hover{background:rgba(255,63,0,.1);}
-/* The current country stays in the list, dimmed and inert, so the list does
-   not change length as the selection moves. It is the only aria-disabled row,
-   and it carries no data-country, so ow-chrome.js never binds a click to it. */
-.navbar-region-option--current{
-  opacity:.45;cursor:default;
+/* appearance:none + the shared chevron asset as a background image gives one
+   consistent arrow across both native <select>s and the desktop trigger
+   button above, instead of each browser's own (and each other's inconsistent)
+   default select arrow. */
+.region-field select{
+  appearance:none;-webkit-appearance:none;
+  width:100%;padding:12px 40px 12px 14px;
+  border:2px solid rgba(255,63,0,.25);border-radius:12px;
+  background:var(--sand) url('ow-chevron-lang.svg') no-repeat right 14px center;
+  background-size:16px;
+  font-family:var(--f);font-size:15px;color:var(--electric);
+  cursor:pointer;
 }
-.navbar-region-option--current:hover{background:none;}
+.region-field select:focus-visible{outline:2px solid var(--electric);outline-offset:2px;}
+.region-panel-actions{display:flex;gap:12px;margin-top:8px;}
+.region-panel-actions .btn-outline,
+.region-panel-actions .btn-primary{flex:1;padding:12px 16px;}
 .navbar-menu-btn{
   background:none;border:none;padding:4px;
   display:flex;align-items:center;justify-content:center;
@@ -439,26 +442,19 @@
   padding:8px 0;
 }
 .menu-bottom{margin-top:40px;}
-/* Inline region/lang selector — same line-item accordion pattern as
-   Discover above, instead of the floating hover-popover used in the
-   navbar/footer (hover has no equivalent on touch). */
-.navbar-region.navbar-region--inline{border-bottom:1px solid rgba(255,63,0,.15);}
-/* No floating panel to bridge to here, and the empty hit-box would
-   otherwise sit on top of the expanded list's first tap target. */
-.navbar-region.navbar-region--inline::after{display:none;}
-.navbar-region.navbar-region--inline .navbar-lang{width:100%;padding:18px 0;}
-.navbar-region.navbar-region--inline .navbar-lang-chevron{transform:none;}
-.navbar-region.navbar-region--inline.expanded .navbar-lang-chevron{transform:rotate(180deg);}
-/* The inline variant already lives inside the scrollable menu modal, so the
-   desktop height cap would give it a second, nested scroll area. */
-.navbar-region.navbar-region--inline .navbar-region-list{
-  display:none;position:static;
-  border:none;background:none;box-shadow:none;
-  padding:0 0 16px;margin:0;min-width:0;
-  max-height:none;overflow-y:visible;
+/* Inline variant: no trigger button (ow-region-selector.liquid does not
+   render one when inline), so the <dialog> element is unwrapped into a plain
+   block that sits directly in the mobile menu's flow — #menuModal is already
+   the "modal" here, nesting a second one would trap focus inside a dialog
+   inside a dialog. display:contents on the <dialog> itself would drop its own
+   box, but a <dialog> that is never .showModal()'d already renders as a
+   normal block in the flow (it just also carries the UA's default border /
+   padding / centring reset below), so those are the only overrides needed. */
+.navbar-region.navbar-region--inline .region-panel{
+  position:static;margin:0;border:none;border-radius:0;padding:0;
+  box-shadow:none;width:auto;max-width:none;
 }
-.navbar-region.navbar-region--inline.expanded .navbar-region-list{display:flex;flex-direction:column;gap:2px;}
-.navbar-region.navbar-region--inline .navbar-region-option{padding:8px 0;}
+.navbar-region.navbar-region--inline .region-field select{background-color:transparent;}
 .menu-bottom-links{display:flex;gap:24px;margin-bottom:20px;}
 .menu-bottom-links a{font-size:15px;color:var(--electric);font-weight:400;text-decoration:none;}
 

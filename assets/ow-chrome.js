@@ -311,62 +311,64 @@ function syncFooterNavExpanded() {
 document.addEventListener('DOMContentLoaded', syncFooterNavExpanded);
 window.addEventListener('resize', syncFooterNavExpanded);
 
-// ── REGION / LANGUAGE / CURRENCY SELECTOR ──
-// Two instances on the page (navbar, mobile menu modal) — each wired up
-// independently by class rather than id. Open/close is handled by CSS
-// for the navbar instance (:hover /
-// :focus-within, same mechanism as the Discover dropdown) so there is no
-// JS-managed open state that can get stuck across a navbar hide/show
-// scroll cycle. This listener only handles selecting an option.
+// ── SITE PREFERENCES DIALOG (region/language) ──
+// snippets/ow-region-selector.liquid renders two instances: the navbar
+// trigger + <dialog> (desktop) and a plain inline pair of <select>s inside
+// #menuModal (mobile, inline: true — no trigger, no <dialog>, this block
+// skips it entirely since regionEl.querySelector('dialog') is null there).
+//
+// The dialog itself needs no open-state class or outside-click detection —
+// <dialog>.showModal() supplies a real ::backdrop, native focus trapping, and
+// Escape-to-close for free. What is NOT free and has to be wired here:
+// opening it from the trigger button, and resetting the two <select>s to
+// whatever they were on open when the shopper cancels rather than saves —
+// otherwise a cancelled choice would still show in the control the next time
+// it opens, despite never having been submitted.
 document.querySelectorAll('.navbar-region').forEach(regionEl => {
-  const flagEl = regionEl.querySelector('.navbar-region-flag');
-  const labelEl = regionEl.querySelector('.navbar-region-label');
+  const trigger = regionEl.querySelector('[data-region-trigger]');
+  const dialog = regionEl.querySelector('dialog.region-panel');
+  if (!trigger || !dialog) return;
 
-  // The first row is the current country, rendered inert (aria-disabled, no
-  // data-country). Selecting it would be a no-op reload, so it gets no
-  // listener at all — the [data-country] filter does that on its own.
-  regionEl.querySelectorAll('.navbar-region-option[data-country]').forEach(option => {
-    option.addEventListener('click', () => {
-      regionEl.querySelectorAll('.navbar-region-option').forEach(o => o.setAttribute('aria-selected', 'false'));
-      option.setAttribute('aria-selected', 'true');
-      flagEl.className = 'fi ' + option.dataset.flag + ' navbar-region-flag';
-      labelEl.textContent = option.dataset.label;
-      regionEl.querySelector('.navbar-lang').blur();
-      regionEl.classList.remove('expanded');
+  const selects = dialog.querySelectorAll('select');
+  let snapshot = [];
 
-      // Actually switch market. The option carries the ISO country code from
-      // snippets/ow-region-selector.liquid, and — when the store publishes more
-      // than one language — an IETF locale tag alongside it. Shopify's
-      // localization form takes both in one submit, which is why the two are
-      // offered as a single choice rather than two controls.
-      //
-      // data-locale is absent on a single-language store. Leaving locale_code
-      // at whatever the snippet rendered is then correct: it carries the
-      // shopper's current language through the country switch rather than
-      // resetting it. Writing an undefined into the field instead would send an
-      // empty locale_code and drop them onto the market default.
-      //
-      // The cosmetic updates above run first so the control does not appear
-      // frozen during the reload. Without the form (selector rendered outside
-      // Shopify data) this is a no-op and the control stays cosmetic.
-      const form = regionEl.querySelector('form.navbar-region-form');
-      if (form) {
-        form.querySelector('[name="country_code"]').value = option.dataset.country;
-        if (option.dataset.locale) {
-          form.querySelector('[name="locale_code"]').value = option.dataset.locale;
-        }
-        form.submit();
-      }
-    });
+  function open() {
+    snapshot = Array.from(selects).map(s => s.value);
+    trigger.setAttribute('aria-expanded', 'true');
+    dialog.showModal();
+  }
+
+  function closeAndReset() {
+    selects.forEach((s, i) => { s.value = snapshot[i]; });
+    trigger.setAttribute('aria-expanded', 'false');
+    dialog.close();
+    trigger.focus();
+  }
+
+  trigger.addEventListener('click', open);
+
+  dialog.querySelectorAll('[data-region-close]').forEach(btn => {
+    btn.addEventListener('click', closeAndReset);
   });
-});
 
-// Inline variant (mobile menu modal) is click-to-toggle, not
-// hover-driven — same accordion mechanism as the Discover group above.
-document.querySelectorAll('.navbar-region--inline').forEach(regionEl => {
-  const toggle = regionEl.querySelector('.navbar-lang');
-  toggle.addEventListener('click', () => {
-    const isOpen = regionEl.classList.toggle('expanded');
-    toggle.setAttribute('aria-expanded', String(isOpen));
+  // Native <dialog> fires 'cancel' on Escape before 'close' fires on any
+  // dismissal path — reset once here covers Escape, the X and Cancel buttons
+  // (both call closeAndReset directly above, so this runs twice for those,
+  // which is harmless: resetting an already-reset value is a no-op) and any
+  // future dismissal path added later without needing a matching reset call.
+  dialog.addEventListener('cancel', () => {
+    selects.forEach((s, i) => { s.value = snapshot[i]; });
+    trigger.setAttribute('aria-expanded', 'false');
   });
+
+  // Backdrop click. <dialog> has no built-in light-dismiss — a click lands on
+  // the dialog element itself only when it hits the ::backdrop, since the
+  // visible panel content is sized to its own box, not the full viewport.
+  dialog.addEventListener('click', (e) => {
+    if (e.target === dialog) closeAndReset();
+  });
+
+  // Submitting (Save) navigates the page away immediately, so nothing further
+  // needs to run on that path — the dialog and its state stop existing along
+  // with the rest of the document.
 });
