@@ -221,7 +221,7 @@
             "ow_product_card_rnuHzo": {
               "type": "ow-product-card",
               "settings": {
-                "product": "forest-trail-garut-washed-arabica-specialty-grade",
+                "product": "wildbloom",
                 "name": "Wild Bloom",
                 "description": "Tastes like the sip you steal before anyone else is awake: bright, floral — and a little unhinged. Best for pour-over, cold brew, and nitro.",
                 "grade": "GRADE 1",
@@ -233,7 +233,7 @@
             "ow_product_card_2LlyqO": {
               "type": "ow-product-card",
               "settings": {
-                "product": "",
+                "product": "forest-trail-garut-washed-arabica-specialty-grade",
                 "name": "Forest Trail",
                 "description": "Coffee for comfort with sweet notes of chocolate and toasty nuts — and a hug from the inside. Best for espresso & milk-based drinks.",
                 "grade": "GRADE 1",
@@ -245,7 +245,7 @@
             "ow_product_card_C7tV19": {
               "type": "ow-product-card",
               "settings": {
-                "product": "",
+                "product": "limited-reserve-garut-wine",
                 "name": "Limited Reserve",
                 "description": "A rare micro-lot production that blurs the line between coffee, tea, fruit, and wine. Best for pour-over, cold brew, and nitro.",
                 "grade": "GRADE 1",
