@@ -146,6 +146,17 @@
   width:44px;height:44px;margin:-7px;
 }
 .navbar-icons img{width:30px;height:30px;}
+.navbar-cart{position:relative;}
+/* Anchored to the 44px hit area's own center, not the 30px icon inside it, so
+   the badge sits at the same corner regardless of the icon's negative margin. */
+.navbar-cart-count{
+  position:absolute;top:2px;right:2px;
+  min-width:16px;height:16px;padding:0 3px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:999px;background:var(--electric);color:var(--sand);
+  font-size:10px;font-weight:700;line-height:1;
+  pointer-events:none;
+}
 /* Region / language / currency selector: flag + code + chevron,
    opens a panel of independent country and language lists + Save. */
 .navbar-region{position:relative;}

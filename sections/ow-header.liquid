@@ -136,8 +136,11 @@
           </a>
         {%- endif -%}
 
-        <a href="{{ routes.cart_url }}" aria-label="{{ 'templates.cart.cart' | t }} ({{ cart.item_count }})">
+        <a href="{{ routes.cart_url }}" class="navbar-cart" aria-label="{{ 'templates.cart.cart' | t }} ({{ cart.item_count }})">
           <img src="{{ 'ow-icon-cart.svg' | asset_url }}" alt="" width="30" height="30">
+          {%- if cart.item_count > 0 -%}
+            <span class="navbar-cart-count" aria-hidden="true">{{ cart.item_count }}</span>
+          {%- endif -%}
         </a>
       </div>
       <button class="navbar-menu-btn" id="menuBtn" aria-label="Open menu">
