@@ -313,6 +313,7 @@
               "type": "ow-about-card",
               "name": "About Card",
               "settings": {
+                "image": "shopify://shop_images/Origin-004.jpg",
                 "alt": "Construction team behind Tri Hita Karana Bali's second permaculture center in Tabanan.",
                 "caption": "We even built a permaculture school, with our bare hands (and a lot of sweat)."
               },
@@ -322,8 +323,9 @@
               "type": "ow-about-card",
               "name": "About Card",
               "settings": {
-                "alt": "",
-                "caption": "Tell one beat of the story here."
+                "image": "shopify://shop_images/Origin-005.jpg",
+                "alt": "Behind the scenes production for Overbooked: film crew interviewing local rice farmer on the impacts of climate and over-tourism.",
+                "caption": "An interview with a rice farmer changed the way we saw our future."
               },
               "blocks": {}
             },
@@ -331,8 +333,9 @@
               "type": "ow-about-card",
               "name": "About Card",
               "settings": {
-                "alt": "",
-                "caption": "Tell one beat of the story here."
+                "image": "shopify://shop_images/Origin-006.jpg",
+                "alt": "A volunteer standing in the middle a dried corn field.",
+                "caption": "We began to understand something we had forgotten: everything we need depends on nature."
               },
               "blocks": {}
             },
