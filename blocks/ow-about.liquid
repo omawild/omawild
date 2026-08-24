@@ -11,14 +11,16 @@
   ow-about-card is not offered at section level, only inside here, which is what
   keeps a stray card from landing elsewhere on the page.
 
-  Eight cards is the intended ceiling, but it is advisory only and lives in the
+  Twelve cards is the intended ceiling, but it is advisory only and lives in the
   schema paragraph, not in code. A theme block's schema accepts exactly six
   attributes — name, settings, blocks, presets, tag, class — so neither
   `max_blocks` (a section-only key) nor a per-type `limit` is allowed here, and
   both fail theme-check with ValidSchema. Nothing in the layout breaks past
-  eight; the track just keeps scrolling. If the ceiling ever needs teeth, the
-  only lever is hiding the overflow in CSS, which makes cards silently vanish
-  in the editor and is worse than the advice.
+  twelve; the track just keeps scrolling. The one real lever is `max_blocks` on
+  sections/ow-landing.liquid, but Shopify counts every merchant-addable block in
+  the section against it — the bands and the product cards included — so it
+  cannot cap this band alone. Shopify's own ceiling there is 50 per section;
+  eight bands plus three product cards plus twelve about cards is 23.
 
   Layout lives in assets/ow-landing.css and behaviour in assets/ow-landing.js;
   both key off the class names and ids in this markup, so do not rename them.
@@ -46,7 +48,7 @@
   "name": "About",
   "blocks": [{ "type": "ow-about-card" }],
   "settings": [
-    { "type": "paragraph", "content": "Add an About Card to this band for each beat of the story, up to 8. They scroll horizontally." },
+    { "type": "paragraph", "content": "Add an About Card to this band for each beat of the story, up to 12. They scroll horizontally." },
     {
       "type": "textarea",
       "id": "heading",
