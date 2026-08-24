@@ -5,7 +5,7 @@
     display: block;
     width: 100%;
     padding: {{ section.settings.section_padding_top }}px 0 {{ section.settings.section_padding_bottom }}px;
-    background-color: transparent;
+    background-color: {{ section.settings.background_color | default: 'transparent' }};
   }
 
   .horizontal-gallery-header-{{ omawild_id }} {
@@ -291,7 +291,10 @@
     { "type": "range", "id": "header_size", "label": "Header size", "min": 16, "max": 60, "step": 2, "unit": "px", "default": 32 },
     { "type": "range", "id": "body_size", "label": "Body size", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 16 },
     { "type": "color", "id": "header_color", "label": "Header color", "default": "#1a1b18" },
-    { "type": "color", "id": "body_color", "label": "Body color", "default": "#212326" }
+    { "type": "color", "id": "body_color", "label": "Body color", "default": "#212326" },
+
+    { "type": "header", "content": "Background" },
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "transparent" }
   ],
   "blocks": [
     {
