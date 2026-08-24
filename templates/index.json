@@ -276,38 +276,132 @@
             "heading": "Omawild began during an expedition across Bali when we plunged our entire life savings into conservation",
             "body": "Until we went broke and realised nature needed a better business model...",
             "cta_text": "Follow our rabbit hole",
-            "cta_link": "shopify://pages/about",
-            "c1_image": "shopify://shop_images/Origin-001.jpg",
-            "c1_alt": "Jenny sitting with Pak Nyoman Sudibia sitting on the edge of his corn fields.",
-            "c1_caption": "It started with a one-way ticket to Bali, in search of answers we could no longer find in the rush of everyday life.",
-            "c2_image": "shopify://shop_images/Origin-002.jpg",
-            "c2_alt": "Building A-frame levelling with local farmers.",
-            "c2_caption": "That summer, we traded the comforts of the city to live and learn alongside those who grew more than just our food.",
-            "c3_image": "shopify://shop_images/Origin-003.jpg",
-            "c3_alt": "Volunteers building hydrowheel with scrap materials.",
-            "c3_caption": "We got our hands dirty restoring degraded land while harnessing the river to power a local village.",
-            "c4_image": "shopify://shop_images/Origin-004.jpg",
-            "c4_alt": "Construction team behind Tri Hita Karana Bali's second permaculture center in Tabanan.",
-            "c4_caption": "We even built a permaculture school, with our bare hands (and a lot of sweat).",
-            "c5_image": "shopify://shop_images/Origin-005.jpg",
-            "c5_alt": "Interviewing with Pak Nyoman Sudibia during Overbooked production.",
-            "c5_caption": "An interview with a rice farmer changed the way we saw our future.",
-            "c6_alt": "Omawild launch",
-            "c6_caption": "Omawild is the business model conservation never had.",
-            "c7_alt": "Omawild launch",
-            "c7_caption": "Omawild is the business model conservation never had.",
-            "c8_alt": "Omawild launch",
-            "c8_caption": "Omawild is the business model conservation never had.",
-            "c9_alt": "Omawild launch",
-            "c9_caption": "Omawild is the business model conservation never had.",
-            "c10_alt": "Omawild launch",
-            "c10_caption": "Omawild is the business model conservation never had.",
-            "c11_alt": "Omawild launch",
-            "c11_caption": "Omawild is the business model conservation never had.",
-            "c12_alt": "Omawild launch",
-            "c12_caption": "Omawild is the business model conservation never had."
+            "cta_link": "shopify://pages/about"
           },
-          "blocks": {}
+          "blocks": {
+            "ow_about_card_GrzUGA": {
+              "type": "ow-about-card",
+              "name": "About Card",
+              "settings": {
+                "alt": "",
+                "caption": "Tell one beat of the story here."
+              },
+              "blocks": {}
+            },
+            "ow_about_card_mRPPQ9": {
+              "type": "ow-about-card",
+              "name": "About Card",
+              "settings": {
+                "alt": "",
+                "caption": "Tell one beat of the story here."
+              },
+              "blocks": {}
+            },
+            "ow_about_card_cEH6G9": {
+              "type": "ow-about-card",
+              "name": "About Card",
+              "settings": {
+                "alt": "",
+                "caption": "Tell one beat of the story here."
+              },
+              "blocks": {}
+            },
+            "ow_about_card_NtxcMB": {
+              "type": "ow-about-card",
+              "name": "About Card",
+              "settings": {
+                "alt": "",
+                "caption": "Tell one beat of the story here."
+              },
+              "blocks": {}
+            },
+            "ow_about_card_MYY8Pe": {
+              "type": "ow-about-card",
+              "name": "About Card",
+              "settings": {
+                "alt": "",
+                "caption": "Tell one beat of the story here."
+              },
+              "blocks": {}
+            },
+            "ow_about_card_fMz3wN": {
+              "type": "ow-about-card",
+              "name": "About Card",
+              "settings": {
+                "alt": "",
+                "caption": "Tell one beat of the story here."
+              },
+              "blocks": {}
+            },
+            "ow_about_card_eLGEFy": {
+              "type": "ow-about-card",
+              "name": "About Card",
+              "settings": {
+                "alt": "",
+                "caption": "Tell one beat of the story here."
+              },
+              "blocks": {}
+            },
+            "ow_about_card_w9Wj8X": {
+              "type": "ow-about-card",
+              "name": "About Card",
+              "settings": {
+                "alt": "",
+                "caption": "Tell one beat of the story here."
+              },
+              "blocks": {}
+            },
+            "ow_about_card_yJJDdc": {
+              "type": "ow-about-card",
+              "name": "About Card",
+              "settings": {
+                "alt": "",
+                "caption": "Tell one beat of the story here."
+              },
+              "blocks": {}
+            },
+            "ow_about_card_MFxJBD": {
+              "type": "ow-about-card",
+              "name": "About Card",
+              "settings": {
+                "alt": "",
+                "caption": "Tell one beat of the story here."
+              },
+              "blocks": {}
+            },
+            "ow_about_card_F6AYFY": {
+              "type": "ow-about-card",
+              "name": "About Card",
+              "settings": {
+                "alt": "",
+                "caption": "Tell one beat of the story here."
+              },
+              "blocks": {}
+            },
+            "ow_about_card_t7LUrF": {
+              "type": "ow-about-card",
+              "name": "About Card",
+              "settings": {
+                "alt": "",
+                "caption": "Tell one beat of the story here."
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "ow_about_card_GrzUGA",
+            "ow_about_card_mRPPQ9",
+            "ow_about_card_cEH6G9",
+            "ow_about_card_NtxcMB",
+            "ow_about_card_MYY8Pe",
+            "ow_about_card_fMz3wN",
+            "ow_about_card_eLGEFy",
+            "ow_about_card_w9Wj8X",
+            "ow_about_card_yJJDdc",
+            "ow_about_card_MFxJBD",
+            "ow_about_card_F6AYFY",
+            "ow_about_card_t7LUrF"
+          ]
         },
         "tagline_HbqeKz": {
           "type": "ow-tagline",
