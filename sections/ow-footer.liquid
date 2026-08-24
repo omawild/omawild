@@ -65,7 +65,28 @@
     {%- endif -%}
   {%- endcapture -%}
 
+  {%- comment -%}
+    Payment icons from Shopify Payments — same source as the vendor footer
+    (shop.enabled_payment_types). Rendered in two slots like social_links:
+    desktop sits under the top social row; mobile sits in .footer-bottom-row.
+  {%- endcomment -%}
+  {%- capture footer_payments -%}
+    {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
+      <div class="footer-payments">
+        <span class="visually-hidden">{{ 'sections.footer.payment' | t }}</span>
+        <ul class="footer-payments-list" role="list">
+          {%- for type in shop.enabled_payment_types -%}
+            <li class="footer-payments-item">
+              {{ type | payment_type_svg_tag: class: 'footer-payment-icon' }}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+  {%- endcapture -%}
+
   <div class="footer-social">{{ social_links }}</div>
+  <div class="footer-payments-slot footer-payments-slot--desktop">{{ footer_payments }}</div>
 
   <nav class="footer-nav">
     {%- for i in (1..4) -%}
@@ -100,6 +121,7 @@
 
   <div class="footer-bottom-row">
     <div class="footer-social">{{ social_links }}</div>
+    <div class="footer-payments-slot footer-payments-slot--mobile">{{ footer_payments }}</div>
   </div>
 
   <div class="footer-1ftp">
@@ -124,6 +146,9 @@
     { "type": "paragraph", "content": "Shopify's url setting cannot carry a default, so these are seeded from sections/footer-group.json instead. Clearing one hides that icon." },
     { "type": "url", "id": "linkedin", "label": "LinkedIn URL" },
     { "type": "url", "id": "instagram", "label": "Instagram URL" },
+    { "type": "header", "content": "Payment icons" },
+    { "type": "paragraph", "content": "Icons are pulled from your store's enabled payment methods (Settings → Payments). Toggle off to hide the row." },
+    { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true },
     { "type": "header", "content": "Nav columns" },
     { "type": "paragraph", "content": "Leave a menu unset to hide that column." },
     { "type": "text", "id": "menu_1_title", "label": "Column 1 heading", "default": "Foundation" },

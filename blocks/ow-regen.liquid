@@ -41,17 +41,11 @@
     <button id="regenNext" aria-label="Next"><img src="{{ 'ow-arrow-right.svg' | asset_url }}" alt="→" width="24" height="24"></button>
   </div>
 
-  <!-- Mobile illustration with numbered dots -->
+  <!-- Farm illustration (numbered markers are baked into the image) -->
   <div class="regen-illustration">
     {%- if block.settings.illustration -%}
-      {{ block.settings.illustration | image_url: width: 1200 | image_tag: class: 'illus', alt: block.settings.illustration_alt }}
+      {{ block.settings.illustration | image_url: width: 1600 | image_tag: class: 'illus', alt: block.settings.illustration_alt }}
     {%- endif -%}
-    <div class="regen-dot" style="left:13%;top:28%">1</div>
-    <div class="regen-dot" style="left:10%;top:62%">2</div>
-    <div class="regen-dot" style="left:29%;top:48%">3</div>
-    <div class="regen-dot" style="left:62%;top:40%">4</div>
-    <div class="regen-dot" style="left:72%;top:60%">5</div>
-    <div class="regen-dot" style="left:90%;top:50%">6</div>
   </div>
 
   <!-- Desktop: gutter annotations flanking illustration -->
@@ -76,8 +70,8 @@
       and this is the centre (1fr) track of the three-column grid. Hidden,
       it leaves the grid two children, so the right annotation column is
       auto-placed into the centre track and the desktop layout collapses —
-      while mobile keeps working, because .regen-illustration always holds
-      the six .regen-dot divs and so is never :empty.
+      while mobile keeps working, because .regen-illustration holds the
+      illustration image when one is set.
 
       .ignore-empty is the vendor rule's own opt-out, so the grid keeps its
       three tracks whether or not a merchant has set an illustration.
