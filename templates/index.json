@@ -283,8 +283,9 @@
               "type": "ow-about-card",
               "name": "About Card",
               "settings": {
-                "alt": "",
-                "caption": "Tell one beat of the story here."
+                "image": "shopify://shop_images/Origin-001.jpg",
+                "alt": "Jenny with Pak Nyoman Sudibia on the edges of his corn fields. Bali 2023.",
+                "caption": "It started with a one-way ticket to Bali, in search of answers we could no longer find in the rush of everyday life."
               },
               "blocks": {}
             },
@@ -292,8 +293,9 @@
               "type": "ow-about-card",
               "name": "About Card",
               "settings": {
-                "alt": "",
-                "caption": "Tell one beat of the story here."
+                "image": "shopify://shop_images/Origin-002.jpg",
+                "alt": "Building A-frame levelling during a permaculture workshop in Buleleng Regency of Bali, Indonesia. 2023.",
+                "caption": "That summer, we traded the comforts of the city to live and learn alongside those who grew more than just our food."
               },
               "blocks": {}
             },
@@ -301,8 +303,9 @@
               "type": "ow-about-card",
               "name": "About Card",
               "settings": {
-                "alt": "",
-                "caption": "Tell one beat of the story here."
+                "image": "shopify://shop_images/Origin-003.jpg",
+                "alt": "Volunteers building a mini hydro-wheel using scrap materials to power a local village in Tabanan, Bali. Summer 2025.",
+                "caption": "We got our hands dirty restoring degraded land while harnessing the river to power a local village."
               },
               "blocks": {}
             },
