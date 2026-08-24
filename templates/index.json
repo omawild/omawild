@@ -382,8 +382,9 @@
               "type": "ow-about-card",
               "name": "About Card",
               "settings": {
-                "alt": "",
-                "caption": "Tell one beat of the story here."
+                "image": "shopify://shop_images/Origin-011.jpg",
+                "alt": "Jenny and Jonas weaving palm leaves to build a cow shed.",
+                "caption": "Somewhere along the way, conservation work became a way of life, but it was impossible to finance."
               },
               "blocks": {}
             },
