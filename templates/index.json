@@ -215,7 +215,7 @@
           "type": "ow-products",
           "settings": {
             "heading": "Drink for Planet Earth",
-            "subhead": "Caffeine without the jitters. We use only Grade 1 beans to make exceptional coffee, fresh roasted and delivered each month. Fuel your adventures, while giving back to the places that make life possible."
+            "subhead": "Caffeine without the jitters. You heard right. Because we source only the best coffee: Grade 1 beans, freshly roasted and delivered each month. Then we put your dollars to work, helping restore the places that inspire your next adventure."
           },
           "blocks": {
             "ow_product_card_rnuHzo": {
@@ -540,7 +540,8 @@
         "header_size": 34,
         "body_size": 16,
         "header_color": "#1a1b18",
-        "body_color": "#000000"
+        "body_color": "#000000",
+        "background_color": "rgba(0,0,0,0)"
       }
     },
     "value_grid_rQexPV": {
