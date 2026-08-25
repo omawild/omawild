@@ -1,169 +1,228 @@
+{{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
 {%- assign current_variant = product.selected_or_first_available_variant -%}
-{%- assign featured_image = current_variant.featured_image | default: product.featured_media -%}
+{%- assign featured_media = current_variant.featured_media | default: product.featured_media -%}
 
-<div class="pdp container">
-  {% comment %} ── LEFT PANE: MEDIA ── {% endcomment %}
-  <div class="pdp-media">
-    {% if featured_image %}
-      <img 
-        id="PDP-FeaturedImage" 
-        src="{{ featured_image | image_url: width: 1000 }}" 
-        alt="{{ featured_image.alt | escape }}" 
-        loading="eager"
-        width="{{ featured_image.width }}"
-        height="{{ featured_image.height }}"
-      >
-    {% else %}
-      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
-    {% endif %}
-  </div>
-
-  {% comment %} ── RIGHT PANE: DETAILS & FORM ── {% endcomment %}
-  <div class="pdp-details">
-    
-    {% comment %} Breadcrumbs {% endcomment %}
-    <nav class="pdp-breadcrumb" aria-label="Breadcrumb">
-      <a href="{{ routes.root_url }}">Home</a>
-      <span class="sep">/</span>
-      {% if collection %}
-        <a href="{{ collection.url }}">{{ collection.title }}</a>
-        <span class="sep">/</span>
-      {% else %}
-        <a href="{{ routes.all_products_collection_url }}">Shop</a>
-        <span class="sep">/</span>
-      {% endif %}
-      <span>{{ product.title }}</span>
-    </nav>
-
-    {% comment %} Tag / Eyebrow {% endcomment %}
-    {% if product.metafields.custom.eyebrow != blank %}
-      <span class="pdp-eyebrow">{{ product.metafields.custom.eyebrow }}</span>
-    {% elsif product.tags.size > 0 %}
-      <span class="pdp-eyebrow">{{ product.tags.first }}</span>
-    {% endif %}
-
-    {% comment %} Title & Subtitle {% endcomment %}
-    <h1 class="pdp-title">{{ product.title }}</h1>
-    {% if product.metafields.custom.subtitle != blank %}
-      <p class="pdp-subtitle paragraph">{{ product.metafields.custom.subtitle }}</p>
-    {% endif %}
-
-    {% comment %} Price Display {% endcomment %}
-    <div class="pdp-price-row" id="PDP-Price-{{ section.id }}">
-      <span class="pdp-price">{{ current_variant.price | money }}</span>
-      {% if current_variant.compare_at_price > current_variant.price %}
-        <div class="pdp-price-stack">
-          <span class="pdp-price-compare">{{ current_variant.compare_at_price | money }}</span>
-        </div>
-      {% endif %}
-    </div>
-
-    {% comment %} Product Form {% endcomment %}
-    {% form 'product', product, id: 'AddToCartForm', class: 'pdp-form' %}
-      <input type="hidden" name="id" value="{{ current_variant.id }}">
-
-      {% comment %} Variant Selectors {% endcomment %}
-      {% unless product.has_only_default_variant %}
-        {% for option in product.options_with_values %}
-          <div class="pdp-variant-group">
-            <label class="pdp-variant-label">{{ option.name }}</label>
-            <div class="pdp-variant-options">
-              {% for value in option.values %}
-                <button 
-                  type="button" 
-                  class="pdp-variant-btn {% if option.selected_value == value %}active{% endif %}"
-                  data-option-index="{{ forloop.parentloop.index0 }}"
-                  data-value="{{ value | escape }}"
-                >
-                  {{ value }}
-                </button>
-              {% endfor %}
-            </div>
-          </div>
-        {% endfor %}
-      {% endunless %}
-
-      {% comment %} Quantity + Add to Cart {% endcomment %}
-      <div class="pdp-cart-row">
-        <div class="pdp-qty">
-          <button type="button" data-qty-change="-1" aria-label="Decrease quantity">-</button>
-          <input type="number" id="Quantity" name="quantity" value="1" min="1" class="pdp-qty-input" aria-label="Quantity">
-          <button type="button" data-qty-change="1" aria-label="Increase quantity">+</button>
-        </div>
-
-        <button 
-          type="submit" 
-          name="add" 
-          class="pdp-add"
-          {% unless current_variant.available %}disabled{% endunless %}
-        >
-          {% if current_variant.available %}
-            Add to Cart
+<product-info
+  id="MainProduct-{{ section.id }}"
+  class="section-{{ section.id }}-padding"
+  data-section="{{ section.id }}"
+  data-product-id="{{ product.id }}"
+  data-update-url="true"
+  data-url="{{ product.url }}"
+>
+  <div class="pdp-container">
+    {% comment %} ── LEFT COLUMN: MEDIA GALLERY ── {% endcomment %}
+    <div class="pdp-media-wrapper">
+      <media-gallery id="MediaGallery-{{ section.id }}" data-desktop-layout="stacked">
+        <div class="pdp-featured-image-holder">
+          {% if featured_media %}
+            <img 
+              id="PDP-FeaturedImage-{{ section.id }}"
+              src="{{ featured_media | image_url: width: 1200 }}"
+              alt="{{ featured_media.alt | escape }}"
+              loading="eager"
+              width="{{ featured_media.width }}"
+              height="{{ featured_media.height }}"
+            >
           {% else %}
-            Sold Out
+            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
           {% endif %}
-        </button>
-      </div>
-    {% endform %}
-
-    {% comment %} Dynamic Metafield Specs {% endcomment %}
-    <div class="pdp-specs">
-      {% if product.metafields.custom.origin != blank %}
-        <div class="pdp-spec-row">
-          <span class="pdp-spec-label">Origin</span>
-          <span class="pdp-spec-value">{{ product.metafields.custom.origin }}</span>
         </div>
-      {% endif %}
-
-      {% if product.metafields.custom.process != blank %}
-        <div class="pdp-spec-row">
-          <span class="pdp-spec-label">Process</span>
-          <span class="pdp-spec-value">{{ product.metafields.custom.process }}</span>
-        </div>
-      {% endif %}
-
-      {% if product.metafields.custom.elevation != blank %}
-        <div class="pdp-spec-row">
-          <span class="pdp-spec-label">Elevation</span>
-          <span class="pdp-spec-value">{{ product.metafields.custom.elevation }}</span>
-        </div>
-      {% endif %}
-
-      {% comment %} Tasting Notes Pills (List-type Metafield) {% endcomment %}
-      {% if product.metafields.custom.tasting_notes.value != blank %}
-        <div class="pdp-spec-row">
-          <span class="pdp-spec-label">Tasting Notes</span>
-          <div class="pdp-spec-notes">
-            {% for note in product.metafields.custom.tasting_notes.value %}
-              <span class="pdp-note-pill">{{ note }}</span>
-            {% endfor %}
-          </div>
-        </div>
-      {% endif %}
+      </media-gallery>
     </div>
 
+    {% comment %} ── RIGHT COLUMN: DETAILS & BLOCKS ── {% endcomment %}
+    <div class="pdp-info-wrapper" id="ProductInfo-{{ section.id }}">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          
+          {%- when 'breadcrumbs' -%}
+            <nav class="pdp-breadcrumb" {{ block.shopify_attributes }}>
+              <a href="{{ routes.root_url }}">Home</a> <span class="sep">/</span>
+              {% if collection %}
+                <a href="{{ collection.url }}">{{ collection.title }}</a> <span class="sep">/</span>
+              {% else %}
+                <a href="{{ routes.all_products_collection_url }}">Shop</a> <span class="sep">/</span>
+              {% endif %}
+              <span>{{ product.title }}</span>
+            </nav>
+
+          {%- when 'title' -%}
+            <div class="pdp-header-group" {{ block.shopify_attributes }}>
+              <h1 class="pdp-title">{{ product.title }}</h1>
+              {% if product.metafields.custom.subtitle != blank %}
+                <p class="pdp-subtitle">{{ product.metafields.custom.subtitle }}</p>
+              {% endif %}
+            </div>
+
+          {%- when 'price' -%}
+            <div class="pdp-price-wrapper" id="price-{{ section.id }}" {{ block.shopify_attributes }}>
+              <span class="pdp-price">{{ current_variant.price | money }}</span>
+              {% if current_variant.compare_at_price > current_variant.price %}
+                <span class="pdp-price-compare">{{ current_variant.compare_at_price | money }}</span>
+              {% endif %}
+            </div>
+
+          {%- when 'variant_picker' -%}
+            {%- unless product.has_only_default_variant -%}
+              <variant-radios class="pdp-variants" data-section="{{ section.id }}" data-url="{{ product.url }}" {{ block.shopify_attributes }}>
+                {%- for option in product.options_with_values -%}
+                  <fieldset class="pdp-variant-group">
+                    <legend class="pdp-variant-label">{{ option.name }}</legend>
+                    <div class="pdp-variant-options">
+                      {%- for value in option.values -%}
+                        <input 
+                          type="radio" 
+                          id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                          name="{{ option.name }}"
+                          value="{{ value | escape }}"
+                          form="AddToCartForm-{{ section.id }}"
+                          {% if option.selected_value == value %}checked{% endif %}
+                        >
+                        <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="pdp-variant-btn">
+                          {{ value }}
+                        </label>
+                      {%- endfor -%}
+                    </div>
+                  </fieldset>
+                {%- endfor -%}
+                <script type="application/json">
+                  {{ product.variants | json }}
+                </script>
+              </variant-radios>
+            {%- endunless -%}
+
+          {%- when 'buy_buttons' -%}
+            <div class="pdp-buy-buttons" {{ block.shopify_attributes }}>
+              {%- form 'product', product, id: 'AddToCartForm', class: 'pdp-form' -%}
+                <input type="hidden" name="id" value="{{ current_variant.id }}">
+                <div class="pdp-action-row">
+                  <div class="pdp-qty-stepper">
+                    <button type="button" data-qty-btn="-1" aria-label="Decrease quantity">-</button>
+                    <input type="number" name="quantity" id="Quantity-{{ section.id }}" value="1" min="1" aria-label="Quantity">
+                    <button type="button" data-qty-btn="1" aria-label="Increase quantity">+</button>
+                  </div>
+                  <button 
+                    type="submit" 
+                    name="add" 
+                    class="pdp-submit-btn"
+                    {% unless current_variant.available %}disabled{% endunless %}
+                  >
+                    {% if current_variant.available %}Add to Cart{% else %}Sold Out{% endif %}
+                  </button>
+                </div>
+              {%- endform -%}
+            </div>
+
+          {%- when 'metafield_specs' -%}
+            <div class="pdp-specs-grid" {{ block.shopify_attributes }}>
+              {% if product.metafields.custom.origin != blank %}
+                <div class="pdp-spec-item">
+                  <span class="spec-label">Origin</span>
+                  <span class="spec-value">{{ product.metafields.custom.origin }}</span>
+                </div>
+              {% endif %}
+              
+              {% if product.metafields.custom.process != blank %}
+                <div class="pdp-spec-item">
+                  <span class="spec-label">Process</span>
+                  <span class="spec-value">{{ product.metafields.custom.process }}</span>
+                </div>
+              {% endif %}
+
+              {% if product.metafields.custom.elevation != blank %}
+                <div class="pdp-spec-item">
+                  <span class="spec-label">Elevation</span>
+                  <span class="spec-value">{{ product.metafields.custom.elevation }}</span>
+                </div>
+              {% endif %}
+
+              {% if product.metafields.custom.tasting_notes.value != blank %}
+                <div class="pdp-spec-item">
+                  <span class="spec-label">Tasting Notes</span>
+                  <div class="spec-pills">
+                    {% for note in product.metafields.custom.tasting_notes.value %}
+                      <span class="pill">{{ note }}</span>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
   </div>
-</div>
+</product-info>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // Quantity Stepper Logic
-    const qtyInput = document.getElementById('Quantity');
-    document.querySelectorAll('[data-qty-change]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const step = parseInt(btn.dataset.qtyChange);
-        const current = parseInt(qtyInput.value) || 1;
-        if (current + step >= 1) qtyInput.value = current + step;
+    const qtyInput = document.getElementById('Quantity-{{ section.id }}');
+    if (qtyInput) {
+      document.querySelectorAll('[data-qty-btn]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const step = parseInt(btn.dataset.qtyBtn);
+          const current = parseInt(qtyInput.value) || 1;
+          if (current + step >= 1) qtyInput.value = current + step;
+        });
       });
-    });
+    }
   });
 </script>
 
 {% schema %}
 {
-  "name": "Product Main (Omawild)",
+  "name": "Product Details Custom",
   "tag": "section",
-  "class": "section-pdp-main",
-  "settings": []
+  "class": "section-pdp",
+  "settings": [],
+  "blocks": [
+    { 
+      "type": "breadcrumbs", 
+      "name": "Breadcrumbs", 
+      "limit": 1 
+    },
+    { 
+      "type": "title", 
+      "name": "Title & Subtitle", 
+      "limit": 1 
+    },
+    { 
+      "type": "price", 
+      "name": "Price", 
+      "limit": 1 
+    },
+    { 
+      "type": "variant_picker", 
+      "name": "Variant Picker", 
+      "limit": 1 
+    },
+    { 
+      "type": "buy_buttons", 
+      "name": "Buy Buttons", 
+      "limit": 1 
+    },
+    { 
+      "type": "metafield_specs", 
+      "name": "Metafield Specs", 
+      "limit": 1 
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Details Custom",
+      "blocks": [
+        { "type": "breadcrumbs" },
+        { "type": "title" },
+        { "type": "price" },
+        { "type": "variant_picker" },
+        { "type": "buy_buttons" },
+        { "type": "metafield_specs" }
+      ]
+    }
+  ]
 }
 {% endschema %}
