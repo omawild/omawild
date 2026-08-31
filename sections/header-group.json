@@ -18,14 +18,14 @@
           "type": "launch_bar",
           "settings": {
             "target": "2026-10-01T09:30:00+08:00",
-            "text_before": "Online Order opens on",
-            "text_after": "We're live 🚀  Drop by booth # GP3-07 at Meet Greater south"
+            "text_before": "Online Order opens in",
+            "text_after": "Online orders open!"
           }
         },
         "marquee_bar": {
           "type": "marquee_bar",
           "settings": {
-            "text": "online shop temporarily closed until 1 oct 2026"
+            "text": "中文版即將上線"
           }
         }
       },
