@@ -18,7 +18,7 @@
           "type": "launch_bar",
           "settings": {
             "target": "2026-10-01T09:30:00+08:00",
-            "text_before": "Online Orders open on",
+            "text_before": "Online Order opens on",
             "text_after": "We're live 🚀  Drop by booth # GP3-07 at Meet Greater south"
           }
         },
