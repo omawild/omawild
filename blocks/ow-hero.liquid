@@ -10,21 +10,21 @@
 <section class="hero" id="hero" {{ block.shopify_attributes }}>
   <div class="hero-left">
     <div class="hero-logo">
-      <img src="{{ 'ow-hero-logo.svg' | asset_url }}" alt="{{ block.settings.logo_alt | escape }}" width="480" height="80">
+      <img src="{{ 'ow-hero-logo.svg' | asset_url }}" alt="{{ block.settings.logo_alt | escape }}" width="480" height="80" loading="lazy">
     </div>
     <div class="hero-headline-wrap">
-      <img class="hero-headline-svg" src="{{ 'ow-hero-headline.svg' | asset_url }}" alt="{{ block.settings.headline_alt | escape }}" width="461" height="162">
+      <img class="hero-headline-svg" src="{{ 'ow-hero-headline.svg' | asset_url }}" alt="{{ block.settings.headline_alt | escape }}" width="461" height="162" loading="lazy">
     </div>
     <div class="hero-submark">
-      <img src="{{ 'ow-hero-submark.svg' | asset_url }}" alt="{{ block.settings.submark_alt | escape }}" width="41" height="41">
+      <img src="{{ 'ow-hero-submark.svg' | asset_url }}" alt="{{ block.settings.submark_alt | escape }}" width="41" height="41" loading="lazy">
     </div>
     <p class="hero-tagline">{{ block.settings.tagline }}</p>
   </div>
   <div class="hero-right">
     {%- if block.settings.image -%}
-      {{ block.settings.image | image_url: width: 1200 | image_tag: alt: block.settings.image_alt }}
+      {{ block.settings.image | image_url: width: 1200 | image_tag: alt: block.settings.image_alt, loading: 'lazy' }}
     {%- else -%}
-      <img src="{{ 'ow-product-card-placeholder.jpg' | asset_url }}" alt="{{ block.settings.image_alt | escape }}" width="464" height="650">
+      <img src="{{ 'ow-product-card-placeholder.jpg' | asset_url }}" alt="{{ block.settings.image_alt | escape }}" width="464" height="650" loading="lazy">
     {%- endif -%}
   </div>
 </section>

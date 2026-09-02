@@ -9,9 +9,9 @@
 
 <section class="tagline" {{ block.shopify_attributes }}>
   {%- if block.settings.image -%}
-    {{ block.settings.image | image_url: width: 1600 | image_tag: class: 'tagline-img', alt: '' }}
+    {{ block.settings.image | image_url: width: 1600 | image_tag: class: 'tagline-img', alt: '', loading: 'lazy' }}
   {%- else -%}
-    <img class="tagline-img" src="{{ 'ow-tagline.jpg' | asset_url }}" alt="" width="1600" height="670">
+    <img class="tagline-img" src="{{ 'ow-tagline.jpg' | asset_url }}" alt="" width="1600" height="670" loading="lazy">
   {%- endif -%}
   <div class="tagline-overlay">
     <h2>{{ block.settings.heading }}</h2>

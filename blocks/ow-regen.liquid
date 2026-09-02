@@ -44,7 +44,7 @@
   <!-- Farm illustration (numbered markers are baked into the image) -->
   <div class="regen-illustration">
     {%- if block.settings.illustration -%}
-      {{ block.settings.illustration | image_url: width: 1600 | image_tag: class: 'illus', alt: block.settings.illustration_alt }}
+      {{ block.settings.illustration | image_url: width: 1600 | image_tag: class: 'illus', alt: block.settings.illustration_alt, loading: 'lazy' }}
     {%- endif -%}
   </div>
 
@@ -78,7 +78,7 @@
     {%- endcomment -%}
     <div class="regen-desktop-illus ignore-empty">
       {%- if block.settings.illustration -%}
-        {{ block.settings.illustration | image_url: width: 1600 | image_tag: alt: block.settings.illustration_alt }}
+        {{ block.settings.illustration | image_url: width: 1600 | image_tag: alt: block.settings.illustration_alt, loading: 'lazy' }}
       {%- endif -%}
     </div>
     <div class="regen-ann-col regen-ann-col--right">

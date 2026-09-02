@@ -1,0 +1,84 @@
+{%- comment -%}
+  ow-schema-org — Organization + WebSite JSON-LD for the brand entity.
+
+  WHY THIS EXISTS: the vendor header (sections/header.liquid) emits this schema,
+  but this store replaced it site-wide with sections/ow-header.liquid, which does
+  not. That dropped all structured data from every page (an SEO audit flagged
+  "no Organization schema" on 2026-09-02). This snippet restores it from our own
+  code so it survives theme upgrades. Rendered once from sections/ow-header.liquid.
+
+  Modelled on header.liquid's block, with two changes:
+    - sameAs iterates the vendor social settings and skips blanks, so it lists
+      only the profiles actually filled in (header.liquid emitted null for empties).
+    - logo points at the theme's ow-logo.svg asset by request.
+
+  KNOWN GAP — LinkedIn: the active company profile
+  (linkedin.com/company/omawild) is hardcoded in ow-footer.liquid, NOT stored in
+  a settings.social_* field, so it does not appear below. To include it, add its
+  URL to the `social_candidates` capture — see the marked line.
+{%- endcomment -%}
+
+{%- liquid
+  assign org_url = request.origin
+  assign org_logo = 'ow-logo.svg' | asset_url | prepend: 'https:'
+  assign org_description = shop.brand.short_description | default: shop.description
+-%}
+
+{%- capture social_candidates -%}
+{{ settings.social_facebook_link }}
+{{ settings.social_twitter_link }}
+{{ settings.social_instagram_link }}
+{{ settings.social_pinterest_link }}
+{{ settings.social_tiktok_link }}
+{{ settings.social_youtube_link }}
+{{ settings.social_vimeo_link }}
+{{ settings.social_tumblr_link }}
+{{ settings.social_snapchat_link }}
+{%- comment -%} Add LinkedIn here to include it: https://www.linkedin.com/company/omawild/ {%- endcomment -%}
+{%- endcapture -%}
+
+{%- capture same_as -%}
+{%- assign social_list = social_candidates | split: '
+' -%}
+{%- assign social_first = true -%}
+{%- for link in social_list -%}
+  {%- assign social_link = link | strip -%}
+  {%- if social_link != blank -%}
+    {%- unless social_first -%},{%- endunless -%}{{ social_link | json }}
+    {%- assign social_first = false -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- endcapture -%}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": {{ shop.name | json }},
+  "url": {{ org_url | json }},
+  "logo": {{ org_logo | json }}
+  {%- if org_description != blank -%},
+  "description": {{ org_description | strip_html | strip_newlines | json }}
+  {%- endif -%}
+  {%- if same_as != blank -%},
+  "sameAs": [{{ same_as }}]
+  {%- endif -%}
+}
+</script>
+
+{%- if request.page_type == 'index' -%}
+  {%- assign search_target = request.origin | append: routes.search_url | append: '?q={search_term_string}' -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": {{ shop.name | json }},
+    "url": {{ org_url | json }},
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {{ search_target | json }},
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+{%- endif -%}
