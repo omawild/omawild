@@ -86,14 +86,16 @@
 /* Pages without a hero pin the navbar from first paint — there is nothing to
    reveal, so playing the slide on load would just look like a glitch. */
 .navbar--no-reveal{transition:none;}
-/* Reduced motion drops the 54px SLIDE but keeps the fade. The preference is
-   about movement, not cross-fades, and killing the whole transition makes the
-   bar snap on mid-scroll — which reads as a glitch, not as calm. Without the
-   slide the hidden bar rests over page content instead of behind the ann bars,
-   so it must stop intercepting clicks while it is invisible. */
+/* Reduced motion: no slide AND no fade — the bar snaps between hidden and shown
+   (display/no-display feel), which is what the preference asks for.
+   Killing only the transition is enough: the base translateY(-100%) still parks
+   the hidden bar BEHIND the announcement bars, so it never rests over content.
+   The previous rule set transform:none, which dropped the hidden bar down over
+   the hero, and the retained opacity fade then flashed that white bar in and out
+   on every reveal toggle — at the top of the landing page that read as a broken,
+   stuttering bar showing over the page. */
 @media(prefers-reduced-motion:reduce){
-  .navbar{transform:none;transition:opacity .38s;pointer-events:none;}
-  .navbar.visible{transform:none;pointer-events:auto;}
+  .navbar{transition:none;}
 }
 .navbar-logo img{height:22px;width:auto;}
 /* Links sit centered on the bar itself, independent of the logo/right
@@ -542,8 +544,8 @@
              top .38s cubic-bezier(.4,0,.2,1);
 }
 @media(prefers-reduced-motion:reduce){
-  /* The navbar does not slide under reduced motion (it cross-fades in place),
-     so there is nothing for this bar to travel alongside. */
+  /* The navbar does not slide under reduced motion (it snaps in place, no
+     travel), so there is nothing for this bar to move alongside. */
   .content-scrollspy .content-scrollspy__menu{
     transition:opacity var(--transition-duration) ease,
                visibility var(--transition-duration) ease;
