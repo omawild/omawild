@@ -24,6 +24,7 @@
         },
         "marquee_bar": {
           "type": "marquee_bar",
+          "disabled": true,
           "settings": {
             "text": "中文版即將上線"
           }
