@@ -24,6 +24,7 @@
         },
         "marquee_bar": {
           "type": "marquee_bar",
+          "disabled": true,
           "settings": {
             "text": "中文版即將上線"
           }
@@ -41,79 +42,9 @@
         "show_region_selector": true,
         "region_countries": ""
       }
-    },
-    "scrolling_promotion_fjrnND": {
-      "type": "scrolling-promotion",
-      "blocks": {
-        "announcement_rVNcEr": {
-          "type": "announcement",
-          "settings": {
-            "icon": "none",
-            "icon_size": "medium",
-            "custom_icon": "",
-            "text": "Welcome to our store",
-            "text_size": 20,
-            "link": ""
-          }
-        },
-        "announcement_At776w": {
-          "type": "announcement",
-          "settings": {
-            "icon": "none",
-            "icon_size": "medium",
-            "custom_icon": "",
-            "text": "Welcome to our store",
-            "text_size": 20,
-            "link": ""
-          }
-        },
-        "announcement_P3M3Jx": {
-          "type": "announcement",
-          "settings": {
-            "icon": "none",
-            "icon_size": "medium",
-            "custom_icon": "",
-            "text": "Welcome to our store",
-            "text_size": 20,
-            "link": ""
-          }
-        },
-        "announcement_49ArQk": {
-          "type": "announcement",
-          "settings": {
-            "icon": "none",
-            "icon_size": "medium",
-            "custom_icon": "",
-            "text": "Welcome to our store",
-            "text_size": 20,
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "announcement_rVNcEr",
-        "announcement_At776w",
-        "announcement_P3M3Jx",
-        "announcement_49ArQk"
-      ],
-      "disabled": true,
-      "name": "t:sections.scrolling-promotion.presets.name",
-      "settings": {
-        "direction": "left",
-        "speed": 6,
-        "show_divider": false,
-        "use_custom_colors": false,
-        "colors_icon": "#ffffff",
-        "colors_text": "#1a1b18",
-        "colors_background": "#ffffff",
-        "gradient_background": "",
-        "padding_top": 12,
-        "padding_bottom": 12
-      }
     }
   },
   "order": [
-    "ow-header",
-    "scrolling_promotion_fjrnND"
+    "ow-header"
   ]
 }
