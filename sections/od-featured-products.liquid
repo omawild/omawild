@@ -662,6 +662,9 @@
     .nav-btn-{{ section.id }} { display: none !important; }
   {% endif %}
 }
+
+.owv2-variant-select-{{ section.id }} { width: 100%; min-height: 48px; padding: 10px 16px; margin-bottom: 12px; border: 1px solid currentColor; border-radius: 24px; font: inherit; color: inherit; background: transparent; }
+.owv2-grade-{{ section.id }} { position: absolute; bottom: 16px; left: 16px; z-index: 2; padding: 6px 12px; border-radius: 20px; background: {{ section.settings.emphasis_color }}; color: {{ section.settings.button_text_color }}; font-weight: 700; }
 {%- endstyle -%}
 
 <div class="section-{{ section.id }}">
@@ -702,6 +705,9 @@
               
               <div class="card-{{ section.id }} {% if block.settings.highlight_card %}is-highlighted{% endif %}" {% if product != blank %}data-product-url="{{ product.url }}"{% endif %} {{ block.shopify_attributes }}>
                 <div class="image-wrap-{{ section.id }}">
+                  {%- if block.settings.grade_badge != blank -%}
+                    <span class="owv2-grade-{{ section.id }}">{{ block.settings.grade_badge | escape }}</span>
+                  {%- endif -%}
                   {%- if block.settings.highlight_card and block.settings.banner_text != blank -%}
                     <div class="banner-{{ section.id }}">
                       <span>{{ block.settings.banner_text }}</span>
@@ -781,7 +787,22 @@
                   <div class="im8-cta-form-container-{{ section.id }}">
                     {%- if product != blank -%}
                       {%- if product.available -%}
-                        {%- if product.variants.size > 1 -%}
+                        {%- if section.settings.show_card_variant_selector -%}
+                          {%- assign card_form_id = 'owv2-product-' | append: section.id | append: '-' | append: block.id -%}
+                          {% unless section.settings.button_action == 'buy_now' %}<product-form data-section="{{ section.id }}">{% endunless %}
+                            {%- form 'product', product, id: card_form_id, class: 'im8-cta-form-theme-native', data-type: 'add-to-cart-form' -%}
+                              <div class="product-form__error-message-wrapper" role="alert" hidden><span class="product-form__error-message"></span></div>
+                              <label class="visually-hidden" for="{{ card_form_id }}-variant">{{ section.settings.variant_label | escape }}</label>
+                              <select class="owv2-variant-select-{{ section.id }}" id="{{ card_form_id }}-variant" name="id">
+                                {%- for variant in product.variants -%}
+                                  <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>{{ variant.title | escape }} — {{ variant.price | money_with_currency }}{% unless variant.available %} — {{ 'products.product.sold_out' | t }}{% endunless %}</option>
+                                {%- endfor -%}
+                              </select>
+                              {% if section.settings.button_action == 'buy_now' %}<input type="hidden" name="return_to" value="/checkout">{% endif %}
+                              <button type="submit" name="add" class="product-form__submit im8-cta-{{ section.id }}"><span>{% if section.settings.button_action == 'buy_now' %}BUY NOW{% else %}ADD TO CART{% endif %}</span></button>
+                            {%- endform -%}
+                          {% unless section.settings.button_action == 'buy_now' %}</product-form>{% endunless %}
+                        {%- elsif product.variants.size > 1 -%}
                           <button type="button" class="im8-cta-{{ section.id }} trigger-modal-btn" 
                             data-product-handle="{{ product.handle }}"
                             data-show-sub="{{ block.settings.show_subscription_notice }}"
@@ -1080,6 +1101,8 @@
 {
   "name": "OD Featured Products",
   "settings": [
+    { "type": "checkbox", "id": "show_card_variant_selector", "label": "Show variant dropdown on cards", "default": false },
+    { "type": "text", "id": "variant_label", "label": "Variant selector label", "default": "Choose your coffee" },
     {
       "type": "select",
       "id": "header_alignment",
@@ -1166,6 +1189,7 @@
       "type": "collection",
       "name": "Product Card",
       "settings": [
+        { "type": "text", "id": "grade_badge", "label": "Grade badge", "info": "Optional, e.g. GRADE 1. Leave blank to hide." },
         { "type": "product", "id": "product_item", "label": "Select Product" },
         { "type": "header", "content": "Visual Styling Overrides" },
         { "type": "checkbox", "id": "highlight_card", "label": "Highlight this Card", "default": false },
