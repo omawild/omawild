@@ -65,6 +65,7 @@ follows from that.
 | Path | Owner | Editable |
 |---|---|---|
 | `sections/od-*`, `sections/ow-*`, `snippets/chapter-map.liquid` | us | yes |
+| `sections/owv2-*`, `assets/owv2-*` | us | yes — parallel v2 homepage |
 | `sections/main-bloggle-article.liquid` | Bloggle app | no |
 | `blocks/ai_gen_block_*.liquid` | Shopify AI-generated | regenerate, don't hand-edit |
 | everything else | RoarTheme | rule 3 |
