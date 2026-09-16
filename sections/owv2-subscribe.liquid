@@ -1,0 +1,512 @@
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{% style %}
+.owv2-subscribe-{{ owid }} {
+  box-sizing: border-box;
+  --bg: {{ section.settings.background_color }};
+  --ink: {{ section.settings.text_color }};
+  --surface: {{ section.settings.card_background }};
+  background: var(--bg);
+  color: var(--ink);
+  padding: {{ section.settings.padding_top }}px max(20px, 5vw) {{ section.settings.padding_bottom }}px;
+  font-family: var(--font-body-family);
+  font-size: 16px;
+  line-height: 1.5;
+  }
+.owv2-subscribe-{{ owid }} *, .owv2-subscribe-{{ owid }} *::before, .owv2-subscribe-{{ owid }} *::after {
+  box-sizing: border-box;
+  }
+.owv2-subscribe-{{ owid }} h1, .owv2-subscribe-{{ owid }} h2, .owv2-subscribe-{{ owid }} h3 {
+  font-family: var(--font-heading-family);
+  color: inherit;
+  font-weight: 900;
+  letter-spacing: -.035em;
+  line-height: 1.05;
+  text-transform: none;
+  margin: 0;
+  overflow-wrap: anywhere;
+  }
+.owv2-subscribe-{{ owid }} h2 {
+  font-size: clamp(30px, 4vw, 58px);
+  }
+.owv2-subscribe-{{ owid }} h3 {
+  font-size: 26px;
+  }
+.owv2-subscribe-{{ owid }} p {
+  margin: 0 0 16px;
+  }
+.owv2-subscribe-{{ owid }} p:last-child {
+  margin-bottom: 0;
+  }
+.owv2-subscribe-{{ owid }} a {
+  color: inherit;
+  }
+.owv2-subscribe-{{ owid }} img, .owv2-subscribe-{{ owid }} svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  }
+.owv2-subscribe-{{ owid }} .inner {
+  max-width: 1320px;
+  margin-inline: auto;
+  min-width: 0;
+  }
+.owv2-subscribe-{{ owid }} .intro {
+  max-width: 760px;
+  margin-bottom: 32px;
+  }
+.owv2-subscribe-{{ owid }} .intro > * + * {
+  margin-top: 20px;
+  }
+.owv2-subscribe-{{ owid }} .eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  }
+.owv2-subscribe-{{ owid }} .owv2-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 24px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  font: 700 16px var(--font-body-family);
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  }
+.owv2-subscribe-{{ owid }} :focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 4px;
+  }
+.owv2-subscribe-{{ owid }} .owv2-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  background: var(--surface);
+  fill: var(--ink);
+  }
+@media (prefers-reduced-motion: reduce) {
+  .owv2-subscribe-{{ owid }} * {
+  scroll-behavior: auto !important;
+  scroll-snap-type: none !important;
+  }
+}
+.owv2-subscribe-{{ owid }} owv2-subscribe {
+  display:block;
+  }
+.owv2-subscribe-{{ owid }} .columns {
+  display:grid;
+  grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);
+  gap:64px;
+  align-items:start;
+  }
+.owv2-subscribe-{{ owid }} .pill {
+  display:inline-block;
+  background:var(--ink);
+  color:var(--bg);
+  border-radius:999px;
+  padding:6px 14px;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.07em;
+  }
+.owv2-subscribe-{{ owid }} fieldset {
+  border:0;
+  padding:0;
+  margin:0 0 24px;
+  min-width:0;
+  }
+.owv2-subscribe-{{ owid }} legend {
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  font-weight:700;
+  margin-bottom:12px;
+  }
+.owv2-subscribe-{{ owid }} .options {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  }
+.owv2-subscribe-{{ owid }} .option {
+  position:relative;
+  cursor:pointer;
+  }
+.owv2-subscribe-{{ owid }} .option input {
+  position:absolute;
+  width:1px;
+  height:1px;
+  opacity:0;
+  }
+.owv2-subscribe-{{ owid }} .option span {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  border:1px solid var(--ink);
+  border-radius:999px;
+  padding:10px 18px;
+  min-height:44px;
+  background:var(--surface);
+  font-weight:700;
+  font-size:14px;
+  }
+.owv2-subscribe-{{ owid }} .option img {
+  width:32px;
+  height:32px;
+  object-fit:cover;
+  border-radius:50%;
+  }
+.owv2-subscribe-{{ owid }} input:checked + span {
+  background:var(--ink);
+  color:var(--bg);
+  }
+.owv2-subscribe-{{ owid }} input:focus-visible + span {
+  outline:3px solid var(--ink);
+  outline-offset:3px;
+  }
+.owv2-subscribe-{{ owid }} .summary {
+  position:sticky;
+  top:24px;
+  background:var(--surface);
+  border:1px solid var(--ink);
+  border-radius:12px;
+  padding:28px;
+  }
+.owv2-subscribe-{{ owid }} .summary h3 {
+  margin-bottom:12px;
+  }
+.owv2-subscribe-{{ owid }} .prices {
+  margin-top:20px;
+  }
+.owv2-subscribe-{{ owid }} .prices strong {
+  font-size:40px;
+  font-weight:900;
+  }
+.owv2-subscribe-{{ owid }} .prices s {
+  margin-left:10px;
+  }
+.owv2-subscribe-{{ owid }} .summary .owv2-button {
+  width:100%;
+  margin:12px 0;
+  }
+.owv2-subscribe-{{ owid }} .shipping {
+  font-size:13px;
+  text-align:center;
+  }
+@media(max-width:749px) {
+  .owv2-subscribe-{{ owid }} .columns {
+  grid-template-columns:1fr;
+  gap:8px;
+  }
+.owv2-subscribe-{{ owid }} .summary {
+  position:static;
+  }
+}
+{% endstyle %}
+<div class="owv2-subscribe-{{ owid }}">
+<owv2-subscribe data-discount="{{ section.settings.discount_percent }}" data-currency="{{ cart.currency.iso_code | default: shop.currency | escape }}" data-locale="{{ request.locale.iso_code | escape }}" data-savings="{{ section.settings.savings_template | escape }}">
+<div class="inner columns">
+<div>
+<div class="intro">
+<span class="pill">{{ section.settings.badge_text | escape }}</span>
+<h2>{{ section.settings.heading }}</h2>
+<div>{{ section.settings.body }}</div>
+</div>
+{% assign groups = 'roast,size,frequency' | split: ',' %}
+{% for group in groups %}
+{% assign options = section.blocks | where: 'type', group %}
+{% assign label_key = 'step' | append: forloop.index | append: '_label' %}
+<fieldset>
+<legend>0{{ forloop.index }} — {{ section.settings[label_key] | escape }}</legend>
+<div class="options">
+{% for block in options %}
+<label class="option" {{ block.shopify_attributes }}>
+<input type="radio" name="{{ group }}-{{ section.id }}" value="{{ block.id }}" data-group="{{ group }}" data-label="{{ block.settings.label | escape }}" data-price="{{ block.settings.price | default: 0 }}" data-modifier="{{ block.settings.price_modifier | default: 0 }}" {% if forloop.first %}checked{% endif %}>
+<span>
+{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 100 | image_tag: loading: 'lazy' }}{% endif %}{{ block.settings.label | escape }}</span>
+</label>
+{% endfor %}
+</div>
+</fieldset>
+{% endfor %}
+</div>
+<aside class="summary">
+<p class="eyebrow">{{ section.settings.summary_title | escape }}</p>
+<div aria-live="polite" aria-atomic="true">
+<h3 data-roast>
+</h3>
+<p data-description>{{ section.settings.empty_message | escape }}</p>
+<p class="prices" hidden>
+<strong data-total>
+</strong> <s data-original>
+</s>
+</p>
+<p data-saving>
+</p>
+</div>
+{% if section.settings.cta_label != blank %}
+{% if section.settings.cta_link != blank %}
+<a class="owv2-button" href="{{ section.settings.cta_link }}">{{ section.settings.cta_label | escape }}</a>
+{% else %}
+<span class="owv2-button" aria-disabled="true">{{ section.settings.cta_label | escape }}</span>
+{% endif %}
+{% endif %}
+<p class="shipping">{{ section.settings.shipping_note | escape }}</p>
+</aside>
+</div>
+</owv2-subscribe>
+<script src="{{ 'owv2-subscribe.js' | asset_url }}" defer="defer">
+</script>
+</div>
+{% schema %}
+{
+  "name": "OWV2 Subscription spot",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge text",
+      "default": "SUBSCRIBE & SAVE 10%"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Keep the ritual going and never run low on energy"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>Fresh roast on your schedule. Save 10% on every delivery. And each subscription helps us do more for you and our planet. Skip, swap or cancel any time.</p>"
+    },
+    {
+      "type": "text",
+      "id": "step1_label",
+      "label": "Step1 label",
+      "default": "Pick your roast"
+    },
+    {
+      "type": "text",
+      "id": "step2_label",
+      "label": "Step2 label",
+      "default": "Select your quantity"
+    },
+    {
+      "type": "text",
+      "id": "step3_label",
+      "label": "Step3 label",
+      "default": "Set your frequency"
+    },
+    {
+      "type": "text",
+      "id": "summary_title",
+      "label": "Summary title",
+      "default": "YOUR SUBSCRIPTION"
+    },
+    {
+      "type": "text",
+      "id": "shipping_note",
+      "label": "Shipping note",
+      "default": "Freshly roasted. Delivered on your schedule."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Cta label",
+      "default": "Start subscription"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Cta link",
+      "info": "Select the destination to enable this button."
+    },
+    {
+      "type": "number",
+      "id": "discount_percent",
+      "label": "Discount percent",
+      "default": 10,
+      "info": "Display-only discount, clamped to 0\u2013100%. Does not apply a cart discount."
+    },
+    {
+      "type": "text",
+      "id": "savings_template",
+      "label": "Savings template",
+      "default": "Save [amount] every delivery",
+      "info": "Use [amount] for the calculated saving."
+    },
+    {
+      "type": "text",
+      "id": "empty_message",
+      "label": "Empty message",
+      "default": "Choose your coffee options to get started."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#FBDCDC"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#F5450D"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "OWV2 Subscription spot",
+      "blocks": [
+        {
+          "type": "roast",
+          "settings": {
+            "label": "Wild Bloom",
+            "price": 560
+          }
+        },
+        {
+          "type": "roast",
+          "settings": {
+            "label": "Forest Trail",
+            "price": 540
+          }
+        },
+        {
+          "type": "roast",
+          "settings": {
+            "label": "Limited Reserve",
+            "price": 800
+          }
+        },
+        {
+          "type": "size",
+          "settings": {
+            "label": "200 g",
+            "price_modifier": 0
+          }
+        },
+        {
+          "type": "size",
+          "settings": {
+            "label": "400 g",
+            "price_modifier": 560
+          }
+        },
+        {
+          "type": "frequency",
+          "settings": {
+            "label": "Every month"
+          }
+        },
+        {
+          "type": "frequency",
+          "settings": {
+            "label": "Every 2 weeks"
+          }
+        },
+        {
+          "type": "frequency",
+          "settings": {
+            "label": "Every 2 months"
+          }
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "roast",
+      "name": "Roast",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label"
+        },
+        {
+          "type": "number",
+          "id": "price",
+          "label": "Price",
+          "default": 560,
+          "info": "Display-only base price in store currency (major units)."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Edit alternative text in the image picker for accessibility."
+        }
+      ]
+    },
+    {
+      "type": "size",
+      "name": "Size",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label"
+        },
+        {
+          "type": "number",
+          "id": "price_modifier",
+          "label": "Price modifier",
+          "default": 0,
+          "info": "Amount added to the roast price for this size, in store currency. Display only."
+        }
+      ]
+    },
+    {
+      "type": "frequency",
+      "name": "Frequency",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 16
+}
+{% endschema %}
