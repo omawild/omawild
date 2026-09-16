@@ -96,11 +96,11 @@
   }
 }
 .owv2-story-{{ owid }} .gallery {
-  display:flex;
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
   gap:24px;
-  overflow-x:auto;
-  padding:0 6px 10px 0;
-  scroll-snap-type:x mandatory;
+  overflow:visible;
+  padding:0;
   }
 .owv2-story-{{ owid }} figure, .owv2-story-{{ owid }} .teaser {
   flex:0 0 calc((100% - 48px) / 3);
@@ -123,14 +123,24 @@
   font-size:14px;
   }
 .owv2-story-{{ owid }} .teaser {
+  display:none;
+  }
+@media(max-width:749px) {
+  .owv2-story-{{ owid }} .gallery {
+  display:flex;
+  overflow-x:auto;
+  overflow-y:hidden;
+  padding:0 6px 10px 0;
+  scroll-snap-type:x mandatory;
+  }
+  .owv2-story-{{ owid }} figure, .owv2-story-{{ owid }} .teaser {
+  flex-basis:80%;
+  }
+  .owv2-story-{{ owid }} .teaser {
   display:flex;
   align-items:center;
   justify-content:center;
   text-align:center;
-  }
-@media(max-width:749px) {
-  .owv2-story-{{ owid }} figure, .owv2-story-{{ owid }} .teaser {
-  flex-basis:80%;
   }
 }
 {% endstyle %}
