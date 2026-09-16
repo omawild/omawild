@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "name": "t:sections.header-group.name",
   "type": "header",
@@ -41,7 +32,11 @@
         "show_account": true,
         "show_region_selector": true,
         "region_countries": ""
-      }
+      },
+      "custom_css": [
+        ".navbar,.navbar-dropdown{background:#FBDCDC;}",
+        ".ann-bar--orange{background:#F5450D;color:#FFFFFF;}"
+      ]
     }
   },
   "order": [

@@ -19,8 +19,14 @@
         "menu_4_title": "Legal",
         "menu_4": "",
         "copyright": "© Wilde Planet Limited 2026"
-      }
+      },
+      "custom_css": [
+        ".footer{background:#FBDCDC;padding-top:24px;}",
+        ".footer-head,.footer-tagline,.footer-email{display:none;}"
+      ]
     }
   },
-  "order": ["ow-footer"]
+  "order": [
+    "ow-footer"
+  ]
 }
