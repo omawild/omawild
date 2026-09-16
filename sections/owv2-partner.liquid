@@ -1,0 +1,214 @@
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{% style %}
+.owv2-partner-{{ owid }} {
+  box-sizing: border-box;
+  --bg: {{ section.settings.background_color }};
+  --ink: {{ section.settings.text_color }};
+  --surface: {{ section.settings.card_background }};
+  background: var(--bg);
+  color: var(--ink);
+  padding: {{ section.settings.padding_top }}px max(20px, 5vw) {{ section.settings.padding_bottom }}px;
+  font-family: var(--font-body-family);
+  font-size: 16px;
+  line-height: 1.5;
+  }
+.owv2-partner-{{ owid }} *, .owv2-partner-{{ owid }} *::before, .owv2-partner-{{ owid }} *::after {
+  box-sizing: border-box;
+  }
+.owv2-partner-{{ owid }} h1, .owv2-partner-{{ owid }} h2, .owv2-partner-{{ owid }} h3 {
+  font-family: var(--font-heading-family);
+  color: inherit;
+  font-weight: 900;
+  letter-spacing: -.035em;
+  line-height: 1.05;
+  text-transform: none;
+  margin: 0;
+  overflow-wrap: anywhere;
+  }
+.owv2-partner-{{ owid }} h2 {
+  font-size: clamp(30px, 4vw, 58px);
+  }
+.owv2-partner-{{ owid }} h3 {
+  font-size: 26px;
+  }
+.owv2-partner-{{ owid }} p {
+  margin: 0 0 16px;
+  }
+.owv2-partner-{{ owid }} p:last-child {
+  margin-bottom: 0;
+  }
+.owv2-partner-{{ owid }} a {
+  color: inherit;
+  }
+.owv2-partner-{{ owid }} img, .owv2-partner-{{ owid }} svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  }
+.owv2-partner-{{ owid }} .inner {
+  max-width: 1320px;
+  margin-inline: auto;
+  min-width: 0;
+  }
+.owv2-partner-{{ owid }} .intro {
+  max-width: 760px;
+  margin-bottom: 32px;
+  }
+.owv2-partner-{{ owid }} .intro > * + * {
+  margin-top: 20px;
+  }
+.owv2-partner-{{ owid }} .eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  }
+.owv2-partner-{{ owid }} .owv2-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 24px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  font: 700 16px var(--font-body-family);
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  }
+.owv2-partner-{{ owid }} :focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 4px;
+  }
+.owv2-partner-{{ owid }} .owv2-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  background: var(--surface);
+  fill: var(--ink);
+  }
+@media (prefers-reduced-motion: reduce) {
+  .owv2-partner-{{ owid }} * {
+  scroll-behavior: auto !important;
+  scroll-snap-type: none !important;
+  }
+}
+.owv2-partner-{{ owid }} .inner {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:48px;
+  }
+.owv2-partner-{{ owid }} h2 {
+  max-width:850px;
+  }
+.owv2-partner-{{ owid }} .owv2-button {
+  flex-shrink:0;
+  }
+@media(max-width:749px) {
+  .owv2-partner-{{ owid }} .inner {
+  flex-direction:column;
+  align-items:flex-start;
+  gap:24px;
+  }
+}
+{% endstyle %}
+<div class="owv2-partner-{{ owid }}">
+<div class="inner">
+<div>
+<p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+<h2>{{ section.settings.heading }}</h2>
+</div>
+{% if section.settings.cta_label != blank %}
+{% if section.settings.cta_link != blank %}
+<a class="owv2-button" href="{{ section.settings.cta_link }}">{{ section.settings.cta_label | escape }}</a>
+{% else %}
+<span class="owv2-button" aria-disabled="true">{{ section.settings.cta_label | escape }}</span>
+{% endif %}
+{% endif %}
+</div>
+</div>
+{% schema %}
+{
+  "name": "OWV2 Partner band",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "HOTELS \u00b7 CAF\u00c9S \u00b7 OFFICES"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Bring Omawild to your workplace, hotel, or retail shelves."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Cta label",
+      "default": "Become a partner"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Cta link",
+      "info": "Select the destination to enable this button."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#F5450D"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "OWV2 Partner band",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}
