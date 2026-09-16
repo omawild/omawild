@@ -1,0 +1,269 @@
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{% style %}
+.owv2-newsletter-{{ owid }} {
+  box-sizing: border-box;
+  --bg: {{ section.settings.background_color }};
+  --ink: {{ section.settings.text_color }};
+  --surface: {{ section.settings.card_background }};
+  background: var(--bg);
+  color: var(--ink);
+  padding: {{ section.settings.padding_top }}px max(20px, 5vw) {{ section.settings.padding_bottom }}px;
+  font-family: var(--font-body-family);
+  font-size: 16px;
+  line-height: 1.5;
+  }
+.owv2-newsletter-{{ owid }} *, .owv2-newsletter-{{ owid }} *::before, .owv2-newsletter-{{ owid }} *::after {
+  box-sizing: border-box;
+  }
+.owv2-newsletter-{{ owid }} h1, .owv2-newsletter-{{ owid }} h2, .owv2-newsletter-{{ owid }} h3 {
+  font-family: var(--font-heading-family);
+  color: inherit;
+  font-weight: 900;
+  letter-spacing: -.035em;
+  line-height: 1.05;
+  text-transform: none;
+  margin: 0;
+  overflow-wrap: anywhere;
+  }
+.owv2-newsletter-{{ owid }} h2 {
+  font-size: clamp(30px, 4vw, 58px);
+  }
+.owv2-newsletter-{{ owid }} h3 {
+  font-size: 26px;
+  }
+.owv2-newsletter-{{ owid }} p {
+  margin: 0 0 16px;
+  }
+.owv2-newsletter-{{ owid }} p:last-child {
+  margin-bottom: 0;
+  }
+.owv2-newsletter-{{ owid }} a {
+  color: inherit;
+  }
+.owv2-newsletter-{{ owid }} img, .owv2-newsletter-{{ owid }} svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  }
+.owv2-newsletter-{{ owid }} .inner {
+  max-width: 1320px;
+  margin-inline: auto;
+  min-width: 0;
+  }
+.owv2-newsletter-{{ owid }} .intro {
+  max-width: 760px;
+  margin-bottom: 32px;
+  }
+.owv2-newsletter-{{ owid }} .intro > * + * {
+  margin-top: 20px;
+  }
+.owv2-newsletter-{{ owid }} .eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  }
+.owv2-newsletter-{{ owid }} .owv2-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 24px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  font: 700 16px var(--font-body-family);
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  }
+.owv2-newsletter-{{ owid }} :focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 4px;
+  }
+.owv2-newsletter-{{ owid }} .owv2-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  background: var(--surface);
+  fill: var(--ink);
+  }
+@media (prefers-reduced-motion: reduce) {
+  .owv2-newsletter-{{ owid }} * {
+  scroll-behavior: auto !important;
+  scroll-snap-type: none !important;
+  }
+}
+.owv2-newsletter-{{ owid }} .inner {
+  max-width:740px;
+  text-align:center;
+  }
+.owv2-newsletter-{{ owid }} .sticker {
+  display:inline-block;
+  border:1px solid var(--ink);
+  border-radius:999px;
+  background:var(--surface);
+  padding:10px 20px;
+  transform:rotate(-2deg);
+  font-weight:700;
+  margin-bottom:28px;
+  }
+.owv2-newsletter-{{ owid }} h2 {
+  margin-bottom:28px;
+  }
+.owv2-newsletter-{{ owid }} .capture {
+  display:flex;
+  padding:6px;
+  border:1px solid var(--ink);
+  border-radius:999px;
+  background:var(--surface);
+  gap:8px;
+  }
+.owv2-newsletter-{{ owid }} input[type=email] {
+  min-width:0;
+  width:100%;
+  border:0;
+  background:transparent;
+  color:var(--ink);
+  padding:10px 16px;
+  font:inherit;
+  border-radius:999px;
+  }
+.owv2-newsletter-{{ owid }} .owv2-button {
+  flex-shrink:0;
+  }
+.owv2-newsletter-{{ owid }} .email-label {
+  display:block;
+  text-align:left;
+  margin-bottom:8px;
+  font-size:14px;
+  }
+@media(max-width:389px) {
+  .owv2-newsletter-{{ owid }} .capture {
+  flex-wrap:wrap;
+  border-radius:24px;
+  }
+.owv2-newsletter-{{ owid }} .owv2-button {
+  width:100%;
+  }
+}
+{% endstyle %}
+<div class="owv2-newsletter-{{ owid }}">
+{% assign form_id = 'owv2-newsletter-' | append: section.id %}
+<div class="inner">
+<div class="sticker">{{ section.settings.sticker_text }}</div>
+{% if section.settings.heading != blank %}
+<h2>{{ section.settings.heading }}</h2>
+{% endif %}
+{% form 'customer', id: form_id %}
+<input type="hidden" name="contact[tags]" value="newsletter">
+{% if form.posted_successfully? %}
+<p role="status">{{ section.settings.success_message | escape }}</p>
+{% else %}
+<label class="email-label" for="{{ form_id }}-email">{{ section.settings.email_label | escape }}</label>
+<div class="capture">
+<input id="{{ form_id }}-email" type="email" name="contact[email]" value="{{ form.email | escape }}" placeholder="{{ section.settings.placeholder | escape }}" autocomplete="email" autocapitalize="off" required {% if form.errors %}aria-invalid="true" aria-describedby="{{ form_id }}-errors"{% endif %}>
+<button class="owv2-button" type="submit">{{ section.settings.button_label | escape }}</button>
+</div>
+{% if form.errors %}
+<div id="{{ form_id }}-errors" role="alert">{{ form.errors | default_errors }}</div>
+{% endif %}
+{% endif %}
+{% endform %}
+</div>
+</div>
+{% schema %}
+{
+  "name": "OWV2 Newsletter",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "sticker_text",
+      "label": "Sticker text",
+      "default": "A nature fund disguised as coffee <em>for now</em>"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Good things are growing."
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Placeholder",
+      "default": "your@email.com"
+    },
+    {
+      "type": "text",
+      "id": "email_label",
+      "label": "Email label",
+      "default": "Email address"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Subscribe"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "You\u2019re on the list. Welcome to the expedition!"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#FBDCDC"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#F5450D"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "OWV2 Newsletter",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}
