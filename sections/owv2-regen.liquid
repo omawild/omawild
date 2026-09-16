@@ -1,0 +1,335 @@
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{% style %}
+.owv2-regen-{{ owid }} {
+  box-sizing: border-box;
+  --bg: {{ section.settings.background_color }};
+  --ink: {{ section.settings.text_color }};
+  --surface: {{ section.settings.card_background }};
+  background: var(--bg);
+  color: var(--ink);
+  padding: {{ section.settings.padding_top }}px max(20px, 5vw) {{ section.settings.padding_bottom }}px;
+  font-family: var(--font-body-family);
+  font-size: 16px;
+  line-height: 1.5;
+  }
+.owv2-regen-{{ owid }} *, .owv2-regen-{{ owid }} *::before, .owv2-regen-{{ owid }} *::after {
+  box-sizing: border-box;
+  }
+.owv2-regen-{{ owid }} h1, .owv2-regen-{{ owid }} h2, .owv2-regen-{{ owid }} h3 {
+  font-family: var(--font-heading-family);
+  color: inherit;
+  font-weight: 900;
+  letter-spacing: -.035em;
+  line-height: 1.05;
+  text-transform: none;
+  margin: 0;
+  overflow-wrap: anywhere;
+  }
+.owv2-regen-{{ owid }} h2 {
+  font-size: clamp(30px, 4vw, 58px);
+  }
+.owv2-regen-{{ owid }} h3 {
+  font-size: 26px;
+  }
+.owv2-regen-{{ owid }} p {
+  margin: 0 0 16px;
+  }
+.owv2-regen-{{ owid }} p:last-child {
+  margin-bottom: 0;
+  }
+.owv2-regen-{{ owid }} a {
+  color: inherit;
+  }
+.owv2-regen-{{ owid }} img, .owv2-regen-{{ owid }} svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  }
+.owv2-regen-{{ owid }} .inner {
+  max-width: 1320px;
+  margin-inline: auto;
+  min-width: 0;
+  }
+.owv2-regen-{{ owid }} .intro {
+  max-width: 760px;
+  margin-bottom: 32px;
+  }
+.owv2-regen-{{ owid }} .intro > * + * {
+  margin-top: 20px;
+  }
+.owv2-regen-{{ owid }} .eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  }
+.owv2-regen-{{ owid }} .owv2-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 24px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  font: 700 16px var(--font-body-family);
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  }
+.owv2-regen-{{ owid }} :focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 4px;
+  }
+.owv2-regen-{{ owid }} .owv2-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  background: var(--surface);
+  fill: var(--ink);
+  }
+@media (prefers-reduced-motion: reduce) {
+  .owv2-regen-{{ owid }} * {
+  scroll-behavior: auto !important;
+  scroll-snap-type: none !important;
+  }
+}
+.owv2-regen-{{ owid }} .columns {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:48px;
+  align-items:center;
+  }
+.owv2-regen-{{ owid }} details {
+  border-bottom:1px solid var(--ink);
+  padding:18px 0;
+  }
+.owv2-regen-{{ owid }} summary {
+  display:flex;
+  gap:24px;
+  cursor:pointer;
+  font-weight:700;
+  list-style:none;
+  }
+.owv2-regen-{{ owid }} summary::-webkit-details-marker {
+  display:none;
+  }
+.owv2-regen-{{ owid }} summary::after {
+  content:'+';
+  margin-left:auto;
+  }
+.owv2-regen-{{ owid }} details[open] summary::after {
+  content:'−';
+  }
+.owv2-regen-{{ owid }} .number {
+  font-size:12px;
+  padding-top:3px;
+  }
+.owv2-regen-{{ owid }} .answer {
+  padding:16px 0 0 42px;
+  }
+.owv2-regen-{{ owid }} .cta {
+  margin:24px 0 16px;
+  }
+.owv2-regen-{{ owid }} .caption {
+  font-size:13px;
+  }
+@media(max-width:749px) {
+  .owv2-regen-{{ owid }} .columns {
+  grid-template-columns:1fr;
+  gap:16px;
+  }
+}
+{% endstyle %}
+<div class="owv2-regen-{{ owid }}">
+<div class="inner">
+<div class="intro">
+<p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+<h2>{{ section.settings.heading }}</h2>
+</div>
+<div class="columns">
+<div class="illustration">
+{% if section.settings.illustration != blank %}{{ section.settings.illustration | image_url: width: 1800 | image_tag: loading: 'lazy', widths: '390, 750, 1100, 1500, 1800', sizes: '(min-width: 990px) 50vw, 100vw' }}{% else %}{{ 'lifestyle-1' | placeholder_svg_tag: 'owv2-placeholder' }}{% endif %}
+</div>
+<div>
+{% for block in section.blocks %}
+<details {% if forloop.first %}open{% endif %} {{ block.shopify_attributes }}>
+<summary>
+<span class="number">
+{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>{{ block.settings.title | escape }}</summary>
+<div class="answer">{{ block.settings.body }}</div>
+</details>
+{% endfor %}
+<div class="cta">
+{% if section.settings.cta_label != blank %}
+{% if section.settings.cta_link != blank %}
+<a class="owv2-button" href="{{ section.settings.cta_link }}">{{ section.settings.cta_label | escape }}</a>
+{% else %}
+<span class="owv2-button" aria-disabled="true">{{ section.settings.cta_label | escape }}</span>
+{% endif %}
+{% endif %}
+</div>
+<p class="caption">{{ section.settings.caption | escape }}</p>
+</div>
+</div>
+</div>
+</div>
+{% schema %}
+{
+  "name": "OWV2 Regen education",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "NO APP. NO AI. NO PROBLEM."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The most powerful climate solution is in what you eat and drink"
+    },
+    {
+      "type": "image_picker",
+      "id": "illustration",
+      "label": "Illustration",
+      "info": "Edit alternative text in the image picker for accessibility."
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Caption",
+      "default": "Good coffee starts with living soil."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Cta label",
+      "default": "How regen farming works \u2192"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Cta link",
+      "info": "Select the destination to enable this button."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#F1ECE2"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#F5450D"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "OWV2 Regen education",
+      "blocks": [
+        {
+          "type": "point",
+          "settings": {
+            "title": "Canopy cools the ground",
+            "body": "<p>Tree canopies cool the ground and shelter critical wildlife.</p>"
+          }
+        },
+        {
+          "type": "point",
+          "settings": {
+            "title": "Roots hold the slope together",
+            "body": "<p>Healthy root systems help keep soil in place on steep slopes.</p>"
+          }
+        },
+        {
+          "type": "point",
+          "settings": {
+            "title": "Diversity keeps the land resilient",
+            "body": "<p>A mix of trees and crops creates habitat and supports a thriving ecosystem.</p>"
+          }
+        },
+        {
+          "type": "point",
+          "settings": {
+            "title": "Forests store more carbon than air",
+            "body": "<p>Keeping forests standing protects the carbon stored in trees and soil.</p>"
+          }
+        },
+        {
+          "type": "point",
+          "settings": {
+            "title": "Living soil banks the water",
+            "body": "<p>Healthy soil absorbs and holds water for the landscape.</p>"
+          }
+        },
+        {
+          "type": "point",
+          "settings": {
+            "title": "The oldest filtration tech there is",
+            "body": "<p>Roots and living soil help filter water as it moves through the ground.</p>"
+          }
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "point",
+      "name": "Point",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "Body",
+          "default": "<p>Share how regenerative farming helps this ecosystem.</p>"
+        }
+      ],
+      "limit": 8
+    }
+  ],
+  "max_blocks": 16
+}
+{% endschema %}
