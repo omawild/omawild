@@ -1,0 +1,293 @@
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{% style %}
+.owv2-story-{{ owid }} {
+  box-sizing: border-box;
+  --bg: {{ section.settings.background_color }};
+  --ink: {{ section.settings.text_color }};
+  --surface: {{ section.settings.card_background }};
+  background: var(--bg);
+  color: var(--ink);
+  padding: {{ section.settings.padding_top }}px max(20px, 5vw) {{ section.settings.padding_bottom }}px;
+  font-family: var(--font-body-family);
+  font-size: 16px;
+  line-height: 1.5;
+  }
+.owv2-story-{{ owid }} *, .owv2-story-{{ owid }} *::before, .owv2-story-{{ owid }} *::after {
+  box-sizing: border-box;
+  }
+.owv2-story-{{ owid }} h1, .owv2-story-{{ owid }} h2, .owv2-story-{{ owid }} h3 {
+  font-family: var(--font-heading-family);
+  color: inherit;
+  font-weight: 900;
+  letter-spacing: -.035em;
+  line-height: 1.05;
+  text-transform: none;
+  margin: 0;
+  overflow-wrap: anywhere;
+  }
+.owv2-story-{{ owid }} h2 {
+  font-size: clamp(30px, 4vw, 58px);
+  }
+.owv2-story-{{ owid }} h3 {
+  font-size: 26px;
+  }
+.owv2-story-{{ owid }} p {
+  margin: 0 0 16px;
+  }
+.owv2-story-{{ owid }} p:last-child {
+  margin-bottom: 0;
+  }
+.owv2-story-{{ owid }} a {
+  color: inherit;
+  }
+.owv2-story-{{ owid }} img, .owv2-story-{{ owid }} svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  }
+.owv2-story-{{ owid }} .inner {
+  max-width: 1320px;
+  margin-inline: auto;
+  min-width: 0;
+  }
+.owv2-story-{{ owid }} .intro {
+  max-width: 760px;
+  margin-bottom: 32px;
+  }
+.owv2-story-{{ owid }} .intro > * + * {
+  margin-top: 20px;
+  }
+.owv2-story-{{ owid }} .eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  }
+.owv2-story-{{ owid }} .owv2-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 24px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  font: 700 16px var(--font-body-family);
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  }
+.owv2-story-{{ owid }} :focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 4px;
+  }
+.owv2-story-{{ owid }} .owv2-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  background: var(--surface);
+  fill: var(--ink);
+  }
+@media (prefers-reduced-motion: reduce) {
+  .owv2-story-{{ owid }} * {
+  scroll-behavior: auto !important;
+  scroll-snap-type: none !important;
+  }
+}
+.owv2-story-{{ owid }} .gallery {
+  display:flex;
+  gap:24px;
+  overflow-x:auto;
+  padding:0 6px 10px 0;
+  scroll-snap-type:x mandatory;
+  }
+.owv2-story-{{ owid }} figure, .owv2-story-{{ owid }} .teaser {
+  flex:0 0 calc((100% - 48px) / 3);
+  min-width:0;
+  margin:0;
+  padding:12px;
+  background:var(--surface);
+  border:1px solid var(--ink);
+  box-shadow:5px 5px 0 var(--ink);
+  scroll-snap-align:start;
+  }
+.owv2-story-{{ owid }} figure img, .owv2-story-{{ owid }} figure svg {
+  width:100%;
+  aspect-ratio:4/3;
+  object-fit:cover;
+  }
+.owv2-story-{{ owid }} figcaption {
+  padding:14px 0 4px;
+  text-align:center;
+  font-size:14px;
+  }
+.owv2-story-{{ owid }} .teaser {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  }
+@media(max-width:749px) {
+  .owv2-story-{{ owid }} figure, .owv2-story-{{ owid }} .teaser {
+  flex-basis:80%;
+  }
+}
+{% endstyle %}
+<div class="owv2-story-{{ owid }}">
+<div class="inner">
+<div class="intro">
+<p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+<h2>{{ section.settings.heading }}</h2>
+<div>{{ section.settings.subcopy }}</div>
+</div>
+<div class="gallery">
+{% for block in section.blocks %}
+<figure {{ block.shopify_attributes }}>
+{% if block.settings.link != blank %}
+<a href="{{ block.settings.link }}">
+{% endif %}
+{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 1800 | image_tag: loading: 'lazy', widths: '390, 750, 1100, 1500, 1800', sizes: '(min-width: 990px) 50vw, 100vw' }}{% else %}{{ 'lifestyle-1' | placeholder_svg_tag: 'owv2-placeholder' }}{% endif %}
+<figcaption>{{ block.settings.caption | escape }}</figcaption>
+{% if block.settings.link != blank %}
+</a>
+{% endif %}
+</figure>
+{% endfor %}
+{% if section.settings.teaser_text != blank %}
+<div class="teaser">
+{% if section.settings.teaser_link != blank %}
+<a href="{{ section.settings.teaser_link }}">
+{% endif %}{{ section.settings.teaser_text | escape }}{% if section.settings.teaser_link != blank %}
+</a>
+{% endif %}
+</div>
+{% endif %}
+</div>
+</div>
+</div>
+{% schema %}
+{
+  "name": "OWV2 Founder story",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "HOW WE GOT HERE"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "We plunged our entire life savings into conservation \u2014 and then went broke"
+    },
+    {
+      "type": "richtext",
+      "id": "subcopy",
+      "label": "Subcopy",
+      "default": "<p>It started with a one-way ticket to Bali.</p>"
+    },
+    {
+      "type": "text",
+      "id": "teaser_text",
+      "label": "Teaser text",
+      "default": "11 more photographs."
+    },
+    {
+      "type": "url",
+      "id": "teaser_link",
+      "label": "Teaser link"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#FBDCDC"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#F5450D"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "OWV2 Founder story",
+      "blocks": [
+        {
+          "type": "photo",
+          "settings": {
+            "caption": "It started with a one-way ticket to Bali."
+          }
+        },
+        {
+          "type": "photo",
+          "settings": {
+            "caption": "A shared love for wild places."
+          }
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "name": "Photo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Edit alternative text in the image picker for accessibility."
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 16
+}
+{% endschema %}
