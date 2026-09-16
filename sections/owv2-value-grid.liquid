@@ -1,0 +1,282 @@
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{% style %}
+.owv2-value-grid-{{ owid }} {
+  box-sizing: border-box;
+  --bg: {{ section.settings.background_color }};
+  --ink: {{ section.settings.text_color }};
+  --surface: {{ section.settings.card_background }};
+  background: var(--bg);
+  color: var(--ink);
+  padding: {{ section.settings.padding_top }}px max(20px, 5vw) {{ section.settings.padding_bottom }}px;
+  font-family: var(--font-body-family);
+  font-size: 16px;
+  line-height: 1.5;
+  }
+.owv2-value-grid-{{ owid }} *, .owv2-value-grid-{{ owid }} *::before, .owv2-value-grid-{{ owid }} *::after {
+  box-sizing: border-box;
+  }
+.owv2-value-grid-{{ owid }} h1, .owv2-value-grid-{{ owid }} h2, .owv2-value-grid-{{ owid }} h3 {
+  font-family: var(--font-heading-family);
+  color: inherit;
+  font-weight: 900;
+  letter-spacing: -.035em;
+  line-height: 1.05;
+  text-transform: none;
+  margin: 0;
+  overflow-wrap: anywhere;
+  }
+.owv2-value-grid-{{ owid }} h2 {
+  font-size: clamp(30px, 4vw, 58px);
+  }
+.owv2-value-grid-{{ owid }} h3 {
+  font-size: 26px;
+  }
+.owv2-value-grid-{{ owid }} p {
+  margin: 0 0 16px;
+  }
+.owv2-value-grid-{{ owid }} p:last-child {
+  margin-bottom: 0;
+  }
+.owv2-value-grid-{{ owid }} a {
+  color: inherit;
+  }
+.owv2-value-grid-{{ owid }} img, .owv2-value-grid-{{ owid }} svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  }
+.owv2-value-grid-{{ owid }} .inner {
+  max-width: 1320px;
+  margin-inline: auto;
+  min-width: 0;
+  }
+.owv2-value-grid-{{ owid }} .intro {
+  max-width: 760px;
+  margin-bottom: 32px;
+  }
+.owv2-value-grid-{{ owid }} .intro > * + * {
+  margin-top: 20px;
+  }
+.owv2-value-grid-{{ owid }} .eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  }
+.owv2-value-grid-{{ owid }} .owv2-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 24px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  font: 700 16px var(--font-body-family);
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  }
+.owv2-value-grid-{{ owid }} :focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 4px;
+  }
+.owv2-value-grid-{{ owid }} .owv2-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  background: var(--surface);
+  fill: var(--ink);
+  }
+@media (prefers-reduced-motion: reduce) {
+  .owv2-value-grid-{{ owid }} * {
+  scroll-behavior: auto !important;
+  scroll-snap-type: none !important;
+  }
+}
+.owv2-value-grid-{{ owid }} .cards {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:20px;
+  }
+.owv2-value-grid-{{ owid }} article {
+  background:var(--surface);
+  padding:26px;
+  border-radius:12px;
+  color:{{ section.settings.card_body_color }};
+  }
+.owv2-value-grid-{{ owid }} h3 {
+  color:{{ section.settings.card_heading_color }};
+  margin-bottom:16px;
+  }
+.owv2-value-grid-{{ owid }} .hint {
+  display:none;
+  }
+@media(max-width:749px) {
+  .owv2-value-grid-{{ owid }} .cards {
+  display:flex;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  padding-bottom:12px;
+  }
+.owv2-value-grid-{{ owid }} article {
+  flex:0 0 85%;
+  scroll-snap-align:start;
+  }
+.owv2-value-grid-{{ owid }} .hint {
+  display:block;
+  font-size:12px;
+  font-weight:700;
+  margin-top:10px;
+  }
+}
+{% endstyle %}
+<div class="owv2-value-grid-{{ owid }}">
+<div class="inner">
+{% if section.settings.heading != blank %}
+<div class="intro">
+<h2>{{ section.settings.heading }}</h2>
+</div>
+{% endif %}
+<div class="cards">
+{% for block in section.blocks %}
+<article {{ block.shopify_attributes }}>
+<h3>{{ block.settings.heading | escape }}</h3>
+<div>{{ block.settings.body }}</div>
+</article>
+{% endfor %}
+</div>
+<p class="hint">{{ section.settings.mobile_hint_text | escape }}</p>
+</div>
+</div>
+{% schema %}
+{
+  "name": "OWV2 Value grid",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "mobile_hint_text",
+      "label": "Mobile hint text",
+      "default": "\u2190 SWIPE \u2192"
+    },
+    {
+      "type": "color",
+      "id": "card_heading_color",
+      "label": "Card heading color",
+      "default": "#F5450D"
+    },
+    {
+      "type": "color",
+      "id": "card_body_color",
+      "label": "Card body color",
+      "default": "#424242"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#F5450D"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "OWV2 Value grid",
+      "blocks": [
+        {
+          "type": "card",
+          "settings": {
+            "heading": "Agroforestry coffee",
+            "body": "<p>Grown using regenerative practices inside agroforestry systems, so each harvest improves soil health while our forest stays standing.</p>"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "heading": "Funding nature",
+            "body": "<p>At least 1% of our revenue goes to environmental causes.</p>"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "heading": "Direct relationships",
+            "body": "<p>Good coffee starts with the people who grow it.</p>"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "heading": "Made for your ritual",
+            "body": "<p>Specialty coffee, roasted fresh each month.</p>"
+          }
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "Body",
+          "default": "<p>Tell your story.</p>"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 16
+}
+{% endschema %}
