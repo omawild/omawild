@@ -1,30 +1,16 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "owv2_hero": {
       "type": "owv2-hero",
-      "name": "OWV2 Split hero",
-      "settings": {
-        "stamp_alt": "Welcome to the expedition",
-        "heading": "Drink for Planet Earth",
-        "body": "<p>Coffee’s just the bait to reel you in. Grade 1 arabica, grown under agroforestry in the volcanic highlands, inside protected forest reserves.</p>",
-        "cta_primary_label": "Shop the coffee",
-        "cta_secondary_label": "Or learn about regen",
-        "image_badge_text": "COFFEE FOR THE PLANET",
-        "caption_text": "<p>Restoring nature isn’t a job for specialised roles, it’s something we can all take part in, one cup at a time.</p>",
-        "caption_link_label": "See how it works ↓",
-        "separator": "✷",
-        "heading_size": 80,
-        "body_size": 18,
-        "content_padding": 64,
-        "content_gap": 24,
-        "background_color": "#FBDCDC",
-        "text_color": "#F5450D",
-        "card_background": "#FFFFFF",
-        "cta_primary_link": "shopify://collections/all",
-        "hero_image": "",
-        "cta_secondary_link": "",
-        "caption_link": ""
-      },
       "blocks": {
         "feature_1": {
           "type": "feature",
@@ -49,21 +35,32 @@
         "feature_1",
         "feature_2",
         "feature_3"
-      ]
+      ],
+      "name": "OWV2 Split hero",
+      "settings": {
+        "stamp_alt": "Welcome to the expedition",
+        "heading": "Drink for Planet Earth",
+        "body": "<p>Coffee’s just the bait to reel you in. Grade 1 arabica, grown under agroforestry in the volcanic highlands, inside protected forest reserves.</p>",
+        "cta_primary_label": "Shop the coffee",
+        "cta_primary_link": "shopify://collections/all",
+        "cta_secondary_label": "Or learn about regen",
+        "cta_secondary_link": "",
+        "image_badge_text": "COFFEE FOR THE PLANET",
+        "caption_text": "<p>Restoring nature isn’t a job for specialised roles, it’s something we can all take part in, one cup at a time.</p>",
+        "caption_link_label": "See how it works ↓",
+        "caption_link": "",
+        "separator": "✷",
+        "heading_size": 80,
+        "body_size": 18,
+        "content_padding": 64,
+        "content_gap": 24,
+        "background_color": "#fbdcdc",
+        "text_color": "#f5450d",
+        "card_background": "#ffffff"
+      }
     },
     "owv2_marquee": {
       "type": "owv2-marquee",
-      "name": "OWV2 Trust marquee",
-      "settings": {
-        "speed": 30,
-        "direction": "left",
-        "separator": "✷",
-        "background_color": "#F5450D",
-        "text_color": "#FFFFFF",
-        "card_background": "#FFFFFF",
-        "padding_top": 16,
-        "padding_bottom": 16
-      },
       "blocks": {
         "item_1": {
           "type": "item",
@@ -95,48 +92,48 @@
         "item_2",
         "item_3",
         "item_4"
-      ]
+      ],
+      "name": "OWV2 Trust marquee",
+      "settings": {
+        "speed": 47,
+        "direction": "left",
+        "separator": "✷",
+        "background_color": "#f5450d",
+        "text_color": "#ffffff",
+        "card_background": "#ffffff",
+        "padding_top": 16,
+        "padding_bottom": 16
+      }
     },
     "owv2_value_grid": {
       "type": "owv2-value-grid",
-      "name": "OWV2 Value grid",
-      "settings": {
-        "mobile_hint_text": "← SWIPE →",
-        "card_heading_color": "#F5450D",
-        "card_body_color": "#424242",
-        "background_color": "#F5450D",
-        "text_color": "#FFFFFF",
-        "card_background": "#FFFFFF",
-        "padding_top": 64,
-        "padding_bottom": 64
-      },
       "blocks": {
         "card_1": {
           "type": "card",
           "settings": {
-            "body": "<p>Grown using regenerative practices inside agroforestry systems, so each harvest improves soil health while our forest stays standing.</p>",
-            "heading": "Agroforestry coffee"
+            "heading": "Agroforestry coffee",
+            "body": "<p>Grown using regenerative practices inside agroforestry systems, so each harvest improves soil health while our forest stays standing.</p>"
           }
         },
         "card_2": {
           "type": "card",
           "settings": {
-            "body": "<p>At least 1% of our revenue goes to environmental causes.</p>",
-            "heading": "Funding nature"
+            "heading": "Funding nature",
+            "body": "<p>At least 1% of our revenue goes to environmental causes.</p>"
           }
         },
         "card_3": {
           "type": "card",
           "settings": {
-            "body": "<p>Good coffee starts with the people who grow it.</p>",
-            "heading": "Direct relationships"
+            "heading": "Direct relationships",
+            "body": "<p>Good coffee starts with the people who grow it.</p>"
           }
         },
         "card_4": {
           "type": "card",
           "settings": {
-            "body": "<p>Specialty coffee, roasted fresh each month.</p>",
-            "heading": "Made for your ritual"
+            "heading": "Made for your ritual",
+            "body": "<p>Specialty coffee, roasted fresh each month.</p>"
           }
         }
       },
@@ -145,10 +142,92 @@
         "card_2",
         "card_3",
         "card_4"
-      ]
+      ],
+      "name": "OWV2 Value grid",
+      "settings": {
+        "heading": "",
+        "mobile_hint_text": "← SWIPE →",
+        "card_heading_color": "#f5450d",
+        "card_body_color": "#424242",
+        "background_color": "#f5450d",
+        "text_color": "#ffffff",
+        "card_background": "#ffffff",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     },
     "owv2_products": {
       "type": "od-featured-products",
+      "blocks": {
+        "collection_1": {
+          "type": "collection",
+          "settings": {
+            "grade_badge": "GRADE 1",
+            "product_item": "",
+            "highlight_card": false,
+            "banner_text": "★ BEST VALUE",
+            "collection_tag": "FRUITY & FLORAL",
+            "collection_title": "Wild Bloom",
+            "collection_blurb": "Tastes like the sip you steal before anyone else is awake: bright, floral — and a little unhinged. Best for pour-over, cold brew, and nitro.",
+            "price_caption": "",
+            "benefit_1": "",
+            "benefit_2": "",
+            "benefit_3": "",
+            "show_subscription_notice": false,
+            "subscription_notice_text": "For subscriptions, [click here].",
+            "subscription_custom_url": ""
+          }
+        },
+        "collection_2": {
+          "type": "collection",
+          "settings": {
+            "grade_badge": "GRADE 1",
+            "product_item": "",
+            "highlight_card": false,
+            "banner_text": "★ BEST VALUE",
+            "collection_tag": "NUTTY ESPRESSO",
+            "collection_title": "Forest Trail",
+            "collection_blurb": "Coffee for comfort with sweet notes of chocolate and toasty nuts — and a hug from the inside. Best for espresso and milk-based drinks.",
+            "price_caption": "",
+            "benefit_1": "",
+            "benefit_2": "",
+            "benefit_3": "",
+            "show_subscription_notice": false,
+            "subscription_notice_text": "For subscriptions, [click here].",
+            "subscription_custom_url": ""
+          }
+        },
+        "collection_3": {
+          "type": "collection",
+          "settings": {
+            "grade_badge": "GRADE 1",
+            "product_item": "",
+            "highlight_card": false,
+            "banner_text": "★ BEST VALUE",
+            "collection_tag": "RARE FUNK",
+            "collection_title": "Limited Reserve",
+            "collection_blurb": "A rare micro-lot production that blurs the line between coffee, tea, fruit, and wine. Best for pour-over, cold brew, and nitro.",
+            "price_caption": "",
+            "benefit_1": "",
+            "benefit_2": "",
+            "benefit_3": "",
+            "show_subscription_notice": false,
+            "subscription_notice_text": "For subscriptions, [click here].",
+            "subscription_custom_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_1",
+        "collection_2",
+        "collection_3"
+      ],
+      "custom_css": [
+        "h2,h3 {font-weight: 900;}",
+        "[class^=\"card-\"] {border-color: #f5450d; border-radius: 12px; overflow: hidden;}",
+        "[class*=\"im8-cta-\"] {border-radius: 999px;}",
+        "@media (max-width: 749px) {[class^=\"slider-track-\"] {display: grid; grid-template-columns: 1fr; } [class^=\"card-\"] {width: 100%; min-width: 0; } [class^=\"nav-btn-\"] {display: none !important; }}"
+      ],
       "name": "OD Featured Products",
       "settings": {
         "show_card_variant_selector": true,
@@ -160,14 +239,15 @@
         "heading": "Drink for Planet Earth",
         "subheading": "<p>Caffeine without the damn jitters so you can stay high without coming down. Specialty coffee roasted fresh each month. Delivered as and when you need clean fuel. Then we put your dollars to work restoring the beautiful places that inspire us to adventure outside. So please, drink for Planet Earth.</p>",
         "heading_tag": "h2",
-        "background_color": "#F1ECE2",
-        "heading_color": "#F5450D",
+        "background_color": "#f1ece2",
+        "heading_color": "#f5450d",
         "text_color": "#424242",
-        "benefit_text_color": "#1B1B1B",
-        "descriptor_color": "#F5450D",
-        "price_color": "#F5450D",
-        "emphasis_color": "#F5450D",
+        "benefit_text_color": "#1b1b1b",
+        "descriptor_color": "#f5450d",
+        "price_color": "#f5450d",
+        "emphasis_color": "#f5450d",
         "view_all_label": "",
+        "view_all_link": "",
         "section_padding_top": 40,
         "section_padding_bottom": 40,
         "mobile_padding_horizontal": 20,
@@ -177,121 +257,46 @@
         "price_caption_margin_bottom": 4,
         "image_aspect_ratio": "1/1",
         "button_action": "add_to_cart",
-        "button_bg_color": "#F5450D",
-        "button_text_color": "#FFFFFF"
-      },
-      "blocks": {
-        "collection_1": {
-          "type": "collection",
-          "settings": {
-            "highlight_card": false,
-            "banner_text": "★ BEST VALUE",
-            "collection_tag": "FRUITY & FLORAL",
-            "show_subscription_notice": false,
-            "subscription_notice_text": "For subscriptions, [click here].",
-            "product_item": "",
-            "collection_title": "Wild Bloom",
-            "collection_blurb": "Tastes like the sip you steal before anyone else is awake: bright, floral — and a little unhinged. Best for pour-over, cold brew, and nitro.",
-            "grade_badge": "GRADE 1"
-          }
-        },
-        "collection_2": {
-          "type": "collection",
-          "settings": {
-            "highlight_card": false,
-            "banner_text": "★ BEST VALUE",
-            "collection_tag": "NUTTY ESPRESSO",
-            "show_subscription_notice": false,
-            "subscription_notice_text": "For subscriptions, [click here].",
-            "product_item": "",
-            "collection_title": "Forest Trail",
-            "collection_blurb": "Coffee for comfort with sweet notes of chocolate and toasty nuts — and a hug from the inside. Best for espresso and milk-based drinks.",
-            "grade_badge": "GRADE 1"
-          }
-        },
-        "collection_3": {
-          "type": "collection",
-          "settings": {
-            "highlight_card": false,
-            "banner_text": "★ BEST VALUE",
-            "collection_tag": "RARE FUNK",
-            "show_subscription_notice": false,
-            "subscription_notice_text": "For subscriptions, [click here].",
-            "product_item": "",
-            "collection_title": "Limited Reserve",
-            "collection_blurb": "A rare micro-lot production that blurs the line between coffee, tea, fruit, and wine. Best for pour-over, cold brew, and nitro.",
-            "grade_badge": "GRADE 1"
-          }
-        }
-      },
-      "block_order": [
-        "collection_1",
-        "collection_2",
-        "collection_3"
-      ],
-      "custom_css": [
-        "h2,h3{font-weight:900;}",
-        "[class^=\"card-\"]{border-color:#F5450D;border-radius:12px;overflow:hidden;}",
-        "[class*=\"im8-cta-\"]{border-radius:999px;}",
-        "@media(max-width:749px){[class^=\"slider-track-\"]{display:grid;grid-template-columns:1fr;}[class^=\"card-\"]{width:100%;min-width:0;}[class^=\"nav-btn-\"]{display:none!important;}}"
-      ]
+        "button_bg_color": "#f5450d",
+        "button_text_color": "#ffffff"
+      }
     },
     "owv2_subscribe": {
       "type": "owv2-subscribe",
-      "name": "OWV2 Subscription spot",
-      "settings": {
-        "badge_text": "SUBSCRIBE & SAVE 10%",
-        "heading": "Keep the ritual going and never run low on energy",
-        "body": "<p>Fresh roast on your schedule. Save 10% on every delivery. And each subscription helps us do more for you and our planet. Skip, swap or cancel any time.</p>",
-        "step1_label": "Pick your roast",
-        "step2_label": "Select your quantity",
-        "step3_label": "Set your frequency",
-        "summary_title": "YOUR SUBSCRIPTION",
-        "shipping_note": "Freshly roasted. Delivered on your schedule.",
-        "cta_label": "Start subscription",
-        "discount_percent": 10,
-        "savings_template": "Save [amount] every delivery",
-        "empty_message": "Choose your coffee options to get started.",
-        "background_color": "#FBDCDC",
-        "text_color": "#F5450D",
-        "card_background": "#FFFFFF",
-        "padding_top": 64,
-        "padding_bottom": 64
-      },
       "blocks": {
         "roast_1": {
           "type": "roast",
           "settings": {
-            "price": 560,
-            "label": "Wild Bloom"
+            "label": "Wild Bloom",
+            "price": 560
           }
         },
         "roast_2": {
           "type": "roast",
           "settings": {
-            "price": 540,
-            "label": "Forest Trail"
+            "label": "Forest Trail",
+            "price": 540
           }
         },
         "roast_3": {
           "type": "roast",
           "settings": {
-            "price": 800,
-            "label": "Limited Reserve"
+            "label": "Limited Reserve",
+            "price": 800
           }
         },
         "size_4": {
           "type": "size",
           "settings": {
-            "price_modifier": 0,
-            "label": "200 g"
+            "label": "200 g",
+            "price_modifier": 0
           }
         },
         "size_5": {
           "type": "size",
           "settings": {
-            "price_modifier": 560,
-            "label": "400 g"
+            "label": "400 g",
+            "price_modifier": 560
           }
         },
         "frequency_6": {
@@ -322,65 +327,72 @@
         "frequency_6",
         "frequency_7",
         "frequency_8"
-      ]
+      ],
+      "name": "OWV2 Subscription spot",
+      "settings": {
+        "badge_text": "SUBSCRIBE & SAVE 10%",
+        "heading": "Keep the ritual going and never run low on energy",
+        "body": "<p>Fresh roast on your schedule. Save 10% on every delivery. And each subscription helps us do more for you and our planet. Skip, swap or cancel any time.</p>",
+        "step1_label": "Pick your roast",
+        "step2_label": "Select your quantity",
+        "step3_label": "Set your frequency",
+        "summary_title": "YOUR SUBSCRIPTION",
+        "shipping_note": "Freshly roasted. Delivered on your schedule.",
+        "cta_label": "Start subscription",
+        "cta_link": "",
+        "discount_percent": 10,
+        "savings_template": "Save [amount] every delivery",
+        "empty_message": "Choose your coffee options to get started.",
+        "background_color": "#fbdcdc",
+        "text_color": "#f5450d",
+        "card_background": "#ffffff",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     },
     "owv2_regen": {
       "type": "owv2-regen",
-      "name": "OWV2 Regen education",
-      "settings": {
-        "eyebrow": "NO APP. NO AI. NO PROBLEM.",
-        "heading": "The most powerful climate solution is in what you eat and drink",
-        "caption": "Good coffee starts with living soil.",
-        "cta_label": "How regen farming works →",
-        "background_color": "#F1ECE2",
-        "text_color": "#F5450D",
-        "card_background": "#FFFFFF",
-        "padding_top": 64,
-        "padding_bottom": 64,
-        "illustration": "shopify://shop_images/garut-volcanic-scene-illustration_1.png",
-        "cta_link": ""
-      },
       "blocks": {
         "point_1": {
           "type": "point",
           "settings": {
-            "body": "<p>Tree canopies cool the ground and shelter critical wildlife.</p>",
-            "title": "Canopy cools the ground"
+            "title": "Canopy cools the ground",
+            "body": "<p>Tree canopies cool the ground and shelter critical wildlife.</p>"
           }
         },
         "point_2": {
           "type": "point",
           "settings": {
-            "body": "<p>Healthy root systems help keep soil in place on steep slopes.</p>",
-            "title": "Roots hold the slope together"
+            "title": "Roots hold the slope together",
+            "body": "<p>Healthy root systems help keep soil in place on steep slopes.</p>"
           }
         },
         "point_3": {
           "type": "point",
           "settings": {
-            "body": "<p>A mix of trees and crops creates habitat and supports a thriving ecosystem.</p>",
-            "title": "Diversity keeps the land resilient"
+            "title": "Diversity keeps the land resilient",
+            "body": "<p>A mix of trees and crops creates habitat and supports a thriving ecosystem.</p>"
           }
         },
         "point_4": {
           "type": "point",
           "settings": {
-            "body": "<p>Keeping forests standing protects the carbon stored in trees and soil.</p>",
-            "title": "Forests store more carbon than air"
+            "title": "Forests store more carbon than air",
+            "body": "<p>Keeping forests standing protects the carbon stored in trees and soil.</p>"
           }
         },
         "point_5": {
           "type": "point",
           "settings": {
-            "body": "<p>Healthy soil absorbs and holds water for the landscape.</p>",
-            "title": "Living soil banks the water"
+            "title": "Living soil banks the water",
+            "body": "<p>Healthy soil absorbs and holds water for the landscape.</p>"
           }
         },
         "point_6": {
           "type": "point",
           "settings": {
-            "body": "<p>Roots and living soil help filter water as it moves through the ground.</p>",
-            "title": "The oldest filtration tech there is"
+            "title": "The oldest filtration tech there is",
+            "body": "<p>Roots and living soil help filter water as it moves through the ground.</p>"
           }
         }
       },
@@ -391,41 +403,56 @@
         "point_4",
         "point_5",
         "point_6"
-      ]
+      ],
+      "name": "OWV2 Regen education",
+      "settings": {
+        "eyebrow": "NO APP. NO AI. NO PROBLEM.",
+        "heading": "The most powerful climate solution is in what you eat and drink",
+        "caption": "Good coffee starts with living soil.",
+        "cta_label": "How regen farming works →",
+        "cta_link": "",
+        "background_color": "#f1ece2",
+        "text_color": "#f5450d",
+        "card_background": "#ffffff",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     },
     "owv2_story": {
       "type": "owv2-story",
-      "name": "OWV2 Founder story",
-      "settings": {
-        "eyebrow": "HOW WE GOT HERE",
-        "heading": "We plunged our entire life savings into conservation — and then went broke",
-        "subcopy": "<p>It started with a one-way ticket to Bali.</p>",
-        "teaser_text": "11 more photographs.",
-        "background_color": "#FBDCDC",
-        "text_color": "#F5450D",
-        "card_background": "#FFFFFF",
-        "padding_top": 64,
-        "padding_bottom": 64,
-        "teaser_link": ""
-      },
       "blocks": {
         "photo_1": {
           "type": "photo",
           "settings": {
-            "caption": "It started with a one-way ticket to Bali."
+            "caption": "It started with a one-way ticket to Bali.",
+            "link": ""
           }
         },
         "photo_2": {
           "type": "photo",
           "settings": {
-            "caption": "A shared love for wild places."
+            "caption": "A shared love for wild places.",
+            "link": ""
           }
         }
       },
       "block_order": [
         "photo_1",
         "photo_2"
-      ]
+      ],
+      "name": "OWV2 Founder story",
+      "settings": {
+        "eyebrow": "HOW WE GOT HERE",
+        "heading": "We plunged our entire life savings into conservation — and then went broke",
+        "subcopy": "<p>It started with a one-way ticket to Bali.</p>",
+        "teaser_text": "11 more photographs.",
+        "teaser_link": "",
+        "background_color": "#fbdcdc",
+        "text_color": "#f5450d",
+        "card_background": "#ffffff",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     },
     "owv2_banner": {
       "type": "owv2-banner",
@@ -434,48 +461,44 @@
         "heading": "Drink like you give a damn",
         "overlay_color": "#000000",
         "overlay_opacity": 35,
+        "link": "",
         "min_height": 480,
         "min_height_mobile": 240,
-        "background_color": "#F1ECE2",
-        "text_color": "#FFFFFF",
-        "card_background": "#FFFFFF",
+        "background_color": "#f1ece2",
+        "text_color": "#ffffff",
+        "card_background": "#ffffff",
         "padding_top": 64,
-        "padding_bottom": 64,
-        "image": ""
+        "padding_bottom": 64
       }
     },
     "owv2_values": {
       "type": "owv2-values",
-      "name": "OWV2 Values",
-      "settings": {
-        "heading": "There are many reasons to give a damn…",
-        "intro": "<p>Maybe you're here for the vibes and adventure. Or for a damn good cup of coffee. And you don't have to care about the climate for any of that, but there's one thing none of us can opt out of: everything that sustains the fun in this world runs on healthy ecosystems. So drink like you give a damn, whatever your reason. And we will do our part:</p>",
-        "background_color": "#F1ECE2",
-        "text_color": "#F5450D",
-        "card_background": "#FFFFFF",
-        "padding_top": 64,
-        "padding_bottom": 64
-      },
       "blocks": {
         "value_1": {
           "type": "value",
           "settings": {
+            "heading": "Regenerative Farming",
             "body": "<p>Soil health is nurtured by the farmers we grow alongside, season after season, through regenerative agriculture: our direct mechanism for better food and climate resilience.</p>",
-            "heading": "Regenerative Farming"
+            "cta_label": "",
+            "cta_link": ""
           }
         },
         "value_2": {
           "type": "value",
           "settings": {
+            "heading": "1% for the Planet",
             "body": "<p>Regenerative farming is just one part of caring for our planet. As members of 1% for the Planet, we give at minimum one percent of annual sales to environmental organisations working hard beyond our own supply chains.</p>",
-            "heading": "1% for the Planet"
+            "cta_label": "",
+            "cta_link": ""
           }
         },
         "value_3": {
           "type": "value",
           "settings": {
+            "heading": "Fully Recyclable",
             "body": "<p>Pretty \"paper\" bags that can't be recycled. BS \"compostable\" claims that don't actually degrade. None of that is eco-friendly. It's plain greenwashing. Ours is fully recyclable: one PE material from start to finish.</p>",
-            "heading": "Fully Recyclable"
+            "cta_label": "",
+            "cta_link": ""
           }
         }
       },
@@ -483,7 +506,17 @@
         "value_1",
         "value_2",
         "value_3"
-      ]
+      ],
+      "name": "OWV2 Values",
+      "settings": {
+        "heading": "There are many reasons to give a damn…",
+        "intro": "<p>Maybe you're here for the vibes and adventure. Or for a damn good cup of coffee. And you don't have to care about the climate for any of that, but there's one thing none of us can opt out of: everything that sustains the fun in this world runs on healthy ecosystems. So drink like you give a damn, whatever your reason. And we will do our part:</p>",
+        "background_color": "#f1ece2",
+        "text_color": "#f5450d",
+        "card_background": "#ffffff",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     },
     "owv2_partner": {
       "type": "owv2-partner",
@@ -492,12 +525,12 @@
         "eyebrow": "HOTELS · CAFÉS · OFFICES",
         "heading": "Bring Omawild to your workplace, hotel, or retail shelves.",
         "cta_label": "Become a partner",
-        "background_color": "#F5450D",
-        "text_color": "#FFFFFF",
-        "card_background": "#FFFFFF",
+        "cta_link": "",
+        "background_color": "#f5450d",
+        "text_color": "#ffffff",
+        "card_background": "#ffffff",
         "padding_top": 64,
-        "padding_bottom": 64,
-        "cta_link": ""
+        "padding_bottom": 64
       }
     },
     "owv2_newsletter": {
@@ -510,9 +543,9 @@
         "email_label": "Email address",
         "button_label": "Subscribe",
         "success_message": "You’re on the list. Welcome to the expedition!",
-        "background_color": "#FBDCDC",
-        "text_color": "#F5450D",
-        "card_background": "#FFFFFF",
+        "background_color": "#fbdcdc",
+        "text_color": "#f5450d",
+        "card_background": "#ffffff",
         "padding_top": 64,
         "padding_bottom": 64
       }
@@ -539,7 +572,6 @@
             "cta_link": "",
             "link_text": "Or learn about regen",
             "link_url": "",
-            "illustration": "shopify://shop_images/garut-volcanic-scene-illustration_1.png",
             "illustration_alt": "Regenerative farm ecosystem — Garut, West Java",
             "ann_1": "Tree canopies cool soil temperature by up to 10°C and create vital wildlife habitats",
             "ann_2": "Deep roots act like underground anchors, preventing landslides and soil erosion",
@@ -659,9 +691,9 @@
         "ow_tagline_XDJbhL",
         "ow_why_FXFXqd"
       ],
+      "disabled": true,
       "name": "OW Landing",
-      "settings": {},
-      "disabled": true
+      "settings": {}
     }
   },
   "order": [
