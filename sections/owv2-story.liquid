@@ -95,15 +95,17 @@
   scroll-snap-type: none !important;
   }
 }
+.owv2-story-{{ owid }} .gallery-wrap {
+  position:relative;
+  }
 .owv2-story-{{ owid }} .gallery {
-  display:grid;
-  grid-template-columns:repeat(3, minmax(0, 1fr));
+  display:flex;
+  flex-wrap:wrap;
   gap:24px;
-  overflow:visible;
   padding:0;
   }
 .owv2-story-{{ owid }} figure, .owv2-story-{{ owid }} .teaser {
-  flex:0 0 calc((100% - 48px) / 3);
+  flex:0 0 calc((100% - 72px) / 4);
   min-width:0;
   margin:0;
   padding:12px;
@@ -112,45 +114,106 @@
   box-shadow:5px 5px 0 var(--ink);
   scroll-snap-align:start;
   }
-.owv2-story-{{ owid }} figure img, .owv2-story-{{ owid }} figure svg {
+.owv2-story-{{ owid }} figure {
+  display:flex;
+  flex-direction:column;
+  }
+/* Keep the image from claiming the figure's full height (the placeholder rule
+   sets height:100%, which pushes the caption outside the card); let it size
+   from its aspect ratio so the caption sits inside the card. */
+.owv2-story-{{ owid }} figure img, .owv2-story-{{ owid }} figure svg, .owv2-story-{{ owid }} figure .owv2-placeholder {
   width:100%;
-  aspect-ratio:4/3;
+  aspect-ratio:4/5;
   object-fit:cover;
+  height:auto;
+  min-height:0;
   }
 .owv2-story-{{ owid }} figcaption {
-  padding:14px 0 4px;
+  margin-top:16px;
+  padding:0 4px 2px;
   text-align:center;
   font-size:14px;
   }
 .owv2-story-{{ owid }} .teaser {
   display:none;
   }
-@media(max-width:749px) {
-  .owv2-story-{{ owid }} .gallery {
-  display:flex;
+/* Desktop carousel: once there are more than four cards, the row stops
+   wrapping and becomes a horizontal drag-scroll rail (same pattern as the old
+   homepage's about-cards carousel). Four narrow cards stay in view; the rest
+   scroll. */
+.owv2-story-{{ owid }} .gallery-wrap.is-scroll .gallery {
+  flex-wrap:nowrap;
   overflow-x:auto;
   overflow-y:hidden;
-  padding:0 6px 10px 0;
   scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  padding:6px 0 16px;
+  cursor:grab;
+  }
+.owv2-story-{{ owid }} .gallery-wrap.is-scroll .gallery::-webkit-scrollbar {
+  display:none;
+  }
+.owv2-story-{{ owid }} .gallery-wrap.is-scroll .gallery.dragging {
+  cursor:grabbing;
+  user-select:none;
+  }
+.owv2-story-{{ owid }} .gallery-wrap.is-scroll .gallery::after {
+  content:"";
+  flex:0 0 6px;
+  }
+.owv2-story-{{ owid }} .scroll-fade {
+  position:absolute;
+  top:0;
+  bottom:16px;
+  width:56px;
+  pointer-events:none;
+  transition:opacity .2s ease;
+  }
+.owv2-story-{{ owid }} .scroll-fade-left {
+  left:0;
+  background:linear-gradient(to right, var(--bg), rgba(0,0,0,0));
+  }
+.owv2-story-{{ owid }} .scroll-fade-right {
+  right:0;
+  background:linear-gradient(to left, var(--bg), rgba(0,0,0,0));
+  }
+.owv2-story-{{ owid }} .scroll-fade.hide {
+  opacity:0;
+  }
+@media(max-width:749px) {
+  .owv2-story-{{ owid }} .gallery {
+  flex-wrap:nowrap;
+  overflow-x:auto;
+  overflow-y:hidden;
+  padding:6px 6px 16px 0;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  }
+  .owv2-story-{{ owid }} .gallery::-webkit-scrollbar {
+  display:none;
   }
   .owv2-story-{{ owid }} figure, .owv2-story-{{ owid }} .teaser {
   flex-basis:80%;
   }
   .owv2-story-{{ owid }} .teaser {
   display:flex;
+  flex-direction:column;
   align-items:center;
   justify-content:center;
   text-align:center;
   }
 }
 {% endstyle %}
-<div class="owv2-story-{{ owid }}">
+<div class="owv2-story-{{ owid }} owv2-story">
 <div class="inner">
 <div class="intro">
 <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
 <h2>{{ section.settings.heading }}</h2>
 <div>{{ section.settings.subcopy }}</div>
 </div>
+<div class="gallery-wrap{% if section.blocks.size > 4 %} is-scroll{% endif %}">
 <div class="gallery">
 {% for block in section.blocks %}
 <figure {{ block.shopify_attributes }}>
@@ -174,8 +237,14 @@
 </div>
 {% endif %}
 </div>
+{% if section.blocks.size > 4 %}
+<div class="scroll-fade scroll-fade-left hide" aria-hidden="true"></div>
+<div class="scroll-fade scroll-fade-right hide" aria-hidden="true"></div>
+{% endif %}
 </div>
 </div>
+</div>
+{% if section.blocks.size > 4 %}<script src="{{ 'owv2-story.js' | asset_url }}" defer></script>{% endif %}
 {% schema %}
 {
   "name": "OWV2 Founder story",

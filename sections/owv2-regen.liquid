@@ -142,7 +142,7 @@
   }
 }
 {% endstyle %}
-<div class="owv2-regen-{{ owid }}">
+<div class="owv2-regen-{{ owid }} owv2-regen">
 <div class="inner">
 <div class="intro">
 <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
@@ -175,6 +175,7 @@
 </div>
 </div>
 </div>
+<script src="{{ 'owv2-regen.js' | asset_url }}" defer></script>
 {% schema %}
 {
   "name": "OWV2 Regen education",
