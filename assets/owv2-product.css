@@ -41,3 +41,21 @@ owv2-product {
 .pdp-buy .product-form__buttons{display:flex;flex-direction:column;gap:12px;margin:8px 0 0;padding:0}
 .pdp-buy .product-form__submit{font:600 15px/1 var(--font-body-family);letter-spacing:.02em;padding:16px 24px;border-radius:999px;border:0;background:var(--owv2-product-ink);color:var(--owv2-product-bg);cursor:pointer}
 .pdp-buy .product-form__submit[disabled]{opacity:.4;cursor:not-allowed}
+
+/* Task 5: mobile sticky add-to-cart bar. Own styling (no vendor
+   component-product-sticky-cart.css reuse — its class names/markup shape
+   don't match ours, and pulling it in risks bleeding unrelated vendor rules
+   onto this page). Hidden entirely above 749px; shown as a fixed bottom bar
+   below it, matching the theme's single 749px breakpoint. */
+.pdp-sticky{display:none}
+@media (max-width: 749px){
+  .pdp-sticky{
+    position:fixed;inset:auto 0 0 0;display:flex;align-items:center;justify-content:space-between;
+    gap:12px;padding:12px max(16px,4vw) calc(12px + env(safe-area-inset-bottom,0px));
+    background:var(--owv2-product-bg);border-top:1px solid var(--owv2-product-ink);z-index:5;
+  }
+  .pdp-sticky[hidden]{display:none}
+}
+.pdp-sticky__price{font:900 20px/1 var(--font-heading-family)}
+.pdp-sticky__cta{font:600 15px/1 var(--font-body-family);letter-spacing:.02em;padding:14px 28px;border-radius:999px;border:0;background:var(--owv2-product-ink);color:var(--owv2-product-bg);cursor:pointer}
+.pdp-sticky__cta[disabled]{opacity:.4;cursor:not-allowed}

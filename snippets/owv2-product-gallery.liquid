@@ -34,6 +34,7 @@
     {%- for media in product.media -%}
       <li>
         <button type="button" class="pdp-gallery__thumb" data-media-id="{{ media.id }}"
+          data-full-src="{{ media.preview_image | image_url: width: 1200 }}"
           aria-label="{{ 'products.product.media.load_image' | t: index: forloop.index }}">
           {{ media.preview_image | image_url: width: 200 | image_tag: loading: 'lazy', widths: '100,200' }}
         </button>

@@ -17,7 +17,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
   grid-template-areas: "gallery label" "gallery buy" "gallery funds";
-  grid-template-rows: auto auto 1fr;
+  grid-template-rows: auto 1fr auto;
   gap: clamp(24px, 4vw, 64px);
   align-items: start;
   max-width: 1320px;
@@ -34,6 +34,14 @@
 {% endstyle %}
 <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+{% comment %}
+  pubsub.js is already loaded globally by layout/theme.liquid, ahead of this
+  section — re-including its <script> tag here would redefine PUB_SUB_EVENTS
+  and reset the module-scope `subscribers` object, silently unsubscribing any
+  listener registered before this section's markup runs. Only our own
+  controller needs a tag.
+{% endcomment %}
+<script src="{{ 'owv2-product.js' | asset_url }}" defer="defer"></script>
 <div class="owv2-product-{{ owid }}">
   <owv2-product data-section="{{ section.id }}">
     <product-info data-section="{{ section.id }}" data-url="{{ product.url }}" data-update-url="false" class="pdp-product-info">
@@ -44,6 +52,10 @@
         <div data-region="funds"></div>
       </div>
     </product-info>
+    <div class="pdp-sticky" data-sticky-bar hidden>
+      <span class="pdp-sticky__price" data-sticky-price></span>
+      <button type="button" class="pdp-sticky__cta" data-sticky-cta>{{ 'products.product.add_to_cart' | t }}</button>
+    </div>
   </owv2-product>
 </div>
 {% schema %}
