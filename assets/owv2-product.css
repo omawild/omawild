@@ -7,3 +7,10 @@
 owv2-product {
   display: block;
 }
+
+/* Task 2: label hero (eyebrow, title, tagline, tasting-note tags) */
+.pdp-eyebrow{font:700 12px/1.3 var(--font-body-family);letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin:0 0 12px}
+.pdp-title{font-size:clamp(32px,4.5vw,56px)}
+.pdp-tagline{font-size:18px;line-height:1.4;margin:14px 0 0;max-width:38ch}
+.pdp-tags{list-style:none;display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:18px 0 0}
+.pdp-tags li{border:1px solid currentColor;border-radius:999px;padding:6px 14px;font:600 13px var(--font-body-family)}
