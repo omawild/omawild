@@ -1,0 +1,10 @@
+{% comment %} "What this bag funds" block. Requires: section, product. {% endcomment %}
+{%- if section.settings.funds_heading != blank or section.settings.funds_body != blank -%}
+<aside class="pdp-funds">
+  {%- if section.settings.funds_heading != blank -%}<h2 class="pdp-funds__h">{{ section.settings.funds_heading | escape }}</h2>{%- endif -%}
+  {%- if section.settings.funds_body != blank -%}<div class="pdp-funds__body">{{ section.settings.funds_body }}</div>{%- endif -%}
+  {%- if section.settings.funds_link_label != blank and section.settings.funds_link != blank -%}
+    <a class="pdp-funds__link" href="{{ section.settings.funds_link }}">{{ section.settings.funds_link_label | escape }}</a>
+  {%- endif -%}
+</aside>
+{%- endif -%}

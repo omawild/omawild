@@ -49,7 +49,7 @@
         <div data-region="label">{% render 'owv2-product-label', product: product %}</div>
         <div data-region="gallery">{% render 'owv2-product-gallery', product: product %}</div>
         <div data-region="buy">{% render 'owv2-product-buy', product: product %}</div>
-        <div data-region="funds"></div>
+        <div data-region="funds">{% render 'owv2-product-funds', section: section, product: product %}</div>
       </div>
     </product-info>
     <div class="pdp-sticky" data-sticky-bar>
@@ -67,6 +67,11 @@
   "tag": "section",
   "class": "owv2-product-section",
   "settings": [
+    { "type": "header", "content": "What this bag funds" },
+    { "type": "text", "id": "funds_heading", "label": "Funds heading", "default": "1% for the Planet" },
+    { "type": "richtext", "id": "funds_body", "label": "Funds body", "default": "<p>1% of every bag funds forest-friendly farming.</p>" },
+    { "type": "url", "id": "funds_link", "label": "Funds link" },
+    { "type": "text", "id": "funds_link_label", "label": "Funds link label" },
     { "type": "color", "id": "background_color", "label": "Background color", "default": "#FFFFFF" },
     { "type": "color", "id": "text_color", "label": "Text color", "default": "#161616" },
     { "type": "color", "id": "card_background", "label": "Card background", "default": "#F5F1EA" },

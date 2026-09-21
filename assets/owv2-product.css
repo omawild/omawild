@@ -59,3 +59,9 @@ owv2-product {
 .pdp-sticky__price{font:900 20px/1 var(--font-heading-family)}
 .pdp-sticky__cta{font:600 15px/1 var(--font-body-family);letter-spacing:.02em;padding:14px 28px;border-radius:999px;border:0;background:var(--owv2-product-ink);color:var(--owv2-product-bg);cursor:pointer}
 .pdp-sticky__cta[disabled]{opacity:.4;cursor:not-allowed}
+
+/* Task 6: "What this bag funds" block */
+.pdp-funds{background:var(--owv2-product-surface);border-radius:14px;padding:22px}
+.pdp-funds__h{font:600 20px var(--font-heading-family);margin:0 0 8px}
+.pdp-funds__body{font-size:15px;line-height:1.5}
+.pdp-funds__link{display:inline-block;margin-top:12px;font-weight:700;text-decoration:underline}
