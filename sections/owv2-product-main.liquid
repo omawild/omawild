@@ -1,0 +1,59 @@
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{{ 'owv2-product.css' | asset_url | stylesheet_tag }}
+{% style %}
+.owv2-product-{{ owid }} {
+  box-sizing: border-box;
+  --owv2-product-bg: {{ section.settings.background_color }};
+  --owv2-product-ink: {{ section.settings.text_color }};
+  --owv2-product-surface: {{ section.settings.card_background }};
+  background: var(--owv2-product-bg);
+  color: var(--owv2-product-ink);
+  font-family: var(--font-body-family);
+  padding: {{ section.settings.padding_top }}px max(20px, 5vw) {{ section.settings.padding_bottom }}px;
+}
+.owv2-product-{{ owid }} *, .owv2-product-{{ owid }} *::before, .owv2-product-{{ owid }} *::after { box-sizing: border-box; }
+.owv2-product-{{ owid }} h1 { font-family: var(--font-heading-family); font-weight: 600; letter-spacing: -.03em; line-height: 1.05; margin: 0; }
+.owv2-product-{{ owid }} .fold {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  grid-template-areas: "gallery label" "gallery buy" "gallery funds";
+  grid-template-rows: auto auto 1fr;
+  gap: clamp(24px, 4vw, 64px);
+  align-items: start;
+  max-width: 1320px;
+  margin-inline: auto;
+}
+.owv2-product-{{ owid }} [data-region="gallery"] { grid-area: gallery; }
+.owv2-product-{{ owid }} [data-region="label"] { grid-area: label; }
+.owv2-product-{{ owid }} [data-region="buy"] { grid-area: buy; position: sticky; top: 24px; }
+.owv2-product-{{ owid }} [data-region="funds"] { grid-area: funds; }
+@media (max-width: 749px) {
+  .owv2-product-{{ owid }} .fold { display: flex; flex-direction: column; gap: 20px; }
+  .owv2-product-{{ owid }} [data-region="buy"] { position: static; }
+}
+{% endstyle %}
+<div class="owv2-product-{{ owid }}">
+  <owv2-product data-section="{{ section.id }}">
+    <div class="fold">
+      <div data-region="label"></div>
+      <div data-region="gallery"></div>
+      <div data-region="buy"></div>
+      <div data-region="funds"></div>
+    </div>
+  </owv2-product>
+</div>
+{% schema %}
+{
+  "name": "OWV2 Product main",
+  "tag": "section",
+  "class": "owv2-product-section",
+  "settings": [
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#FFFFFF" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#161616" },
+    { "type": "color", "id": "card_background", "label": "Card background", "default": "#F5F1EA" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 48 }
+  ],
+  "presets": [{ "name": "OWV2 Product main" }]
+}
+{% endschema %}

@@ -1,0 +1,9 @@
+/* owv2-product.css
+ * Shared styling for sections/owv2-product-main.liquid.
+ * Grown across the owv2 product-detail tasks; this task only lays the
+ * section-scoped custom-element display rule (the section's {% style %}
+ * block owns the .fold grid rules since they depend on {{ owid }}).
+ */
+owv2-product {
+  display: block;
+}
