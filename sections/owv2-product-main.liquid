@@ -52,9 +52,12 @@
         <div data-region="funds"></div>
       </div>
     </product-info>
-    <div class="pdp-sticky" data-sticky-bar hidden>
-      <span class="pdp-sticky__price" data-sticky-price></span>
-      <button type="button" class="pdp-sticky__cta" data-sticky-cta>{{ 'products.product.add_to_cart' | t }}</button>
+    <div class="pdp-sticky" data-sticky-bar>
+      <span class="pdp-sticky__price" data-sticky-price>{{ product.selected_or_first_available_variant.price | money }}</span>
+      <button type="button" class="pdp-sticky__cta" data-sticky-cta
+        {%- unless product.selected_or_first_available_variant.available %} disabled{% endunless %}>
+        {{ 'products.product.add_to_cart' | t }}
+      </button>
     </div>
   </owv2-product>
 </div>

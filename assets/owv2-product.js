@@ -69,7 +69,12 @@ if (!customElements.get('owv2-product')) {
           if (show) this.compareEl.textContent = this.money(v.compare_at_price);
         }
 
-        if (this.stickyBar) this.stickyBar.hidden = false;
+        // The sticky bar's existence/visibility is rendered server-side
+        // (see sections/owv2-product-main.liquid) so it's correct on first
+        // paint even when `variant-change` never fires (single-variant
+        // products render no picker, so the event never publishes). This
+        // handler only keeps its contents in sync on subsequent changes —
+        // it must never gate `hidden`/visibility itself.
         if (this.stickyPrice) this.stickyPrice.textContent = price;
         if (this.stickyCta) this.stickyCta.disabled = v.available === false;
       }
