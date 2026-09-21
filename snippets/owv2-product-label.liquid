@@ -13,12 +13,13 @@
   {%- comment -%} taste_notes may be list.single_line_text_field OR plain text; handle both {%- endcomment -%}
   {%- assign note_items = notes -%}
   {%- unless notes.first -%}{%- assign note_items = notes | split: ',' -%}{%- endunless -%}
-  {%- if note_items.size > 0 -%}
-    <ul class="pdp-tags">
-      {%- for note in note_items -%}
-        {%- assign t = note | strip -%}
-        {%- if t != blank -%}<li>{{ t | escape }}</li>{%- endif -%}
-      {%- endfor -%}
-    </ul>
+  {%- capture tags_html -%}
+    {%- for note in note_items -%}
+      {%- assign t = note | strip -%}
+      {%- if t != blank -%}<li>{{ t | escape }}</li>{%- endif -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+  {%- if tags_html != blank -%}
+    <ul class="pdp-tags">{{ tags_html }}</ul>
   {%- endif -%}
 {%- endif -%}
