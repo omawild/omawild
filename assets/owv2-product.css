@@ -22,3 +22,22 @@ owv2-product {
 .pdp-gallery__thumb{padding:0;border:1px solid transparent;border-radius:10px;overflow:hidden;background:var(--owv2-product-surface);cursor:pointer;aspect-ratio:1/1}
 .pdp-gallery__thumb img{width:100%;height:100%;object-fit:cover}
 .pdp-gallery__thumb[aria-current="true"]{border-color:var(--owv2-product-ink)}
+
+/* Task 4: buy panel — price display + pill restyle of the vendor
+   product-variant-picker (picker_type: button) and buy-buttons output.
+   Selectors below target the vendor's own class names verbatim, captured by
+   reading snippets/product-variant-picker.liquid, product-variant-options.liquid
+   and buy-buttons.liquid; no vendor CSS is loaded for this panel. */
+.pdp-buy{display:flex;flex-direction:column;gap:20px}
+.pdp-price{display:flex;align-items:baseline;gap:10px}
+.pdp-price__now{font:900 40px/1 var(--font-heading-family)}
+.pdp-price__was{margin:0;font:400 18px/1 var(--font-body-family);opacity:.6}
+.pdp-buy .product-form__input--pill{border:0;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px 10px}
+.pdp-buy .product-form__input--pill .form__label{flex-basis:100%;font:600 12px/1.3 var(--font-body-family);text-transform:uppercase;letter-spacing:.08em;margin:0 0 4px}
+.pdp-buy .button-input__input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.pdp-buy .product-form__input--pill label{display:inline-flex;align-items:center;justify-content:center;padding:9px 18px;border:1px solid currentColor;border-radius:999px;font:600 13px/1 var(--font-body-family);cursor:pointer}
+.pdp-buy .button-input__input:checked + label{background:var(--owv2-product-ink);color:var(--owv2-product-bg)}
+.pdp-buy .button-input__input.disabled + label{opacity:.35;cursor:not-allowed;text-decoration:line-through}
+.pdp-buy .product-form__buttons{display:flex;flex-direction:column;gap:12px;margin:8px 0 0;padding:0}
+.pdp-buy .product-form__submit{font:600 15px/1 var(--font-body-family);letter-spacing:.02em;padding:16px 24px;border-radius:999px;border:0;background:var(--owv2-product-ink);color:var(--owv2-product-bg);cursor:pointer}
+.pdp-buy .product-form__submit[disabled]{opacity:.4;cursor:not-allowed}

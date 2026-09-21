@@ -32,14 +32,18 @@
   .owv2-product-{{ owid }} [data-region="buy"] { position: static; }
 }
 {% endstyle %}
+<script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
 <div class="owv2-product-{{ owid }}">
   <owv2-product data-section="{{ section.id }}">
-    <div class="fold">
-      <div data-region="label">{% render 'owv2-product-label', product: product %}</div>
-      <div data-region="gallery">{% render 'owv2-product-gallery', product: product %}</div>
-      <div data-region="buy"></div>
-      <div data-region="funds"></div>
-    </div>
+    <product-info data-section="{{ section.id }}" data-url="{{ product.url }}" data-update-url="false" class="pdp-product-info">
+      <div class="fold">
+        <div data-region="label">{% render 'owv2-product-label', product: product %}</div>
+        <div data-region="gallery">{% render 'owv2-product-gallery', product: product %}</div>
+        <div data-region="buy">{% render 'owv2-product-buy', product: product %}</div>
+        <div data-region="funds"></div>
+      </div>
+    </product-info>
   </owv2-product>
 </div>
 {% schema %}
@@ -54,6 +58,125 @@
     { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 48 },
     { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 48 }
   ],
-  "presets": [{ "name": "OWV2 Product main" }]
+  "blocks": [
+    {
+      "type": "variant_picker",
+      "name": "t:sections.main-product.blocks.variant_picker.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_variant_labels",
+          "default": true,
+          "label": "t:sections.main-product.blocks.variant_picker.settings.show_variant_labels.label"
+        },
+        {
+          "type": "select",
+          "id": "picker_type",
+          "options": [
+            {
+              "value": "dropdown",
+              "label": "t:sections.main-product.blocks.variant_picker.settings.picker_type.options__1.label"
+            },
+            {
+              "value": "button",
+              "label": "t:sections.main-product.blocks.variant_picker.settings.picker_type.options__2.label"
+            }
+          ],
+          "default": "button",
+          "label": "t:sections.main-product.blocks.variant_picker.settings.picker_type.label"
+        },
+        {
+          "type": "select",
+          "id": "swatch_source",
+          "options": [
+            {
+              "value": "variant",
+              "label": "t:settings_schema.product_tiles.settings.color_swatches_source.options__1.label"
+            },
+            {
+              "value": "file",
+              "label": "t:settings_schema.product_tiles.settings.color_swatches_source.options__2.label"
+            },
+            {
+              "value": "native",
+              "label": "t:settings_schema.product_tiles.settings.color_swatches_source.options__3.label"
+            }
+          ],
+          "default": "variant",
+          "label": "t:settings_schema.product_tiles.settings.color_swatches_source.label",
+          "info": "t:settings_schema.product_tiles.settings.color_swatches_source.info"
+        },
+        {
+          "type": "select",
+          "id": "swatch_type",
+          "options": [
+            {
+              "value": "round",
+              "label": "t:sections.main-product.blocks.variant_picker.settings.swatch_type.options__1.label"
+            },
+            {
+              "value": "square",
+              "label": "t:sections.main-product.blocks.variant_picker.settings.swatch_type.options__2.label"
+            },
+            {
+              "value": "none",
+              "label": "t:sections.main-product.blocks.variant_picker.settings.swatch_type.options__3.label"
+            }
+          ],
+          "default": "none",
+          "label": "t:sections.main-product.blocks.variant_picker.settings.swatch_type.label"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_swatch_unavailable_click",
+          "default": false,
+          "label": "t:sections.main-product.blocks.variant_picker.settings.enable_swatch_unavailable_click.label"
+        },
+        {
+          "type": "page",
+          "id": "size_chart",
+          "label": "t:sections.main-product.blocks.variant_picker.settings.size_chart.label"
+        }
+      ]
+    },
+    {
+      "type": "buy_buttons",
+      "name": "t:sections.main-product.blocks.buy_buttons.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_quantity_selector",
+          "default": true,
+          "label": "t:sections.main-product.blocks.buy_buttons.settings.show_quantity_selector.label"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_dynamic_checkout",
+          "default": false,
+          "label": "t:sections.main-product.blocks.buy_buttons.settings.show_dynamic_checkout.label",
+          "info": "t:sections.main-product.blocks.buy_buttons.settings.show_dynamic_checkout.info"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_gift_card_recipient",
+          "default": false,
+          "label": "t:sections.main-product.blocks.buy_buttons.settings.show_gift_card_recipient.label",
+          "info": "t:sections.main-product.blocks.buy_buttons.settings.show_gift_card_recipient.info"
+        }
+      ]
+    },
+    { "type": "@app" }
+  ],
+  "presets": [
+    {
+      "name": "OWV2 Product main",
+      "blocks": [
+        { "type": "variant_picker" },
+        { "type": "buy_buttons" }
+      ]
+    }
+  ]
 }
 {% endschema %}
