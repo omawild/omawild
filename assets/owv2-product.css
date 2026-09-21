@@ -14,3 +14,11 @@ owv2-product {
 .pdp-tagline{font-size:18px;line-height:1.4;margin:14px 0 0;max-width:38ch}
 .pdp-tags{list-style:none;display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:18px 0 0}
 .pdp-tags li{border:1px solid currentColor;border-radius:999px;padding:6px 14px;font:600 13px var(--font-body-family)}
+
+/* Task 3: gallery (featured image + square thumbnail row) */
+.pdp-gallery__main{background:var(--owv2-product-surface);border-radius:16px;overflow:hidden}
+.pdp-gallery__main img{width:100%;height:auto;display:block}
+.pdp-gallery__thumbs{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0;margin:12px 0 0}
+.pdp-gallery__thumb{padding:0;border:1px solid transparent;border-radius:10px;overflow:hidden;background:var(--owv2-product-surface);cursor:pointer;aspect-ratio:1/1}
+.pdp-gallery__thumb img{width:100%;height:100%;object-fit:cover}
+.pdp-gallery__thumb[aria-current="true"]{border-color:var(--owv2-product-ink)}
