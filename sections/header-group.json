@@ -133,6 +133,7 @@
       "blocks": {
         "launch_bar": {
           "type": "launch_bar",
+          "disabled": true,
           "settings": {
             "target": "2026-10-01T09:30:00+08:00",
             "text_before": "Online Order opens in",
@@ -151,6 +152,10 @@
         "launch_bar",
         "marquee_bar"
       ],
+      "custom_css": [
+        ".navbar,.navbar-dropdown {background: #fbdcdc;}",
+        ".ann-bar--orange {background: #f5450d; color: #ffffff;}"
+      ],
       "settings": {
         "menu": "main-menu",
         "menu_bottom": "",
@@ -158,11 +163,7 @@
         "show_account": true,
         "show_region_selector": true,
         "region_countries": ""
-      },
-      "custom_css": [
-        ".navbar,.navbar-dropdown{background:#FBDCDC;}",
-        ".ann-bar--orange{background:#F5450D;color:#FFFFFF;}"
-      ]
+      }
     }
   },
   "order": [
