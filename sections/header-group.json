@@ -18,9 +18,9 @@
           "type": "countdown",
           "name": "Meet Greater South",
           "settings": {
-            "date": "2026-08-28T09:30:00",
-            "text": "<strong>🚀  WE'RE GOING PUBLIC @ MEET GREATER SOUTH KAOHSIUNG</strong>",
-            "expired_message": "<strong>🚀  WE'RE LIVE @ MEET GREATER SOUTH — ENJOY A COFFEE, ON US</strong>",
+            "date": "2026-10-31T09:30:00",
+            "text": "<strong>ONLINE ORDER OPENS IN</strong>",
+            "expired_message": "NOW OPEN FOR ORDERS",
             "link": "",
             "position": "top",
             "display_style": "full",
@@ -138,18 +138,14 @@
             "text_before": "Online Order opens in",
             "text_after": "Online orders open!"
           }
-        },
-        "marquee_bar": {
-          "type": "marquee_bar",
-          "disabled": true,
-          "settings": {
-            "text": "中文版即將上線"
-          }
         }
       },
       "block_order": [
-        "launch_bar",
-        "marquee_bar"
+        "launch_bar"
+      ],
+      "custom_css": [
+        ".navbar,.navbar-dropdown {background: #fbdcdc;}",
+        ".ann-bar--orange {background: #f5450d; color: #ffffff;}"
       ],
       "settings": {
         "menu": "main-menu",
@@ -158,11 +154,7 @@
         "show_account": true,
         "show_region_selector": true,
         "region_countries": ""
-      },
-      "custom_css": [
-        ".navbar,.navbar-dropdown{background:#FBDCDC;}",
-        ".ann-bar--orange{background:#F5450D;color:#FFFFFF;}"
-      ]
+      }
     }
   },
   "order": [
