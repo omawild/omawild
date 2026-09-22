@@ -32,9 +32,13 @@
    reading snippets/product-variant-picker.liquid, product-variant-options.liquid
    and buy-buttons.liquid; no vendor CSS is loaded for this panel. */
 .owv2-product-section .pdp-buy{display:flex;flex-direction:column;gap:20px}
-.owv2-product-section .pdp-price{display:flex;align-items:baseline;gap:10px}
-.owv2-product-section .pdp-price__now{font:900 40px/1 var(--font-heading-family)}
-.owv2-product-section .pdp-price__was{margin:0;font:400 18px/1 var(--font-body-family);opacity:.6}
+/* Price is rendered by the vendor `price` snippet (see owv2-product-buy.liquid);
+   these rules only restyle its output — component-price.css handles the
+   sale/compare-at display logic. */
+.owv2-product-section .pdp-price .price{font-weight:900;font-family:var(--font-heading-family);color:inherit;flex-wrap:wrap;gap:8px}
+.owv2-product-section .pdp-price .price bdi{font-size:clamp(30px,5vw,40px);font-family:var(--font-heading-family)}
+.owv2-product-section .pdp-sticky__price .price{font-weight:900;font-family:var(--font-heading-family);color:inherit}
+.owv2-product-section .pdp-sticky__price .price bdi{font-size:18px;font-family:var(--font-heading-family)}
 .owv2-product-section .pdp-buy .product-form__input--pill{border:0;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px 10px}
 .owv2-product-section .pdp-buy .product-form__input--pill .form__label{flex-basis:100%;font:600 12px/1.3 var(--font-body-family);text-transform:uppercase;letter-spacing:.08em;margin:0 0 4px}
 .owv2-product-section .pdp-buy .button-input__input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}

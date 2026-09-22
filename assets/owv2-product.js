@@ -19,8 +19,6 @@ if (!customElements.get('owv2-product')) {
     class extends HTMLElement {
       connectedCallback() {
         this.sectionId = this.dataset.section;
-        this.priceEl = this.querySelector('[data-price]');
-        this.compareEl = this.querySelector('[data-compare-at]');
         this.stickyBar = this.querySelector('[data-sticky-bar]');
         this.stickyPrice = this.querySelector('[data-sticky-price]');
         this.stickyCta = this.querySelector('[data-sticky-cta]');
@@ -42,43 +40,28 @@ if (!customElements.get('owv2-product')) {
         if (this._unsub) this._unsub();
       }
 
-      money(cents) {
-        // Reuse the theme's formatter (assets/global.js, theme.Currency)
-        // and its configured money format (snippets/js-variables.liquid,
-        // theme.shopSettings.moneyFormat) if present; else a minimal fallback.
-        try {
-          if (window.theme && theme.Currency && theme.Currency.formatMoney && theme.shopSettings) {
-            return theme.Currency.formatMoney(cents, theme.shopSettings.moneyFormat);
-          }
-        } catch (e) {
-          // fall through to the plain fallback below
-        }
-        return '$' + (Number(cents) / 100).toFixed(2);
-      }
-
       onVariantChange(event) {
         const d = event && event.data;
         if (!d || d.sectionId !== this.sectionId) return;
-        const v = d.variant;
-        if (!v) return; // unavailable combination — leave last price, vendor disables the button
 
-        const price = this.money(v.price);
-        if (this.priceEl) this.priceEl.textContent = price;
-
-        if (this.compareEl) {
-          const show = v.compare_at_price && v.compare_at_price > v.price;
-          this.compareEl.hidden = !show;
-          if (show) this.compareEl.textContent = this.money(v.compare_at_price);
+        // The buy-panel price is owned by the vendor: product-info.js swaps the
+        // server-rendered, presentment-currency-correct `#price-<section>` block
+        // (it renders with `money`/`money_with_currency`). We never format money
+        // in JS — shop.money_format is a single base-currency string and would be
+        // wrong for any other presentment currency (TWD/USD/HKD). Here we only
+        // mirror that same server-rendered price block into the mobile sticky bar,
+        // sourced from the re-rendered section fragment in the event payload.
+        if (this.stickyPrice && d.html) {
+          const src = d.html.getElementById('price-' + this.sectionId);
+          if (src) this.stickyPrice.innerHTML = src.innerHTML;
         }
 
-        // The sticky bar's existence/visibility is rendered server-side
-        // (see sections/owv2-product-main.liquid) so it's correct on first
-        // paint even when `variant-change` never fires (single-variant
-        // products render no picker, so the event never publishes). This
-        // handler only keeps its contents in sync on subsequent changes —
-        // it must never gate `hidden`/visibility itself.
-        if (this.stickyPrice) this.stickyPrice.textContent = price;
-        if (this.stickyCta) this.stickyCta.disabled = v.available === false;
+        // Keep only the sticky CTA's availability in sync. The sticky bar's
+        // existence/visibility is rendered server-side (see the section), so it
+        // is correct on first paint even when `variant-change` never fires
+        // (single-variant products render no picker); this handler never gates
+        // visibility itself.
+        if (this.stickyCta && d.variant) this.stickyCta.disabled = d.variant.available === false;
       }
 
       // Sticky-bar CTA (mobile, <=749px): rather than a dead anchor, this

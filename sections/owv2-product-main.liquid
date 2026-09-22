@@ -1,4 +1,5 @@
 {% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
 {{ 'owv2-product.css' | asset_url | stylesheet_tag }}
 {% style %}
 .owv2-product-{{ owid }} {
@@ -53,7 +54,7 @@
       </div>
     </product-info>
     <div class="pdp-sticky" data-sticky-bar>
-      <span class="pdp-sticky__price" data-sticky-price>{{ product.selected_or_first_available_variant.price | money }}</span>
+      <span class="pdp-sticky__price" data-sticky-price>{%- render 'price', product: product, use_variant: true -%}</span>
       <button type="button" class="pdp-sticky__cta" data-sticky-cta
         {%- unless product.selected_or_first_available_variant.available %} disabled{% endunless %}>
         {{ 'products.product.add_to_cart' | t }}

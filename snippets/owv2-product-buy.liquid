@@ -51,12 +51,16 @@
 {%- assign variant_picker_block = section.blocks | where: 'type', 'variant_picker' | first -%}
 {%- assign buy_buttons_block = section.blocks | where: 'type', 'buy_buttons' | first -%}
 <div class="pdp-buy">
-  <div class="pdp-price" aria-live="polite">
-    <span class="pdp-price__now" data-price>{{ product.selected_or_first_available_variant.price | money }}</span>
-    <s class="pdp-price__was" data-compare-at
-      {%- unless product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %} hidden{% endunless %}>
-      {{ product.selected_or_first_available_variant.compare_at_price | money }}
-    </s>
+  {%- comment -%}
+    Price is the vendor's, not ours. The `price` snippet renders in the
+    active presentment currency (it uses `money_with_currency` when the
+    currency-code setting is on — the disambiguation TWD/USD/HKD need since
+    all three use "$"), and product-info.js swaps this exact `#price-<id>`
+    block on every variant change. We never format money in JS: shop.money_format
+    is a single base-currency string and would be wrong for other currencies.
+  {%- endcomment -%}
+  <div id="price-{{ section.id }}" class="pdp-price" aria-live="polite">
+    {%- render 'price', product: product, use_variant: true, show_badges: true -%}
   </div>
 
   {% render 'product-variant-picker', block: variant_picker_block, product: product, product_form_id: product_form_id %}
