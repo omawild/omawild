@@ -2,6 +2,123 @@
   "name": "t:sections.header-group.name",
   "type": "header",
   "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "blocks": {
+        "countdown_LqWxbt": {
+          "type": "countdown",
+          "name": "Meet Greater South",
+          "settings": {
+            "date": "2026-08-28T09:30:00",
+            "text": "<strong>🚀  WE'RE GOING PUBLIC @ MEET GREATER SOUTH KAOHSIUNG</strong>",
+            "expired_message": "<strong>🚀  WE'RE LIVE @ MEET GREATER SOUTH — ENJOY A COFFEE, ON US</strong>",
+            "link": "",
+            "position": "top",
+            "display_style": "full",
+            "text_size": 12,
+            "hide_when_expired": false,
+            "use_custom_colors": true,
+            "countdown_background": "#df3a04",
+            "countdown_text": "#ffffff"
+          }
+        },
+        "9518463a-71f9-42b5-b5ef-174a4f08e081": {
+          "type": "announcement",
+          "name": "First sdrop",
+          "disabled": true,
+          "settings": {
+            "text": "We're going live at Meet Greater South — see you in Kaoshiung on <strong>28–20th Aug 2026</strong>",
+            "text_on_mobile": "Drop by booth no. GP3-07",
+            "text_size": 12,
+            "link": "",
+            "color_link": "#ffffff",
+            "enable_highlight": false,
+            "highlight_style": "marker"
+          }
+        }
+      },
+      "block_order": [
+        "countdown_LqWxbt",
+        "9518463a-71f9-42b5-b5ef-174a4f08e081"
+      ],
+      "name": "Timer",
+      "settings": {
+        "only_homepage": false,
+        "layout": "carousel",
+        "mobile_layout": "carousel",
+        "autorotate": true,
+        "autorotate_speed": 3.4,
+        "speed": 5,
+        "show_navigation": true,
+        "direction": "left",
+        "colors_text": "#ffffff",
+        "colors_background": "#145fda",
+        "gradient_background": "",
+        "colors_highlight": "#ffb503",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "scrolling_promotion_ia99qp": {
+      "type": "scrolling-promotion",
+      "blocks": {
+        "announcement_JQdkGX": {
+          "type": "announcement",
+          "name": "✷",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "✷",
+            "text_size": 14,
+            "link": ""
+          }
+        },
+        "announcement_WKzPxi": {
+          "type": "announcement",
+          "name": "WIP",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "Drop by booth no. GP3-07",
+            "text_size": 12,
+            "link": ""
+          }
+        },
+        "announcement_D6xe3k": {
+          "type": "announcement",
+          "name": "✷",
+          "disabled": true,
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "✷",
+            "text_size": 14,
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement_JQdkGX",
+        "announcement_WKzPxi",
+        "announcement_D6xe3k"
+      ],
+      "name": "Announcement Bar",
+      "settings": {
+        "direction": "left",
+        "speed": 6,
+        "show_divider": false,
+        "use_custom_colors": true,
+        "colors_icon": "#ffffff",
+        "colors_text": "#ffffff",
+        "colors_background": "#0264ee",
+        "gradient_background": "",
+        "padding_top": 8,
+        "padding_bottom": 8
+      }
+    },
     "ow-header": {
       "type": "ow-header",
       "blocks": {
@@ -40,6 +157,8 @@
     }
   },
   "order": [
+    "announcement-bar",
+    "scrolling_promotion_ia99qp",
     "ow-header"
   ]
 }
