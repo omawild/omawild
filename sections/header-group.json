@@ -130,19 +130,6 @@
     },
     "ow-header": {
       "type": "ow-header",
-      "blocks": {
-        "launch_bar": {
-          "type": "launch_bar",
-          "settings": {
-            "target": "2026-10-01T09:30:00+08:00",
-            "text_before": "Online Order opens in",
-            "text_after": "Online orders open!"
-          }
-        }
-      },
-      "block_order": [
-        "launch_bar"
-      ],
       "custom_css": [
         ".navbar,.navbar-dropdown {background: #fbdcdc;}",
         ".ann-bar--orange {background: #f5450d; color: #ffffff;}"
