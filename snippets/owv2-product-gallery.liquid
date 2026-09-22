@@ -27,7 +27,7 @@
   <div class="pdp-gallery__main">
     {{ product.featured_media | image_url: width: 1200 | image_tag:
        loading: 'eager', sizes: '(min-width: 750px) 55vw, 100vw',
-       widths: '400,600,900,1200,1600' }}
+       widths: '400,600,900,1200,1600', alt: product.featured_media.alt | escape }}
   </div>
   {%- if product.media.size > 1 -%}
   <ul class="pdp-gallery__thumbs" role="list">
@@ -36,7 +36,7 @@
         <button type="button" class="pdp-gallery__thumb" data-media-id="{{ media.id }}"
           data-full-src="{{ media.preview_image | image_url: width: 1600 }}"
           aria-label="{{ 'products.product.media.load_image' | t: index: forloop.index }}">
-          {{ media.preview_image | image_url: width: 200 | image_tag: loading: 'lazy', widths: '100,200' }}
+          {{ media.preview_image | image_url: width: 200 | image_tag: loading: 'lazy', widths: '100,200', alt: media.alt | escape }}
         </button>
       </li>
     {%- endfor -%}

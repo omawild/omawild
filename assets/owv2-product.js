@@ -43,10 +43,12 @@ if (!customElements.get('owv2-product')) {
       }
 
       money(cents) {
-        // Reuse the theme's formatter if present; else a minimal fallback.
+        // Reuse the theme's formatter (assets/global.js, theme.Currency)
+        // and its configured money format (snippets/js-variables.liquid,
+        // theme.shopSettings.moneyFormat) if present; else a minimal fallback.
         try {
-          if (window.Shopify && Shopify.formatMoney && window.theme && theme.moneyFormat) {
-            return Shopify.formatMoney(cents, theme.moneyFormat);
+          if (window.theme && theme.Currency && theme.Currency.formatMoney && theme.shopSettings) {
+            return theme.Currency.formatMoney(cents, theme.shopSettings.moneyFormat);
           }
         } catch (e) {
           // fall through to the plain fallback below

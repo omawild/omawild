@@ -3,65 +3,67 @@
  * Grown across the owv2 product-detail tasks; this task only lays the
  * section-scoped custom-element display rule (the section's {% style %}
  * block owns the .fold grid rules since they depend on {{ owid }}).
+ * All selectors are namespaced under .owv2-product-section (the section
+ * wrapper's static class, set via the schema "class") to keep them from
+ * colliding with vendor or other custom section styles.
  */
-owv2-product {
+.owv2-product-section owv2-product {
   display: block;
 }
 
 /* Task 2: label hero (eyebrow, title, tagline, tasting-note tags) */
-.pdp-eyebrow{font:700 12px/1.3 var(--font-body-family);letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin:0 0 12px}
-.pdp-title{font-size:clamp(32px,4.5vw,56px)}
-.pdp-tagline{font-size:18px;line-height:1.4;margin:14px 0 0;max-width:38ch}
-.pdp-tags{list-style:none;display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:18px 0 0}
-.pdp-tags li{border:1px solid currentColor;border-radius:999px;padding:6px 14px;font:600 13px var(--font-body-family)}
+.owv2-product-section .pdp-eyebrow{font:700 12px/1.3 var(--font-body-family);letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin:0 0 12px}
+.owv2-product-section .pdp-title{font-size:clamp(32px,4.5vw,56px)}
+.owv2-product-section .pdp-tagline{font-size:18px;line-height:1.4;margin:14px 0 0;max-width:38ch}
+.owv2-product-section .pdp-tags{list-style:none;display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:18px 0 0}
+.owv2-product-section .pdp-tags li{border:1px solid currentColor;border-radius:999px;padding:6px 14px;font:600 13px var(--font-body-family)}
 
 /* Task 3: gallery (featured image + square thumbnail row) */
-.pdp-gallery__main{background:var(--owv2-product-surface);border-radius:16px;overflow:hidden}
-.pdp-gallery__main img{width:100%;height:auto;display:block}
-.pdp-gallery__thumbs{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0;margin:12px 0 0}
-.pdp-gallery__thumb{padding:0;border:1px solid transparent;border-radius:10px;overflow:hidden;background:var(--owv2-product-surface);cursor:pointer;aspect-ratio:1/1}
-.pdp-gallery__thumb img{width:100%;height:100%;object-fit:cover}
-.pdp-gallery__thumb[aria-current="true"]{border-color:var(--owv2-product-ink)}
+.owv2-product-section .pdp-gallery__main{background:var(--owv2-product-surface);border-radius:16px;overflow:hidden}
+.owv2-product-section .pdp-gallery__main img{width:100%;height:auto;display:block}
+.owv2-product-section .pdp-gallery__thumbs{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0;margin:12px 0 0}
+.owv2-product-section .pdp-gallery__thumb{padding:0;border:1px solid transparent;border-radius:10px;overflow:hidden;background:var(--owv2-product-surface);cursor:pointer;aspect-ratio:1/1}
+.owv2-product-section .pdp-gallery__thumb img{width:100%;height:100%;object-fit:cover}
+.owv2-product-section .pdp-gallery__thumb[aria-current="true"]{border-color:var(--owv2-product-ink)}
 
 /* Task 4: buy panel — price display + pill restyle of the vendor
    product-variant-picker (picker_type: button) and buy-buttons output.
    Selectors below target the vendor's own class names verbatim, captured by
    reading snippets/product-variant-picker.liquid, product-variant-options.liquid
    and buy-buttons.liquid; no vendor CSS is loaded for this panel. */
-.pdp-buy{display:flex;flex-direction:column;gap:20px}
-.pdp-price{display:flex;align-items:baseline;gap:10px}
-.pdp-price__now{font:900 40px/1 var(--font-heading-family)}
-.pdp-price__was{margin:0;font:400 18px/1 var(--font-body-family);opacity:.6}
-.pdp-buy .product-form__input--pill{border:0;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px 10px}
-.pdp-buy .product-form__input--pill .form__label{flex-basis:100%;font:600 12px/1.3 var(--font-body-family);text-transform:uppercase;letter-spacing:.08em;margin:0 0 4px}
-.pdp-buy .button-input__input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
-.pdp-buy .product-form__input--pill label{display:inline-flex;align-items:center;justify-content:center;padding:9px 18px;border:1px solid currentColor;border-radius:999px;font:600 13px/1 var(--font-body-family);cursor:pointer}
-.pdp-buy .button-input__input:checked + label{background:var(--owv2-product-ink);color:var(--owv2-product-bg)}
-.pdp-buy .button-input__input.disabled + label{opacity:.35;cursor:not-allowed;text-decoration:line-through}
-.pdp-buy .product-form__buttons{display:flex;flex-direction:column;gap:12px;margin:8px 0 0;padding:0}
-.pdp-buy .product-form__submit{font:600 15px/1 var(--font-body-family);letter-spacing:.02em;padding:16px 24px;border-radius:999px;border:0;background:var(--owv2-product-ink);color:var(--owv2-product-bg);cursor:pointer}
-.pdp-buy .product-form__submit[disabled]{opacity:.4;cursor:not-allowed}
+.owv2-product-section .pdp-buy{display:flex;flex-direction:column;gap:20px}
+.owv2-product-section .pdp-price{display:flex;align-items:baseline;gap:10px}
+.owv2-product-section .pdp-price__now{font:900 40px/1 var(--font-heading-family)}
+.owv2-product-section .pdp-price__was{margin:0;font:400 18px/1 var(--font-body-family);opacity:.6}
+.owv2-product-section .pdp-buy .product-form__input--pill{border:0;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px 10px}
+.owv2-product-section .pdp-buy .product-form__input--pill .form__label{flex-basis:100%;font:600 12px/1.3 var(--font-body-family);text-transform:uppercase;letter-spacing:.08em;margin:0 0 4px}
+.owv2-product-section .pdp-buy .button-input__input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.owv2-product-section .pdp-buy .product-form__input--pill label{display:inline-flex;align-items:center;justify-content:center;padding:9px 18px;border:1px solid currentColor;border-radius:999px;font:600 13px/1 var(--font-body-family);cursor:pointer}
+.owv2-product-section .pdp-buy .button-input__input:checked + label{background:var(--owv2-product-ink);color:var(--owv2-product-bg)}
+.owv2-product-section .pdp-buy .button-input__input.disabled + label{opacity:.35;cursor:not-allowed;text-decoration:line-through}
+.owv2-product-section .pdp-buy .product-form__buttons{display:flex;flex-direction:column;gap:12px;margin:8px 0 0;padding:0}
+.owv2-product-section .pdp-buy .product-form__submit{font:600 15px/1 var(--font-body-family);letter-spacing:.02em;padding:16px 24px;border-radius:999px;border:0;background:var(--owv2-product-ink);color:var(--owv2-product-bg);cursor:pointer}
+.owv2-product-section .pdp-buy .product-form__submit[disabled]{opacity:.4;cursor:not-allowed}
 
 /* Task 5: mobile sticky add-to-cart bar. Own styling (no vendor
    component-product-sticky-cart.css reuse — its class names/markup shape
    don't match ours, and pulling it in risks bleeding unrelated vendor rules
    onto this page). Hidden entirely above 749px; shown as a fixed bottom bar
    below it, matching the theme's single 749px breakpoint. */
-.pdp-sticky{display:none}
+.owv2-product-section .pdp-sticky{display:none}
 @media (max-width: 749px){
-  .pdp-sticky{
+  .owv2-product-section .pdp-sticky{
     position:fixed;inset:auto 0 0 0;display:flex;align-items:center;justify-content:space-between;
     gap:12px;padding:12px max(16px,4vw) calc(12px + env(safe-area-inset-bottom,0px));
     background:var(--owv2-product-bg);border-top:1px solid var(--owv2-product-ink);z-index:5;
   }
-  .pdp-sticky[hidden]{display:none}
 }
-.pdp-sticky__price{font:900 20px/1 var(--font-heading-family)}
-.pdp-sticky__cta{font:600 15px/1 var(--font-body-family);letter-spacing:.02em;padding:14px 28px;border-radius:999px;border:0;background:var(--owv2-product-ink);color:var(--owv2-product-bg);cursor:pointer}
-.pdp-sticky__cta[disabled]{opacity:.4;cursor:not-allowed}
+.owv2-product-section .pdp-sticky__price{font:900 20px/1 var(--font-heading-family)}
+.owv2-product-section .pdp-sticky__cta{font:600 15px/1 var(--font-body-family);letter-spacing:.02em;padding:14px 28px;border-radius:999px;border:0;background:var(--owv2-product-ink);color:var(--owv2-product-bg);cursor:pointer}
+.owv2-product-section .pdp-sticky__cta[disabled]{opacity:.4;cursor:not-allowed}
 
 /* Task 6: "What this bag funds" block */
-.pdp-funds{background:var(--owv2-product-surface);border-radius:14px;padding:22px}
-.pdp-funds__h{font:600 20px var(--font-heading-family);margin:0 0 8px}
-.pdp-funds__body{font-size:15px;line-height:1.5}
-.pdp-funds__link{display:inline-block;margin-top:12px;font-weight:700;text-decoration:underline}
+.owv2-product-section .pdp-funds{background:var(--owv2-product-surface);border-radius:14px;padding:22px}
+.owv2-product-section .pdp-funds__h{font:600 20px var(--font-heading-family);margin:0 0 8px}
+.owv2-product-section .pdp-funds__body{font-size:15px;line-height:1.5}
+.owv2-product-section .pdp-funds__link{display:inline-block;margin-top:12px;font-weight:700;text-decoration:underline}
