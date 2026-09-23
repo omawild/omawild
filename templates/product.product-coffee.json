@@ -11,6 +11,7 @@
   "sections": {
     "content_scrollspy_nh3PCR": {
       "type": "content-scrollspy",
+      "disabled": true,
       "name": "t:sections.content_scrollspy.presets.name",
       "settings": {
         "heading_selector": "h1, h2",
@@ -22,6 +23,73 @@
         "animation_threshold": 0.8,
         "hide_on_scroll_up": true,
         "show_scroll_indicator": false
+      }
+    },
+    "owv2_product_main_rRFemm": {
+      "type": "owv2-product-main",
+      "blocks": {
+        "variant_picker_QbMhkh": {
+          "type": "variant_picker",
+          "settings": {
+            "show_variant_labels": true,
+            "picker_type": "button",
+            "swatch_source": "variant",
+            "swatch_type": "none",
+            "enable_swatch_unavailable_click": false
+          }
+        },
+        "buy_buttons_i3f664": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_quantity_selector": true,
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": false
+          }
+        }
+      },
+      "block_order": [
+        "variant_picker_QbMhkh",
+        "buy_buttons_i3f664"
+      ],
+      "name": "OWV2 Product main",
+      "settings": {
+        "funds_heading": "1% for the Planet",
+        "funds_body": "<p>1% of every bag funds forest-friendly farming.</p>",
+        "funds_link": "",
+        "funds_link_label": "",
+        "background_color": "#FFFFFF",
+        "text_color": "#161616",
+        "card_background": "#F5F1EA",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "product_list_limit": 4,
+        "show_divider": false,
+        "heading": "Discover More Flavours",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "heading_tag": "h2",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "image_ratio": "portrait",
+        "image_position": "center center",
+        "enable_image_fill": true,
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": true,
+        "show_quick_buy": true,
+        "enable_quick_view": true,
+        "enable_color_swatches": true,
+        "enable_countdown": true,
+        "colors_highlight": "#f57900",
+        "padding_top": 24,
+        "padding_bottom": 24,
+        "enable_highlight": false,
+        "highlight_style": "marker"
       }
     },
     "main": {
@@ -159,343 +227,12 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
-    },
-    "od_notice_board_PLAV4A": {
-      "type": "od-notice-board",
-      "blocks": {
-        "notice_box_FERNRL": {
-          "type": "notice_box",
-          "disabled": true,
-          "settings": {
-            "card_padding_vertical": 40,
-            "card_padding_horizontal": 40,
-            "card_padding_vertical_mobile": 24,
-            "card_padding_horizontal_mobile": 20,
-            "content_alignment": "left",
-            "label_tag": "h3",
-            "section_label": "Discover the origins of your drink",
-            "heading": "<h2>Behind the Bean</h2>",
-            "content": "<p>Discover the story behind this coffee and what makes it possible.</p><ul><li><strong>Origin:</strong> {{ product.metafields.custom[\"origin-of-country\"].value }}</li><li><strong>Region: </strong>{{ product.metafields.custom.region.value }}</li><li><strong>Farm / Producer: </strong>{{ product.metafields.custom.farmer_producer.value }}</li><li><strong>Varietal: </strong></li></ul><p></p>",
-            "label_size": 12,
-            "heading_size": 40,
-            "text_size": 15,
-            "heading_line_height": 1,
-            "body_line_height": 1.4,
-            "body_line_height_mobile": 1.3,
-            "heading_to_body_gap": 18,
-            "label_color": "#666666",
-            "heading_color": "#161616",
-            "emphasis_color": "#b231c6",
-            "text_color": "#333333",
-            "image_width": 200,
-            "image_aspect_ratio": "1 / 1",
-            "image_fit": "cover",
-            "image_radius": 0,
-            "image_margin_top": 20,
-            "card_background": "#ffffff",
-            "card_border_color": "#e5e5e5",
-            "card_border_width": 1,
-            "card_border_radius": 2
-          }
-        },
-        "notice_box_BBMnTE": {
-          "type": "notice_box",
-          "settings": {
-            "card_padding_vertical": 40,
-            "card_padding_horizontal": 40,
-            "card_padding_vertical_mobile": 24,
-            "card_padding_horizontal_mobile": 20,
-            "content_alignment": "left",
-            "label_tag": "h3",
-            "section_label": "Taste Notes",
-            "heading": "",
-            "content": "<p>{{ product.metafields.custom.taste_notes | metafield_tag }}</p>",
-            "label_size": 12,
-            "heading_size": 40,
-            "text_size": 15,
-            "heading_line_height": 1,
-            "body_line_height": 1.4,
-            "body_line_height_mobile": 1.3,
-            "heading_to_body_gap": 18,
-            "label_color": "#666666",
-            "heading_color": "#161616",
-            "emphasis_color": "#b231c6",
-            "text_color": "#333333",
-            "image_width": 200,
-            "image_aspect_ratio": "1 / 1",
-            "image_fit": "cover",
-            "image_radius": 0,
-            "image_margin_top": 20,
-            "card_background": "#ffffff",
-            "card_border_color": "#e5e5e5",
-            "card_border_width": 1,
-            "card_border_radius": 2
-          }
-        }
-      },
-      "block_order": [
-        "notice_box_FERNRL",
-        "notice_box_BBMnTE"
-      ],
-      "name": "Taste Notes",
-      "settings": {
-        "image": "shopify://shop_images/coffeefarm.jpg",
-        "background_color": "#ffffff",
-        "colors_overlay_opacity": 0,
-        "colors_overlay": "#b231c6",
-        "image_ratio": "400",
-        "image_ratio_mobile": "500",
-        "max_width": 800,
-        "side_padding": 10,
-        "inner_padding_top": 60,
-        "inner_padding_bottom": 60,
-        "inner_padding_top_mobile": 20,
-        "inner_padding_bottom_mobile": 20
-      }
-    },
-    "image_with_text_CKRN89": {
-      "type": "image-with-text",
-      "blocks": {
-        "heading_Uw8yDV": {
-          "type": "heading",
-          "settings": {
-            "heading": "Behind the Bean",
-            "heading_size": "h1",
-            "heading_tag": "h2",
-            "enable_highlight": false,
-            "highlight_style": "marker"
-          }
-        },
-        "text_Abcqpb": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Discover the origins of this coffee and what brings it to life.</p><ul><li><strong>Origin:</strong> {{ product.metafields.custom[\"origin-of-country\"].value }}</li><li><strong>Region: </strong>{{ product.metafields.custom.region.value }}</li><li><strong>Elevation: </strong>{{ product.metafields.custom.elevation_masl.value }} MASL</li><li><strong>Crop Year: </strong>{{ product.metafields.custom.crop_year.value }}</li><li><strong>Farm / Producer: </strong>{{ product.metafields.custom.farmer_producer.value }}</li><li><strong>Varietal: </strong>{{ product.metafields.custom.varietal_all_listed.value }}</li></ul>",
-            "text_size": "typeset",
-            "secondary_color": false,
-            "enable_highlight": false,
-            "highlight_style": "marker"
-          }
-        },
-        "button_zeMfRa": {
-          "type": "button",
-          "disabled": true,
-          "settings": {
-            "button_size": "medium",
-            "button_label": "Button label",
-            "button_link": "",
-            "button_style_secondary": false,
-            "button_alt_label": "",
-            "button_alt_link": "",
-            "button_alt_style_secondary": false
-          }
-        }
-      },
-      "block_order": [
-        "heading_Uw8yDV",
-        "text_Abcqpb",
-        "button_zeMfRa"
-      ],
-      "name": "Behind the Bean",
-      "settings": {
-        "image_position": "center center",
-        "layout": "text_first",
-        "text_box_position": "top",
-        "text_alignment": "left",
-        "image_ratio": "600px",
-        "enlarge_content": false,
-        "full_width": false,
-        "show_divider": false,
-        "image_behavior": "none",
-        "mobile_layout": "image_first",
-        "mobile_text_alignment": "left",
-        "mobile_image_ratio": "auto",
-        "enable_video_looping": false,
-        "video_url": "",
-        "use_custom_colors": false,
-        "colors_button_label": "#ffffff",
-        "colors_button_background": "#1a1b18",
-        "colors_text": "#212326",
-        "colors_background": "#FFFFFF",
-        "gradient_background": "",
-        "colors_highlight": "#ffb503",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "od_impact_text_FhfPHg": {
-      "type": "od-impact-text",
-      "blocks": {
-        "od_header_BFGfRH": {
-          "type": "od_header",
-          "settings": {
-            "heading_tag": "h2",
-            "section_heading": "Test the Title",
-            "subheading_tag": "h4",
-            "subsection_heading": "Trailblazing tech that rethinks how we recycle"
-          }
-        },
-        "od_text_pra6QE": {
-          "type": "od_text",
-          "settings": {
-            "body_content": "<p>Imagine a future where the gear we love is made purely from preexisting materials.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "od_header_BFGfRH",
-        "od_text_pra6QE"
-      ],
-      "disabled": true,
-      "name": "OD Impact Content",
-      "settings": {
-        "max_width": 1200,
-        "desktop_width_percent": 100,
-        "section_padding_top": 40,
-        "section_padding_bottom": 40,
-        "mobile_padding_horizontal": 20,
-        "content_spacing": 20,
-        "paragraph_spacing": 20,
-        "image_bottom_spacing": 20,
-        "section_heading_size": 32,
-        "subsection_heading_size": 20,
-        "body_size": 16,
-        "background_color": "#ffffff",
-        "heading_color": "#000000",
-        "text_color": "#212326",
-        "image_border_radius": 0
-      }
-    },
-    "multicolumn_nnUXP3": {
-      "type": "multicolumn",
-      "blocks": {
-        "column_FawTqb": {
-          "type": "column",
-          "settings": {
-            "background_color": "#f2f2f2",
-            "heading_color": "#000000",
-            "text_color": "#333333",
-            "title": "Column",
-            "title_size": "h3",
-            "text": "",
-            "show_popup": false,
-            "popup_image_position": "top",
-            "justify_text": false,
-            "button_label": "",
-            "button_link": "",
-            "button_style_secondary": false,
-            "enable_highlight": false,
-            "highlight_style": "marker"
-          }
-        },
-        "column_xNgXb6": {
-          "type": "column",
-          "settings": {
-            "background_color": "#f2f2f2",
-            "heading_color": "#000000",
-            "text_color": "#333333",
-            "title": "Column",
-            "title_size": "h3",
-            "text": "",
-            "show_popup": false,
-            "popup_image_position": "top",
-            "justify_text": false,
-            "button_label": "",
-            "button_link": "",
-            "button_style_secondary": false,
-            "enable_highlight": false,
-            "highlight_style": "marker"
-          }
-        }
-      },
-      "block_order": [
-        "column_FawTqb",
-        "column_xNgXb6"
-      ],
-      "name": "t:sections.multicolumn.presets.name",
-      "settings": {
-        "image_ratio": "landscape",
-        "image_position": "center center",
-        "text_alignment": "left",
-        "show_divider": false,
-        "image_width": "full",
-        "columns_desktop": 3,
-        "open_in_new_tab": false,
-        "heading": "Brew Guide",
-        "heading_size": "h1",
-        "heading_alignment": "left",
-        "heading_tag": "h2",
-        "mobile_text_alignment": "left",
-        "columns_mobile": "1",
-        "swipe_on_mobile": false,
-        "colors_highlight": "#ffb503",
-        "padding_top": 36,
-        "padding_bottom": 36,
-        "card_border_radius": 0,
-        "enable_highlight": false,
-        "highlight_style": "marker"
-      }
-    },
-    "product-details": {
-      "type": "product-details",
-      "blocks": {
-        "product-details-1": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "1. Collapsible tab",
-            "content": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
-            "page": ""
-          }
-        }
-      },
-      "block_order": [
-        "product-details-1"
-      ],
-      "settings": {
-        "open_first_collapsible_row": false,
-        "heading": "Frequently Asked Questions",
-        "heading_size": "h1",
-        "heading_tag": "h2",
-        "padding_top": 24,
-        "padding_bottom": 24
-      }
-    },
-    "product-recommendations": {
-      "type": "product-recommendations",
-      "settings": {
-        "product_list_limit": 4,
-        "show_divider": false,
-        "heading": "Discover More Flavours",
-        "heading_size": "h1",
-        "heading_alignment": "left",
-        "heading_tag": "h2",
-        "columns_mobile": "2",
-        "swipe_on_mobile": true,
-        "image_ratio": "portrait",
-        "image_position": "center center",
-        "enable_image_fill": true,
-        "show_secondary_image": false,
-        "show_vendor": false,
-        "show_rating": true,
-        "show_quick_buy": true,
-        "enable_quick_view": true,
-        "enable_color_swatches": true,
-        "enable_countdown": true,
-        "colors_highlight": "#f57900",
-        "padding_top": 24,
-        "padding_bottom": 24,
-        "enable_highlight": false,
-        "highlight_style": "marker"
-      }
     }
   },
   "order": [
     "content_scrollspy_nh3PCR",
-    "main",
-    "od_notice_board_PLAV4A",
-    "image_with_text_CKRN89",
-    "od_impact_text_FhfPHg",
-    "multicolumn_nnUXP3",
-    "product-details",
-    "product-recommendations"
+    "owv2_product_main_rRFemm",
+    "product-recommendations",
+    "main"
   ]
 }
