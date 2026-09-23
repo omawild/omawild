@@ -25,45 +25,6 @@
         "show_scroll_indicator": false
       }
     },
-    "owv2_product_main_rRFemm": {
-      "type": "owv2-product-main",
-      "blocks": {
-        "variant_picker_QbMhkh": {
-          "type": "variant_picker",
-          "settings": {
-            "show_variant_labels": true,
-            "picker_type": "button",
-            "swatch_source": "variant",
-            "swatch_type": "none",
-            "enable_swatch_unavailable_click": false
-          }
-        },
-        "buy_buttons_i3f664": {
-          "type": "buy_buttons",
-          "settings": {
-            "show_quantity_selector": true,
-            "show_dynamic_checkout": false,
-            "show_gift_card_recipient": false
-          }
-        }
-      },
-      "block_order": [
-        "variant_picker_QbMhkh",
-        "buy_buttons_i3f664"
-      ],
-      "name": "OWV2 Product main",
-      "settings": {
-        "funds_heading": "1% for the Planet",
-        "funds_body": "<p>1% of every bag funds forest-friendly farming.</p>",
-        "funds_link": "",
-        "funds_link_label": "",
-        "background_color": "#FFFFFF",
-        "text_color": "#161616",
-        "card_background": "#F5F1EA",
-        "padding_top": 48,
-        "padding_bottom": 48
-      }
-    },
     "product-recommendations": {
       "type": "product-recommendations",
       "settings": {
@@ -227,12 +188,28 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "owv2_product_pairings_iEcWLQ": {
+      "type": "owv2-product-pairings",
+      "name": "OWV2 Product — pairings",
+      "settings": {
+        "title": "Pairs well with",
+        "collection": "specialty-coffee",
+        "card_count": 3,
+        "link_label": "Browse all",
+        "link_url": "",
+        "from_label": "From",
+        "placeholder_name": "Pick a collection",
+        "color_red": "#FF3F00",
+        "color_pink": "#FFE4E7",
+        "color_ink": "#00180C"
+      }
     }
   },
   "order": [
     "content_scrollspy_nh3PCR",
-    "owv2_product_main_rRFemm",
     "product-recommendations",
-    "main"
+    "main",
+    "owv2_product_pairings_iEcWLQ"
   ]
 }
