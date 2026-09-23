@@ -18,7 +18,7 @@
           "type": "launch_bar",
           "settings": {
             "target": "2026-10-01T09:30:00+08:00",
-            "text_before": "Online Order opens in",
+            "text_before": "LAUNCHING IN",
             "text_after": "Online orders open!"
           }
         },
