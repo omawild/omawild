@@ -1,73 +1,506 @@
-/* owv2-product.css
- * Shared styling for sections/owv2-product-main.liquid.
- * Grown across the owv2 product-detail tasks; this task only lays the
- * section-scoped custom-element display rule (the section's {% style %}
- * block owns the .fold grid rules since they depend on {{ owid }}).
- * All selectors are namespaced under .owv2-product-section (the section
- * wrapper's static class, set via the schema "class") to keep them from
- * colliding with vendor or other custom section styles.
- */
-.owv2-product-section owv2-product {
-  display: block;
+/* ==========================================================================
+   Omawild PDP — shared styles for owv2-product-* sections
+   Each section writes its colours as custom properties on
+   #shopify-section-<id>; everything here reads those, with the canvas
+   values as fallbacks. Type is NHD via the theme's font tokens:
+   canvas 800 headlines -> 900, buttons/stamps -> 700, labels/chips -> 600,
+   body -> 400. Nothing asks for 500.
+   ========================================================================== */
+
+.od-pdp {
+  --odp-red: #FF3F00;
+  --odp-red-dark: #D63200;
+  --odp-pink: #FFE4E7; /* Salmon */
+  --odp-yellow: #FBB925; /* Sunbrella */
+  --odp-ink: #00180C;
+  --odp-page: #F7F5F1; /* Sand */
+  --odp-card: #fff;
+  --odp-rule: rgba(255, 63, 0, .3);
+  --odp-rule-soft: rgba(255, 63, 0, .22);
+  --odp-font: var(--font-heading-family, "NHD"), system-ui, sans-serif;
+  --odp-body: var(--font-body-family, "NHD"), system-ui, sans-serif;
+
+  background: var(--odp-page);
+  color: var(--odp-ink);
+  font-family: var(--odp-body);
+  -webkit-font-smoothing: antialiased;
+}
+.od-pdp *, .od-pdp *::before, .od-pdp *::after { box-sizing: border-box; }
+.od-pdp a { color: inherit; }
+:where(.od-pdp) p { margin: 0; }
+.od-pdp img { max-width: 100%; }
+
+/* ---------- shared primitives ---------- */
+
+.odp-label {
+  margin: 0;
+  font: 600 10.5px/1 var(--odp-font);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--odp-red);
+}
+.odp-body { font: 400 13px/1.5 var(--odp-body); color: var(--odp-ink); }
+
+.odp-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  border: none; cursor: pointer; text-decoration: none; white-space: nowrap;
+  background: var(--odp-red); color: #fff;
+  padding: 17px 30px; border-radius: 100px;
+  font: 700 13px/1 var(--odp-font);
+  transition: background-color .15s ease, color .15s ease;
+}
+.odp-btn:hover { background: var(--odp-red-dark); }
+.odp-btn[disabled] { opacity: .45; cursor: not-allowed; }
+.odp-btn--ghost {
+  background: transparent; color: var(--odp-red);
+  border: 1.5px solid var(--odp-red);
+  padding: 12px 18px; font-size: 11.5px;
+}
+.odp-btn--ghost:hover { background: var(--odp-red); color: #fff; }
+.odp-btn--sm { padding: 10px 14px; font-size: 11px; }
+
+.odp-pill {
+  cursor: pointer;
+  padding: 13px 17px; border-radius: 100px;
+  border: 1.5px solid var(--odp-red);
+  background: var(--odp-card); color: var(--odp-red);
+  font: 700 12.5px/1 var(--odp-font);
+  transition: background-color .15s ease, color .15s ease;
+}
+.odp-pill[aria-pressed="true"] { background: var(--odp-red); color: #fff; }
+.odp-pill.is-unavailable { text-decoration: line-through; opacity: .55; }
+.odp-pill:focus-visible, .odp-choice:focus-visible, .odp-btn:focus-visible,
+.odp-step button:focus-visible, .odp-card:focus-visible {
+  outline: 2px solid var(--odp-ink); outline-offset: 2px;
 }
 
-/* Task 2: label hero (eyebrow, title, tagline, tasting-note tags) */
-.owv2-product-section .pdp-eyebrow{font:700 12px/1.3 var(--font-body-family);letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin:0 0 12px}
-.owv2-product-section .pdp-title{font-size:clamp(32px,4.5vw,56px)}
-.owv2-product-section .pdp-tagline{font-size:18px;line-height:1.4;margin:14px 0 0;max-width:38ch}
-.owv2-product-section .pdp-tags{list-style:none;display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:18px 0 0}
-.owv2-product-section .pdp-tags li{border:1px solid currentColor;border-radius:999px;padding:6px 14px;font:600 13px var(--font-body-family)}
+.odp-chip {
+  display: inline-block;
+  border: 1.5px solid var(--odp-red); color: var(--odp-red);
+  padding: 6px 10px; border-radius: 4px;
+  font: 600 9.5px/1 var(--odp-font);
+  letter-spacing: .1em; text-transform: uppercase;
+}
+.odp-tag {
+  display: inline-block; padding: 5px 9px; border-radius: 4px;
+  font: 700 9px/1 var(--odp-font); letter-spacing: .1em;
+  background: var(--odp-yellow); color: var(--odp-ink);
+}
+.odp-tag--plain { background: none; border: 1.5px solid rgba(255, 63, 0, .4); padding: 4px 9px; }
 
-/* Task 3: gallery (featured image + square thumbnail row) */
-.owv2-product-section .pdp-gallery__main{background:var(--owv2-product-surface);border-radius:16px;overflow:hidden}
-.owv2-product-section .pdp-gallery__main img{width:100%;height:auto;display:block}
-.owv2-product-section .pdp-gallery__thumbs{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0;margin:12px 0 0}
-.owv2-product-section .pdp-gallery__thumb{padding:0;border:1px solid transparent;border-radius:10px;overflow:hidden;background:var(--owv2-product-surface);cursor:pointer;aspect-ratio:1/1}
-.owv2-product-section .pdp-gallery__thumb img{width:100%;height:100%;object-fit:cover}
-.owv2-product-section .pdp-gallery__thumb[aria-current="true"]{border-color:var(--owv2-product-ink)}
+.odp-scroll { scrollbar-width: none; }
+.odp-scroll::-webkit-scrollbar { display: none; }
 
-/* Task 4: buy panel — price display + pill restyle of the vendor
-   product-variant-picker (picker_type: button) and buy-buttons output.
-   Selectors below target the vendor's own class names verbatim, captured by
-   reading snippets/product-variant-picker.liquid, product-variant-options.liquid
-   and buy-buttons.liquid; no vendor CSS is loaded for this panel. */
-.owv2-product-section .pdp-buy{display:flex;flex-direction:column;gap:20px}
-/* Price is rendered by the vendor `price` snippet (see owv2-product-buy.liquid);
-   these rules only restyle its output — component-price.css handles the
-   sale/compare-at display logic. */
-.owv2-product-section .pdp-price .price{font-weight:900;font-family:var(--font-heading-family);color:inherit;flex-wrap:wrap;gap:8px}
-.owv2-product-section .pdp-price .price bdi{font-size:clamp(30px,5vw,40px);font-family:var(--font-heading-family)}
-.owv2-product-section .pdp-sticky__price .price{font-weight:900;font-family:var(--font-heading-family);color:inherit}
-.owv2-product-section .pdp-sticky__price .price bdi{font-size:18px;font-family:var(--font-heading-family)}
-.owv2-product-section .pdp-buy .product-form__input--pill{border:0;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px 10px}
-.owv2-product-section .pdp-buy .product-form__input--pill .form__label{flex-basis:100%;font:600 12px/1.3 var(--font-body-family);text-transform:uppercase;letter-spacing:.08em;margin:0 0 4px}
-.owv2-product-section .pdp-buy .button-input__input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
-.owv2-product-section .pdp-buy .product-form__input--pill label{display:inline-flex;align-items:center;justify-content:center;padding:9px 18px;border:1px solid currentColor;border-radius:999px;font:600 13px/1 var(--font-body-family);cursor:pointer}
-.owv2-product-section .pdp-buy .button-input__input:checked + label{background:var(--owv2-product-ink);color:var(--owv2-product-bg)}
-.owv2-product-section .pdp-buy .button-input__input.disabled + label{opacity:.35;cursor:not-allowed;text-decoration:line-through}
-.owv2-product-section .pdp-buy .product-form__buttons{display:flex;flex-direction:column;gap:12px;margin:8px 0 0;padding:0}
-.owv2-product-section .pdp-buy .product-form__submit{font:600 15px/1 var(--font-body-family);letter-spacing:.02em;padding:16px 24px;border-radius:999px;border:0;background:var(--owv2-product-ink);color:var(--owv2-product-bg);cursor:pointer}
-.owv2-product-section .pdp-buy .product-form__submit[disabled]{opacity:.4;cursor:not-allowed}
+/* ==========================================================================
+   Main: gallery + label + buy panel
+   ========================================================================== */
 
-/* Task 5: mobile sticky add-to-cart bar. Own styling (no vendor
-   component-product-sticky-cart.css reuse — its class names/markup shape
-   don't match ours, and pulling it in risks bleeding unrelated vendor rules
-   onto this page). Hidden entirely above 749px; shown as a fixed bottom bar
-   below it, matching the theme's single 749px breakpoint. */
-.owv2-product-section .pdp-sticky{display:none}
-@media (max-width: 749px){
-  .owv2-product-section .pdp-sticky{
-    position:fixed;inset:auto 0 0 0;display:flex;align-items:center;justify-content:space-between;
-    gap:12px;padding:12px max(16px,4vw) calc(12px + env(safe-area-inset-bottom,0px));
-    background:var(--owv2-product-bg);border-top:1px solid var(--owv2-product-ink);z-index:5;
+.odp-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas: "gallery info" "gallery buy";
+  grid-template-rows: auto 1fr;
+}
+.odp-main__gallery {
+  grid-area: gallery;
+  background: var(--odp-pink);
+  padding: 26px 30px 30px;
+  border-right: 1.5px solid var(--odp-red);
+}
+.odp-main__info { grid-area: info; padding: 30px 34px 0; }
+.odp-main__buy  { grid-area: buy;  padding: 28px 34px 34px; display: flex; flex-direction: column; }
+
+.odp-crumb {
+  font: 700 11px/1 var(--odp-font); letter-spacing: .06em; color: var(--odp-red);
+}
+.odp-crumb a { text-decoration: none; }
+.odp-crumb a:hover { text-decoration: underline; }
+
+.odp-gallery__main {
+  display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover;
+  margin-top: 18px;
+  border: 2px solid var(--odp-red);
+  box-shadow: 6px 6px 0 var(--odp-red);
+  background: var(--odp-card);
+}
+.odp-gallery__thumbs {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px; margin-top: 24px;
+}
+.odp-gallery__thumb {
+  padding: 0; border: 1.5px solid var(--odp-red); background: none; cursor: pointer;
+  display: block; aspect-ratio: 1 / 1; overflow: hidden;
+}
+.odp-gallery__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.odp-gallery__thumb[aria-current="true"] { box-shadow: 3px 3px 0 var(--odp-red); }
+/* desktop shows three squares under the bag; the mobile artboard shows four */
+.odp-gallery__thumb:nth-child(n+4) { display: none; }
+
+.odp-eyebrow {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  font: 600 10px/1.3 var(--odp-font); letter-spacing: .14em;
+  text-transform: uppercase; color: var(--odp-red);
+}
+.odp-eyebrow__sep { opacity: .45; }
+.odp-title {
+  margin: 18px 0 0;
+  font: 900 clamp(40px, 4.6vw, 62px)/.94 var(--odp-font);
+  letter-spacing: -.035em; color: var(--odp-red);
+}
+.odp-tagline { margin-top: 14px; max-width: 46ch; font: 400 15px/1.55 var(--odp-body); }
+.odp-notes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+
+.odp-options { padding-top: 24px; border-top: 1.5px solid var(--odp-rule); }
+.odp-option + .odp-option { margin-top: 22px; }
+.odp-option legend { float: left; width: 100%; }
+.odp-option legend + * { clear: both; }
+.odp-option__pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.odp-option { border: 0; padding: 0; margin: 0; min-width: 0; }
+.odp-option legend { padding: 0; }
+
+/* purchase choice cards */
+.odp-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 26px; }
+.odp-choices--single { grid-template-columns: 1fr; }
+.odp-choice {
+  cursor: pointer; text-align: left; font: inherit; color: inherit;
+  border: 1.5px solid var(--odp-red); border-radius: 10px;
+  padding: 16px 16px 15px; background: var(--odp-card);
+}
+.odp-choice[aria-pressed="true"] { background: var(--odp-pink); }
+.odp-choice__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.odp-choice__name { font: 900 13px/1 var(--odp-font); color: var(--odp-red); }
+.odp-choice__sel {
+  display: none;
+  background: var(--odp-red); color: #fff; padding: 5px 8px; border-radius: 100px;
+  font: 700 9px/1 var(--odp-font); letter-spacing: .04em;
+}
+.odp-choice[aria-pressed="true"] .odp-choice__sel { display: inline-block; }
+.odp-choice__sub { margin-top: 8px; font: 400 11.5px/1.4 var(--odp-body); color: var(--odp-ink); }
+
+.odp-plans { margin-top: 18px; }
+
+.odp-nudge {
+  display: flex; align-items: center; gap: 12px; margin-top: 14px;
+  background: var(--odp-yellow); border-radius: 10px; padding: 13px 16px;
+  font: 400 12.5px/1.4 var(--odp-body); color: var(--odp-ink);
+}
+.odp-nudge strong { font-family: var(--odp-font); font-weight: 900; }
+.odp-nudge .odp-btn { margin-left: auto; }
+.odp-nudge[hidden] { display: none; }
+
+/* no-subscription scarcity block (canvas 4c) */
+.odp-scarce {
+  margin-top: 22px;
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px; align-items: center;
+  background: var(--odp-yellow); border-radius: 12px; padding: 18px 20px;
+  color: var(--odp-ink);
+}
+.odp-scarce__title { margin: 0; font: 900 15px/1.15 var(--odp-font); letter-spacing: -.02em; }
+.odp-scarce__body { margin-top: 8px; font: 400 12.5px/1.5 var(--odp-body); }
+.odp-stamp {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  width: 96px; height: 96px; border: 2px solid var(--odp-ink); border-radius: 100px;
+  text-align: center; font: 700 10px/1.2 var(--odp-font); letter-spacing: .1em; text-transform: uppercase;
+}
+
+/* buy row */
+.odp-buyrow { display: flex; align-items: center; gap: 16px; margin-top: 26px; }
+.odp-step {
+  display: flex; align-items: center; gap: 14px;
+  border: 1.5px solid var(--odp-red); border-radius: 100px; padding: 9px 14px;
+}
+.odp-step button {
+  border: none; background: none; cursor: pointer; padding: 0 2px;
+  font: 900 16px/1 var(--odp-font); color: var(--odp-red);
+}
+.odp-step output { min-width: 14px; text-align: center; font: 900 14px/1 var(--odp-font); color: var(--odp-red); }
+.odp-price__row { display: flex; align-items: baseline; gap: 9px; }
+.odp-price__now { font: 900 30px/1 var(--odp-font); letter-spacing: -.03em; color: var(--odp-red); }
+.odp-price__was { font: 600 14px/1 var(--odp-body); text-decoration: line-through; }
+.odp-price__was:empty { display: none; }
+.odp-price__line { margin-top: 6px; font: 400 11.5px/1.2 var(--odp-body); }
+.odp-buyrow .odp-btn { margin-left: auto; }
+
+.odp-funds {
+  margin-top: 26px; padding-top: 24px; border-top: 1.5px solid var(--odp-rule);
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 20px; align-items: start;
+}
+.odp-funds__text { margin-top: 12px; font: 400 13px/1.5 var(--odp-body); }
+.odp-funds .odp-btn { margin-top: 18px; }
+.odp-funds__logo { width: 74px; height: auto; display: block; }
+
+/* ---------- sticky buy bar ---------- */
+.odp-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 45;
+  display: flex; align-items: center; gap: 18px;
+  padding: 14px 30px;
+  background: #fff; color: var(--odp-ink);
+  border-top: 1.5px solid var(--odp-red);
+  box-shadow: 0 -6px 18px rgba(255, 63, 0, .1);
+  font-family: var(--odp-body);
+  opacity: 0; transform: translateY(110%); pointer-events: none;
+  transition: opacity .22s ease, transform .28s cubic-bezier(.2, .8, .2, 1);
+}
+.odp-bar.is-shown { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.odp-bar__img { width: 44px; height: 44px; object-fit: cover; border: 1.5px solid var(--odp-red); display: block; }
+.odp-bar__name { font: 900 15px/1 var(--odp-font); letter-spacing: -.02em; color: var(--odp-red); }
+.odp-bar__meta { margin-top: 5px; font: 400 12.5px/1 var(--odp-body); }
+.odp-bar__badge {
+  background: var(--odp-yellow); color: var(--odp-ink); padding: 7px 11px; border-radius: 100px;
+  font: 700 10px/1 var(--odp-font); letter-spacing: .08em;
+}
+.odp-bar__badge:empty { display: none; }
+.odp-bar__end { margin-left: auto; display: flex; align-items: center; gap: 16px; }
+.odp-bar__price { font: 900 22px/1 var(--odp-font); letter-spacing: -.02em; color: var(--odp-red); }
+.odp-bar .odp-price__was { font-size: 12.5px; }
+.odp-bar .odp-btn { padding: 15px 26px; font-size: 12.5px; }
+.odp-bar__prices { display: flex; align-items: baseline; gap: 9px; }
+@media (prefers-reduced-motion: reduce) { .odp-bar { transition: none; } }
+
+/* ==========================================================================
+   Origin band
+   ========================================================================== */
+
+.odp-origin {
+  background: var(--odp-red); color: #fff;
+  border-top: 1.5px solid var(--odp-red);
+  padding: 30px 30px 32px;
+}
+.odp-origin__inner { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 30px 48px; }
+.odp-origin__head { flex: 0 1 auto; min-width: 150px; }
+.odp-origin .odp-label { color: #fff; }
+.odp-origin__name { margin: 14px 0 0; font: 900 clamp(26px, 3vw, 36px)/1.02 var(--odp-font); letter-spacing: -.03em; }
+.odp-origin__place { margin-top: 9px; font: 700 13px/1.3 var(--odp-font); }
+.odp-origin__story { flex: 1 1 300px; min-width: 260px; }
+.odp-origin__body { font: 400 16px/1.6 var(--odp-body); }
+.odp-origin__cta {
+  display: inline-block; margin-top: 20px; text-decoration: none;
+  background: var(--odp-yellow); color: var(--odp-ink) !important;
+  padding: 13px 20px; border-radius: 100px; font: 700 11.5px/1 var(--odp-font);
+}
+.odp-origin__cta:hover { background: #fff; }
+.odp-origin__facts { flex: 0 0 340px; max-width: 100%; margin: 0; }
+.odp-fact {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 12px; align-items: center; padding: 9px 0;
+}
+.odp-fact + .odp-fact { border-top: 1px solid rgba(255, 255, 255, .4); }
+.odp-fact dt { font: 600 10.5px/1.3 var(--odp-font); letter-spacing: .08em; text-transform: uppercase; }
+.odp-fact dd { margin: 0; font: 700 13.5px/1.3 var(--odp-font); }
+
+/* ==========================================================================
+   Specs + brew guide
+   ========================================================================== */
+
+.odp-detail {
+  display: grid; grid-template-columns: minmax(300px, .52fr) minmax(0, 1fr);
+  border-top: 1.5px solid var(--odp-red);
+}
+.odp-specs { padding: 30px 30px 34px; background: #fff; border-right: 1.5px solid var(--odp-red); }
+.odp-specs__list {
+  margin: 18px 0 0;
+  display: grid; grid-template-columns: minmax(0, 1fr) max-content;
+  align-items: baseline; column-gap: 0;
+}
+.odp-specs__list dt, .odp-specs__list dd { padding: 9px 0; align-self: stretch; }
+.odp-specs__list dt { padding-right: 18px; }
+.odp-specs__list dt:not(:last-of-type), .odp-specs__list dd:not(:last-of-type) { border-bottom: 1px solid var(--odp-rule-soft); }
+.odp-specs__list dt { font: 600 10px/1.3 var(--odp-font); letter-spacing: .1em; text-transform: uppercase; color: var(--odp-red); }
+.odp-specs__list dd { margin: 0; max-width: 210px; font: 400 13.5px/1.35 var(--odp-body); text-wrap: pretty; }
+
+.odp-side { padding: 30px 34px 34px; display: flex; flex-direction: column; min-width: 0; }
+.odp-side__head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+.odp-side__note { font: 400 12px/1.4 var(--odp-body); }
+
+.odp-brew {
+  flex: 1; display: flex; align-items: stretch; gap: 10px;
+  margin-top: 22px; margin-right: -34px; padding-right: 34px; padding-bottom: 4px;
+  overflow-x: auto; scroll-snap-type: x mandatory;
+}
+/* three share the column; four or more become a snap swipe at the 224px floor */
+.odp-brew__card {
+  flex: 1 1 0; min-width: 224px; scroll-snap-align: start;
+  display: flex; flex-direction: column; gap: 12px;
+  padding: 18px 20px 16px; background: #fff; text-decoration: none; color: inherit;
+  border: 1.5px solid var(--odp-red); border-radius: 12px;
+  transition: background-color .15s ease;
+}
+a.odp-brew__card:hover { background: var(--odp-pink); }
+.odp-brew__top { display: flex; flex-direction: column; align-items: flex-start; gap: 9px; }
+.odp-brew__name { font: 900 21px/1.02 var(--odp-font); letter-spacing: -.03em; color: var(--odp-red); text-wrap: balance; }
+.odp-brew__summary { display: none; }
+.odp-brew__lines { margin: 0; display: flex; flex-direction: column; }
+.odp-brew__line { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; }
+.odp-brew__line + .odp-brew__line { border-top: 1px solid var(--odp-rule-soft); }
+.odp-brew__line dt { font: 600 9.5px/1.3 var(--odp-font); letter-spacing: .1em; text-transform: uppercase; color: var(--odp-red); }
+.odp-brew__line dd { margin: 0; font: 600 13px/1.3 var(--odp-body); }
+.odp-brew__go { margin-top: auto; padding-top: 8px; white-space: nowrap; font: 700 11.5px/1 var(--odp-font); color: var(--odp-red); }
+.odp-brew__arrow { display: none; }
+
+.odp-inside { display: flex; flex-direction: column; gap: 10px; margin-top: 22px; }
+.odp-inside__item {
+  text-decoration: none; color: inherit;
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 16px; align-items: center;
+  padding: 14px 18px; background: #fff; border: 1.5px solid var(--odp-red); border-radius: 12px;
+}
+a.odp-inside__item:hover { background: var(--odp-pink); }
+.odp-inside__img { width: 46px; height: 46px; object-fit: cover; border: 1.5px solid var(--odp-red); border-radius: 6px; display: block; }
+.odp-inside__name { font: 900 17px/1.1 var(--odp-font); letter-spacing: -.02em; color: var(--odp-red); }
+.odp-inside__note { margin-top: 6px; font: 400 12.5px/1.35 var(--odp-body); }
+.odp-inside__size { font: 700 11.5px/1 var(--odp-font); white-space: nowrap; }
+.odp-inside__foot { margin-top: 18px; font: 400 12.5px/1.5 var(--odp-body); }
+
+/* ==========================================================================
+   Pairs well with
+   ========================================================================== */
+
+.odp-pairs { padding: 48px 40px 56px; background: var(--odp-pink); border-top: 1.5px solid var(--odp-red); }
+.odp-pairs__head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; }
+.odp-pairs__title { margin: 0; font: 900 26px/1.1 var(--odp-font); letter-spacing: -.025em; color: var(--odp-red); }
+.odp-pairs__all {
+  text-decoration: none; font: 700 12px/1 var(--odp-font); color: var(--odp-red) !important;
+  border-bottom: 1.5px solid var(--odp-red); padding-bottom: 3px;
+}
+.odp-pairs__grid { display: grid; grid-template-columns: repeat(var(--odp-cols, 3), minmax(0, 1fr)); gap: 24px; margin-top: 26px; }
+.odp-card {
+  text-decoration: none; color: inherit; background: #fff;
+  border: 2px solid var(--odp-red); box-shadow: 5px 5px 0 var(--odp-red);
+  padding: 12px 12px 16px; display: flex; flex-direction: column;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.odp-card:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--odp-red); }
+.odp-card__img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; }
+.odp-card__row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-top: 13px; }
+.odp-card__name { font: 900 18px/1.05 var(--odp-font); letter-spacing: -.02em; color: var(--odp-red); }
+.odp-card__price { font: 700 12px/1 var(--odp-font); white-space: nowrap; }
+.odp-card__note { margin-top: 7px; font: 600 9.5px/1 var(--odp-font); letter-spacing: .1em; text-transform: uppercase; color: var(--odp-red); }
+
+/* ==========================================================================
+   Mobile — the 390px artboard (5b): label first, then photos, then buy
+   ========================================================================== */
+
+@media screen and (max-width: 749px) {
+  .odp-main {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "info" "gallery" "buy";
+    grid-template-rows: auto;
   }
-}
-.owv2-product-section .pdp-sticky__price{font:900 20px/1 var(--font-heading-family)}
-.owv2-product-section .pdp-sticky__cta{font:600 15px/1 var(--font-body-family);letter-spacing:.02em;padding:14px 28px;border-radius:999px;border:0;background:var(--owv2-product-ink);color:var(--owv2-product-bg);cursor:pointer}
-.owv2-product-section .pdp-sticky__cta[disabled]{opacity:.4;cursor:not-allowed}
+  .odp-main__info { padding: 20px 16px 24px; }
+  .odp-main__gallery {
+    padding: 16px; border-right: 0;
+    border-top: 1.5px solid var(--odp-rule); border-bottom: 1.5px solid var(--odp-red);
+  }
+  .odp-main__buy { padding: 24px 16px 30px; }
+  .odp-crumb { display: none; }
+  .odp-gallery__main { margin-top: 0; box-shadow: none; }
+  .odp-gallery__thumbs { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 8px; }
+  .odp-gallery__thumb:nth-child(4) { display: block; }
+  .odp-gallery__thumb:not(:first-child) { border-color: rgba(255, 63, 0, .45); }
 
-/* Task 6: "What this bag funds" block */
-.owv2-product-section .pdp-funds{background:var(--owv2-product-surface);border-radius:14px;padding:22px}
-.owv2-product-section .pdp-funds__h{font:600 20px var(--font-heading-family);margin:0 0 8px}
-.owv2-product-section .pdp-funds__body{font-size:15px;line-height:1.5}
-.owv2-product-section .pdp-funds__link{display:inline-block;margin-top:12px;font-weight:700;text-decoration:underline}
+  .odp-eyebrow { gap: 8px; font-size: 9.5px; letter-spacing: .12em; }
+  .odp-title { margin-top: 14px; font-size: 40px; }
+  .odp-tagline { margin-top: 12px; font-size: 14px; line-height: 1.5; }
+  .odp-notes { gap: 6px; margin-top: 16px; }
+  .odp-chip { padding: 6px 9px; font-size: 9px; }
+
+  .odp-options { padding-top: 0; border-top: 0; }
+  .odp-option + .odp-option { margin-top: 20px; }
+  .odp-option__pills { gap: 7px; margin-top: 11px; }
+  .odp-label { font-size: 10px; }
+
+  .odp-choices { grid-template-columns: 1fr; gap: 9px; margin-top: 22px; }
+  .odp-choice { padding: 15px; }
+  .odp-choice__sub { margin-top: 7px; }
+  .odp-nudge { display: block; margin-top: 12px; padding: 13px 15px; font-size: 12px; }
+  .odp-nudge .odp-btn { display: flex; margin: 11px 0 0; }
+
+  /* the phone artboard drops the stepper: price row, then a full-width CTA */
+  .odp-buyrow { flex-wrap: wrap; gap: 0; margin-top: 20px; }
+  .odp-buyrow .odp-step { display: none; }
+  .odp-price { width: 100%; }
+  .odp-price__row { gap: 10px; }
+  .odp-price__now { font-size: 28px; }
+  .odp-price__line { margin: 0 0 0 auto; }
+  .odp-price { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .odp-buyrow .odp-btn { width: 100%; margin: 14px 0 0; padding: 17px 24px; font-size: 14px; }
+
+  .odp-funds { margin-top: 24px; padding-top: 20px; grid-template-columns: minmax(0, 1fr) 62px; gap: 16px; }
+  .odp-funds__text { margin-top: 10px; font-size: 12.5px; }
+  .odp-funds__logo { width: 62px; }
+  .odp-funds .odp-btn { margin-top: 14px; }
+
+  /* phone bar (5b): price over the summary line, button on the right */
+  .odp-bar {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "price cta" "meta cta";
+    column-gap: 12px; row-gap: 5px; align-items: center; padding: 12px 16px;
+  }
+  .odp-bar__img, .odp-bar__name, .odp-bar__badge { display: none; }
+  .odp-bar__text, .odp-bar__end { display: contents; }
+  .odp-bar__prices { grid-area: price; gap: 7px; }
+  .odp-bar__price { font-size: 19px; }
+  .odp-bar__meta { grid-area: meta; margin-top: 0; font-size: 10.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .odp-bar .odp-price__was { font-size: 11.5px; }
+  .odp-bar .odp-btn { grid-area: cta; padding: 15px 22px; }
+
+  .odp-origin { padding: 26px 16px 30px; }
+  .odp-origin__inner { display: flex; flex-direction: column; gap: 0; }
+  .odp-origin__head, .odp-origin__story, .odp-origin__facts { flex: none; width: 100%; min-width: 0; }
+  .odp-origin__name { margin-top: 12px; font-size: 26px; }
+  .odp-origin__place { margin-top: 8px; font-size: 12px; }
+  .odp-origin__story { display: contents; }
+  .odp-origin__body { margin-top: 14px; font-size: 14.5px; }
+  .odp-origin__facts { order: 3; margin-top: 18px; }
+  .odp-origin__cta { order: 4; display: block; align-self: stretch; text-align: center; margin-top: 18px; padding: 14px 18px; }
+  .odp-fact { grid-template-columns: minmax(0, .7fr) minmax(0, 1fr); gap: 10px; padding: 10px 0; }
+  .odp-fact dt { font-size: 10px; }
+  .odp-fact dd { font-size: 12.5px; }
+
+  .odp-detail { grid-template-columns: minmax(0, 1fr); }
+  .odp-specs { padding: 26px 16px 30px; border-right: 0; }
+  .odp-specs__list { margin-top: 16px; grid-template-columns: minmax(0, .7fr) minmax(0, 1fr); }
+  .odp-specs__list dt { padding-right: 10px; }
+  .odp-specs__list dt, .odp-specs__list dd { padding: 11px 0; }
+  .odp-specs__list dt { font-size: 10.5px; letter-spacing: .08em; }
+  .odp-specs__list dd { max-width: none; font-size: 12.5px; }
+  .odp-side { padding: 26px 16px 30px; border-top: 1.5px solid var(--odp-red); }
+  .odp-side__head { display: block; }
+  .odp-side__note { display: block; margin-top: 9px; line-height: 1.5; }
+
+  /* brew methods become rows: name + one-line summary + badge + arrow */
+  .odp-brew { flex-direction: column; margin: 16px 0 0; padding: 0; overflow: visible; }
+  .odp-brew__card {
+    flex: none; min-width: 0; flex-direction: row; align-items: center; gap: 14px;
+    padding: 15px; border-radius: 10px;
+  }
+  .odp-brew__top { flex: 1; min-width: 0; gap: 0; }
+  .odp-brew__top .odp-tag { display: none; }
+  .odp-brew__name { font-size: 17px; line-height: 1.1; letter-spacing: -.02em; }
+  .odp-brew__summary { display: block; margin-top: 6px; font: 600 11.5px/1.4 var(--odp-body); }
+  .odp-brew__lines, .odp-brew__go { display: none; }
+  .odp-brew__badge { display: inline-block; padding: 5px 8px; font-size: 8.5px; line-height: 1.2; letter-spacing: .08em; text-align: center; max-width: 72px; white-space: normal; }
+  .odp-brew__arrow { display: inline; font: 900 13px/1 var(--odp-font); color: var(--odp-red); }
+
+  .odp-inside { margin-top: 16px; }
+  .odp-inside__item { gap: 13px; padding: 12px 14px; border-radius: 10px; }
+  .odp-inside__img { width: 42px; height: 42px; }
+  .odp-inside__name { font-size: 15px; }
+  .odp-inside__note { margin-top: 5px; font-size: 11.5px; }
+  .odp-inside__size { font-size: 10.5px; }
+
+  .odp-pairs { padding: 26px 16px 110px; }
+  .odp-pairs__title { font-size: 22px; }
+  .odp-pairs__all { display: none; }
+  .odp-pairs__grid {
+    display: flex; gap: 14px; overflow-x: auto; margin: 18px -16px 0 0; padding: 0 16px 6px 0;
+    scroll-snap-type: x mandatory;
+  }
+  .odp-card { flex: none; width: 190px; scroll-snap-align: start; box-shadow: 4px 4px 0 var(--odp-red); padding: 10px 10px 14px; }
+  .odp-card__row { display: block; margin-top: 11px; }
+  .odp-card__name { font-size: 16px; }
+  .odp-card__price { display: block; margin-top: 6px; font-size: 11px; }
+  .odp-card__note { display: none; }
+}
+
+/* brew badge only exists for the mobile row */
+@media screen and (min-width: 750px) { .odp-brew__badge { display: none; } }

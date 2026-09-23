@@ -1,0 +1,88 @@
+{%- comment -%}
+  owv2-product-pairings — "Pairs well with" (canvas 4a / 5b).
+  Three products from a chosen collection, skipping the one on the page.
+  Card note: product metafield custom.card_note, falling back to product type.
+  Swipe rail under 750px.
+{%- endcomment -%}
+
+{{ 'owv2-product.css' | asset_url | stylesheet_tag }}
+
+<style>
+  #shopify-section-{{ section.id }} .od-pdp {
+    --odp-red: {{ section.settings.color_red }};
+    --odp-pink: {{ section.settings.color_pink }};
+    --odp-ink: {{ section.settings.color_ink }};
+  }
+</style>
+
+{%- liquid
+  assign source = section.settings.collection
+  assign max_cards = section.settings.card_count
+  assign shown = 0
+-%}
+
+<div class="od-pdp">
+  <section class="odp-pairs" aria-labelledby="odp-pairs-{{ section.id }}">
+    <div class="odp-pairs__head">
+      <h2 class="odp-pairs__title" id="odp-pairs-{{ section.id }}">{{ section.settings.title }}</h2>
+      {%- if section.settings.link_label != blank -%}
+        <a class="odp-pairs__all" href="{{ section.settings.link_url | default: source.url | default: routes.all_products_collection_url }}">{{ section.settings.link_label }}</a>
+      {%- endif -%}
+    </div>
+    <div class="odp-pairs__grid odp-scroll" style="--odp-cols: {{ max_cards }}">
+      {%- if source != blank -%}
+        {%- for p in source.products limit: 12 -%}
+          {%- if p.id == product.id -%}{%- continue -%}{%- endif -%}
+          {%- if shown >= max_cards -%}{%- break -%}{%- endif -%}
+          {%- assign shown = shown | plus: 1 -%}
+          <a class="odp-card" href="{{ p.url }}">
+            {%- if p.featured_media -%}
+              {{ p.featured_media.preview_image | image_url: width: 800 | image_tag: class: 'odp-card__img', loading: 'lazy', widths: '300, 500, 800', sizes: '(min-width: 750px) 30vw, 190px', alt: p.featured_media.alt }}
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'odp-card__img' }}
+            {%- endif -%}
+            <span class="odp-card__row">
+              <span class="odp-card__name">{{ p.title }}</span>
+              <span class="odp-card__price">
+                {%- if p.price_varies -%}{{ section.settings.from_label }} {% endif -%}
+                {{- p.price_min | money -}}
+              </span>
+            </span>
+            {%- assign note = p.metafields.custom.card_note.value | default: p.type -%}
+            {%- if note != blank -%}<span class="odp-card__note">{{ note }}</span>{%- endif -%}
+          </a>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..3) -%}
+          <div class="odp-card">
+            {{ 'product-1' | placeholder_svg_tag: 'odp-card__img' }}
+            <span class="odp-card__row"><span class="odp-card__name">{{ section.settings.placeholder_name }}</span></span>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "OWV2 Product — pairings",
+  "tag": "section",
+  "class": "owv2-section owv2-product-pairings",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "text", "id": "title", "label": "Heading", "default": "Pairs well with" },
+    { "type": "collection", "id": "collection", "label": "Products from" },
+    { "type": "range", "id": "card_count", "label": "Products shown", "min": 2, "max": 4, "step": 1, "default": 3 },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "Browse all" },
+    { "type": "url", "id": "link_url", "label": "Link", "info": "Blank links to the collection." },
+    { "type": "text", "id": "from_label", "label": "Price prefix when variants differ", "default": "From" },
+    { "type": "text", "id": "placeholder_name", "label": "Placeholder title", "default": "Pick a collection" },
+    { "type": "header", "content": "Colours" },
+    { "type": "color", "id": "color_red", "label": "Brand red", "default": "#FF3F00" },
+    { "type": "color", "id": "color_pink", "label": "Salmon (background)", "default": "#FFE4E7" },
+    { "type": "color", "id": "color_ink", "label": "Text", "default": "#00180C" }
+  ],
+  "presets": [ { "name": "OWV2 Product — pairings" } ]
+}
+{% endschema %}

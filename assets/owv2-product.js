@@ -1,99 +1,265 @@
-/**
- * owv2-product.js — thin `<owv2-product>` controller.
- *
- * Never computes a variant. Subscribes to the vendor `variant-change`
- * pub/sub event (published by product-info.js with
- * `{ data: { sectionId, html, variant } }`) and mirrors the resolved
- * variant into our own price display and the mobile sticky bar. Also owns
- * the gallery thumbnail -> main image swap (a plain click handler, deferred
- * here rather than reusing vendor product-thumbnails.js — see
- * snippets/owv2-product-gallery.liquid for why).
- *
- * Depends on assets/pubsub.js having already defined the global `subscribe`
- * / `publish` / `PUB_SUB_EVENTS` — it is loaded globally by layout/theme.liquid
- * ahead of any section script, so this file never re-declares it.
- */
-if (!customElements.get('owv2-product')) {
-  customElements.define(
-    'owv2-product',
-    class extends HTMLElement {
-      connectedCallback() {
-        this.sectionId = this.dataset.section;
-        this.stickyBar = this.querySelector('[data-sticky-bar]');
-        this.stickyPrice = this.querySelector('[data-sticky-price]');
-        this.stickyCta = this.querySelector('[data-sticky-cta]');
+/* Omawild PDP — buy panel behaviour for sections/owv2-product-main.liquid.
+   Everything is read from the JSON island the section renders: variants,
+   their selling-plan allocation prices and the copy strings. The form it
+   drives is an ordinary /cart/add product form. */
+(function () {
+  'use strict';
 
-        if (typeof subscribe === 'function' && typeof PUB_SUB_EVENTS !== 'undefined') {
-          this._unsub = subscribe(PUB_SUB_EVENTS.variantChange, (event) => this.onVariantChange(event));
+  function formatMoney(cents, format) {
+    if (typeof cents === 'string') cents = cents.replace('.', '');
+    var value = '';
+    var placeholder = /\{\{\s*(\w+)\s*\}\}/;
+    format = format || '${{amount}}';
+
+    function delimit(number, precision, thousands, decimal) {
+      precision = precision == null ? 2 : precision;
+      thousands = thousands || ',';
+      decimal = decimal || '.';
+      if (isNaN(number) || number == null) return '0';
+      number = (number / 100.0).toFixed(precision);
+      var parts = number.split('.');
+      var dollars = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + thousands);
+      var centsPart = parts[1] ? decimal + parts[1] : '';
+      return dollars + centsPart;
+    }
+
+    var match = format.match(placeholder);
+    switch (match ? match[1] : 'amount') {
+      case 'amount': value = delimit(cents, 2); break;
+      case 'amount_no_decimals': value = delimit(cents, 0); break;
+      case 'amount_with_comma_separator': value = delimit(cents, 2, '.', ','); break;
+      case 'amount_no_decimals_with_comma_separator': value = delimit(cents, 0, '.', ','); break;
+      case 'amount_with_apostrophe_separator': value = delimit(cents, 2, "'", '.'); break;
+      case 'amount_with_space_separator': value = delimit(cents, 2, ' ', ','); break;
+      default: value = delimit(cents, 2);
+    }
+    return format.replace(placeholder, value);
+  }
+
+  function init(root) {
+    if (root.__odp) return;
+    root.__odp = true;
+
+    var island = root.querySelector('[data-odp-json]');
+    if (!island) return;
+    var data;
+    try { data = JSON.parse(island.textContent); } catch (e) { return; }
+
+    var variantInput = root.querySelector('[data-odp-variant]');
+    var planInput = root.querySelector('[data-odp-plan-input]');
+    var qtyInput = root.querySelector('[data-odp-qty-input]');
+    var nudge = root.querySelector('[data-odp-nudge]');
+    var bar = root.querySelector('[data-odp-bar]');
+    var mainImg = root.querySelector('img.odp-gallery__main');
+
+    var state = {
+      mode: data.mode,
+      planId: data.planId != null ? String(data.planId) : null,
+      planName: data.planName,
+      qty: 1,
+      options: []
+    };
+
+    var groups = Array.prototype.slice.call(root.querySelectorAll('[data-odp-option]'))
+      .filter(function (g) { return !g.hasAttribute('data-odp-plans'); });
+    groups.forEach(function (g, i) {
+      var on = g.querySelector('[aria-pressed="true"]');
+      state.options[i] = on ? on.getAttribute('data-odp-value') : null;
+    });
+
+    function findVariant(options) {
+      if (data.defaultOnly) return data.variants[0];
+      for (var i = 0; i < data.variants.length; i++) {
+        var v = data.variants[i];
+        var ok = true;
+        for (var j = 0; j < options.length; j++) {
+          if (v.options[j] !== options[j]) { ok = false; break; }
         }
+        if (ok) return v;
+      }
+      return null;
+    }
 
-        if (this.stickyCta) {
-          this.stickyCta.addEventListener('click', () => this.onStickyCtaClick());
-        }
+    function unitPrice(v) {
+      if (state.mode === 'sub' && state.planId && v.plans[state.planId] != null) return v.plans[state.planId];
+      return v.price;
+    }
 
-        this.querySelectorAll('.pdp-gallery__thumb').forEach((thumb) => {
-          thumb.addEventListener('click', () => this.onThumbClick(thumb));
+    function subPrice(v) {
+      return state.planId && v.plans[state.planId] != null ? v.plans[state.planId] : v.price;
+    }
+
+    function percent(v) {
+      if (!v.price) return 0;
+      return Math.round(((v.price - subPrice(v)) / v.price) * 100);
+    }
+
+    function money(c) { return formatMoney(c, data.moneyFormat); }
+
+    function each(sel, fn) {
+      Array.prototype.forEach.call(root.querySelectorAll(sel), fn);
+    }
+
+    function render() {
+      var v = findVariant(state.options);
+      var available = !!(v && v.available);
+
+      if (v) variantInput.value = v.id;
+      qtyInput.value = state.qty;
+      if (planInput) {
+        planInput.disabled = state.mode !== 'sub';
+        if (state.planId) planInput.value = state.planId;
+      }
+
+      // pills: pressed state + strike through values that can't combine into a buyable variant
+      groups.forEach(function (g, i) {
+        Array.prototype.forEach.call(g.querySelectorAll('[data-odp-value]'), function (btn) {
+          var val = btn.getAttribute('data-odp-value');
+          btn.setAttribute('aria-pressed', val === state.options[i] ? 'true' : 'false');
+          var probe = state.options.slice();
+          probe[i] = val;
+          var pv = findVariant(probe);
+          btn.classList.toggle('is-unavailable', !pv || !pv.available);
         });
-      }
-
-      disconnectedCallback() {
-        if (this._unsub) this._unsub();
-      }
-
-      onVariantChange(event) {
-        const d = event && event.data;
-        if (!d || d.sectionId !== this.sectionId) return;
-
-        // The buy-panel price is owned by the vendor: product-info.js swaps the
-        // server-rendered, presentment-currency-correct `#price-<section>` block
-        // (it renders with `money`/`money_with_currency`). We never format money
-        // in JS — shop.money_format is a single base-currency string and would be
-        // wrong for any other presentment currency (TWD/USD/HKD). Here we only
-        // mirror that same server-rendered price block into the mobile sticky bar,
-        // sourced from the re-rendered section fragment in the event payload.
-        if (this.stickyPrice && d.html) {
-          const src = d.html.getElementById('price-' + this.sectionId);
-          if (src) this.stickyPrice.innerHTML = src.innerHTML;
+      });
+      each('[data-odp-mode]', function (btn) {
+        if (btn.classList.contains('odp-choice')) {
+          btn.setAttribute('aria-pressed', btn.getAttribute('data-odp-mode') === state.mode ? 'true' : 'false');
         }
+      });
+      each('[data-odp-plan]', function (btn) {
+        btn.setAttribute('aria-pressed', btn.getAttribute('data-odp-plan') === state.planId ? 'true' : 'false');
+      });
 
-        // Keep only the sticky CTA's availability in sync. The sticky bar's
-        // existence/visibility is rendered server-side (see the section), so it
-        // is correct on first paint even when `variant-change` never fires
-        // (single-variant products render no picker); this handler never gates
-        // visibility itself.
-        if (this.stickyCta && d.variant) this.stickyCta.disabled = d.variant.available === false;
+      if (!v) {
+        each('[data-odp-cta]', function (b) { b.disabled = true; b.textContent = data.copy.soldOut; });
+        return;
       }
 
-      // Sticky-bar CTA (mobile, <=749px): rather than a dead anchor, this
-      // programmatically clicks the real vendor submit button so add-to-cart
-      // logic (product-form.js) stays the single source of truth.
-      onStickyCtaClick() {
-        const submit = document.getElementById('ProductSubmitButton-' + this.sectionId);
-        if (submit && !submit.disabled) submit.click();
+      var total = unitPrice(v) * state.qty;
+      var was = 0;
+      if (state.mode === 'sub' && subPrice(v) < v.price) was = v.price * state.qty;
+      else if (state.mode === 'once' && v.compare > v.price) was = v.compare * state.qty;
+
+      each('[data-odp-price]', function (el) { el.textContent = money(total); });
+      each('[data-odp-was]', function (el) { el.textContent = was ? money(was) : ''; });
+
+      var pct = percent(v);
+      var suffix = state.mode === 'sub'
+        ? (data.multiPlan && state.planName ? state.planName : data.copy.lineSub)
+        : data.copy.lineOnce;
+      var parts = data.defaultOnly ? [] : v.options.slice();
+      if (suffix) parts.push(suffix);
+      each('[data-odp-line]', function (el) { el.textContent = parts.join(' · '); });
+
+      var subCopy = root.querySelector('[data-odp-sub-copy]');
+      if (subCopy) subCopy.textContent = data.copy.subCopy.replace('[percent]', pct);
+
+      var badge = root.querySelector('[data-odp-badge]');
+      if (badge) badge.textContent = state.mode === 'sub' && pct > 0 ? data.copy.badge.replace('[percent]', pct) : '';
+
+      if (nudge) {
+        var sub = subPrice(v) * state.qty;
+        var saving = v.price * state.qty - sub;
+        var showNudge = state.mode === 'once' && saving > 0;
+        nudge.hidden = !showNudge;
+        if (showNudge) {
+          var text = nudge.querySelector('[data-odp-nudge-text]');
+          var html = escapeHtml(data.copy.nudge)
+            .replace('[price]', '<strong>' + escapeHtml(money(sub)) + '</strong>')
+            .replace('[saving]', escapeHtml(money(saving)));
+          text.innerHTML = html;
+        }
       }
 
-      // Gallery thumbnail -> main image swap (see owv2-product-gallery.liquid
-      // for the `data-full-src` attribute this reads).
-      onThumbClick(thumb) {
-        const fullSrc = thumb.dataset.fullSrc;
-        if (!fullSrc) return;
+      each('[data-odp-cta]', function (b) {
+        b.disabled = !available;
+        b.textContent = !available ? data.copy.soldOut : (state.mode === 'sub' ? data.copy.ctaSub : data.copy.ctaOnce);
+      });
+      root.querySelector('[data-odp-qty-out]').textContent = state.qty;
 
-        const gallery = thumb.closest('.pdp-gallery');
-        const mainImg = gallery && gallery.querySelector('.pdp-gallery__main img');
-        if (mainImg) {
-          mainImg.src = fullSrc;
-          // Clear/rebuild srcset so the browser can't override `src` with a
-          // stale descriptor from the previous image.
-          mainImg.srcset = fullSrc;
-        }
-
-        if (gallery) {
-          gallery.querySelectorAll('.pdp-gallery__thumb[aria-current="true"]').forEach((t) => {
-            t.removeAttribute('aria-current');
-          });
-        }
-        thumb.setAttribute('aria-current', 'true');
+      if (v.media && mainImg && mainImg.getAttribute('data-variant-src') !== v.media) {
+        mainImg.setAttribute('data-variant-src', v.media);
+        swapMain(v.media, '', mainImg.alt);
       }
     }
-  );
-}
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    function swapMain(src, srcset, alt) {
+      if (!mainImg) return;
+      mainImg.removeAttribute('srcset');
+      if (srcset) mainImg.setAttribute('srcset', srcset);
+      mainImg.src = src;
+      if (alt != null) mainImg.alt = alt;
+    }
+
+    root.addEventListener('click', function (e) {
+      var t = e.target.closest('button');
+      if (!t || !root.contains(t)) return;
+
+      if (t.hasAttribute('data-odp-value')) {
+        var g = t.closest('[data-odp-option]');
+        var i = groups.indexOf(g);
+        if (i > -1) { state.options[i] = t.getAttribute('data-odp-value'); render(); }
+      } else if (t.hasAttribute('data-odp-mode')) {
+        state.mode = t.getAttribute('data-odp-mode');
+        render();
+      } else if (t.hasAttribute('data-odp-plan')) {
+        state.planId = t.getAttribute('data-odp-plan');
+        state.planName = t.getAttribute('data-odp-plan-name');
+        render();
+      } else if (t.hasAttribute('data-odp-qty')) {
+        state.qty = Math.max(1, Math.min(99, state.qty + parseInt(t.getAttribute('data-odp-qty'), 10)));
+        render();
+      } else if (t.hasAttribute('data-odp-thumb')) {
+        each('[data-odp-thumb]', function (b) { b.removeAttribute('aria-current'); });
+        t.setAttribute('aria-current', 'true');
+        swapMain(t.getAttribute('data-src'), t.getAttribute('data-srcset'), t.getAttribute('data-alt'));
+      }
+    });
+
+    // Sticky bar, same rule on desktop and phones: reveal once the bottom of the
+    // origin band has come into view, hide again when scrolling back above it.
+    // Without an origin section on the page, fall back to the in-page buy row
+    // having scrolled above the viewport.
+    if (bar) {
+      var barBtn = bar.querySelector('[data-odp-cta]');
+      var row = root.querySelector('[data-odp-buyrow]');
+      var ticking = false;
+      var setBar = function (show) {
+        bar.classList.toggle('is-shown', show);
+        bar.setAttribute('aria-hidden', show ? 'false' : 'true');
+        if (barBtn) barBtn.tabIndex = show ? 0 : -1;
+      };
+      var check = function () {
+        ticking = false;
+        var origin = document.querySelector('[data-odp-origin]');
+        if (origin) setBar(origin.getBoundingClientRect().bottom < window.innerHeight);
+        else if (row) setBar(row.getBoundingClientRect().bottom < 0);
+      };
+      var onScroll = function () {
+        if (!ticking) { ticking = true; window.requestAnimationFrame(check); }
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      check();
+    }
+
+    render();
+  }
+
+  function boot(scope) {
+    Array.prototype.forEach.call((scope || document).querySelectorAll('[data-odp]'), init);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { boot(); });
+  else boot();
+
+  // theme editor: re-init a section after it is re-rendered
+  document.addEventListener('shopify:section:load', function (e) { boot(e.target); });
+})();

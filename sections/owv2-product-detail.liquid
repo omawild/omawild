@@ -1,0 +1,201 @@
+{%- comment -%}
+  owv2-product-detail — "About this bag" spec table beside the brew guide
+  (canvas 4a / 6a / 6b / 5b). An assortment swaps the brew guide for
+  "What's inside": add Inside blocks and the brew cards are not shown.
+
+  Three brew cards share the column; four or more become a snap swipe with a
+  224px floor. On phones each method collapses to a row (name + summary).
+
+  Spec rows for Elevation/Crop year/Varietal default to the same
+  product.metafields.custom.* fields already used elsewhere on this template.
+  Processing/Roast level/Roast date/Peak freshness have no matching metafield
+  yet, so those rows are omitted from the preset rather than showing invented
+  values — add them per coffee, or once a metafield exists for them.
+{%- endcomment -%}
+
+{{ 'owv2-product.css' | asset_url | stylesheet_tag }}
+
+<style>
+  #shopify-section-{{ section.id }} .od-pdp {
+    --odp-red: {{ section.settings.color_red }};
+    --odp-pink: {{ section.settings.color_pink }};
+    --odp-yellow: {{ section.settings.color_yellow }};
+    --odp-ink: {{ section.settings.color_ink }};
+    --odp-page: {{ section.settings.color_page }};
+  }
+</style>
+
+{%- liquid
+  assign specs = section.blocks | where: 'type', 'spec'
+  assign brews = section.blocks | where: 'type', 'brew'
+  assign inside = section.blocks | where: 'type', 'inside'
+-%}
+
+<div class="od-pdp">
+  <div class="odp-detail">
+    <div class="odp-specs">
+      <h2 class="odp-label">{{ section.settings.specs_title }}</h2>
+      {%- if specs.size > 0 -%}
+        <dl class="odp-specs__list">
+          {%- for block in specs -%}
+            <dt {{ block.shopify_attributes }}>{{ block.settings.key }}</dt>
+            <dd>{{ block.settings.value }}</dd>
+          {%- endfor -%}
+        </dl>
+      {%- endif -%}
+    </div>
+
+    <div class="odp-side">
+      {%- if inside.size > 0 -%}
+        <div class="odp-side__head">
+          <h2 class="odp-label">{{ section.settings.inside_title }}</h2>
+        </div>
+        <div class="odp-inside">
+          {%- for block in inside -%}
+            {%- assign p = block.settings.product -%}
+            {%- if p != blank -%}
+              <a class="odp-inside__item" href="{{ p.url }}" {{ block.shopify_attributes }}>
+                {%- if p.featured_media -%}
+                  {{ p.featured_media.preview_image | image_url: width: 120 | image_tag: class: 'odp-inside__img', loading: 'lazy', alt: '' }}
+                {%- endif -%}
+                <span>
+                  <span class="odp-inside__name" style="display:block">{{ p.title }}</span>
+                  {%- if block.settings.note != blank -%}
+                    <span class="odp-inside__note" style="display:block">{{ block.settings.note }}</span>
+                  {%- endif -%}
+                </span>
+                <span class="odp-inside__size">{{ block.settings.size }}</span>
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        {%- if section.settings.inside_foot != blank -%}
+          <p class="odp-inside__foot">{{ section.settings.inside_foot }}</p>
+        {%- endif -%}
+      {%- elsif brews.size > 0 -%}
+        <div class="odp-side__head">
+          <h2 class="odp-label">{{ section.settings.brew_title }}</h2>
+          {%- if section.settings.brew_note != blank -%}
+            <span class="odp-side__note">{{ section.settings.brew_note }}</span>
+          {%- endif -%}
+        </div>
+        <div class="odp-brew odp-scroll">
+          {%- for block in brews -%}
+            {%- liquid
+              assign b = block.settings
+              assign tag = 'div'
+              if b.url != blank
+                assign tag = 'a'
+              endif
+            -%}
+            <{{ tag }} class="odp-brew__card" {% if tag == 'a' %}href="{{ b.url }}"{% endif %} {{ block.shopify_attributes }}>
+              <div class="odp-brew__top">
+                <span class="odp-brew__name">{{ b.title }}</span>
+                {%- if b.summary != blank -%}<span class="odp-brew__summary">{{ b.summary }}</span>{%- endif -%}
+                {%- if b.preferred -%}
+                  <span class="odp-tag">{{ section.settings.preferred_label }}</span>
+                {%- elsif section.settings.plain_label != blank -%}
+                  <span class="odp-tag odp-tag--plain">{{ section.settings.plain_label }}</span>
+                {%- endif -%}
+              </div>
+              <dl class="odp-brew__lines">
+                {%- if b.grind != blank -%}<div class="odp-brew__line"><dt>{{ section.settings.k_grind }}</dt><dd>{{ b.grind }}</dd></div>{%- endif -%}
+                {%- if b.coffee != blank -%}<div class="odp-brew__line"><dt>{{ section.settings.k_coffee }}</dt><dd>{{ b.coffee }}</dd></div>{%- endif -%}
+                {%- if b.water != blank -%}<div class="odp-brew__line"><dt>{{ section.settings.k_water }}</dt><dd>{{ b.water }}</dd></div>{%- endif -%}
+                {%- if b.temp != blank -%}<div class="odp-brew__line"><dt>{{ section.settings.k_temp }}</dt><dd>{{ b.temp }}</dd></div>{%- endif -%}
+                {%- if b.time != blank -%}<div class="odp-brew__line"><dt>{{ section.settings.k_time }}</dt><dd>{{ b.time }}</dd></div>{%- endif -%}
+              </dl>
+              {%- if b.preferred -%}
+                <span class="odp-tag odp-brew__badge">{{ section.settings.preferred_label }}</span>
+              {%- endif -%}
+              {%- if tag == 'a' -%}
+                {%- if section.settings.guide_label != blank -%}<span class="odp-brew__go">{{ section.settings.guide_label }}</span>{%- endif -%}
+                <span class="odp-brew__arrow" aria-hidden="true">→</span>
+              {%- endif -%}
+            </{{ tag }}>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "OWV2 Specs & brew",
+  "tag": "section",
+  "class": "owv2-section owv2-product-detail",
+  "enabled_on": { "templates": ["product"] },
+  "max_blocks": 24,
+  "settings": [
+    { "type": "text", "id": "specs_title", "label": "Specs heading", "default": "About this bag" },
+    { "type": "header", "content": "Brew guide" },
+    { "type": "text", "id": "brew_title", "label": "Heading", "default": "How to brew it" },
+    { "type": "text", "id": "brew_note", "label": "Note", "default": "The same beans taste different, depending on how it's brewed." },
+    { "type": "text", "id": "preferred_label", "label": "Preferred tag", "default": "HOW WE PREFER IT" },
+    { "type": "text", "id": "plain_label", "label": "Other methods tag", "default": "ALSO WORTH IT", "info": "Blank hides it." },
+    { "type": "text", "id": "guide_label", "label": "Link label", "default": "Guide →", "info": "Shown on methods that have a link." },
+    { "type": "text", "id": "k_grind", "label": "Row label — grind", "default": "GRIND" },
+    { "type": "text", "id": "k_coffee", "label": "Row label — coffee", "default": "COFFEE" },
+    { "type": "text", "id": "k_water", "label": "Row label — water", "default": "WATER" },
+    { "type": "text", "id": "k_temp", "label": "Row label — temperature", "default": "TEMP" },
+    { "type": "text", "id": "k_time", "label": "Row label — time", "default": "TIME" },
+    { "type": "header", "content": "What's inside", "info": "Used instead of the brew guide when the section has Inside blocks." },
+    { "type": "text", "id": "inside_title", "label": "Heading", "default": "What's inside" },
+    { "type": "text", "id": "inside_foot", "label": "Footnote", "default": "Each coffee brews a little differently — the guide travels in the box, and every bag links to its own method." },
+    { "type": "header", "content": "Colours" },
+    { "type": "color", "id": "color_red", "label": "Brand red", "default": "#FF3F00" },
+    { "type": "color", "id": "color_pink", "label": "Salmon (card hover)", "default": "#FFE4E7" },
+    { "type": "color", "id": "color_yellow", "label": "Sunbrella", "default": "#FBB925" },
+    { "type": "color", "id": "color_ink", "label": "Text", "default": "#00180C" },
+    { "type": "color", "id": "color_page", "label": "Background", "default": "#F7F5F1", "info": "Sand #F7F5F1 or white #FFFFFF." }
+  ],
+  "blocks": [
+    {
+      "type": "spec",
+      "name": "Spec row",
+      "settings": [
+        { "type": "text", "id": "key", "label": "Label", "default": "Elevation" },
+        { "type": "text", "id": "value", "label": "Value", "default": "{{ product.metafields.custom.elevation_masl.value }} MASL" }
+      ]
+    },
+    {
+      "type": "brew",
+      "name": "Brew method",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Method", "default": "Pour-over" },
+        { "type": "text", "id": "summary", "label": "Summary", "default": "1:16 · one mug", "info": "Shown on phones instead of the table." },
+        { "type": "checkbox", "id": "preferred", "label": "How we prefer it", "default": false },
+        { "type": "url", "id": "url", "label": "Guide link" },
+        { "type": "text", "id": "grind", "label": "Grind", "default": "Medium" },
+        { "type": "text", "id": "coffee", "label": "Coffee", "default": "22 g" },
+        { "type": "text", "id": "water", "label": "Water", "default": "350 g" },
+        { "type": "text", "id": "temp", "label": "Temperature", "default": "94°C" },
+        { "type": "text", "id": "time", "label": "Time", "default": "3:00" }
+      ]
+    },
+    {
+      "type": "inside",
+      "name": "Inside (assortment)",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Coffee" },
+        { "type": "text", "id": "note", "label": "Note", "default": "" },
+        { "type": "text", "id": "size", "label": "Size", "default": "100 g" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "OWV2 Specs & brew",
+      "blocks": [
+        { "type": "spec", "settings": { "key": "Elevation", "value": "{{ product.metafields.custom.elevation_masl.value }} MASL" } },
+        { "type": "spec", "settings": { "key": "Crop year", "value": "{{ product.metafields.custom.crop_year.value }}" } },
+        { "type": "spec", "settings": { "key": "Varietal", "value": "{{ product.metafields.custom.varietal_all_listed.value }}" } },
+        { "type": "brew", "settings": { "title": "Pour-over", "summary": "1:16 · one mug", "preferred": true, "grind": "Medium", "coffee": "22 g", "water": "350 g", "temp": "94°C", "time": "3:00" } },
+        { "type": "brew", "settings": { "title": "Cold brew", "summary": "1:12 · one jug", "preferred": true, "grind": "Coarse", "coffee": "80 g", "water": "1 L", "temp": "Cold", "time": "16 hrs" } },
+        { "type": "brew", "settings": { "title": "Nitro", "summary": "1:8 concentrate · charged", "preferred": false, "grind": "Coarse", "coffee": "125 g", "water": "1 L", "temp": "Cold", "time": "18 hrs" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

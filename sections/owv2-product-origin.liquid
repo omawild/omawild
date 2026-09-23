@@ -1,0 +1,92 @@
+{%- comment -%}
+  owv2-product-origin — the red origin band under the buy panel (canvas 4a / 5b).
+  Name/place/facts default to the same product.metafields.custom.* fields the
+  vendor "Behind the Bean" blocks already use on this template (origin-of-country,
+  region, elevation_masl, crop_year, farmer_producer, varietal_all_listed), so a
+  coffee with those metafields set needs no further editing. The story field has
+  no equivalent metafield yet, so it defaults blank rather than inventing one.
+{%- endcomment -%}
+
+{{ 'owv2-product.css' | asset_url | stylesheet_tag }}
+
+<style>
+  #shopify-section-{{ section.id }} .od-pdp {
+    --odp-red: {{ section.settings.color_red }};
+    --odp-yellow: {{ section.settings.color_yellow }};
+    --odp-ink: {{ section.settings.color_ink }};
+  }
+</style>
+
+<div class="od-pdp">
+  <section class="odp-origin" data-odp-origin aria-labelledby="odp-origin-{{ section.id }}">
+    <div class="odp-origin__inner">
+      <div class="odp-origin__head">
+        <p class="odp-label">{{ section.settings.kicker }}</p>
+        <h2 class="odp-origin__name" id="odp-origin-{{ section.id }}">{{ section.settings.name }}</h2>
+        {%- if section.settings.place != blank -%}
+          <p class="odp-origin__place">{{ section.settings.place }}</p>
+        {%- endif -%}
+      </div>
+      <div class="odp-origin__story">
+        <div class="odp-origin__body">{{ section.settings.body }}</div>
+        {%- if section.settings.cta_label != blank -%}
+          <a class="odp-origin__cta" href="{{ section.settings.cta_url }}">{{ section.settings.cta_label }}</a>
+        {%- endif -%}
+      </div>
+      {%- if section.blocks.size > 0 -%}
+        <dl class="odp-origin__facts">
+          {%- for block in section.blocks -%}
+            <div class="odp-fact" {{ block.shopify_attributes }}>
+              <dt>{{ block.settings.key }}</dt>
+              <dd>{{ block.settings.value }}</dd>
+            </div>
+          {%- endfor -%}
+        </dl>
+      {%- endif -%}
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "OWV2 Product — origin",
+  "tag": "section",
+  "class": "owv2-section owv2-product-origin",
+  "enabled_on": { "templates": ["product"] },
+  "max_blocks": 8,
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "The origin" },
+    { "type": "text", "id": "name", "label": "Origin", "default": "{{ product.metafields.custom[\"origin-of-country\"].value }}", "info": "Defaults to the origin-of-country metafield." },
+    { "type": "text", "id": "place", "label": "Place", "default": "{{ product.metafields.custom.region.value }}", "info": "Defaults to the region metafield." },
+    { "type": "richtext", "id": "body", "label": "Story", "default": "", "info": "No metafield for a farm story yet — write this per coffee, or connect one via the dynamic source icon." },
+    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Read the full origin story →" },
+    { "type": "url", "id": "cta_url", "label": "Button link" },
+    { "type": "header", "content": "Colours" },
+    { "type": "color", "id": "color_red", "label": "Band", "default": "#FF3F00" },
+    { "type": "color", "id": "color_yellow", "label": "Button (Sunbrella)", "default": "#FBB925" },
+    { "type": "color", "id": "color_ink", "label": "Button text", "default": "#00180C" }
+  ],
+  "blocks": [
+    {
+      "type": "fact",
+      "name": "Fact",
+      "settings": [
+        { "type": "text", "id": "key", "label": "Label", "default": "Producer" },
+        { "type": "text", "id": "value", "label": "Value", "default": "{{ product.metafields.custom.farmer_producer.value }}" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "OWV2 Product — origin",
+      "blocks": [
+        { "type": "fact", "settings": { "key": "Producer", "value": "{{ product.metafields.custom.farmer_producer.value }}" } },
+        { "type": "fact", "settings": { "key": "Elevation", "value": "{{ product.metafields.custom.elevation_masl.value }} MASL" } },
+        { "type": "fact", "settings": { "key": "Region", "value": "{{ product.metafields.custom.region.value }}" } },
+        { "type": "fact", "settings": { "key": "Crop year", "value": "{{ product.metafields.custom.crop_year.value }}" } },
+        { "type": "fact", "settings": { "key": "Varietal", "value": "{{ product.metafields.custom.varietal_all_listed.value }}" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
