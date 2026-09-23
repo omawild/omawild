@@ -204,9 +204,49 @@
         "color_pink": "#FFE4E7",
         "color_ink": "#00180C"
       }
+    },
+    "owv2_product_main_jUEECQ": {
+      "type": "owv2-product-main",
+      "blocks": {
+        "variant_picker_wdmyME": {
+          "type": "variant_picker",
+          "settings": {
+            "show_variant_labels": true,
+            "picker_type": "button",
+            "swatch_source": "variant",
+            "swatch_type": "none",
+            "enable_swatch_unavailable_click": false
+          }
+        },
+        "buy_buttons_pwrPgP": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_quantity_selector": true,
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": false
+          }
+        }
+      },
+      "block_order": [
+        "variant_picker_wdmyME",
+        "buy_buttons_pwrPgP"
+      ],
+      "name": "OWV2 Product main",
+      "settings": {
+        "funds_heading": "1% for the Planet",
+        "funds_body": "<p>1% of every bag funds forest-friendly farming.</p>",
+        "funds_link": "",
+        "funds_link_label": "",
+        "background_color": "#FFFFFF",
+        "text_color": "#161616",
+        "card_background": "#F5F1EA",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
     }
   },
   "order": [
+    "owv2_product_main_jUEECQ",
     "content_scrollspy_nh3PCR",
     "product-recommendations",
     "main",
