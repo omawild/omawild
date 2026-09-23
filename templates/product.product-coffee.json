@@ -9,63 +9,9 @@
  */
 {
   "sections": {
-    "owv2_product_main_jUEECQ": {
-      "type": "owv2-product-main",
-      "blocks": {
-        "variant_picker_wdmyME": {
-          "type": "variant_picker",
-          "settings": {
-            "show_variant_labels": true,
-            "picker_type": "button",
-            "swatch_source": "variant",
-            "swatch_type": "none",
-            "enable_swatch_unavailable_click": false
-          }
-        },
-        "buy_buttons_pwrPgP": {
-          "type": "buy_buttons",
-          "settings": {
-            "show_quantity_selector": true,
-            "show_dynamic_checkout": false,
-            "show_gift_card_recipient": false
-          }
-        }
-      },
-      "block_order": [
-        "variant_picker_wdmyME",
-        "buy_buttons_pwrPgP"
-      ],
-      "name": "OWV2 Product main",
-      "settings": {
-        "funds_heading": "1% for the Planet",
-        "funds_body": "<p>1% of every bag funds forest-friendly farming.</p>",
-        "funds_link": "",
-        "funds_link_label": "",
-        "background_color": "#ffffff",
-        "text_color": "#161616",
-        "card_background": "#f5f1ea",
-        "padding_top": 48,
-        "padding_bottom": 48
-      }
-    },
-    "content_scrollspy_nh3PCR": {
-      "type": "content-scrollspy",
-      "disabled": true,
-      "name": "t:sections.content_scrollspy.presets.name",
-      "settings": {
-        "heading_selector": "h1, h2",
-        "background_color": "#b231c6",
-        "text_color": "#ffffff",
-        "active_color": "#ffffff",
-        "border_color": "#e5e5e5",
-        "enable_animations": true,
-        "animation_threshold": 0.8,
-        "hide_on_scroll_up": true,
-        "show_scroll_indicator": false
-      }
-    },
     "product-recommendations": {
       "type": "product-recommendations",
+      "disabled": true,
       "settings": {
         "product_list_limit": 4,
         "show_divider": false,
@@ -211,6 +157,7 @@
         "buy_buttons",
         "sticky_cart"
       ],
+      "disabled": true,
       "settings": {
         "enable_sticky_info": true,
         "media_position": "left",
@@ -227,29 +174,10 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
-    },
-    "owv2_product_pairings_JQ7XyR": {
-      "type": "owv2-product-pairings",
-      "name": "OWV2 Product — pairings",
-      "settings": {
-        "title": "Pairs well with",
-        "collection": "specialty-coffee",
-        "card_count": 3,
-        "link_label": "Browse all",
-        "link_url": "",
-        "from_label": "From",
-        "placeholder_name": "Pick a collection",
-        "color_red": "#FF3F00",
-        "color_pink": "#FFE4E7",
-        "color_ink": "#00180C"
-      }
     }
   },
   "order": [
-    "owv2_product_main_jUEECQ",
-    "content_scrollspy_nh3PCR",
     "product-recommendations",
-    "main",
-    "owv2_product_pairings_JQ7XyR"
+    "main"
   ]
 }
