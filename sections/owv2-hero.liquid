@@ -163,13 +163,18 @@
   position:absolute;
   right:24px;
   top:24px;
-  background:var(--bg);
-  padding:20px;
-  border-radius:50%;
-  width:130px;
+  background:var(--surface);
+  border:1.5px solid var(--ink);
+  color:var(--ink);
+  padding:10px 14px;
+  border-radius:8px;
+  width:auto;
+  max-width:120px;
   text-align:center;
-  font-weight:900;
-  transform:rotate(12deg);
+  font-weight:800;
+  font-size:11px;
+  line-height:1.35;
+  transform:rotate(3deg);
   }
 @media(max-width:749px) {
   .owv2-hero-{{ owid }} .split {
@@ -185,8 +190,7 @@
   min-height:360px;
   }
 .owv2-hero-{{ owid }} .badge {
-  width:96px;
-  font-size:11px;
+  max-width:96px;
   }
 }
 
