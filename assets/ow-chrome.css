@@ -300,12 +300,14 @@
 /* Desktop only — on mobile the social icons move down into
    .footer-bottom-row instead. */
 .footer-social{display:none;gap:0;justify-content:center;margin-bottom:24px;}
-/* 44×44 minimum tap target on a 24px icon. Unlike the navbar there is room to
-   spare here, so the box grows rather than being pulled back — gap drops from
-   10 to 0 because the padding now supplies 20px of separation on its own. */
+/* 38×38 tap target on a 24px icon (slightly under the 44px recommendation,
+   traded for tighter visual spacing — still comfortably above the 24px
+   accessibility floor). Unlike the navbar there is room to spare here, so the
+   box grows rather than being pulled back — gap stays 0 because the padding
+   supplies the separation on its own. */
 .footer-social a{
   display:flex;align-items:center;justify-content:center;
-  min-width:44px;min-height:44px;
+  min-width:38px;min-height:38px;
 }
 .footer-social img{width:24px;height:24px;}
 /* Accepted payment methods — icons from shop.enabled_payment_types */
@@ -320,8 +322,6 @@
   margin:0;padding:10px 16px;
   list-style:none;
   background:transparent;
-  border:1px solid rgba(0,0,0,.12);
-  border-radius:4px;
 }
 .footer-payments-item{display:flex;align-items:center;}
 .footer-payment-icon{
@@ -355,7 +355,7 @@
 .footer-nav-section-head img{width:14px;height:14px;transition:transform .2s;}
 .footer-nav-section-head.open img{transform:rotate(180deg);}
 .footer-nav-links{
-  display:none;flex-direction:column;gap:6px;
+  display:none;flex-direction:column;gap:4px;
   padding-top:6px;
 }
 .footer-nav-links.open{display:flex;}
