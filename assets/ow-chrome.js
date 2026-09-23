@@ -1,6 +1,7 @@
-/* ow-chrome.js -- site chrome behaviour: launch countdown, navbar reveal,
-   menu modal, mobile menu, footer email signup, footer nav accordion,
-   region/language selector, and the site-wide .fade-up scroll reveal.
+/* ow-chrome.js -- site chrome behaviour: launch countdown, navbar reveal +
+   hide-on-scroll (global, every template), menu modal, mobile menu, footer
+   email signup, footer nav accordion, region/language selector, and the
+   site-wide .fade-up scroll reveal.
 
    Extracted from omawild-landing(1).html. Loaded on every page via the header
    section group, so everything here must tolerate landing-only elements being
@@ -52,14 +53,20 @@
   setInterval(tick, 1000);
 })();
 
-// ── FIXED TOP CHROME + NAVBAR REVEAL ──
+// ── FIXED TOP CHROME + NAVBAR HIDE-ON-SCROLL ──
+// The navbar is global chrome: this same behaviour runs on every template,
+// not just the landing page. A page that names a hero (see `hero` below)
+// keeps the navbar off entirely until the hero has scrolled out of view --
+// the hero still owns the whole first viewport there. From that point on,
+// and immediately on every page with no hero, the navbar hides while the
+// visitor scrolls down and reappears the moment they scroll up.
 const topChrome = document.getElementById('top-chrome');
 const navbar    = document.getElementById('navbar');
 // The element the navbar hides behind until it has scrolled clear. The landing
 // page has #hero; any other page opts in by naming its own through
-// data-navbar-reveal-target, which ow-header.liquid emits only on product
-// templates. Everything downstream still just reads `hero`, so the reveal
-// observers below did not have to change shape.
+// data-navbar-reveal-target. Everything downstream still just reads `hero`, so
+// a template can adopt the same treatment with one data attribute and no JS
+// changes.
 const revealTarget = topChrome.dataset.navbarRevealTarget;
 const hero = document.getElementById('hero')
   || (revealTarget ? document.querySelector(revealTarget) : null);
@@ -124,9 +131,11 @@ if ('ResizeObserver' in window) {
 // back out when the hero returns. The navbar ships hidden, so at the top of the
 // landing page there is no navbar at all -- the hero owns the whole viewport.
 //
-// Only the landing page has a #hero. Everywhere else there is nothing to scroll
-// past, so the navbar is shown from first paint, with --no-reveal to skip the
-// slide-in transition. Guarding here matters more than it looks: this is one
+// `pastHero` is what gates the scroll handler further down: while it is false
+// (a hero exists and is still on screen) these two observers own visibility
+// outright and the scroll handler is a no-op. A page with no hero starts
+// already past it, which is what lets that same handler run there from first
+// paint. Guarding on `hero` here matters more than it looks: this is one
 // classic script, so an exception on .observe(null) would kill every handler
 // declared below it (menu modal, email form, mobile menu, region selector).
 //
@@ -136,11 +145,12 @@ if ('ResizeObserver' in window) {
 // and over. Splitting them leaves a dead band -- between the two edges neither
 // observer fires and the navbar simply holds its current state.
 const REVEAL_HYSTERESIS = 120;
+let pastHero = !hero;
 if (hero) {
   // Reveal once the hero is entirely above the viewport.
   new IntersectionObserver(
     ([e]) => {
-      if (!e.isIntersecting) { setNavbarVisible(true); }
+      if (!e.isIntersecting) { pastHero = true; setNavbarVisible(true); }
     },
     { threshold: 0 }
   ).observe(hero);
@@ -150,16 +160,50 @@ if (hero) {
   // the top of the viewport, which is what moves this edge below the first one.
   new IntersectionObserver(
     ([e]) => {
-      if (e.isIntersecting) { setNavbarVisible(false); }
+      if (e.isIntersecting) { pastHero = false; setNavbarVisible(false); }
     },
     { threshold: 0, rootMargin: '-' + REVEAL_HYSTERESIS + 'px 0px 0px 0px' }
   ).observe(hero);
 } else {
-  // No hero and no named target: nothing to scroll past, so the navbar is shown
-  // from first paint. --no-reveal goes on first so it skips the slide-in.
+  // No hero and no named target: nothing to scroll past, so the navbar is
+  // shown from first paint. --no-reveal skips the slide-in transition for
+  // this one appearance only -- it comes off two frames later so every
+  // hide/reveal the scroll handler below triggers afterwards still animates.
   navbar.classList.add('navbar--no-reveal');
   setNavbarVisible(true);
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    navbar.classList.remove('navbar--no-reveal');
+  }));
 }
+
+// ── NAVBAR HIDE-ON-SCROLL (every template) ──
+// Direction-based show/hide, active everywhere once past the hero (or
+// immediately where there is none): scrolling down hides the navbar,
+// scrolling up reveals it. rAF-throttled so it costs at most one read/write
+// pair per frame, not one per scroll event.
+const SCROLL_DELTA = 8; // px of movement required before a direction counts
+let lastScrollY = window.scrollY;
+let scrollTicking = false;
+
+function handleNavbarScroll() {
+  scrollTicking = false;
+  if (!pastHero) return; // the hero observers above own visibility until then
+  const y = Math.max(0, window.scrollY);
+  const delta = y - lastScrollY;
+  lastScrollY = y;
+  // Nothing to hide into while still inside the chrome's own height -- always
+  // show it there rather than follow whatever direction the visitor last
+  // nudged the wheel.
+  if (y <= getChromeOffset()) { setNavbarVisible(true); return; }
+  if (Math.abs(delta) < SCROLL_DELTA) return;
+  setNavbarVisible(delta < 0); // scrolling up reveals, down hides
+}
+
+window.addEventListener('scroll', () => {
+  if (scrollTicking) return;
+  scrollTicking = true;
+  requestAnimationFrame(handleNavbarScroll);
+}, { passive: true });
 
 // ── MENU MODAL ──
 const menuBtn   = document.getElementById('menuBtn');
