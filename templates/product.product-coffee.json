@@ -208,12 +208,7 @@
         "funds_button": "See how regen works →",
         "funds_url": "",
         "show_bar": true,
-        "bar_badge": "SAVING [percent]%",
-        "color_red": "#ff3f00",
-        "color_pink": "#ffe4e7",
-        "color_yellow": "#fbb925",
-        "color_ink": "#00180c",
-        "color_page": "#f7f5f1"
+        "bar_badge": "SAVING [percent]%"
       }
     },
     "owv2_product_origin": {
@@ -223,7 +218,7 @@
           "type": "fact",
           "settings": {
             "key": "Producer",
-            "value": "{{ product.metafields.custom.farmer_producer.value }}"
+            "value": ""
           }
         },
         "fact_elevation": {
@@ -269,10 +264,7 @@
         "place": "{{ product.metafields.custom.region.value }}",
         "body": "",
         "cta_label": "Read the full origin story →",
-        "cta_url": "",
-        "color_red": "#ff3f00",
-        "color_yellow": "#fbb925",
-        "color_ink": "#00180c"
+        "cta_url": "shopify://pages/dispatch"
       }
     },
     "owv2_product_detail": {
