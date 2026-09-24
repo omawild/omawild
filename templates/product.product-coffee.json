@@ -174,10 +174,27 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "owv2_product_pairings_YcKYYE": {
+      "type": "owv2-product-pairings",
+      "name": "OWV2 Product — pairings",
+      "settings": {
+        "title": "Pairs well with",
+        "collection": "specialty-coffee",
+        "card_count": 3,
+        "link_label": "Browse all",
+        "link_url": "",
+        "from_label": "From",
+        "placeholder_name": "Pick a collection",
+        "color_red": "#FF3F00",
+        "color_pink": "#FFE4E7",
+        "color_ink": "#00180C"
+      }
     }
   },
   "order": [
     "product-recommendations",
-    "main"
+    "main",
+    "owv2_product_pairings_YcKYYE"
   ]
 }
