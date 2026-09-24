@@ -354,62 +354,6 @@
         "color_pink": "#ffe4e7",
         "color_ink": "#00180c"
       }
-    },
-    "owv2_product_origin_kyMX4x": {
-      "type": "owv2-product-origin",
-      "blocks": {
-        "fact_6kytFq": {
-          "type": "fact",
-          "settings": {
-            "key": "Producer",
-            "value": "{{ product.metafields.custom.farm_producer.value }}"
-          }
-        },
-        "fact_wPmNB7": {
-          "type": "fact",
-          "settings": {
-            "key": "Elevation",
-            "value": "{{ product.metafields.custom.elevation_masl.value }} MASL"
-          }
-        },
-        "fact_QNHAfA": {
-          "type": "fact",
-          "settings": {
-            "key": "Region",
-            "value": "{{ product.metafields.custom.region.value }}"
-          }
-        },
-        "fact_Fr4Ugj": {
-          "type": "fact",
-          "settings": {
-            "key": "Crop year",
-            "value": "{{ product.metafields.custom.crop_year.value }}"
-          }
-        },
-        "fact_jmyfg7": {
-          "type": "fact",
-          "settings": {
-            "key": "Varietal",
-            "value": "{{ product.metafields.custom.varietal_all_listed.value }}"
-          }
-        }
-      },
-      "block_order": [
-        "fact_6kytFq",
-        "fact_wPmNB7",
-        "fact_QNHAfA",
-        "fact_Fr4Ugj",
-        "fact_jmyfg7"
-      ],
-      "name": "OWV2 Product — origin",
-      "settings": {
-        "kicker": "The origin",
-        "name": "{{ product.metafields.custom[\"origin-of-country\"].value }}",
-        "place": "{{ product.metafields.custom.region.value }}",
-        "body": "",
-        "cta_label": "Read the full origin story →",
-        "cta_url": ""
-      }
     }
   },
   "order": [
@@ -417,7 +361,6 @@
     "main",
     "owv2_product_main",
     "owv2_product_detail",
-    "owv2_product_pairings_YcKYYE",
-    "owv2_product_origin_kyMX4x"
+    "owv2_product_pairings_YcKYYE"
   ]
 }
