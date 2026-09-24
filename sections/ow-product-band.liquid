@@ -1,101 +1,446 @@
 {%- comment -%}
-  Products Band — Standalone section file
-  Layout lives in assets/ow-landing.css and behavior in assets/ow-landing.js.
+  owv2-product-main — Omawild PDP, canvas 4a / 4b / 4c / 5b.
+  Gallery + label + buy panel + sticky buy bar.
+
+  Data sources
+  - Options (Grind, Size, …) come from the product's own options: one pill row per option.
+  - Subscribe / One-time comes from product.selling_plan_groups. Prices and the
+    saving % are read from each variant's selling_plan_allocations — never typed in.
+    A product with no plan gets the scarcity block (4c) instead of the two cards.
+  - Tagline defaults to blank, which falls back to product.description below.
+    Tasting notes prefer product.metafields.custom.taste_notes (already used by
+    the vendor Taste Notes block on this template) and fall back to the text
+    setting. Eyebrow has no equivalent metafield yet — connect one via the
+    theme editor's "Connect dynamic source" icon if you want it per-coffee.
 {%- endcomment -%}
 
-<section class="products-band" id="products-band">
-  <div class="page-width">
-    {%- if section.settings.heading != blank -%}
-      <div class="products-band__header">
-        <h2 class="products-band__title h2">{{ section.settings.heading | escape }}</h2>
-      </div>
-    {%- endif -%}
+{{ 'ow-product-main.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ow-product-main.js' | asset_url }}" defer="defer"></script>
 
-    <div class="products-band__grid">
-      {%- for block in section.blocks -%}
-        {%- case block.type -%}
-          {%- when 'product_card' -%}
-            <div class="products-band__item" {{ block.shopify_attributes }}>
-              {%- assign product = block.settings.product -%}
-              {%- if product != blank -%}
-                <div class="product-card">
-                  <a href="{{ product.url }}" class="product-card__link">
-                    <div class="product-card__media">
-                      {%- if product.featured_media -%}
-                        {{ product.featured_media | image_url: width: 600 | image_tag: loading: 'lazy', class: 'product-card__image' }}
-                      {%- else -%}
-                        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
-                      {%- endif -%}
-                    </div>
-                    <div class="product-card__info">
-                      <h3 class="product-card__title">{{ product.title }}</h3>
-                      <div class="product-card__price">{{ product.price | money }}</div>
-                    </div>
-                  </a>
-                </div>
-              {%- else -%}
-                <div class="product-card product-card--placeholder">
-                  <p>Select a product in block settings</p>
-                </div>
-              {%- endif -%}
+{%- liquid
+  assign current = product.selected_or_first_available_variant
+  assign has_plans = false
+  if product.selling_plan_groups.size > 0
+    assign has_plans = true
+  endif
+
+  assign first_plan = product.selling_plan_groups.first.selling_plans.first
+  assign plan_count = 0
+  for group in product.selling_plan_groups
+    assign plan_count = plan_count | plus: group.selling_plans.size
+  endfor
+
+  assign mode = 'once'
+  if has_plans and section.settings.default_mode == 'subscribe'
+    assign mode = 'sub'
+  endif
+  if product.requires_selling_plan
+    assign mode = 'sub'
+  endif
+
+  assign sub_price = current.price
+  for alloc in current.selling_plan_allocations
+    if alloc.selling_plan.id == first_plan.id
+      assign sub_price = alloc.price
+    endif
+  endfor
+  assign saving_pct = current.price | minus: sub_price | times: 100 | divided_by: current.price
+  if current.price == 0
+    assign saving_pct = 0
+  endif
+
+  if mode == 'sub'
+    assign shown_price = sub_price
+    assign shown_was = current.price
+    assign cta = section.settings.cta_subscribe
+  else
+    assign shown_price = current.price
+    assign shown_was = current.compare_at_price | default: 0
+    assign cta = section.settings.cta_once
+  endif
+
+  assign form_id = 'odp-form-' | append: section.id
+  assign line_parts = current.options | join: ' · '
+  if product.has_only_default_variant
+    assign line_parts = ''
+  endif
+-%}
+
+{%- comment -%}
+  No per-section color settings here on purpose: Omawild has one brand
+  palette (see .od-pdp's own defaults in assets/ow-product-main.css), and a
+  merchant-editable color picker per PDP section would let that drift
+  product by product. owv2-product-pairings.liquid still has its own
+  color_* settings -- worth removing there too, same reasoning, but that
+  wasn't part of this pass.
+{%- endcomment -%}
+
+<div class="od-pdp" data-odp id="odp-{{ section.id }}" data-section="{{ section.id }}">
+  <div class="odp-main">
+    {%- comment -%} Label: first on phones, top-right on desktop {%- endcomment -%}
+    <div class="odp-main__info">
+      {%- assign eyebrow = section.settings.eyebrow | split: '|' -%}
+      {%- if eyebrow.size > 0 -%}
+        <div class="odp-eyebrow">
+          {%- for part in eyebrow -%}
+            {%- unless forloop.first %}<span class="odp-eyebrow__sep" aria-hidden="true">✷</span>{% endunless -%}
+            <span>{{ part | strip }}</span>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+      <h1 class="odp-title">{{ product.title }}</h1>
+      {%- if section.settings.tagline != blank -%}
+        <p class="odp-tagline">{{ section.settings.tagline }}</p>
+      {%- elsif product.description != blank -%}
+        <p class="odp-tagline">{{ product.description | strip_html | truncatewords: 32 }}</p>
+      {%- endif -%}
+      {%- comment -%}
+        metafield_tag would emit Shopify's own list/paragraph markup, which the
+        chip styles never reach — so every source is reduced to an array first.
+      {%- endcomment -%}
+      {%- liquid
+        assign tn = product.metafields.custom.taste_notes
+        assign notes = section.settings.notes | split: ','
+        if tn.type contains 'list.'
+          assign notes = tn.value
+        elsif tn != blank
+          assign notes = tn.value | split: ','
+        endif
+      -%}
+      {%- if notes.size > 0 -%}
+        <ul class="odp-notes" role="list" style="list-style:none;padding:0;margin-left:0">
+          {%- for n in notes -%}
+            {%- assign n = n | strip -%}
+            {%- if n != blank -%}<li class="odp-chip">{{ n }}</li>{%- endif -%}
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Gallery {%- endcomment -%}
+    <div class="odp-main__gallery">
+      {%- if section.settings.crumb_label != blank -%}
+        <nav class="odp-crumb" aria-label="Breadcrumb">
+          <a href="{{ section.settings.crumb_url | default: routes.all_products_collection_url }}">{{ section.settings.crumb_label }}</a>
+          / {{ product.title }}
+        </nav>
+      {%- endif -%}
+      {%- assign featured = current.featured_media | default: product.featured_media -%}
+      <div class="odp-gallery__main-wrap">
+        {%- if featured -%}
+          {{
+            featured.preview_image
+            | image_url: width: 1400
+            | image_tag:
+              class: 'odp-gallery__main',
+              widths: '400, 600, 800, 1000, 1200, 1400',
+              sizes: '(min-width: 750px) 50vw, 100vw',
+              alt: featured.alt,
+              loading: 'eager',
+              fetchpriority: 'high'
+          }}
+        {%- else -%}
+          {{ 'product-1' | placeholder_svg_tag: 'odp-gallery__main' }}
+        {%- endif -%}
+      </div>
+      {%- if product.media.size > 1 -%}
+        <div class="odp-gallery__thumbs">
+          {%- for media in product.media limit: 5 -%}
+            {%- if media.id == featured.id -%}{%- continue -%}{%- endif -%}
+            <button
+              type="button"
+              class="odp-gallery__thumb"
+              data-odp-thumb
+              data-src="{{ media.preview_image | image_url: width: 1400 }}"
+              data-srcset="{{ media.preview_image | image_url: width: 600 }} 600w, {{ media.preview_image | image_url: width: 1000 }} 1000w, {{ media.preview_image | image_url: width: 1400 }} 1400w"
+              data-alt="{{ media.alt | escape }}"
+              aria-label="{{ 'Show image' }} {{ forloop.index }}"
+            >
+              {{ media.preview_image | image_url: width: 300 | image_tag: loading: 'lazy', alt: media.alt, sizes: '(min-width: 750px) 15vw, 25vw', widths: '150, 300' }}
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Buy panel {%- endcomment -%}
+    <div class="odp-main__buy">
+      {%- unless product.has_only_default_variant -%}
+        <div class="odp-options">
+          {%- for option in product.options_with_values -%}
+            <fieldset class="odp-option" data-odp-option="{{ forloop.index0 }}">
+              <legend class="odp-label">{{ option.name }}</legend>
+              <div class="odp-option__pills">
+                {%- for value in option.values -%}
+                  <button
+                    type="button"
+                    class="odp-pill"
+                    data-odp-value="{{ value | escape }}"
+                    aria-pressed="{% if option.selected_value == value %}true{% else %}false{% endif %}"
+                  >
+                    {{- value -}}
+                  </button>
+                {%- endfor -%}
+              </div>
+            </fieldset>
+          {%- endfor -%}
+        </div>
+      {%- endunless -%}
+
+      {%- if has_plans -%}
+        <div class="odp-choices{% if product.requires_selling_plan %} odp-choices--single{% endif %}">
+          <button type="button" class="odp-choice" data-odp-mode="sub" aria-pressed="{% if mode == 'sub' %}true{% else %}false{% endif %}">
+            <span class="odp-choice__head">
+              <span class="odp-choice__name">{{ section.settings.sub_title }}</span>
+              <span class="odp-choice__sel">{{ section.settings.selected_label }}</span>
+            </span>
+            <span class="odp-choice__sub" data-odp-sub-copy>{{ section.settings.sub_copy | replace: '[percent]', saving_pct }}</span>
+          </button>
+          {%- unless product.requires_selling_plan -%}
+            <button type="button" class="odp-choice" data-odp-mode="once" aria-pressed="{% if mode == 'once' %}true{% else %}false{% endif %}">
+              <span class="odp-choice__head">
+                <span class="odp-choice__name">{{ section.settings.once_title }}</span>
+                <span class="odp-choice__sel">{{ section.settings.selected_label }}</span>
+              </span>
+              <span class="odp-choice__sub">{{ section.settings.once_copy }}</span>
+            </button>
+          {%- endunless -%}
+        </div>
+
+        {%- if plan_count > 1 -%}
+          <fieldset class="odp-option odp-plans" data-odp-plans>
+            <legend class="odp-label">{{ section.settings.plans_label }}</legend>
+            <div class="odp-option__pills">
+              {%- for group in product.selling_plan_groups -%}
+                {%- for plan in group.selling_plans -%}
+                  <button
+                    type="button"
+                    class="odp-pill"
+                    data-odp-plan="{{ plan.id }}"
+                    data-odp-plan-name="{{ plan.name | escape }}"
+                    aria-pressed="{% if plan.id == first_plan.id %}true{% else %}false{% endif %}"
+                  >
+                    {{- plan.name -}}
+                  </button>
+                {%- endfor -%}
+              {%- endfor -%}
             </div>
-        {%- endcase -%}
-      {%- else -%}
-        {%- for i in (1..3) -%}
-          <div class="products-band__item">
-            <div class="product-card product-card--placeholder">
-              {{ 'product-' | append: i | placeholder_svg_tag: 'placeholder-svg' }}
-              <p>Product Title</p>
-              <p>{{ 1999 | money }}</p>
+          </fieldset>
+        {%- endif -%}
+
+        {%- unless product.requires_selling_plan -%}
+          <div class="odp-nudge" data-odp-nudge {% if mode == 'sub' %}hidden{% endif %}>
+            {%- liquid
+              assign saving_money = current.price | minus: sub_price | money
+              assign nudge_price = sub_price | money | prepend: '<strong>' | append: '</strong>'
+              assign nudge_text = section.settings.nudge_copy | escape | replace: '[price]', nudge_price | replace: '[saving]', saving_money
+            -%}
+            <span data-odp-nudge-text>{{ nudge_text }}</span>
+            <button type="button" class="odp-btn odp-btn--sm" data-odp-mode="sub">{{ section.settings.nudge_button }}</button>
+          </div>
+        {%- endunless -%}
+      {%- elsif section.settings.scarce_title != blank -%}
+        <div class="odp-scarce">
+          <div>
+            <p class="odp-scarce__title">{{ section.settings.scarce_title }}</p>
+            <p class="odp-scarce__body">{{ section.settings.scarce_body }}</p>
+          </div>
+          {%- assign stamp = section.settings.scarce_stamp | split: '|' -%}
+          {%- if stamp.size > 0 -%}
+            <div class="odp-stamp" aria-hidden="true">
+              {%- for line in stamp -%}<span>{{ line | strip }}</span>{%- endfor -%}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- form 'product', product, id: form_id, class: 'odp-form', novalidate: 'novalidate', data-odp-form: '' -%}
+        <input type="hidden" name="id" value="{{ current.id }}" data-odp-variant>
+        {%- if has_plans -%}
+          <input type="hidden" name="selling_plan" value="{{ first_plan.id }}" data-odp-plan-input {% if mode == 'once' %}disabled{% endif %}>
+        {%- endif -%}
+        <input type="hidden" name="quantity" value="1" data-odp-qty-input>
+        <noscript>
+          <label class="odp-label" for="odp-nojs-{{ section.id }}">{{ product.title }}</label>
+          <select id="odp-nojs-{{ section.id }}" name="id">
+            {%- for v in product.variants -%}
+              <option value="{{ v.id }}" {% if v.id == current.id %}selected{% endif %} {% unless v.available %}disabled{% endunless %}>{{ v.title }} — {{ v.price | money }}</option>
+            {%- endfor -%}
+          </select>
+        </noscript>
+
+        <div class="odp-buyrow" data-odp-buyrow>
+          <div class="odp-step">
+            <button type="button" data-odp-qty="-1" aria-label="{{ section.settings.qty_less_label }}">−</button>
+            <output data-odp-qty-out aria-live="polite">1</output>
+            <button type="button" data-odp-qty="1" aria-label="{{ section.settings.qty_more_label }}">+</button>
+          </div>
+          <div class="odp-price">
+            <div class="odp-price__row">
+              <span class="odp-price__now" data-odp-price>{{ shown_price | money }}</span>
+              <span class="odp-price__was" data-odp-was>{% if shown_was > shown_price %}{{ shown_was | money }}{% endif %}</span>
+            </div>
+            <div class="odp-price__line" data-odp-line>
+              {{- line_parts -}}
+              {%- if line_parts != blank %} · {% endif -%}
+              {%- if mode == 'sub' -%}{{ section.settings.line_sub }}{%- else -%}{{ section.settings.line_once }}{%- endif -%}
             </div>
           </div>
-        {%- endfor -%}
-      {%- endfor -%}
+          <button type="submit" name="add" class="odp-btn" data-odp-cta {% unless current.available %}disabled{% endunless %}>
+            {%- if current.available -%}{{ cta }}{%- else -%}{{ section.settings.cta_sold_out }}{%- endif -%}
+          </button>
+        </div>
+      {%- endform -%}
+
+      {%- if section.settings.funds_title != blank or section.settings.funds_text != blank -%}
+        <div class="odp-funds">
+          <div>
+            <p class="odp-label">{{ section.settings.funds_title }}</p>
+            <div class="odp-funds__text">{{ section.settings.funds_text }}</div>
+            {%- if section.settings.funds_button != blank -%}
+              <a class="odp-btn odp-btn--ghost" href="{{ section.settings.funds_url }}">{{ section.settings.funds_button }}</a>
+            {%- endif -%}
+          </div>
+          {%- comment -%}
+            The 1% for the Planet mark is brand-wide, not per-product, so it
+            falls back to a theme asset rather than requiring every coffee
+            product to pick the same image via the theme editor. This is the
+            VERTICAL mark (assets/ow-badge-1ftp-vertical.png, resized from the
+            brand's compliance-folder source) -- not the horizontal wordmark
+            the footer uses (assets/ow-badge-1ftp.png, sections/ow-footer.liquid),
+            which is a different lockup for a different, wider slot. The
+            image_picker setting stays for the rare case a specific product
+            needs a different mark.
+          {%- endcomment -%}
+          {%- if section.settings.funds_logo -%}
+            {{ section.settings.funds_logo | image_url: width: 200 | image_tag: class: 'odp-funds__logo', loading: 'lazy', width: 74 }}
+          {%- else -%}
+            <img
+              src="{{ 'ow-badge-1ftp-vertical.png' | asset_url }}"
+              alt="1% for the Planet"
+              class="odp-funds__logo"
+              width="74" height="89"
+              loading="lazy"
+            >
+          {%- endif -%}
+        </div>
+      {%- endif -%}
     </div>
   </div>
-</section>
+
+  {%- if section.settings.show_bar -%}
+    <div class="odp-bar" data-odp-bar aria-hidden="true">
+      {%- if product.featured_media -%}
+        {{ product.featured_media.preview_image | image_url: width: 120 | image_tag: class: 'odp-bar__img', loading: 'lazy', alt: '' }}
+      {%- endif -%}
+      <div class="odp-bar__text">
+        <div class="odp-bar__name">{{ product.title }}</div>
+        <div class="odp-bar__meta" data-odp-line></div>
+      </div>
+      <span class="odp-bar__badge" data-odp-badge></span>
+      <div class="odp-bar__end">
+        <div class="odp-bar__prices">
+          <span class="odp-bar__price" data-odp-price>{{ shown_price | money }}</span>
+          <span class="odp-price__was" data-odp-was></span>
+        </div>
+        <button type="submit" form="{{ form_id }}" name="add" class="odp-btn" data-odp-cta tabindex="-1">{{ cta }}</button>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <script type="application/json" data-odp-json>
+    {
+      "moneyFormat": {{ shop.money_format | json }},
+      "mode": {{ mode | json }},
+      "planId": {% if has_plans %}{{ first_plan.id | json }}{% else %}null{% endif %},
+      "planName": {% if has_plans %}{{ first_plan.name | json }}{% else %}null{% endif %},
+      "multiPlan": {% if plan_count > 1 %}true{% else %}false{% endif %},
+      "defaultOnly": {{ product.has_only_default_variant | json }},
+      "copy": {
+        "ctaSub": {{ section.settings.cta_subscribe | json }},
+        "ctaOnce": {{ section.settings.cta_once | json }},
+        "soldOut": {{ section.settings.cta_sold_out | json }},
+        "lineSub": {{ section.settings.line_sub | json }},
+        "lineOnce": {{ section.settings.line_once | json }},
+        "subCopy": {{ section.settings.sub_copy | json }},
+        "nudge": {{ section.settings.nudge_copy | json }},
+        "badge": {{ section.settings.bar_badge | json }}
+      },
+      "variants": [
+        {%- for v in product.variants -%}
+          {
+            "id": {{ v.id }},
+            "options": {{ v.options | json }},
+            "price": {{ v.price }},
+            "compare": {{ v.compare_at_price | default: 0 }},
+            "available": {{ v.available | json }},
+            "media": {% if v.featured_media %}{{ v.featured_media.preview_image | image_url: width: 1400 | json }}{% else %}null{% endif %},
+            "plans": {
+              {%- for alloc in v.selling_plan_allocations -%}
+                "{{ alloc.selling_plan.id }}": {{ alloc.price }}{% unless forloop.last %},{% endunless %}
+              {%- endfor -%}
+            }
+          }{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      ]
+    }
+  </script>
+</div>
 
 {% schema %}
 {
-  "name": "OW Products Band",
+  "name": "OWV2 Product Main",
   "tag": "section",
-  "class": "section-products-band",
+  "class": "owv2-section owv2-product-main",
+  "enabled_on": { "templates": ["product"] },
   "settings": [
+    { "type": "header", "content": "Label" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "info": "Separate items with |. No metafield for this yet — connect one via the theme editor's dynamic source icon to vary per coffee." },
+    { "type": "textarea", "id": "tagline", "label": "Tagline", "info": "Blank uses the start of the product description." },
+    { "type": "text", "id": "notes", "label": "Tasting notes (fallback)", "info": "Comma-separated. Only used when the product has no custom.taste_notes metafield." },
+    { "type": "text", "id": "crumb_label", "label": "Breadcrumb label", "default": "Shop" },
+    { "type": "url", "id": "crumb_url", "label": "Breadcrumb link" },
+
+    { "type": "header", "content": "Purchase options" },
     {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "Featured Products"
-    }
+      "type": "select", "id": "default_mode", "label": "Selected by default",
+      "options": [ { "value": "subscribe", "label": "Subscribe" }, { "value": "once", "label": "One-time" } ],
+      "default": "subscribe"
+    },
+    { "type": "text", "id": "sub_title", "label": "Subscribe title", "default": "Subscribe" },
+    { "type": "text", "id": "sub_copy", "label": "Subscribe text", "default": "Save [percent]% every delivery. Skip or cancel any time.", "info": "[percent] is read from the selling plan." },
+    { "type": "text", "id": "once_title", "label": "One-time title", "default": "One-time" },
+    { "type": "text", "id": "once_copy", "label": "One-time text", "default": "Just this bag, roasted to order." },
+    { "type": "text", "id": "selected_label", "label": "Selected tag", "default": "SELECTED" },
+    { "type": "text", "id": "plans_label", "label": "Delivery label", "default": "Deliver every", "info": "Only shown when a product has more than one selling plan." },
+    { "type": "text", "id": "nudge_copy", "label": "Subscribe nudge", "default": "Subscribe instead and this order is [price] — you keep [saving] and never run dry.", "info": "Shown when One-time is selected. [price] and [saving] are filled in." },
+    { "type": "text", "id": "nudge_button", "label": "Nudge button", "default": "Switch" },
+
+    { "type": "header", "content": "Buy row" },
+    { "type": "text", "id": "cta_subscribe", "label": "Button — subscribe", "default": "Start subscription" },
+    { "type": "text", "id": "cta_once", "label": "Button — one-time", "default": "Add to cart" },
+    { "type": "text", "id": "cta_sold_out", "label": "Button — sold out", "default": "Sold out" },
+    { "type": "text", "id": "line_sub", "label": "Summary suffix — subscribe", "default": "every month", "info": "With several plans the plan name is used instead." },
+    { "type": "text", "id": "line_once", "label": "Summary suffix — one-time", "default": "one-time" },
+    { "type": "text", "id": "qty_less_label", "label": "Quantity − label", "default": "Decrease quantity" },
+    { "type": "text", "id": "qty_more_label", "label": "Quantity + label", "default": "Increase quantity" },
+
+    { "type": "header", "content": "No subscription plan", "info": "Replaces the Subscribe / One-time cards on products with no selling plan, e.g. a micro-lot." },
+    { "type": "text", "id": "scarce_title", "label": "Heading", "default": "This one does not come back" },
+    { "type": "textarea", "id": "scarce_body", "label": "Text", "default": "A single harvest, roasted once. No subscription — when the last bag goes, the lot is finished until next season, and next season is a different coffee. Our two house coffees do subscribe." },
+    { "type": "text", "id": "scarce_stamp", "label": "Stamp", "default": "Small | Micro-lot | Only", "info": "Separate lines with |." },
+
+    { "type": "header", "content": "What this bag funds" },
+    { "type": "text", "id": "funds_title", "label": "Heading", "default": "What this bag funds" },
+    { "type": "richtext", "id": "funds_text", "label": "Text", "default": "<p>This bag funds soil health, biodiversity and forest protection in the place these beans grow. At least 1% of what we make goes to conservation work — starting here, and widening as we do.</p>" },
+    { "type": "text", "id": "funds_button", "label": "Button label", "default": "See how regen works →" },
+    { "type": "url", "id": "funds_url", "label": "Button link" },
+    { "type": "image_picker", "id": "funds_logo", "label": "Logo", "info": "1% for the Planet mark." },
+
+    { "type": "header", "content": "Sticky buy bar" },
+    { "type": "checkbox", "id": "show_bar", "label": "Show after the origin band", "default": true, "info": "Appears once the OWV2 Product — origin section has scrolled into view. Without that section on the page, it appears once the buy button scrolls away." },
+    { "type": "text", "id": "bar_badge", "label": "Subscribe badge", "default": "SAVING [percent]%" }
   ],
-  "blocks": [
-    {
-      "type": "product_card",
-      "name": "Product Card",
-      "settings": [
-        {
-          "type": "product",
-          "id": "product",
-          "label": "Product"
-        }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "OW Products Band",
-      "blocks": [
-        {
-          "type": "product_card"
-        },
-        {
-          "type": "product_card"
-        },
-        {
-          "type": "product_card"
-        }
-      ]
-    }
-  ]
+  "presets": [ { "name": "OWV2 Product Main" } ]
 }
 {% endschema %}
