@@ -211,62 +211,6 @@
         "bar_badge": "SAVING [percent]%"
       }
     },
-    "owv2_product_origin": {
-      "type": "owv2-product-origin",
-      "blocks": {
-        "fact_producer": {
-          "type": "fact",
-          "settings": {
-            "key": "Producer",
-            "value": ""
-          }
-        },
-        "fact_elevation": {
-          "type": "fact",
-          "settings": {
-            "key": "Elevation",
-            "value": "{{ product.metafields.custom.elevation_masl.value }} MASL"
-          }
-        },
-        "fact_forest": {
-          "type": "fact",
-          "settings": {
-            "key": "Forest",
-            "value": "Timber, fruit and shade trees"
-          }
-        },
-        "fact_sourcing": {
-          "type": "fact",
-          "settings": {
-            "key": "Sourcing",
-            "value": "Direct from the farm"
-          }
-        },
-        "fact_harvest": {
-          "type": "fact",
-          "settings": {
-            "key": "Harvest",
-            "value": "Picked ripe, by hand"
-          }
-        }
-      },
-      "block_order": [
-        "fact_producer",
-        "fact_elevation",
-        "fact_forest",
-        "fact_sourcing",
-        "fact_harvest"
-      ],
-      "name": "OWV2 Product — origin",
-      "settings": {
-        "kicker": "The origin",
-        "name": "{{ product.metafields.custom[\"origin-of-country\"].value }}",
-        "place": "{{ product.metafields.custom.region.value }}",
-        "body": "",
-        "cta_label": "Read the full origin story →",
-        "cta_url": "shopify://pages/dispatch"
-      }
-    },
     "owv2_product_detail": {
       "type": "owv2-product-detail",
       "blocks": {
@@ -416,7 +360,6 @@
     "product-recommendations",
     "main",
     "owv2_product_main",
-    "owv2_product_origin",
     "owv2_product_detail",
     "owv2_product_pairings_YcKYYE"
   ]

@@ -155,8 +155,8 @@
         "marquee_bar"
       ],
       "custom_css": [
-        ".navbar,.navbar-dropdown {background: #fbdcdc;}",
-        ".ann-bar--orange {background: #f5450d; color: #ffffff;}"
+        ".navbar,.navbar-dropdown {background: #FCD0FD;}",
+        ".ann-bar--orange {background: #FCD0FD; color: #ffffff;}"
       ],
       "settings": {
         "menu": "main-menu",
