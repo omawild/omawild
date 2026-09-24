@@ -160,17 +160,28 @@
 .odp-notes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
 
 .odp-options { padding-top: 24px; border-top: 1.5px solid var(--odp-rule); }
-.odp-option + .odp-option { margin-top: 22px; }
-.odp-option legend { float: left; width: 100%; }
-.odp-option legend + * { clear: both; }
-.odp-option__pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .odp-option { border: 0; padding: 0; margin: 0; min-width: 0; }
-.odp-option legend { padding: 0; }
+.odp-option + .odp-option { margin-top: 22px; }
+/* <legend> is a special box UA-wise -- floating it (the old approach here) is
+   unreliable cross-browser and could leave the pills row sitting hard against
+   it with no gap. display:block makes it a normal block box instead, so the
+   margin-top below is a normal sibling margin, not one riding on a clearfix
+   that may or may not have taken effect. */
+.odp-option legend { display: block; width: 100%; padding: 0; }
+.odp-option__pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 
 /* purchase choice cards */
 .odp-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 26px; }
 .odp-choices--single { grid-template-columns: 1fr; }
 .odp-choice {
+  /* <button> has no default display that stacks children in a column, and
+     .odp-choice__head/.odp-choice__sub are <span>s -- inline by default, so
+     the sub-copy's margin-top was collapsing to nothing (vertical margins on
+     inline boxes do nothing) and both rows could run together instead of
+     stacking. display:flex makes every direct child a block-level flex item
+     regardless of its own tag, so the column stack and the 8px gap below are
+     both real again. */
+  display: flex; flex-direction: column;
   cursor: pointer; text-align: left; font: inherit; color: inherit;
   border: 1.5px solid var(--odp-red); border-radius: 10px;
   padding: 16px 16px 15px; background: var(--odp-card);
@@ -184,7 +195,7 @@
   font: 700 9px/1 var(--odp-font); letter-spacing: .04em;
 }
 .odp-choice[aria-pressed="true"] .odp-choice__sel { display: inline-block; }
-.odp-choice__sub { margin-top: 8px; font: 400 11.5px/1.4 var(--odp-body); color: var(--odp-ink); }
+.odp-choice__sub { margin-top: 8px; font: 400 11.5px/1.4 var(--odp-body); color: var(--odp-ink); text-align: left; }
 
 .odp-plans { margin-top: 18px; }
 

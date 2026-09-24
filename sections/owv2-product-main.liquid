@@ -105,13 +105,10 @@
         if tn.type contains 'list.'
           assign notes = tn.value
         elsif tn != blank
-          # TODO: text-type metafield — turn tn.value into an array of notes here.
-          assign notes = nil
+          assign notes = tn.value | split: ','
         endif
       -%}
-      {%- if notes == nil -%}
-        <div class="odp-notes">{{ tn | metafield_tag }}</div>
-      {%- elsif notes.size > 0 -%}
+      {%- if notes.size > 0 -%}
         <ul class="odp-notes" role="list" style="list-style:none;padding:0;margin-left:0">
           {%- for n in notes -%}
             {%- assign n = n | strip -%}
