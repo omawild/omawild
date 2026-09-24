@@ -4,13 +4,41 @@
 
 /* ════════════════════════════════
    FIXED TOP CHROME
-   #top-chrome holds all fixed bars.
-   Body padding-top is set via JS to
-   match its height.
+   #top-chrome holds the navbar (OW Navbar has no bars of its own any more --
+   see sections/ow-header.liquid). Any promo bars come from the vendor's own
+   Timer (sections/announcement-bar.liquid) and Announcement Bar
+   (sections/scrolling-promotion.liquid) sections instead, pinned fixed
+   below, so this stacks: Timer, then Announcement Bar, then the navbar --
+   see the VENDOR PROMO BARS block below for why and how.
+   Body padding-top is set via JS to match the whole stack's height.
 ════════════════════════════════ */
 #top-chrome{
-  position:fixed;top:0;left:0;right:0;z-index:200;
+  position:fixed;top:calc(var(--ow-timer-h, 0px) + var(--ow-promo-h, 0px));left:0;right:0;z-index:200;
   display:flex;flex-direction:column;
+}
+
+/* ── VENDOR PROMO BARS (Timer, Announcement Bar) ──
+   These are separate Shopify sections (not blocks inside ow-header /
+   #top-chrome), so by default they render in normal document flow at the
+   very top of <body> -- directly underneath where #top-chrome's own
+   position:fixed pins itself, invisible behind it. Pinning them fixed too,
+   stacked above #top-chrome, keeps the "bars always visible, navbar docks
+   under them" behaviour this theme uses everywhere else.
+
+   !important is a deliberate vendor override here (see the same pattern in
+   ow-base.css's own VENDOR OVERRIDES section), not a specificity bug: these
+   selectors have to beat the vendor's own position:relative / unset rules
+   for these exact classes regardless of stylesheet load order.
+
+   ow-chrome.js measures each bar's real height into --ow-timer-h /
+   --ow-promo-h; on a page with neither section enabled both fall back to
+   0px via the var() defaults above and below, and #top-chrome sits at
+   top:0 exactly as before either section existed. */
+.announcement-bar{
+  position:fixed !important;top:0;left:0;right:0;z-index:200;
+}
+.scrolling-promotion{
+  position:fixed !important;top:var(--ow-timer-h, 0px);left:0;right:0;z-index:200;
 }
 
 /* ── ANNOUNCEMENT BARS ── */

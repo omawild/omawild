@@ -62,6 +62,14 @@
 // visitor scrolls down and reappears the moment they scroll up.
 const topChrome = document.getElementById('top-chrome');
 const navbar    = document.getElementById('navbar');
+// OW Navbar (sections/ow-header.liquid) carries no bars of its own -- the
+// vendor's own Timer (announcement-bar.liquid) and Announcement Bar
+// (scrolling-promotion.liquid) sections are the only source of promo bars
+// now, pinned fixed above #top-chrome via ow-chrome.css. Either, both, or
+// neither may be enabled on a given page, so every height read here guards
+// on the element existing.
+const timerBar = document.querySelector('.announcement-bar');
+const promoBar = document.querySelector('.scrolling-promotion');
 // The element the navbar hides behind until it has scrolled clear. The landing
 // page has #hero; any other page opts in by naming its own through
 // data-navbar-reveal-target. Everything downstream still just reads `hero`, so
@@ -71,9 +79,20 @@ const revealTarget = topChrome.dataset.navbarRevealTarget;
 const hero = document.getElementById('hero')
   || (revealTarget ? document.querySelector(revealTarget) : null);
 
-function getAnnBarHeight() {
-  // Sum the height of the fixed announcement bars.
+function getVendorBarHeight() {
+  // Timer + Announcement Bar combined, whichever of the two actually exist
+  // on this page. Always counted regardless of navbar state -- unlike the
+  // navbar, these never hide once enabled.
   let h = 0;
+  if (timerBar) { h += timerBar.getBoundingClientRect().height; }
+  if (promoBar) { h += promoBar.getBoundingClientRect().height; }
+  return h;
+}
+
+function getAnnBarHeight() {
+  // Sum the height of every fixed bar ABOVE the navbar: the vendor promo
+  // bars, plus (today, always empty) any .ann-bar left inside #top-chrome.
+  let h = getVendorBarHeight();
   topChrome.querySelectorAll('.ann-bar').forEach(el => { h += el.getBoundingClientRect().height; });
   // Pages with no #hero show the navbar from first paint, so it occupies real
   // space at the top of the viewport and body padding has to clear it too.
@@ -92,7 +111,7 @@ function getChromeOffset() {
   // is actually on screen, including on pages where the padding ignores it. A
   // bar docked at the ann bars' edge would otherwise be swallowed by the navbar
   // the instant it reveals.
-  let h = 0;
+  let h = getVendorBarHeight();
   topChrome.querySelectorAll('.ann-bar').forEach(el => { h += el.getBoundingClientRect().height; });
   if (navbar.classList.contains('visible')) { h += navbar.getBoundingClientRect().height; }
   return Math.ceil(h);
@@ -100,6 +119,11 @@ function getChromeOffset() {
 
 function applyChrome() {
   document.body.style.paddingTop = getAnnBarHeight() + 'px';
+  // --ow-timer-h / --ow-promo-h position the vendor bars themselves and
+  // #top-chrome (see ow-chrome.css) -- read fresh here rather than cached,
+  // since either bar's own content can reflow (window resize, text wrap).
+  document.documentElement.style.setProperty('--ow-timer-h', (timerBar ? Math.ceil(timerBar.getBoundingClientRect().height) : 0) + 'px');
+  document.documentElement.style.setProperty('--ow-promo-h', (promoBar ? Math.ceil(promoBar.getBoundingClientRect().height) : 0) + 'px');
   // Published so anything docking below the fixed bars can find their bottom
   // edge from CSS alone. Every recalculation route (resize, fonts.ready, the
   // ResizeObserver, and every navbar reveal) runs through here, so it cannot go
@@ -124,7 +148,13 @@ document.fonts.ready.then(applyChrome);
 // (font swap, text reflow, orientation change, etc.) so the gap can never
 // reappear after first paint.
 if ('ResizeObserver' in window) {
-  new ResizeObserver(applyChrome).observe(topChrome);
+  const chromeResizeObserver = new ResizeObserver(applyChrome);
+  chromeResizeObserver.observe(topChrome);
+  // The vendor bars reflow independently of #top-chrome -- a countdown
+  // wrapping to a second line on narrow screens, an announcement message
+  // changing length -- so each needs its own watch, not just topChrome's.
+  if (timerBar) { chromeResizeObserver.observe(timerBar); }
+  if (promoBar) { chromeResizeObserver.observe(promoBar); }
 }
 
 // Fade the navbar in once the hero has fully left the viewport, and fade it

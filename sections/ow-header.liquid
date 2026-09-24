@@ -1,18 +1,22 @@
 {%- comment -%}
-  ow-header — Omawild site chrome: fixed announcement bars, navbar, menu modal.
+  ow-header — OW Navbar: Omawild's site-wide nav + menu modal. Despite the
+  filename (kept for continuity with header-group.json and the CSS/JS below,
+  all still named after "header"), this section renders no bars of its own
+  any more -- it is just the navbar. Promo bars are the vendor's own Timer
+  (sections/announcement-bar.liquid) and Announcement Bar
+  (sections/scrolling-promotion.liquid) sections, placed BEFORE this one in
+  the header group and pinned fixed above it by ow-chrome.css/js, which
+  measure their real height and stack: Timer, then Announcement Bar, then
+  this navbar. Previously this section carried its own Countdown bar /
+  Scrolling bar blocks doing the same job independently of those vendor
+  sections -- removed by request, so there is exactly one mechanism for
+  promo bars, not two.
 
-  Replaces the RoarTheme header site-wide via sections/header-group.json.
-
-  WHY THE ANNOUNCEMENT BARS ARE BLOCKS RATHER THAN THEIR OWN SECTION:
-  #top-chrome is a single position:fixed container, and ow-chrome.js measures
-  its total height to set body padding-top. Splitting the bars into a separate
-  section would put them outside that container and the padding maths would be
-  wrong. Blocks keep one section == one fixed container.
-
-  WHY THE NAVBAR IS THE LAST CHILD OF #top-chrome: it is fixed chrome too, and
-  as the last child of that flex column it stacks under the bars for free. It
-  renders hidden and ow-chrome.js fades it in — on the landing page only once
-  the hero has scrolled out of view, on every other page immediately.
+  WHY #top-chrome IS STILL A FIXED CONTAINER even with just the navbar in
+  it: ow-chrome.js needs one stable element to measure and to fade
+  in/out on scroll, and the vendor bars' own fixed positioning (see
+  ow-chrome.css) is keyed off that same script's height math via
+  --ow-timer-h / --ow-promo-h.
 
   CONSEQUENCE OF REPLACING THE VENDOR HEADER: Be Yours' <cart-drawer> lives
   inside sections/header.liquid, so it is no longer rendered. assets/product-form.js
@@ -44,41 +48,6 @@
   here fixes the jump without editing the vendor script.
 {%- endcomment -%}
 <div id="top-chrome" class="fixed-header">
-  {%- for block in section.blocks -%}
-    {%- case block.type -%}
-
-    {%- when 'launch_bar' -%}
-      {%- comment -%}
-        ow-chrome.js reads the target date and both messages from these data
-        attributes, so the countdown is editable without touching code.
-        The date is an ISO8601 string including offset, e.g. 2026-08-28T09:30:00+08:00
-      {%- endcomment -%}
-      <div class="ann-bar ann-bar--orange ann-launch"
-           id="ann1"
-           {{ block.shopify_attributes }}
-           data-target="{{ block.settings.target | escape }}"
-           data-before="{{ block.settings.text_before | escape }}"
-           data-after="{{ block.settings.text_after | escape }}">
-        <span id="annLaunchText">{{ block.settings.text_before }}</span>
-        <span class="ann-countdown" id="annLaunchCountdown"></span>
-      </div>
-
-    {%- when 'marquee_bar' -%}
-      {%- comment -%}
-        The message is repeated 12 times: the CSS keyframe translates the track
-        -50%, which only loops seamlessly if the second half duplicates the first.
-      {%- endcomment -%}
-      <div class="ann-bar ann-bar--blue ann-marquee" id="ann2" aria-label="{{ block.settings.text | escape }}" {{ block.shopify_attributes }}>
-        <div class="ann-marquee-track" aria-hidden="true">
-          {%- for i in (1..12) -%}
-            <span>{{ block.settings.text }}</span>
-          {%- endfor -%}
-        </div>
-      </div>
-
-    {%- endcase -%}
-  {%- endfor -%}
-
   <nav class="navbar" id="navbar" aria-label="Site navigation">
     <a class="navbar-logo" href="{{ routes.root_url }}">
       <img src="{{ 'ow-logo.svg' | asset_url }}" alt="{{ shop.name | escape }}" width="480" height="80">
@@ -190,7 +159,7 @@
 
 {% schema %}
 {
-  "name": "OW Header",
+  "name": "OW Navbar",
   "settings": [
     { "type": "link_list", "id": "menu", "label": "Main menu", "default": "main-menu" },
     { "type": "link_list", "id": "menu_bottom", "label": "Menu modal footer links" },
@@ -200,33 +169,9 @@
     { "type": "checkbox", "id": "show_region_selector", "label": "Show country selector", "default": true },
     { "type": "text", "id": "region_countries", "label": "Countries to show", "info": "Comma-separated ISO codes, e.g. HK, TW, GB, US. Leave blank to show every country your Markets settings publish. This can only narrow that list — to ADD a country, publish it in Settings > Markets first. Codes Markets does not publish are ignored, and the shopper's current country always appears." }
   ],
-  "blocks": [
-    {
-      "type": "launch_bar",
-      "name": "Countdown bar",
-      "limit": 1,
-      "settings": [
-        { "type": "text", "id": "target", "label": "Countdown target (ISO8601 with offset)", "default": "2026-08-28T09:30:00+08:00", "info": "Example: 2026-08-28T09:30:00+08:00" },
-        { "type": "text", "id": "text_before", "label": "Message before target", "default": "🚀 WE'RE GOING PUBLIC @ MEET GREATER SOUTH KAOHSIUNG" },
-        { "type": "text", "id": "text_after", "label": "Message after target", "default": "🚀 WE'RE LIVE @ MEET GREATER SOUTH — ENJOY A COFFEE, ON US" }
-      ]
-    },
-    {
-      "type": "marquee_bar",
-      "name": "Scrolling bar",
-      "limit": 1,
-      "settings": [
-        { "type": "text", "id": "text", "label": "Message", "default": "Drop by booth no. GP3-07" }
-      ]
-    }
-  ],
   "presets": [
     {
-      "name": "OW Header",
-      "blocks": [
-        { "type": "launch_bar" },
-        { "type": "marquee_bar" }
-      ]
+      "name": "OW Navbar"
     }
   ]
 }
