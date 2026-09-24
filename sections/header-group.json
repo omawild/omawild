@@ -50,7 +50,6 @@
         "countdown_LqWxbt",
         "9518463a-71f9-42b5-b5ef-174a4f08e081"
       ],
-      "disabled": true,
       "name": "Timer",
       "settings": {
         "only_homepage": false,
@@ -131,28 +130,6 @@
     },
     "ow-header": {
       "type": "ow-header",
-      "blocks": {
-        "launch_bar": {
-          "type": "launch_bar",
-          "disabled": true,
-          "settings": {
-            "target": "2026-10-01T09:30:00+08:00",
-            "text_before": "Online Order opens in",
-            "text_after": "Online orders open!"
-          }
-        },
-        "marquee_bar": {
-          "type": "marquee_bar",
-          "disabled": true,
-          "settings": {
-            "text": "中文版即將上線"
-          }
-        }
-      },
-      "block_order": [
-        "launch_bar",
-        "marquee_bar"
-      ],
       "custom_css": [
         ".navbar,.navbar-dropdown {background: #fcd0fd;}",
         ".ann-bar--orange {background: #fcd0fd; color: #ffffff;}"
