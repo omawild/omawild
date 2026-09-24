@@ -12,6 +12,13 @@
   is computed here in Liquid instead, at render time, which works no matter
   how the instance was created and doesn't depend on that schema mechanism
   at all.
+
+  about_origin is itself a Rich Text metafield (Shopify's rich_text_field
+  type). Its .value is the editor's internal AST as a Ruby-hash-style string
+  (literally {"type"=>"root","children"=>...), not HTML -- rendering .value
+  directly, even escaped, just prints that raw structure. metafield_tag
+  applied to the metafield itself (not .value) is what actually converts a
+  rich_text_field's AST into real HTML.
 {%- endcomment -%}
 
 {{ 'owv2-product.css' | asset_url | stylesheet_tag }}
@@ -19,9 +26,9 @@
 {%- liquid
   assign body = section.settings.body
   if body == blank
-    assign about_origin_text = product.metafields.custom.about_origin.value | escape
-    if about_origin_text != blank
-      assign body = '<p>' | append: about_origin_text | append: '</p>'
+    assign about_origin = product.metafields.custom.about_origin
+    if about_origin != blank
+      assign body = about_origin | metafield_tag
     endif
   endif
 -%}
@@ -67,7 +74,7 @@
     { "type": "text", "id": "kicker", "label": "Kicker", "default": "The origin" },
     { "type": "text", "id": "name", "label": "Origin", "default": "{{ product.metafields.custom[\"origin-of-country\"].value }}", "info": "Defaults to the Origin metafield." },
     { "type": "text", "id": "place", "label": "Place", "default": "{{ product.metafields.custom.region.value }}", "info": "Defaults to the Region metafield." },
-    { "type": "richtext", "id": "body", "label": "Story", "default": "<p>{{ product.metafields.custom.about_origin.value }}</p>", "info": "Defaults to the About Origin metafield." },
+    { "type": "richtext", "id": "body", "label": "Story", "info": "Defaults to the about_origin metafield -- see the Liquid at the top of this file, not this schema default (Shopify doesn't materialize richtext schema defaults on new instances, and this would be the wrong syntax for a Rich Text metafield anyway)." },
     { "type": "text", "id": "cta_label", "label": "Button label", "default": "Read the full origin story →" },
     { "type": "url", "id": "cta_url", "label": "Button link" }
   ],
