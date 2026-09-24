@@ -316,7 +316,7 @@
 .odp-origin__name { margin: 14px 0 0; font: 900 clamp(26px, 3vw, 36px)/1.02 var(--odp-font); letter-spacing: -.03em; color: #fff; }
 .odp-origin__place { margin-top: 9px; font: 700 13px/1.3 var(--odp-font); }
 .odp-origin__story { flex: 1 1 300px; min-width: 260px; }
-.odp-origin__body { font: 400 16px/1.6 var(--odp-body); }
+.odp-origin__body { font: 400 16px/1.45 var(--odp-body); }
 .odp-origin__cta {
   /* !important used to be needed here too, for the same reason it was on
      .odp-pairs__all -- .od-pdp a{color:inherit} is now :where()-scoped

@@ -6,11 +6,15 @@
   Three brew cards share the column; four or more become a snap swipe with a
   224px floor. On phones each method collapses to a row (name + summary).
 
-  Spec rows for Elevation/Crop year/Varietal default to the same
-  product.metafields.custom.* fields already used elsewhere on this template.
-  Processing/Roast level/Roast date/Peak freshness have no matching metafield
-  yet, so those rows are omitted from the preset rather than showing invented
-  values — add them per coffee, or once a metafield exists for them.
+  Spec rows are fixed section settings, not blocks: the same five rows
+  (Elevation, Crop year, Varietal, Roast date, Peak freshness) apply to every
+  coffee, so there's nothing for a per-instance block list to vary -- only
+  the VALUES differ per product, and those already come from
+  product.metafields.custom.* the same way name/place do elsewhere on this
+  template. A row hides itself when its value is blank, so a coffee missing
+  one of these metafields just shows fewer rows instead of an empty one.
+  Brew methods genuinely do vary per coffee (a product might have two brew
+  methods, another five), so those stay as blocks.
 {%- endcomment -%}
 
 {{ 'owv2-product.css' | asset_url | stylesheet_tag }}
@@ -26,21 +30,41 @@
 </style>
 
 {%- liquid
-  assign specs = section.blocks | where: 'type', 'spec'
   assign brews = section.blocks | where: 'type', 'brew'
   assign inside = section.blocks | where: 'type', 'inside'
+
+  assign has_specs = false
+  if section.settings.spec_elevation_value != blank or section.settings.spec_crop_year_value != blank or section.settings.spec_varietal_value != blank or section.settings.spec_roast_date_value != blank or section.settings.spec_peak_value != blank
+    assign has_specs = true
+  endif
 -%}
 
 <div class="od-pdp">
   <div class="odp-detail">
     <div class="odp-specs">
       <h2 class="odp-label">{{ section.settings.specs_title }}</h2>
-      {%- if specs.size > 0 -%}
+      {%- if has_specs -%}
         <dl class="odp-specs__list">
-          {%- for block in specs -%}
-            <dt {{ block.shopify_attributes }}>{{ block.settings.key }}</dt>
-            <dd>{{ block.settings.value }}</dd>
-          {%- endfor -%}
+          {%- if section.settings.spec_elevation_value != blank -%}
+            <dt>{{ section.settings.spec_elevation_label }}</dt>
+            <dd>{{ section.settings.spec_elevation_value }}</dd>
+          {%- endif -%}
+          {%- if section.settings.spec_crop_year_value != blank -%}
+            <dt>{{ section.settings.spec_crop_year_label }}</dt>
+            <dd>{{ section.settings.spec_crop_year_value }}</dd>
+          {%- endif -%}
+          {%- if section.settings.spec_varietal_value != blank -%}
+            <dt>{{ section.settings.spec_varietal_label }}</dt>
+            <dd>{{ section.settings.spec_varietal_value }}</dd>
+          {%- endif -%}
+          {%- if section.settings.spec_roast_date_value != blank -%}
+            <dt>{{ section.settings.spec_roast_date_label }}</dt>
+            <dd>{{ section.settings.spec_roast_date_value }}</dd>
+          {%- endif -%}
+          {%- if section.settings.spec_peak_value != blank -%}
+            <dt>{{ section.settings.spec_peak_label }}</dt>
+            <dd>{{ section.settings.spec_peak_value }}</dd>
+          {%- endif -%}
         </dl>
       {%- endif -%}
     </div>
@@ -129,6 +153,16 @@
   "max_blocks": 24,
   "settings": [
     { "type": "text", "id": "specs_title", "label": "Specs heading", "default": "About this bag" },
+    { "type": "text", "id": "spec_elevation_label", "label": "Row label — elevation", "default": "Elevation" },
+    { "type": "text", "id": "spec_elevation_value", "label": "Row value — elevation", "default": "{{ product.metafields.custom.elevation_masl.value }} MASL", "info": "Defaults to the elevation_masl metafield. Blank hides the row." },
+    { "type": "text", "id": "spec_crop_year_label", "label": "Row label — crop year", "default": "Crop year" },
+    { "type": "text", "id": "spec_crop_year_value", "label": "Row value — crop year", "default": "{{ product.metafields.custom.crop_year.value }}", "info": "Defaults to the crop_year metafield. Blank hides the row." },
+    { "type": "text", "id": "spec_varietal_label", "label": "Row label — varietal", "default": "Varietal" },
+    { "type": "text", "id": "spec_varietal_value", "label": "Row value — varietal", "default": "{{ product.metafields.custom.varietal_all_listed.value }}", "info": "Defaults to the varietal_all_listed metafield. Blank hides the row." },
+    { "type": "text", "id": "spec_roast_date_label", "label": "Row label — roast date", "default": "Roast date" },
+    { "type": "text", "id": "spec_roast_date_value", "label": "Row value — roast date", "default": "Printed on every bag", "info": "No metafield for this yet — same text for every coffee. Blank hides the row." },
+    { "type": "text", "id": "spec_peak_label", "label": "Row label — peak freshness", "default": "Peak freshness" },
+    { "type": "text", "id": "spec_peak_value", "label": "Row value — peak freshness", "default": "Day 7 to month 3 after roast", "info": "No metafield for this yet — same text for every coffee. Blank hides the row." },
     { "type": "header", "content": "Brew guide" },
     { "type": "text", "id": "brew_title", "label": "Heading", "default": "How to brew it" },
     { "type": "text", "id": "brew_note", "label": "Note", "default": "The same beans taste different, depending on how it's brewed." },
@@ -151,14 +185,6 @@
     { "type": "color", "id": "color_page", "label": "Background", "default": "#F7F5F1", "info": "Sand #F7F5F1 or white #FFFFFF." }
   ],
   "blocks": [
-    {
-      "type": "spec",
-      "name": "Spec row",
-      "settings": [
-        { "type": "text", "id": "key", "label": "Label", "default": "Elevation" },
-        { "type": "text", "id": "value", "label": "Value", "default": "{{ product.metafields.custom.elevation_masl.value }} MASL" }
-      ]
-    },
     {
       "type": "brew",
       "name": "Brew method",
@@ -188,9 +214,6 @@
     {
       "name": "OWV2 Specs & brew",
       "blocks": [
-        { "type": "spec", "settings": { "key": "Elevation", "value": "{{ product.metafields.custom.elevation_masl.value }} MASL" } },
-        { "type": "spec", "settings": { "key": "Crop year", "value": "{{ product.metafields.custom.crop_year.value }}" } },
-        { "type": "spec", "settings": { "key": "Varietal", "value": "{{ product.metafields.custom.varietal_all_listed.value }}" } },
         { "type": "brew", "settings": { "title": "Pour-over", "summary": "1:16 · one mug", "preferred": true, "grind": "Medium", "coffee": "22 g", "water": "350 g", "temp": "94°C", "time": "3:00" } },
         { "type": "brew", "settings": { "title": "Cold brew", "summary": "1:12 · one jug", "preferred": true, "grind": "Coarse", "coffee": "80 g", "water": "1 L", "temp": "Cold", "time": "16 hrs" } },
         { "type": "brew", "settings": { "title": "Nitro", "summary": "1:8 concentrate · charged", "preferred": false, "grind": "Coarse", "coffee": "125 g", "water": "1 L", "temp": "Cold", "time": "18 hrs" } }
