@@ -302,8 +302,24 @@
               <a class="odp-btn odp-btn--ghost" href="{{ section.settings.funds_url }}">{{ section.settings.funds_button }}</a>
             {%- endif -%}
           </div>
+          {%- comment -%}
+            The 1% for the Planet mark is brand-wide, not per-product, so it
+            falls back to the same theme asset the footer already uses
+            (assets/ow-badge-1ftp.png, see sections/ow-footer.liquid) rather
+            than requiring every coffee product to pick the same image via
+            the theme editor. The image_picker setting stays for the rare
+            case a specific product needs a different mark.
+          {%- endcomment -%}
           {%- if section.settings.funds_logo -%}
             {{ section.settings.funds_logo | image_url: width: 200 | image_tag: class: 'odp-funds__logo', loading: 'lazy', width: 74 }}
+          {%- else -%}
+            <img
+              src="{{ 'ow-badge-1ftp.png' | asset_url }}"
+              alt="1% for the Planet"
+              class="odp-funds__logo"
+              width="74" height="31"
+              loading="lazy"
+            >
           {%- endif -%}
         </div>
       {%- endif -%}
