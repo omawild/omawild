@@ -115,7 +115,6 @@
         "announcement_WKzPxi",
         "announcement_D6xe3k"
       ],
-      "disabled": true,
       "name": "Announcement Bar",
       "settings": {
         "direction": "left",
@@ -155,8 +154,8 @@
         "marquee_bar"
       ],
       "custom_css": [
-        ".navbar,.navbar-dropdown {background: #FCD0FD;}",
-        ".ann-bar--orange {background: #FCD0FD; color: #ffffff;}"
+        ".navbar,.navbar-dropdown {background: #fcd0fd;}",
+        ".ann-bar--orange {background: #fcd0fd; color: #ffffff;}"
       ],
       "settings": {
         "menu": "main-menu",
