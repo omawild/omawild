@@ -135,7 +135,7 @@
             "ow_product_card_C7tV19": {
               "type": "ow-product-card",
               "settings": {
-                "product": "limited-reserve-garut-wine",
+                "product": "limited-reserve",
                 "name": "Limited Reserve",
                 "description": "A rare micro-lot production that blurs the line between coffee, tea, fruit, and wine. Best for pour-over, cold brew, and nitro.",
                 "grade": "{{ closest.product.metafields.custom.coffee_grade | metafield_text }}",
