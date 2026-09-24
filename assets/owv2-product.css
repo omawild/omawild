@@ -110,6 +110,16 @@
   background: var(--odp-pink);
   padding: 26px 30px 30px;
   border-right: 1.5px solid var(--odp-red);
+  /* The info+buy column runs much longer than the gallery, so without this
+     the gallery just scrolls away with the rest of the page. align-self:start
+     stops it stretching to match that combined height (the grid default) --
+     without that, sticky has no slack to hold position against, since the
+     box would already span the full row height. --ow-chrome-h is the same
+     fixed-chrome offset ow-chrome.js already maintains for the scrollspy nav
+     (see ow-chrome.css), so this clears the announcement bars + navbar too. */
+  position: sticky;
+  top: calc(var(--ow-chrome-h, 0px) + 20px);
+  align-self: start;
 }
 .odp-main__info { grid-area: info; padding: 30px 34px 0; }
 .odp-main__buy  { grid-area: buy;  padding: 28px 34px 34px; display: flex; flex-direction: column; }
@@ -417,6 +427,9 @@ a.odp-inside__item:hover { background: var(--odp-pink); }
   .odp-main__gallery {
     padding: 16px; border-right: 0;
     border-top: 1.5px solid var(--odp-rule); border-bottom: 1.5px solid var(--odp-red);
+    /* Single column here -- gallery is just another stacked row, nothing
+       beside it for "sticky while it scrolls past" to mean anything. */
+    position: static;
   }
   .odp-main__buy { padding: 24px 16px 30px; }
   .odp-crumb { display: none; }
