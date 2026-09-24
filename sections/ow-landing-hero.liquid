@@ -1,0 +1,437 @@
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{% style %}
+.owv2-hero-{{ owid }} {
+  box-sizing: border-box;
+  --bg: {{ section.settings.background_color }};
+  --ink: {{ section.settings.text_color }};
+  --surface: {{ section.settings.card_background }};
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body-family);
+  font-size: 15px;
+  line-height: 1.2;
+  }
+.owv2-hero-{{ owid }} *, .owv2-hero-{{ owid }} *::before, .owv2-hero-{{ owid }} *::after {
+  box-sizing: border-box;
+  }
+.owv2-hero-{{ owid }} h1, .owv2-hero-{{ owid }} h2, .owv2-hero-{{ owid }} h3 {
+  font-family: var(--font-heading-family);
+  color: inherit;
+  font-weight: 900;
+  letter-spacing: -.035em;
+  line-height: 1;
+  text-transform: none;
+  margin: 0;
+  overflow-wrap: anywhere;
+  }
+.owv2-hero-{{ owid }} h2 {
+  font-size: clamp(30px, 4vw, 58px);
+  }
+.owv2-hero-{{ owid }} h3 {
+  font-size: 26px;
+  }
+.owv2-hero-{{ owid }} p {
+  margin: 0 0 16px;
+  }
+.owv2-hero-{{ owid }} p:last-child {
+  margin-bottom: 0;
+  }
+.owv2-hero-{{ owid }} a {
+  color: inherit;
+  }
+.owv2-hero-{{ owid }} img, .owv2-hero-{{ owid }} svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  }
+.owv2-hero-{{ owid }} .inner {
+  max-width: 1320px;
+  margin-inline: auto;
+  min-width: 0;
+  }
+.owv2-hero-{{ owid }} .intro {
+  max-width: 760px;
+  margin-bottom: 32px;
+  }
+.owv2-hero-{{ owid }} .intro > * + * {
+  margin-top: 20px;
+  }
+.owv2-hero-{{ owid }} .eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  }
+.owv2-hero-{{ owid }} .owv2-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 24px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  font: 700 16px var(--font-body-family);
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  }
+.owv2-hero-{{ owid }} :focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 4px;
+  }
+.owv2-hero-{{ owid }} .owv2-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  background: var(--surface);
+  fill: var(--ink);
+  }
+@media (prefers-reduced-motion: reduce) {
+  .owv2-hero-{{ owid }} * {
+  scroll-behavior: auto !important;
+  scroll-snap-type: none !important;
+  }
+}
+
+.owv2-hero-{{ owid }} {
+  padding: 0;
+  }
+.owv2-hero-{{ owid }} .split {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  }
+.owv2-hero-{{ owid }} .copy {
+  padding: {{ section.settings.content_padding }}px;
+  display:flex;
+  flex-direction:column;
+  gap:{{ section.settings.content_gap }}px;
+  justify-content:center;
+  min-width:0;
+  font-size:{{ section.settings.body_size }}px;
+  }
+.owv2-hero-{{ owid }} h1 {
+  font-size:clamp(40px, 5.6vw, {{ section.settings.heading_size }}px);
+  }
+.owv2-hero-{{ owid }} .stamp {
+  width:100px;
+  }
+.owv2-hero-{{ owid }} .actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  }
+.owv2-hero-{{ owid }} .secondary {
+  background:transparent;
+  color:var(--ink);
+  }
+.owv2-hero-{{ owid }} .features {
+  list-style:none;
+  padding:0;
+  margin:0;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  font-size:12px;
+  }
+.owv2-hero-{{ owid }} .features span {
+  margin-left:10px;
+  }
+.owv2-hero-{{ owid }} .photo {
+  position:relative;
+  min-height:560px;
+  }
+.owv2-hero-{{ owid }} .photo > img, .owv2-hero-{{ owid }} .photo > svg {
+  width:100%;
+  height:100%;
+  position:absolute;
+  object-fit:cover;
+  }
+.owv2-hero-{{ owid }} .caption {
+  position:absolute;
+  bottom:20px;
+  left:20px;
+  right:20px;
+  background:var(--surface);
+  border:1px solid var(--ink);
+  border-radius:10px;
+  padding:16px;
+  font-size:14px;
+  }
+.owv2-hero-{{ owid }} .badge {
+  position:absolute;
+  right:24px;
+  top:24px;
+  background:var(--surface);
+  border:1.5px solid var(--ink);
+  color:var(--ink);
+  padding:10px 14px;
+  border-radius:8px;
+  width:auto;
+  max-width:120px;
+  text-align:center;
+  font-weight:800;
+  font-size:11px;
+  line-height:1.35;
+  transform:rotate(3deg);
+  }
+@media(max-width:749px) {
+  .owv2-hero-{{ owid }} .split {
+  grid-template-columns:1fr;
+  }
+.owv2-hero-{{ owid }} .copy {
+  padding:32px 20px;
+  }
+.owv2-hero-{{ owid }} .actions {
+  flex-direction:column;
+  }
+.owv2-hero-{{ owid }} .photo {
+  min-height:360px;
+  }
+.owv2-hero-{{ owid }} .badge {
+  max-width:96px;
+  }
+}
+
+{% endstyle %}
+<div class="owv2-hero-{{ owid }}">
+
+<div class="split">
+<div class="copy">
+<div class="stamp">
+{% if section.settings.stamp_image != blank %}{{ section.settings.stamp_image | image_url: width: 240 | image_tag: alt: section.settings.stamp_alt }}{% else %}
+<img src="{{ 'ow-hero-submark.svg' | asset_url }}" width="100" height="100" alt="{{ section.settings.stamp_alt | escape }}">
+{% endif %}
+</div>
+<h1>{{ section.settings.heading }}</h1>
+<div>{{ section.settings.body }}</div>
+<div class="actions">
+{% if section.settings.cta_primary_label != blank %}
+{% if section.settings.cta_primary_link != blank %}
+<a class="owv2-button" href="{{ section.settings.cta_primary_link }}">{{ section.settings.cta_primary_label | escape }}</a>
+{% else %}
+<span class="owv2-button" aria-disabled="true">{{ section.settings.cta_primary_label | escape }}</span>
+{% endif %}
+{% endif %}
+{% if section.settings.cta_secondary_label != blank %}
+{% if section.settings.cta_secondary_link != blank %}
+<a class="owv2-button secondary" href="{{ section.settings.cta_secondary_link }}">{{ section.settings.cta_secondary_label | escape }}</a>
+{% else %}
+<span class="owv2-button secondary" aria-disabled="true">{{ section.settings.cta_secondary_label | escape }}</span>
+{% endif %}
+{% endif %}
+</div>
+<ul class="features">
+{% for block in section.blocks %}
+<li {{ block.shopify_attributes }}>{{ block.settings.text | escape }}{% unless forloop.last %}
+<span aria-hidden="true">{{ section.settings.separator | escape }}</span>
+{% endunless %}
+</li>
+{% endfor %}
+</ul>
+</div>
+<div class="photo">
+{% if section.settings.hero_image != blank %}{{ section.settings.hero_image | image_url: width: 1800 | image_tag: loading: 'eager', widths: '390, 750, 1100, 1500, 1800', sizes: '(min-width: 990px) 50vw, 100vw' }}{% else %}{{ 'lifestyle-1' | placeholder_svg_tag: 'owv2-placeholder' }}{% endif %}
+{% if section.settings.image_badge_text != blank %}
+<span class="badge">{{ section.settings.image_badge_text | escape }}</span>
+{% endif %}
+<div class="caption">{{ section.settings.caption_text }}{% if section.settings.caption_link != blank %}
+<a href="{{ section.settings.caption_link }}">{{ section.settings.caption_link_label | escape }}</a>
+{% endif %}
+</div>
+</div>
+</div>
+</div>
+{% schema %}
+{
+  "name": "OW Split hero",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "stamp_image",
+      "label": "Stamp image",
+      "info": "Edit alternative text in the image picker for accessibility."
+    },
+    {
+      "type": "text",
+      "id": "stamp_alt",
+      "label": "Stamp alt",
+      "default": "Welcome to the expedition"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Drink for Planet Earth"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>Coffee\u2019s just the bait to reel you in. Grade 1 arabica, grown under agroforestry in the volcanic highlands, inside protected forest reserves.</p>"
+    },
+    {
+      "type": "text",
+      "id": "cta_primary_label",
+      "label": "Cta primary label",
+      "default": "Shop the coffee"
+    },
+    {
+      "type": "url",
+      "id": "cta_primary_link",
+      "label": "Cta primary link"
+    },
+    {
+      "type": "text",
+      "id": "cta_secondary_label",
+      "label": "Cta secondary label",
+      "default": "Or learn about regen"
+    },
+    {
+      "type": "url",
+      "id": "cta_secondary_link",
+      "label": "Cta secondary link"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero image",
+      "info": "Edit alternative text in the image picker for accessibility."
+    },
+    {
+      "type": "text",
+      "id": "image_badge_text",
+      "label": "Image badge text",
+      "default": "COFFEE FOR THE PLANET"
+    },
+    {
+      "type": "richtext",
+      "id": "caption_text",
+      "label": "Caption text",
+      "default": "<p>Restoring nature isn\u2019t a job for specialised roles, it\u2019s something we can all take part in, one cup at a time.</p>"
+    },
+    {
+      "type": "text",
+      "id": "caption_link_label",
+      "label": "Caption link label",
+      "default": "See how it works \u2193"
+    },
+    {
+      "type": "url",
+      "id": "caption_link",
+      "label": "Caption link"
+    },
+    {
+      "type": "text",
+      "id": "separator",
+      "label": "Separator",
+      "default": "\u2737"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 32,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "body_size",
+      "label": "Body size",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "content_padding",
+      "label": "Content padding",
+      "min": 20,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "content_gap",
+      "label": "Content gap",
+      "min": 8,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#FBDCDC"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#F5450D"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#FFFFFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "OW Split hero",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "text": "Single origin"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "text": "Specialty coffee"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "text": "Roasted monthly"
+          }
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 16
+}
+{% endschema %}
