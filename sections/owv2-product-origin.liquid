@@ -1,12 +1,22 @@
 {%- comment -%}
   owv2-product-origin — the red origin band under the buy panel (canvas 4a / 5b).
-  Name/place/story/facts default to the same product.metafields.custom.* fields
-  the vendor "Behind the Bean" blocks already use on this template (origin-of-country,
-  region, about_origin, elevation_masl, crop_year, farm_producer,
-  varietal_all_listed), so a coffee with those metafields set needs no further
-  editing. The Button link is intentionally NOT metafield-driven -- it's a
-  merchant-set URL (e.g. a page, or an external write-up), left blank by
-  default rather than guessed at.
+  Name/place/facts default to the same product.metafields.custom.* fields the
+  vendor "Behind the Bean" blocks already use on this template (origin-of-country,
+  region, elevation_masl, crop_year, farm_producer, varietal_all_listed), so a
+  coffee with those metafields set needs no further editing. The story field has
+  no equivalent metafield yet, so it defaults blank rather than inventing one.
+
+  The Farm Story button link defaults to product.metafields.custom.about_origin
+  when the merchant hasn't set an explicit Button link. That metafield's Type
+  determines how to read a URL out of it, so this branches on .type rather than
+  assuming one shape -- same reasoning as the taste_notes handling one section
+  over in owv2-product-main.liquid. url and single_line_text_field cover a
+  plain link typed straight into the metafield; page/product/collection/
+  metaobject_reference cover linking it to an actual resource instead (a
+  metaobject only resolves a URL if its definition has "Add a storefront
+  page" turned on). Anything else -- or no about_origin value at all -- falls
+  back to the manual Button link setting, and the button just doesn't render
+  if that's blank too.
 {%- endcomment -%}
 
 {{ 'owv2-product.css' | asset_url | stylesheet_tag }}
@@ -31,8 +41,22 @@
       </div>
       <div class="odp-origin__story">
         <div class="odp-origin__body">{{ section.settings.body }}</div>
-        {%- if section.settings.cta_label != blank -%}
-          <a class="odp-origin__cta" href="{{ section.settings.cta_url }}">{{ section.settings.cta_label }}</a>
+        {%- liquid
+          assign cta_url = section.settings.cta_url
+          if cta_url == blank
+            assign about_origin = product.metafields.custom.about_origin
+            case about_origin.type
+              when 'url'
+                assign cta_url = about_origin.value
+              when 'single_line_text_field'
+                assign cta_url = about_origin.value
+              when 'page_reference', 'product_reference', 'collection_reference', 'metaobject_reference'
+                assign cta_url = about_origin.value.url
+            endcase
+          endif
+        -%}
+        {%- if section.settings.cta_label != blank and cta_url != blank -%}
+          <a class="odp-origin__cta" href="{{ cta_url }}">{{ section.settings.cta_label }}</a>
         {%- endif -%}
       </div>
       {%- if section.blocks.size > 0 -%}
@@ -60,9 +84,9 @@
     { "type": "text", "id": "kicker", "label": "Kicker", "default": "The origin" },
     { "type": "text", "id": "name", "label": "Origin", "default": "{{ product.metafields.custom[\"origin-of-country\"].value }}", "info": "Defaults to the origin-of-country metafield." },
     { "type": "text", "id": "place", "label": "Place", "default": "{{ product.metafields.custom.region.value }}", "info": "Defaults to the region metafield." },
-    { "type": "richtext", "id": "body", "label": "Story", "default": "{{ product.metafields.custom.about_origin.value }}", "info": "Defaults to the about_origin metafield." },
+    { "type": "richtext", "id": "body", "label": "Story", "info": "No metafield for a farm story yet — write this per coffee, or connect one via the dynamic source icon." },
     { "type": "text", "id": "cta_label", "label": "Button label", "default": "Read the full origin story →" },
-    { "type": "url", "id": "cta_url", "label": "Button link" }
+    { "type": "url", "id": "cta_url", "label": "Button link", "info": "Defaults to the about_origin metafield when left blank." }
   ],
   "blocks": [
     {
