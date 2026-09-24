@@ -50,6 +50,7 @@
         "countdown_LqWxbt",
         "9518463a-71f9-42b5-b5ef-174a4f08e081"
       ],
+      "disabled": true,
       "name": "Timer",
       "settings": {
         "only_homepage": false,
@@ -114,6 +115,7 @@
         "announcement_WKzPxi",
         "announcement_D6xe3k"
       ],
+      "disabled": true,
       "name": "Announcement Bar",
       "settings": {
         "direction": "left",
