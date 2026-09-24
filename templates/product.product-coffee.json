@@ -211,134 +211,6 @@
         "bar_badge": "SAVING [percent]%"
       }
     },
-    "owv2_product_detail": {
-      "type": "owv2-product-detail",
-      "blocks": {
-        "spec_elevation": {
-          "type": "spec",
-          "settings": {
-            "key": "Elevation",
-            "value": "{{ product.metafields.custom.elevation_masl.value }} MASL"
-          }
-        },
-        "spec_crop_year": {
-          "type": "spec",
-          "settings": {
-            "key": "Crop year",
-            "value": "{{ product.metafields.custom.crop_year.value }}"
-          }
-        },
-        "brew_FRUTQe": {
-          "type": "brew",
-          "settings": {
-            "title": "Pour-over",
-            "summary": "1:16 · one mug",
-            "preferred": false,
-            "url": "",
-            "grind": "Medium",
-            "coffee": "22 g",
-            "water": "350 g",
-            "temp": "94°C",
-            "time": "3:00"
-          }
-        },
-        "spec_varietal": {
-          "type": "spec",
-          "settings": {
-            "key": "Varietal",
-            "value": "{{ product.metafields.custom.varietal_all_listed.value }}"
-          }
-        },
-        "spec_roast_date": {
-          "type": "spec",
-          "settings": {
-            "key": "Roast date",
-            "value": "Printed on every bag"
-          }
-        },
-        "spec_peak": {
-          "type": "spec",
-          "settings": {
-            "key": "Peak freshness",
-            "value": "Day 7 to month 3 after roast"
-          }
-        },
-        "brew_pour_over": {
-          "type": "brew",
-          "settings": {
-            "title": "Pour-over",
-            "summary": "1:16 · one mug",
-            "preferred": true,
-            "url": "",
-            "grind": "Medium",
-            "coffee": "22 g",
-            "water": "350 g",
-            "temp": "94°C",
-            "time": "3:00"
-          }
-        },
-        "brew_cold": {
-          "type": "brew",
-          "settings": {
-            "title": "Cold brew",
-            "summary": "1:12 · one jug",
-            "preferred": true,
-            "url": "",
-            "grind": "Coarse",
-            "coffee": "80 g",
-            "water": "1 L",
-            "temp": "Cold",
-            "time": "16 hrs"
-          }
-        },
-        "brew_nitro": {
-          "type": "brew",
-          "settings": {
-            "title": "Nitro",
-            "summary": "1:8 concentrate · charged",
-            "preferred": false,
-            "url": "",
-            "grind": "Coarse",
-            "coffee": "125 g",
-            "water": "1 L",
-            "temp": "Cold",
-            "time": "18 hrs"
-          }
-        }
-      },
-      "block_order": [
-        "spec_elevation",
-        "spec_crop_year",
-        "brew_FRUTQe",
-        "spec_varietal",
-        "spec_roast_date",
-        "spec_peak",
-        "brew_pour_over",
-        "brew_cold",
-        "brew_nitro"
-      ],
-      "name": "OWV2 Specs & brew",
-      "settings": {
-        "specs_title": "About this bag",
-        "brew_title": "How to brew it",
-        "brew_note": "The same beans taste different, depending on how it's brewed.",
-        "preferred_label": "HOW WE PREFER IT",
-        "plain_label": "ALSO WORTH IT",
-        "guide_label": "Brew Guide →",
-        "k_grind": "GRIND",
-        "k_coffee": "COFFEE",
-        "k_water": "WATER",
-        "k_temp": "TEMP",
-        "k_time": "TIME",
-        "inside_title": "What's inside",
-        "inside_foot": "Each coffee brews a little differently — the guide travels in the box, and every bag links to its own method.",
-        "color_red": "#ff3f00",
-        "color_pink": "#ffe4e7",
-        "color_yellow": "#fbb925",
-        "color_ink": "#00180c",
-        "color_page": "#f7f5f1"
-      }
-    },
     "owv2_product_pairings_YcKYYE": {
       "type": "owv2-product-pairings",
       "name": "OWV2 Product — pairings",
@@ -355,38 +227,38 @@
         "color_ink": "#00180c"
       }
     },
-    "owv2_product_origin_BRNBPM": {
+    "owv2_product_origin_4MYjVJ": {
       "type": "owv2-product-origin",
       "blocks": {
-        "fact_RjrkYe": {
+        "fact_N4Hwpe": {
           "type": "fact",
           "settings": {
             "key": "Producer",
             "value": "{{ product.metafields.custom.farm_producer.value }}"
           }
         },
-        "fact_AHFpKx": {
+        "fact_DDdGrL": {
           "type": "fact",
           "settings": {
             "key": "Elevation",
             "value": "{{ product.metafields.custom.elevation_masl.value }} MASL"
           }
         },
-        "fact_w4yYNJ": {
+        "fact_4RcAdY": {
           "type": "fact",
           "settings": {
             "key": "Region",
             "value": "{{ product.metafields.custom.region.value }}"
           }
         },
-        "fact_QL3hV4": {
+        "fact_jmApMg": {
           "type": "fact",
           "settings": {
             "key": "Crop year",
             "value": "{{ product.metafields.custom.crop_year.value }}"
           }
         },
-        "fact_djUrLN": {
+        "fact_JR9KEE": {
           "type": "fact",
           "settings": {
             "key": "Varietal",
@@ -395,11 +267,11 @@
         }
       },
       "block_order": [
-        "fact_RjrkYe",
-        "fact_AHFpKx",
-        "fact_w4yYNJ",
-        "fact_QL3hV4",
-        "fact_djUrLN"
+        "fact_N4Hwpe",
+        "fact_DDdGrL",
+        "fact_4RcAdY",
+        "fact_jmApMg",
+        "fact_JR9KEE"
       ],
       "name": "OWV2 Product — origin",
       "settings": {
@@ -410,14 +282,97 @@
         "cta_label": "Read the full origin story →",
         "cta_url": ""
       }
+    },
+    "owv2_product_detail_dAKRpT": {
+      "type": "owv2-product-detail",
+      "blocks": {
+        "brew_VnLNAV": {
+          "type": "brew",
+          "settings": {
+            "title": "Pour-over",
+            "summary": "1:16 · one mug",
+            "preferred": true,
+            "url": "",
+            "grind": "Medium",
+            "coffee": "22 g",
+            "water": "350 g",
+            "temp": "94°C",
+            "time": "3:00"
+          }
+        },
+        "brew_3KbP9X": {
+          "type": "brew",
+          "settings": {
+            "title": "Cold brew",
+            "summary": "1:12 · one jug",
+            "preferred": true,
+            "url": "",
+            "grind": "Coarse",
+            "coffee": "80 g",
+            "water": "1 L",
+            "temp": "Cold",
+            "time": "16 hrs"
+          }
+        },
+        "brew_JceiFU": {
+          "type": "brew",
+          "settings": {
+            "title": "Nitro",
+            "summary": "1:8 concentrate · charged",
+            "preferred": false,
+            "url": "",
+            "grind": "Coarse",
+            "coffee": "125 g",
+            "water": "1 L",
+            "temp": "Cold",
+            "time": "18 hrs"
+          }
+        }
+      },
+      "block_order": [
+        "brew_VnLNAV",
+        "brew_3KbP9X",
+        "brew_JceiFU"
+      ],
+      "name": "OWV2 Specs & brew",
+      "settings": {
+        "specs_title": "About this bag",
+        "spec_elevation_label": "Elevation",
+        "spec_elevation_value": "{{ product.metafields.custom.elevation_masl.value }} MASL",
+        "spec_crop_year_label": "Crop year",
+        "spec_crop_year_value": "{{ product.metafields.custom.crop_year.value }}",
+        "spec_varietal_label": "Varietal",
+        "spec_varietal_value": "{{ product.metafields.custom.varietal_all_listed.value }}",
+        "spec_roast_date_label": "Roast date",
+        "spec_roast_date_value": "Printed on every bag",
+        "spec_peak_label": "Peak freshness",
+        "spec_peak_value": "Day 7 to month 3 after roast",
+        "brew_title": "How to brew it",
+        "brew_note": "The same beans taste different, depending on how it's brewed.",
+        "preferred_label": "HOW WE PREFER IT",
+        "plain_label": "ALSO WORTH IT",
+        "guide_label": "Guide →",
+        "k_grind": "GRIND",
+        "k_coffee": "COFFEE",
+        "k_water": "WATER",
+        "k_temp": "TEMP",
+        "k_time": "TIME",
+        "inside_title": "What's inside",
+        "inside_foot": "Each coffee brews a little differently — the guide travels in the box, and every bag links to its own method.",
+        "color_red": "#FF3F00",
+        "color_pink": "#FFE4E7",
+        "color_yellow": "#FBB925",
+        "color_ink": "#00180C",
+        "color_page": "#F7F5F1"
+      }
     }
   },
   "order": [
     "product-recommendations",
     "main",
     "owv2_product_main",
-    "owv2_product_origin_BRNBPM",
-    "owv2_product_detail",
-    "owv2_product_pairings_YcKYYE"
+    "owv2_product_pairings_YcKYYE",
+    "owv2_product_origin_4MYjVJ",
+    "owv2_product_detail_dAKRpT"
   ]
 }
