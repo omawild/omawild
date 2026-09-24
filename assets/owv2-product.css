@@ -106,20 +106,26 @@
   grid-template-rows: auto 1fr;
 }
 .odp-main__gallery {
+  /* This box stays at the grid's default align-items:stretch on purpose, so
+     its background + divider cover the full height of the info+buy column
+     next to it, same as before sticky existed. The sticky positioning below
+     lives on .odp-main__gallery-inner instead -- an element made sticky (and
+     therefore only as tall as its own content) needs a SEPARATE ancestor to
+     supply the full-height background, or that background shrinks along
+     with it and the page background shows through the rest of the column. */
   grid-area: gallery;
   background: var(--odp-pink);
-  padding: 26px 30px 30px;
   border-right: 1.5px solid var(--odp-red);
+}
+.odp-main__gallery-inner {
   /* The info+buy column runs much longer than the gallery, so without this
-     the gallery just scrolls away with the rest of the page. align-self:start
-     stops it stretching to match that combined height (the grid default) --
-     without that, sticky has no slack to hold position against, since the
-     box would already span the full row height. --ow-chrome-h is the same
-     fixed-chrome offset ow-chrome.js already maintains for the scrollspy nav
-     (see ow-chrome.css), so this clears the announcement bars + navbar too. */
+     the gallery just scrolls away with the rest of the page. --ow-chrome-h
+     is the same fixed-chrome offset ow-chrome.js already maintains for the
+     scrollspy nav (see ow-chrome.css), so this clears the announcement bars
+     + navbar too. */
   position: sticky;
   top: calc(var(--ow-chrome-h, 0px) + 20px);
-  align-self: start;
+  padding: 26px 30px 30px;
 }
 .odp-main__info { grid-area: info; padding: 30px 34px 0; }
 .odp-main__buy  { grid-area: buy;  padding: 28px 34px 34px; display: flex; flex-direction: column; }
@@ -425,8 +431,11 @@ a.odp-inside__item:hover { background: var(--odp-pink); }
   }
   .odp-main__info { padding: 20px 16px 24px; }
   .odp-main__gallery {
-    padding: 16px; border-right: 0;
+    border-right: 0;
     border-top: 1.5px solid var(--odp-rule); border-bottom: 1.5px solid var(--odp-red);
+  }
+  .odp-main__gallery-inner {
+    padding: 16px;
     /* Single column here -- gallery is just another stacked row, nothing
        beside it for "sticky while it scrolls past" to mean anything. */
     position: static;

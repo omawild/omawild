@@ -117,50 +117,63 @@
       {%- endif -%}
     </div>
 
-    {%- comment -%} Gallery {%- endcomment -%}
+    {%- comment -%}
+      Gallery. Split into an outer box (background + divider, stretches to
+      match the full info+buy column like before) and an inner wrapper (the
+      actual breadcrumb/image/thumbnails, which is what's sticky). Making the
+      OUTER box itself sticky + align-self:start, as an earlier version of
+      this did, shrinks it down to its own content height -- which stops the
+      pink background/divider from covering the rest of the column, so the
+      sand page background shows through below it instead (the reported
+      "gap"). Keeping the outer box stretched and moving position:sticky to
+      the inner wrapper keeps the full-height background while still letting
+      the visible content float.
+    {%- endcomment -%}
     <div class="odp-main__gallery">
-      {%- if section.settings.crumb_label != blank -%}
-        <nav class="odp-crumb" aria-label="Breadcrumb">
-          <a href="{{ section.settings.crumb_url | default: routes.all_products_collection_url }}">{{ section.settings.crumb_label }}</a>
-          / {{ product.title }}
-        </nav>
-      {%- endif -%}
-      {%- assign featured = current.featured_media | default: product.featured_media -%}
-      <div class="odp-gallery__main-wrap">
-        {%- if featured -%}
-          {{
-            featured.preview_image
-            | image_url: width: 1400
-            | image_tag:
-              class: 'odp-gallery__main',
-              widths: '400, 600, 800, 1000, 1200, 1400',
-              sizes: '(min-width: 750px) 50vw, 100vw',
-              alt: featured.alt,
-              loading: 'eager',
-              fetchpriority: 'high'
-          }}
-        {%- else -%}
-          {{ 'product-1' | placeholder_svg_tag: 'odp-gallery__main' }}
+      <div class="odp-main__gallery-inner">
+        {%- if section.settings.crumb_label != blank -%}
+          <nav class="odp-crumb" aria-label="Breadcrumb">
+            <a href="{{ section.settings.crumb_url | default: routes.all_products_collection_url }}">{{ section.settings.crumb_label }}</a>
+            / {{ product.title }}
+          </nav>
+        {%- endif -%}
+        {%- assign featured = current.featured_media | default: product.featured_media -%}
+        <div class="odp-gallery__main-wrap">
+          {%- if featured -%}
+            {{
+              featured.preview_image
+              | image_url: width: 1400
+              | image_tag:
+                class: 'odp-gallery__main',
+                widths: '400, 600, 800, 1000, 1200, 1400',
+                sizes: '(min-width: 750px) 50vw, 100vw',
+                alt: featured.alt,
+                loading: 'eager',
+                fetchpriority: 'high'
+            }}
+          {%- else -%}
+            {{ 'product-1' | placeholder_svg_tag: 'odp-gallery__main' }}
+          {%- endif -%}
+        </div>
+        {%- if product.media.size > 1 -%}
+          <div class="odp-gallery__thumbs">
+            {%- for media in product.media limit: 5 -%}
+              {%- if media.id == featured.id -%}{%- continue -%}{%- endif -%}
+              <button
+                type="button"
+                class="odp-gallery__thumb"
+                data-odp-thumb
+                data-src="{{ media.preview_image | image_url: width: 1400 }}"
+                data-srcset="{{ media.preview_image | image_url: width: 600 }} 600w, {{ media.preview_image | image_url: width: 1000 }} 1000w, {{ media.preview_image | image_url: width: 1400 }} 1400w"
+                data-alt="{{ media.alt | escape }}"
+                aria-label="{{ 'Show image' }} {{ forloop.index }}"
+              >
+                {{ media.preview_image | image_url: width: 300 | image_tag: loading: 'lazy', alt: media.alt, sizes: '(min-width: 750px) 15vw, 25vw', widths: '150, 300' }}
+              </button>
+            {%- endfor -%}
+          </div>
         {%- endif -%}
       </div>
-      {%- if product.media.size > 1 -%}
-        <div class="odp-gallery__thumbs">
-          {%- for media in product.media limit: 5 -%}
-            {%- if media.id == featured.id -%}{%- continue -%}{%- endif -%}
-            <button
-              type="button"
-              class="odp-gallery__thumb"
-              data-odp-thumb
-              data-src="{{ media.preview_image | image_url: width: 1400 }}"
-              data-srcset="{{ media.preview_image | image_url: width: 600 }} 600w, {{ media.preview_image | image_url: width: 1000 }} 1000w, {{ media.preview_image | image_url: width: 1400 }} 1400w"
-              data-alt="{{ media.alt | escape }}"
-              aria-label="{{ 'Show image' }} {{ forloop.index }}"
-            >
-              {{ media.preview_image | image_url: width: 300 | image_tag: loading: 'lazy', alt: media.alt, sizes: '(min-width: 750px) 15vw, 25vw', widths: '150, 300' }}
-            </button>
-          {%- endfor -%}
-        </div>
-      {%- endif -%}
     </div>
 
     {%- comment -%} Buy panel {%- endcomment -%}
