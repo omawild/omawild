@@ -30,15 +30,24 @@
    selectors have to beat the vendor's own position:relative / unset rules
    for these exact classes regardless of stylesheet load order.
 
+   z-index:201, one above #top-chrome's 200, on PURPOSE -- same reasoning as
+   the internal .ann-bar rule just below (z-index:1 above the navbar within
+   #top-chrome's own stack): the navbar's hide/reveal transform slides it
+   fully across this vertical band mid-animation, and without a real
+   stacking gap it painted OVER the bars for that ~0.5s instead of tucking
+   in behind them. This is what actually keeps it behind, not just DOM order
+   (all three are position:fixed, so DOM order alone does not decide paint
+   order once z-index is equal).
+
    ow-chrome.js measures each bar's real height into --ow-timer-h /
    --ow-promo-h; on a page with neither section enabled both fall back to
    0px via the var() defaults above and below, and #top-chrome sits at
    top:0 exactly as before either section existed. */
 .announcement-bar{
-  position:fixed !important;top:0;left:0;right:0;z-index:200;
+  position:fixed !important;top:0;left:0;right:0;z-index:201;
 }
 .scrolling-promotion{
-  position:fixed !important;top:var(--ow-timer-h, 0px);left:0;right:0;z-index:200;
+  position:fixed !important;top:var(--ow-timer-h, 0px);left:0;right:0;z-index:201;
 }
 
 /* ── ANNOUNCEMENT BARS ── */
@@ -105,7 +114,12 @@
   margin-bottom:-54px;
   transform:translateY(-100%);
   opacity:0;
-  transition:transform .38s cubic-bezier(.4,0,.2,1), opacity .38s;
+  /* .38s was tuned for the landing page's one-time hero-exit reveal -- fine
+     for something that happens once. Now that hide-on-scroll fires on every
+     scroll-direction change, site-wide, that same short duration reads as an
+     abrupt flick rather than a considered slide. .55s with a gentler
+     ease-out settles instead of snapping. */
+  transition:transform .55s cubic-bezier(.25,.1,.25,1), opacity .55s cubic-bezier(.25,.1,.25,1);
 }
 .navbar.visible{
   transform:translateY(0);

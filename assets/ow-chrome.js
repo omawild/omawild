@@ -211,7 +211,11 @@ if (hero) {
 // immediately where there is none): scrolling down hides the navbar,
 // scrolling up reveals it. rAF-throttled so it costs at most one read/write
 // pair per frame, not one per scroll event.
-const SCROLL_DELTA = 8; // px of movement required before a direction counts
+// 8px fired on nearly every scroll tick -- a trackpad's natural jitter was
+// enough to flip direction and retrigger the transition, which read as
+// twitchy rather than a deliberate scroll-up/scroll-down gesture. 32px asks
+// for a real, intentional scroll before the navbar reacts.
+const SCROLL_DELTA = 32; // px of movement required before a direction counts
 let lastScrollY = window.scrollY;
 let scrollTicking = false;
 
