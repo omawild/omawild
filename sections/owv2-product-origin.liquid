@@ -1,4 +1,30 @@
+{%- comment -%}
+  owv2-product-origin — the red origin band under the buy panel (canvas 4a / 5b).
+
+  The Story body used to default via the schema's own "default" (a Liquid
+  string referencing product.metafields.custom.about_origin), same as
+  name/place do. Confirmed via a freshly-added section instance's actual
+  stored settings in templates/product.product-coffee.json that this does
+  NOT work: kicker/name/place/cta_label (all "text" settings) correctly
+  materialized their schema defaults, but body (a "richtext" setting) came
+  out as "" regardless of what its schema default said. Shopify's preset
+  materialization appears to just not honor richtext defaults. The fallback
+  is computed here in Liquid instead, at render time, which works no matter
+  how the instance was created and doesn't depend on that schema mechanism
+  at all.
+{%- endcomment -%}
+
 {{ 'owv2-product.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign body = section.settings.body
+  if body == blank
+    assign about_origin_text = product.metafields.custom.about_origin.value | escape
+    if about_origin_text != blank
+      assign body = '<p>' | append: about_origin_text | append: '</p>'
+    endif
+  endif
+-%}
 
 <div class="od-pdp">
   <section class="odp-origin" data-odp-origin aria-labelledby="odp-origin-{{ section.id }}">
@@ -11,23 +37,9 @@
         {%- endif -%}
       </div>
       <div class="odp-origin__story">
-        <div class="odp-origin__body">{{ section.settings.body }}</div>
-        {%- liquid
-          assign cta_url = section.settings.cta_url
-          if cta_url == blank
-            assign about_origin = product.metafields.custom.about_origin
-            case about_origin.type
-              when 'url'
-                assign cta_url = about_origin.value
-              when 'single_line_text_field'
-                assign cta_url = about_origin.value
-              when 'page_reference', 'product_reference', 'collection_reference', 'metaobject_reference'
-                assign cta_url = about_origin.value.url
-            endcase
-          endif
-        -%}
-        {%- if section.settings.cta_label != blank and cta_url != blank -%}
-          <a class="odp-origin__cta" href="{{ cta_url }}">{{ section.settings.cta_label }}</a>
+        <div class="odp-origin__body">{{ body }}</div>
+        {%- if section.settings.cta_label != blank -%}
+          <a class="odp-origin__cta" href="{{ section.settings.cta_url }}">{{ section.settings.cta_label }}</a>
         {%- endif -%}
       </div>
       {%- if section.blocks.size > 0 -%}
@@ -57,7 +69,7 @@
     { "type": "text", "id": "place", "label": "Place", "default": "{{ product.metafields.custom.region.value }}", "info": "Defaults to the Region metafield." },
     { "type": "richtext", "id": "body", "label": "Story", "default": "<p>{{ product.metafields.custom.about_origin.value }}</p>", "info": "Defaults to the About Origin metafield." },
     { "type": "text", "id": "cta_label", "label": "Button label", "default": "Read the full origin story →" },
-    { "type": "url", "id": "cta_url", "label": "Button link", "info": "Defaults to the about_origin metafield when left blank." }
+    { "type": "url", "id": "cta_url", "label": "Button link" }
   ],
   "blocks": [
     {
