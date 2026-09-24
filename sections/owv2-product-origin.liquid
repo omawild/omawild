@@ -15,7 +15,7 @@
         {%- liquid
           assign cta_url = section.settings.cta_url
           if cta_url == blank
-            assign about_origin = product.metafields.custom.about_origin.value
+            assign about_origin = product.metafields.custom.about_origin
             case about_origin.type
               when 'url'
                 assign cta_url = about_origin.value
@@ -53,9 +53,9 @@
   "max_blocks": 8,
   "settings": [
     { "type": "text", "id": "kicker", "label": "Kicker", "default": "The origin" },
-    { "type": "text", "id": "name", "label": "Origin", "default": "{{ product.metafields.custom[\"origin-of-country\"].value }}", "info": "Defaults to the origin-of-country metafield." },
-    { "type": "text", "id": "place", "label": "Place", "default": "{{ product.metafields.custom.region.value }}", "info": "Defaults to the region metafield." },
-    { "type": "richtext", "id": "body", "label": "Story", "info": "No metafield for a farm story yet — write this per coffee, or connect one via the dynamic source icon." },
+    { "type": "text", "id": "name", "label": "Origin", "default": "{{ product.metafields.custom[\"origin-of-country\"].value }}", "info": "Defaults to the Origin metafield." },
+    { "type": "text", "id": "place", "label": "Place", "default": "{{ product.metafields.custom.region.value }}", "info": "Defaults to the Region metafield." },
+    { "type": "richtext", "id": "body", "label": "Story", "default": "<p>{{ product.metafields.custom.about_origin.value }}</p>", "info": "Defaults to the About Origin metafield." },
     { "type": "text", "id": "cta_label", "label": "Button label", "default": "Read the full origin story →" },
     { "type": "url", "id": "cta_url", "label": "Button link", "info": "Defaults to the about_origin metafield when left blank." }
   ],
