@@ -128,6 +128,7 @@
         "buy_buttons",
         "sticky_cart"
       ],
+      "disabled": true,
       "settings": {
         "enable_sticky_info": true,
         "media_position": "left",
@@ -173,10 +174,47 @@
         "enable_highlight": false,
         "highlight_style": "marker"
       }
+    },
+    "ow_product_band_aVMYki": {
+      "type": "ow-product-band",
+      "name": "OWV2 Product Main",
+      "settings": {
+        "eyebrow": "",
+        "tagline": "",
+        "notes": "",
+        "crumb_label": "Shop",
+        "crumb_url": "",
+        "default_mode": "subscribe",
+        "sub_title": "Subscribe",
+        "sub_copy": "Save [percent]% every delivery. Skip or cancel any time.",
+        "once_title": "One-time",
+        "once_copy": "Just this bag, roasted to order.",
+        "selected_label": "SELECTED",
+        "plans_label": "Deliver every",
+        "nudge_copy": "Subscribe instead and this order is [price] — you keep [saving] and never run dry.",
+        "nudge_button": "Switch",
+        "cta_subscribe": "Start subscription",
+        "cta_once": "Add to cart",
+        "cta_sold_out": "Sold out",
+        "line_sub": "every month",
+        "line_once": "one-time",
+        "qty_less_label": "Decrease quantity",
+        "qty_more_label": "Increase quantity",
+        "scarce_title": "This one does not come back",
+        "scarce_body": "A single harvest, roasted once. No subscription — when the last bag goes, the lot is finished until next season, and next season is a different coffee. Our two house coffees do subscribe.",
+        "scarce_stamp": "Small | Micro-lot | Only",
+        "funds_title": "What this bag funds",
+        "funds_text": "<p>This bag funds soil health, biodiversity and forest protection in the place these beans grow. At least 1% of what we make goes to conservation work — starting here, and widening as we do.</p>",
+        "funds_button": "See how regen works →",
+        "funds_url": "",
+        "show_bar": true,
+        "bar_badge": "SAVING [percent]%"
+      }
     }
   },
   "order": [
     "main",
-    "product-recommendations"
+    "product-recommendations",
+    "ow_product_band_aVMYki"
   ]
 }
