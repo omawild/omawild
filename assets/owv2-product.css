@@ -463,7 +463,8 @@ a.odp-inside__item:hover { background: var(--odp-pink); }
   .odp-specs__list dt, .odp-specs__list dd { padding: 11px 0; }
   .odp-specs__list dt { font-size: 10.5px; letter-spacing: .08em; }
   .odp-specs__list dd { max-width: none; font-size: 12.5px; }
-  .odp-side { padding: 26px 16px 30px; border-top: 1.5px solid var(--odp-red); }
+  /* 5b: no rule here — the white spec block against the sand page is the break */
+  .odp-side { padding: 26px 16px 30px; }
   .odp-side__head { display: block; }
   .odp-side__note { display: block; margin-top: 9px; line-height: 1.5; }
 
@@ -503,4 +504,10 @@ a.odp-inside__item:hover { background: var(--odp-pink); }
 }
 
 /* brew badge only exists for the mobile row */
-@media screen and (min-width: 750px) { .odp-brew__badge { display: none; } }
+@media screen and (min-width: 750px) {
+  .odp-brew__badge { display: none; }
+  /* no guide link (canvas 6a): the rows sit on the card floor so the tables
+     line up across cards whose method names wrap to different heights */
+  div.odp-brew__card { gap: 14px; padding-bottom: 10px; }
+  div.odp-brew__card .odp-brew__lines { margin-top: auto; }
+}

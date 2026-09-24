@@ -95,18 +95,29 @@
       {%- elsif product.description != blank -%}
         <p class="odp-tagline">{{ product.description | strip_html | truncatewords: 32 }}</p>
       {%- endif -%}
-      {%- if product.metafields.custom.taste_notes != blank -%}
-        <div class="odp-notes">{{ product.metafields.custom.taste_notes | metafield_tag }}</div>
-      {%- else -%}
-        {%- assign notes = section.settings.notes | split: ',' -%}
-        {%- if notes.size > 0 -%}
-          <ul class="odp-notes" role="list" style="list-style:none;padding:0;margin-left:0">
-            {%- for n in notes -%}
-              {%- assign n = n | strip -%}
-              {%- if n != blank -%}<li class="odp-chip">{{ n }}</li>{%- endif -%}
-            {%- endfor -%}
-          </ul>
-        {%- endif -%}
+      {%- comment -%}
+        metafield_tag would emit Shopify's own list/paragraph markup, which the
+        chip styles never reach — so every source is reduced to an array first.
+      {%- endcomment -%}
+      {%- liquid
+        assign tn = product.metafields.custom.taste_notes
+        assign notes = section.settings.notes | split: ','
+        if tn.type contains 'list.'
+          assign notes = tn.value
+        elsif tn != blank
+          # TODO: text-type metafield — turn tn.value into an array of notes here.
+          assign notes = nil
+        endif
+      -%}
+      {%- if notes == nil -%}
+        <div class="odp-notes">{{ tn | metafield_tag }}</div>
+      {%- elsif notes.size > 0 -%}
+        <ul class="odp-notes" role="list" style="list-style:none;padding:0;margin-left:0">
+          {%- for n in notes -%}
+            {%- assign n = n | strip -%}
+            {%- if n != blank -%}<li class="odp-chip">{{ n }}</li>{%- endif -%}
+          {%- endfor -%}
+        </ul>
       {%- endif -%}
     </div>
 
@@ -367,9 +378,9 @@
   "enabled_on": { "templates": ["product"] },
   "settings": [
     { "type": "header", "content": "Label" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "", "info": "Separate items with |. No metafield for this yet — connect one via the theme editor's dynamic source icon to vary per coffee." },
-    { "type": "textarea", "id": "tagline", "label": "Tagline", "default": "", "info": "Blank uses the start of the product description." },
-    { "type": "text", "id": "notes", "label": "Tasting notes (fallback)", "default": "", "info": "Comma-separated. Only used when the product has no custom.taste_notes metafield." },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "info": "Separate items with |. No metafield for this yet — connect one via the theme editor's dynamic source icon to vary per coffee." },
+    { "type": "textarea", "id": "tagline", "label": "Tagline", "info": "Blank uses the start of the product description." },
+    { "type": "text", "id": "notes", "label": "Tasting notes (fallback)", "info": "Comma-separated. Only used when the product has no custom.taste_notes metafield." },
     { "type": "text", "id": "crumb_label", "label": "Breadcrumb label", "default": "Shop" },
     { "type": "url", "id": "crumb_url", "label": "Breadcrumb link" },
 
