@@ -190,11 +190,61 @@
         "color_pink": "#FFE4E7",
         "color_ink": "#00180C"
       }
+    },
+    "owv2_product_main": {
+      "type": "owv2-product-main",
+      "name": "OWV2 Product — main",
+      "settings": {
+        "eyebrow": "Grade 1 Specialty | Single Origin",
+        "crumb_label": "Shop",
+        "crumb_url": "shopify://collections/specialty-coffee",
+        "default_mode": "subscribe",
+        "show_bar": true
+      }
+    },
+    "owv2_product_origin": {
+      "type": "owv2-product-origin",
+      "name": "OWV2 Product — origin",
+      "blocks": {
+        "fact_producer": { "type": "fact", "settings": { "key": "Producer", "value": "{{ product.metafields.custom.farmer_producer.value }}" } },
+        "fact_elevation": { "type": "fact", "settings": { "key": "Elevation", "value": "{{ product.metafields.custom.elevation_masl.value }} MASL" } },
+        "fact_forest": { "type": "fact", "settings": { "key": "Forest", "value": "Timber, fruit and shade trees" } },
+        "fact_sourcing": { "type": "fact", "settings": { "key": "Sourcing", "value": "Direct from the farm" } },
+        "fact_harvest": { "type": "fact", "settings": { "key": "Harvest", "value": "Picked ripe, by hand" } }
+      },
+      "block_order": ["fact_producer", "fact_elevation", "fact_forest", "fact_sourcing", "fact_harvest"],
+      "settings": {
+        "kicker": "The origin",
+        "name": "{{ product.metafields.custom[\"origin-of-country\"].value }}",
+        "place": "{{ product.metafields.custom.region.value }}",
+        "cta_label": "Read the full origin story →"
+      }
+    },
+    "owv2_product_detail": {
+      "type": "owv2-product-detail",
+      "name": "OWV2 Specs & brew",
+      "blocks": {
+        "spec_elevation": { "type": "spec", "settings": { "key": "Elevation", "value": "{{ product.metafields.custom.elevation_masl.value }} MASL" } },
+        "spec_crop_year": { "type": "spec", "settings": { "key": "Crop year", "value": "{{ product.metafields.custom.crop_year.value }}" } },
+        "spec_varietal": { "type": "spec", "settings": { "key": "Varietal", "value": "{{ product.metafields.custom.varietal_all_listed.value }}" } },
+        "spec_roast_date": { "type": "spec", "settings": { "key": "Roast date", "value": "Printed on every bag" } },
+        "spec_peak": { "type": "spec", "settings": { "key": "Peak freshness", "value": "Day 7 to month 3 after roast" } },
+        "brew_pour_over": { "type": "brew", "settings": { "title": "Pour-over", "summary": "1:16 · one mug", "preferred": true, "grind": "Medium", "coffee": "22 g", "water": "350 g", "temp": "94°C", "time": "3:00" } },
+        "brew_cold": { "type": "brew", "settings": { "title": "Cold brew", "summary": "1:12 · one jug", "preferred": true, "grind": "Coarse", "coffee": "80 g", "water": "1 L", "temp": "Cold", "time": "16 hrs" } },
+        "brew_nitro": { "type": "brew", "settings": { "title": "Nitro", "summary": "1:8 concentrate · charged", "preferred": false, "grind": "Coarse", "coffee": "125 g", "water": "1 L", "temp": "Cold", "time": "18 hrs" } }
+      },
+      "block_order": ["spec_elevation", "spec_crop_year", "spec_varietal", "spec_roast_date", "spec_peak", "brew_pour_over", "brew_cold", "brew_nitro"],
+      "settings": {
+        "guide_label": "Brew Guide →"
+      }
     }
   },
   "order": [
     "product-recommendations",
     "main",
+    "owv2_product_main",
+    "owv2_product_origin",
+    "owv2_product_detail",
     "owv2_product_pairings_YcKYYE"
   ]
 }
