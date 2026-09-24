@@ -116,12 +116,21 @@
 .odp-crumb a { text-decoration: none; }
 .odp-crumb a:hover { text-decoration: underline; }
 
-.odp-gallery__main {
-  display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover;
+/* Wrapper establishes the square box; the <img> just fills it. aspect-ratio
+   set directly on a replaced element with srcset/sizes (as this used to be)
+   is the flaky form of this pattern -- some engines size it from the
+   delivered image's own intrinsic ratio instead of the CSS ratio once
+   srcset picks a candidate. The thumbnail buttons below never had this bug
+   because they already used a wrapper; this brings the hero image in line. */
+.odp-gallery__main-wrap {
+  display: block; width: 100%; aspect-ratio: 1 / 1; overflow: hidden;
   margin-top: 18px;
   border: 2px solid var(--odp-red);
   box-shadow: 6px 6px 0 var(--odp-red);
   background: var(--odp-card);
+}
+.odp-gallery__main {
+  display: block; width: 100%; height: 100%; object-fit: cover;
 }
 .odp-gallery__thumbs {
   display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -369,7 +378,8 @@ a.odp-inside__item:hover { background: var(--odp-pink); }
   transition: transform .15s ease, box-shadow .15s ease;
 }
 .odp-card:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--odp-red); }
-.odp-card__img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; }
+.odp-card__img-wrap { display: block; width: 100%; aspect-ratio: 1 / 1; overflow: hidden; }
+.odp-card__img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .odp-card__row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-top: 13px; }
 .odp-card__name { font: 900 18px/1.05 var(--odp-font); letter-spacing: -.02em; color: var(--odp-red); }
 .odp-card__price { font: 700 12px/1 var(--odp-font); white-space: nowrap; }
@@ -392,7 +402,7 @@ a.odp-inside__item:hover { background: var(--odp-pink); }
   }
   .odp-main__buy { padding: 24px 16px 30px; }
   .odp-crumb { display: none; }
-  .odp-gallery__main { margin-top: 0; box-shadow: none; }
+  .odp-gallery__main-wrap { margin-top: 0; box-shadow: none; }
   .odp-gallery__thumbs { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 8px; }
   .odp-gallery__thumb:nth-child(4) { display: block; }
   .odp-gallery__thumb:not(:first-child) { border-color: rgba(255, 63, 0, .45); }
