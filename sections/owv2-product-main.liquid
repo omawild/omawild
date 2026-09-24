@@ -304,20 +304,23 @@
           </div>
           {%- comment -%}
             The 1% for the Planet mark is brand-wide, not per-product, so it
-            falls back to the same theme asset the footer already uses
-            (assets/ow-badge-1ftp.png, see sections/ow-footer.liquid) rather
-            than requiring every coffee product to pick the same image via
-            the theme editor. The image_picker setting stays for the rare
-            case a specific product needs a different mark.
+            falls back to a theme asset rather than requiring every coffee
+            product to pick the same image via the theme editor. This is the
+            VERTICAL mark (assets/ow-badge-1ftp-vertical.png, resized from the
+            brand's compliance-folder source) -- not the horizontal wordmark
+            the footer uses (assets/ow-badge-1ftp.png, sections/ow-footer.liquid),
+            which is a different lockup for a different, wider slot. The
+            image_picker setting stays for the rare case a specific product
+            needs a different mark.
           {%- endcomment -%}
           {%- if section.settings.funds_logo -%}
             {{ section.settings.funds_logo | image_url: width: 200 | image_tag: class: 'odp-funds__logo', loading: 'lazy', width: 74 }}
           {%- else -%}
             <img
-              src="{{ 'ow-badge-1ftp.png' | asset_url }}"
+              src="{{ 'ow-badge-1ftp-vertical.png' | asset_url }}"
               alt="1% for the Planet"
               class="odp-funds__logo"
-              width="74" height="31"
+              width="74" height="89"
               loading="lazy"
             >
           {%- endif -%}
