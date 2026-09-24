@@ -278,20 +278,6 @@
     "owv2_product_detail": {
       "type": "owv2-product-detail",
       "blocks": {
-        "brew_FRUTQe": {
-          "type": "brew",
-          "settings": {
-            "title": "Pour-over",
-            "summary": "1:16 · one mug",
-            "preferred": false,
-            "url": "",
-            "grind": "Medium",
-            "coffee": "22 g",
-            "water": "350 g",
-            "temp": "94°C",
-            "time": "3:00"
-          }
-        },
         "spec_elevation": {
           "type": "spec",
           "settings": {
@@ -304,6 +290,20 @@
           "settings": {
             "key": "Crop year",
             "value": "{{ product.metafields.custom.crop_year.value }}"
+          }
+        },
+        "brew_FRUTQe": {
+          "type": "brew",
+          "settings": {
+            "title": "Pour-over",
+            "summary": "1:16 · one mug",
+            "preferred": false,
+            "url": "",
+            "grind": "Medium",
+            "coffee": "22 g",
+            "water": "350 g",
+            "temp": "94°C",
+            "time": "3:00"
           }
         },
         "spec_varietal": {
@@ -371,9 +371,9 @@
         }
       },
       "block_order": [
-        "brew_FRUTQe",
         "spec_elevation",
         "spec_crop_year",
+        "brew_FRUTQe",
         "spec_varietal",
         "spec_roast_date",
         "spec_peak",
