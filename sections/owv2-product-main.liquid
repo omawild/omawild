@@ -66,15 +66,14 @@
   endif
 -%}
 
-<style>
-  #shopify-section-{{ section.id }} .od-pdp {
-    --odp-red: {{ section.settings.color_red }};
-    --odp-pink: {{ section.settings.color_pink }};
-    --odp-yellow: {{ section.settings.color_yellow }};
-    --odp-ink: {{ section.settings.color_ink }};
-    --odp-page: {{ section.settings.color_page }};
-  }
-</style>
+{%- comment -%}
+  No per-section color settings here on purpose: Omawild has one brand
+  palette (see .od-pdp's own defaults in assets/owv2-product.css), and a
+  merchant-editable color picker per PDP section would let that drift
+  product by product. owv2-product-pairings.liquid still has its own
+  color_* settings -- worth removing there too, same reasoning, but that
+  wasn't part of this pass.
+{%- endcomment -%}
 
 <div class="od-pdp" data-odp id="odp-{{ section.id }}" data-section="{{ section.id }}">
   <div class="odp-main">
@@ -440,14 +439,7 @@
 
     { "type": "header", "content": "Sticky buy bar" },
     { "type": "checkbox", "id": "show_bar", "label": "Show after the origin band", "default": true, "info": "Appears once the OWV2 Product — origin section has scrolled into view. Without that section on the page, it appears once the buy button scrolls away." },
-    { "type": "text", "id": "bar_badge", "label": "Subscribe badge", "default": "SAVING [percent]%" },
-
-    { "type": "header", "content": "Colours" },
-    { "type": "color", "id": "color_red", "label": "Brand red", "default": "#FF3F00" },
-    { "type": "color", "id": "color_pink", "label": "Salmon (photo panel)", "default": "#FFE4E7" },
-    { "type": "color", "id": "color_yellow", "label": "Sunbrella", "default": "#FBB925" },
-    { "type": "color", "id": "color_ink", "label": "Text", "default": "#00180C" },
-    { "type": "color", "id": "color_page", "label": "Page background", "default": "#F7F5F1", "info": "Sand #F7F5F1 or white #FFFFFF." }
+    { "type": "text", "id": "bar_badge", "label": "Subscribe badge", "default": "SAVING [percent]%" }
   ],
   "presets": [ { "name": "OWV2 Product — main" } ]
 }

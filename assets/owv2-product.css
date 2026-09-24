@@ -26,7 +26,11 @@
   -webkit-font-smoothing: antialiased;
 }
 .od-pdp *, .od-pdp *::before, .od-pdp *::after { box-sizing: border-box; }
-.od-pdp a { color: inherit; }
+/* :where() keeps this reset's specificity at zero -- plain .od-pdp would beat
+   single-class component rules like .odp-btn--ghost's own `color`, which is
+   exactly what silently forced "See how regen works ->" to whatever color it
+   inherited instead of the button's own electric orange. */
+:where(.od-pdp) a { color: inherit; }
 :where(.od-pdp) p { margin: 0; }
 .od-pdp img { max-width: 100%; }
 
@@ -378,7 +382,10 @@ a.odp-inside__item:hover { background: var(--odp-pink); }
 .odp-pairs__head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; }
 .odp-pairs__title { margin: 0; font: 900 26px/1.1 var(--odp-font); letter-spacing: -.025em; color: var(--odp-red); }
 .odp-pairs__all {
-  text-decoration: none; font: 700 12px/1 var(--odp-font); color: var(--odp-red) !important;
+  /* !important used to be needed here to beat .od-pdp a{color:inherit}'s
+     higher specificity -- that reset is now :where()-scoped (see top of
+     file), so a plain class rule wins on its own. */
+  text-decoration: none; font: 700 12px/1 var(--odp-font); color: var(--odp-red);
   border-bottom: 1.5px solid var(--odp-red); padding-bottom: 3px;
 }
 .odp-pairs__grid { display: grid; grid-template-columns: repeat(var(--odp-cols, 3), minmax(0, 1fr)); gap: 24px; margin-top: 26px; }
