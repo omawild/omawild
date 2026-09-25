@@ -321,6 +321,95 @@
         "button_bg_color": "#F57900",
         "button_text_color": "#ffffff"
       }
+    },
+    "owv2_subscribe_dybRLV": {
+      "type": "owv2-subscribe",
+      "blocks": {
+        "roast_HwYhPy": {
+          "type": "roast",
+          "settings": {
+            "label": "Wild Bloom",
+            "price": 560
+          }
+        },
+        "roast_QP9Y4N": {
+          "type": "roast",
+          "settings": {
+            "label": "Forest Trail",
+            "price": 540
+          }
+        },
+        "roast_88cGaL": {
+          "type": "roast",
+          "settings": {
+            "label": "Limited Reserve",
+            "price": 800
+          }
+        },
+        "size_aPej3W": {
+          "type": "size",
+          "settings": {
+            "label": "200 g",
+            "price_modifier": 0
+          }
+        },
+        "size_BYCt8x": {
+          "type": "size",
+          "settings": {
+            "label": "400 g",
+            "price_modifier": 560
+          }
+        },
+        "frequency_JWVU4R": {
+          "type": "frequency",
+          "settings": {
+            "label": "Every month"
+          }
+        },
+        "frequency_dF8HWy": {
+          "type": "frequency",
+          "settings": {
+            "label": "Every 2 weeks"
+          }
+        },
+        "frequency_aEhGEW": {
+          "type": "frequency",
+          "settings": {
+            "label": "Every 2 months"
+          }
+        }
+      },
+      "block_order": [
+        "roast_HwYhPy",
+        "roast_QP9Y4N",
+        "roast_88cGaL",
+        "size_aPej3W",
+        "size_BYCt8x",
+        "frequency_JWVU4R",
+        "frequency_dF8HWy",
+        "frequency_aEhGEW"
+      ],
+      "name": "OWV2 Subscription spot",
+      "settings": {
+        "badge_text": "SUBSCRIBE & SAVE 10%",
+        "heading": "Keep the ritual going and never run low on energy",
+        "body": "<p>Fresh roast on your schedule. Save 10% on every delivery. And each subscription helps us do more for you and our planet. Skip, swap or cancel any time.</p>",
+        "step1_label": "Pick your roast",
+        "step2_label": "Select your quantity",
+        "step3_label": "Set your frequency",
+        "summary_title": "YOUR SUBSCRIPTION",
+        "shipping_note": "Freshly roasted. Delivered on your schedule.",
+        "cta_label": "Start subscription",
+        "cta_link": "",
+        "discount_percent": 10,
+        "savings_template": "Save [amount] every delivery",
+        "empty_message": "Choose your coffee options to get started.",
+        "background_color": "#FBDCDC",
+        "text_color": "#F5450D",
+        "card_background": "#FFFFFF",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
@@ -329,6 +418,7 @@
     "owv2_banner",
     "owv2_value_grid_HKTemz",
     "owv2_values_C99474",
-    "od_featured_products_K7mEta"
+    "od_featured_products_K7mEta",
+    "owv2_subscribe_dybRLV"
   ]
 }
