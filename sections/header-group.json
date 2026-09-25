@@ -13,6 +13,27 @@
   "sections": {
     "announcement-bar": {
       "type": "announcement-bar",
+      "blocks": {
+        "countdown_eFmJXp": {
+          "type": "countdown",
+          "settings": {
+            "date": "01-07-2026",
+            "text": "🔥 Sale ends in:",
+            "expired_message": "Sale has ended!",
+            "link": "",
+            "position": "top",
+            "display_style": "full",
+            "text_size": 13,
+            "hide_when_expired": false,
+            "use_custom_colors": false,
+            "countdown_background": "#dc2626",
+            "countdown_text": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "countdown_eFmJXp"
+      ],
       "name": "Announcement Bar",
       "settings": {
         "only_homepage": false,
