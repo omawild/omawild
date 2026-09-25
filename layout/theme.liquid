@@ -52,6 +52,7 @@
       # ow-fonts must follow css-variables: it overrides the same :root font
       # tokens, and equal specificity means the later block wins.
       render 'ow-fonts'
+      render 'ow-brand-colors'
       echo 'base.css' | asset_url | stylesheet_tag: preload: true
 
       if text_direction == 'rtl'

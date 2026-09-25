@@ -120,7 +120,8 @@
   }
 .owv2-subscribe-{{ owid }} fieldset {
   border:0;
-  padding:0;
+  border-top:1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+  padding:20px 0 0;
   margin:0 0 24px;
   min-width:0;
   }
@@ -207,9 +208,11 @@
   }
 .owv2-subscribe-{{ owid }} .prices {
   margin-top:16px;
+  padding-top:16px;
+  border-top:1px solid color-mix(in srgb, var(--ink) 25%, transparent);
   }
 .owv2-subscribe-{{ owid }} .prices strong {
-  font-size:32px;
+  font-size:36px;
   font-weight:900;
   letter-spacing:-.02em;
   }
@@ -221,13 +224,23 @@
 .owv2-subscribe-{{ owid }} .prices s {
   margin-left:10px;
   }
+.owv2-subscribe-{{ owid }} .saving {
+  display:inline-block;
+  margin-top:14px;
+  background:var(--ow-sunbrella, #FBB925);
+  color:var(--ow-midnight, #00180C);
+  font-weight:800;
+  font-size:12px;
+  padding:8px 14px;
+  border-radius:999px;
+  }
 .owv2-subscribe-{{ owid }} .summary .owv2-button {
   width:100%;
-  margin:12px 0;
+  margin:16px 0 12px;
   }
 .owv2-subscribe-{{ owid }} .shipping {
   font-size:13px;
-  text-align:center;
+  text-align:left;
   }
 @media(max-width:749px) {
   .owv2-subscribe-{{ owid }} .columns {
@@ -277,7 +290,7 @@
 </strong> <s data-original>
 </s>
 </p>
-<p data-saving>
+<p class="saving" data-saving>
 </p>
 </div>
 {% if section.settings.cta_label != blank %}
@@ -389,13 +402,13 @@
       "type": "color",
       "id": "background_color",
       "label": "Background color",
-      "default": "#FBDCDC"
+      "default": "#FFE4E7"
     },
     {
       "type": "color",
       "id": "text_color",
       "label": "Text color",
-      "default": "#F5450D"
+      "default": "#FF3F00"
     },
     {
       "type": "color",
