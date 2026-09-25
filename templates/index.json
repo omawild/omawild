@@ -149,11 +149,11 @@
       "settings": {
         "heading": "",
         "mobile_hint_text": "← SWIPE →",
-        "card_heading_color": "#FF3F00",
-        "card_body_color": "#00180C",
-        "background_color": "#FF3F00",
-        "text_color": "#FFFFFF",
-        "card_background": "#FFFFFF",
+        "card_heading_color": "#ff3f00",
+        "card_body_color": "#00180c",
+        "background_color": "#ff3f00",
+        "text_color": "#ffffff",
+        "card_background": "#ffffff",
         "padding_top": 64,
         "padding_bottom": 64
       }
@@ -176,10 +176,10 @@
         "padding_bottom": 64
       }
     },
-    "od_featured_products_jhAT38": {
+    "od_featured_products_p8WFKg": {
       "type": "od-featured-products",
       "blocks": {
-        "collection_WM4h3E": {
+        "collection_i6c4F9": {
           "type": "collection",
           "settings": {
             "grade_badge": "",
@@ -192,13 +192,10 @@
             "price_caption": "",
             "benefit_1": "",
             "benefit_2": "",
-            "benefit_3": "",
-            "show_subscription_notice": false,
-            "subscription_notice_text": "For subscriptions, [click here].",
-            "subscription_custom_url": ""
+            "benefit_3": ""
           }
         },
-        "collection_QAmrdW": {
+        "collection_eyRLYq": {
           "type": "collection",
           "settings": {
             "grade_badge": "",
@@ -211,13 +208,10 @@
             "price_caption": "",
             "benefit_1": "",
             "benefit_2": "",
-            "benefit_3": "",
-            "show_subscription_notice": false,
-            "subscription_notice_text": "For subscriptions, [click here].",
-            "subscription_custom_url": ""
+            "benefit_3": ""
           }
         },
-        "collection_tnpimX": {
+        "collection_Uxy8aG": {
           "type": "collection",
           "settings": {
             "grade_badge": "",
@@ -230,22 +224,17 @@
             "price_caption": "",
             "benefit_1": "",
             "benefit_2": "",
-            "benefit_3": "",
-            "show_subscription_notice": false,
-            "subscription_notice_text": "For subscriptions, [click here].",
-            "subscription_custom_url": ""
+            "benefit_3": ""
           }
         }
       },
       "block_order": [
-        "collection_WM4h3E",
-        "collection_QAmrdW",
-        "collection_tnpimX"
+        "collection_i6c4F9",
+        "collection_eyRLYq",
+        "collection_Uxy8aG"
       ],
       "name": "OD Featured Products",
       "settings": {
-        "show_card_variant_selector": false,
-        "variant_label": "Choose your coffee",
         "header_alignment": "flex-start",
         "limit_header_width": false,
         "header_max_width": 650,
@@ -281,6 +270,6 @@
     "owv2_marquee",
     "owv2_value_grid_QXFMkK",
     "owv2_banner",
-    "od_featured_products_jhAT38"
+    "od_featured_products_p8WFKg"
   ]
 }
