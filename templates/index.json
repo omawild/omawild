@@ -179,6 +179,22 @@
     "od_featured_products_VgPWWJ": {
       "type": "od-featured-products",
       "blocks": {
+        "collection_EwNxCE": {
+          "type": "collection",
+          "settings": {
+            "grade_badge": "",
+            "product_item": "wild-bloom",
+            "highlight_card": false,
+            "banner_text": "★ BEST VALUE",
+            "collection_tag": "",
+            "collection_title": "",
+            "collection_blurb": "",
+            "price_caption": "",
+            "benefit_1": "",
+            "benefit_2": "",
+            "benefit_3": ""
+          }
+        },
         "collection_MPemRi": {
           "type": "collection",
           "settings": {
@@ -210,28 +226,12 @@
             "benefit_2": "",
             "benefit_3": ""
           }
-        },
-        "collection_EwNxCE": {
-          "type": "collection",
-          "settings": {
-            "grade_badge": "",
-            "product_item": "",
-            "highlight_card": false,
-            "banner_text": "★ BEST VALUE",
-            "collection_tag": "",
-            "collection_title": "",
-            "collection_blurb": "",
-            "price_caption": "",
-            "benefit_1": "",
-            "benefit_2": "",
-            "benefit_3": ""
-          }
         }
       },
       "block_order": [
+        "collection_EwNxCE",
         "collection_MPemRi",
-        "collection_3JTqdK",
-        "collection_EwNxCE"
+        "collection_3JTqdK"
       ],
       "name": "OD Featured Products",
       "settings": {
@@ -239,16 +239,16 @@
         "limit_header_width": false,
         "header_max_width": 650,
         "heading_size": 38,
-        "heading": "Title here",
-        "subheading": "<p>Subheading</p>",
+        "heading": "Drink for Planet Earth",
+        "subheading": "<p>Caffeine without the damn jitters so you can stay high without coming down. Specialty coffee roasted fresh each month. Delivered as and when you need clean fuel. Then we put your dollars to work restoring the beautiful places that inspire us to adventure outside. So please, drink for Planet Earth.</p>",
         "heading_tag": "h2",
-        "background_color": "#F7F5F1",
-        "heading_color": "#FF3F00",
-        "text_color": "#00180C",
-        "benefit_text_color": "#00180C",
-        "descriptor_color": "#FF3F00",
-        "price_color": "#FF3F00",
-        "emphasis_color": "#FF3F00",
+        "background_color": "#f7f5f1",
+        "heading_color": "#ff3f00",
+        "text_color": "#FF3F00",
+        "benefit_text_color": "#00180c",
+        "descriptor_color": "#ff3f00",
+        "price_color": "#ff3f00",
+        "emphasis_color": "#ff3f00",
         "view_all_label": "View All",
         "view_all_link": "",
         "section_padding_top": 52,
@@ -260,7 +260,7 @@
         "price_caption_margin_bottom": 4,
         "image_aspect_ratio": "1/1",
         "button_action": "add_to_cart",
-        "button_bg_color": "#FF3F00",
+        "button_bg_color": "#ff3f00",
         "button_text_color": "#ffffff"
       }
     }
