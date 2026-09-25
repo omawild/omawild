@@ -1,0 +1,378 @@
+{%- comment -%}
+  owv2-subscription-builder — "Build your subscription", driven entirely by Shopify.
+
+  Data sources
+  - Roasts: every product in the chosen collection (blank = all products) with at
+    least one available variant that has a selling plan allocation. Selling plans
+    come from the Shopify Subscriptions app; nothing about them is typed in here.
+  - Quantities: that product's variants that have a selling plan allocation.
+  - Frequencies: the selling plans allocated to the selected variant.
+  - Prices: each allocation's price / compare_at_price, formatted by Shopify's
+    money filter. The browser never computes a discount.
+  - The only merchant-typed data is the optional "Roast name" block, which renames
+    a product within this section.
+
+  The CTA posts variant id + selling_plan + quantity to /cart/add, which lands on
+  the cart and continues through the normal subscription checkout.
+  Replaces the display-only owv2-subscribe.
+{%- endcomment -%}
+
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{% style %}
+.owv2-subbuild-{{ owid }} {
+  box-sizing: border-box;
+  --bg: {{ section.settings.background_color }};
+  --ink: {{ section.settings.text_color }};
+  --surface: {{ section.settings.card_background }};
+  background: var(--bg);
+  color: var(--ink);
+  padding: {{ section.settings.padding_top }}px max(20px, 5vw) {{ section.settings.padding_bottom }}px;
+  font-family: var(--font-body-family);
+  font-size: 16px;
+  line-height: 1.5;
+  }
+.owv2-subbuild-{{ owid }} *, .owv2-subbuild-{{ owid }} *::before, .owv2-subbuild-{{ owid }} *::after {
+  box-sizing: border-box;
+  }
+.owv2-subbuild-{{ owid }} h2, .owv2-subbuild-{{ owid }} h3 {
+  font-family: var(--font-heading-family);
+  color: inherit;
+  font-weight: 900;
+  letter-spacing: -.035em;
+  line-height: 1.05;
+  text-transform: none;
+  margin: 0;
+  overflow-wrap: anywhere;
+  }
+.owv2-subbuild-{{ owid }} h2 {
+  font-size: clamp(30px, 4vw, 58px);
+  }
+.owv2-subbuild-{{ owid }} h3 {
+  font-size: 26px;
+  margin-bottom: 12px;
+  }
+.owv2-subbuild-{{ owid }} p {
+  margin: 0 0 16px;
+  }
+.owv2-subbuild-{{ owid }} p:last-child {
+  margin-bottom: 0;
+  }
+.owv2-subbuild-{{ owid }} a {
+  color: inherit;
+  }
+.owv2-subbuild-{{ owid }} .inner {
+  max-width: 1320px;
+  margin-inline: auto;
+  min-width: 0;
+  }
+.owv2-subbuild-{{ owid }} .columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 64px;
+  align-items: start;
+  }
+.owv2-subbuild-{{ owid }} .intro {
+  max-width: 760px;
+  margin-bottom: 32px;
+  }
+.owv2-subbuild-{{ owid }} .intro > * + * {
+  margin-top: 20px;
+  }
+.owv2-subbuild-{{ owid }} .pill {
+  display: inline-block;
+  background: var(--ink);
+  color: var(--bg);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  }
+.owv2-subbuild-{{ owid }} .eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  }
+.owv2-subbuild-{{ owid }} fieldset {
+  position: relative;
+  border: 0;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+  padding: 32px 0 32px 60px;
+  margin: 0;
+  min-width: 0;
+  }
+.owv2-subbuild-{{ owid }} legend {
+  float: left;
+  width: 100%;
+  padding: 0;
+  margin-bottom: 16px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .15em;
+  font-weight: 700;
+  }
+.owv2-subbuild-{{ owid }} .step-no {
+  position: absolute;
+  left: 0;
+  letter-spacing: 0;
+  }
+.owv2-subbuild-{{ owid }} .options {
+  clear: both;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  }
+.owv2-subbuild-{{ owid }} .option {
+  position: relative;
+  cursor: pointer;
+  }
+.owv2-subbuild-{{ owid }} .option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  }
+.owv2-subbuild-{{ owid }} .option span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  padding: 10px 18px;
+  min-height: 44px;
+  background: var(--surface);
+  font-weight: 700;
+  font-size: 14px;
+  }
+.owv2-subbuild-{{ owid }} .option img {
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+  border-radius: 50%;
+  }
+.owv2-subbuild-{{ owid }} input:checked + span {
+  background: var(--ink);
+  color: var(--bg);
+  }
+.owv2-subbuild-{{ owid }} input:focus-visible + span {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+  }
+.owv2-subbuild-{{ owid }} .summary {
+  position: sticky;
+  top: 24px;
+  background: var(--surface);
+  border: 1px solid var(--ink);
+  border-radius: 12px;
+  padding: 28px;
+  }
+.owv2-subbuild-{{ owid }} .prices {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+  }
+.owv2-subbuild-{{ owid }} [data-saving] {
+  color: {{ section.settings.saving_color }};
+  font-size: 14px;
+  font-weight: 700;
+  }
+.owv2-subbuild-{{ owid }} .prices strong {
+  font-size: 40px;
+  font-weight: 900;
+  }
+.owv2-subbuild-{{ owid }} .prices s {
+  margin-left: 10px;
+  }
+.owv2-subbuild-{{ owid }} .owv2-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+  margin: 12px 0;
+  padding: 12px 24px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  font: 700 16px var(--font-body-family);
+  cursor: pointer;
+  }
+.owv2-subbuild-{{ owid }} .owv2-button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+  }
+.owv2-subbuild-{{ owid }} .shipping {
+  font-size: 13px;
+  text-align: center;
+  }
+.owv2-subbuild-{{ owid }} :focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 4px;
+  }
+@media (max-width: 749px) {
+  .owv2-subbuild-{{ owid }} .columns {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    }
+  .owv2-subbuild-{{ owid }} .summary {
+    position: static;
+    }
+}
+{% endstyle %}
+
+{%- liquid
+  assign source = section.settings.collection
+  if source == blank
+    assign source = collections.all
+  endif
+  assign roast_count = 0
+-%}
+
+<div class="owv2-subbuild-{{ owid }}">
+  <owv2-subscription-builder>
+    <div class="inner columns">
+      <div>
+        <div class="intro">
+          {%- if section.settings.badge_text != blank -%}<span class="pill">{{ section.settings.badge_text | escape }}</span>{%- endif -%}
+          <h2>{{ section.settings.heading }}</h2>
+          <div>{{ section.settings.body }}</div>
+        </div>
+
+        <fieldset data-step="product">
+          <legend><span class="step-no">01</span><span class="step-label">{{ section.settings.step1_label | escape }}</span></legend>
+          <div class="options" data-options></div>
+        </fieldset>
+        <fieldset data-step="variant">
+          <legend><span class="step-no">02</span><span class="step-label">{{ section.settings.step2_label | escape }}</span></legend>
+          <div class="options" data-options></div>
+        </fieldset>
+        <fieldset data-step="plan">
+          <legend><span class="step-no">03</span><span class="step-label">{{ section.settings.step3_label | escape }}</span></legend>
+          <div class="options" data-options></div>
+        </fieldset>
+      </div>
+
+      <aside class="summary">
+        <p class="eyebrow">{{ section.settings.summary_title | escape }}</p>
+        <div aria-live="polite" aria-atomic="true">
+          <h3 data-title></h3>
+          <p data-description>{{ section.settings.empty_message | escape }}</p>
+          <p class="prices" hidden><strong data-price></strong> <s data-compare></s></p>
+          <p data-saving></p>
+        </div>
+        <form method="post" action="{{ routes.cart_add_url }}" data-form>
+          <input type="hidden" name="id" value="" data-variant-input>
+          <input type="hidden" name="selling_plan" value="" data-plan-input>
+          <input type="hidden" name="quantity" value="1">
+          <button type="submit" class="owv2-button" disabled data-submit>{{ section.settings.cta_label | escape }}</button>
+        </form>
+        {%- if section.settings.shipping_note != blank -%}<p class="shipping">{{ section.settings.shipping_note | escape }}</p>{%- endif -%}
+      </aside>
+    </div>
+
+    {%- comment -%} Shopify-sourced catalogue. Built as a string so products without a plan leave no stray commas. {%- endcomment -%}
+    {%- capture products_json -%}
+      {%- for product in source.products limit: 50 -%}
+        {%- if product.selling_plan_groups.size == 0 -%}{%- continue -%}{%- endif -%}
+        {%- capture variants_json -%}
+          {%- for variant in product.variants -%}
+            {%- if variant.available == false or variant.selling_plan_allocations.size == 0 -%}{%- continue -%}{%- endif -%}
+            {%- capture plans_json -%}
+              {%- for alloc in variant.selling_plan_allocations -%}
+                {%- assign compare = alloc.compare_at_price | default: variant.price -%}
+                {%- assign saving = compare | minus: alloc.price -%}
+                {"id":{{ alloc.selling_plan.id }},"name":{{ alloc.selling_plan.name | json }},"options":{{ alloc.selling_plan.options | map: 'value' | json }},"price":{{ alloc.price | money | json }},"compare":{% if saving > 0 %}{{ compare | money | json }}{% else %}null{% endif %},"saving":{% if saving > 0 %}{{ saving | money | json }}{% else %}null{% endif %}}{% unless forloop.last %},{% endunless %}
+              {%- endfor -%}
+            {%- endcapture -%}
+            {"id":{{ variant.id }},"title":{{ variant.title | json }},"plans":[{{ plans_json }}]},
+          {%- endfor -%}
+        {%- endcapture -%}
+        {%- if variants_json == blank -%}{%- continue -%}{%- endif -%}
+        {%- liquid
+          assign label = product.title
+          for block in section.blocks
+            if block.settings.product.id == product.id and block.settings.label != blank
+              assign label = block.settings.label
+            endif
+          endfor
+          assign roast_count = roast_count | plus: 1
+          assign image = nil
+          if section.settings.show_images and product.featured_image
+            assign image = product.featured_image | image_url: width: 100
+          endif
+        -%}
+        {"id":{{ product.id }},"title":{{ label | json }},"image":{{ image | json }},"variants":[{{ variants_json | remove_last: ',' }}]},
+      {%- endfor -%}
+    {%- endcapture -%}
+    <script type="application/json" data-catalogue>
+      {"savings":{{ section.settings.savings_template | json }},"products":[{{ products_json | remove_last: ',' }}]}
+    </script>
+
+    {%- if roast_count == 0 and request.design_mode -%}
+      <p class="inner">No products in this collection have an available subscription plan. Add them to a plan in the Shopify Subscriptions app.</p>
+    {%- endif -%}
+  </owv2-subscription-builder>
+  <script src="{{ 'owv2-subscription-builder.js' | asset_url }}" defer="defer"></script>
+</div>
+
+{% schema %}
+{
+  "name": "OWV2 Subscription builder",
+  "tag": "section",
+  "class": "owv2-section owv2-subscription-builder",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Products from",
+      "info": "Blank uses all products. Only products with a subscription plan in the Shopify Subscriptions app are shown."
+    },
+    { "type": "checkbox", "id": "show_images", "label": "Show product thumbnails", "default": false },
+    { "type": "text", "id": "badge_text", "label": "Badge text", "default": "SUBSCRIBE & SAVE" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Build your subscription" },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>Fresh roast on your schedule. Skip, swap or cancel any time.</p>"
+    },
+    { "type": "text", "id": "step1_label", "label": "Step 1 label", "default": "Pick your roast" },
+    { "type": "text", "id": "step2_label", "label": "Step 2 label", "default": "Select your quantity" },
+    { "type": "text", "id": "step3_label", "label": "Step 3 label", "default": "Set your frequency" },
+    { "type": "text", "id": "summary_title", "label": "Summary title", "default": "YOUR SUBSCRIPTION" },
+    { "type": "text", "id": "empty_message", "label": "Empty message", "default": "Choose your coffee options to get started." },
+    {
+      "type": "text",
+      "id": "savings_template",
+      "label": "Savings line",
+      "default": "Save [amount] every delivery",
+      "info": "[amount] is the difference between the plan price and the regular price, from Shopify."
+    },
+    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Start subscription" },
+    { "type": "text", "id": "shipping_note", "label": "Shipping note", "default": "Freshly roasted. Delivered on your schedule." },
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#FBDCDC" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#F5450D" },
+    { "type": "color", "id": "card_background", "label": "Card background", "default": "#FFFFFF" },
+    { "type": "color", "id": "saving_color", "label": "Savings line color", "default": "#2E7D32" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 64 }
+  ],
+  "blocks": [
+    {
+      "type": "name_override",
+      "name": "Roast name",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Renames a product in this section only. Which roasts appear is decided by their subscription plans, not by these blocks."
+        },
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "text", "id": "label", "label": "Name shown" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "OWV2 Subscription builder" }]
+}
+{% endschema %}
