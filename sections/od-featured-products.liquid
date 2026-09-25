@@ -14,7 +14,7 @@
   margin: 10 auto;
   padding-left: {{ section.settings.mobile_padding_horizontal }}px;
   padding-right: {{ section.settings.mobile_padding_horizontal }}px;
-  position: relative; 
+  position: relative;
 }
 
 /* --- Header Setup --- */
@@ -27,15 +27,15 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  
+
   /* Alignment handling */
-  align-items: {{ section.settings.header_alignment }}; 
+  align-items: {{ section.settings.header_alignment }};
   text-align: {% if section.settings.header_alignment == 'center' %}center{% else %}left{% endif %};
-  
+
   /* Smart structural max-width handling */
   {% if section.settings.limit_header_width %}
     max-width: {{ section.settings.header_max_width }}px;
-    
+
     /* If the merchant centered the text, center the entire layout container block */
     {% if section.settings.header_alignment == 'center' %}
       margin-left: auto;
@@ -67,8 +67,8 @@
 }
 
 /* Force rich text tags to adapt to parent text alignment natively */
-.subheading-{{ section.id }} p { 
-  margin: 0; 
+.subheading-{{ section.id }} p {
+  margin: 0;
   text-align: inherit;
 }
 
@@ -92,7 +92,7 @@
 .slider-wrapper-{{ section.id }} {
   position: relative;
   margin-left: -{{ section.settings.mobile_padding_horizontal }}px;
-  margin-right: -{{ section.settings.mobile_padding_horizontal }}px; 
+  margin-right: -{{ section.settings.mobile_padding_horizontal }}px;
   margin-top: 0px;
   margin-bottom: 0px;
 }
@@ -109,12 +109,35 @@
 
 .slider-track-{{ section.id }}::-webkit-scrollbar { display: none; }
 
+/* Edge fades hint the row keeps scrolling, matching the OW Landing products band */
+.scroll-fade-{{ section.id }} {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 48px;
+  pointer-events: none;
+  z-index: 15;
+  transition: opacity .2s ease;
+}
+
+.scroll-fade-left-{{ section.id }} {
+  left: 0;
+  background: linear-gradient(to right, {{ section.settings.background_color }}, transparent);
+}
+
+.scroll-fade-right-{{ section.id }} {
+  right: 0;
+  background: linear-gradient(to left, {{ section.settings.background_color }}, transparent);
+}
+
+.scroll-fade-{{ section.id }}.hide { opacity: 0; }
+
 /* --- Navigation Buttons --- */
 .nav-btn-{{ section.id }} {
-  font-family: var(--font-heading-family); 
+  font-family: var(--font-heading-family);
   font-style: var(--font-heading-style);
   position: absolute;
-  top: 35%; 
+  top: 35%;
   width: 46px;
   height: 46px;
   background: white;
@@ -147,10 +170,10 @@
 .btn-next-{{ section.id }} { right: calc({{ section.settings.mobile_padding_horizontal }}px + 10px); }
 .btn-next-{{ section.id }}::after { transform: rotate(45deg); margin-right: 4px; }
 
-/* --- IM8 Premium Card System --- */
+/* --- Product card --- */
 .card-{{ section.id }} {
   flex: 0 0 85%;
-  background: var(--ow-sunbrella, #FBB925);
+  background: var(--sunbrella, #FBB925);
   border: 1.5px solid {{ section.settings.heading_color }};
   border-radius: 12px;
   overflow: hidden;
@@ -161,12 +184,23 @@
   text-decoration: none;
 }
 
-.card-{{ section.id }}[data-product-url] {
-  cursor: pointer;
-}
-
 .card-{{ section.id }}.is-highlighted {
   border: 2px solid {{ section.settings.emphasis_color }};
+}
+
+.card-empty-{{ section.id }} {
+  flex: 0 0 85%;
+  background: var(--sunbrella, #FBB925);
+  border: 1.5px dashed {{ section.settings.heading_color }};
+  border-radius: 12px;
+  padding: 24px 16px;
+  text-align: center;
+}
+
+.card-empty-{{ section.id }} p {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: {{ section.settings.text_color }};
 }
 
 .image-wrap-{{ section.id }} {
@@ -182,56 +216,16 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.4s ease;
+  transition: opacity 0.2s ease, transform 0.4s ease;
 }
 
 .card-{{ section.id }}:hover .image-wrap-{{ section.id }} img {
   transform: scale(1.04);
 }
 
-.hover-overlay-{{ section.id }} {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 3;
-}
-
-.card-{{ section.id }}:hover .hover-overlay-{{ section.id }} {
-  opacity: 1;
-}
-
-.quick-opt-btn-{{ section.id }} {
-  background: #ffffff;
-  color: {{ section.settings.button_bg_color }};
-  border: none;
-  padding: 12px 24px;
-  font-family: var(--font-heading-family);
-  font-style: var(--font-heading-style);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-  transform: translateY(10px);
-  transition: transform 0.3s ease, background 0.2s ease, color 0.2s ease;
-}
-
-.card-{{ section.id }}:hover .quick-opt-btn-{{ section.id }} {
-  transform: translateY(0);
-}
-
-.quick-opt-btn-{{ section.id }}:hover {
-  background: {{ section.settings.button_bg_color }};
-  color: #ffffff;
+.image-link-{{ section.id }}:hover img,
+.name-{{ section.id }} a:hover {
+  opacity: .75;
 }
 
 .banner-{{ section.id }} {
@@ -281,6 +275,12 @@
   line-height: 1.05;
 }
 
+.name-{{ section.id }} a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity .2s ease;
+}
+
 .desc-{{ section.id }} {
   color: {{ section.settings.text_color }};
   font-size: 12.5px;
@@ -327,7 +327,7 @@
 .price-presentation-container-{{ section.id }} {
   display: flex;
   flex-direction: column;
-  margin-bottom: {{ section.settings.price_row_margin_bottom }}px; 
+  margin-bottom: {{ section.settings.price_row_margin_bottom }}px;
 }
 
 .price-row-{{ section.id }} {
@@ -356,7 +356,7 @@
 
 .discount-badge-{{ section.id }} {
   background: #fff0f2;
-  color: #F57900;
+  color: {{ section.settings.emphasis_color }};
   font-size: 11px;
   font-weight: 800;
   padding: 2px 6px;
@@ -367,12 +367,12 @@
 .price-caption-{{ section.id }} {
   font-size: 12px;
   color: #666666;
-  margin-top: {{ section.settings.price_caption_margin_bottom }}px; 
-  margin-bottom: 0px !important; 
+  margin-top: {{ section.settings.price_caption_margin_bottom }}px;
+  margin-bottom: 0px !important;
   line-height: 1.2;
 }
 
-/* Form Action Button Form Styling */
+/* --- Variant select + Add to Cart: always visible, never a modal --- */
 .im8-cta-form-container-{{ section.id }} {
   position: relative;
   z-index: 5;
@@ -381,6 +381,40 @@
 .im8-cta-form-{{ section.id }} {
   width: 100%;
   margin: 0;
+}
+
+.owv2-variant-select-{{ section.id }} {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  border: 1.5px solid {{ section.settings.heading_color }};
+  border-radius: 999px;
+  font: 700 12px var(--font-body-family);
+  color: {{ section.settings.heading_color }};
+  background: transparent;
+}
+
+/* Reserved even with nothing to choose, so price/select/button sit at the
+   same height on every card in the row -- see blocks/ow-product-card.liquid. */
+.owv2-variant-select-{{ section.id }}--spacer {
+  visibility: hidden;
+}
+
+.owv2-grade-{{ section.id }} {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+  padding: 5px 10px;
+  border-radius: 4px;
+  background: #ffffff;
+  border: 1.5px solid {{ section.settings.heading_color }};
+  color: {{ section.settings.heading_color }};
+  font-weight: 800;
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .im8-cta-{{ section.id }} {
@@ -402,243 +436,6 @@
 
 .im8-cta-{{ section.id }}:hover { opacity: 0.9; }
 
-/* --- Premium Featured Split-Screen Modal Layout --- */
-.modal-overlay-{{ section.id }} {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-  padding: 15px;
-}
-
-.modal-overlay-{{ section.id }}.is-open {
-  opacity: 1;
-  visibility: visible;
-}
-
-.modal-container-{{ section.id }} {
-  background: rgb(var(--color-background, 255, 255, 255));
-  color: rgb(var(--color-foreground, 26, 27, 24));
-  width: 100%;
-  max-width: 820px;
-  position: relative;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.25);
-  transform: translateY(-25px);
-  transition: transform 0.3s ease;
-  overflow: hidden;
-  border-radius: var(--popup-corner-radius, 0px);
-}
-
-.modal-overlay-{{ section.id }}.is-open .modal-container-{{ section.id }} {
-  transform: translateY(0);
-}
-
-.modal-close-{{ section.id }} {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: transparent;
-  border: none;
-  width: 32px;
-  height: 32px;
-  font-size: 24px;
-  cursor: pointer;
-  color: rgb(var(--color-foreground));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  line-height: 1;
-  opacity: 0.6;
-  transition: opacity 0.2s ease;
-}
-
-.modal-close-{{ section.id }}:hover {
-  opacity: 1;
-}
-
-.modal-split-grid-{{ section.id }} {
-  display: grid;
-  grid-template-columns: 1fr;
-  width: 100%;
-}
-
-@media screen and (min-width: 750px) {
-  .modal-split-grid-{{ section.id }} {
-    grid-template-columns: 1fr 1.1fr;
-  }
-}
-
-.modal-media-pane-{{ section.id }} {
-  background: #f7f7f7;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  position: relative;
-  aspect-ratio: 1/1;
-}
-
-@media screen and (max-width: 749px) {
-  .modal-media-pane-{{ section.id }} {
-    max-height: 250px;
-  }
-}
-
-.modal-media-pane-{{ section.id }} img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.modal-info-pane-{{ section.id }} {
-  padding: 25px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  max-height: 85vh;
-  overflow-y: auto;
-}
-
-@media screen and (min-width: 750px) {
-  .modal-info-pane-{{ section.id }} {
-    padding: 40px;
-  }
-}
-
-.modal-title-{{ section.id }} {
-  font-family: var(--font-heading-family);
-  font-style: var(--font-heading-style);
-  font-weight: var(--font-heading-weight, 700);
-  font-size: 2.6rem;
-  margin: 0 0 10px 0;
-  color: rgb(var(--color-foreground));
-  line-height: 1.1;
-  letter-spacing: calc(var(--font-heading-scale) * 2px);
-}
-
-.modal-price-{{ section.id }} {
-  font-family: var(--font-body-family);
-  font-size: 1.8rem;
-  font-weight: 500;
-  margin-bottom: 24px;
-  color: #F57900;
-}
-
-.modal-variants-{{ section.id }} {
-  margin-bottom: 20px;
-}
-
-.modal-variant-option-{{ section.id }} {
-  margin-bottom: 18px;
-}
-
-.modal-variant-label-{{ section.id }} {
-  display: block;
-  font-family: var(--font-body-family);
-  font-size: 1.3rem;
-  font-weight: 600;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.1rem;
-  color: rgba(var(--color-foreground), 0.75);
-}
-
-.pill-group-{{ section.id }} {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-/* Exact Theme Swatch Variant Match */
-.pill-node-{{ section.id }} {
-  font-family: var(--font-body-family);
-  font-size: 1.4rem;
-  padding: 1rem 2rem;
-  border: var(--variant-pills-border-width, 1px) solid rgba(var(--color-foreground), 0.2);
-  background-color: rgb(var(--color-background));
-  color: rgb(var(--color-foreground));
-  border-radius: var(--variant-pills-radius, 2rem);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.pill-node-{{ section.id }}:hover {
-  border-color: rgb(var(--color-foreground));
-}
-
-.pill-node-{{ section.id }}.is-active {
-  background-color: rgb(var(--color-foreground));
-  color: rgb(var(--color-background));
-  border-color: rgb(var(--color-foreground));
-}
-
-/* Native Theme Quantity Bar Layout */
-.modal-qty-container-{{ section.id }} {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-  gap: 8px;
-}
-
-.qty-selector-{{ section.id }} {
-  display: flex;
-  border: var(--inputs-border-width, 1px) solid rgba(var(--color-foreground), 0.25);
-  border-radius: var(--inputs-radius, 0px);
-  width: 140px;
-  height: 46px;
-  background: rgb(var(--color-background));
-}
-
-.qty-btn-{{ section.id }} {
-  background: none;
-  border: none;
-  width: 45px;
-  height: 100%;
-  font-size: 18px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgb(var(--color-foreground));
-}
-
-.qty-input-{{ section.id }} {
-  width: 50px;
-  border: none;
-  text-align: center;
-  font-family: var(--font-body-family);
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: #F57900;
-  background: transparent;
-  padding: 0;
-}
-
-/* Custom Merchant Subscription One-Liner Link Style */
-.modal-subscription-notice-{{ section.id }} {
-  margin-bottom: 20px;
-  font-family: var(--font-body-family);
-  font-size: 1.3rem;
-  color: rgba(var(--color-foreground), 0.8);
-  line-height: 1.4;
-}
-
-.modal-subscription-notice-{{ section.id }} a {
-  color: {{ section.settings.emphasis_color }};
-  text-decoration: underline;
-  font-weight: 600;
-}
-
 /* --- Responsive Layout Switches --- */
 @media screen and (min-width: 750px) {
   .container-{{ section.id }} {
@@ -648,7 +445,7 @@
 
   .slider-wrapper-{{ section.id }} {
     margin-left: -{{ section.settings.desktop_padding_horizontal }}px;
-    margin-right: -{{ section.settings.desktop_padding_horizontal }}px; 
+    margin-right: -{{ section.settings.desktop_padding_horizontal }}px;
   }
 
   .slider-track-{{ section.id }} {
@@ -659,13 +456,13 @@
   .btn-prev-{{ section.id }} { left: calc({{ section.settings.desktop_padding_horizontal }}px + 10px); }
   .btn-next-{{ section.id }} { right: calc({{ section.settings.desktop_padding_horizontal }}px + 10px); }
 
-  .card-{{ section.id }} { 
-    flex: 1 0 calc(25% - ({{ section.settings.grid_gap }}px * 3 / 4)) !important; 
+  .card-{{ section.id }}, .card-empty-{{ section.id }} {
+    flex: 1 0 calc(25% - ({{ section.settings.grid_gap }}px * 3 / 4)) !important;
     min-width: calc(25% - ({{ section.settings.grid_gap }}px * 3 / 4));
   }
-  
+
   {% if section.blocks.size <= 3 %}
-    .card-{{ section.id }} {
+    .card-{{ section.id }}, .card-empty-{{ section.id }} {
       flex: 1 0 calc(33.333% - ({{ section.settings.grid_gap }}px * 2 / 3)) !important;
       min-width: calc(33.333% - ({{ section.settings.grid_gap }}px * 2 / 3));
     }
@@ -676,22 +473,19 @@
     .nav-btn-{{ section.id }} { display: none !important; }
   {% endif %}
 }
-
-.owv2-variant-select-{{ section.id }} { width: 100%; min-height: 44px; padding: 10px 16px; margin-bottom: 12px; border: 1.5px solid {{ section.settings.heading_color }}; border-radius: 999px; font: 700 12px var(--font-body-family); color: {{ section.settings.heading_color }}; background: transparent; }
-.owv2-grade-{{ section.id }} { position: absolute; top: 12px; left: 12px; z-index: 2; padding: 5px 10px; border-radius: 4px; background: #ffffff; border: 1.5px solid {{ section.settings.heading_color }}; color: {{ section.settings.heading_color }}; font-weight: 800; font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; }
 {%- endstyle -%}
 
 <div class="section-{{ section.id }}">
   <div class="container-{{ section.id }}">
-    
+
     <div class="header-{{ section.id }}">
       <div class="header-content-inner-{{ section.id }}">
-        
+
         <div class="header-text-group-{{ section.id }}">
           <{{ section.settings.heading_tag }} class="title-{{ section.id }} {{ section.settings.heading_tag }}-style">
             {{ section.settings.heading }}
           </{{ section.settings.heading_tag }}>
-          
+
           {% if section.settings.subheading != blank %}
             <div class="subheading-{{ section.id }} rte">
               {{ section.settings.subheading }}
@@ -700,7 +494,7 @@
         </div>
       </div>
     </div>
-        
+
         {% if section.settings.view_all_link != blank %}
           <a href="{{ section.settings.view_all_link }}" class="view-all-link-{{ section.id }}">
             {{ section.settings.view_all_label }}
@@ -711,13 +505,29 @@
     <button type="button" class="nav-btn-{{ section.id }} btn-next-{{ section.id }}" id="BtnNext-{{ section.id }}" aria-label="Next"></button>
 
     <div class="slider-wrapper-{{ section.id }}">
-      <div class="slider-track-{{ section.id }}" id="Track-{{ section.id }}">
+      <div class="slider-track-{{ section.id }}" id="Track-{{ section.id }}" tabindex="0" role="region" aria-label="Product carousel — swipe or use arrow keys to browse">
         {%- for block in section.blocks -%}
           {%- case block.type -%}
             {%- when 'collection' -%}
               {%- assign product = all_products[block.settings.product_item] -%}
-              
-              <div class="card-{{ section.id }} {% if block.settings.highlight_card %}is-highlighted{% endif %}" {% if product != blank %}data-product-url="{{ product.url }}"{% endif %} {{ block.shopify_attributes }}>
+              {%- assign card_name = block.settings.collection_title | default: product.title -%}
+
+              {%- comment -%}
+                An unconfigured card draws nothing on the live storefront --
+                only in the theme editor, so a merchant who just added a
+                block can still see and select it. Same rule as
+                blocks/ow-product-card.liquid: never show a dead
+                "Choose Options" button to a real visitor.
+              {%- endcomment -%}
+              {%- if card_name == blank -%}
+                {%- if request.design_mode -%}
+                  <div class="card-empty-{{ section.id }}" {{ block.shopify_attributes }}>
+                    <strong>Empty card</strong>
+                    <p>Select a product to fill this card in.</p>
+                  </div>
+                {%- endif -%}
+              {%- else -%}
+              <div class="card-{{ section.id }} {% if block.settings.highlight_card %}is-highlighted{% endif %}" {{ block.shopify_attributes }}>
                 <div class="image-wrap-{{ section.id }}">
                   {%- if block.settings.grade_badge != blank -%}
                     <span class="owv2-grade-{{ section.id }}">{{ block.settings.grade_badge | escape }}</span>
@@ -728,22 +538,25 @@
                     </div>
                   {%- endif -%}
 
+                  {%- comment -%}
+                    Image and title both link to the product, but only the
+                    title is exposed to assistive tech -- two adjacent links
+                    to the same URL make a screen reader announce the card
+                    twice. tabindex="-1" takes the image link out of the tab
+                    order; aria-hidden is safe here precisely because of that.
+                  {%- endcomment -%}
                   {%- if product != blank -%}
-                    <div class="hover-overlay-{{ section.id }}">
-                      <button type="button" class="quick-opt-btn-{{ section.id }}" 
-                        data-product-handle="{{ product.handle }}"
-                        data-show-sub="{{ block.settings.show_subscription_notice }}"
-                        data-sub-text="{{ block.settings.subscription_notice_text | escape }}"
-                        data-sub-url="{{ block.settings.subscription_custom_url | escape }}">Choose Options</button>
-                    </div>
+                    <a class="image-link-{{ section.id }}" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
                   {%- endif -%}
-
                   {%- if block.settings.custom_image != blank -%}
-                    <img src="{{ block.settings.custom_image | image_url: width: 800 }}" width="800" height="{{ 800 | divided_by: block.settings.custom_image.aspect_ratio | round }}" alt="{{ product.title | default: 'Product Card' | escape }}" loading="lazy">
+                    <img src="{{ block.settings.custom_image | image_url: width: 800 }}" width="800" height="{{ 800 | divided_by: block.settings.custom_image.aspect_ratio | round }}" alt="{{ card_name | escape }}" loading="lazy">
                   {%- elsif product != blank and product.featured_image != blank -%}
-                    <img src="{{ product.featured_image | image_url: width: 800 }}" width="800" height="{{ 800 | divided_by: product.featured_image.aspect_ratio | round }}" alt="{{ product.title | escape }}" loading="lazy">
+                    <img src="{{ product.featured_image | image_url: width: 800 }}" width="800" height="{{ 800 | divided_by: product.featured_image.aspect_ratio | round }}" alt="{{ card_name | escape }}" loading="lazy">
                   {%- else -%}
                     {{ 'product-1' | placeholder_svg_tag }}
+                  {%- endif -%}
+                  {%- if product != blank -%}
+                    </a>
                   {%- endif -%}
                 </div>
 
@@ -751,15 +564,22 @@
                   <p class="category-{{ section.id }}">
                     {{ block.settings.collection_tag | default: "Featured Stack" }}
                   </p>
-                  
+
                   <h3 class="name-{{ section.id }}">
-                    {{ block.settings.collection_title | default: product.title | default: "Custom Card Label" }}
+                    {%- if product != blank -%}
+                      <a href="{{ product.url }}">{{ card_name }}</a>
+                    {%- else -%}
+                      {{ card_name }}
+                    {%- endif -%}
                   </h3>
-                  
-                  {%- assign final_desc = block.settings.collection_blurb | default: product.description -%}
+
+                  {%- assign final_desc = block.settings.collection_blurb -%}
+                  {%- if final_desc == blank and product != blank -%}
+                    {%- assign final_desc = product.description | strip_html | strip | truncatewords: 25 -%}
+                  {%- endif -%}
                   {%- if final_desc != blank -%}
                     <p class="desc-{{ section.id }}">
-                      {{ final_desc | strip_html | truncatewords: 25 }}
+                      {{ final_desc }}
                     </p>
                     <div class="divider-{{ section.id }}"></div>
                   {%- endif -%}
@@ -776,80 +596,62 @@
                     {%- endif -%}
                   </div>
 
+                  {%- if product != blank -%}
                   <div class="price-presentation-container-{{ section.id }}">
                     <div class="price-row-{{ section.id }}">
-                      {%- if product != blank -%}
-                        {%- if product.price_varies -%}
-                          <span class="price-prefix-{{ section.id }}">From</span>
-                        {%- endif -%}
-                        <span class="price-{{ section.id }}">
-                          {{ product.price_min | money_with_currency }}
+                      {%- if product.price_varies -%}
+                        <span class="price-prefix-{{ section.id }}">From</span>
+                      {%- endif -%}
+                      <span class="price-{{ section.id }}">
+                        {{ product.price_min | money_with_currency }}
+                      </span>
+                      {%- if product.compare_at_price > product.price -%}
+                        <span class="discount-badge-{{ section.id }}">
+                          SAVE {{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round }}%
                         </span>
-                        {%- if product.compare_at_price > product.price -%}
-                          <span class="discount-badge-{{ section.id }}">
-                            SAVE {{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round }}%
-                          </span>
-                        {%- endif -%}
                       {%- endif -%}
                     </div>
-                    
+
                     {%- if block.settings.price_caption != blank -%}
                       <p class="price-caption-{{ section.id }}">{{ block.settings.price_caption }}</p>
                     {%- endif -%}
                   </div>
 
                   <div class="im8-cta-form-container-{{ section.id }}">
-                    {%- if product != blank -%}
-                      {%- if product.available -%}
-                        {%- if section.settings.show_card_variant_selector -%}
-                          {%- assign card_form_id = 'owv2-product-' | append: section.id | append: '-' | append: block.id -%}
-                          {% unless section.settings.button_action == 'buy_now' %}<product-form data-section="{{ section.id }}">{% endunless %}
-                            {%- form 'product', product, id: card_form_id, class: 'im8-cta-form-theme-native', data-type: 'add-to-cart-form' -%}
-                              <div class="product-form__error-message-wrapper" role="alert" hidden><span class="product-form__error-message"></span></div>
-                              <label class="visually-hidden" for="{{ card_form_id }}-variant">{{ section.settings.variant_label | escape }}</label>
-                              <select class="owv2-variant-select-{{ section.id }}" id="{{ card_form_id }}-variant" name="id">
-                                {%- for variant in product.variants -%}
-                                  <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>{{ variant.title | escape }} — {{ variant.price | money_with_currency }}{% unless variant.available %} — {{ 'products.product.sold_out' | t }}{% endunless %}</option>
-                                {%- endfor -%}
-                              </select>
-                              {% if section.settings.button_action == 'buy_now' %}<input type="hidden" name="return_to" value="/checkout">{% endif %}
-                              <button type="submit" name="add" class="product-form__submit im8-cta-{{ section.id }}"><span>{% if section.settings.button_action == 'buy_now' %}BUY NOW{% else %}ADD TO CART{% endif %}</span></button>
-                            {%- endform -%}
-                          {% unless section.settings.button_action == 'buy_now' %}</product-form>{% endunless %}
-                        {%- elsif product.variants.size > 1 -%}
-                          <button type="button" class="im8-cta-{{ section.id }} trigger-modal-btn" 
-                            data-product-handle="{{ product.handle }}"
-                            data-show-sub="{{ block.settings.show_subscription_notice }}"
-                            data-sub-text="{{ block.settings.subscription_notice_text | escape }}"
-                            data-sub-url="{{ block.settings.subscription_custom_url | escape }}">CHOOSE OPTIONS</button>
-                        {%- else -%}
-                          {%- if section.settings.button_action == 'buy_now' -%}
-                            <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" class="im8-cta-form-{{ section.id }}">
-                              <input type="hidden" name="id" value="{{ product.first_available_variant.id }}">
-                              <input type="hidden" name="return_to" value="/checkout">
-                              <button type="submit" class="im8-cta-{{ section.id }}">BUY NOW</button>
-                            </form>
+                    {%- if product.available -%}
+                      {%- comment -%}
+                        The dropdown's slot is reserved even on a
+                        single-variant product, via an empty disabled select
+                        styled identically -- see blocks/ow-product-card.liquid.
+                        No modal, no hover state: the real picker sits on the
+                        card at all times.
+                      {%- endcomment -%}
+                      {%- assign card_form_id = 'owv2-product-' | append: section.id | append: '-' | append: block.id -%}
+                      {% unless section.settings.button_action == 'buy_now' %}<product-form data-section="{{ section.id }}">{% endunless %}
+                        {%- form 'product', product, id: card_form_id, class: 'im8-cta-form-theme-native', data-type: 'add-to-cart-form' -%}
+                          <div class="product-form__error-message-wrapper" role="alert" hidden><span class="product-form__error-message"></span></div>
+                          {%- if product.has_only_default_variant -%}
+                            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                            <select class="owv2-variant-select-{{ section.id }} owv2-variant-select-{{ section.id }}--spacer" aria-hidden="true" tabindex="-1" disabled></select>
                           {%- else -%}
-                            <product-form data-section="{{ section.id }}">
-                              {%- form 'product', product, id: null, class: 'im8-cta-form-theme-native', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
-                                <input type="hidden" name="id" value="{{ product.first_available_variant.id }}">
-                                <button type="submit" name="add" class="product-form__submit im8-cta-{{ section.id }}">
-                                  <span>ADD TO CART</span>
-                                </button>
-                              {%- endform -%}
-                            </product-form>
+                            <select class="owv2-variant-select-{{ section.id }}" name="id" aria-label="{{ card_name | escape }} options">
+                              {%- for variant in product.variants -%}
+                                <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>{{ variant.title | escape }} — {{ variant.price | money_with_currency }}{% unless variant.available %} — {{ 'products.product.sold_out' | t }}{% endunless %}</option>
+                              {%- endfor -%}
+                            </select>
                           {%- endif -%}
-                        {%- endif -%}
-                      {%- else -%}
-                        <button class="im8-cta-{{ section.id }}" disabled style="opacity: 0.5; cursor: not-allowed;">SOLD OUT</button>
-                      {%- endif -%}
+                          {% if section.settings.button_action == 'buy_now' %}<input type="hidden" name="return_to" value="/checkout">{% endif %}
+                          <button type="submit" name="add" class="product-form__submit im8-cta-{{ section.id }}"><span>{% if section.settings.button_action == 'buy_now' %}BUY NOW{% else %}{{ 'products.product.add_to_cart' | t | default: 'Add to Cart' }}{% endif %}</span></button>
+                        {%- endform -%}
+                      {% unless section.settings.button_action == 'buy_now' %}</product-form>{% endunless %}
                     {%- else -%}
-                      <button type="button" class="im8-cta-{{ section.id }}">CHOOSE OPTIONS</button>
+                      <button class="im8-cta-{{ section.id }}" disabled style="opacity: 0.5; cursor: not-allowed;">{{ 'products.product.sold_out' | t }}</button>
                     {%- endif -%}
                   </div>
+                  {%- endif -%}
                 </div>
               </div>
-              
+              {%- endif -%}
           {%- endcase -%}
         {%- endfor -%}
       </div>
@@ -857,24 +659,26 @@
   </div>
 </div>
 
-<div class="modal-overlay-{{ section.id }}" id="ProductModalOverlay-{{ section.id }}">
-  <div class="modal-container-{{ section.id }}">
-    <button type="button" class="modal-close-{{ section.id }}" id="ModalClose-{{ section.id }}">&times;</button>
-    <div id="ModalContentContainer-{{ section.id }}"></div>
-  </div>
-</div>
-
 <script>
 (function() {
-  let sectionProductCache = {};
-
   const initSlider = () => {
     const track = document.getElementById('Track-{{ section.id }}');
     const bPrev = document.getElementById('BtnPrev-{{ section.id }}');
     const bNext = document.getElementById('BtnNext-{{ section.id }}');
-    if(!track || !bPrev || !bNext) return;
+    const fadeLeft = document.querySelector('.scroll-fade-left-{{ section.id }}');
+    const fadeRight = document.querySelector('.scroll-fade-right-{{ section.id }}');
+    if(!track) return;
+
+    const updateFades = () => {
+      const overflowing = track.scrollWidth > track.clientWidth + 1;
+      const atStart = track.scrollLeft <= 4;
+      const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
+      if(fadeLeft) fadeLeft.classList.toggle('hide', !overflowing || atStart);
+      if(fadeRight) fadeRight.classList.toggle('hide', !overflowing || atEnd);
+    };
 
     const updateNav = () => {
+      if(!bPrev || !bNext) return;
       const x = track.scrollLeft;
       const max = track.scrollWidth - track.clientWidth;
       bPrev.style.visibility = x > 20 ? "visible" : "hidden";
@@ -889,225 +693,17 @@
       return firstCard ? firstCard.offsetWidth + baseGap : track.clientWidth;
     };
 
-    bNext.onclick = (e) => { e.preventDefault(); track.scrollBy({ left: getMoveAmount(), behavior: 'smooth' }); };
-    bPrev.onclick = (e) => { e.preventDefault(); track.scrollBy({ left: -getMoveAmount(), behavior: 'smooth' }); };
-    track.addEventListener('scroll', updateNav, { passive: true });
-    window.addEventListener('resize', updateNav);
+    if(bNext) bNext.onclick = (e) => { e.preventDefault(); track.scrollBy({ left: getMoveAmount(), behavior: 'smooth' }); };
+    if(bPrev) bPrev.onclick = (e) => { e.preventDefault(); track.scrollBy({ left: -getMoveAmount(), behavior: 'smooth' }); };
+    track.addEventListener('scroll', () => { updateNav(); updateFades(); }, { passive: true });
+    window.addEventListener('resize', () => { updateNav(); updateFades(); });
 
     updateNav();
+    updateFades();
   };
 
-  const initModalLogic = () => {
-    const modalOverlay = document.getElementById('ProductModalOverlay-{{ section.id }}');
-    const modalClose = document.getElementById('ModalClose-{{ section.id }}');
-    const contentContainer = document.getElementById('ModalContentContainer-{{ section.id }}');
-    
-    if(!modalOverlay || !modalClose || !contentContainer) return;
-
-    const nativeShopifyFormat = (cents) => {
-      if (typeof Shopify !== 'undefined' && Shopify.formatMoney) {
-        return Shopify.formatMoney(cents, window.Shopify.money_with_currency_format || window.Shopify.money_format || {{ shop.money_format | json }});
-      }
-      return (cents / 100).toLocaleString(window.Shopify?.locale || 'en-US', {
-        style: 'currency',
-        currency: window.Shopify?.currency?.active || 'USD'
-      });
-    };
-
-    const updateSelectedVariantPrice = (product, selectedOptions) => {
-      const activeVariant = product.variants.find(variant => {
-        return variant.options.every((opt, index) => opt === selectedOptions[index]);
-      });
-      
-      const priceDisplay = document.getElementById('ModalPriceTarget-{{ section.id }}');
-      const inputTarget = document.getElementById('ModalVariantIdTarget-{{ section.id }}');
-      const submitBtn = document.getElementById('ModalSubmitBtn-{{ section.id }}');
-
-      if (activeVariant) {
-        priceDisplay.textContent = nativeShopifyFormat(activeVariant.price);
-        inputTarget.value = activeVariant.id;
-        if(activeVariant.available) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = "{% if section.settings.button_action == 'buy_now' %}BUY NOW{% else %}ADD TO CART{% endif %}";
-          submitBtn.style.opacity = "1";
-        } else {
-          submitBtn.disabled = true;
-          submitBtn.textContent = "SOLD OUT";
-          submitBtn.style.opacity = "0.5";
-        }
-      }
-    };
-
-    const renderModalInnerContent = (product, blockContext) => {
-      let variantHtml = '';
-      
-      if(product.options && product.options.length > 0 && product.options[0].name !== "Title") {
-        variantHtml += `<div class="modal-variants-{{ section.id }}">`;
-        product.options.forEach((option, optionIndex) => {
-          variantHtml += `
-            <div class="modal-variant-option-{{ section.id }} option-row-node" data-option-index="${optionIndex}">
-              <label class="modal-variant-label-{{ section.id }}">${option.name}</label>
-              <div class="pill-group-{{ section.id }}">
-                ${option.values.map((val, valIndex) => `
-                  <button type="button" 
-                    class="pill-node-{{ section.id }} ${valIndex === 0 ? 'is-active' : ''}" 
-                    data-value="${escape(val)}">
-                    ${val}
-                  </button>
-                `).join('')}
-              </div>
-            </div>
-          `;
-        });
-        variantHtml += `</div>`;
-      }
-
-      const formActionUrl = "/cart/add";
-      const returnToInput = "{{ section.settings.button_action }}" === "buy_now" ? '<input type="hidden" name="return_to" value="/checkout">' : '';
-      const ctaLabel = "{{ section.settings.button_action }}" === "buy_now" ? "BUY NOW" : "ADD TO CART";
-      const mediaImageUrl = product.featured_image ? product.featured_image : 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23f0f0f0"/></svg>';
-
-      let subscriptionNoticeHtml = '';
-      if(blockContext.showSub === "true" && blockContext.subText) {
-        const targetUrl = blockContext.subUrl ? blockContext.subUrl : `/products/${product.handle}`;
-        const finalLinkHtml = `<a href="${targetUrl}">click here</a>`;
-        const outputString = blockContext.subText.replace('[click here]', finalLinkHtml);
-        subscriptionNoticeHtml = `<div class="modal-subscription-notice-{{ section.id }}">${outputString}</div>`;
-      }
-
-      contentContainer.innerHTML = `
-        <div class="modal-split-grid-{{ section.id }}">
-          <div class="modal-media-pane-{{ section.id }}">
-            <img src="${mediaImageUrl}" alt="${escape(product.title)}" loading="lazy">
-          </div>
-          <div class="modal-info-pane-{{ section.id }}">
-            <h2 class="modal-title-{{ section.id }}">${product.title}</h2>
-            <div class="modal-price-{{ section.id }}" id="ModalPriceTarget-{{ section.id }}">${nativeShopifyFormat(product.price)}</div>
-            
-            <form action="${formActionUrl}" method="post" enctype="multipart/form-data" class="im8-cta-form-{{ section.id }}">
-              <input type="hidden" name="id" id="ModalVariantIdTarget-{{ section.id }}" value="${product.variants[0].id}">
-              ${returnToInput}
-              
-              ${variantHtml}
-              
-              <div class="modal-qty-container-{{ section.id }}">
-                <label class="modal-variant-label-{{ section.id }}">QTY</label>
-                <div class="qty-selector-{{ section.id }}">
-                  <button type="button" class="qty-btn-{{ section.id }}" id="QtyDec-{{ section.id }}">-</button>
-                  <input type="number" name="quantity" class="qty-input-{{ section.id }}" id="QtyInput-{{ section.id }}" value="1" min="1">
-                  <button type="button" class="qty-btn-{{ section.id }}" id="QtyInc-{{ section.id }}">+</button>
-                </div>
-              </div>
-
-              ${subscriptionNoticeHtml}
-
-              <button type="submit" id="ModalSubmitBtn-{{ section.id }}" class="im8-cta-{{ section.id }}" style="margin-top: 5px;">${ctaLabel}</button>
-            </form>
-          </div>
-        </div>
-      `;
-
-      const optionRows = contentContainer.querySelectorAll('.option-row-node');
-      const getSelectedPillOptions = () => {
-        let currentSelections = [];
-        if(optionRows.length === 0) return product.variants[0].options;
-        
-        optionRows.forEach(row => {
-          const activePill = row.querySelector('.pill-node-{{ section.id }}.is-active');
-          if(activePill) {
-            currentSelections.push(unescape(activePill.getAttribute('data-value')));
-          }
-        });
-        return currentSelections;
-      };
-
-      optionRows.forEach(row => {
-        const pills = row.querySelectorAll('.pill-node-{{ section.id }}');
-        pills.forEach(pill => {
-          pill.addEventListener('click', (e) => {
-            e.preventDefault();
-            pills.forEach(p => p.classList.remove('is-active'));
-            pill.classList.add('is-active');
-            updateSelectedVariantPrice(product, getSelectedPillOptions());
-          });
-        });
-      });
-
-      const qtyInput = document.getElementById('QtyInput-{{ section.id }}');
-      const qtyDec = document.getElementById('QtyDec-{{ section.id }}');
-      const qtyInc = document.getElementById('QtyInc-{{ section.id }}');
-      
-      if(qtyInput && qtyDec && qtyInc) {
-        qtyDec.onclick = (e) => { e.preventDefault(); let val = parseInt(qtyInput.value) || 1; if(val > 1) qtyInput.value = val - 1; };
-        qtyInc.onclick = (e) => { e.preventDefault(); let val = parseInt(qtyInput.value) || 1; qtyInput.value = val + 1; };
-      }
-
-      if(optionRows.length > 0) {
-        updateSelectedVariantPrice(product, getSelectedPillOptions());
-      }
-    };
-
-    const openOptionsModal = (handle, blockContext) => {
-      modalOverlay.classList.add('is-open');
-      contentContainer.innerHTML = '<div style="grid-column: span 2; text-align:center; padding:60px 20px;"><p style="font-size:14px; color:#666;">Loading options...</p></div>';
-      
-      if(sectionProductCache[handle]) {
-        renderModalInnerContent(sectionProductCache[handle], blockContext);
-        return;
-      }
-
-      fetch(`/products/${handle}.js`)
-        .then(res => res.json())
-        .then(productData => {
-          sectionProductCache[handle] = productData;
-          renderModalInnerContent(productData, blockContext);
-        })
-        .catch(err => {
-          contentContainer.innerHTML = '<div style="grid-column: span 2; text-align:center; padding:40px;"><p style="color:red;">Unable to load product variables.</p></div>';
-        });
-    };
-
-    document.querySelectorAll('[data-product-handle]').forEach(trigger => {
-      trigger.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const handle = trigger.getAttribute('data-product-handle');
-        const blockContext = {
-          showSub: trigger.getAttribute('data-show-sub'),
-          subText: unescape(trigger.getAttribute('data-sub-text')),
-          subUrl: unescape(trigger.getAttribute('data-sub-url'))
-        };
-        if(handle) openOptionsModal(handle, blockContext);
-      });
-    });
-
-    modalClose.onclick = () => modalOverlay.classList.remove('is-open');
-    modalOverlay.onclick = (e) => { if(e.target === modalOverlay) modalOverlay.classList.remove('is-open'); };
-  };
-
-  const initTileNavigation = () => {
-    document.querySelectorAll('.card-{{ section.id }}').forEach(card => {
-      card.addEventListener('click', (e) => {
-        // If they click on buttons, forms, or existing text links, let them do their job
-        if (e.target.closest('button') || e.target.closest('form') || e.target.closest('a')) {
-          return;
-        }
-        const destinationUrl = card.getAttribute('data-product-url');
-        if (destinationUrl) {
-          window.location.href = destinationUrl;
-        }
-      });
-    });
-  };
-
-  const initAllFeatures = () => {
-    initSlider();
-    initModalLogic();
-    initTileNavigation();
-  };
-
-  document.addEventListener('DOMContentLoaded', initAllFeatures);
-  if (Shopify.designMode) document.addEventListener('shopify:section:load', initAllFeatures);
+  document.addEventListener('DOMContentLoaded', initSlider);
+  if (Shopify.designMode) document.addEventListener('shopify:section:load', initSlider);
 })();
 </script>
 
@@ -1115,8 +711,6 @@
 {
   "name": "OD Featured Products",
   "settings": [
-    { "type": "checkbox", "id": "show_card_variant_selector", "label": "Show variant dropdown on cards", "default": false },
-    { "type": "text", "id": "variant_label", "label": "Variant selector label", "default": "Choose your coffee" },
     {
       "type": "select",
       "id": "header_alignment",
@@ -1204,24 +798,21 @@
       "name": "Product Card",
       "settings": [
         { "type": "text", "id": "grade_badge", "label": "Grade badge", "info": "Optional, e.g. GRADE 1. Leave blank to hide." },
-        { "type": "product", "id": "product_item", "label": "Select Product" },
+        { "type": "product", "id": "product_item", "label": "Select Product", "info": "Drives the card image, price, variants and a working Add to Cart." },
         { "type": "header", "content": "Visual Styling Overrides" },
         { "type": "checkbox", "id": "highlight_card", "label": "Highlight this Card", "default": false },
         { "type": "text", "id": "banner_text", "label": "Top Banner Text", "default": "★ BEST VALUE" },
         { "type": "image_picker", "id": "custom_image", "label": "Custom Card Image (Overrides default)" },
         { "type": "header", "content": "Text Content Overrides" },
+        { "type": "paragraph", "content": "Leave Title/Description blank to use the product's own value." },
         { "type": "text", "id": "collection_tag", "label": "Descriptor Category Tag", "default": "LABEL" },
-        { "type": "text", "id": "collection_title", "label": "Custom Title Label" },
-        { "type": "textarea", "id": "collection_blurb", "label": "Custom Card Description" },
+        { "type": "text", "id": "collection_title", "label": "Title", "info": "Blank uses the product title." },
+        { "type": "textarea", "id": "collection_blurb", "label": "Description", "info": "Blank uses the product description, trimmed to 25 words." },
         { "type": "text", "id": "price_caption", "label": "Price Context Caption" },
         { "type": "header", "content": "Value Checklist Bullets" },
         { "type": "text", "id": "benefit_1", "label": "Benefit Line 1"},
         { "type": "text", "id": "benefit_2", "label": "Benefit Line 2"},
-        { "type": "text", "id": "benefit_3", "label": "Benefit Line 3"},
-        { "type": "header", "content": "Product-Specific Subscription Link" },
-        { "type": "checkbox", "id": "show_subscription_notice", "label": "Enable Subscription One-Liner for this Product", "default": false },
-        { "type": "text", "id": "subscription_notice_text", "label": "Notice Text Content", "default": "For subscriptions, [click here].", "info": "Keep '[click here]' in your sentence—it will turn into the link." },
-        { "type": "url", "id": "subscription_custom_url", "label": "Custom Subscription Landing Page URL", "info": "Leave blank to link directly to this product's native details page." }
+        { "type": "text", "id": "benefit_3", "label": "Benefit Line 3"}
       ]
     }
   ],
