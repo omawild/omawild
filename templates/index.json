@@ -176,10 +176,10 @@
         "padding_bottom": 64
       }
     },
-    "od_featured_products_Aygh3P": {
+    "od_featured_products_VgPWWJ": {
       "type": "od-featured-products",
       "blocks": {
-        "collection_6Tjz3D": {
+        "collection_MPemRi": {
           "type": "collection",
           "settings": {
             "grade_badge": "",
@@ -195,11 +195,11 @@
             "benefit_3": ""
           }
         },
-        "collection_3cyhkT": {
+        "collection_3JTqdK": {
           "type": "collection",
           "settings": {
             "grade_badge": "",
-            "product_item": "",
+            "product_item": "limited-reserve",
             "highlight_card": false,
             "banner_text": "★ BEST VALUE",
             "collection_tag": "",
@@ -211,7 +211,7 @@
             "benefit_3": ""
           }
         },
-        "collection_abEhXU": {
+        "collection_EwNxCE": {
           "type": "collection",
           "settings": {
             "grade_badge": "",
@@ -229,9 +229,9 @@
         }
       },
       "block_order": [
-        "collection_6Tjz3D",
-        "collection_3cyhkT",
-        "collection_abEhXU"
+        "collection_MPemRi",
+        "collection_3JTqdK",
+        "collection_EwNxCE"
       ],
       "name": "OD Featured Products",
       "settings": {
@@ -270,6 +270,6 @@
     "owv2_marquee",
     "owv2_value_grid_QXFMkK",
     "owv2_banner",
-    "od_featured_products_Aygh3P"
+    "od_featured_products_VgPWWJ"
   ]
 }
