@@ -157,8 +157,17 @@
         </div>
         {%- if product.media.size > 1 -%}
           <div class="odp-gallery__thumbs">
-            {%- for media in product.media limit: 5 -%}
-              {%- if media.id == featured.id -%}{%- continue -%}{%- endif -%}
+            {%- comment -%}
+              Every image gets a thumbnail, including the one currently shown
+              large -- marked aria-current so it reads as selected (full
+              opacity, the active box-shadow) while the rest sit dimmed.
+              Skipping the featured image here used to leave products with
+              only 2 photos down to a single thumbnail; clicking it swapped
+              the main image but had no thumbnail left pointing back at the
+              first photo, so there was no way back. A static, complete list
+              plus a selected state fixes that regardless of media count.
+            {%- endcomment -%}
+            {%- for media in product.media limit: 8 -%}
               <button
                 type="button"
                 class="odp-gallery__thumb"
@@ -167,6 +176,7 @@
                 data-srcset="{{ media.preview_image | image_url: width: 600 }} 600w, {{ media.preview_image | image_url: width: 1000 }} 1000w, {{ media.preview_image | image_url: width: 1400 }} 1400w"
                 data-alt="{{ media.alt | escape }}"
                 aria-label="{{ 'Show image' }} {{ forloop.index }}"
+                {% if media.id == featured.id %}aria-current="true"{% endif %}
               >
                 {{ media.preview_image | image_url: width: 300 | image_tag: loading: 'lazy', alt: media.alt, sizes: '(min-width: 750px) 15vw, 25vw', widths: '150, 300' }}
               </button>

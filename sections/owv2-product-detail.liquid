@@ -4,7 +4,9 @@
   "What's inside": add Inside blocks and the brew cards are not shown.
 
   Three brew cards share the column; four or more become a snap swipe with a
-  224px floor. On phones each method collapses to a row (name + summary).
+  224px floor. On phones the same 224px floor means even two cards already
+  overflow, so the row is swipeable there too, showing the full card (not a
+  collapsed summary row) -- see the mobile brew rules in owv2-product.css.
 
   Spec rows are fixed section settings, not blocks: the same five rows
   (Elevation, Crop year, Varietal, Roast date, Peak freshness) apply to every

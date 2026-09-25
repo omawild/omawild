@@ -159,11 +159,15 @@
 .odp-gallery__thumb {
   padding: 0; border: 1.5px solid var(--odp-red); background: none; cursor: pointer;
   display: block; aspect-ratio: 1 / 1; overflow: hidden;
+  /* Every photo gets a thumbnail, including whichever one is currently the
+     main image -- dimmed here, back to full opacity via [aria-current]
+     below. That's what lets you always click back to any image, including
+     the first: a static, complete row instead of "swap with main" hiding
+     whichever photo happens to be showing large right now. */
+  opacity: .5; transition: opacity .15s ease;
 }
 .odp-gallery__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.odp-gallery__thumb[aria-current="true"] { box-shadow: 3px 3px 0 var(--odp-red); }
-/* desktop shows three squares under the bag; the mobile artboard shows four */
-.odp-gallery__thumb:nth-child(n+4) { display: none; }
+.odp-gallery__thumb[aria-current="true"] { opacity: 1; box-shadow: 3px 3px 0 var(--odp-red); }
 
 .odp-eyebrow {
   display: flex; flex-wrap: wrap; gap: 10px;
@@ -451,8 +455,6 @@ a.odp-inside__item:hover { background: var(--odp-pink); }
   .odp-crumb { display: none; }
   .odp-gallery__main-wrap { margin-top: 0; box-shadow: none; }
   .odp-gallery__thumbs { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 8px; }
-  .odp-gallery__thumb:nth-child(4) { display: block; }
-  .odp-gallery__thumb:not(:first-child) { border-color: rgba(255, 63, 0, .45); }
 
   .odp-eyebrow { gap: 8px; font-size: 9.5px; letter-spacing: .12em; }
   .odp-title { margin-top: 14px; font-size: 40px; }
@@ -525,19 +527,18 @@ a.odp-inside__item:hover { background: var(--odp-pink); }
   .odp-side__head { display: block; }
   .odp-side__note { display: block; margin-top: 9px; line-height: 1.5; }
 
-  /* brew methods become rows: name + one-line summary + badge + arrow */
-  .odp-brew { flex-direction: column; margin: 16px 0 0; padding: 0; overflow: visible; }
-  .odp-brew__card {
-    flex: none; min-width: 0; flex-direction: row; align-items: center; gap: 14px;
-    padding: 15px; border-radius: 10px;
-  }
-  .odp-brew__top { flex: 1; min-width: 0; gap: 0; }
-  .odp-brew__top .odp-tag { display: none; }
-  .odp-brew__name { font-size: 17px; line-height: 1.1; letter-spacing: -.02em; }
-  .odp-brew__summary { display: block; margin-top: 6px; font: 600 11.5px/1.4 var(--odp-body); }
-  .odp-brew__lines, .odp-brew__go { display: none; }
-  .odp-brew__badge { display: inline-block; padding: 5px 8px; font-size: 8.5px; line-height: 1.2; letter-spacing: .08em; text-align: center; max-width: 72px; white-space: normal; }
-  .odp-brew__arrow { display: inline; font: 900 13px/1 var(--odp-font); color: var(--odp-red); }
+  /* Brew cards keep the full desktop detail (name, table, guide link) on
+     mobile too, swiped left/right -- the existing 224px card floor already
+     doesn't fit two cards on a phone's width, so the same overflow-x/
+     scroll-snap desktop uses for 4+ cards kicks in here automatically.
+     Only the edge-bleed changes, to match this breakpoint's 16px gutter
+     instead of desktop's 34px; everything else inherits the desktop rules
+     above -- "almost identical" was the point. odp-brew__badge stays
+     hidden, same as desktop: it only existed for the old collapsed-row
+     layout, which showed the "preferred" tag as a corner badge instead of
+     inline in the top row. */
+  .odp-brew { margin: 16px -16px 0 0; padding-right: 16px; }
+  .odp-brew__badge { display: none; }
 
   .odp-inside { margin-top: 16px; }
   .odp-inside__item { gap: 13px; padding: 12px 14px; border-radius: 10px; }
