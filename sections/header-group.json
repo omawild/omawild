@@ -14,38 +14,65 @@
     "announcement-bar": {
       "type": "announcement-bar",
       "blocks": {
-        "countdown_eFmJXp": {
+        "countdown_MWDGiX": {
           "type": "countdown",
           "settings": {
             "date": "01-07-2026",
-            "text": "🔥 Sale ends in: fsadf",
+            "text": "🔥 Sale ends in:",
             "expired_message": "Sale has ended!",
             "link": "",
             "position": "top",
             "display_style": "full",
-            "text_size": 12,
+            "text_size": 13,
             "hide_when_expired": false,
             "use_custom_colors": true,
-            "countdown_background": "#0b64f2",
+            "countdown_background": "#dc2626",
             "countdown_text": "#ffffff"
+          }
+        },
+        "announcement_4pjN7p": {
+          "type": "announcement",
+          "settings": {
+            "text": "Welcome to our store",
+            "text_on_mobile": "",
+            "text_size": 13,
+            "link": "",
+            "color_link": "#ffffff",
+            "enable_highlight": false,
+            "highlight_style": "marker"
+          }
+        },
+        "announcement_hdagRe": {
+          "type": "announcement",
+          "settings": {
+            "text": "Omawild is evolving",
+            "text_on_mobile": "",
+            "text_size": 13,
+            "link": "",
+            "color_link": "#ffffff",
+            "enable_highlight": false,
+            "highlight_style": "marker"
           }
         }
       },
       "block_order": [
-        "countdown_eFmJXp"
+        "countdown_MWDGiX",
+        "announcement_4pjN7p",
+        "announcement_hdagRe"
       ],
+      "disabled": true,
       "name": "Announcement Bar",
       "settings": {
         "only_homepage": false,
-        "layout": "carousel",
-        "mobile_layout": "carousel",
+        "layout": "marquee",
+        "mobile_layout": "marquee",
         "autorotate": true,
         "autorotate_speed": 3.4,
         "speed": 5,
         "show_navigation": true,
         "direction": "left",
-        "colors_text": "#ffffff",
-        "colors_background": "#145fda",
+        "colors_text": "#9234DA",
+        "colors_background": "#FBB925",
         "gradient_background": "",
         "colors_highlight": "#ffb503",
         "padding_top": 0,
@@ -55,6 +82,17 @@
     "scrolling_promotion_njaBmd": {
       "type": "scrolling-promotion",
       "blocks": {
+        "announcement_JQjU8N": {
+          "type": "announcement",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "",
+            "text_size": 15,
+            "link": ""
+          }
+        },
         "announcement_7t7aHN": {
           "type": "announcement",
           "settings": {
@@ -68,6 +106,7 @@
         }
       },
       "block_order": [
+        "announcement_JQjU8N",
         "announcement_7t7aHN"
       ],
       "name": "t:sections.scrolling-promotion.presets.name",
@@ -75,10 +114,10 @@
         "direction": "left",
         "speed": 6,
         "show_divider": false,
-        "use_custom_colors": false,
+        "use_custom_colors": true,
         "colors_icon": "#ffffff",
-        "colors_text": "#1a1b18",
-        "colors_background": "#ffffff",
+        "colors_text": "#FBB925",
+        "colors_background": "#9234DA",
         "gradient_background": "",
         "padding_top": 12,
         "padding_bottom": 12
