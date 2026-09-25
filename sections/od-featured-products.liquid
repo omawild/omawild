@@ -107,6 +107,13 @@
   padding-right: {{ section.settings.mobile_padding_horizontal }}px;
   gap: {{ section.settings.grid_gap }}px;
   scrollbar-width: none;
+  cursor: grab;
+}
+
+.slider-track-{{ section.id }}.dragging-{{ section.id }} {
+  cursor: grabbing;
+  user-select: none;
+  scroll-snap-type: none;
 }
 
 .slider-track-{{ section.id }}::-webkit-scrollbar { display: none; }
@@ -405,6 +412,12 @@
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
+  outline: none;
+}
+
+.owv2-variant-select-{{ section.id }}:focus-visible {
+  outline: 2px solid {{ section.settings.heading_color }};
+  outline-offset: 2px;
 }
 
 .select-chevron-{{ section.id }} {
@@ -671,7 +684,7 @@
                       {% unless section.settings.button_action == 'buy_now' %}<product-form data-section="{{ section.id }}">{% endunless %}
                         {%- form 'product', product, id: card_form_id, class: 'im8-cta-form-theme-native', data-type: 'add-to-cart-form' -%}
                           <div class="product-form__error-message-wrapper" role="alert" hidden><span class="product-form__error-message"></span></div>
-                          {%- if product.has_only_default_variant -%}
+                          {%- if product.variants.size == 1 -%}
                             <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
                             <div class="select-wrap-{{ section.id }}">
                               <select class="owv2-variant-select-{{ section.id }} owv2-variant-select-{{ section.id }}--spacer" aria-hidden="true" tabindex="-1" disabled></select>
@@ -746,6 +759,39 @@
 
     updateNav();
     updateFades();
+
+    {%- comment -%}
+      Click-and-drag scroll for mouse users -- a mouse has no horizontal
+      wheel axis, so overflow-x:auto alone only serves trackpad/touch.
+      Same approach as enableDragScroll() in assets/ow-landing.js.
+    {%- endcomment -%}
+    let isDown = false, startX = 0, startScroll = 0, moved = false;
+    track.addEventListener('mousedown', (e) => {
+      isDown = true;
+      moved = false;
+      track.classList.add('dragging-{{ section.id }}');
+      startX = e.pageX;
+      startScroll = track.scrollLeft;
+    });
+    window.addEventListener('mouseup', () => {
+      isDown = false;
+      track.classList.remove('dragging-{{ section.id }}');
+    });
+    track.addEventListener('mouseleave', () => {
+      isDown = false;
+      track.classList.remove('dragging-{{ section.id }}');
+    });
+    track.addEventListener('mousemove', (e) => {
+      if(!isDown) return;
+      e.preventDefault();
+      if(Math.abs(e.pageX - startX) > 4) moved = true;
+      track.scrollLeft = startScroll - (e.pageX - startX);
+    });
+    // A drag that actually moved the track should not also fire the
+    // image/title link underneath the pointer on release.
+    track.addEventListener('click', (e) => {
+      if(moved) { e.preventDefault(); e.stopPropagation(); }
+    }, true);
   };
 
   document.addEventListener('DOMContentLoaded', initSlider);
@@ -810,8 +856,8 @@
     { "type": "header", "content": "Layout" },
     { "type": "text", "id": "view_all_label", "label": "Link Label", "default": "View All" },
     { "type": "url", "id": "view_all_link", "label": "Link URL" },
-    { "type": "range", "id": "section_padding_top", "label": "Top Padding", "min": 0, "max": 60, "default": 10 },
-    { "type": "range", "id": "section_padding_bottom", "label": "Bottom Padding", "min": 0, "max": 60, "default": 30 },
+    { "type": "range", "id": "section_padding_top", "label": "Top Padding", "min": 0, "max": 80, "default": 52 },
+    { "type": "range", "id": "section_padding_bottom", "label": "Bottom Padding", "min": 0, "max": 80, "default": 58 },
 
     { "type": "header", "content": "Mobile Layout Controls" },
     { "type": "range", "id": "mobile_padding_horizontal", "label": "Mobile Side Gutter", "min": 10, "max": 30, "step": 2, "unit": "px", "default": 24 },
@@ -833,7 +879,7 @@
         { "value": "buy_now", "label": "Buy Now (Direct to Checkout)" },
         { "value": "add_to_cart", "label": "Add to Cart (Slide Panel Drawer)" }
       ],
-      "default": "buy_now"
+      "default": "add_to_cart"
     },
     { "type": "color", "id": "button_bg_color", "label": "Button Background Color", "default": "#FF3F00" },
     { "type": "color", "id": "button_text_color", "label": "Button Text Color", "default": "#ffffff" }
