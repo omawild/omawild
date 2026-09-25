@@ -34,7 +34,6 @@
       "block_order": [
         "countdown_MWDGiX"
       ],
-      "disabled": true,
       "name": "Announcement Bar",
       "settings": {
         "only_homepage": false,
@@ -111,7 +110,6 @@
         "announcement_JQjU8N",
         "announcement_7t7aHN"
       ],
-      "disabled": true,
       "name": "t:sections.scrolling-promotion.presets.name",
       "settings": {
         "direction": "left",
@@ -180,6 +178,7 @@
         "announcement_Nf4xLm",
         "announcement_HCAVEj"
       ],
+      "disabled": true,
       "name": "t:sections.scrolling-promotion.presets.name",
       "settings": {
         "direction": "left",
