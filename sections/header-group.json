@@ -18,15 +18,15 @@
           "type": "countdown",
           "settings": {
             "date": "01-07-2026",
-            "text": "🔥 Sale ends in:",
+            "text": "🔥 Sale ends in: fsadf",
             "expired_message": "Sale has ended!",
             "link": "",
             "position": "top",
             "display_style": "full",
             "text_size": 13,
             "hide_when_expired": false,
-            "use_custom_colors": false,
-            "countdown_background": "#dc2626",
+            "use_custom_colors": true,
+            "countdown_background": "#0B64F2",
             "countdown_text": "#ffffff"
           }
         }
@@ -52,6 +52,74 @@
         "padding_bottom": 0
       }
     },
+    "scrolling_promotion_njaBmd": {
+      "type": "scrolling-promotion",
+      "blocks": {
+        "announcement_XMinLJ": {
+          "type": "announcement",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "Welcome to our store",
+            "text_size": 20,
+            "link": ""
+          }
+        },
+        "announcement_r7xF78": {
+          "type": "announcement",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "Welcome to our store",
+            "text_size": 20,
+            "link": ""
+          }
+        },
+        "announcement_NDEhrp": {
+          "type": "announcement",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "Welcome to our store",
+            "text_size": 20,
+            "link": ""
+          }
+        },
+        "announcement_7t7aHN": {
+          "type": "announcement",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "Welcome to our store",
+            "text_size": 20,
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement_XMinLJ",
+        "announcement_r7xF78",
+        "announcement_NDEhrp",
+        "announcement_7t7aHN"
+      ],
+      "name": "t:sections.scrolling-promotion.presets.name",
+      "settings": {
+        "direction": "left",
+        "speed": 6,
+        "show_divider": false,
+        "use_custom_colors": false,
+        "colors_icon": "#ffffff",
+        "colors_text": "#1a1b18",
+        "colors_background": "#ffffff",
+        "gradient_background": "",
+        "padding_top": 12,
+        "padding_bottom": 12
+      }
+    },
     "ow-header": {
       "type": "ow-header",
       "custom_css": [
@@ -70,6 +138,7 @@
   },
   "order": [
     "announcement-bar",
+    "scrolling_promotion_njaBmd",
     "ow-header"
   ]
 }
