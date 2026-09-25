@@ -257,9 +257,56 @@
     Array.prototype.forEach.call((scope || document).querySelectorAll('[data-odp]'), init);
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { boot(); });
-  else boot();
+  // Click-and-drag scroll for mouse users on the brew card row -- a mouse
+  // has no horizontal wheel axis, so overflow-x:auto alone only serves
+  // trackpad/touch. Same pattern as sections/od-featured-products.liquid's
+  // slider and enableDragScroll() in assets/ow-landing.js, kept local here
+  // since .odp-brew lives in owv2-product-detail.liquid, a separate section
+  // from the [data-odp] root above that init() operates on.
+  function enableDragScroll(wrap) {
+    if (!wrap || wrap.__dragScroll) return;
+    wrap.__dragScroll = true;
+    var isDown = false, startX = 0, startScroll = 0, moved = false;
+    wrap.addEventListener('mousedown', function (e) {
+      isDown = true;
+      moved = false;
+      wrap.classList.add('is-dragging');
+      startX = e.pageX;
+      startScroll = wrap.scrollLeft;
+    });
+    window.addEventListener('mouseup', function () {
+      isDown = false;
+      wrap.classList.remove('is-dragging');
+    });
+    wrap.addEventListener('mouseleave', function () {
+      isDown = false;
+      wrap.classList.remove('is-dragging');
+    });
+    wrap.addEventListener('mousemove', function (e) {
+      if (!isDown) return;
+      e.preventDefault();
+      if (Math.abs(e.pageX - startX) > 4) moved = true;
+      wrap.scrollLeft = startScroll - (e.pageX - startX);
+    });
+    // A drag that actually moved the row shouldn't also follow the link
+    // underneath the pointer on release -- a brew card with a guide URL
+    // renders as an <a>.
+    wrap.addEventListener('click', function (e) {
+      if (moved) { e.preventDefault(); e.stopPropagation(); }
+    }, true);
+  }
+
+  function bootBrewDrag(scope) {
+    Array.prototype.forEach.call((scope || document).querySelectorAll('.odp-brew'), enableDragScroll);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { boot(); bootBrewDrag(); });
+  } else {
+    boot();
+    bootBrewDrag();
+  }
 
   // theme editor: re-init a section after it is re-rendered
-  document.addEventListener('shopify:section:load', function (e) { boot(e.target); });
+  document.addEventListener('shopify:section:load', function (e) { boot(e.target); bootBrewDrag(e.target); });
 })();

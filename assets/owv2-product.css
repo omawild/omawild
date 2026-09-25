@@ -367,7 +367,9 @@
   flex: 1; display: flex; align-items: stretch; gap: 10px;
   margin-top: 22px; margin-right: -34px; padding-right: 34px; padding-bottom: 4px;
   overflow-x: auto; scroll-snap-type: x mandatory;
+  cursor: grab;
 }
+.odp-brew.is-dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
 /* three share the column; four or more become a snap swipe at the 224px floor */
 .odp-brew__card {
   flex: 1 1 0; min-width: 224px; scroll-snap-align: start;
