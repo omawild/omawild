@@ -437,6 +437,21 @@
   visibility: hidden;
 }
 
+/* A real single-variant product still gets the pill, as a disabled <select>
+   with its one option -- not a styled div. A <select> is border-box by
+   default and a div isn't, so a div here lands taller than the working
+   select beside it in the row; same trap noted for the empty spacer above.
+   No right-hand padding reserved, since no chevron is drawn on top of it. */
+.owv2-variant-select-{{ section.id }}--static {
+  padding-right: 16px;
+  cursor: default;
+}
+
+.owv2-variant-select-{{ section.id }}--static:disabled {
+  opacity: 1;
+  -webkit-text-fill-color: {{ section.settings.heading_color }};
+}
+
 .owv2-grade-{{ section.id }} {
   position: absolute;
   top: 12px;
@@ -674,9 +689,14 @@
                   <div class="im8-cta-form-container-{{ section.id }}">
                     {%- if product.available -%}
                       {%- comment -%}
-                        The dropdown's slot is reserved even on a
-                        single-variant product, via an empty disabled select
-                        styled identically -- see blocks/ow-product-card.liquid.
+                        The pill always shows: a real single-variant product
+                        (one option combo, e.g. "Whole Bean / 200g") gets a
+                        static pill with that title but no chevron, since
+                        there's nothing to pick. Only a product with no real
+                        options at all -- has_only_default_variant, variant
+                        title literally "Default Title" -- falls back to the
+                        empty disabled spacer, so the row still lines up.
+                        See blocks/ow-product-card.liquid for the same split.
                         No modal, no hover state: the real picker sits on the
                         card at all times.
                       {%- endcomment -%}
@@ -684,10 +704,17 @@
                       {% unless section.settings.button_action == 'buy_now' %}<product-form data-section="{{ section.id }}">{% endunless %}
                         {%- form 'product', product, id: card_form_id, class: 'im8-cta-form-theme-native', data-type: 'add-to-cart-form' -%}
                           <div class="product-form__error-message-wrapper" role="alert" hidden><span class="product-form__error-message"></span></div>
-                          {%- if product.variants.size == 1 -%}
+                          {%- if product.has_only_default_variant -%}
                             <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
                             <div class="select-wrap-{{ section.id }}">
                               <select class="owv2-variant-select-{{ section.id }} owv2-variant-select-{{ section.id }}--spacer" aria-hidden="true" tabindex="-1" disabled></select>
+                            </div>
+                          {%- elsif product.variants.size == 1 -%}
+                            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                            <div class="select-wrap-{{ section.id }}">
+                              <select class="owv2-variant-select-{{ section.id }} owv2-variant-select-{{ section.id }}--static" aria-label="{{ card_name | escape }} option" disabled>
+                                <option selected>{{ product.selected_or_first_available_variant.title | escape }}</option>
+                              </select>
                             </div>
                           {%- else -%}
                             <div class="select-wrap-{{ section.id }}">
