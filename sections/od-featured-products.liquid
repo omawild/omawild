@@ -100,7 +100,9 @@
 .slider-track-{{ section.id }} {
   display: flex;
   overflow-x: auto;
+  overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
   padding-left: {{ section.settings.mobile_padding_horizontal }}px;
   padding-right: {{ section.settings.mobile_padding_horizontal }}px;
   gap: {{ section.settings.grid_gap }}px;
@@ -383,16 +385,37 @@
   margin: 0;
 }
 
+.select-wrap-{{ section.id }} {
+  position: relative;
+  margin-bottom: 12px;
+}
+
 .owv2-variant-select-{{ section.id }} {
   width: 100%;
   min-height: 44px;
-  padding: 10px 16px;
-  margin-bottom: 12px;
+  padding: 10px 38px 10px 16px;
+  margin: 0;
   border: 1.5px solid {{ section.settings.heading_color }};
   border-radius: 999px;
   font: 700 12px var(--font-body-family);
   color: {{ section.settings.heading_color }};
   background: transparent;
+  /* Without this, iOS/Android draw their own native select chrome on top
+     of this border -- reads as a "double ring" around the pill. */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.select-chevron-{{ section.id }} {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  width: 11px;
+  height: 8px;
+  margin-top: -4px;
+  pointer-events: none;
+  color: {{ section.settings.heading_color }};
 }
 
 /* Reserved even with nothing to choose, so price/select/button sit at the
@@ -513,6 +536,22 @@
               {%- assign card_name = block.settings.collection_title | default: product.title -%}
 
               {%- comment -%}
+                Descriptor tag and grade badge: a typed-in block setting
+                always wins; blank falls through to the product's own
+                metafield, same precedence rule as blocks/ow-product-card.liquid.
+                Grade is a list metafield ("Grade 1", possibly others), so
+                take the first value.
+              {%- endcomment -%}
+              {%- assign eyebrow = block.settings.collection_tag -%}
+              {%- if eyebrow == blank and product != blank -%}
+                {%- assign eyebrow = product.metafields.custom.product_eyebrow.value -%}
+              {%- endif -%}
+              {%- assign grade = block.settings.grade_badge -%}
+              {%- if grade == blank and product != blank -%}
+                {%- assign grade = product.metafields.custom.coffee_grade.value | first -%}
+              {%- endif -%}
+
+              {%- comment -%}
                 An unconfigured card draws nothing on the live storefront --
                 only in the theme editor, so a merchant who just added a
                 block can still see and select it. Same rule as
@@ -529,8 +568,8 @@
               {%- else -%}
               <div class="card-{{ section.id }} {% if block.settings.highlight_card %}is-highlighted{% endif %}" {{ block.shopify_attributes }}>
                 <div class="image-wrap-{{ section.id }}">
-                  {%- if block.settings.grade_badge != blank -%}
-                    <span class="owv2-grade-{{ section.id }}">{{ block.settings.grade_badge | escape }}</span>
+                  {%- if grade != blank -%}
+                    <span class="owv2-grade-{{ section.id }}">{{ grade | escape }}</span>
                   {%- endif -%}
                   {%- if block.settings.highlight_card and block.settings.banner_text != blank -%}
                     <div class="banner-{{ section.id }}">
@@ -561,9 +600,11 @@
                 </div>
 
                 <div class="body-{{ section.id }}">
-                  <p class="category-{{ section.id }}">
-                    {{ block.settings.collection_tag | default: "Featured Stack" }}
-                  </p>
+                  {%- if eyebrow != blank -%}
+                    <p class="category-{{ section.id }}">
+                      {{ eyebrow }}
+                    </p>
+                  {%- endif -%}
 
                   <h3 class="name-{{ section.id }}">
                     {%- if product != blank -%}
@@ -632,13 +673,18 @@
                           <div class="product-form__error-message-wrapper" role="alert" hidden><span class="product-form__error-message"></span></div>
                           {%- if product.has_only_default_variant -%}
                             <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-                            <select class="owv2-variant-select-{{ section.id }} owv2-variant-select-{{ section.id }}--spacer" aria-hidden="true" tabindex="-1" disabled></select>
+                            <div class="select-wrap-{{ section.id }}">
+                              <select class="owv2-variant-select-{{ section.id }} owv2-variant-select-{{ section.id }}--spacer" aria-hidden="true" tabindex="-1" disabled></select>
+                            </div>
                           {%- else -%}
-                            <select class="owv2-variant-select-{{ section.id }}" name="id" aria-label="{{ card_name | escape }} options">
-                              {%- for variant in product.variants -%}
-                                <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>{{ variant.title | escape }} — {{ variant.price | money_with_currency }}{% unless variant.available %} — {{ 'products.product.sold_out' | t }}{% endunless %}</option>
-                              {%- endfor -%}
-                            </select>
+                            <div class="select-wrap-{{ section.id }}">
+                              <select class="owv2-variant-select-{{ section.id }}" name="id" aria-label="{{ card_name | escape }} options">
+                                {%- for variant in product.variants -%}
+                                  <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>{{ variant.title | escape }}{% unless variant.available %} — {{ 'products.product.sold_out' | t }}{% endunless %}</option>
+                                {%- endfor -%}
+                              </select>
+                              <svg class="select-chevron-{{ section.id }}" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+                            </div>
                           {%- endif -%}
                           {% if section.settings.button_action == 'buy_now' %}<input type="hidden" name="return_to" value="/checkout">{% endif %}
                           <button type="submit" name="add" class="product-form__submit im8-cta-{{ section.id }}"><span>{% if section.settings.button_action == 'buy_now' %}BUY NOW{% else %}{{ 'products.product.add_to_cart' | t | default: 'Add to Cart' }}{% endif %}</span></button>
@@ -797,15 +843,15 @@
       "type": "collection",
       "name": "Product Card",
       "settings": [
-        { "type": "text", "id": "grade_badge", "label": "Grade badge", "info": "Optional, e.g. GRADE 1. Leave blank to hide." },
+        { "type": "text", "id": "grade_badge", "label": "Grade badge", "info": "Optional, e.g. GRADE 1. Blank uses the product's Grade metafield; blank on both hides the badge." },
         { "type": "product", "id": "product_item", "label": "Select Product", "info": "Drives the card image, price, variants and a working Add to Cart." },
         { "type": "header", "content": "Visual Styling Overrides" },
         { "type": "checkbox", "id": "highlight_card", "label": "Highlight this Card", "default": false },
         { "type": "text", "id": "banner_text", "label": "Top Banner Text", "default": "★ BEST VALUE" },
         { "type": "image_picker", "id": "custom_image", "label": "Custom Card Image (Overrides default)" },
         { "type": "header", "content": "Text Content Overrides" },
-        { "type": "paragraph", "content": "Leave Title/Description blank to use the product's own value." },
-        { "type": "text", "id": "collection_tag", "label": "Descriptor Category Tag", "default": "LABEL" },
+        { "type": "paragraph", "content": "Leave a field blank to use the product's own value: Title falls back to the product title, Description to its description, Descriptor tag to its Product Eyebrow metafield." },
+        { "type": "text", "id": "collection_tag", "label": "Descriptor Category Tag", "info": "Blank uses the product's Product Eyebrow metafield; blank on both hides the tag." },
         { "type": "text", "id": "collection_title", "label": "Title", "info": "Blank uses the product title." },
         { "type": "textarea", "id": "collection_blurb", "label": "Description", "info": "Blank uses the product description, trimmed to 25 words." },
         { "type": "text", "id": "price_caption", "label": "Price Context Caption" },
