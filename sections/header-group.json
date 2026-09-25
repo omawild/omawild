@@ -26,7 +26,7 @@
             "text_size": 13,
             "hide_when_expired": false,
             "use_custom_colors": true,
-            "countdown_background": "#FF3F00",
+            "countdown_background": "#ff3f00",
             "countdown_text": "#ffffff"
           }
         }
@@ -44,8 +44,8 @@
         "speed": 5,
         "show_navigation": true,
         "direction": "left",
-        "colors_text": "#9234DA",
-        "colors_background": "#FBB925",
+        "colors_text": "#9234da",
+        "colors_background": "#fbb925",
         "gradient_background": "",
         "colors_highlight": "#ffb503",
         "padding_top": 0,
@@ -117,8 +117,8 @@
         "show_divider": false,
         "use_custom_colors": true,
         "colors_icon": "#ffffff",
-        "colors_text": "#E3420D",
-        "colors_background": "#FBB925",
+        "colors_text": "#e3420d",
+        "colors_background": "#fbb925",
         "gradient_background": "",
         "padding_top": 12,
         "padding_bottom": 12
