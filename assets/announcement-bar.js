@@ -1,3 +1,7 @@
+// Drives sections/announcement-bar.liquid, the header countdown/timer bar --
+// nicknamed "Announcement Bar" in the admin, matching its filename. Not
+// sections/scrolling-promotion.liquid (nicknamed "Scrolling Promotion"),
+// despite the similar name.
 class AnnouncementBar extends HTMLElement {
   constructor() {
     super();

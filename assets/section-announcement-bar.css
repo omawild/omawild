@@ -1,3 +1,7 @@
+/* Styles sections/announcement-bar.liquid, the header countdown/timer bar --
+   nicknamed "Announcement Bar" in the admin, matching its filename. Not
+   scrolling-promotion.liquid (nicknamed "Scrolling Promotion"), despite the
+   similar name. */
 .announcement-bar {
   overflow: hidden;
   font-size: 1.3rem;
