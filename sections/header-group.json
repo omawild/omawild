@@ -12,7 +12,7 @@
   "type": "header",
   "sections": {
     "announcement-bar": {
-      "type": "announcement-bar",
+      "type": "oma-timer",
       "blocks": {
         "countdown_LqWxbt": {
           "type": "countdown",
