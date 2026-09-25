@@ -107,24 +107,6 @@
         "padding_bottom": 16
       }
     },
-    "owv2_banner": {
-      "type": "owv2-banner",
-      "name": "OWV2 Photo banner",
-      "settings": {
-        "image": "shopify://shop_images/canyonclimber.png",
-        "heading": "Drink like you give a damn",
-        "overlay_color": "#000000",
-        "overlay_opacity": 35,
-        "link": "",
-        "min_height": 320,
-        "min_height_mobile": 240,
-        "background_color": "#f1ece2",
-        "text_color": "#ffffff",
-        "card_background": "#ffffff",
-        "padding_top": 64,
-        "padding_bottom": 64
-      }
-    },
     "owv2_value_grid_QXFMkK": {
       "type": "owv2-value-grid",
       "blocks": {
@@ -175,12 +157,130 @@
         "padding_top": 64,
         "padding_bottom": 64
       }
+    },
+    "owv2_banner": {
+      "type": "owv2-banner",
+      "name": "OWV2 Photo banner",
+      "settings": {
+        "image": "shopify://shop_images/canyonclimber.png",
+        "heading": "Drink like you give a damn",
+        "overlay_color": "#000000",
+        "overlay_opacity": 35,
+        "link": "",
+        "min_height": 320,
+        "min_height_mobile": 240,
+        "background_color": "#f1ece2",
+        "text_color": "#ffffff",
+        "card_background": "#ffffff",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "od_featured_products_jhAT38": {
+      "type": "od-featured-products",
+      "blocks": {
+        "collection_WM4h3E": {
+          "type": "collection",
+          "settings": {
+            "grade_badge": "",
+            "product_item": "forest-trail",
+            "highlight_card": false,
+            "banner_text": "★ BEST VALUE",
+            "collection_tag": "LABEL",
+            "collection_title": "",
+            "collection_blurb": "",
+            "price_caption": "",
+            "benefit_1": "",
+            "benefit_2": "",
+            "benefit_3": "",
+            "show_subscription_notice": false,
+            "subscription_notice_text": "For subscriptions, [click here].",
+            "subscription_custom_url": ""
+          }
+        },
+        "collection_QAmrdW": {
+          "type": "collection",
+          "settings": {
+            "grade_badge": "",
+            "product_item": "",
+            "highlight_card": false,
+            "banner_text": "★ BEST VALUE",
+            "collection_tag": "LABEL",
+            "collection_title": "",
+            "collection_blurb": "",
+            "price_caption": "",
+            "benefit_1": "",
+            "benefit_2": "",
+            "benefit_3": "",
+            "show_subscription_notice": false,
+            "subscription_notice_text": "For subscriptions, [click here].",
+            "subscription_custom_url": ""
+          }
+        },
+        "collection_tnpimX": {
+          "type": "collection",
+          "settings": {
+            "grade_badge": "",
+            "product_item": "",
+            "highlight_card": false,
+            "banner_text": "★ BEST VALUE",
+            "collection_tag": "LABEL",
+            "collection_title": "",
+            "collection_blurb": "",
+            "price_caption": "",
+            "benefit_1": "",
+            "benefit_2": "",
+            "benefit_3": "",
+            "show_subscription_notice": false,
+            "subscription_notice_text": "For subscriptions, [click here].",
+            "subscription_custom_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_WM4h3E",
+        "collection_QAmrdW",
+        "collection_tnpimX"
+      ],
+      "name": "OD Featured Products",
+      "settings": {
+        "show_card_variant_selector": false,
+        "variant_label": "Choose your coffee",
+        "header_alignment": "flex-start",
+        "limit_header_width": false,
+        "header_max_width": 650,
+        "heading_size": 38,
+        "heading": "Title here",
+        "subheading": "<p>Subheading</p>",
+        "heading_tag": "h2",
+        "background_color": "#F7F5F1",
+        "heading_color": "#FF3F00",
+        "text_color": "#00180C",
+        "benefit_text_color": "#00180C",
+        "descriptor_color": "#FF3F00",
+        "price_color": "#FF3F00",
+        "emphasis_color": "#FF3F00",
+        "view_all_label": "View All",
+        "view_all_link": "",
+        "section_padding_top": 10,
+        "section_padding_bottom": 30,
+        "mobile_padding_horizontal": 24,
+        "desktop_padding_horizontal": 40,
+        "grid_gap": 20,
+        "price_row_margin_bottom": 16,
+        "price_caption_margin_bottom": 4,
+        "image_aspect_ratio": "1/1",
+        "button_action": "buy_now",
+        "button_bg_color": "#FF3F00",
+        "button_text_color": "#ffffff"
+      }
     }
   },
   "order": [
     "owv2_hero_C33844",
     "owv2_marquee",
     "owv2_value_grid_QXFMkK",
-    "owv2_banner"
+    "owv2_banner",
+    "od_featured_products_jhAT38"
   ]
 }
