@@ -68,8 +68,19 @@ const navbar    = document.getElementById('navbar');
 // now, pinned fixed above #top-chrome via ow-chrome.css. Either, both, or
 // neither may be enabled on a given page, so every height read here guards
 // on the element existing.
-const timerBar = document.querySelector('.announcement-bar');
-const promoBar = document.querySelector('.scrolling-promotion');
+//
+// Scoped to .shopify-section-group-header-group so a copy of either section
+// dropped into a page template (outside the header) is never mistaken for
+// the one that should be pinned above the navbar -- see ow-chrome.css's
+// VENDOR PROMO BARS block for the matching CSS scope.
+//
+// `let`, not `const`: the theme editor's live preview replaces a section's
+// entire DOM subtree on every edit (Section Rendering API), so these two
+// have to be re-queried -- see refreshVendorBars() below -- or they end up
+// pointing at a detached node and the chrome silently stops updating until
+// a full reload (Save) re-runs this script from scratch.
+let timerBar = document.querySelector('.shopify-section-group-header-group .announcement-bar');
+let promoBar = document.querySelector('.shopify-section-group-header-group .scrolling-promotion');
 // The element the navbar hides behind until it has scrolled clear. The landing
 // page has #hero; any other page opts in by naming its own through
 // data-navbar-reveal-target. Everything downstream still just reads `hero`, so
@@ -147,8 +158,9 @@ document.fonts.ready.then(applyChrome);
 // Recalculate any time the announcement bars actually change size
 // (font swap, text reflow, orientation change, etc.) so the gap can never
 // reappear after first paint.
+let chromeResizeObserver;
 if ('ResizeObserver' in window) {
-  const chromeResizeObserver = new ResizeObserver(applyChrome);
+  chromeResizeObserver = new ResizeObserver(applyChrome);
   chromeResizeObserver.observe(topChrome);
   // The vendor bars reflow independently of #top-chrome -- a countdown
   // wrapping to a second line on narrow screens, an announcement message
@@ -156,6 +168,33 @@ if ('ResizeObserver' in window) {
   if (timerBar) { chromeResizeObserver.observe(timerBar); }
   if (promoBar) { chromeResizeObserver.observe(promoBar); }
 }
+
+// Re-find the vendor bars and recompute the chrome whenever a section
+// reloads in the theme editor's live preview. Without this, editing either
+// bar's settings (or toggling its blocks) swaps in a DOM node this script
+// has never seen: the old `timerBar`/`promoBar` reference goes stale, its
+// ResizeObserver watch fires into the void, and --ow-timer-h/--ow-promo-h/
+// body padding freeze at their last real value until a full reload (Save).
+// Fires on every section's reload, not just these two -- cheap enough
+// (a couple of querySelectors) that filtering by section id isn't worth it,
+// and matches the same broad-listener pattern the fade-up observer uses
+// below.
+function refreshVendorBars() {
+  const nextTimerBar = document.querySelector('.shopify-section-group-header-group .announcement-bar');
+  const nextPromoBar = document.querySelector('.shopify-section-group-header-group .scrolling-promotion');
+
+  if (chromeResizeObserver) {
+    if (timerBar && timerBar !== nextTimerBar) chromeResizeObserver.unobserve(timerBar);
+    if (promoBar && promoBar !== nextPromoBar) chromeResizeObserver.unobserve(promoBar);
+    if (nextTimerBar && nextTimerBar !== timerBar) chromeResizeObserver.observe(nextTimerBar);
+    if (nextPromoBar && nextPromoBar !== promoBar) chromeResizeObserver.observe(nextPromoBar);
+  }
+
+  timerBar = nextTimerBar;
+  promoBar = nextPromoBar;
+  applyChrome();
+}
+document.addEventListener('shopify:section:load', refreshVendorBars);
 
 // Fade the navbar in once the hero has fully left the viewport, and fade it
 // back out when the hero returns. The navbar ships hidden, so at the top of the
