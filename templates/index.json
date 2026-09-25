@@ -95,6 +95,7 @@
         "item_3",
         "item_4"
       ],
+      "disabled": true,
       "name": "OWV2 Trust marquee",
       "settings": {
         "speed": 47,
@@ -103,6 +104,101 @@
         "background_color": "#f5450d",
         "text_color": "#ffffff",
         "card_background": "#ffffff",
+        "padding_top": 16,
+        "padding_bottom": 16
+      }
+    },
+    "scrolling_promotion_c3aaUQ": {
+      "type": "scrolling-promotion",
+      "blocks": {
+        "announcement_3ttN3i": {
+          "type": "announcement",
+          "name": "✷",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "✷",
+            "text_size": 15,
+            "link": ""
+          }
+        },
+        "announcement_8dELnU": {
+          "type": "announcement",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "REGENERATIVE COFFEE",
+            "text_size": 14,
+            "link": ""
+          }
+        },
+        "announcement_mHTkFP": {
+          "type": "announcement",
+          "name": "✷",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "✷",
+            "text_size": 15,
+            "link": ""
+          }
+        },
+        "announcement_Wrbtw3": {
+          "type": "announcement",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "100% RECYCLABLE PACKAGING",
+            "text_size": 14,
+            "link": ""
+          }
+        },
+        "announcement_FwgiLy": {
+          "type": "announcement",
+          "name": "✷",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "✷",
+            "text_size": 15,
+            "link": ""
+          }
+        },
+        "announcement_6x8pQG": {
+          "type": "announcement",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "1% FOR THE PLANET",
+            "text_size": 14,
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement_3ttN3i",
+        "announcement_8dELnU",
+        "announcement_mHTkFP",
+        "announcement_Wrbtw3",
+        "announcement_FwgiLy",
+        "announcement_6x8pQG"
+      ],
+      "name": "t:sections.scrolling-promotion.presets.name",
+      "settings": {
+        "direction": "left",
+        "speed": 4.5,
+        "show_divider": false,
+        "use_custom_colors": true,
+        "colors_icon": "#ffffff",
+        "colors_text": "#FFFFFF",
+        "colors_background": "#FF3F00",
+        "gradient_background": "",
         "padding_top": 16,
         "padding_bottom": 16
       }
@@ -268,6 +364,7 @@
   "order": [
     "owv2_hero_C33844",
     "owv2_marquee",
+    "scrolling_promotion_c3aaUQ",
     "od_featured_products_VgPWWJ",
     "owv2_value_grid_QXFMkK",
     "owv2_banner"
