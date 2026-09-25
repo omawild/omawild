@@ -175,7 +175,7 @@
         "heading_tag": "h2",
         "background_color": "#f7f5f1",
         "heading_color": "#ff3f00",
-        "text_color": "#FF3F00",
+        "text_color": "#ff3f00",
         "benefit_text_color": "#00180c",
         "descriptor_color": "#ff3f00",
         "price_color": "#ff3f00",
@@ -263,9 +263,78 @@
         "padding_top": 64,
         "padding_bottom": 64
       }
+    },
+    "scrolling_promotion_XRj9A6": {
+      "type": "scrolling-promotion",
+      "blocks": {
+        "announcement_MMWyza": {
+          "type": "announcement",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "Welcome to our store",
+            "text_size": 20,
+            "link": ""
+          }
+        },
+        "announcement_qUaYWF": {
+          "type": "announcement",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "Welcome to our store",
+            "text_size": 20,
+            "link": ""
+          }
+        },
+        "announcement_KaVT8b": {
+          "type": "announcement",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "Welcome to our store",
+            "text_size": 20,
+            "link": ""
+          }
+        },
+        "announcement_RmFmEC": {
+          "type": "announcement",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "Welcome to our store",
+            "text_size": 20,
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement_MMWyza",
+        "announcement_qUaYWF",
+        "announcement_KaVT8b",
+        "announcement_RmFmEC"
+      ],
+      "name": "t:sections.scrolling-promotion.presets.name",
+      "settings": {
+        "direction": "left",
+        "speed": 6,
+        "show_divider": false,
+        "use_custom_colors": false,
+        "colors_icon": "#ffffff",
+        "colors_text": "#1a1b18",
+        "colors_background": "#ffffff",
+        "gradient_background": "",
+        "padding_top": 12,
+        "padding_bottom": 12
+      }
     }
   },
   "order": [
+    "scrolling_promotion_XRj9A6",
     "owv2_hero_C33844",
     "owv2_marquee",
     "od_featured_products_VgPWWJ",
