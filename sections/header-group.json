@@ -26,7 +26,7 @@
             "text_size": 12,
             "hide_when_expired": false,
             "use_custom_colors": true,
-            "countdown_background": "#0B64F2",
+            "countdown_background": "#0b64f2",
             "countdown_text": "#ffffff"
           }
         }
@@ -55,39 +55,6 @@
     "scrolling_promotion_njaBmd": {
       "type": "scrolling-promotion",
       "blocks": {
-        "announcement_XMinLJ": {
-          "type": "announcement",
-          "settings": {
-            "icon": "none",
-            "icon_size": "medium",
-            "custom_icon": "",
-            "text": "Welcome to our store",
-            "text_size": 20,
-            "link": ""
-          }
-        },
-        "announcement_r7xF78": {
-          "type": "announcement",
-          "settings": {
-            "icon": "none",
-            "icon_size": "medium",
-            "custom_icon": "",
-            "text": "Welcome to our store",
-            "text_size": 20,
-            "link": ""
-          }
-        },
-        "announcement_NDEhrp": {
-          "type": "announcement",
-          "settings": {
-            "icon": "none",
-            "icon_size": "medium",
-            "custom_icon": "",
-            "text": "Welcome to our store",
-            "text_size": 20,
-            "link": ""
-          }
-        },
         "announcement_7t7aHN": {
           "type": "announcement",
           "settings": {
@@ -95,15 +62,12 @@
             "icon_size": "medium",
             "custom_icon": "",
             "text": "Welcome to our store",
-            "text_size": 20,
+            "text_size": 15,
             "link": ""
           }
         }
       },
       "block_order": [
-        "announcement_XMinLJ",
-        "announcement_r7xF78",
-        "announcement_NDEhrp",
         "announcement_7t7aHN"
       ],
       "name": "t:sections.scrolling-promotion.presets.name",
