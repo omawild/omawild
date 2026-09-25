@@ -77,6 +77,10 @@
   text-decoration: none;
   text-align: center;
   cursor: pointer;
+  transition: filter .2s ease;
+  }
+.owv2-regen-{{ owid }} .owv2-button:hover {
+  filter: brightness(.88);
   }
 .owv2-regen-{{ owid }} :focus-visible {
   outline: 3px solid currentColor;
@@ -97,9 +101,30 @@
 }
 .owv2-regen-{{ owid }} .columns {
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:48px;
-  align-items:center;
+  grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);
+  gap:50px;
+  align-items:start;
+  }
+.owv2-regen-{{ owid }} .columns .intro {
+  max-width:none;
+  margin-bottom:0;
+  }
+.owv2-regen-{{ owid }} .columns .intro .eyebrow {
+  font-size:10.5px;
+  letter-spacing:.18em;
+  }
+.owv2-regen-{{ owid }} .illustration {
+  margin-top:26px;
+  }
+.owv2-regen-{{ owid }} .illustration img,
+.owv2-regen-{{ owid }} .illustration svg {
+  mix-blend-mode:multiply;
+  }
+.owv2-regen-{{ owid }} .caption {
+  margin-top:14px;
+  font-size:12.5px;
+  line-height:1.55;
+  font-weight:500;
   }
 .owv2-regen-{{ owid }} details {
   border-bottom:1px solid var(--ink);
@@ -108,8 +133,12 @@
 .owv2-regen-{{ owid }} summary {
   display:flex;
   gap:24px;
+  align-items:center;
   cursor:pointer;
-  font-weight:700;
+  font-weight:800;
+  font-size:15.5px;
+  letter-spacing:-.01em;
+  line-height:1.35;
   list-style:none;
   }
 .owv2-regen-{{ owid }} summary::-webkit-details-marker {
@@ -118,22 +147,27 @@
 .owv2-regen-{{ owid }} summary::after {
   content:'+';
   margin-left:auto;
+  font-size:18px;
+  font-weight:800;
   }
 .owv2-regen-{{ owid }} details[open] summary::after {
   content:'−';
   }
 .owv2-regen-{{ owid }} .number {
   font-size:12px;
+  font-weight:800;
+  letter-spacing:.06em;
   padding-top:3px;
+  flex-shrink:0;
   }
 .owv2-regen-{{ owid }} .answer {
-  padding:16px 0 0 42px;
+  padding:13px 0 0 48px;
+  font-size:14.5px;
+  line-height:1.5;
+  font-weight:500;
   }
 .owv2-regen-{{ owid }} .cta {
   margin:24px 0 16px;
-  }
-.owv2-regen-{{ owid }} .caption {
-  font-size:13px;
   }
 @media(max-width:749px) {
   .owv2-regen-{{ owid }} .columns {
@@ -144,13 +178,16 @@
 {% endstyle %}
 <div class="owv2-regen-{{ owid }} owv2-regen">
 <div class="inner">
+<div class="columns">
+<div>
 <div class="intro">
 <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
 <h2>{{ section.settings.heading }}</h2>
 </div>
-<div class="columns">
 <div class="illustration">
 {% if section.settings.illustration != blank %}{{ section.settings.illustration | image_url: width: 1800 | image_tag: loading: 'lazy', widths: '390, 750, 1100, 1500, 1800', sizes: '(min-width: 990px) 50vw, 100vw' }}{% else %}{{ 'lifestyle-1' | placeholder_svg_tag: 'owv2-placeholder' }}{% endif %}
+</div>
+<p class="caption">{{ section.settings.caption | escape }}</p>
 </div>
 <div>
 {% for block in section.blocks %}
@@ -170,7 +207,6 @@
 {% endif %}
 {% endif %}
 </div>
-<p class="caption">{{ section.settings.caption | escape }}</p>
 </div>
 </div>
 </div>
@@ -227,13 +263,13 @@
       "type": "color",
       "id": "background_color",
       "label": "Background color",
-      "default": "#F1ECE2"
+      "default": "#F7F5F1"
     },
     {
       "type": "color",
       "id": "text_color",
       "label": "Text color",
-      "default": "#F5450D"
+      "default": "#FF3F00"
     },
     {
       "type": "color",

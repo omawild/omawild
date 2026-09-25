@@ -98,17 +98,27 @@
 .owv2-value-grid-{{ owid }} .cards {
   display:grid;
   grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:20px;
+  gap:18px;
   }
 .owv2-value-grid-{{ owid }} article {
   background:var(--surface);
-  padding:26px;
-  border-radius:12px;
+  padding:22px 20px 24px;
+  border-radius:10px;
   color:{{ section.settings.card_body_color }};
   }
 .owv2-value-grid-{{ owid }} h3 {
   color:{{ section.settings.card_heading_color }};
-  margin-bottom:16px;
+  font-size:19px;
+  font-weight:800;
+  letter-spacing:-.02em;
+  line-height:1.15;
+  margin-bottom:11px;
+  }
+.owv2-value-grid-{{ owid }} .cards p {
+  font-size:12.5px;
+  line-height:1.4;
+  font-weight:500;
+  margin:0;
   }
 .owv2-value-grid-{{ owid }} .hint {
   display:none;
@@ -176,19 +186,19 @@
       "type": "color",
       "id": "card_heading_color",
       "label": "Card heading color",
-      "default": "#F5450D"
+      "default": "#FF3F00"
     },
     {
       "type": "color",
       "id": "card_body_color",
       "label": "Card body color",
-      "default": "#424242"
+      "default": "#00180C"
     },
     {
       "type": "color",
       "id": "background_color",
       "label": "Background color",
-      "default": "#F5450D"
+      "default": "#FF3F00"
     },
     {
       "type": "color",
