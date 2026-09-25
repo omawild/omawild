@@ -261,95 +261,6 @@
         "button_text_color": "#ffffff"
       }
     },
-    "owv2_subscribe": {
-      "type": "owv2-subscribe",
-      "blocks": {
-        "roast_1": {
-          "type": "roast",
-          "settings": {
-            "label": "Wild Bloom",
-            "price": 560
-          }
-        },
-        "roast_2": {
-          "type": "roast",
-          "settings": {
-            "label": "Forest Trail",
-            "price": 540
-          }
-        },
-        "roast_3": {
-          "type": "roast",
-          "settings": {
-            "label": "Limited Reserve",
-            "price": 800
-          }
-        },
-        "size_4": {
-          "type": "size",
-          "settings": {
-            "label": "200 g",
-            "price_modifier": 0
-          }
-        },
-        "size_5": {
-          "type": "size",
-          "settings": {
-            "label": "400 g",
-            "price_modifier": 560
-          }
-        },
-        "frequency_6": {
-          "type": "frequency",
-          "settings": {
-            "label": "Every month"
-          }
-        },
-        "frequency_7": {
-          "type": "frequency",
-          "settings": {
-            "label": "Every 2 weeks"
-          }
-        },
-        "frequency_8": {
-          "type": "frequency",
-          "settings": {
-            "label": "Every 2 months"
-          }
-        }
-      },
-      "block_order": [
-        "roast_1",
-        "roast_2",
-        "roast_3",
-        "size_4",
-        "size_5",
-        "frequency_6",
-        "frequency_7",
-        "frequency_8"
-      ],
-      "name": "OWV2 Subscription spot",
-      "settings": {
-        "badge_text": "SUBSCRIBE & SAVE 10%",
-        "heading": "Keep the ritual going and never run low on energy",
-        "body": "<p>Fresh roast on your schedule. Save 10% on every delivery. And each subscription helps us do more for you and our planet. Skip, swap or cancel any time.</p>",
-        "step1_label": "Pick your roast",
-        "step2_label": "Select your quantity",
-        "step3_label": "Set your frequency",
-        "summary_title": "YOUR SUBSCRIPTION",
-        "shipping_note": "Freshly roasted. Delivered on your schedule.",
-        "cta_label": "Start subscription",
-        "cta_link": "",
-        "discount_percent": 10,
-        "savings_template": "Save [amount] every delivery",
-        "empty_message": "Choose your coffee options to get started.",
-        "background_color": "#fbdcdc",
-        "text_color": "#f5450d",
-        "card_background": "#ffffff",
-        "padding_top": 64,
-        "padding_bottom": 64
-      }
-    },
     "owv2_regen": {
       "type": "owv2-regen",
       "blocks": {
@@ -458,11 +369,12 @@
       "type": "owv2-banner",
       "name": "OWV2 Photo banner",
       "settings": {
+        "image": "shopify://shop_images/canyonclimber.png",
         "heading": "Drink like you give a damn",
         "overlay_color": "#000000",
         "overlay_opacity": 35,
         "link": "",
-        "min_height": 480,
+        "min_height": 320,
         "min_height_mobile": 240,
         "background_color": "#f1ece2",
         "text_color": "#ffffff",
@@ -528,23 +440,6 @@
         "cta_link": "",
         "background_color": "#f5450d",
         "text_color": "#ffffff",
-        "card_background": "#ffffff",
-        "padding_top": 64,
-        "padding_bottom": 64
-      }
-    },
-    "owv2_newsletter": {
-      "type": "owv2-newsletter",
-      "name": "OWV2 Newsletter",
-      "settings": {
-        "sticker_text": "A nature fund disguised as coffee <em>for now</em>",
-        "heading": "Good things are growing.",
-        "placeholder": "your@email.com",
-        "email_label": "Email address",
-        "button_label": "Subscribe",
-        "success_message": "You’re on the list. Welcome to the expedition!",
-        "background_color": "#fbdcdc",
-        "text_color": "#f5450d",
         "card_background": "#ffffff",
         "padding_top": 64,
         "padding_bottom": 64
@@ -701,13 +596,11 @@
     "owv2_marquee",
     "owv2_value_grid",
     "owv2_products",
-    "owv2_subscribe",
     "owv2_regen",
     "owv2_story",
     "owv2_banner",
     "owv2_values",
     "owv2_partner",
-    "owv2_newsletter",
     "ow_landing_8zdDyd"
   ]
 }
