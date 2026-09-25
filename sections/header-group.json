@@ -34,6 +34,7 @@
       "block_order": [
         "countdown_MWDGiX"
       ],
+      "disabled": true,
       "name": "Announcement Bar",
       "settings": {
         "only_homepage": false,
@@ -110,6 +111,7 @@
         "announcement_JQjU8N",
         "announcement_7t7aHN"
       ],
+      "disabled": true,
       "name": "t:sections.scrolling-promotion.presets.name",
       "settings": {
         "direction": "left",
@@ -119,6 +121,74 @@
         "colors_icon": "#ffffff",
         "colors_text": "#e3420d",
         "colors_background": "#fbb925",
+        "gradient_background": "",
+        "padding_top": 12,
+        "padding_bottom": 12
+      }
+    },
+    "scrolling_promotion_BeLaAD": {
+      "type": "scrolling-promotion",
+      "blocks": {
+        "announcement_UnGkWC": {
+          "type": "announcement",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "Welcome to our store",
+            "text_size": 15,
+            "link": ""
+          }
+        },
+        "announcement_jTwBNG": {
+          "type": "announcement",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "Welcome to our store",
+            "text_size": 15,
+            "link": ""
+          }
+        },
+        "announcement_Nf4xLm": {
+          "type": "announcement",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "Welcome to our store",
+            "text_size": 15,
+            "link": ""
+          }
+        },
+        "announcement_HCAVEj": {
+          "type": "announcement",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "Welcome to our store",
+            "text_size": 15,
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement_UnGkWC",
+        "announcement_jTwBNG",
+        "announcement_Nf4xLm",
+        "announcement_HCAVEj"
+      ],
+      "name": "t:sections.scrolling-promotion.presets.name",
+      "settings": {
+        "direction": "left",
+        "speed": 6,
+        "show_divider": false,
+        "use_custom_colors": false,
+        "colors_icon": "#ffffff",
+        "colors_text": "#1a1b18",
+        "colors_background": "#ffffff",
         "gradient_background": "",
         "padding_top": 12,
         "padding_bottom": 12
@@ -143,6 +213,7 @@
   "order": [
     "announcement-bar",
     "scrolling_promotion_njaBmd",
+    "scrolling_promotion_BeLaAD",
     "ow-header"
   ]
 }
