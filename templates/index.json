@@ -107,75 +107,6 @@
         "padding_bottom": 16
       }
     },
-    "owv2_value_grid_QXFMkK": {
-      "type": "owv2-value-grid",
-      "blocks": {
-        "card_mV6K9Y": {
-          "type": "card",
-          "settings": {
-            "heading": "Agroforestry coffee",
-            "body": "<p>Grown using regenerative practices inside agroforestry systems, so each harvest improves soil health while our forest stays standing.</p>"
-          }
-        },
-        "card_kUQN6D": {
-          "type": "card",
-          "settings": {
-            "heading": "Funding nature",
-            "body": "<p>At least 1% of our revenue goes to environmental causes.</p>"
-          }
-        },
-        "card_dgdDNx": {
-          "type": "card",
-          "settings": {
-            "heading": "Direct relationships",
-            "body": "<p>Good coffee starts with the people who grow it.</p>"
-          }
-        },
-        "card_4JxW4V": {
-          "type": "card",
-          "settings": {
-            "heading": "Made for your ritual",
-            "body": "<p>Specialty coffee, roasted fresh each month.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "card_mV6K9Y",
-        "card_kUQN6D",
-        "card_dgdDNx",
-        "card_4JxW4V"
-      ],
-      "name": "OWV2 Value grid",
-      "settings": {
-        "heading": "",
-        "mobile_hint_text": "← SWIPE →",
-        "card_heading_color": "#ff3f00",
-        "card_body_color": "#00180c",
-        "background_color": "#ff3f00",
-        "text_color": "#ffffff",
-        "card_background": "#ffffff",
-        "padding_top": 64,
-        "padding_bottom": 64
-      }
-    },
-    "owv2_banner": {
-      "type": "owv2-banner",
-      "name": "OWV2 Photo banner",
-      "settings": {
-        "image": "shopify://shop_images/canyonclimber.png",
-        "heading": "Drink like you give a damn",
-        "overlay_color": "#000000",
-        "overlay_opacity": 35,
-        "link": "",
-        "min_height": 320,
-        "min_height_mobile": 240,
-        "background_color": "#f1ece2",
-        "text_color": "#ffffff",
-        "card_background": "#ffffff",
-        "padding_top": 64,
-        "padding_bottom": 64
-      }
-    },
     "od_featured_products_VgPWWJ": {
       "type": "od-featured-products",
       "blocks": {
@@ -263,13 +194,82 @@
         "button_bg_color": "#ff3f00",
         "button_text_color": "#ffffff"
       }
+    },
+    "owv2_value_grid_QXFMkK": {
+      "type": "owv2-value-grid",
+      "blocks": {
+        "card_mV6K9Y": {
+          "type": "card",
+          "settings": {
+            "heading": "Agroforestry coffee",
+            "body": "<p>Grown using regenerative practices inside agroforestry systems, so each harvest improves soil health while our forest stays standing.</p>"
+          }
+        },
+        "card_kUQN6D": {
+          "type": "card",
+          "settings": {
+            "heading": "Funding nature",
+            "body": "<p>At least 1% of our revenue goes to environmental causes.</p>"
+          }
+        },
+        "card_dgdDNx": {
+          "type": "card",
+          "settings": {
+            "heading": "Direct relationships",
+            "body": "<p>Good coffee starts with the people who grow it.</p>"
+          }
+        },
+        "card_4JxW4V": {
+          "type": "card",
+          "settings": {
+            "heading": "Made for your ritual",
+            "body": "<p>Specialty coffee, roasted fresh each month.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "card_mV6K9Y",
+        "card_kUQN6D",
+        "card_dgdDNx",
+        "card_4JxW4V"
+      ],
+      "name": "OWV2 Value grid",
+      "settings": {
+        "heading": "",
+        "mobile_hint_text": "← SWIPE →",
+        "card_heading_color": "#ff3f00",
+        "card_body_color": "#00180c",
+        "background_color": "#ff3f00",
+        "text_color": "#ffffff",
+        "card_background": "#ffffff",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "owv2_banner": {
+      "type": "owv2-banner",
+      "name": "OWV2 Photo banner",
+      "settings": {
+        "image": "shopify://shop_images/canyonclimber.png",
+        "heading": "Drink like you give a damn",
+        "overlay_color": "#000000",
+        "overlay_opacity": 35,
+        "link": "",
+        "min_height": 320,
+        "min_height_mobile": 240,
+        "background_color": "#f1ece2",
+        "text_color": "#ffffff",
+        "card_background": "#ffffff",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
     "owv2_hero_C33844",
     "owv2_marquee",
+    "od_featured_products_VgPWWJ",
     "owv2_value_grid_QXFMkK",
-    "owv2_banner",
-    "od_featured_products_VgPWWJ"
+    "owv2_banner"
   ]
 }
