@@ -9,56 +9,6 @@
  */
 {
   "sections": {
-    "owv2_hero": {
-      "type": "owv2-hero",
-      "blocks": {
-        "feature_1": {
-          "type": "feature",
-          "settings": {
-            "text": "Single origin"
-          }
-        },
-        "feature_2": {
-          "type": "feature",
-          "settings": {
-            "text": "Specialty coffee"
-          }
-        },
-        "feature_3": {
-          "type": "feature",
-          "settings": {
-            "text": "Roasted monthly"
-          }
-        }
-      },
-      "block_order": [
-        "feature_1",
-        "feature_2",
-        "feature_3"
-      ],
-      "name": "OWV2 Split hero",
-      "settings": {
-        "stamp_alt": "Welcome to the expedition",
-        "heading": "Drink for Planet Earth",
-        "body": "<p>Coffee’s just the bait to reel you in. Grade 1 arabica, grown under agroforestry in the volcanic highlands, inside protected forest reserves.</p>",
-        "cta_primary_label": "Shop the coffee",
-        "cta_primary_link": "shopify://collections/all",
-        "cta_secondary_label": "Or learn about regen",
-        "cta_secondary_link": "",
-        "image_badge_text": "COFFEE FOR THE PLANET",
-        "caption_text": "<p>Restoring nature isn’t a job for specialised roles, it’s something we can all take part in, one cup at a time.</p>",
-        "caption_link_label": "See how it works ↓",
-        "caption_link": "",
-        "separator": "✷",
-        "heading_size": 80,
-        "body_size": 18,
-        "content_padding": 64,
-        "content_gap": 24,
-        "background_color": "#fbdcdc",
-        "text_color": "#f5450d",
-        "card_background": "#ffffff"
-      }
-    },
     "owv2_marquee": {
       "type": "owv2-marquee",
       "blocks": {
@@ -589,10 +539,148 @@
       "disabled": true,
       "name": "OW Landing",
       "settings": {}
+    },
+    "owv2_hero_yez6te": {
+      "type": "owv2-hero",
+      "blocks": {
+        "feature_YfqczD": {
+          "type": "feature",
+          "settings": {
+            "text": "Single origin"
+          }
+        },
+        "feature_f8fUJx": {
+          "type": "feature",
+          "settings": {
+            "text": "Specialty coffee"
+          }
+        },
+        "feature_c44kXy": {
+          "type": "feature",
+          "settings": {
+            "text": "Roasted monthly"
+          }
+        }
+      },
+      "block_order": [
+        "feature_YfqczD",
+        "feature_f8fUJx",
+        "feature_c44kXy"
+      ],
+      "name": "OWV2 Split hero",
+      "settings": {
+        "stamp_alt": "Welcome to the expedition",
+        "heading": "Drink for Planet Earth",
+        "body": "<p>Coffee’s just the bait to reel you in. Grade 1 arabica, grown under agroforestry in the volcanic highlands, inside protected forest reserves.</p>",
+        "cta_primary_label": "Shop the coffee",
+        "cta_primary_link": "",
+        "cta_secondary_label": "Or learn about regen",
+        "cta_secondary_link": "",
+        "image_badge_text": "COFFEE FOR THE PLANET",
+        "caption_text": "<p>Restoring nature isn’t a job for specialised roles, it’s something we can all take part in, one cup at a time.</p>",
+        "caption_link_label": "See how it works ↓",
+        "caption_link": "",
+        "separator": "✷",
+        "heading_size": 80,
+        "body_size": 18,
+        "content_padding": 64,
+        "content_gap": 24,
+        "background_color": "#FBDCDC",
+        "text_color": "#F5450D",
+        "card_background": "#FFFFFF"
+      }
+    },
+    "owv2_subscribe_8HFJHJ": {
+      "type": "owv2-subscribe",
+      "blocks": {
+        "roast_VMJjzt": {
+          "type": "roast",
+          "settings": {
+            "label": "Wild Bloom",
+            "price": 560
+          }
+        },
+        "roast_nqfE4g": {
+          "type": "roast",
+          "settings": {
+            "label": "Forest Trail",
+            "price": 540
+          }
+        },
+        "roast_P9cN73": {
+          "type": "roast",
+          "settings": {
+            "label": "Limited Reserve",
+            "price": 800
+          }
+        },
+        "size_pX33Wr": {
+          "type": "size",
+          "settings": {
+            "label": "200 g",
+            "price_modifier": 0
+          }
+        },
+        "size_neFB68": {
+          "type": "size",
+          "settings": {
+            "label": "400 g",
+            "price_modifier": 560
+          }
+        },
+        "frequency_Vm3Rk4": {
+          "type": "frequency",
+          "settings": {
+            "label": "Every month"
+          }
+        },
+        "frequency_Bdpf6H": {
+          "type": "frequency",
+          "settings": {
+            "label": "Every 2 weeks"
+          }
+        },
+        "frequency_tn638U": {
+          "type": "frequency",
+          "settings": {
+            "label": "Every 2 months"
+          }
+        }
+      },
+      "block_order": [
+        "roast_VMJjzt",
+        "roast_nqfE4g",
+        "roast_P9cN73",
+        "size_pX33Wr",
+        "size_neFB68",
+        "frequency_Vm3Rk4",
+        "frequency_Bdpf6H",
+        "frequency_tn638U"
+      ],
+      "name": "OWV2 Subscription spot",
+      "settings": {
+        "badge_text": "SUBSCRIBE & SAVE 10%",
+        "heading": "Keep the ritual going and never run low on energy",
+        "body": "<p>Fresh roast on your schedule. Save 10% on every delivery. And each subscription helps us do more for you and our planet. Skip, swap or cancel any time.</p>",
+        "step1_label": "Pick your roast",
+        "step2_label": "Select your quantity",
+        "step3_label": "Set your frequency",
+        "summary_title": "YOUR SUBSCRIPTION",
+        "shipping_note": "Freshly roasted. Delivered on your schedule.",
+        "cta_label": "Start subscription",
+        "cta_link": "",
+        "discount_percent": 10,
+        "savings_template": "Save [amount] every delivery",
+        "empty_message": "Choose your coffee options to get started.",
+        "background_color": "#FBDCDC",
+        "text_color": "#F5450D",
+        "card_background": "#FFFFFF",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
-    "owv2_hero",
     "owv2_marquee",
     "owv2_value_grid",
     "owv2_products",
@@ -601,6 +689,8 @@
     "owv2_banner",
     "owv2_values",
     "owv2_partner",
-    "ow_landing_8zdDyd"
+    "ow_landing_8zdDyd",
+    "owv2_hero_yez6te",
+    "owv2_subscribe_8HFJHJ"
   ]
 }
