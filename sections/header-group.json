@@ -13,7 +13,7 @@
   "sections": {
     "announcement-bar": {
       "type": "announcement-bar",
-      "name": "Timer",
+      "name": "Announcement Bar",
       "settings": {
         "only_homepage": false,
         "layout": "carousel",

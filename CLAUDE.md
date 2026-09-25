@@ -151,6 +151,24 @@ Three traps that were live before this landed, worth not reintroducing:
   a `RemoteAsset` false positive (a Shopify-hosted video object, which `asset_url`
   cannot apply to). It is scoped to one line and justified in a comment. If you add
   another disable, justify it the same way or the rule stops meaning anything.
+- **Two vendor sections both use a block type called `announcement`, for unrelated
+  features — don't let the name collide in your head.** `sections/announcement-bar.liquid`
+  is the header countdown/timer bar; it also has its own scrolling-text block that
+  happens to be typed `announcement`. `sections/scrolling-promotion.liquid` is the
+  actual rotating-announcements section. Same block type name, same-ish filename,
+  completely separate vendor code. Both files are untouched vendor code (rule 3) —
+  renaming either to disambiguate would fork the whole feature (the timer bar alone
+  shares its `--announcement-height` CSS variable with ~8 other vendor stylesheets)
+  and would break the live header instance, since a section's Shopify type is tied
+  to its filename and instances don't migrate across a rename. A one-line pointer
+  comment was added to each of the 4 files instead, and the countdown bar's admin
+  sidebar nickname was set to match its own filename/type: **"Announcement Bar"**
+  (`sections/header-group.json`'s `announcement-bar` instance). The
+  `scrolling-promotion` instance that used to sit next to it in the header group was
+  removed entirely in the theme editor (25 Sep 2026) — the file `sections/
+  scrolling-promotion.liquid` still exists and is still the one to reach for if a
+  rotating-announcements bar is placed again; just give that instance a nickname
+  distinguishable from "Announcement Bar" when you do.
 
 ## Upgrading the theme
 
