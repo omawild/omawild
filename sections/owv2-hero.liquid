@@ -66,13 +66,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 48px;
-  padding: 12px 24px;
+  min-height: 44px;
+  padding: 10px 20px;
   border: 1px solid var(--ink);
   border-radius: 999px;
   background: var(--ink);
   color: var(--bg);
-  font: 700 16px var(--font-body-family);
+  font: 700 15px var(--font-body-family);
   text-decoration: none;
   text-align: center;
   cursor: pointer;
@@ -92,6 +92,7 @@
   .owv2-hero-{{ owid }} * {
   scroll-behavior: auto !important;
   scroll-snap-type: none !important;
+  animation: none !important;
   }
 }
 
@@ -117,6 +118,15 @@
 .owv2-hero-{{ owid }} .stamp {
   width:100px;
   }
+.owv2-hero-{{ owid }} .stamp img,
+.owv2-hero-{{ owid }} .stamp svg {
+  animation: owv2-hero-spin-{{ owid }} 12s linear infinite;
+  }
+@keyframes owv2-hero-spin-{{ owid }} {
+  to {
+  transform: rotate(360deg);
+  }
+}
 .owv2-hero-{{ owid }} .actions {
   display:flex;
   flex-wrap:wrap;
@@ -158,6 +168,13 @@
   border-radius:10px;
   padding:16px;
   font-size:14px;
+  line-height:1.35;
+  }
+.owv2-hero-{{ owid }} .caption p {
+  margin:0 0 8px;
+  }
+.owv2-hero-{{ owid }} .caption p:last-child {
+  margin-bottom:0;
   }
 .owv2-hero-{{ owid }} .badge {
   position:absolute;
