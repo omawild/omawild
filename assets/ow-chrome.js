@@ -94,9 +94,19 @@ function getVendorBarHeight() {
   // Timer + Announcement Bar combined, whichever of the two actually exist
   // on this page. Always counted regardless of navbar state -- unlike the
   // navbar, these never hide once enabled.
+  //
+  // Floored per bar, not raw: this is also what --ow-timer-h/--ow-promo-h
+  // feed into positioning the bars/navbar themselves (see applyChrome()
+  // below). Body padding used to sum the RAW fractional heights and ceil
+  // only the total, which disagreed with the floored positions by ~1px
+  // any time either bar's real height had a fractional part -- which is
+  // effectively always. That mismatch was a guaranteed, structural gap
+  // between the navbar and real content, not an occasional rounding fluke.
+  // Flooring here first makes every consumer agree on the exact same
+  // number the bars are actually positioned at.
   let h = 0;
-  if (timerBar) { h += timerBar.getBoundingClientRect().height; }
-  if (promoBar) { h += promoBar.getBoundingClientRect().height; }
+  if (timerBar) { h += Math.floor(timerBar.getBoundingClientRect().height); }
+  if (promoBar) { h += Math.floor(promoBar.getBoundingClientRect().height); }
   return h;
 }
 
