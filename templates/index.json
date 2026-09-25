@@ -176,17 +176,17 @@
         "padding_bottom": 64
       }
     },
-    "od_featured_products_p8WFKg": {
+    "od_featured_products_Aygh3P": {
       "type": "od-featured-products",
       "blocks": {
-        "collection_i6c4F9": {
+        "collection_6Tjz3D": {
           "type": "collection",
           "settings": {
             "grade_badge": "",
             "product_item": "forest-trail",
             "highlight_card": false,
             "banner_text": "★ BEST VALUE",
-            "collection_tag": "LABEL",
+            "collection_tag": "",
             "collection_title": "",
             "collection_blurb": "",
             "price_caption": "",
@@ -195,14 +195,14 @@
             "benefit_3": ""
           }
         },
-        "collection_eyRLYq": {
+        "collection_3cyhkT": {
           "type": "collection",
           "settings": {
             "grade_badge": "",
             "product_item": "",
             "highlight_card": false,
             "banner_text": "★ BEST VALUE",
-            "collection_tag": "LABEL",
+            "collection_tag": "",
             "collection_title": "",
             "collection_blurb": "",
             "price_caption": "",
@@ -211,14 +211,14 @@
             "benefit_3": ""
           }
         },
-        "collection_Uxy8aG": {
+        "collection_abEhXU": {
           "type": "collection",
           "settings": {
             "grade_badge": "",
             "product_item": "",
             "highlight_card": false,
             "banner_text": "★ BEST VALUE",
-            "collection_tag": "LABEL",
+            "collection_tag": "",
             "collection_title": "",
             "collection_blurb": "",
             "price_caption": "",
@@ -229,9 +229,9 @@
         }
       },
       "block_order": [
-        "collection_i6c4F9",
-        "collection_eyRLYq",
-        "collection_Uxy8aG"
+        "collection_6Tjz3D",
+        "collection_3cyhkT",
+        "collection_abEhXU"
       ],
       "name": "OD Featured Products",
       "settings": {
@@ -270,6 +270,6 @@
     "owv2_marquee",
     "owv2_value_grid_QXFMkK",
     "owv2_banner",
-    "od_featured_products_p8WFKg"
+    "od_featured_products_Aygh3P"
   ]
 }
