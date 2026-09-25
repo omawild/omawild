@@ -23,7 +23,7 @@
             "link": "",
             "position": "top",
             "display_style": "full",
-            "text_size": 13,
+            "text_size": 12,
             "hide_when_expired": false,
             "use_custom_colors": true,
             "countdown_background": "#0B64F2",
