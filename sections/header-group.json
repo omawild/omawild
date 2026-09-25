@@ -82,30 +82,58 @@
     "scrolling_promotion_njaBmd": {
       "type": "scrolling-promotion",
       "blocks": {
-        "announcement_JQjU8N": {
+        "announcement_Qm3qE6": {
           "type": "announcement",
+          "name": "✷",
           "settings": {
             "icon": "none",
             "icon_size": "medium",
             "custom_icon": "",
-            "text": "",
+            "text": "✷",
+            "text_size": 14,
+            "link": ""
+          }
+        },
+        "announcement_jdRazg": {
+          "type": "announcement",
+          "name": "中文",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "中文版馬上來 👏🏼",
             "text_size": 15,
+            "link": ""
+          }
+        },
+        "announcement_JQjU8N": {
+          "type": "announcement",
+          "name": "✷",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "✷",
+            "text_size": 14,
             "link": ""
           }
         },
         "announcement_7t7aHN": {
           "type": "announcement",
+          "name": "OMAWILD",
           "settings": {
             "icon": "none",
             "icon_size": "medium",
             "custom_icon": "",
-            "text": "Welcome to our store",
-            "text_size": 15,
+            "text": "OMAWILD IS EVOLVING",
+            "text_size": 13,
             "link": ""
           }
         }
       },
       "block_order": [
+        "announcement_Qm3qE6",
+        "announcement_jdRazg",
         "announcement_JQjU8N",
         "announcement_7t7aHN"
       ],
@@ -116,8 +144,8 @@
         "show_divider": false,
         "use_custom_colors": true,
         "colors_icon": "#ffffff",
-        "colors_text": "#FBB925",
-        "colors_background": "#9234DA",
+        "colors_text": "#E3420D",
+        "colors_background": "#FBB925",
         "gradient_background": "",
         "padding_top": 12,
         "padding_bottom": 12
