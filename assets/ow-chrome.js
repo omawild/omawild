@@ -133,8 +133,14 @@ function applyChrome() {
   // --ow-timer-h / --ow-promo-h position the vendor bars themselves and
   // #top-chrome (see ow-chrome.css) -- read fresh here rather than cached,
   // since either bar's own content can reflow (window resize, text wrap).
-  document.documentElement.style.setProperty('--ow-timer-h', (timerBar ? Math.ceil(timerBar.getBoundingClientRect().height) : 0) + 'px');
-  document.documentElement.style.setProperty('--ow-promo-h', (promoBar ? Math.ceil(promoBar.getBoundingClientRect().height) : 0) + 'px');
+  //
+  // Math.floor, not ceil: these two values become the NEXT bar's `top`, so
+  // rounding UP a fractional real height (e.g. 53.4px -> 54px) leaves that
+  // sliver of page background exposed as a visible gap between the two bars.
+  // Rounding down instead makes the next bar start at or a fraction of a
+  // px before the real edge -- an imperceptible overlap, never a gap.
+  document.documentElement.style.setProperty('--ow-timer-h', (timerBar ? Math.floor(timerBar.getBoundingClientRect().height) : 0) + 'px');
+  document.documentElement.style.setProperty('--ow-promo-h', (promoBar ? Math.floor(promoBar.getBoundingClientRect().height) : 0) + 'px');
   // Published so anything docking below the fixed bars can find their bottom
   // edge from CSS alone. Every recalculation route (resize, fonts.ready, the
   // ResizeObserver, and every navbar reveal) runs through here, so it cannot go
