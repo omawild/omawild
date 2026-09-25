@@ -125,156 +125,210 @@
         "padding_bottom": 64
       }
     },
-    "ow_landing_8zdDyd": {
-      "type": "ow-landing",
+    "owv2_value_grid_HKTemz": {
+      "type": "owv2-value-grid",
       "blocks": {
-        "ow_hero_mjnrQH": {
-          "type": "ow-hero",
+        "card_fKhbUh": {
+          "type": "card",
           "settings": {
-            "logo_alt": "Omawild",
-            "headline_alt": "Welcome to the Expedition",
-            "submark_alt": "Drink for Planet Earth",
-            "tagline": "Coffee's just the bait to reel you in",
-            "image_alt": "Omawild product"
-          },
-          "blocks": {}
+            "heading": "Agroforestry coffee",
+            "body": "<p>Grown using regenerative practices inside agroforestry systems, so each harvest improves soil health while our forest stays standing.</p>"
+          }
         },
-        "ow_regen_zEDtrL": {
-          "type": "ow-regen",
+        "card_JE4zde": {
+          "type": "card",
           "settings": {
-            "headline": "The most powerful climate solution is in what you eat and drink",
-            "cta_text": "Drink for Planet Earth",
-            "cta_link": "",
-            "link_text": "Or learn about regen",
-            "link_url": "",
-            "illustration_alt": "Regenerative farm ecosystem — Garut, West Java",
-            "ann_1": "Tree canopies cool soil temperature by up to 10°C and create vital wildlife habitats",
-            "ann_2": "Deep roots act like underground anchors, preventing landslides and soil erosion",
-            "ann_3": "Crop diversification increases soil microbial activity and nutrient availability",
-            "ann_4": "Healthy soil sequesters 3x more carbon than the atmosphere",
-            "ann_5": "One hectare of living soil holds up to 50,000 litres of water",
-            "ann_6": "Roots, rocks, and rivers: the oldest water filtration technology"
-          },
-          "blocks": {}
+            "heading": "Funding nature",
+            "body": "<p>At least 1% of our revenue goes to environmental causes.</p>"
+          }
         },
-        "ow_prop_scroller_eYWMzX": {
-          "type": "ow-prop-scroller",
+        "card_gAcrpV": {
+          "type": "card",
           "settings": {
-            "items": "REGENERATIVE INGREDIENTS, 1% FOR THE PLANET, 100% RECYCLABLE PACKAGING, DIRECT FARM RELATIONSHIPS"
-          },
-          "blocks": {}
+            "heading": "Direct relationships",
+            "body": "<p>Good coffee starts with the people who grow it.</p>"
+          }
         },
-        "ow_products_yBnGG7": {
-          "type": "ow-products",
+        "card_MyL3JL": {
+          "type": "card",
           "settings": {
-            "heading": "Drink for Planet Earth",
-            "subhead": "Clean caffeine without the damn jitters so you can feel great while doing the work of protecting the places that inspire your next adventure."
-          },
-          "blocks": {
-            "ow_product_card_NhLrEg": {
-              "type": "ow-product-card",
-              "settings": {
-                "product": "the-complete-snowboard",
-                "name": "",
-                "description": "",
-                "grade": "",
-                "flavour": "",
-                "atc_label": "Add to Cart"
-              },
-              "blocks": {}
-            },
-            "ow_product_card_gHkY7P": {
-              "type": "ow-product-card",
-              "settings": {
-                "product": "the-complete-snowboard",
-                "name": "",
-                "description": "",
-                "grade": "",
-                "flavour": "",
-                "atc_label": "Add to Cart"
-              },
-              "blocks": {}
-            },
-            "ow_product_card_yWLm6L": {
-              "type": "ow-product-card",
-              "settings": {
-                "product": "the-multi-location-snowboard",
-                "name": "",
-                "description": "",
-                "grade": "",
-                "flavour": "",
-                "atc_label": "Add to Cart"
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "ow_product_card_NhLrEg",
-            "ow_product_card_gHkY7P",
-            "ow_product_card_yWLm6L"
-          ]
-        },
-        "ow_partner_RWQcTy": {
-          "type": "ow-partner",
-          "settings": {
-            "heading": "Are you an impact-driven company, hotel, or retailer who loves great caffeine? Ditch your conventional coffee and drink for the future you're building.",
-            "cta_text": "Become a partner",
-            "cta_link": ""
-          },
-          "blocks": {}
-        },
-        "ow_about_3BpqAQ": {
-          "type": "ow-about",
-          "settings": {
-            "heading": "Omawild began during an expedition across Bali when we plunged our entire life savings into conservation",
-            "body": "Until we went broke and realised nature needed a better business model...",
-            "cta_text": "Follow our rabbit hole",
-            "cta_link": ""
-          },
-          "blocks": {}
-        },
-        "ow_tagline_XDJbhL": {
-          "type": "ow-tagline",
-          "settings": {
-            "heading": "Drink like you give a damn"
-          },
-          "blocks": {}
-        },
-        "ow_why_FXFXqd": {
-          "type": "ow-why",
-          "settings": {
-            "heading_line1": "There are many reasons to give a damn.",
-            "heading_line2": "And we don't need the same reasons.",
-            "intro": "Maybe you're here for the vibes and adventure. Or for a damn good cup of coffee. And you don't have to care about the climate for any of that, but there's one thing none of us can opt out of: everything that sustains the fun in this world runs on healthy ecosystems. So drink like you give a damn, whatever your reason. And we will do our part:",
-            "col1_title": "Regenerative Farming",
-            "col1_body": "Soil health is nurtured by the farmers we grow alongside, season after season, through regenerative agriculture: our direct mechanism for better food and climate resilience.",
-            "col2_title": "1% for the Planet",
-            "col2_body": "Regenerative farming is just one part of caring for our planet. As members of 1% for the Planet, we give at minimum one percent of annual sales to environmental organisations working hard beyond our own supply chains.",
-            "col3_title": "Fully Recyclable",
-            "col3_body": "Pretty \"paper\" bags that can't be recycled. BS \"compostable\" claims that don't actually degrade. None of that is eco-friendly. It's plain greenwashing. Ours is fully recyclable: one PE material from start to finish."
-          },
-          "blocks": {}
+            "heading": "Made for your ritual",
+            "body": "<p>Specialty coffee, roasted fresh each month.</p>"
+          }
         }
       },
       "block_order": [
-        "ow_hero_mjnrQH",
-        "ow_regen_zEDtrL",
-        "ow_prop_scroller_eYWMzX",
-        "ow_products_yBnGG7",
-        "ow_partner_RWQcTy",
-        "ow_about_3BpqAQ",
-        "ow_tagline_XDJbhL",
-        "ow_why_FXFXqd"
+        "card_fKhbUh",
+        "card_JE4zde",
+        "card_gAcrpV",
+        "card_MyL3JL"
       ],
-      "disabled": true,
-      "name": "OW Landing",
-      "settings": {}
+      "name": "OWV2 Value grid",
+      "settings": {
+        "heading": "",
+        "mobile_hint_text": "← SWIPE →",
+        "card_heading_color": "#FF3F00",
+        "card_body_color": "#00180C",
+        "background_color": "#FF3F00",
+        "text_color": "#FFFFFF",
+        "card_background": "#FFFFFF",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "owv2_values_C99474": {
+      "type": "owv2-values",
+      "blocks": {
+        "value_E4dehX": {
+          "type": "value",
+          "settings": {
+            "heading": "Good coffee",
+            "body": "<p>Every cup is a chance to do something good.</p>",
+            "cta_label": "",
+            "cta_link": ""
+          }
+        },
+        "value_UWmWQd": {
+          "type": "value",
+          "settings": {
+            "heading": "Living landscapes",
+            "body": "<p>Every cup is a chance to do something good.</p>",
+            "cta_label": "",
+            "cta_link": ""
+          }
+        },
+        "value_7fVYwW": {
+          "type": "value",
+          "settings": {
+            "heading": "A shared future",
+            "body": "<p>Every cup is a chance to do something good.</p>",
+            "cta_label": "",
+            "cta_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "value_E4dehX",
+        "value_UWmWQd",
+        "value_7fVYwW"
+      ],
+      "name": "OWV2 Values",
+      "settings": {
+        "heading": "There are many reasons to give a damn…",
+        "intro": "<p>A better daily ritual, with nature at its heart.</p>",
+        "background_color": "#F7F5F1",
+        "text_color": "#FF3F00",
+        "card_background": "#FFFFFF",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "od_featured_products_K7mEta": {
+      "type": "od-featured-products",
+      "blocks": {
+        "collection_7EgF76": {
+          "type": "collection",
+          "settings": {
+            "grade_badge": "",
+            "product_item": "",
+            "highlight_card": false,
+            "banner_text": "★ BEST VALUE",
+            "collection_tag": "LABEL",
+            "collection_title": "",
+            "collection_blurb": "",
+            "price_caption": "",
+            "benefit_1": "",
+            "benefit_2": "",
+            "benefit_3": "",
+            "show_subscription_notice": false,
+            "subscription_notice_text": "For subscriptions, [click here].",
+            "subscription_custom_url": ""
+          }
+        },
+        "collection_MfdnkJ": {
+          "type": "collection",
+          "settings": {
+            "grade_badge": "",
+            "product_item": "",
+            "highlight_card": false,
+            "banner_text": "★ BEST VALUE",
+            "collection_tag": "LABEL",
+            "collection_title": "",
+            "collection_blurb": "",
+            "price_caption": "",
+            "benefit_1": "",
+            "benefit_2": "",
+            "benefit_3": "",
+            "show_subscription_notice": false,
+            "subscription_notice_text": "For subscriptions, [click here].",
+            "subscription_custom_url": ""
+          }
+        },
+        "collection_WKPrCw": {
+          "type": "collection",
+          "settings": {
+            "grade_badge": "",
+            "product_item": "",
+            "highlight_card": false,
+            "banner_text": "★ BEST VALUE",
+            "collection_tag": "LABEL",
+            "collection_title": "",
+            "collection_blurb": "",
+            "price_caption": "",
+            "benefit_1": "",
+            "benefit_2": "",
+            "benefit_3": "",
+            "show_subscription_notice": false,
+            "subscription_notice_text": "For subscriptions, [click here].",
+            "subscription_custom_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_7EgF76",
+        "collection_MfdnkJ",
+        "collection_WKPrCw"
+      ],
+      "name": "OD Featured Products",
+      "settings": {
+        "show_card_variant_selector": false,
+        "variant_label": "Choose your coffee",
+        "header_alignment": "flex-start",
+        "limit_header_width": false,
+        "header_max_width": 650,
+        "heading_size": 38,
+        "heading": "Title here",
+        "subheading": "<p>Subheading</p>",
+        "heading_tag": "h2",
+        "background_color": "#ffffff",
+        "heading_color": "#1A1B18",
+        "text_color": "#1B1B1B",
+        "benefit_text_color": "#1B1B1B",
+        "descriptor_color": "#B231C6",
+        "price_color": "#1A1B18",
+        "emphasis_color": "#F57900",
+        "view_all_label": "View All",
+        "view_all_link": "",
+        "section_padding_top": 10,
+        "section_padding_bottom": 30,
+        "mobile_padding_horizontal": 24,
+        "desktop_padding_horizontal": 40,
+        "grid_gap": 20,
+        "price_row_margin_bottom": 16,
+        "price_caption_margin_bottom": 4,
+        "image_aspect_ratio": "1/1",
+        "button_action": "buy_now",
+        "button_bg_color": "#F57900",
+        "button_text_color": "#ffffff"
+      }
     }
   },
   "order": [
     "owv2_hero_C33844",
     "owv2_marquee",
     "owv2_banner",
-    "ow_landing_8zdDyd"
+    "owv2_value_grid_HKTemz",
+    "owv2_values_C99474",
+    "od_featured_products_K7mEta"
   ]
 }
