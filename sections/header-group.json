@@ -17,50 +17,23 @@
         "countdown_MWDGiX": {
           "type": "countdown",
           "settings": {
-            "date": "01-07-2026",
-            "text": "🔥 Sale ends in:",
-            "expired_message": "Sale has ended!",
+            "date": "2026-09-31T09:00:00",
+            "text": "<strong>ORDERS OPEN IN</strong>",
+            "expired_message": "<strong>NOW PLACING ORDERS FOR BATCH #002</strong>",
             "link": "",
             "position": "top",
             "display_style": "full",
             "text_size": 13,
             "hide_when_expired": false,
             "use_custom_colors": true,
-            "countdown_background": "#dc2626",
+            "countdown_background": "#FF3F00",
             "countdown_text": "#ffffff"
-          }
-        },
-        "announcement_4pjN7p": {
-          "type": "announcement",
-          "settings": {
-            "text": "Welcome to our store",
-            "text_on_mobile": "",
-            "text_size": 13,
-            "link": "",
-            "color_link": "#ffffff",
-            "enable_highlight": false,
-            "highlight_style": "marker"
-          }
-        },
-        "announcement_hdagRe": {
-          "type": "announcement",
-          "settings": {
-            "text": "Omawild is evolving",
-            "text_on_mobile": "",
-            "text_size": 13,
-            "link": "",
-            "color_link": "#ffffff",
-            "enable_highlight": false,
-            "highlight_style": "marker"
           }
         }
       },
       "block_order": [
-        "countdown_MWDGiX",
-        "announcement_4pjN7p",
-        "announcement_hdagRe"
+        "countdown_MWDGiX"
       ],
-      "disabled": true,
       "name": "Announcement Bar",
       "settings": {
         "only_homepage": false,
