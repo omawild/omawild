@@ -540,56 +540,6 @@
       "name": "OW Landing",
       "settings": {}
     },
-    "owv2_hero_yez6te": {
-      "type": "owv2-hero",
-      "blocks": {
-        "feature_YfqczD": {
-          "type": "feature",
-          "settings": {
-            "text": "Single origin"
-          }
-        },
-        "feature_f8fUJx": {
-          "type": "feature",
-          "settings": {
-            "text": "Specialty coffee"
-          }
-        },
-        "feature_c44kXy": {
-          "type": "feature",
-          "settings": {
-            "text": "Roasted monthly"
-          }
-        }
-      },
-      "block_order": [
-        "feature_YfqczD",
-        "feature_f8fUJx",
-        "feature_c44kXy"
-      ],
-      "name": "OWV2 Split hero",
-      "settings": {
-        "stamp_alt": "Welcome to the expedition",
-        "heading": "Drink for Planet Earth",
-        "body": "<p>Coffee’s just the bait to reel you in. Grade 1 arabica, grown under agroforestry in the volcanic highlands, inside protected forest reserves.</p>",
-        "cta_primary_label": "Shop the coffee",
-        "cta_primary_link": "",
-        "cta_secondary_label": "Or learn about regen",
-        "cta_secondary_link": "",
-        "image_badge_text": "COFFEE FOR THE PLANET",
-        "caption_text": "<p>Restoring nature isn’t a job for specialised roles, it’s something we can all take part in, one cup at a time.</p>",
-        "caption_link_label": "See how it works ↓",
-        "caption_link": "",
-        "separator": "✷",
-        "heading_size": 80,
-        "body_size": 18,
-        "content_padding": 64,
-        "content_gap": 24,
-        "background_color": "#FBDCDC",
-        "text_color": "#F5450D",
-        "card_background": "#FFFFFF"
-      }
-    },
     "owv2_subscribe_8HFJHJ": {
       "type": "owv2-subscribe",
       "blocks": {
@@ -672,11 +622,61 @@
         "discount_percent": 10,
         "savings_template": "Save [amount] every delivery",
         "empty_message": "Choose your coffee options to get started.",
-        "background_color": "#FBDCDC",
-        "text_color": "#F5450D",
-        "card_background": "#FFFFFF",
+        "background_color": "#fbdcdc",
+        "text_color": "#f5450d",
+        "card_background": "#ffffff",
         "padding_top": 64,
         "padding_bottom": 64
+      }
+    },
+    "owv2_hero_tP48Rx": {
+      "type": "owv2-hero",
+      "blocks": {
+        "feature_YrXne6": {
+          "type": "feature",
+          "settings": {
+            "text": "Single origin"
+          }
+        },
+        "feature_BpTYhR": {
+          "type": "feature",
+          "settings": {
+            "text": "Specialty coffee"
+          }
+        },
+        "feature_NFJHm9": {
+          "type": "feature",
+          "settings": {
+            "text": "Roasted monthly"
+          }
+        }
+      },
+      "block_order": [
+        "feature_YrXne6",
+        "feature_BpTYhR",
+        "feature_NFJHm9"
+      ],
+      "name": "OWV2 Split hero",
+      "settings": {
+        "stamp_alt": "Welcome to the expedition",
+        "heading": "Drink for Planet Earth",
+        "body": "<p>Coffee’s just the bait to reel you in. Grade 1 arabica, grown under agroforestry in the volcanic highlands, inside protected forest reserves.</p>",
+        "cta_primary_label": "Shop the coffee",
+        "cta_primary_link": "",
+        "cta_secondary_label": "Or learn about regen",
+        "cta_secondary_link": "",
+        "image_badge_text": "COFFEE FOR THE PLANET",
+        "caption_text": "<p>Restoring nature isn’t a job for specialised roles, it’s something we can all take part in, one cup at a time.</p>",
+        "caption_link_label": "See how it works ↓",
+        "caption_link": "",
+        "separator": "✷",
+        "heading_size": 80,
+        "body_size": 18,
+        "content_padding": 64,
+        "content_gap": 24,
+        "background_color": "#FFE4E7",
+        "text_color": "#F62B7A",
+        "card_background": "#FFFFFF"
       }
     }
   },
@@ -690,7 +690,7 @@
     "owv2_values",
     "owv2_partner",
     "ow_landing_8zdDyd",
-    "owv2_hero_yez6te",
-    "owv2_subscribe_8HFJHJ"
+    "owv2_subscribe_8HFJHJ",
+    "owv2_hero_tP48Rx"
   ]
 }
