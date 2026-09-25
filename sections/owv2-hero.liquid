@@ -5,6 +5,7 @@
   --bg: {{ section.settings.background_color }};
   --ink: {{ section.settings.text_color }};
   --surface: {{ section.settings.card_background }};
+  --caption-surface: color-mix(in srgb, var(--surface) {{ section.settings.caption_opacity }}%, transparent);
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-body-family);
@@ -163,7 +164,7 @@
   bottom:20px;
   left:20px;
   right:20px;
-  background:var(--surface);
+  background:var(--caption-surface);
   border:1px solid var(--ink);
   border-radius:10px;
   padding:16px;
@@ -409,6 +410,17 @@
       "id": "card_background",
       "label": "Card background",
       "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "caption_opacity",
+      "label": "Caption card opacity",
+      "info": "Opacity of the caption card over the hero photo.",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 90
     }
   ],
   "presets": [
