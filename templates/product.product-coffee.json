@@ -211,22 +211,6 @@
         "bar_badge": "SAVING [percent]%"
       }
     },
-    "owv2_product_pairings_YcKYYE": {
-      "type": "owv2-product-pairings",
-      "name": "OWV2 Product — pairings",
-      "settings": {
-        "title": "Pairs well with",
-        "collection": "specialty-coffee",
-        "card_count": 3,
-        "link_label": "Browse all",
-        "link_url": "",
-        "from_label": "From",
-        "placeholder_name": "Pick a collection",
-        "color_red": "#ff3f00",
-        "color_pink": "#ffe4e7",
-        "color_ink": "#00180c"
-      }
-    },
     "owv2_product_origin_4MYjVJ": {
       "type": "owv2-product-origin",
       "blocks": {
@@ -359,11 +343,27 @@
         "k_time": "TIME",
         "inside_title": "What's inside",
         "inside_foot": "Each coffee brews a little differently — the guide travels in the box, and every bag links to its own method.",
-        "color_red": "#FF3F00",
-        "color_pink": "#FFE4E7",
-        "color_yellow": "#FBB925",
-        "color_ink": "#00180C",
-        "color_page": "#F7F5F1"
+        "color_red": "#ff3f00",
+        "color_pink": "#ffe4e7",
+        "color_yellow": "#fbb925",
+        "color_ink": "#00180c",
+        "color_page": "#f7f5f1"
+      }
+    },
+    "owv2_product_pairings_YcKYYE": {
+      "type": "owv2-product-pairings",
+      "name": "OWV2 Product — pairings",
+      "settings": {
+        "title": "Pairs well with",
+        "collection": "specialty-coffee",
+        "card_count": 3,
+        "link_label": "Browse all",
+        "link_url": "",
+        "from_label": "From",
+        "placeholder_name": "Pick a collection",
+        "color_red": "#ff3f00",
+        "color_pink": "#ffe4e7",
+        "color_ink": "#00180c"
       }
     }
   },
@@ -371,8 +371,8 @@
     "product-recommendations",
     "main",
     "owv2_product_main",
-    "owv2_product_pairings_YcKYYE",
     "owv2_product_origin_4MYjVJ",
-    "owv2_product_detail_dAKRpT"
+    "owv2_product_detail_dAKRpT",
+    "owv2_product_pairings_YcKYYE"
   ]
 }
