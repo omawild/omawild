@@ -81,14 +81,14 @@
             "link": ""
           }
         },
-        "announcement_jdRazg": {
+        "announcement_cbd9cN": {
           "type": "announcement",
-          "name": "Offices",
+          "name": "Roast",
           "settings": {
             "icon": "none",
             "icon_size": "medium",
             "custom_icon": "",
-            "text": "WORKPLACE COFFEE",
+            "text": "ROAST FRESH",
             "text_size": 13,
             "link": ""
           }
@@ -113,6 +113,30 @@
             "icon_size": "medium",
             "custom_icon": "",
             "text": "FOR HOTELS",
+            "text_size": 13,
+            "link": ""
+          }
+        },
+        "announcement_Df6jcP": {
+          "type": "announcement",
+          "name": "✷",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "✷",
+            "text_size": 14,
+            "link": ""
+          }
+        },
+        "announcement_jdRazg": {
+          "type": "announcement",
+          "name": "Offices",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "WORKPLACE COFFEE",
             "text_size": 13,
             "link": ""
           }
@@ -157,9 +181,11 @@
       "block_order": [
         "announcement_JQjU8N",
         "announcement_7t7aHN",
-        "announcement_jdRazg",
+        "announcement_cbd9cN",
         "announcement_XrGy8y",
         "announcement_P6jUz4",
+        "announcement_Df6jcP",
+        "announcement_jdRazg",
         "announcement_3VQ8NQ",
         "announcement_niQBGf",
         "announcement_FMNBrY"
