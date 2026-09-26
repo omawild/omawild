@@ -250,8 +250,9 @@
         "background_color": "#ff3f00",
         "text_color": "#ffffff",
         "card_background": "#ffffff",
-        "padding_top": 64,
-        "padding_bottom": 64
+        "show_top_line": true,
+        "padding_top": 52,
+        "padding_bottom": 52
       }
     },
     "od_featured_products_VgPWWJ": {
@@ -323,6 +324,7 @@
         "background_color": "#f7f5f1",
         "heading_color": "#ff3f00",
         "text_color": "#ff3f00",
+        "card_text_color": "#00180c",
         "benefit_text_color": "#00180c",
         "descriptor_color": "#ff3f00",
         "price_color": "#ff3f00",
