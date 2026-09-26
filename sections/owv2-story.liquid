@@ -52,11 +52,28 @@
   }
 .owv2-story-{{ owid }} .intro {
   max-width: 760px;
-  margin-bottom: 32px;
+  margin-bottom: 20px;
   }
-.owv2-story-{{ owid }} .intro > * + * {
-  margin-top: 20px;
+.owv2-story-{{ owid }} .intro .eyebrow {
+  margin: 0;
   }
+.owv2-story-{{ owid }} .intro h2 {
+  margin-top: 14px;
+  }
+.owv2-story-{{ owid }} .intro > div {
+  margin-top: 10px;
+  }
+@media (min-width:750px) {
+  .owv2-story-{{ owid }} .intro {
+  margin-bottom: 26px;
+  }
+  .owv2-story-{{ owid }} .intro h2 {
+  margin-top: 16px;
+  }
+  .owv2-story-{{ owid }} .intro > div {
+  margin-top: 12px;
+  }
+}
 .owv2-story-{{ owid }} .eyebrow {
   font-size: 12px;
   font-weight: 700;
@@ -106,7 +123,7 @@
 .owv2-story-{{ owid }} .gallery {
   display:flex;
   flex-wrap:nowrap;
-  gap:24px;
+  gap:14px;
   padding:6px 0 16px;
   margin:0;
   overflow-x:auto;
@@ -127,15 +144,20 @@
   content:"";
   flex:0 0 6px;
   }
+@media (min-width:750px) {
+  .owv2-story-{{ owid }} .gallery {
+  gap:24px;
+  }
+}
 .owv2-story-{{ owid }} figure, .owv2-story-{{ owid }} .teaser {
   /* mobile: 2 cards in view, 1 gap between them */
-  flex:0 0 calc((100% - 24px) / 2);
+  flex:0 0 calc((100% - 14px) / 2);
   min-width:0;
   margin:0;
-  padding:12px;
+  padding:9px 9px 12px;
   background:var(--surface);
-  border:1px solid var(--ink);
-  box-shadow:5px 5px 0 var(--ink);
+  border:2px solid var(--ink);
+  box-shadow:4px 4px 0 var(--ink);
   scroll-snap-align:start;
   display:flex;
   flex-direction:column;
@@ -146,6 +168,8 @@
   .owv2-story-{{ owid }} figure, .owv2-story-{{ owid }} .teaser {
   /* tablet: 3 cards in view, 2 gaps */
   flex-basis:calc((100% - 48px) / 3);
+  padding:12px 12px 16px;
+  box-shadow:5px 5px 0 var(--ink);
   }
 }
 @media (min-width:990px) {
@@ -156,21 +180,34 @@
 }
 /* Keep the image from claiming the figure's full height (the placeholder rule
    sets height:100%, which pushes the caption outside the card); let it size
-   from its aspect ratio so the caption sits inside the card. */
+   from its aspect ratio so the caption sits inside the card. 1:1, per the
+   design file -- not a taller portrait crop, which read as too long/narrow. */
 .owv2-story-{{ owid }} figure img, .owv2-story-{{ owid }} figure svg, .owv2-story-{{ owid }} figure .owv2-placeholder,
 .owv2-story-{{ owid }} .teaser-media img {
   width:100%;
-  aspect-ratio:4/5;
+  aspect-ratio:1/1;
   object-fit:cover;
   height:auto;
   min-height:0;
   }
+/* Body copy is always Midnight, never the section's accent --ink (which
+   defaults to Electric red, meant for headings/eyebrow) -- and a tighter
+   1.32 line-height than the section's base 1.5, without going so tight it
+   crowds a two-line caption. Matches the design file at both breakpoints. */
 .owv2-story-{{ owid }} figcaption, .owv2-story-{{ owid }} .teaser figcaption {
-  margin-top:16px;
+  margin-top:10px;
   padding:0 4px 2px;
   text-align:center;
-  font-size:14px;
+  font-size:11px;
+  line-height:1.32;
+  color:#00180C;
   }
+@media (min-width:750px) {
+  .owv2-story-{{ owid }} figcaption, .owv2-story-{{ owid }} .teaser figcaption {
+  margin-top:13px;
+  font-size:12.5px;
+  }
+}
 /* Teaser card: a real photo (dimmed), with its own heading + button
    permanently overlaid -- not a hover reveal, matching the design file,
    which shows this treatment at rest with no separate interaction state. */
@@ -187,14 +224,14 @@
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:16px;
+  gap:12px;
   text-align:center;
-  padding:16px;
+  padding:12px;
   }
 .owv2-story-{{ owid }} .teaser-heading {
   font-family:var(--font-heading-family);
   font-weight:800;
-  font-size:19px;
+  font-size:15px;
   line-height:1.2;
   letter-spacing:-.02em;
   color:var(--ink);
@@ -206,12 +243,25 @@
   justify-content:center;
   background:var(--ink);
   color:var(--bg);
-  padding:11px 16px;
+  padding:10px 13px;
   border-radius:999px;
   font-weight:800;
-  font-size:11px;
+  font-size:10px;
   white-space:nowrap;
   }
+@media (min-width:750px) {
+  .owv2-story-{{ owid }} .teaser-overlay {
+  gap:18px;
+  padding:20px;
+  }
+  .owv2-story-{{ owid }} .teaser-heading {
+  font-size:19px;
+  }
+  .owv2-story-{{ owid }} .teaser-button {
+  padding:11px 16px;
+  font-size:11px;
+  }
+}
 .owv2-story-{{ owid }} .scroll-fade {
   position:absolute;
   top:0;
@@ -330,14 +380,14 @@
       "type": "text",
       "id": "teaser_button_label",
       "label": "Button label",
-      "default": "Read the rest of the story \u2192"
+      "default": "Read the rest \u2192"
     },
     {
       "type": "text",
       "id": "teaser_caption",
       "label": "Caption",
-      "info": "Shown below the card, matching the photo blocks' captions.",
-      "default": "Reefs rebuilt, a rice farmer who changed everything, and the farm that became Omawild."
+      "info": "A short one-liner, not a description of the image -- replace the # with the actual count.",
+      "default": "# more photographs."
     },
     {
       "type": "url",
@@ -371,7 +421,7 @@
       "max": 120,
       "step": 4,
       "unit": "px",
-      "default": 64
+      "default": 56
     },
     {
       "type": "range",
