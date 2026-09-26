@@ -135,7 +135,7 @@
         "menu_bottom": "",
         "show_search": true,
         "show_account": true,
-        "show_region_selector": false,
+        "show_region_selector": true,
         "region_countries": ""
       }
     }
