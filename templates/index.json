@@ -196,8 +196,8 @@
         "show_divider": false,
         "use_custom_colors": true,
         "colors_icon": "#ffffff",
-        "colors_text": "#FFFFFF",
-        "colors_background": "#FF3F00",
+        "colors_text": "#ffffff",
+        "colors_background": "#ff3f00",
         "gradient_background": "",
         "padding_top": 16,
         "padding_bottom": 16
@@ -359,6 +359,58 @@
         "padding_top": 64,
         "padding_bottom": 64
       }
+    },
+    "owv2_story_KEJr7R": {
+      "type": "owv2-story",
+      "blocks": {
+        "photo_yFa3LH": {
+          "type": "photo",
+          "settings": {
+            "caption": "",
+            "link": ""
+          }
+        },
+        "photo_gAJMKW": {
+          "type": "photo",
+          "settings": {
+            "caption": "",
+            "link": ""
+          }
+        },
+        "photo_7cc3hG": {
+          "type": "photo",
+          "settings": {
+            "caption": "It started with a one-way ticket to Bali.",
+            "link": ""
+          }
+        },
+        "photo_HTALnw": {
+          "type": "photo",
+          "settings": {
+            "caption": "A shared love for wild places.",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "photo_yFa3LH",
+        "photo_gAJMKW",
+        "photo_7cc3hG",
+        "photo_HTALnw"
+      ],
+      "name": "OWV2 Founder story",
+      "settings": {
+        "eyebrow": "HOW WE GOT HERE",
+        "heading": "We plunged our entire life savings into conservation — and then went broke",
+        "subcopy": "<p>It started with a one-way ticket to Bali.</p>",
+        "teaser_text": "11 more photographs.",
+        "teaser_link": "",
+        "background_color": "#FBDCDC",
+        "text_color": "#F5450D",
+        "card_background": "#FFFFFF",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
@@ -367,6 +419,7 @@
     "scrolling_promotion_c3aaUQ",
     "od_featured_products_VgPWWJ",
     "owv2_value_grid_QXFMkK",
-    "owv2_banner"
+    "owv2_banner",
+    "owv2_story_KEJr7R"
   ]
 }
