@@ -452,7 +452,8 @@
 <input type="radio" name="owv2-roast-{{ section.id }}" value="{{ roast.id }}" data-owv2-roast {% if roast_index == 1 %}checked{% endif %}>
 <span class="roast-card__face">
 {%- if roast.featured_image -%}
-{{ roast.featured_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: roast.featured_image.alt | default: roast.title, class: 'roast-card__img' }}
+{%- assign roast_alt = roast.featured_image.alt | default: roast.title -%}
+{{ roast.featured_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: roast_alt, class: 'roast-card__img', width: 76, height: 76 }}
 {%- else -%}
 <span class="roast-card__img" aria-hidden="true"></span>
 {%- endif -%}
