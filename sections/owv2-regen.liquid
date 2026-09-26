@@ -126,7 +126,9 @@
   margin-top:14px;
   font-size:12.5px;
   line-height:1.55;
-  font-weight:500;
+  /* 600 (Medium) is a real NHD weight; 500 gets browser-synthesized (faux
+     bold), which reads thinner/blurrier than an actual heavier face. */
+  font-weight:600;
   }
 .owv2-regen-{{ owid }} details {
   border-bottom:1px solid var(--ink);
