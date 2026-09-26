@@ -587,7 +587,13 @@
    MENU MODAL
 ════════════════════════════════ */
 .menu-modal{
-  position:fixed;inset:0;z-index:200;
+  /* z-index:210, above the vendor promo bars' 201 (see VENDOR PROMO BARS
+     above) -- #top-chrome/.navbar sit at 200, same as this used to, which
+     let the Timer/Announcement Bar paint over the open modal's own head.
+     They're position:fixed with real content (no pointer-events:none), so
+     that wasn't just a visual overlap: it silently ate every tap meant for
+     .menu-close, leaving no way to close the mobile menu once open. */
+  position:fixed;inset:0;z-index:210;
   background:var(--wonderland);
   transform:translateX(100%);
   transition:transform .35s cubic-bezier(.4,0,.2,1);
