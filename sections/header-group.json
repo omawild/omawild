@@ -81,18 +81,6 @@
             "link": ""
           }
         },
-        "announcement_8eRBa4": {
-          "type": "announcement",
-          "name": "✷",
-          "settings": {
-            "icon": "none",
-            "icon_size": "medium",
-            "custom_icon": "",
-            "text": "✷",
-            "text_size": 14,
-            "link": ""
-          }
-        },
         "announcement_jdRazg": {
           "type": "announcement",
           "name": "Offices",
@@ -100,7 +88,7 @@
             "icon": "none",
             "icon_size": "medium",
             "custom_icon": "",
-            "text": "OFFICES",
+            "text": "WORKPLACE COFFEE",
             "text_size": 13,
             "link": ""
           }
@@ -148,7 +136,7 @@
             "icon": "none",
             "icon_size": "medium",
             "custom_icon": "",
-            "text": "FOR RETAIL PARTNERS",
+            "text": "RETAIL PARTNERS",
             "text_size": 13,
             "link": ""
           }
@@ -169,7 +157,6 @@
       "block_order": [
         "announcement_JQjU8N",
         "announcement_7t7aHN",
-        "announcement_8eRBa4",
         "announcement_jdRazg",
         "announcement_XrGy8y",
         "announcement_P6jUz4",
