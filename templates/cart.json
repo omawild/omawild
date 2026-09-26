@@ -1,7 +1,17 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "cart-items": {
       "type": "main-cart-items",
+      "disabled": true,
       "settings": {
         "show_vendor": true,
         "padding_top": 60,
@@ -13,12 +23,12 @@
       "blocks": {
         "subtotal": {
           "type": "subtotal",
-          "settings": {
-          }
+          "settings": {}
         },
         "buttons": {
           "type": "buttons",
           "settings": {
+            "show_dynamic_checkout": true
           }
         }
       },
@@ -26,6 +36,7 @@
         "subtotal",
         "buttons"
       ],
+      "disabled": true,
       "settings": {
         "show_cart_note": true,
         "padding_top": 36,
@@ -34,6 +45,7 @@
     },
     "shipping-calculator": {
       "type": "shipping-calculator",
+      "disabled": true,
       "settings": {
         "default_country": "United States",
         "secondary_background": false,
@@ -44,28 +56,73 @@
         "padding_bottom": 36
       }
     },
-    "cart-recommendations": {
-      "type": "cart-recommendations",
+    "oma_page_header_CiNJyk": {
+      "type": "oma-page-header",
+      "blocks": {
+        "collection_row_GVXD8T": {
+          "type": "collection_row",
+          "settings": {
+            "collection": "",
+            "title_override": "",
+            "anchor_override": "",
+            "thumbnail_count": 3,
+            "count_label_override": ""
+          }
+        },
+        "collection_row_k6azrU": {
+          "type": "collection_row",
+          "settings": {
+            "collection": "",
+            "title_override": "",
+            "anchor_override": "",
+            "thumbnail_count": 3,
+            "count_label_override": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_row_GVXD8T",
+        "collection_row_k6azrU"
+      ],
+      "name": "OMA Page Header",
       "settings": {
-        "show_divider": false,
-        "heading": "You May Also Like",
-        "heading_size": "h1",
-        "heading_alignment": "center",
-        "heading_tag": "h2",
-        "columns_mobile": "1",
-        "swipe_on_mobile": true,
-        "image_ratio": "portrait",
-        "image_position": "center center",
-        "enable_image_fill": true,
-        "show_secondary_image": true,
-        "show_vendor": true,
-        "show_rating": true,
-        "show_quick_buy": true,
-        "enable_quick_view": true,
-        "enable_color_swatches": true,
-        "enable_countdown": true,
+        "heading": "Cart",
+        "show_breadcrumb": true,
+        "body": "",
+        "show_collection_list": false,
+        "background_color": "#FFE4E7",
+        "heading_color": "#FF3F00",
+        "text_color": "#00180C",
+        "divider_color": "#FF3F00",
+        "thumb_background": "#FBB925",
         "padding_top": 36,
-        "padding_bottom": 72
+        "padding_bottom": 44,
+        "mobile_padding_horizontal": 20,
+        "desktop_padding_horizontal": 48
+      }
+    },
+    "oma_cart_items_g4FWeX": {
+      "type": "oma-cart-items",
+      "name": "OMA Cart Items",
+      "settings": {}
+    },
+    "oma_cart_footer_yrwTFD": {
+      "type": "oma-cart-footer",
+      "name": "OMA Cart Footer",
+      "settings": {
+        "show_dynamic_checkout": true,
+        "show_payment_icons": true,
+        "show_shipping_estimator": true
+      }
+    },
+    "oma_cart_recommendations_fbGwWK": {
+      "type": "oma-cart-recommendations",
+      "name": "OMA Cart Recommendations",
+      "settings": {
+        "heading": "You may also like",
+        "collection": "specialty-coffee",
+        "limit": 3,
+        "background_color": "#FFE4E7"
       }
     }
   },
@@ -73,6 +130,9 @@
     "cart-items",
     "cart-footer",
     "shipping-calculator",
-    "cart-recommendations"
+    "oma_page_header_CiNJyk",
+    "oma_cart_items_g4FWeX",
+    "oma_cart_footer_yrwTFD",
+    "oma_cart_recommendations_fbGwWK"
   ]
 }
