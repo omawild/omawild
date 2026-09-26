@@ -18,7 +18,7 @@
           "type": "countdown",
           "settings": {
             "date": "2026-09-31T09:00:00",
-            "text": "<strong>ORDERS OPEN IN</strong>",
+            "text": "<strong>BATCH #002 DROPPING IN</strong>",
             "expired_message": "<strong>NOW PLACING ORDERS FOR BATCH #002</strong>",
             "link": "",
             "position": "top",
@@ -55,6 +55,32 @@
     "scrolling_promotion_njaBmd": {
       "type": "scrolling-promotion",
       "blocks": {
+        "announcement_8eRBa4": {
+          "type": "announcement",
+          "name": "✷",
+          "disabled": true,
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "✷",
+            "text_size": 14,
+            "link": ""
+          }
+        },
+        "announcement_pBqC49": {
+          "type": "announcement",
+          "name": "Stay Tuned",
+          "disabled": true,
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "STAY TUNED",
+            "text_size": 13,
+            "link": ""
+          }
+        },
         "announcement_Qm3qE6": {
           "type": "announcement",
           "name": "✷",
@@ -74,7 +100,7 @@
             "icon": "none",
             "icon_size": "medium",
             "custom_icon": "",
-            "text": "中文版馬上來 👏🏼",
+            "text": "中文版馬上來 ☺️",
             "text_size": 15,
             "link": ""
           }
@@ -98,13 +124,15 @@
             "icon": "none",
             "icon_size": "medium",
             "custom_icon": "",
-            "text": "OMAWILD IS EVOLVING",
+            "text": "OMAWILD IS EVOLVING (SO STAY TUNED)",
             "text_size": 13,
             "link": ""
           }
         }
       },
       "block_order": [
+        "announcement_8eRBa4",
+        "announcement_pBqC49",
         "announcement_Qm3qE6",
         "announcement_jdRazg",
         "announcement_JQjU8N",
@@ -117,8 +145,8 @@
         "show_divider": false,
         "use_custom_colors": true,
         "colors_icon": "#ffffff",
-        "colors_text": "#e3420d",
-        "colors_background": "#fbb925",
+        "colors_text": "#FCD0FD",
+        "colors_background": "#9234DA",
         "gradient_background": "",
         "padding_top": 12,
         "padding_bottom": 12
