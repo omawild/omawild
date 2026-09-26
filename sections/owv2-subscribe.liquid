@@ -133,7 +133,7 @@
   }
 .owv2-subscribe-{{ owid }} .body-copy {
   margin-top: 20px;
-  font: 400 14.5px/1.65 var(--font-body-family);
+  font: 400 14.5px/1.5 var(--font-body-family);
   color: var(--midnight);
   }
 {%- comment -%}
@@ -401,12 +401,13 @@
   }
 .owv2-subscribe-{{ owid }} .empty-note {
   margin-top: 24px;
-  font: 400 14.5px/1.65 var(--font-body-family);
+  font: 400 14.5px/1.5 var(--font-body-family);
   color: var(--midnight);
   }
 @media (max-width: 1023px) {
   .owv2-subscribe-{{ owid }} owv2-subscribe, .owv2-subscribe-{{ owid }} .grid-empty {
   grid-template-columns: minmax(0,1fr);
+  row-gap: 24px;
   }
 .owv2-subscribe-{{ owid }} .summary {
   position: static;
