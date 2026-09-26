@@ -23,12 +23,15 @@
     It's a merchant/build-time choice, not something a shopper toggles, so
     it's plain Liquid branching with no JS involved. Only step 01 has a card
     mode; steps 02/03 are always pills, same as the design file.
-  - Step 02 (quantity) is that roast's FIRST option (options_with_values.first)
-    — normally "Size" — deduplicated to one pill per distinct value. A roast
-    with only 200g in stock only shows a 200g pill; a roast with a second
-    option (e.g. Grind) has that second axis ignored, same simplification
-    owv2-product-main does not need to make since it only ever shows one
-    product at a time.
+  - Step 02 (quantity) is that roast's weight/size option, matched by NAME
+    (an option whose name contains "weight" or "size", e.g. this store's
+    "Net Weight" — falling back to the last option if none match), deduped
+    to one pill per distinct value. Matching by name rather than position
+    matters here: this store's products put "Type" (Whole Bean / Ground for
+    espresso) first and "Net Weight" second, so a positional first-option
+    read pulled the coffee form instead of the bag size. A roast with a
+    third option has that axis ignored, same simplification owv2-product-main
+    does not need to make since it only ever shows one product at a time.
   - Step 03 (frequency) is that roast's own product.selling_plan_groups,
     flattened across groups exactly like owv2-product-main's plan pills.
     Two roasts can offer different frequencies; switching roasts rebuilds
@@ -271,6 +274,7 @@
   flex: none;
   width: 76px;
   height: 76px;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
   border: 1.5px solid var(--ink);
   border-radius: 6px;
@@ -289,6 +293,10 @@
   color: inherit;
   }
 .owv2-subscribe-{{ owid }} .roast-card__note {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   font: 400 12.5px/1.4 var(--font-body-family);
   color: var(--midnight);
   }
@@ -450,7 +458,7 @@
 {%- endif -%}
 <span class="roast-card__body">
 <span class="roast-card__name">{{ roast.title }}</span>
-{%- if roast.description != blank -%}<span class="roast-card__note">{{ roast.description | strip_html | truncatewords: 12 }}</span>{%- endif -%}
+{%- if roast.metafields.custom.product_caption != blank -%}<span class="roast-card__note">{{ roast.metafields.custom.product_caption.value }}</span>{%- endif -%}
 </span>
 </span>
 </label>
@@ -509,16 +517,36 @@
       {%- if json_index >= product_limit -%}{%- break -%}{%- endif -%}
       {%- if roast.selling_plan_groups.size == 0 -%}{%- continue -%}{%- endif -%}
       {%- assign json_index = json_index | plus: 1 -%}
-      {%- assign opt = roast.options_with_values.first -%}
+      {%- comment -%}
+        The quantity step must key off the SIZE/WEIGHT option, not whichever
+        option happens to sit first -- this store's products put "Type"
+        (Whole Bean / Ground for espresso) at position 1 and "Net Weight" at
+        position 2, so a positional .first pulled the coffee form instead of
+        the bag size. Match by name instead, falling back to the last option
+        (weight/size is the last axis on every roast we've seen) only if no
+        option name mentions weight or size at all.
+      {%- endcomment -%}
+      {%- assign size_option_index = -1 -%}
+      {%- for o in roast.options -%}
+        {%- assign o_name_down = o.name | downcase -%}
+        {%- if o_name_down contains 'weight' or o_name_down contains 'size' -%}
+          {%- assign size_option_index = forloop.index0 -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if size_option_index == -1 -%}
+        {%- assign size_option_index = roast.options.size | minus: 1 -%}
+      {%- endif -%}
+      {%- assign size_option = roast.options[size_option_index] -%}
       {
         "id": {{ roast.id | json }},
         "title": {{ roast.title | json }},
-        "optionName": {{ opt.name | json }},
+        "optionName": {{ size_option.name | json }},
         "variants": [
           {%- for v in roast.variants -%}
             {
               "id": {{ v.id }},
-              "value": {{ v.options.first | json }},
+              "value": {{ v.options[size_option_index] | json }},
               "available": {{ v.available | json }},
               "price": {{ v.price }},
               "compare": {{ v.compare_at_price | default: 0 }},
