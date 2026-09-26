@@ -25,9 +25,9 @@
             "display_style": "full",
             "text_size": 13,
             "hide_when_expired": false,
-            "use_custom_colors": true,
-            "countdown_background": "#ff3f00",
-            "countdown_text": "#ffffff"
+            "use_custom_colors": false,
+            "countdown_background": "#FBB925",
+            "countdown_text": "#FF3F00"
           }
         }
       },
@@ -44,7 +44,7 @@
         "speed": 5,
         "show_navigation": true,
         "direction": "left",
-        "colors_text": "#9234da",
+        "colors_text": "#FF3F00",
         "colors_background": "#fbb925",
         "gradient_background": "",
         "colors_highlight": "#ffb503",
@@ -83,13 +83,13 @@
         },
         "announcement_Qm3qE6": {
           "type": "announcement",
-          "name": "✷",
+          "name": "🏃‍♀️",
           "settings": {
             "icon": "none",
             "icon_size": "medium",
             "custom_icon": "",
-            "text": "✷",
-            "text_size": 14,
+            "text": "🏃‍♀️",
+            "text_size": 15,
             "link": ""
           }
         },
@@ -100,20 +100,20 @@
             "icon": "none",
             "icon_size": "medium",
             "custom_icon": "",
-            "text": "中文版馬上來 ☺️",
-            "text_size": 15,
+            "text": "中文版馬上來",
+            "text_size": 14,
             "link": ""
           }
         },
         "announcement_JQjU8N": {
           "type": "announcement",
-          "name": "✷",
+          "name": "🏃‍♀️",
           "settings": {
             "icon": "none",
             "icon_size": "medium",
             "custom_icon": "",
-            "text": "✷",
-            "text_size": 14,
+            "text": "🏃‍♀️",
+            "text_size": 15,
             "link": ""
           }
         },
@@ -145,7 +145,7 @@
         "show_divider": false,
         "use_custom_colors": true,
         "colors_icon": "#ffffff",
-        "colors_text": "#FCD0FD",
+        "colors_text": "#FBB925",
         "colors_background": "#9234DA",
         "gradient_background": "",
         "padding_top": 12,
