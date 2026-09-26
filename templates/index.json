@@ -40,7 +40,7 @@
       "settings": {
         "stamp_alt": "Welcome to the expedition",
         "heading": "Drink like you give a damn",
-        "body": "<p>Coffee’s just the bait to reel you in. Grade 1 arabica, grown under agroforestry in the volcanic highlands, inside protected forest reserves.</p>",
+        "body": "<p>Specialty-grade coffee grown inside forests. Uncompromised taste for your morning ritual—real restoration for our planet</p>",
         "cta_primary_label": "Shop the coffee",
         "cta_primary_link": "",
         "cta_secondary_label": "Or learn about regen",
@@ -318,8 +318,8 @@
         "limit_header_width": false,
         "header_max_width": 650,
         "heading_size": 38,
-        "heading": "Drink for Planet Earth",
-        "subheading": "<p>Caffeine without the damn jitters so you can stay high without coming down. Specialty coffee roasted fresh each month. Delivered as and when you need clean fuel. Then we put your dollars to work restoring the beautiful places that inspire us to adventure outside. So please, drink for Planet Earth.</p>",
+        "heading": "Specialty Coffee for Peak Performance",
+        "subheading": "<p>Caffeine without the damn jitters so you can stay high without coming down. Freshly roasted Grade 1 beans for peak taste and performance while funding ecosystem restoration. Every bag preservees our landscapes. So please, drink for Planet Earth.</p>",
         "heading_tag": "h2",
         "background_color": "#f7f5f1",
         "heading_color": "#ff3f00",
@@ -545,9 +545,9 @@
       "settings": {
         "heading": "There are many reasons to give a damn…",
         "intro": "<p>A better daily ritual, with nature at its heart.</p>",
-        "background_color": "#F7F5F1",
-        "text_color": "#FF3F00",
-        "card_background": "#FFFFFF",
+        "background_color": "#f7f5f1",
+        "text_color": "#ff3f00",
+        "card_background": "#ffffff",
         "padding_top": 64,
         "padding_bottom": 64
       }
