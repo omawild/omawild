@@ -291,7 +291,7 @@
 }
 
 .desc-{{ section.id }} {
-  color: {{ section.settings.text_color }};
+  color: {{ section.settings.card_text_color }};
   font-size: 12.5px;
   font-weight: 500;
   line-height: 1.6;
@@ -351,7 +351,7 @@
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  color: {{ section.settings.text_color }};
+  color: {{ section.settings.card_text_color }};
   margin-right: 2px;
 }
 
@@ -875,6 +875,7 @@
     { "type": "color", "id": "background_color", "label": "Background", "default": "#F7F5F1" },
     { "type": "color", "id": "heading_color", "label": "Heading Color", "default": "#FF3F00" },
     { "type": "color", "id": "text_color", "label": "Text Color", "default": "#00180C" },
+    { "type": "color", "id": "card_text_color", "label": "Product Card Text Color", "default": "#00180C", "info": "Description and price-prefix text on each product card. Independent of the Text Color above, which only affects the subheading under the section title." },
     { "type": "color", "id": "benefit_text_color", "label": "Benefit Text Color", "default": "#00180C" },
     { "type": "color", "id": "descriptor_color", "label": "Descriptor Tag Color", "default": "#FF3F00" },
     { "type": "color", "id": "price_color", "label": "Price Color", "default": "#FF3F00" },
