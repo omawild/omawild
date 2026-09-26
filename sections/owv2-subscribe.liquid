@@ -130,14 +130,27 @@
 .owv2-subscribe-{{ owid }} .left h2 {
   margin-top: 24px;
   font-size: clamp(30px, 3.6vw, 46px);
-  max-width: 19ch;
   }
 .owv2-subscribe-{{ owid }} .body-copy {
   margin-top: 20px;
-  max-width: 46ch;
   font: 400 14.5px/1.65 var(--font-body-family);
   color: var(--midnight);
   }
+{%- comment -%}
+  The 19ch/46ch reading-width caps only make sense once the layout is two
+  columns and the left column has room to spare next to the summary card --
+  below that breakpoint the grid is already a single stacked column (see the
+  max-width:1023px query), so the heading/body should fill it instead of
+  wrapping early and leaving a blank gap on the right.
+{%- endcomment -%}
+@media (min-width: 1024px) {
+  .owv2-subscribe-{{ owid }} .left h2 {
+  max-width: 19ch;
+  }
+.owv2-subscribe-{{ owid }} .body-copy {
+  max-width: 46ch;
+  }
+}
 .owv2-subscribe-{{ owid }} .steps {
   margin-top: {% if section.settings.roast_display == 'cards' %}28{% else %}44{% endif %}px;
   }
@@ -397,6 +410,40 @@
   }
 .owv2-subscribe-{{ owid }} .summary {
   position: static;
+  }
+}
+{%- comment -%}
+  Phone-width compactness pass: the per-step divider lines and the desktop
+  vertical rhythm (26px step padding, 32px summary padding, 28px/26px price
+  spacing) read as too much air on a short viewport, so this tightens them
+  and drops the dividers rather than just shrinking the same layout down.
+{%- endcomment -%}
+@media (max-width: 749px) {
+  .owv2-subscribe-{{ owid }} .steps {
+  margin-top: 28px;
+  }
+.owv2-subscribe-{{ owid }} fieldset.step {
+  border-top: 0;
+  padding: 16px 0;
+  }
+.owv2-subscribe-{{ owid }} fieldset.step:first-child {
+  padding-top: 0;
+  }
+.owv2-subscribe-{{ owid }} .summary {
+  padding: 24px;
+  }
+.owv2-subscribe-{{ owid }} .summary h3 {
+  margin-top: 18px;
+  }
+.owv2-subscribe-{{ owid }} .prices {
+  margin-top: 20px;
+  padding-top: 18px;
+  }
+.owv2-subscribe-{{ owid }} .saving {
+  margin-top: 10px;
+  }
+.owv2-subscribe-{{ owid }} .summary form {
+  margin-top: 20px;
   }
 }
 {% endstyle %}
