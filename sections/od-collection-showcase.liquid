@@ -1,0 +1,455 @@
+{%- liquid
+  assign showcase_collection = section.settings.collection
+  assign anchor_id = section.settings.anchor_id | default: showcase_collection.handle
+  assign showcase_heading = section.settings.heading_override | default: showcase_collection.title
+  assign showcase_description = section.settings.description_override
+  if showcase_description == blank and showcase_collection != blank
+    assign showcase_description = showcase_collection.description
+  endif
+-%}
+
+{%- style -%}
+  .section-{{ section.id }} {
+    background-color: {{ section.settings.background_color }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    border-bottom: 1.5px solid {{ section.settings.card_border_color }};
+    scroll-margin-top: 92px;
+  }
+
+  .container-{{ section.id }} {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding-left: {{ section.settings.mobile_padding_horizontal }}px;
+    padding-right: {{ section.settings.mobile_padding_horizontal }}px;
+    box-sizing: border-box;
+  }
+
+  .header-{{ section.id }} {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 14px 40px;
+  }
+
+  .title-{{ section.id }} {
+    margin: 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font: 900 clamp(32px, 4.4vw, 56px)/0.95 var(--font-heading-family);
+    letter-spacing: -0.03em;
+    color: {{ section.settings.heading_color }};
+  }
+
+  .count-badge-{{ section.id }} {
+    margin-top: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    height: 30px;
+    padding: 0 8px;
+    box-sizing: border-box;
+    border-radius: 100px;
+    background: {{ section.settings.heading_color }};
+    color: {{ section.settings.count_badge_text }};
+    font: 800 14px/1 var(--font-heading-family);
+  }
+
+  .desc-{{ section.id }} {
+    margin: 14px 0 0;
+    max-width: 56ch;
+    font: 400 14.5px/1.6 var(--font-body-family);
+    color: {{ section.settings.text_color }};
+  }
+
+  .desc-{{ section.id }} p { margin: 0; }
+
+  .view-all-{{ section.id }} {
+    text-decoration: none;
+    font: 800 12px/1 var(--font-heading-family);
+    color: {{ section.settings.heading_color }};
+    white-space: nowrap;
+    padding-bottom: 4px;
+  }
+
+  .view-all-{{ section.id }}:hover { opacity: 0.75; }
+
+  .empty-{{ section.id }} {
+    margin-top: 20px;
+    padding: 24px;
+    border: 1.5px dashed {{ section.settings.card_border_color }};
+    border-radius: 12px;
+    font: 500 14px/1.5 var(--font-body-family);
+    color: {{ section.settings.text_color }};
+  }
+
+  .track-wrap-{{ section.id }} {
+    margin-top: 32px;
+  }
+
+  .track-{{ section.id }} {
+    display: flex;
+    gap: 14px;
+    margin: 0 -{{ section.settings.mobile_padding_horizontal }}px;
+    padding: 0 {{ section.settings.mobile_padding_horizontal }}px 6px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 {{ section.settings.mobile_padding_horizontal }}px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .track-{{ section.id }}::-webkit-scrollbar { display: none; }
+
+  .card-{{ section.id }} {
+    flex: 0 0 84%;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    box-sizing: border-box;
+    border: 1.5px solid {{ section.settings.card_border_color }};
+    border-radius: 10px;
+    overflow: hidden;
+    background: {{ section.settings.thumb_background }};
+    text-decoration: none;
+  }
+
+  .image-wrap-{{ section.id }} {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: {{ section.settings.image_aspect_ratio }};
+    overflow: hidden;
+  }
+
+  .image-wrap-{{ section.id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .grade-{{ section.id }} {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: #ffffff;
+    border: 1.5px solid {{ section.settings.card_border_color }};
+    color: {{ section.settings.heading_color }};
+    padding: 5px 10px;
+    border-radius: 4px;
+    font: 800 9.5px/1 var(--font-heading-family);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .body-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 22px;
+    background: #ffffff;
+    border-top: 1.5px solid {{ section.settings.card_border_color }};
+  }
+
+  .eyebrow-{{ section.id }} {
+    display: inline-block;
+    align-self: flex-start;
+    white-space: nowrap;
+    background: {{ section.settings.heading_color }};
+    color: #ffffff;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font: 800 9.5px/1 var(--font-heading-family);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .name-{{ section.id }} {
+    margin: 16px 0 0;
+    font: 800 23px/1.05 var(--font-heading-family);
+    letter-spacing: -0.02em;
+  }
+
+  .name-{{ section.id }} a {
+    color: {{ section.settings.heading_color }};
+    text-decoration: none;
+  }
+
+  .product-desc-{{ section.id }} {
+    margin: 10px 0 22px;
+    font: 400 14.5px/1.6 var(--font-body-family);
+    color: {{ section.settings.text_color }};
+  }
+
+  .price-row-{{ section.id }} {
+    margin-top: auto;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 9px;
+  }
+
+  .price-{{ section.id }} {
+    white-space: nowrap;
+    font: 800 17px/1 var(--font-heading-family);
+    color: {{ section.settings.price_color }};
+  }
+
+  .discount-badge-{{ section.id }} {
+    white-space: nowrap;
+    background: #fff0f2;
+    color: {{ section.settings.price_color }};
+    font: 800 11px/1 var(--font-heading-family);
+    padding: 3px 7px;
+    border-radius: 2px;
+  }
+
+  .select-wrap-{{ section.id }} {
+    position: relative;
+    margin: 14px 0 8px;
+  }
+
+  .variant-select-{{ section.id }} {
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    border: 1.5px solid {{ section.settings.card_border_color }};
+    border-radius: 100px;
+    background: #ffffff;
+    color: {{ section.settings.heading_color }};
+    padding: 12px 38px 12px 15px;
+    font: 700 12px/1 var(--font-heading-family);
+  }
+
+  .variant-select-{{ section.id }}--static {
+    padding-right: 15px;
+    cursor: default;
+  }
+
+  .variant-select-{{ section.id }}--static:disabled {
+    opacity: 1;
+    -webkit-text-fill-color: {{ section.settings.heading_color }};
+  }
+
+  .select-chevron-{{ section.id }} {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    width: 11px;
+    height: 8px;
+    margin-top: -4px;
+    pointer-events: none;
+    color: {{ section.settings.heading_color }};
+  }
+
+  .cta-{{ section.id }} {
+    display: block;
+    width: 100%;
+    text-align: center;
+    border: 1.5px solid {{ section.settings.button_bg_color }};
+    background: {{ section.settings.button_bg_color }};
+    color: {{ section.settings.button_text_color }};
+    cursor: pointer;
+    padding: 13px 0;
+    border-radius: 100px;
+    font: 800 12px/1 var(--font-heading-family);
+  }
+
+  .cta-{{ section.id }}:hover { opacity: 0.9; }
+  .cta-{{ section.id }}:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  @media screen and (min-width: 750px) {
+    .container-{{ section.id }} {
+      padding-left: {{ section.settings.desktop_padding_horizontal }}px;
+      padding-right: {{ section.settings.desktop_padding_horizontal }}px;
+    }
+
+    .track-{{ section.id }} {
+      display: grid;
+      grid-template-columns: repeat({{ section.settings.products_per_row_desktop }}, minmax(0, 1fr));
+      gap: {{ section.settings.grid_gap }}px;
+      margin: 0;
+      padding: 0;
+      overflow: visible;
+    }
+
+    .card-{{ section.id }} { flex: initial; }
+  }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }}" id="{{ anchor_id }}">
+  <div class="container-{{ section.id }}">
+    {%- if showcase_collection == blank -%}
+      {%- if request.design_mode -%}
+        <div class="empty-{{ section.id }}">
+          <strong>No collection selected</strong> — choose a collection above to show its products here.
+        </div>
+      {%- endif -%}
+    {%- else -%}
+      <div class="header-{{ section.id }}">
+        <div>
+          <h2 class="title-{{ section.id }}">
+            {{ showcase_heading }}
+            <span class="count-badge-{{ section.id }}">{{ showcase_collection.all_products_count }}</span>
+          </h2>
+          {%- if showcase_description != blank -%}
+            <div class="desc-{{ section.id }} rte">{{ showcase_description }}</div>
+          {%- endif -%}
+        </div>
+        {%- if section.settings.show_view_all -%}
+          <a href="{{ showcase_collection.url }}" class="view-all-{{ section.id }}">{{ section.settings.view_all_label }} &rarr;</a>
+        {%- endif -%}
+      </div>
+
+      {%- if showcase_collection.products.size == 0 -%}
+        {%- if request.design_mode -%}
+          <div class="empty-{{ section.id }}">This collection has no products yet.</div>
+        {%- endif -%}
+      {%- else -%}
+        <div class="track-wrap-{{ section.id }}">
+          <div class="track-{{ section.id }}">
+            {%- for product in showcase_collection.products limit: section.settings.products_to_show -%}
+              {%- liquid
+                assign eyebrow = product.metafields.custom.product_eyebrow.value
+                assign grade = product.metafields.custom.coffee_grade.value | first
+              -%}
+              <div class="card-{{ section.id }}">
+                <a class="image-wrap-{{ section.id }}" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+                  {%- if grade != blank -%}
+                    <span class="grade-{{ section.id }}">{{ grade | escape }}</span>
+                  {%- endif -%}
+                  {%- if product.featured_image != blank -%}
+                    <img
+                      src="{{ product.featured_image | image_url: width: 800 }}"
+                      width="800"
+                      height="{{ 800 | divided_by: product.featured_image.aspect_ratio | round }}"
+                      alt="{{ product.title | escape }}"
+                      loading="lazy"
+                    >
+                  {%- else -%}
+                    {{ 'product-1' | placeholder_svg_tag }}
+                  {%- endif -%}
+                </a>
+
+                <div class="body-{{ section.id }}">
+                  {%- if eyebrow != blank -%}
+                    <span class="eyebrow-{{ section.id }}">{{ eyebrow }}</span>
+                  {%- endif -%}
+
+                  <h3 class="name-{{ section.id }}">
+                    <a href="{{ product.url }}">{{ product.title }}</a>
+                  </h3>
+
+                  {%- assign card_desc = product.description | strip_html | strip | truncatewords: 22 -%}
+                  {%- if card_desc != blank -%}
+                    <p class="product-desc-{{ section.id }}">{{ card_desc }}</p>
+                  {%- endif -%}
+
+                  <div class="price-row-{{ section.id }}">
+                    {%- if product.price_varies -%}
+                      <span class="price-{{ section.id }}">From {{ product.price_min | money_with_currency }}</span>
+                    {%- else -%}
+                      <span class="price-{{ section.id }}">{{ product.price | money_with_currency }}</span>
+                    {%- endif -%}
+                    {%- if product.compare_at_price > product.price -%}
+                      <span class="discount-badge-{{ section.id }}">
+                        SAVE {{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round }}%
+                      </span>
+                    {%- endif -%}
+                  </div>
+
+                  {%- if product.available -%}
+                    {%- assign card_form_id = 'od-showcase-' | append: section.id | append: '-' | append: product.id -%}
+                    {% unless section.settings.button_action == 'buy_now' %}<product-form data-section="{{ section.id }}">{% endunless %}
+                      {%- form 'product', product, id: card_form_id, data-type: 'add-to-cart-form' -%}
+                        <div class="product-form__error-message-wrapper" role="alert" hidden><span class="product-form__error-message"></span></div>
+                        {%- if product.has_only_default_variant -%}
+                          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                        {%- elsif product.variants.size == 1 -%}
+                          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                          <div class="select-wrap-{{ section.id }}">
+                            <select class="variant-select-{{ section.id }} variant-select-{{ section.id }}--static" aria-label="{{ product.title | escape }} option" disabled>
+                              <option selected>{{ product.selected_or_first_available_variant.title | escape }}</option>
+                            </select>
+                          </div>
+                        {%- else -%}
+                          <div class="select-wrap-{{ section.id }}">
+                            <select class="variant-select-{{ section.id }}" name="id" aria-label="{{ product.title | escape }} options">
+                              {%- for variant in product.variants -%}
+                                <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>{{ variant.title | escape }}{% unless variant.available %} — {{ 'products.product.sold_out' | t }}{% endunless %}</option>
+                              {%- endfor -%}
+                            </select>
+                            <svg class="select-chevron-{{ section.id }}" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+                          </div>
+                        {%- endif -%}
+                        {% if section.settings.button_action == 'buy_now' %}<input type="hidden" name="return_to" value="/checkout">{% endif %}
+                        <button type="submit" name="add" class="product-form__submit cta-{{ section.id }}"><span>{% if section.settings.button_action == 'buy_now' %}BUY NOW{% else %}{{ 'products.product.add_to_cart' | t | default: 'Add to Cart' }}{% endif %}</span></button>
+                      {%- endform -%}
+                    {% unless section.settings.button_action == 'buy_now' %}</product-form>{% endunless %}
+                  {%- else -%}
+                    <button class="cta-{{ section.id }}" disabled>{{ 'products.product.sold_out' | t }}</button>
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "OD Collection Showcase",
+  "settings": [
+    { "type": "collection", "id": "collection", "label": "Collection", "info": "Drives the heading, description, count and product grid below." },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Blank uses the collection's handle. Must match the \"Anchor ID override\" on the matching row in the OD Page Header section above." },
+    { "type": "text", "id": "heading_override", "label": "Heading override", "info": "Blank uses the collection's own title." },
+    { "type": "richtext", "id": "description_override", "label": "Description override", "info": "Blank uses the collection's own description." },
+    { "type": "checkbox", "id": "show_view_all", "label": "Show \"View all\" link", "default": true },
+    { "type": "text", "id": "view_all_label", "label": "\"View all\" label", "default": "View all" },
+    { "type": "header", "content": "Products" },
+    { "type": "range", "id": "products_to_show", "label": "Products to show", "min": 1, "max": 24, "step": 1, "default": 8 },
+    { "type": "range", "id": "products_per_row_desktop", "label": "Products per row (desktop)", "min": 2, "max": 4, "step": 1, "default": 3 },
+    { "type": "select", "id": "image_aspect_ratio", "label": "Image ratio", "options": [
+        { "value": "1/1", "label": "Square" },
+        { "value": "4/5", "label": "Portrait" }
+      ], "default": "1/1" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Section background", "default": "#F7F5F1" },
+    { "type": "color", "id": "heading_color", "label": "Heading & accent color", "default": "#FF3F00" },
+    { "type": "color", "id": "text_color", "label": "Body text color", "default": "#00180C" },
+    { "type": "color", "id": "price_color", "label": "Price color", "default": "#FF3F00" },
+    { "type": "color", "id": "count_badge_text", "label": "Count badge text color", "default": "#ffffff" },
+    { "type": "color", "id": "card_border_color", "label": "Card & divider border color", "default": "#FF3F00" },
+    { "type": "color", "id": "thumb_background", "label": "Card image fallback background", "default": "#FBB925" },
+    { "type": "header", "content": "Button" },
+    {
+      "type": "select",
+      "id": "button_action",
+      "label": "Button action",
+      "options": [
+        { "value": "add_to_cart", "label": "Add to Cart (cart drawer)" },
+        { "value": "buy_now", "label": "Buy Now (direct to checkout)" }
+      ],
+      "default": "add_to_cart"
+    },
+    { "type": "color", "id": "button_bg_color", "label": "Button background", "default": "#FF3F00" },
+    { "type": "color", "id": "button_text_color", "label": "Button text color", "default": "#ffffff" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 60 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 72 },
+    { "type": "range", "id": "mobile_padding_horizontal", "label": "Mobile side gutter", "min": 10, "max": 40, "step": 2, "unit": "px", "default": 20 },
+    { "type": "range", "id": "desktop_padding_horizontal", "label": "Desktop side gutter", "min": 10, "max": 100, "step": 2, "unit": "px", "default": 48 },
+    { "type": "range", "id": "grid_gap", "label": "Gap between cards (desktop)", "min": 10, "max": 50, "step": 2, "unit": "px", "default": 24 }
+  ],
+  "presets": [{ "name": "OD Collection Showcase" }]
+}
+{% endschema %}
