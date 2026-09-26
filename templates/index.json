@@ -342,71 +342,6 @@
         "button_text_color": "#ffffff"
       }
     },
-    "owv2_story_hBtcLa": {
-      "type": "owv2-story",
-      "blocks": {
-        "photo_BwMPmW": {
-          "type": "photo",
-          "settings": {
-            "caption": "",
-            "link": ""
-          }
-        },
-        "photo_XqcpNy": {
-          "type": "photo",
-          "settings": {
-            "caption": "It started with a one-way ticket to Bali.",
-            "link": ""
-          }
-        },
-        "photo_6miyAf": {
-          "type": "photo",
-          "settings": {
-            "caption": "A shared love for wild places.",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "photo_BwMPmW",
-        "photo_XqcpNy",
-        "photo_6miyAf"
-      ],
-      "name": "OWV2 Founder story",
-      "settings": {
-        "eyebrow": "HOW WE GOT HERE",
-        "heading": "We plunged our entire life savings into conservation — and then went broke",
-        "subcopy": "<p>It started with a one-way ticket to Bali.</p>",
-        "teaser_image": "shopify://shop_images/Origin-004_896a8bd5-4f1e-4011-ab84-ddbc89810d6f.jpg",
-        "teaser_text": "11 more photographs.",
-        "teaser_button_label": "Read the rest →",
-        "teaser_caption": "# more photographs.",
-        "teaser_link": "",
-        "background_color": "#fbdcdc",
-        "text_color": "#f5450d",
-        "card_background": "#ffffff",
-        "padding_top": 64,
-        "padding_bottom": 64
-      }
-    },
-    "owv2_banner": {
-      "type": "owv2-banner",
-      "name": "OWV2 Photo banner",
-      "settings": {
-        "image": "shopify://shop_images/canyonclimber.png",
-        "heading": "Drink like you give a damn",
-        "overlay_color": "#000000",
-        "overlay_opacity": 35,
-        "link": "",
-        "min_height": 320,
-        "min_height_mobile": 240,
-        "background_color": "#f1ece2",
-        "text_color": "#ffffff",
-        "card_background": "#ffffff",
-        "padding_top": 64,
-        "padding_bottom": 64
-      }
-    },
     "owv2_regen_tE6yiU": {
       "type": "owv2-regen",
       "blocks": {
@@ -475,6 +410,160 @@
         "padding_top": 64,
         "padding_bottom": 64
       }
+    },
+    "owv2_story_hBtcLa": {
+      "type": "owv2-story",
+      "blocks": {
+        "photo_BwMPmW": {
+          "type": "photo",
+          "settings": {
+            "caption": "",
+            "link": ""
+          }
+        },
+        "photo_XqcpNy": {
+          "type": "photo",
+          "settings": {
+            "caption": "It started with a one-way ticket to Bali.",
+            "link": ""
+          }
+        },
+        "photo_6miyAf": {
+          "type": "photo",
+          "settings": {
+            "caption": "A shared love for wild places.",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "photo_BwMPmW",
+        "photo_XqcpNy",
+        "photo_6miyAf"
+      ],
+      "name": "OWV2 Founder story",
+      "settings": {
+        "eyebrow": "HOW WE GOT HERE",
+        "heading": "We plunged our entire life savings into conservation — and then went broke",
+        "subcopy": "<p>It started with a one-way ticket to Bali.</p>",
+        "teaser_image": "shopify://shop_images/Origin-004_896a8bd5-4f1e-4011-ab84-ddbc89810d6f.jpg",
+        "teaser_text": "11 more photographs.",
+        "teaser_button_label": "Read the rest →",
+        "teaser_caption": "# more photographs.",
+        "teaser_link": "",
+        "background_color": "#fbdcdc",
+        "text_color": "#f5450d",
+        "card_background": "#ffffff",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "owv2_banner": {
+      "type": "owv2-banner",
+      "name": "OWV2 Photo banner",
+      "settings": {
+        "image": "shopify://shop_images/canyonclimber.png",
+        "heading": "Drink like you give a damn",
+        "overlay_color": "#000000",
+        "overlay_opacity": 35,
+        "link": "",
+        "min_height": 320,
+        "min_height_mobile": 240,
+        "background_color": "#f1ece2",
+        "text_color": "#ffffff",
+        "card_background": "#ffffff",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "owv2_subscribe_BGiGnM": {
+      "type": "owv2-subscribe",
+      "blocks": {
+        "roast_q9qBYg": {
+          "type": "roast",
+          "settings": {
+            "label": "Wild Bloom",
+            "price": 560
+          }
+        },
+        "roast_jLWg7F": {
+          "type": "roast",
+          "settings": {
+            "label": "Forest Trail",
+            "price": 540
+          }
+        },
+        "roast_njzFGA": {
+          "type": "roast",
+          "settings": {
+            "label": "Limited Reserve",
+            "price": 800
+          }
+        },
+        "size_XDq7PQ": {
+          "type": "size",
+          "settings": {
+            "label": "200 g",
+            "price_modifier": 0
+          }
+        },
+        "size_UA8jAz": {
+          "type": "size",
+          "settings": {
+            "label": "400 g",
+            "price_modifier": 560
+          }
+        },
+        "frequency_TGpK6U": {
+          "type": "frequency",
+          "settings": {
+            "label": "Every month"
+          }
+        },
+        "frequency_Ci3mFy": {
+          "type": "frequency",
+          "settings": {
+            "label": "Every 2 weeks"
+          }
+        },
+        "frequency_PPjtQH": {
+          "type": "frequency",
+          "settings": {
+            "label": "Every 2 months"
+          }
+        }
+      },
+      "block_order": [
+        "roast_q9qBYg",
+        "roast_jLWg7F",
+        "roast_njzFGA",
+        "size_XDq7PQ",
+        "size_UA8jAz",
+        "frequency_TGpK6U",
+        "frequency_Ci3mFy",
+        "frequency_PPjtQH"
+      ],
+      "name": "OWV2 Subscription spot",
+      "settings": {
+        "badge_text": "SUBSCRIBE & SAVE 10%",
+        "heading": "Keep the ritual going and never run low on energy",
+        "body": "<p>Fresh roast on your schedule. Save 10% on every delivery. And each subscription helps us do more for you and our planet. Skip, swap or cancel any time.</p>",
+        "step1_label": "Pick your roast",
+        "step2_label": "Select your quantity",
+        "step3_label": "Set your frequency",
+        "summary_title": "YOUR SUBSCRIPTION",
+        "shipping_note": "Freshly roasted. Delivered on your schedule.",
+        "cta_label": "Start subscription",
+        "cta_link": "",
+        "discount_percent": 10,
+        "savings_template": "Save [amount] every delivery",
+        "empty_message": "Choose your coffee options to get started.",
+        "background_color": "#FFE4E7",
+        "text_color": "#FF3F00",
+        "card_background": "#FFFFFF",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
@@ -483,8 +572,9 @@
     "scrolling_promotion_c3aaUQ",
     "owv2_value_grid_QXFMkK",
     "od_featured_products_VgPWWJ",
+    "owv2_subscribe_BGiGnM",
+    "owv2_regen_tE6yiU",
     "owv2_story_hBtcLa",
-    "owv2_banner",
-    "owv2_regen_tE6yiU"
+    "owv2_banner"
   ]
 }
