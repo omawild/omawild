@@ -1,3 +1,33 @@
+{%- comment -%}
+  owv2-subscribe — OWV2 Subscription spot.
+
+  Data source
+  - Roasts are NOT typed in by the merchant. They are every product in
+    `section.settings.collection` that has at least one selling plan
+    (product.selling_plan_groups.size > 0) — add or remove a product from
+    that collection and this section updates on its own, no theme-editor
+    edits needed. This mirrors sections/owv2-product-main.liquid's rule:
+    subscription data always comes from the product, never typed twice.
+  - Step 02 (quantity) is that roast's FIRST option (options_with_values.first)
+    — normally "Size" — deduplicated to one pill per distinct value. A roast
+    with only 200g in stock only shows a 200g pill; a roast with a second
+    option (e.g. Grind) has that second axis ignored, same simplification
+    owv2-product-main does not need to make since it only ever shows one
+    product at a time.
+  - Step 03 (frequency) is that roast's own product.selling_plan_groups,
+    flattened across groups exactly like owv2-product-main's plan pills.
+    Two roasts can offer different frequencies; switching roasts rebuilds
+    steps 02 and 03 from scratch.
+  - Only step 01 (the roast list) is known at render time, so it's the only
+    step Liquid renders. Steps 02/03 and the summary are empty shells filled
+    in by assets/owv2-subscribe.js from the embedded JSON, same
+    render-after-connect approach the previous static version already used.
+  - The CTA is a real /cart/add form (id + selling_plan), not a link —
+    same pattern as owv2-product-main's form, hand-written here since a
+    single form must be able to submit any of several products rather than
+    one `{% form 'product', product %}`-bound product.
+{%- endcomment -%}
+
 {% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
 {% style %}
 .owv2-subscribe-{{ owid }} {
@@ -67,6 +97,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
   min-height: 48px;
   padding: 12px 24px;
   border: 1px solid var(--ink);
@@ -77,21 +108,19 @@
   text-decoration: none;
   text-align: center;
   cursor: pointer;
-  transition: filter .2s ease;
+  transition: filter .2s ease, opacity .2s ease;
   }
 .owv2-subscribe-{{ owid }} .owv2-button:hover {
   filter: brightness(.88);
   }
+.owv2-subscribe-{{ owid }} .owv2-button:disabled {
+  cursor: not-allowed;
+  opacity: .55;
+  filter: none;
+  }
 .owv2-subscribe-{{ owid }} :focus-visible {
   outline: 3px solid currentColor;
   outline-offset: 4px;
-  }
-.owv2-subscribe-{{ owid }} .owv2-placeholder {
-  width: 100%;
-  height: 100%;
-  min-height: 200px;
-  background: var(--surface);
-  fill: var(--ink);
   }
 @media (prefers-reduced-motion: reduce) {
   .owv2-subscribe-{{ owid }} * {
@@ -182,6 +211,10 @@
   outline:3px solid var(--ink);
   outline-offset:3px;
   }
+.owv2-subscribe-{{ owid }} .option.is-unavailable span {
+  text-decoration: line-through;
+  opacity: .55;
+  }
 .owv2-subscribe-{{ owid }} .summary {
   position:sticky;
   top:24px;
@@ -234,8 +267,7 @@
   padding:8px 14px;
   border-radius:999px;
   }
-.owv2-subscribe-{{ owid }} .summary .owv2-button {
-  width:100%;
+.owv2-subscribe-{{ owid }} .summary form {
   margin:16px 0 12px;
   }
 .owv2-subscribe-{{ owid }} .shipping {
@@ -252,32 +284,69 @@
   }
 }
 {% endstyle %}
+
+{%- liquid
+  assign product_limit = section.settings.product_limit | default: 12
+  assign roast_total = 0
+  for p in section.settings.collection.products
+    if roast_total >= product_limit
+      break
+    endif
+    if p.selling_plan_groups.size > 0
+      assign roast_total = roast_total | plus: 1
+    endif
+  endfor
+  assign has_roasts = false
+  if roast_total > 0
+    assign has_roasts = true
+  endif
+-%}
+
 <div class="owv2-subscribe-{{ owid }}">
-<owv2-subscribe data-discount="{{ section.settings.discount_percent }}" data-currency="{{ cart.currency.iso_code | default: shop.currency | escape }}" data-locale="{{ request.locale.iso_code | escape }}" data-savings="{{ section.settings.savings_template | escape }}">
-<div class="inner columns">
-<div>
+<div class="inner">
 <div class="intro">
 <span class="pill">{{ section.settings.badge_text | escape }}</span>
 <h2>{{ section.settings.heading }}</h2>
 <div>{{ section.settings.body }}</div>
 </div>
-{% assign groups = 'roast,size,frequency' | split: ',' %}
-{% for group in groups %}
-{% assign options = section.blocks | where: 'type', group %}
-{% assign label_key = 'step' | append: forloop.index | append: '_label' %}
+</div>
+
+{%- if has_roasts -%}
+<owv2-subscribe
+  class="inner"
+  data-owv2-id="{{ section.id }}"
+  data-currency="{{ cart.currency.iso_code | default: shop.currency | escape }}"
+  data-locale="{{ request.locale.iso_code | escape }}"
+  data-savings="{{ section.settings.savings_template | escape }}"
+  data-cta="{{ section.settings.cta_label | escape }}"
+  data-sold-out="{{ section.settings.cta_sold_out_label | escape }}"
+>
+<div class="columns">
+<div>
 <fieldset>
-<legend>0{{ forloop.index }} — {{ section.settings[label_key] | escape }}</legend>
+<legend>01 — {{ section.settings.step1_label | escape }}</legend>
 <div class="options">
-{% for block in options %}
-<label class="option" {{ block.shopify_attributes }}>
-<input type="radio" name="{{ group }}-{{ section.id }}" value="{{ block.id }}" data-group="{{ group }}" data-label="{{ block.settings.label | escape }}" data-price="{{ block.settings.price | default: 0 }}" data-modifier="{{ block.settings.price_modifier | default: 0 }}" {% if forloop.first %}checked{% endif %}>
+{%- assign roast_index = 0 -%}
+{%- for roast in section.settings.collection.products -%}
+  {%- if roast_index >= product_limit -%}{%- break -%}{%- endif -%}
+  {%- if roast.selling_plan_groups.size == 0 -%}{%- continue -%}{%- endif -%}
+  {%- assign roast_index = roast_index | plus: 1 -%}
+<label class="option">
+<input type="radio" name="owv2-roast-{{ section.id }}" value="{{ roast.id }}" data-owv2-roast {% if roast_index == 1 %}checked{% endif %}>
 <span>
-{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 100 | image_tag: loading: 'lazy' }}{% endif %}{{ block.settings.label | escape }}</span>
+{%- if roast.featured_image -%}{{ roast.featured_image | image_url: width: 100 | image_tag: loading: 'lazy', alt: roast.featured_image.alt | default: roast.title }}{%- endif -%}{{- roast.title -}}</span>
 </label>
-{% endfor %}
+{%- endfor -%}
 </div>
 </fieldset>
-{% endfor %}
+<fieldset>
+<legend>02 — {{ section.settings.step2_label | escape }}</legend>
+<div class="options" data-owv2-sizes></div>
+</fieldset>
+<fieldset>
+<legend>03 — {{ section.settings.step3_label | escape }}</legend>
+<div class="options" data-owv2-plans></div>
+</fieldset>
 </div>
 <aside class="summary">
 <p class="eyebrow">{{ section.settings.summary_title | escape }}</p>
@@ -293,19 +362,72 @@
 <p class="saving" data-saving>
 </p>
 </div>
-{% if section.settings.cta_label != blank %}
-{% if section.settings.cta_link != blank %}
-<a class="owv2-button" href="{{ section.settings.cta_link }}">{{ section.settings.cta_label | escape }}</a>
-{% else %}
-<span class="owv2-button" aria-disabled="true">{{ section.settings.cta_label | escape }}</span>
-{% endif %}
-{% endif %}
+<form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" data-owv2-form>
+<input type="hidden" name="id" value="" data-owv2-variant>
+<input type="hidden" name="selling_plan" value="" data-owv2-plan>
+<input type="hidden" name="quantity" value="1">
+<button type="submit" name="add" class="owv2-button" data-owv2-cta disabled>{{ section.settings.cta_label | escape }}</button>
+</form>
 <p class="shipping">{{ section.settings.shipping_note | escape }}</p>
 </aside>
 </div>
+
+<script type="application/json" data-owv2-subscribe-json>
+{
+  "moneyFormat": {{ shop.money_format | json }},
+  "products": [
+    {%- assign json_index = 0 -%}
+    {%- for roast in section.settings.collection.products -%}
+      {%- if json_index >= product_limit -%}{%- break -%}{%- endif -%}
+      {%- if roast.selling_plan_groups.size == 0 -%}{%- continue -%}{%- endif -%}
+      {%- assign json_index = json_index | plus: 1 -%}
+      {%- assign opt = roast.options_with_values.first -%}
+      {
+        "id": {{ roast.id | json }},
+        "title": {{ roast.title | json }},
+        "optionName": {{ opt.name | json }},
+        "variants": [
+          {%- for v in roast.variants -%}
+            {
+              "id": {{ v.id }},
+              "value": {{ v.options.first | json }},
+              "available": {{ v.available | json }},
+              "price": {{ v.price }},
+              "compare": {{ v.compare_at_price | default: 0 }},
+              "plans": {
+                {%- for alloc in v.selling_plan_allocations -%}
+                  "{{ alloc.selling_plan.id }}": {{ alloc.price }}{% unless forloop.last %},{% endunless %}
+                {%- endfor -%}
+              }
+            }{% unless forloop.last %},{% endunless %}
+          {%- endfor -%}
+        ],
+        "sellingPlans": [
+          {%- assign total_plans = 0 -%}
+          {%- for group in roast.selling_plan_groups -%}
+            {%- assign total_plans = total_plans | plus: group.selling_plans.size -%}
+          {%- endfor -%}
+          {%- assign plan_index = 0 -%}
+          {%- for group in roast.selling_plan_groups -%}
+            {%- for plan in group.selling_plans -%}
+              {%- assign plan_index = plan_index | plus: 1 -%}
+              { "id": {{ plan.id | json }}, "name": {{ plan.name | json }} }{% unless plan_index == total_plans %},{% endunless %}
+            {%- endfor -%}
+          {%- endfor -%}
+        ]
+      }{% unless json_index == roast_total %},{% endunless %}
+    {%- endfor -%}
+  ]
+}
+</script>
 </owv2-subscribe>
 <script src="{{ 'owv2-subscribe.js' | asset_url }}" defer="defer">
 </script>
+{%- else -%}
+<div class="inner">
+<p>{{ section.settings.empty_message | escape }}</p>
+</div>
+{%- endif -%}
 </div>
 {% schema %}
 {
@@ -319,10 +441,14 @@
   },
   "settings": [
     {
+      "type": "header",
+      "content": "Content"
+    },
+    {
       "type": "text",
       "id": "badge_text",
       "label": "Badge text",
-      "default": "SUBSCRIBE & SAVE 10%"
+      "default": "SUBSCRIBE & SAVE"
     },
     {
       "type": "inline_richtext",
@@ -334,7 +460,30 @@
       "type": "richtext",
       "id": "body",
       "label": "Body",
-      "default": "<p>Fresh roast on your schedule. Save 10% on every delivery. And each subscription helps us do more for you and our planet. Skip, swap or cancel any time.</p>"
+      "default": "<p>Fresh roast on your schedule. Save on every delivery. And each subscription helps us do more for you and our planet. Skip, swap or cancel any time.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Roasts"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Subscribable coffees",
+      "info": "Every product in this collection that offers a subscription (has a selling plan from the Subscriptions app) appears automatically. Add or remove a product from the collection to change what's shown here — no other edit needed."
+    },
+    {
+      "type": "range",
+      "id": "product_limit",
+      "label": "Maximum roasts shown",
+      "min": 1,
+      "max": 24,
+      "step": 1,
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Steps"
     },
     {
       "type": "text",
@@ -355,6 +504,10 @@
       "default": "Set your frequency"
     },
     {
+      "type": "header",
+      "content": "Summary"
+    },
+    {
       "type": "text",
       "id": "summary_title",
       "label": "Summary title",
@@ -373,30 +526,28 @@
       "default": "Start subscription"
     },
     {
-      "type": "url",
-      "id": "cta_link",
-      "label": "Cta link",
-      "info": "Select the destination to enable this button."
-    },
-    {
-      "type": "number",
-      "id": "discount_percent",
-      "label": "Discount percent",
-      "default": 10,
-      "info": "Display-only discount, clamped to 0\u2013100%. Does not apply a cart discount."
+      "type": "text",
+      "id": "cta_sold_out_label",
+      "label": "Cta label — sold out",
+      "default": "Sold out"
     },
     {
       "type": "text",
       "id": "savings_template",
       "label": "Savings template",
       "default": "Save [amount] every delivery",
-      "info": "Use [amount] for the calculated saving."
+      "info": "Use [amount] for the calculated saving. The saving is read from the roast's own selling plan, never typed in."
     },
     {
       "type": "text",
       "id": "empty_message",
       "label": "Empty message",
+      "info": "Shown before a selection loads, and instead of the whole widget if no product in the collection has a subscription plan.",
       "default": "Choose your coffee options to get started."
+    },
+    {
+      "type": "header",
+      "content": "Design"
     },
     {
       "type": "color",
@@ -439,119 +590,8 @@
   ],
   "presets": [
     {
-      "name": "OWV2 Subscription spot",
-      "blocks": [
-        {
-          "type": "roast",
-          "settings": {
-            "label": "Wild Bloom",
-            "price": 560
-          }
-        },
-        {
-          "type": "roast",
-          "settings": {
-            "label": "Forest Trail",
-            "price": 540
-          }
-        },
-        {
-          "type": "roast",
-          "settings": {
-            "label": "Limited Reserve",
-            "price": 800
-          }
-        },
-        {
-          "type": "size",
-          "settings": {
-            "label": "200 g",
-            "price_modifier": 0
-          }
-        },
-        {
-          "type": "size",
-          "settings": {
-            "label": "400 g",
-            "price_modifier": 560
-          }
-        },
-        {
-          "type": "frequency",
-          "settings": {
-            "label": "Every month"
-          }
-        },
-        {
-          "type": "frequency",
-          "settings": {
-            "label": "Every 2 weeks"
-          }
-        },
-        {
-          "type": "frequency",
-          "settings": {
-            "label": "Every 2 months"
-          }
-        }
-      ]
+      "name": "OWV2 Subscription spot"
     }
-  ],
-  "blocks": [
-    {
-      "type": "roast",
-      "name": "Roast",
-      "settings": [
-        {
-          "type": "text",
-          "id": "label",
-          "label": "Label"
-        },
-        {
-          "type": "number",
-          "id": "price",
-          "label": "Price",
-          "default": 560,
-          "info": "Display-only base price in store currency (major units)."
-        },
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Image",
-          "info": "Edit alternative text in the image picker for accessibility."
-        }
-      ]
-    },
-    {
-      "type": "size",
-      "name": "Size",
-      "settings": [
-        {
-          "type": "text",
-          "id": "label",
-          "label": "Label"
-        },
-        {
-          "type": "number",
-          "id": "price_modifier",
-          "label": "Price modifier",
-          "default": 0,
-          "info": "Amount added to the roast price for this size, in store currency. Display only."
-        }
-      ]
-    },
-    {
-      "type": "frequency",
-      "name": "Frequency",
-      "settings": [
-        {
-          "type": "text",
-          "id": "label",
-          "label": "Label"
-        }
-      ]
-    }
-  ],
-  "max_blocks": 16
+  ]
 }
 {% endschema %}
