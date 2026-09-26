@@ -98,6 +98,8 @@
 .owv2-values-{{ owid }} .intro {
   text-align:center;
   margin-inline:auto;
+  max-width:720px;
+  margin-bottom:34px;
   }
 .owv2-values-{{ owid }} .intro h2 {
   font-size:23px;
@@ -109,11 +111,14 @@
   font-size:13.5px;
   line-height:1.65;
   font-weight:500;
+  /* Body copy is muted warm-gray in the design, distinct from the
+     section's --ink accent (which stays reserved for headings). */
+  color:#5A5550;
   }
 .owv2-values-{{ owid }} .cards {
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:24px;
+  gap:22px;
   }
 .owv2-values-{{ owid }} article {
   display:flex;
@@ -141,6 +146,7 @@
   font-size:12.5px;
   line-height:1.6;
   font-weight:500;
+  color:#5A5550;
   }
 .owv2-values-{{ owid }} article a {
   align-self:flex-start;
@@ -157,7 +163,10 @@
   }
 .owv2-values-{{ owid }} article a:hover {
   background:var(--ink);
-  color:var(--bg);
+  /* Hardcoded white, not var(--bg): the design's hover state is a solid
+     accent pill with white text regardless of the section's own
+     background color setting. */
+  color:#FFFFFF;
   }
 @media(max-width:749px) {
   .owv2-values-{{ owid }} .cards {
@@ -174,7 +183,20 @@
 <div class="cards">
 {% for block in section.blocks %}
 <article {{ block.shopify_attributes }}>
-{% if block.settings.icon != blank %}{{ block.settings.icon | image_url: width: 160 | image_tag: loading: 'lazy', class: 'icon' }}{% endif %}
+{% if block.settings.icon != blank %}
+{{ block.settings.icon | image_url: width: 160 | image_tag: loading: 'lazy', class: 'icon' }}
+{% else %}
+{% comment %}
+  Design's three fixed pillar badges, by position, until a merchant
+  picks their own icon in the block's Icon setting (image_picker can't
+  carry a default or preset image reference).
+{% endcomment %}
+{% case forloop.index %}
+{% when 1 %}<img src="{{ 'ow-why-icon-regen.svg' | asset_url }}" alt="" class="icon" width="60" height="60" loading="lazy">
+{% when 2 %}<img src="{{ 'ow-badge-1ftp.png' | asset_url }}" alt="" class="icon" width="376" height="160" loading="lazy">
+{% when 3 %}<img src="{{ 'ow-badge-recyclable.png' | asset_url }}" alt="" class="icon" width="160" height="160" loading="lazy">
+{% endcase %}
+{% endif %}
 <h3>{{ block.settings.heading | escape }}</h3>
 <div>{{ block.settings.body }}</div>
 {% if block.settings.cta_link != blank and block.settings.cta_label != blank %}
@@ -200,19 +222,19 @@
       "type": "inline_richtext",
       "id": "heading",
       "label": "Heading",
-      "default": "There are many reasons to give a damn\u2026"
+      "default": "There are many reasons to give a damn. And we don't need the same reasons."
     },
     {
       "type": "richtext",
       "id": "intro",
       "label": "Intro",
-      "default": "<p>A better daily ritual, with nature at its heart.</p>"
+      "default": "<p>Maybe you're here for the vibes and adventure. Or for a damn good cup of coffee. You don't have to care about the climate for any of that, but there's one thing none of us can opt out of: everything that sustains a well-lived life runs on healthy ecosystems.</p>"
     },
     {
       "type": "color",
       "id": "background_color",
       "label": "Background color",
-      "default": "#F7F5F1"
+      "default": "#F6F3EC"
     },
     {
       "type": "color",
@@ -254,19 +276,26 @@
         {
           "type": "value",
           "settings": {
-            "heading": "Good coffee"
+            "heading": "Regenerative Farming",
+            "body": "<p>Soil health is nurtured by the farmers we grow alongside, season after season, through regenerative agriculture: our direct mechanism for better food and climate resilience.</p>",
+            "cta_label": "How regen works",
+            "cta_link": "/pages/regenerative-farming"
           }
         },
         {
           "type": "value",
           "settings": {
-            "heading": "Living landscapes"
+            "heading": "1% for the Planet",
+            "body": "<p>Regenerative farming is just one part of caring for our planet. As members of 1% for the Planet, we give at minimum one percent of annual sales to environmental organisations working hard beyond our own supply chains.</p>",
+            "cta_label": "Where the 1% goes",
+            "cta_link": "/pages/1-percent-for-the-planet"
           }
         },
         {
           "type": "value",
           "settings": {
-            "heading": "A shared future"
+            "heading": "Fully Recyclable",
+            "body": "<p>Pretty \"paper\" bags that can't be recycled. BS \"compostable\" claims that don't actually degrade. None of that is eco-friendly. It's plain greenwashing. Ours is fully recyclable: one PE material from start to finish.</p>"
           }
         }
       ]
