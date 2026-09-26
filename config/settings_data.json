@@ -68,12 +68,13 @@
     "predictive_search_enabled": false,
     "predictive_search_show_vendor": true,
     "currency_code_enabled": true,
+    "share_facebook": true,
     "social_facebook_link": "",
     "social_twitter_link": "",
     "social_pinterest_link": "",
     "social_instagram_link": "",
     "social_linkedin_link": "",
-    "favicon": "shopify://shop_images/omawild-fauvicon_32x32_9e67dc09-d0ed-46d5-99de-b40cfa7c4934.png",
+    "favicon": "shopify://shop_images/favicon-96x96.png",
     "gift_card_logo": "",
     "gift_card_logo_height": 70,
     "disable_collection_portion": false,
@@ -101,6 +102,19 @@
         "type": "shopify://apps/lucky-orange-heatmaps-replay/blocks/lucky_orange_tracking/019b2899-e426-7dbd-b9e7-ff9f0bb0d0f3",
         "disabled": false,
         "settings": {}
+      },
+      "1768834845299682660": {
+        "type": "shopify://apps/subscriptions/blocks/app-embed-block/a3bfe9ec-96f8-4508-a003-df608a36d2ad",
+        "disabled": false,
+        "settings": {
+          "color_text_title": "#6D7175",
+          "color_text_body": "#6D7175",
+          "dividers_color": "#8F8D8D",
+          "bacgkround_color": "#FFFFFF",
+          "border_thickness": 1,
+          "border_radius": 0,
+          "subscription_policy_url": ""
+        }
       }
     }
   },
