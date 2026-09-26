@@ -1,5 +1,14 @@
 {%- comment -%}
   owv2-subscribe — OWV2 Subscription spot.
+  Layout/spacing follows the "COMPONENT - Subscription Builder" design file
+  (Omawild Web Redesign handoff). Two deliberate deviations from that file:
+  - Fonts stay var(--font-heading-family)/var(--font-body-family) (NHD) —
+    the file's Figtree/Archivo stack is not this theme's typography; see
+    CLAUDE.md's Typography section. Weights map to NHD's real 400/600/700/900
+    (the file's 500 → 400, 800 → 900) rather than synthesizing an unshipped
+    weight, the exact trap CLAUDE.md already flags for this codebase.
+  - Prices are computed from real Shopify data (see below), not the design
+    file's flat 10%-off placeholder formula.
 
   Data source
   - Roasts are NOT typed in by the merchant. They are every product in
@@ -8,6 +17,12 @@
     that collection and this section updates on its own, no theme-editor
     edits needed. This mirrors sections/owv2-product-main.liquid's rule:
     subscription data always comes from the product, never typed twice.
+  - Step 01 (roast) can render as text pills or as image cards —
+    section.settings.roast_display — matching the design file's per-page
+    "step1" prop (pills on the homepage, cards on the Subscriptions page).
+    It's a merchant/build-time choice, not something a shopper toggles, so
+    it's plain Liquid branching with no JS involved. Only step 01 has a card
+    mode; steps 02/03 are always pills, same as the design file.
   - Step 02 (quantity) is that roast's FIRST option (options_with_values.first)
     — normally "Size" — deduplicated to one pill per distinct value. A roast
     with only 200g in stock only shows a 200g pill; a roast with a second
@@ -35,9 +50,13 @@
   --bg: {{ section.settings.background_color }};
   --ink: {{ section.settings.text_color }};
   --surface: {{ section.settings.card_background }};
+  --midnight: #00180C;
+  --sunbrella: #FBB925;
   background: var(--bg);
   color: var(--ink);
-  padding: {{ section.settings.padding_top }}px max(20px, 5vw) {{ section.settings.padding_bottom }}px;
+  border-top: 1.5px solid var(--ink);
+  border-bottom: 1.5px solid var(--ink);
+  padding: {{ section.settings.padding_top }}px clamp(20px, 4vw, 48px) {{ section.settings.padding_bottom }}px;
   font-family: var(--font-body-family);
   font-size: 16px;
   line-height: 1.5;
@@ -55,17 +74,8 @@
   margin: 0;
   overflow-wrap: anywhere;
   }
-.owv2-subscribe-{{ owid }} h2 {
-  font-size: clamp(30px, 4vw, 58px);
-  }
-.owv2-subscribe-{{ owid }} h3 {
-  font-size: 26px;
-  }
 .owv2-subscribe-{{ owid }} p {
-  margin: 0 0 16px;
-  }
-.owv2-subscribe-{{ owid }} p:last-child {
-  margin-bottom: 0;
+  margin: 0;
   }
 .owv2-subscribe-{{ owid }} a {
   color: inherit;
@@ -74,49 +84,6 @@
   display: block;
   max-width: 100%;
   height: auto;
-  }
-.owv2-subscribe-{{ owid }} .inner {
-  max-width: 1320px;
-  margin-inline: auto;
-  min-width: 0;
-  }
-.owv2-subscribe-{{ owid }} .intro {
-  max-width: 760px;
-  margin-bottom: 32px;
-  }
-.owv2-subscribe-{{ owid }} .intro > * + * {
-  margin-top: 20px;
-  }
-.owv2-subscribe-{{ owid }} .eyebrow {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  }
-.owv2-subscribe-{{ owid }} .owv2-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  min-height: 48px;
-  padding: 12px 24px;
-  border: 1px solid var(--ink);
-  border-radius: 999px;
-  background: var(--ink);
-  color: var(--bg);
-  font: 700 16px var(--font-body-family);
-  text-decoration: none;
-  text-align: center;
-  cursor: pointer;
-  transition: filter .2s ease, opacity .2s ease;
-  }
-.owv2-subscribe-{{ owid }} .owv2-button:hover {
-  filter: brightness(.88);
-  }
-.owv2-subscribe-{{ owid }} .owv2-button:disabled {
-  cursor: not-allowed;
-  opacity: .55;
-  filter: none;
   }
 .owv2-subscribe-{{ owid }} :focus-visible {
   outline: 3px solid currentColor;
@@ -128,159 +95,300 @@
   scroll-snap-type: none !important;
   }
 }
-.owv2-subscribe-{{ owid }} owv2-subscribe {
-  display:block;
+
+{%- comment -%} Grid: left column (intro + steps) + summary. Same grid
+  whether or not JS has upgraded owv2-subscribe yet, and reused for the
+  no-eligible-roasts fallback via .grid-empty so both stay pixel-aligned. {%- endcomment -%}
+.owv2-subscribe-{{ owid }} owv2-subscribe, .owv2-subscribe-{{ owid }} .grid-empty {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(320px,400px);
+  gap: 48px 72px;
+  align-items: start;
+  max-width: 1280px;
+  margin-inline: auto;
+  min-width: 0;
   }
-.owv2-subscribe-{{ owid }} .columns {
-  display:grid;
-  grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);
-  gap:64px;
-  align-items:start;
+.owv2-subscribe-{{ owid }} .left {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
   }
 .owv2-subscribe-{{ owid }} .pill {
-  display:inline-block;
-  background:var(--ink);
-  color:var(--bg);
-  border-radius:999px;
-  padding:7px 12px;
-  font-size:10px;
-  font-weight:800;
-  letter-spacing:.1em;
+  display: inline-block;
+  align-self: flex-start;
+  background: var(--ink);
+  color: var(--bg);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font: 900 10.5px/1 var(--font-heading-family);
+  letter-spacing: .12em;
+  text-transform: uppercase;
   }
-.owv2-subscribe-{{ owid }} fieldset {
-  border:0;
-  border-top:1px solid color-mix(in srgb, var(--ink) 25%, transparent);
-  padding:20px 0 0;
-  margin:0 0 24px;
-  min-width:0;
+.owv2-subscribe-{{ owid }} .left h2 {
+  margin-top: 24px;
+  font-size: clamp(30px, 3.6vw, 46px);
+  max-width: 19ch;
   }
-.owv2-subscribe-{{ owid }} legend {
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:.14em;
-  font-weight:800;
-  margin-bottom:12px;
+.owv2-subscribe-{{ owid }} .body-copy {
+  margin-top: 20px;
+  max-width: 46ch;
+  font: 400 14.5px/1.65 var(--font-body-family);
+  color: var(--midnight);
+  }
+.owv2-subscribe-{{ owid }} .steps {
+  margin-top: {% if section.settings.roast_display == 'cards' %}28{% else %}44{% endif %}px;
+  }
+.owv2-subscribe-{{ owid }} fieldset.step {
+  border: 0;
+  border-top: 1.5px solid color-mix(in srgb, var(--ink) 25%, transparent);
+  margin: 0;
+  padding: 26px 0;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 26px minmax(0,1fr);
+  column-gap: 20px;
+  }
+.owv2-subscribe-{{ owid }} fieldset.step--last {
+  padding-bottom: 0;
+  }
+.owv2-subscribe-{{ owid }} .step__num {
+  grid-column: 1;
+  grid-row: 1;
+  font: 900 13px/1 var(--font-heading-family);
+  color: var(--ink);
+  }
+{%- comment -%}
+  legend stays in the DOM as the fieldset's accessible name but is visually
+  hidden -- a real <legend> keeps browsers' special border-straddling
+  placement even inside a grid fieldset (it rendered the step's border
+  through the middle of the label text). The visible label is the plain
+  .step__label div instead, same as the design file's plain divs.
+{%- endcomment -%}
+.owv2-subscribe-{{ owid }} fieldset.step legend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  }
+.owv2-subscribe-{{ owid }} .step__label {
+  grid-column: 2;
+  grid-row: 1;
+  display: block;
+  font: 900 11px/1 var(--font-heading-family);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  }
+.owv2-subscribe-{{ owid }} fieldset.step .options {
+  grid-column: 2;
+  grid-row: 2;
+  margin-top: 16px;
   }
 .owv2-subscribe-{{ owid }} .options {
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   }
 .owv2-subscribe-{{ owid }} .option {
-  position:relative;
-  cursor:pointer;
+  position: relative;
+  cursor: pointer;
   }
 .owv2-subscribe-{{ owid }} .option input {
-  position:absolute;
-  width:1px;
-  height:1px;
-  opacity:0;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
   }
 .owv2-subscribe-{{ owid }} .option span {
-  display:flex;
-  align-items:center;
-  gap:8px;
-  border:1.5px solid var(--ink);
-  border-radius:999px;
-  padding:10px 18px;
-  min-height:44px;
-  background:var(--surface);
-  font-weight:700;
-  font-size:14px;
-  transition:background .2s ease, color .2s ease;
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  padding: 11px 15px;
+  background: var(--surface);
+  font: 700 12px/1 var(--font-heading-family);
+  color: var(--ink);
+  transition: background .2s ease, color .2s ease;
   }
-.owv2-subscribe-{{ owid }} .option:hover span {
-  background:var(--ink);
-  color:var(--bg);
+.owv2-subscribe-{{ owid }} .option:hover span,
+.owv2-subscribe-{{ owid }} .option input:checked + span {
+  background: var(--ink);
+  color: var(--bg);
   }
-.owv2-subscribe-{{ owid }} input:checked + span:hover {
-  background:var(--ink);
-  color:var(--bg);
-  }
-.owv2-subscribe-{{ owid }} .option img {
-  width:32px;
-  height:32px;
-  object-fit:cover;
-  border-radius:50%;
-  }
-.owv2-subscribe-{{ owid }} input:checked + span {
-  background:var(--ink);
-  color:var(--bg);
-  }
-.owv2-subscribe-{{ owid }} input:focus-visible + span {
-  outline:3px solid var(--ink);
-  outline-offset:3px;
+.owv2-subscribe-{{ owid }} .option input:focus-visible + span {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
   }
 .owv2-subscribe-{{ owid }} .option.is-unavailable span {
   text-decoration: line-through;
   opacity: .55;
   }
+
+{%- comment -%} Step 01 card mode — image + name + note, used on pages like
+  Subscriptions where roasts need more than a label to tell apart. {%- endcomment -%}
+.owv2-subscribe-{{ owid }} .options--cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 10px;
+  }
+.owv2-subscribe-{{ owid }} .roast-card {
+  position: relative;
+  cursor: pointer;
+  display: block;
+  }
+.owv2-subscribe-{{ owid }} .roast-card input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  }
+.owv2-subscribe-{{ owid }} .roast-card__face {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px 10px 10px;
+  border: 1.5px solid var(--ink);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--ink);
+  transition: background .2s ease, color .2s ease;
+  }
+.owv2-subscribe-{{ owid }} .roast-card:hover .roast-card__face,
+.owv2-subscribe-{{ owid }} .roast-card input:checked + .roast-card__face {
+  background: var(--ink);
+  color: var(--bg);
+  }
+.owv2-subscribe-{{ owid }} .roast-card input:focus-visible + .roast-card__face {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+  }
+.owv2-subscribe-{{ owid }} .roast-card__img {
+  flex: none;
+  width: 76px;
+  height: 76px;
+  object-fit: cover;
+  border: 1.5px solid var(--ink);
+  border-radius: 6px;
+  background: var(--sunbrella);
+  }
+.owv2-subscribe-{{ owid }} .roast-card__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  }
+.owv2-subscribe-{{ owid }} .roast-card__name {
+  font: 900 16px/1.1 var(--font-heading-family);
+  letter-spacing: -.01em;
+  color: inherit;
+  }
+.owv2-subscribe-{{ owid }} .roast-card__note {
+  font: 400 12.5px/1.4 var(--font-body-family);
+  color: var(--midnight);
+  }
+.owv2-subscribe-{{ owid }} .roast-card input:checked + .roast-card__face .roast-card__note {
+  color: inherit;
+  }
+
 .owv2-subscribe-{{ owid }} .summary {
-  position:sticky;
-  top:24px;
-  background:var(--surface);
-  border:1.5px solid var(--ink);
-  border-radius:10px;
-  padding:24px;
+  min-width: 0;
+  position: sticky;
+  top: {{ section.settings.summary_offset | default: 110 }}px;
+  align-self: start;
+  background: var(--surface);
+  border: 1.5px solid var(--ink);
+  border-radius: 12px;
+  padding: 32px;
   }
 .owv2-subscribe-{{ owid }} .summary .eyebrow {
-  font-size:10px;
-  letter-spacing:.14em;
+  font: 900 10.5px/1 var(--font-heading-family);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink);
   }
 .owv2-subscribe-{{ owid }} .summary h3 {
-  font-size:22px;
-  font-weight:800;
-  letter-spacing:-.02em;
-  line-height:1.1;
-  margin-bottom:7px;
+  margin-top: 22px;
+  font-size: 28px;
+  letter-spacing: -.025em;
+  line-height: 1.1;
   }
 .owv2-subscribe-{{ owid }} .summary [data-description] {
-  font-size:12.5px;
-  line-height:1.4;
-  font-weight:500;
+  margin-top: 10px;
+  font: 400 13.5px/1.5 var(--font-body-family);
+  color: var(--midnight);
   }
 .owv2-subscribe-{{ owid }} .prices {
-  margin-top:16px;
-  padding-top:16px;
-  border-top:1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 26px;
+  border-top: 1.5px solid color-mix(in srgb, var(--ink) 25%, transparent);
   }
 .owv2-subscribe-{{ owid }} .prices strong {
-  font-size:36px;
-  font-weight:900;
-  letter-spacing:-.02em;
+  font: 900 38px/1 var(--font-heading-family);
+  letter-spacing: -.03em;
+  color: var(--ink);
   }
 .owv2-subscribe-{{ owid }} .prices s {
-  font-size:13px;
-  font-weight:600;
-  opacity:.65;
-  }
-.owv2-subscribe-{{ owid }} .prices s {
-  margin-left:10px;
+  font: 600 14px/1 var(--font-body-family);
+  color: var(--midnight);
   }
 .owv2-subscribe-{{ owid }} .saving {
-  display:inline-block;
-  margin-top:14px;
-  background:var(--sunbrella, #FBB925);
-  color:var(--midnight, #00180C);
-  font-weight:800;
-  font-size:12px;
-  padding:8px 14px;
-  border-radius:999px;
+  display: inline-block;
+  margin-top: 12px;
+  background: var(--sunbrella);
+  color: var(--midnight);
+  font: 900 12px/1.2 var(--font-heading-family);
+  padding: 7px 11px;
+  border-radius: 999px;
   }
 .owv2-subscribe-{{ owid }} .summary form {
-  margin:16px 0 12px;
+  margin-top: 28px;
+  }
+.owv2-subscribe-{{ owid }} .owv2-button {
+  display: block;
+  width: 100%;
+  padding: 16px 0;
+  border: none;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  font: 900 13px/1 var(--font-heading-family);
+  text-align: center;
+  cursor: pointer;
+  transition: filter .2s ease, opacity .2s ease;
+  }
+.owv2-subscribe-{{ owid }} .owv2-button:hover {
+  filter: brightness(.85);
+  }
+.owv2-subscribe-{{ owid }} .owv2-button:disabled {
+  cursor: not-allowed;
+  opacity: .55;
+  filter: none;
   }
 .owv2-subscribe-{{ owid }} .shipping {
-  font-size:13px;
-  text-align:left;
+  margin-top: 16px;
+  font: 400 12.5px/1.55 var(--font-body-family);
+  color: var(--midnight);
   }
-@media(max-width:749px) {
-  .owv2-subscribe-{{ owid }} .columns {
-  grid-template-columns:1fr;
-  gap:8px;
+.owv2-subscribe-{{ owid }} .empty-note {
+  margin-top: 24px;
+  font: 400 14.5px/1.65 var(--font-body-family);
+  color: var(--midnight);
+  }
+@media (max-width: 1023px) {
+  .owv2-subscribe-{{ owid }} owv2-subscribe, .owv2-subscribe-{{ owid }} .grid-empty {
+  grid-template-columns: minmax(0,1fr);
   }
 .owv2-subscribe-{{ owid }} .summary {
-  position:static;
+  position: static;
   }
 }
 {% endstyle %}
@@ -300,20 +408,15 @@
   if roast_total > 0
     assign has_roasts = true
   endif
+  assign is_cards = false
+  if section.settings.roast_display == 'cards'
+    assign is_cards = true
+  endif
 -%}
 
 <div class="owv2-subscribe-{{ owid }}">
-<div class="inner">
-<div class="intro">
-<span class="pill">{{ section.settings.badge_text | escape }}</span>
-<h2>{{ section.settings.heading }}</h2>
-<div>{{ section.settings.body }}</div>
-</div>
-</div>
-
 {%- if has_roasts -%}
 <owv2-subscribe
-  class="inner"
   data-owv2-id="{{ section.id }}"
   data-currency="{{ cart.currency.iso_code | default: shop.currency | escape }}"
   data-locale="{{ request.locale.iso_code | escape }}"
@@ -321,32 +424,58 @@
   data-cta="{{ section.settings.cta_label | escape }}"
   data-sold-out="{{ section.settings.cta_sold_out_label | escape }}"
 >
-<div class="columns">
-<div>
-<fieldset>
-<legend>01 — {{ section.settings.step1_label | escape }}</legend>
-<div class="options">
+<div class="left">
+<span class="pill">{{ section.settings.badge_text | escape }}</span>
+<h2>{{ section.settings.heading }}</h2>
+<div class="body-copy">{{ section.settings.body }}</div>
+<div class="steps">
+<fieldset class="step">
+<div class="step__num" aria-hidden="true">01</div>
+<legend>{{ section.settings.step1_label | escape }}</legend>
+<div class="step__label">{{ section.settings.step1_label | escape }}</div>
+<div class="options{% if is_cards %} options--cards{% endif %}">
 {%- assign roast_index = 0 -%}
 {%- for roast in section.settings.collection.products -%}
   {%- if roast_index >= product_limit -%}{%- break -%}{%- endif -%}
   {%- if roast.selling_plan_groups.size == 0 -%}{%- continue -%}{%- endif -%}
   {%- assign roast_index = roast_index | plus: 1 -%}
+  {%- if is_cards -%}
+<label class="roast-card">
+<input type="radio" name="owv2-roast-{{ section.id }}" value="{{ roast.id }}" data-owv2-roast {% if roast_index == 1 %}checked{% endif %}>
+<span class="roast-card__face">
+{%- if roast.featured_image -%}
+{{ roast.featured_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: roast.featured_image.alt | default: roast.title, class: 'roast-card__img' }}
+{%- else -%}
+<span class="roast-card__img" aria-hidden="true"></span>
+{%- endif -%}
+<span class="roast-card__body">
+<span class="roast-card__name">{{ roast.title }}</span>
+{%- if roast.description != blank -%}<span class="roast-card__note">{{ roast.description | strip_html | truncatewords: 12 }}</span>{%- endif -%}
+</span>
+</span>
+</label>
+  {%- else -%}
 <label class="option">
 <input type="radio" name="owv2-roast-{{ section.id }}" value="{{ roast.id }}" data-owv2-roast {% if roast_index == 1 %}checked{% endif %}>
-<span>
-{%- if roast.featured_image -%}{{ roast.featured_image | image_url: width: 100 | image_tag: loading: 'lazy', alt: roast.featured_image.alt | default: roast.title }}{%- endif -%}{{- roast.title -}}</span>
+<span>{{ roast.title }}</span>
 </label>
+  {%- endif -%}
 {%- endfor -%}
 </div>
 </fieldset>
-<fieldset>
-<legend>02 — {{ section.settings.step2_label | escape }}</legend>
+<fieldset class="step">
+<div class="step__num" aria-hidden="true">02</div>
+<legend>{{ section.settings.step2_label | escape }}</legend>
+<div class="step__label">{{ section.settings.step2_label | escape }}</div>
 <div class="options" data-owv2-sizes></div>
 </fieldset>
-<fieldset>
-<legend>03 — {{ section.settings.step3_label | escape }}</legend>
+<fieldset class="step step--last">
+<div class="step__num" aria-hidden="true">03</div>
+<legend>{{ section.settings.step3_label | escape }}</legend>
+<div class="step__label">{{ section.settings.step3_label | escape }}</div>
 <div class="options" data-owv2-plans></div>
 </fieldset>
+</div>
 </div>
 <aside class="summary">
 <p class="eyebrow">{{ section.settings.summary_title | escape }}</p>
@@ -370,7 +499,6 @@
 </form>
 <p class="shipping">{{ section.settings.shipping_note | escape }}</p>
 </aside>
-</div>
 
 <script type="application/json" data-owv2-subscribe-json>
 {
@@ -424,8 +552,13 @@
 <script src="{{ 'owv2-subscribe.js' | asset_url }}" defer="defer">
 </script>
 {%- else -%}
-<div class="inner">
-<p>{{ section.settings.empty_message | escape }}</p>
+<div class="grid-empty">
+<div class="left">
+<span class="pill">{{ section.settings.badge_text | escape }}</span>
+<h2>{{ section.settings.heading }}</h2>
+<div class="body-copy">{{ section.settings.body }}</div>
+<p class="empty-note">{{ section.settings.empty_message | escape }}</p>
+</div>
 </div>
 {%- endif -%}
 </div>
@@ -482,6 +615,17 @@
       "default": 12
     },
     {
+      "type": "select",
+      "id": "roast_display",
+      "label": "Roast display style",
+      "options": [
+        { "value": "pills", "label": "Text pills" },
+        { "value": "cards", "label": "Cards (image + name)" }
+      ],
+      "default": "pills",
+      "info": "Cards suit a dedicated Subscriptions page; pills suit a compact spot like the homepage. Cards use the roast's product image and description."
+    },
+    {
       "type": "header",
       "content": "Steps"
     },
@@ -512,6 +656,17 @@
       "id": "summary_title",
       "label": "Summary title",
       "default": "YOUR SUBSCRIPTION"
+    },
+    {
+      "type": "range",
+      "id": "summary_offset",
+      "label": "Summary sticky offset",
+      "min": 0,
+      "max": 240,
+      "step": 10,
+      "unit": "px",
+      "default": 110,
+      "info": "Distance from the top of the screen the floating summary card sticks to on desktop. Match this to your sticky header's height."
     },
     {
       "type": "text",
@@ -575,7 +730,7 @@
       "max": 120,
       "step": 4,
       "unit": "px",
-      "default": 64
+      "default": 72
     },
     {
       "type": "range",
@@ -585,7 +740,7 @@
       "max": 120,
       "step": 4,
       "unit": "px",
-      "default": 64
+      "default": 76
     }
   ],
   "presets": [
