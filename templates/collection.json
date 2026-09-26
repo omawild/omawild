@@ -9,6 +9,51 @@
  */
 {
   "sections": {
+    "od_page_header_iMJiVK": {
+      "type": "od-page-header",
+      "blocks": {
+        "collection_row_YKT9DB": {
+          "type": "collection_row",
+          "settings": {
+            "collection": "specialty-coffee",
+            "title_override": "",
+            "anchor_override": "",
+            "thumbnail_count": 3,
+            "count_label_override": ""
+          }
+        },
+        "collection_row_JdVqLG": {
+          "type": "collection_row",
+          "settings": {
+            "collection": "subscriptions",
+            "title_override": "",
+            "anchor_override": "",
+            "thumbnail_count": 3,
+            "count_label_override": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_row_YKT9DB",
+        "collection_row_JdVqLG"
+      ],
+      "name": "OD Page Header",
+      "settings": {
+        "heading": "Shop",
+        "show_breadcrumb": true,
+        "body": "",
+        "show_collection_list": true,
+        "background_color": "#FFE4E7",
+        "heading_color": "#FF3F00",
+        "text_color": "#00180C",
+        "divider_color": "#FF3F00",
+        "thumb_background": "#FBB925",
+        "padding_top": 36,
+        "padding_bottom": 44,
+        "mobile_padding_horizontal": 20,
+        "desktop_padding_horizontal": 48
+      }
+    },
     "banner": {
       "type": "main-collection-banner",
       "disabled": true,
@@ -73,131 +118,73 @@
         "padding_bottom": 32
       }
     },
-    "1653715735c2bf2595": {
-      "type": "multicolumn",
-      "blocks": {
-        "165371573547ea2014-0": {
-          "type": "column",
-          "settings": {
-            "background_color": "#f2f2f2",
-            "heading_color": "#000000",
-            "text_color": "#333333",
-            "title": "Follow Us On Instagram",
-            "title_size": "h2",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
-            "show_popup": false,
-            "popup_image_position": "top",
-            "justify_text": false,
-            "button_label": "Follow Us",
-            "button_link": "https://www.instagram.com/",
-            "button_style_secondary": false,
-            "enable_highlight": false,
-            "highlight_style": "marker"
-          }
-        },
-        "165371573547ea2014-1": {
-          "type": "column",
-          "settings": {
-            "background_color": "#f2f2f2",
-            "heading_color": "#000000",
-            "text_color": "#333333",
-            "title": "From Our Blog",
-            "title_size": "h2",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
-            "show_popup": false,
-            "popup_image_position": "top",
-            "justify_text": false,
-            "button_label": "Read More",
-            "button_link": "",
-            "button_style_secondary": false,
-            "enable_highlight": false,
-            "highlight_style": "marker"
-          }
-        }
-      },
-      "block_order": [
-        "165371573547ea2014-0",
-        "165371573547ea2014-1"
-      ],
-      "disabled": true,
+    "od_collection_showcase_7LHQXz": {
+      "type": "od-collection-showcase",
+      "name": "OD Collection Showcase",
       "settings": {
-        "image_ratio": "wide",
-        "image_position": "center center",
-        "text_alignment": "center",
-        "show_divider": false,
-        "image_width": "full",
-        "columns_desktop": 3,
-        "open_in_new_tab": false,
-        "heading": "More to Discover",
-        "heading_size": "h1",
-        "heading_alignment": "left",
-        "heading_tag": "h2",
-        "mobile_text_alignment": "center",
-        "columns_mobile": "1",
-        "swipe_on_mobile": false,
-        "colors_highlight": "#ffb503",
-        "padding_top": 36,
+        "collection": "specialty-coffee",
+        "anchor_id": "",
+        "heading_override": "",
+        "description_override": "",
+        "show_view_all": true,
+        "view_all_label": "View all",
+        "products_to_show": 8,
+        "products_per_row_desktop": 3,
+        "image_aspect_ratio": "1/1",
+        "background_color": "#F7F5F1",
+        "heading_color": "#FF3F00",
+        "text_color": "#00180C",
+        "price_color": "#FF3F00",
+        "count_badge_text": "#ffffff",
+        "card_border_color": "#FF3F00",
+        "thumb_background": "#FBB925",
+        "button_action": "add_to_cart",
+        "button_bg_color": "#FF3F00",
+        "button_text_color": "#ffffff",
+        "padding_top": 60,
         "padding_bottom": 72,
-        "card_border_radius": 0,
-        "enable_highlight": false,
-        "highlight_style": "marker"
+        "mobile_padding_horizontal": 20,
+        "desktop_padding_horizontal": 48,
+        "grid_gap": 24
       }
     },
-    "od_newsletter_rEnq3q": {
-      "type": "od-newsletter",
-      "blocks": {
-        "heading_GQYj4T": {
-          "type": "heading",
-          "settings": {
-            "heading": "Your expedition starts here.",
-            "heading_tag": "h4"
-          }
-        },
-        "paragraph_wQLPh4": {
-          "type": "paragraph",
-          "settings": {
-            "paragraph": "<p>Sign up for our newsletter.</p>"
-          }
-        },
-        "email_form_JBBDBE": {
-          "type": "email_form",
-          "settings": {
-            "button_label": "Join the expedition →",
-            "success_heading": "Welcome to the adventure",
-            "success_body": "Check your inbox for your first trailhead map."
-          }
-        },
-        "signup_note_9ikEiN": {
-          "type": "signup_note",
-          "settings": {
-            "note": "<p>Get wild on deals, stories, and more.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "heading_GQYj4T",
-        "paragraph_wQLPh4",
-        "email_form_JBBDBE",
-        "signup_note_9ikEiN"
-      ],
-      "disabled": true,
-      "name": "OD Newsletter",
+    "od_collection_showcase_BcwkDD": {
+      "type": "od-collection-showcase",
+      "name": "OD Collection Showcase",
       "settings": {
-        "alignment_text": "center",
-        "content_max_width": 400,
-        "padding_top": 80,
-        "padding_bottom": 80,
-        "colors_background": "#faf8f5",
-        "colors_text": "#1a1b18",
-        "colors_border": "#d2d5d9"
+        "collection": "subscriptions",
+        "anchor_id": "",
+        "heading_override": "",
+        "description_override": "",
+        "show_view_all": true,
+        "view_all_label": "View all",
+        "products_to_show": 8,
+        "products_per_row_desktop": 3,
+        "image_aspect_ratio": "1/1",
+        "background_color": "#F7F5F1",
+        "heading_color": "#FF3F00",
+        "text_color": "#00180C",
+        "price_color": "#FF3F00",
+        "count_badge_text": "#ffffff",
+        "card_border_color": "#FF3F00",
+        "thumb_background": "#FBB925",
+        "button_action": "add_to_cart",
+        "button_bg_color": "#FF3F00",
+        "button_text_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 72,
+        "mobile_padding_horizontal": 20,
+        "desktop_padding_horizontal": 48,
+        "grid_gap": 24
       }
     }
   },
   "order": [
+    "od_page_header_iMJiVK",
     "banner",
     "subs",
     "product-grid",
-    "1653715735c2bf2595",
-    "od_newsletter_rEnq3q"
+    "od_collection_showcase_7LHQXz",
+    "od_collection_showcase_BcwkDD"
   ]
 }
