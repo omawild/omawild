@@ -5,6 +5,8 @@
   --bg: {{ section.settings.background_color }};
   --ink: {{ section.settings.text_color }};
   --surface: {{ section.settings.card_background }};
+  --midnight: #00180C;
+  --num-col: 22px;
   background: var(--bg);
   color: var(--ink);
   padding: {{ section.settings.padding_top }}px max(20px, 5vw) {{ section.settings.padding_bottom }}px;
@@ -67,13 +69,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 48px;
-  padding: 12px 24px;
+  min-height: 44px;
+  padding: 10px 20px;
   border: 1px solid var(--ink);
   border-radius: 999px;
   background: var(--ink);
   color: var(--bg);
-  font: 700 16px var(--font-body-family);
+  font: 700 15px var(--font-body-family);
   text-decoration: none;
   text-align: center;
   cursor: pointer;
@@ -130,6 +132,9 @@
   border-bottom:1px solid var(--ink);
   padding:18px 0;
   }
+.owv2-regen-{{ owid }} details.is-last {
+  border-bottom:none;
+  }
 .owv2-regen-{{ owid }} summary {
   display:flex;
   gap:24px;
@@ -154,6 +159,7 @@
   content:'−';
   }
 .owv2-regen-{{ owid }} .number {
+  width:var(--num-col);
   font-size:12px;
   font-weight:800;
   letter-spacing:.06em;
@@ -161,10 +167,13 @@
   flex-shrink:0;
   }
 .owv2-regen-{{ owid }} .answer {
-  padding:13px 0 0 48px;
+  /* Matches summary's number column (--num-col) + its 24px gap exactly,
+     so the answer text lines up under the title regardless of digit count. */
+  padding:13px 0 0 calc(var(--num-col) + 24px);
   font-size:14.5px;
   line-height:1.5;
   font-weight:500;
+  color: var(--midnight);
   }
 .owv2-regen-{{ owid }} .cta {
   margin:24px 0 16px;
@@ -191,7 +200,7 @@
 </div>
 <div>
 {% for block in section.blocks %}
-<details {% if forloop.first %}open{% endif %} {{ block.shopify_attributes }}>
+<details {% if forloop.first %}open{% endif %}{% if forloop.last %} class="is-last"{% endif %} {{ block.shopify_attributes }}>
 <summary>
 <span class="number">
 {% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>{{ block.settings.title | escape }}</summary>
