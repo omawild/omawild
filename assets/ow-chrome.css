@@ -166,12 +166,6 @@
   transition:opacity .2s;
 }
 .navbar-links a:hover{opacity:.6;}
-/* Figma keeps "Shop" in sentence case while the rest of the links are
-   uppercase — preserved as designed. */
-/* .navbar-links a (a class + a type selector) otherwise outranks the single
-   class here, so the uppercase it sets never actually got overridden --
-   found while testing this pass, pre-existing, unrelated to it. */
-.navbar-links a.navbar-link--plain{text-transform:none;}
 .navbar-link-dropdown{position:relative;display:flex;}
 .navbar-link-dropdown::after{
   content:'';position:absolute;top:100%;left:0;right:0;height:10px;
@@ -197,6 +191,14 @@
 .navbar-link-dropdown:focus-within .navbar-link-chevron{transform:rotate(180deg);}
 .navbar-right{display:flex;align-items:center;gap:24px;}
 .navbar-icons{display:flex;align-items:center;gap:16px;}
+/* Hidden below 960px -- the mobile menu's own .menu-account-link row is the
+   replacement there, matching the design file. .navbar-icons a (a class + a
+   type selector) outranks a single class, same trap as navbar-link--plain
+   above, so this has to match or beat that specificity too. */
+.navbar-icons a.navbar-account{display:none;}
+@media(min-width:960px){
+  .navbar-icons a.navbar-account{display:flex;}
+}
 /* 44×44 hit area on a 30px icon, pulled back to a 30px layout footprint by the
    negative margin. Done this way rather than by growing the box because the
    navbar has under 20px of slack at 320px — widening these three would push the
@@ -258,20 +260,52 @@
 .navbar-region.expanded .navbar-region-panel{display:flex;}
 /* Country and language sit in their own bordered card inside the panel,
    matching the design file's grouped treatment, rather than a flat list
-   under a small uppercase label. */
+   under a small uppercase label. Each is its own collapsed mini-accordion:
+   .navbar-region-section-head shows the current value + a chevron and is
+   what's clickable (data-region-toggle in assets/ow-chrome.js); the options
+   list stays [hidden] until that head is opened. Both start closed, so
+   opening the panel never shows every option for every field at once. */
 .navbar-region-section{
   border:1.5px solid var(--electric);border-radius:10px;
   background:#fff;overflow:hidden;
 }
+.navbar-region-section-head{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  width:100%;min-height:56px;padding:8px 14px;box-sizing:border-box;
+  border:none;background:#fff;cursor:pointer;text-align:left;
+  font-family:inherit;
+}
+.navbar-region-section-text{
+  flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;
+}
 .navbar-region-section-label{
-  margin:0;padding:10px 14px 0;
   font-size:10px;font-weight:800;letter-spacing:.14em;
   text-transform:uppercase;color:var(--electric);
 }
-.navbar-region-options{
-  list-style:none;margin:0;padding:4px 0 4px;
-  display:flex;flex-direction:column;gap:0;
+.navbar-region-section-current{
+  display:flex;align-items:center;gap:10px;min-width:0;
+  font-size:14.5px;font-weight:500;color:var(--electric);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
+.navbar-region-section-current .fi{
+  width:24px;height:18px;border-radius:2px;flex-shrink:0;
+  background-size:cover;background-repeat:no-repeat;background-position:center;
+}
+.navbar-region-section-chevron{
+  width:12px;height:8px;flex-shrink:0;transition:transform .2s;
+}
+.navbar-region-section-head[aria-expanded="true"] .navbar-region-section-chevron{transform:rotate(180deg);}
+/* No chevron and not clickable when the (pending) country only has one
+   language -- there's nothing to open. Toggled live by assets/ow-chrome.js
+   as the pending country selection changes, not just at page load. */
+.navbar-region-section.is-single .navbar-region-section-head{cursor:default;}
+.navbar-region-section.is-single .navbar-region-section-chevron{display:none;}
+.navbar-region-options{
+  list-style:none;margin:0;padding:0 0 4px;
+  display:flex;flex-direction:column;gap:0;
+  border-top:1.5px solid var(--electric);
+}
+.navbar-region-options[hidden]{display:none;}
 .navbar-region-option{
   display:flex;align-items:center;gap:10px;
   padding:8px 14px;cursor:pointer;
@@ -601,6 +635,16 @@
   padding:8px 0;
 }
 .menu-bottom{margin-top:40px;}
+/* Replaces the navbar-icons account icon below 960px -- see the icon's own
+   comment in ow-header.liquid. Same row treatment as the main nav links. */
+.menu-account-link{
+  display:flex;align-items:center;gap:8px;
+  min-height:48px;border-bottom:1px solid rgba(255,63,0,.28);
+  text-decoration:none;
+  font-size:11px;font-weight:800;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--electric);
+}
+.menu-account-link img{width:20px;height:20px;}
 /* Inline region/lang selector — same click-to-toggle accordion pattern as
    Discover above and the navbar's own floating popover now (both click,
    not hover — see assets/ow-chrome.js). The country/language cards inside

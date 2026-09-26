@@ -63,8 +63,9 @@
       <ul class="navbar-links">
         {%- for link in section.settings.menu.links -%}
           {%- comment -%}
-            The design keeps the first link in sentence case while the rest are
-            uppercased by CSS — navbar-link--plain opts that one out.
+            All links uppercase now, consistently -- an earlier pass kept the
+            first link in sentence case (navbar-link--plain), which read as
+            inconsistent once it was actually visible in the redesigned bar.
           {%- endcomment -%}
           {%- if link.links.size > 0 -%}
             <li class="navbar-link-dropdown">
@@ -79,7 +80,7 @@
               </div>
             </li>
           {%- else -%}
-            <li><a href="{{ link.url }}"{% if forloop.first %} class="navbar-link--plain"{% endif %}>{{ link.title }}</a></li>
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
           {%- endif -%}
         {%- endfor -%}
       </ul>
@@ -111,8 +112,13 @@
           also where Shopify puts the "create account" link, so one icon covers
           sign in and sign up.
         {%- endcomment -%}
+        {%- comment -%}
+          Wide screens only -- below 960px this icon is hidden and the same
+          link appears as a labelled row in the mobile menu instead (below),
+          matching the design file.
+        {%- endcomment -%}
         {%- if section.settings.show_account and shop.customer_accounts_enabled -%}
-          <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}"
+          <a class="navbar-account" href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}"
              aria-label="{% if customer %}{{ 'customer.account.title' | t }}{% else %}{{ 'customer.login_page.sign_in' | t }}{% endif %}">
             <img src="{{ 'ow-icon-account.svg' | asset_url }}" alt="" width="30" height="30">
           </a>
@@ -155,6 +161,16 @@
   </div>
   <nav class="menu-nav"></nav>
   <div class="menu-bottom">
+    {%- comment -%}
+      Replaces the navbar-icons account icon below 960px, where that icon is
+      hidden -- matches the design file's mobile panel.
+    {%- endcomment -%}
+    {%- if section.settings.show_account and shop.customer_accounts_enabled -%}
+      <a class="menu-account-link" href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}">
+        <img src="{{ 'ow-icon-account.svg' | asset_url }}" alt="" width="20" height="20">
+        {%- if customer -%}{{ 'customer.account.title' | t }}{%- else -%}{{ 'customer.login_page.sign_in' | t }}{%- endif -%}
+      </a>
+    {%- endif -%}
     {%- if section.settings.show_region_selector -%}
       {% render 'ow-region-selector',
            id_suffix: 'menu',

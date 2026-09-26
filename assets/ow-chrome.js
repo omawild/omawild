@@ -60,8 +60,15 @@
 // the hero still owns the whole first viewport there. From that point on,
 // and immediately on every page with no hero, the navbar hides while the
 // visitor scrolls down and reappears the moment they scroll up.
-const topChrome = document.getElementById('top-chrome');
-const navbar    = document.getElementById('navbar');
+// `let`, not `const`: same reason as timerBar/promoBar below -- the theme
+// editor's live preview replaces this section's entire DOM subtree on every
+// settings change (Section Rendering API), so a stale reference here left
+// the freshly-rendered navbar stuck in its default hidden state (opacity:0,
+// translateY(-100%)) until a full reload. See refreshHeaderChrome() further
+// down, which re-binds this along with menuBtn/menuModal/menuClose and the
+// region selectors -- everything ow-header.liquid renders.
+let topChrome = document.getElementById('top-chrome');
+let navbar    = document.getElementById('navbar');
 // OW Navbar (sections/ow-header.liquid) carries no bars of its own -- the
 // vendor's own Timer (announcement-bar.liquid) and Announcement Bar
 // (scrolling-promotion.liquid) sections are the only source of promo bars
@@ -210,7 +217,6 @@ function refreshVendorBars() {
   promoBar = nextPromoBar;
   applyChrome();
 }
-document.addEventListener('shopify:section:load', refreshVendorBars);
 
 // Fade the navbar in once the hero has fully left the viewport, and fade it
 // back out when the hero returns. The navbar ships hidden, so at the top of the
@@ -295,17 +301,30 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 // ── MENU MODAL ──
-const menuBtn   = document.getElementById('menuBtn');
-const menuModal = document.getElementById('menuModal');
-const menuClose = document.getElementById('menuClose');
-menuBtn.addEventListener('click', () => {
-  menuModal.classList.add('open');
-  document.body.style.overflow = 'hidden';
-});
-menuClose.addEventListener('click', () => {
-  menuModal.classList.remove('open');
-  document.body.style.overflow = '';
-});
+let menuBtn   = document.getElementById('menuBtn');
+let menuModal = document.getElementById('menuModal');
+let menuClose = document.getElementById('menuClose');
+
+// Idempotent (guarded by __owBound) so refreshHeaderChrome() below can call
+// this again after ow-header.liquid re-renders without double-binding a
+// node it already bound.
+function bindMenuButtons() {
+  if (menuBtn && !menuBtn.__owBound) {
+    menuBtn.__owBound = true;
+    menuBtn.addEventListener('click', () => {
+      menuModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  }
+  if (menuClose && !menuClose.__owBound) {
+    menuClose.__owBound = true;
+    menuClose.addEventListener('click', () => {
+      menuModal.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  }
+}
+bindMenuButtons();
 
 // ── FOOTER EMAIL SIGNUP ──
 // This is a real Shopify customer form (sections/ow-footer.liquid), so the
@@ -336,7 +355,12 @@ if (emailToast && emailToast.classList.contains('show')) {
 // The mobile modal's nav list is generated from the desktop navbar's
 // .navbar-links at runtime, so there is exactly one place menu items
 // are authored (the desktop navbar markup) — editing it updates both.
-(function buildMobileMenu() {
+// A named, re-callable function (not the one-time IIFE it used to be):
+// refreshHeaderChrome() below re-runs it after ow-header.liquid reloads in
+// the theme editor, since the rebuilt #navbar/.navbar-links it reads are
+// fresh nodes at that point. Queries by id/class fresh each call, so it
+// doesn't depend on the topChrome/navbar/menuModal bindings above.
+function buildMobileMenu() {
   const source = document.querySelector('#navbar .navbar-links');
   const target = document.querySelector('#menuModal .menu-nav');
   if (!source || !target) return;
@@ -391,7 +415,8 @@ if (emailToast && emailToast.classList.contains('show')) {
       document.body.style.overflow = '';
     });
   });
-})();
+}
+buildMobileMenu();
 
 // ── SCROLL FADE-UPS ──
 // .fade-up is opacity:0 until this observer adds .visible, so anything it does
@@ -452,7 +477,17 @@ window.addEventListener('resize', syncFooterNavExpanded);
 // (click the trigger), re-syncing selection from the hidden inputs on open
 // so an abandoned pick doesn't stick, selecting a row (pending), and Save
 // (copy into hidden inputs + submit).
-document.querySelectorAll('.navbar-region').forEach(regionEl => {
+//
+// A named, re-callable function (scoped to `scope`, like bootBrewDrag
+// elsewhere in this file) rather than a one-time forEach: refreshHeaderChrome
+// below calls it again after ow-header.liquid reloads in the theme editor,
+// against whatever fresh .navbar-region elements that reload produced.
+// __owBound guards each element so a re-call never double-binds one it
+// already bound.
+function bindRegionSelectors(scope) {
+  (scope || document).querySelectorAll('.navbar-region').forEach(regionEl => {
+  if (regionEl.__owBound) return;
+  regionEl.__owBound = true;
   const form = regionEl.querySelector('form.navbar-region-form');
   const trigger = regionEl.querySelector('.navbar-lang');
   if (!form || !trigger) return;
@@ -463,6 +498,8 @@ document.querySelectorAll('.navbar-region').forEach(regionEl => {
   const labelEl = regionEl.querySelector('.navbar-region-label');
   const countryOptions = regionEl.querySelectorAll('.navbar-region-option[data-country]');
   const localeOptions = regionEl.querySelectorAll('.navbar-region-option[data-locale]');
+  const countrySection = regionEl.querySelector('[data-region-field="country"]');
+  const langSection = regionEl.querySelector('[data-region-field="language"]');
 
   function selectInList(options, clicked) {
     options.forEach(o => {
@@ -470,6 +507,97 @@ document.querySelectorAll('.navbar-region').forEach(regionEl => {
       o.setAttribute('aria-selected', on ? 'true' : 'false');
       o.classList.toggle('navbar-region-option--selected', on);
     });
+  }
+
+  // Each section (Country, Language) is its own mini-accordion, closed by
+  // default -- opening one closes the other, matching the design file's
+  // own toggleMRegion/toggleMLang (each resets the other's open state).
+  function setSectionOpen(section, open) {
+    if (!section) return;
+    const head = section.querySelector('.navbar-region-section-head');
+    const list = section.querySelector('.navbar-region-options');
+    if (head) head.setAttribute('aria-expanded', String(open));
+    if (list) list.hidden = !open;
+  }
+
+  function toggleSection(section) {
+    const isOpen = section.querySelector('.navbar-region-section-head').getAttribute('aria-expanded') === 'true';
+    setSectionOpen(countrySection, false);
+    setSectionOpen(langSection, false);
+    if (!isOpen) setSectionOpen(section, true);
+  }
+
+  // Both heads are always bound, unconditionally -- the language one just
+  // no-ops while is-single (checked at click time, not by adding/removing
+  // the listener), so filterLanguagesForCountry below only ever has to
+  // flip a class and an attribute, never rewire event listeners.
+  [countrySection, langSection].forEach(section => {
+    if (!section) return;
+    const head = section.querySelector('.navbar-region-section-head');
+    if (!head) return;
+    head.addEventListener('click', () => {
+      if (section.classList.contains('is-single')) return;
+      toggleSection(section);
+    });
+  });
+
+  // Filters the language list down to whichever the (pending, not yet
+  // saved) selected country's own market actually publishes -- data-langs
+  // on each country option comes from country.available_languages in
+  // ow-region-selector.liquid. Flips is-single live: a country with only
+  // one language gets no chevron and can't be opened, matching the design
+  // file's singleLang/multiLang branches, but re-evaluated per selection
+  // instead of fixed at page load.
+  function filterLanguagesForCountry(countryOption) {
+    if (!langSection) return;
+    const langs = (countryOption.dataset.langs || '').split(',').filter(Boolean);
+    let visibleCount = 0;
+    let firstVisible = null;
+    let selectedStillVisible = false;
+    localeOptions.forEach(o => {
+      const ok = langs.length === 0 || langs.indexOf(o.dataset.locale) > -1;
+      o.hidden = !ok;
+      if (ok) {
+        visibleCount++;
+        if (!firstVisible) firstVisible = o;
+        if (o.getAttribute('aria-selected') === 'true') selectedStillVisible = true;
+      }
+    });
+
+    // The previously selected language isn't offered by the new country --
+    // fall back to the first one it does offer, same correction the design
+    // file's own country pick() makes.
+    if (!selectedStillVisible && firstVisible) selectInList(localeOptions, firstVisible);
+
+    const head = langSection.querySelector('.navbar-region-section-head');
+    const isSingle = visibleCount <= 1;
+    langSection.classList.toggle('is-single', isSingle);
+    if (head) {
+      if (isSingle) {
+        head.setAttribute('tabindex', '-1');
+        setSectionOpen(langSection, false);
+      } else {
+        head.removeAttribute('tabindex');
+      }
+    }
+    updateSectionCurrent(langSection);
+  }
+
+  // Refreshes a section's compact "current value" line (flag + name, or
+  // just the language name) from whichever option is presently selected --
+  // called after every pick, so the collapsed head never shows a stale
+  // value once its list closes back up.
+  function updateSectionCurrent(section) {
+    if (!section) return;
+    const currentEl = section.querySelector('.navbar-region-section-current');
+    if (!currentEl) return;
+    if (section === countrySection) {
+      const picked = regionEl.querySelector('.navbar-region-option[data-country][aria-selected="true"]');
+      if (picked) currentEl.innerHTML = '<span class="fi ' + picked.dataset.flag + '"></span>' + picked.dataset.countryName;
+    } else if (section === langSection) {
+      const picked = regionEl.querySelector('.navbar-region-option[data-locale][aria-selected="true"]');
+      if (picked) currentEl.textContent = picked.dataset.langName;
+    }
   }
 
   function syncFromInputs() {
@@ -489,6 +617,15 @@ document.querySelectorAll('.navbar-region').forEach(regionEl => {
         o.classList.toggle('navbar-region-option--selected', on);
       });
     }
+    // Reopening always starts from both sections closed and the language
+    // list re-filtered for whatever country is actually saved right now --
+    // abandoning an unsaved pending pick shouldn't leave stale state behind.
+    setSectionOpen(countrySection, false);
+    setSectionOpen(langSection, false);
+    const savedCountryOption = regionEl.querySelector('.navbar-region-option[data-country][aria-selected="true"]');
+    if (savedCountryOption) filterLanguagesForCountry(savedCountryOption);
+    updateSectionCurrent(countrySection);
+    updateSectionCurrent(langSection);
   }
 
   function setExpanded(open) {
@@ -498,10 +635,19 @@ document.querySelectorAll('.navbar-region').forEach(regionEl => {
   }
 
   countryOptions.forEach(option => {
-    option.addEventListener('click', () => selectInList(countryOptions, option));
+    option.addEventListener('click', () => {
+      selectInList(countryOptions, option);
+      updateSectionCurrent(countrySection);
+      filterLanguagesForCountry(option);
+      setSectionOpen(countrySection, false);
+    });
   });
   localeOptions.forEach(option => {
-    option.addEventListener('click', () => selectInList(localeOptions, option));
+    option.addEventListener('click', () => {
+      selectInList(localeOptions, option);
+      updateSectionCurrent(langSection);
+      setSectionOpen(langSection, false);
+    });
   });
 
   trigger.addEventListener('click', () => {
@@ -542,4 +688,44 @@ document.querySelectorAll('.navbar-region').forEach(regionEl => {
     }
     // Native submit continues; page reloads on Shopify's response.
   });
+  });
+}
+bindRegionSelectors();
+
+// Re-binds everything ow-header.liquid renders (navbar visibility, the menu
+// button/modal, the mobile nav list, the region selectors) after the theme
+// editor's live preview reloads that section. Without this the freshly
+// rendered navbar stayed invisible, the hamburger stopped opening, and the
+// region selector stopped responding -- all pointing at DOM this script
+// bound before the reload, now detached -- until a full page reload (Save).
+function refreshHeaderChrome() {
+  const nextTopChrome = document.getElementById('top-chrome');
+  const nextNavbar = document.getElementById('navbar');
+  if (nextTopChrome && nextNavbar && (nextTopChrome !== topChrome || nextNavbar !== navbar)) {
+    // Read the outgoing node's own .visible state before swapping the
+    // reference -- this reflects whatever scroll direction or hero position
+    // last decided, not just whether we're past the hero, so a navbar
+    // legitimately hidden by a downward scroll doesn't pop back open here.
+    const wasVisible = navbar ? navbar.classList.contains('visible') : pastHero;
+    if (chromeResizeObserver && topChrome) chromeResizeObserver.unobserve(topChrome);
+    topChrome = nextTopChrome;
+    navbar = nextNavbar;
+    if (chromeResizeObserver) chromeResizeObserver.observe(topChrome);
+    // Restore that state onto the fresh node, which otherwise starts from
+    // its default hidden CSS state (opacity:0, translateY(-100%)).
+    setNavbarVisible(wasVisible);
+  }
+
+  menuBtn = document.getElementById('menuBtn');
+  menuModal = document.getElementById('menuModal');
+  menuClose = document.getElementById('menuClose');
+  bindMenuButtons();
+
+  buildMobileMenu();
+  bindRegionSelectors();
+}
+
+document.addEventListener('shopify:section:load', () => {
+  refreshVendorBars();
+  refreshHeaderChrome();
 });

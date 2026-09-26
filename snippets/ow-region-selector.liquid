@@ -5,9 +5,16 @@
   Two INDEPENDENT lists (country rows + language rows) inside the original
   dropdown panel chrome, with a Save button. Row click only updates the
   pending selection; Save writes country_code / locale_code and submits.
-  An earlier cross-product pairing (every country x every language as one
-  row) was wrong: Liquid has no country.available_languages. An earlier
-  <dialog> rebuild kept independent fields but replaced this panel look.
+
+  Each section (Country, Language) is its own collapsed mini-accordion —
+  closed by default, showing just the current value + a chevron, opening on
+  its own click. Language additionally has no chevron and isn't clickable at
+  all when the (pending) country only has one language: country.
+  available_languages *is* real and scoped to that country's own market
+  (confirmed against Shopify's Liquid docs; an earlier version of this file
+  believed otherwise and rendered every shop language regardless of country).
+  assets/ow-chrome.js reads each country option's data-langs to filter the
+  language list and flip that single/multi state live, before Save.
 
   Accepts:
   - id_suffix: {String} unique per instance ('header', 'menu') — the selector
@@ -45,14 +52,24 @@
 {%- assign current_lang = localization.language -%}
 {%- assign multi_country = false -%}
 {%- if localization.available_countries.size > 1 -%}{%- assign multi_country = true -%}{%- endif -%}
+{%- comment -%}
+  Scoped to the CURRENT country's own market, not the shop-wide language
+  list -- a country whose market only publishes one language shouldn't
+  offer a language picker at all. See the file header comment.
+{%- endcomment -%}
 {%- assign multi_lang = false -%}
-{%- if localization.available_languages.size > 1 -%}{%- assign multi_lang = true -%}{%- endif -%}
+{%- if current.available_languages.size > 1 -%}{%- assign multi_lang = true -%}{%- endif -%}
 
 {%- if multi_country or multi_lang -%}
   {%- assign allowed = '' -%}
   {%- if country_filter != blank -%}
     {%- assign allowed = country_filter | upcase | replace: ' ', '' | split: ',' -%}
   {%- endif -%}
+  {%- comment -%}
+    Wrapped in delimiters so `contains` can't false-positive on one code
+    being a substring of another (e.g. "en" inside "en-GB").
+  {%- endcomment -%}
+  {%- assign current_lang_codes = current.available_languages | map: 'iso_code' | join: ',' | prepend: ',' | append: ',' -%}
 
   {%- assign region_form_id = 'ow-localization-' | append: id_suffix -%}
   {%- assign current_lang_short = current_lang.iso_code | split: '-' | first | upcase -%}
@@ -70,9 +87,31 @@
 
       <div class="navbar-region-panel">
         {%- if multi_country -%}
-          <div class="navbar-region-section">
-            <p class="navbar-region-section-label" id="{{ region_form_id }}-country-label">{{ 'localization.country_label' | t }}</p>
-            <ul class="navbar-region-options" role="listbox" aria-labelledby="{{ region_form_id }}-country-label">
+          <div class="navbar-region-section" data-region-field="country">
+            {%- comment -%}
+              A collapsed mini-accordion, not an always-open list -- closed
+              by default, showing just the current value. Opens on its own
+              click (data-region-toggle), independent of the other section.
+            {%- endcomment -%}
+            <button type="button" class="navbar-region-section-head" aria-expanded="false" data-region-toggle
+                    aria-controls="{{ region_form_id }}-country-list">
+              <span class="navbar-region-section-text">
+                {%- comment -%}
+                  Hardcoded, not localization.country_label -- that key's default
+                  is "Country/region", shared with several inactive vendor
+                  sections (header.liquid, footer.liquid, header-drawer.liquid).
+                  Overriding it in locales/en.default.json would touch those
+                  too; this snippet is ours, so the plain label lives here.
+                {%- endcomment -%}
+                <span class="navbar-region-section-label">Country</span>
+                <span class="navbar-region-section-current" data-region-current>
+                  <span class="fi fi-{{ current.iso_code | downcase }}"></span>
+                  {{ current.name }} ({{ current.currency.iso_code }} {{ current.currency.symbol }})
+                </span>
+              </span>
+              <img class="navbar-region-section-chevron" src="{{ 'ow-chevron-lang.svg' | asset_url }}" alt="" width="12" height="8">
+            </button>
+            <ul class="navbar-region-options" id="{{ region_form_id }}-country-list" role="listbox" hidden>
               {%- for country in localization.available_countries -%}
                 {%- comment -%}
                   `unless` rather than `if ... contains x == false` — Liquid has
@@ -93,6 +132,8 @@
                     data-flag="fi-{{ country.iso_code | downcase }}"
                     data-label="{{ option_label | escape }}"
                     data-country="{{ country.iso_code }}"
+                    data-country-name="{{ country.name | escape }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})"
+                    data-langs="{{ country.available_languages | map: 'iso_code' | join: ',' }}"
                     aria-selected="{% if country.iso_code == current.iso_code %}true{% else %}false{% endif %}">
                   <span class="fi fi-{{ country.iso_code | downcase }}"></span>
                   {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
@@ -102,23 +143,38 @@
           </div>
         {%- endif -%}
 
-        {%- if multi_lang -%}
-          <div class="navbar-region-section">
-            <p class="navbar-region-section-label" id="{{ region_form_id }}-lang-label">{{ 'localization.language_label' | t }}</p>
-            <ul class="navbar-region-options" role="listbox" aria-labelledby="{{ region_form_id }}-lang-label">
-              {%- for language in localization.available_languages -%}
-                {%- assign lang_short = language.iso_code | split: '-' | first | upcase -%}
-                <li class="navbar-region-option{% if language.iso_code == current_lang.iso_code %} navbar-region-option--selected{% endif %}"
-                    role="option"
-                    data-locale="{{ language.iso_code }}"
-                    data-lang-short="{{ lang_short }}"
-                    aria-selected="{% if language.iso_code == current_lang.iso_code %}true{% else %}false{% endif %}">
-                  {{ language.endonym_name | capitalize }}
-                </li>
-              {%- endfor -%}
-            </ul>
-          </div>
-        {%- endif -%}
+        {%- comment -%}
+          Always rendered (not gated on multi_lang) so assets/ow-chrome.js has
+          every shop language in the DOM to filter as the shopper's pending
+          country selection changes. is-single hides the chevron and makes
+          the head non-interactive when the CURRENT country only has one --
+          JS toggles this class live as the pending country changes.
+        {%- endcomment -%}
+        <div class="navbar-region-section{% unless multi_lang %} is-single{% endunless %}" data-region-field="language">
+          <button type="button" class="navbar-region-section-head" aria-expanded="false" data-region-toggle
+                  aria-controls="{{ region_form_id }}-lang-list" {% unless multi_lang %}tabindex="-1"{% endunless %}>
+            <span class="navbar-region-section-text">
+              <span class="navbar-region-section-label">{{ 'localization.language_label' | t }}</span>
+              <span class="navbar-region-section-current" data-region-current>{{ current_lang.endonym_name | capitalize }}</span>
+            </span>
+            <img class="navbar-region-section-chevron" src="{{ 'ow-chevron-lang.svg' | asset_url }}" alt="" width="12" height="8">
+          </button>
+          <ul class="navbar-region-options" id="{{ region_form_id }}-lang-list" role="listbox" hidden>
+            {%- for language in localization.available_languages -%}
+              {%- assign lang_short = language.iso_code | split: '-' | first | upcase -%}
+              {%- assign lang_delim = language.iso_code | prepend: ',' | append: ',' -%}
+              <li class="navbar-region-option{% if language.iso_code == current_lang.iso_code %} navbar-region-option--selected{% endif %}"
+                  role="option"
+                  data-locale="{{ language.iso_code }}"
+                  data-lang-short="{{ lang_short }}"
+                  data-lang-name="{{ language.endonym_name | capitalize | escape }}"
+                  aria-selected="{% if language.iso_code == current_lang.iso_code %}true{% else %}false{% endif %}"
+                  {% unless current_lang_codes contains lang_delim %}hidden{% endunless %}>
+                {{ language.endonym_name | capitalize }}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
 
         <button type="submit" class="btn-primary navbar-region-save">{{ 'localization.save' | t }}</button>
       </div>
