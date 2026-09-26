@@ -132,8 +132,14 @@
   margin-top:16px;
   }
 .owv2-values-{{ owid }} .icon {
-  width:42px;
+  /* Height-locked, width-auto: a square icon still renders 42x42, but a
+     wide rectangular logo (e.g. the 1% for the Planet badge) scales up
+     to fill that height instead of being squashed into a 42x42 box it
+     only occupies a sliver of. max-width guards a card that's narrower
+     than the logo's natural width at 42px tall (e.g. stacked mobile). */
   height:42px;
+  width:auto;
+  max-width:100%;
   object-fit:contain;
   }
 .owv2-values-{{ owid }} article h3 {
