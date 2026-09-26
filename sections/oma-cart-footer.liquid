@@ -2,8 +2,10 @@
   oma-cart-footer — Omawild cart page, order summary (right column, sticky).
 
   Pairs with oma-cart-items.liquid — see the note at the top of that file for
-  why these stay two separate Shopify sections instead of one. This section
-  self-places into the shared #MainContent grid that oma-cart-items declares.
+  why these stay two separate Shopify sections, and why #main-cart-footer gets
+  physically relocated (via the script at the bottom of this file) into the
+  #oma-cart-row wrapper that oma-cart-items.liquid renders, instead of both
+  sections just sharing a grid on #MainContent.
 
   Kept from the vendor's main-cart-footer.liquid / shipping-calculator.liquid
   on purpose (same JS hooks, from assets/cart.js):
@@ -26,7 +28,6 @@
 {%- endcomment -%}
 
 {%- style -%}
-  #shopify-section-{{ section.id }} { display: contents; }
   #main-cart-footer {
     grid-column: 1;
     min-width: 0;
@@ -162,7 +163,12 @@
   }
   .ocf-checkout-{{ section.id }}:hover { background: #D63200; border-color: #D63200; }
 
-  .ocf-dynamic-{{ section.id }} { display: grid; }
+  .ocf-dynamic-{{ section.id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 8px;
+  }
+  .ocf-dynamic-{{ section.id }} > * { min-width: 0; }
 
   .ocf-pay-icons-{{ section.id }} { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; list-style: none; margin: 0; padding: 0; }
   .ocf-pay-icons-{{ section.id }} li { display: flex; }
@@ -185,7 +191,7 @@
   }
   .ocf-ship-body-{{ section.id }} { padding: 0 24px 22px; display: none; flex-direction: column; gap: 10px; }
   .ocf-ship-{{ section.id }}[data-open] .ocf-ship-body-{{ section.id }} { display: flex; }
-  .ocf-ship-field-{{ section.id }} { position: relative; }
+  .ocf-ship-field-{{ section.id }} { position: relative; margin-bottom: 10px; }
   .ocf-ship-{{ section.id }} select,
   .ocf-ship-{{ section.id }} input[type="text"] {
     width: 100%;
@@ -356,6 +362,13 @@
 </div>
 
 <script>
+  (function () {
+    var row = document.getElementById('oma-cart-row');
+    var footer = document.getElementById('main-cart-footer');
+    if (row && footer && footer.parentElement !== row) {
+      row.appendChild(footer);
+    }
+  })();
   (function () {
     var acc = document.getElementById('ShipAccordion-{{ section.id }}');
     if (acc) {

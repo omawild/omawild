@@ -1,17 +1,28 @@
 {%- comment -%}
   oma-cart-items — Omawild cart page, item list (left column).
 
-  Pairs with oma-cart-footer.liquid (right column) via a shared grid on
-  #MainContent, scoped to body.template-cart so it never touches any other
-  template. The two sections stay separate Shopify sections (not merged into
-  one) because assets/cart.js's AJAX re-render does
-  `document.getElementById('main-cart-items'|'main-cart-footer')` and then
-  `.querySelector('.js-contents')` against a FRESH PARSE of just that one
-  section's HTML — merging them would make that querySelector ambiguous
-  (it'd always grab the first `.js-contents` in the combined markup for
-  both targets). Keeping them separate, and gluing them into one row with
-  `#shopify-section-{{ section.id }}` self-targeting, preserves the AJAX
-  contract untouched.
+  Pairs with oma-cart-footer.liquid (right column). The two sections stay
+  separate Shopify sections (not merged into one) because assets/cart.js's
+  AJAX re-render does `document.getElementById('main-cart-items'|
+  'main-cart-footer')` and then `.querySelector('.js-contents')` against a
+  FRESH PARSE of just that one section's HTML — merging them would make that
+  querySelector ambiguous (it'd always grab the first `.js-contents` in the
+  combined markup for both targets).
+
+  This section creates a dedicated 2-column grid wrapper (#oma-cart-row)
+  around its own <cart-items>. oma-cart-footer.liquid's own inline script
+  physically moves #main-cart-footer into that wrapper on load, so it becomes
+  #oma-cart-row's second grid child. That's deliberate, not a workaround of
+  convenience: an EARLIER version shared a single grid on #MainContent
+  (spanning the page header and recommendations sections too), and Chromium's
+  position:sticky does NOT reliably bound itself to a grid item's own row when
+  that row shares a grid container with unrelated later siblings — the sticky
+  summary would float past the row's bottom edge and overlap whatever section
+  came next. Isolating items+footer into their own 2-child grid (nothing else
+  in it) fixed that — confirmed with a scripted, scrolled Playwright repro
+  before and after, not just eyeballing a screenshot. #MainContent itself
+  needs no special CSS at all now; the page header and recommendations
+  sections center themselves the same way they already do everywhere else.
 
   Kept from the vendor's main-cart-items.liquid on purpose (same JS hooks):
   - <cart-items>, <quantity-input>, <cart-remove-button> custom elements
@@ -35,12 +46,11 @@
 -%}
 
 {%- style -%}
-  #shopify-section-{{ section.id }} { display: contents; }
-
-  body.template-cart #MainContent {
+  .ocrow-{{ section.id }} {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     column-gap: 32px;
+    row-gap: 16px;
     align-items: start;
     max-width: 1280px;
     margin: 0 auto;
@@ -48,13 +58,10 @@
     box-sizing: border-box;
   }
 
-  body.template-cart #MainContent > .shopify-section {
-    grid-column: 1 / -1;
-  }
-
   @media screen and (min-width: 980px) {
-    body.template-cart #MainContent {
+    .ocrow-{{ section.id }} {
       grid-template-columns: minmax(0, 848px) 400px;
+      row-gap: 0;
     }
   }
 
@@ -294,6 +301,29 @@
   }
   .oci-note-body-{{ section.id }} { padding: 0 20px 20px; display: none; }
   .oci-note-{{ section.id }}[data-open] .oci-note-body-{{ section.id }} { display: block; }
+  .oci-note-save-row-{{ section.id }} {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .oci-note-save-{{ section.id }} {
+    border: 1.5px solid #FF3F00;
+    background: #FF3F00;
+    color: #fff;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 100px;
+    font: 800 12px/1 var(--font-heading-family);
+  }
+  .oci-note-save-{{ section.id }}:hover { background: #D63200; border-color: #D63200; }
+  .oci-note-saved-{{ section.id }} {
+    font: 700 12px/1 var(--font-heading-family);
+    color: #00180C;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .oci-note-saved-{{ section.id }}.is-visible { opacity: 1; }
   .oci-note-{{ section.id }} textarea {
     width: 100%;
     box-sizing: border-box;
@@ -367,6 +397,7 @@
   }
 {%- endstyle -%}
 
+<div class="ocrow-{{ section.id }}" id="oma-cart-row">
 <cart-items class="oci-{{ section.id }}{% if cart == empty %} is-empty{% endif %}" id="main-cart-items" data-id="{{ section.id }}">
   <div class="js-contents">
     {%- if cart == empty -%}
@@ -509,12 +540,16 @@
               <cart-note>
                 <textarea
                   name="note"
-                  id="Cart-note"
+                  id="Cart-note-{{ section.id }}"
                   form="cart"
                   rows="3"
                   placeholder="{{ 'sections.cart.note_placeholder' | t | default: 'Gift message, delivery instructions…' }}"
                 >{{ cart.note }}</textarea>
               </cart-note>
+              <div class="oci-note-save-row-{{ section.id }}">
+                <button type="button" class="oci-note-save-{{ section.id }}" data-oci-note-save>Save note</button>
+                <span class="oci-note-saved-{{ section.id }}" data-oci-note-saved>Saved</span>
+              </div>
             </div>
           </div>
 
@@ -527,6 +562,7 @@
   <p class="visually-hidden" id="cart-live-region-text" aria-live="polite" role="status"></p>
   <p class="visually-hidden" id="shopping-cart-line-item-status" aria-live="polite" aria-hidden="true" role="status">{{ 'accessibility.loading' | t }}</p>
 </cart-items>
+</div>
 
 <script>
   (function () {
@@ -546,6 +582,22 @@
         sign.textContent = '−';
       }
     });
+
+    var saveBtn = acc.querySelector('[data-oci-note-save]');
+    var savedLabel = acc.querySelector('[data-oci-note-saved]');
+    var textarea = acc.querySelector('textarea[name="note"]');
+    if (saveBtn && textarea) {
+      saveBtn.addEventListener('click', function () {
+        textarea.dispatchEvent(new Event('change', { bubbles: true }));
+        if (savedLabel) {
+          savedLabel.classList.add('is-visible');
+          window.clearTimeout(savedLabel._ociTimer);
+          savedLabel._ociTimer = window.setTimeout(function () {
+            savedLabel.classList.remove('is-visible');
+          }, 2000);
+        }
+      });
+    }
   })();
 </script>
 
