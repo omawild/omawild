@@ -7,7 +7,7 @@
   --surface: {{ section.settings.card_background }};
   background: var(--bg);
   color: var(--ink);
-  border-top: 1px solid #FFFFFF;
+  {% if section.settings.show_top_line %}border-top: 1px solid #FFFFFF;{% endif %}
   padding: {{ section.settings.padding_top }}px max(20px, 5vw) {{ section.settings.padding_bottom }}px;
   font-family: var(--font-body-family);
   font-size: 16px;
@@ -130,6 +130,24 @@
   overflow-x:auto;
   scroll-snap-type:x mandatory;
   padding-bottom:12px;
+  /* Bleed past the section's own side padding so a swiped card can reach
+     the true viewport edge, then re-add that padding as scroll-padding so
+     the resting position still looks inset -- same pattern as the slider
+     in od-featured-products.liquid. */
+  margin-left:calc(-1 * max(20px, 5vw));
+  margin-right:calc(-1 * max(20px, 5vw));
+  padding-left:max(20px, 5vw);
+  padding-right:max(20px, 5vw);
+  /* Without matching scroll-padding, mandatory snap has no valid snap
+     point at rest (the first card's start doesn't line up with the
+     scrollport's own start, which ignores regular padding) and Chrome
+     silently scrolls past the left inset on load to "fix" it. */
+  scroll-padding-left:max(20px, 5vw);
+  scroll-padding-right:max(20px, 5vw);
+  scrollbar-width:none;
+  }
+.owv2-value-grid-{{ owid }} .cards::-webkit-scrollbar {
+  display:none;
   }
 .owv2-value-grid-{{ owid }} article {
   flex:0 0 85%;
@@ -212,6 +230,12 @@
       "id": "card_background",
       "label": "Card background",
       "default": "#FFFFFF"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_top_line",
+      "label": "Show white top divider line",
+      "default": true
     },
     {
       "type": "range",
