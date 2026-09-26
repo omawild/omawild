@@ -66,6 +66,7 @@ follows from that.
 |---|---|---|
 | `sections/od-*`, `sections/ow-*`, `snippets/chapter-map.liquid` | us | yes |
 | `sections/owv2-*`, `assets/owv2-*` | us | yes — parallel v2 homepage |
+| `sections/oma-*` | us | yes — same v2 work, mid-rename from `owv2-`/`od-`; see note below |
 | `sections/main-bloggle-article.liquid` | Bloggle app | no |
 | `blocks/ai_gen_block_*.liquid` | Shopify AI-generated | regenerate, don't hand-edit |
 | everything else | RoarTheme | rule 3 |
@@ -169,6 +170,24 @@ Three traps that were live before this landed, worth not reintroducing:
   scrolling-promotion.liquid` still exists and is still the one to reach for if a
   rotating-announcements bar is placed again; just give that instance a nickname
   distinguishable from "Announcement Bar" when you do.
+
+- **The v2 sections are mid-migration from `owv2-`/`od-` to a unified `oma-`
+  prefix.** Renamed so far: `oma-hero` (was `owv2-hero`), `oma-page-header` (was
+  `od-page-header`), `oma-newsletter` (was `owv2-newsletter`), `oma-partner` (was
+  `owv2-partner`). A section's Shopify type is tied to its filename and instances
+  don't migrate across a rename (same trap as the announcement-bar note above) —
+  so a file with **no instance placed anywhere** (check with `grep -rl
+  '"type": "<name>"' templates/*.json`) is safe to `git mv` and find/replace
+  `owv2`→`oma` (`OWV2`→`OMA` in the schema `name`) directly. A file that **is**
+  placed must be renamed from *inside* the Shopify theme editor's code editor,
+  which atomically updates the `type` in `templates/*.json` for you — never by
+  `git mv`, since that leaves the placed instance's `type` pointing at a filename
+  that no longer exists (silently drops the section) and we can never hand-edit
+  `templates/*.json` to fix it (rule 2). Still pending a theme-editor rename as of
+  26 Sep 2026: `owv2-banner`, `owv2-marquee`, `owv2-regen`, `owv2-story`,
+  `owv2-subscribe`, `owv2-value-grid`, `owv2-values` (all placed on
+  `templates/index.json`), and `owv2-product-detail`/`-main`/`-origin`/`-pairings`
+  (all placed on `templates/product.product-coffee.json`).
 
 ## Upgrading the theme
 

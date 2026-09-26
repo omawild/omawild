@@ -1,6 +1,6 @@
 {% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
 {% style %}
-.owv2-partner-{{ owid }} {
+.oma-partner-{{ owid }} {
   box-sizing: border-box;
   --bg: {{ section.settings.background_color }};
   --ink: {{ section.settings.text_color }};
@@ -12,10 +12,10 @@
   font-size: 16px;
   line-height: 1.5;
   }
-.owv2-partner-{{ owid }} *, .owv2-partner-{{ owid }} *::before, .owv2-partner-{{ owid }} *::after {
+.oma-partner-{{ owid }} *, .oma-partner-{{ owid }} *::before, .oma-partner-{{ owid }} *::after {
   box-sizing: border-box;
   }
-.owv2-partner-{{ owid }} h1, .owv2-partner-{{ owid }} h2, .owv2-partner-{{ owid }} h3 {
+.oma-partner-{{ owid }} h1, .oma-partner-{{ owid }} h2, .oma-partner-{{ owid }} h3 {
   font-family: var(--font-heading-family);
   color: inherit;
   font-weight: 900;
@@ -25,45 +25,45 @@
   margin: 0;
   overflow-wrap: anywhere;
   }
-.owv2-partner-{{ owid }} h2 {
+.oma-partner-{{ owid }} h2 {
   font-size: clamp(30px, 4vw, 58px);
   }
-.owv2-partner-{{ owid }} h3 {
+.oma-partner-{{ owid }} h3 {
   font-size: 26px;
   }
-.owv2-partner-{{ owid }} p {
+.oma-partner-{{ owid }} p {
   margin: 0 0 16px;
   }
-.owv2-partner-{{ owid }} p:last-child {
+.oma-partner-{{ owid }} p:last-child {
   margin-bottom: 0;
   }
-.owv2-partner-{{ owid }} a {
+.oma-partner-{{ owid }} a {
   color: inherit;
   }
-.owv2-partner-{{ owid }} img, .owv2-partner-{{ owid }} svg {
+.oma-partner-{{ owid }} img, .oma-partner-{{ owid }} svg {
   display: block;
   max-width: 100%;
   height: auto;
   }
-.owv2-partner-{{ owid }} .inner {
+.oma-partner-{{ owid }} .inner {
   max-width: 1320px;
   margin-inline: auto;
   min-width: 0;
   }
-.owv2-partner-{{ owid }} .intro {
+.oma-partner-{{ owid }} .intro {
   max-width: 760px;
   margin-bottom: 32px;
   }
-.owv2-partner-{{ owid }} .intro > * + * {
+.oma-partner-{{ owid }} .intro > * + * {
   margin-top: 20px;
   }
-.owv2-partner-{{ owid }} .eyebrow {
+.oma-partner-{{ owid }} .eyebrow {
   font-size: 12px;
   font-weight: 700;
   letter-spacing: .12em;
   text-transform: uppercase;
   }
-.owv2-partner-{{ owid }} .owv2-button {
+.oma-partner-{{ owid }} .oma-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -78,11 +78,11 @@
   text-align: center;
   cursor: pointer;
   }
-.owv2-partner-{{ owid }} :focus-visible {
+.oma-partner-{{ owid }} :focus-visible {
   outline: 3px solid currentColor;
   outline-offset: 4px;
   }
-.owv2-partner-{{ owid }} .owv2-placeholder {
+.oma-partner-{{ owid }} .oma-placeholder {
   width: 100%;
   height: 100%;
   min-height: 200px;
@@ -90,32 +90,32 @@
   fill: var(--ink);
   }
 @media (prefers-reduced-motion: reduce) {
-  .owv2-partner-{{ owid }} * {
+  .oma-partner-{{ owid }} * {
   scroll-behavior: auto !important;
   scroll-snap-type: none !important;
   }
 }
-.owv2-partner-{{ owid }} .inner {
+.oma-partner-{{ owid }} .inner {
   display:flex;
   justify-content:space-between;
   align-items:center;
   gap:48px;
   }
-.owv2-partner-{{ owid }} h2 {
+.oma-partner-{{ owid }} h2 {
   max-width:850px;
   }
-.owv2-partner-{{ owid }} .owv2-button {
+.oma-partner-{{ owid }} .oma-button {
   flex-shrink:0;
   }
 @media(max-width:749px) {
-  .owv2-partner-{{ owid }} .inner {
+  .oma-partner-{{ owid }} .inner {
   flex-direction:column;
   align-items:flex-start;
   gap:24px;
   }
 }
 {% endstyle %}
-<div class="owv2-partner-{{ owid }}">
+<div class="oma-partner-{{ owid }}">
 <div class="inner">
 <div>
 <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
@@ -123,16 +123,16 @@
 </div>
 {% if section.settings.cta_label != blank %}
 {% if section.settings.cta_link != blank %}
-<a class="owv2-button" href="{{ section.settings.cta_link }}">{{ section.settings.cta_label | escape }}</a>
+<a class="oma-button" href="{{ section.settings.cta_link }}">{{ section.settings.cta_label | escape }}</a>
 {% else %}
-<span class="owv2-button" aria-disabled="true">{{ section.settings.cta_label | escape }}</span>
+<span class="oma-button" aria-disabled="true">{{ section.settings.cta_label | escape }}</span>
 {% endif %}
 {% endif %}
 </div>
 </div>
 {% schema %}
 {
-  "name": "OWV2 Partner band",
+  "name": "OMA Partner band",
   "tag": "section",
   "disabled_on": {
     "groups": [
@@ -206,7 +206,7 @@
   ],
   "presets": [
     {
-      "name": "OWV2 Partner band",
+      "name": "OMA Partner band",
       "blocks": []
     }
   ]
