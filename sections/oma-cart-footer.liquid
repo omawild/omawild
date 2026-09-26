@@ -1,0 +1,392 @@
+{%- comment -%}
+  oma-cart-footer — Omawild cart page, order summary (right column, sticky).
+
+  Pairs with oma-cart-items.liquid — see the note at the top of that file for
+  why these stay two separate Shopify sections instead of one. This section
+  self-places into the shared #MainContent grid that oma-cart-items declares.
+
+  Kept from the vendor's main-cart-footer.liquid / shipping-calculator.liquid
+  on purpose (same JS hooks, from assets/cart.js):
+  - <cart-discount data-section-id> with its exact child-order contract
+    (results element = lastElementChild; that element's own lastElementChild
+    holds the error text) and button[is="discount-remove"][data-discount]
+  - .js-contents (the node cart.js replaces on every AJAX update)
+  - name="checkout" button with form="cart" (the form itself lives in
+    oma-cart-items.liquid; form="cart" is what lets a button outside that
+    section's DOM still submit it)
+  - content_for_additional_checkout_buttons (Shop Pay / GPay / etc. — real
+    enabled methods, not hardcoded icons)
+  - shop.enabled_payment_types | payment_type_svg_tag (real accepted cards)
+  - <shipping-calculator> custom element with its exact child id contract
+    (#ShippingCalculatorCountry/Province/ProvinceContainer/Zip/Errors/Success
+    and a lone <button>), moved here from the vendor's separate
+    shipping-calculator.liquid section to match the design's nested
+    placement — it's a self-contained custom element, so nesting it inside a
+    different section doesn't change its behavior.
+{%- endcomment -%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} { display: contents; }
+  #main-cart-footer {
+    grid-column: 1;
+    min-width: 0;
+  }
+  @media screen and (min-width: 980px) {
+    #main-cart-footer {
+      grid-column: 2;
+    }
+    #main-cart-footer.ocf-has-items-{{ section.id }} {
+      position: sticky;
+      top: 108px;
+    }
+  }
+
+  .ocf-card-{{ section.id }} {
+    background: #fff;
+    border: 1.5px solid #FF3F00;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .ocf-pad-{{ section.id }} {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .ocf-title-{{ section.id }} {
+    margin: 0;
+    font: 800 26px/1 var(--font-heading-family);
+    letter-spacing: -0.03em;
+    color: #FF3F00;
+  }
+
+  .ocf-discount-{{ section.id }} { display: flex; flex-direction: column; gap: 8px; }
+  .ocf-discount-{{ section.id }} > label { font: 700 12.5px/1.55 var(--font-heading-family); color: #00180C; }
+  .ocf-discount-row-{{ section.id }} { display: flex; gap: 8px; }
+  .ocf-discount-row-{{ section.id }} input {
+    flex: 1;
+    min-width: 0;
+    box-sizing: border-box;
+    height: 44px;
+    border: 1.5px solid #FF3F00;
+    border-radius: 100px;
+    padding: 0 16px;
+    background: #F7F5F1;
+    font: 500 14.5px/1 var(--font-body-family);
+    color: #00180C;
+  }
+  .ocf-discount-row-{{ section.id }} button {
+    flex: none;
+    height: 44px;
+    padding: 0 20px;
+    border: 1.5px solid #FF3F00;
+    background: #fff;
+    color: #FF3F00;
+    border-radius: 100px;
+    cursor: pointer;
+    font: 800 12px/1 var(--font-heading-family);
+  }
+  .ocf-discount-row-{{ section.id }} button:hover { background: #FF3F00; color: #fff; }
+  .ocf-discount-row-{{ section.id }} button[aria-busy="true"] { opacity: 0.6; pointer-events: none; }
+
+  .ocf-discount-pills-{{ section.id }} {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .ocf-discount-pill-{{ section.id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #FCD0FD;
+    border: 1.5px solid #FF3F00;
+    border-radius: 100px;
+    padding: 8px 8px 8px 14px;
+    font: 800 12px/1 var(--font-heading-family);
+    color: #FF3F00;
+    letter-spacing: 0.04em;
+  }
+  .ocf-discount-pill-{{ section.id }} button {
+    width: 22px;
+    height: 22px;
+    border: 0;
+    border-radius: 100px;
+    background: #FF3F00;
+    color: #fff;
+    cursor: pointer;
+    font: 800 12px/1 var(--font-heading-family);
+  }
+  .ocf-discount-note-{{ section.id }} { font: 500 12.5px/1.55 var(--font-body-family); color: #00180C; }
+  .ocf-discount-error-{{ section.id }} { font: 600 12.5px/1.5 var(--font-body-family); color: #FF3F00; }
+  .ocf-discount-error-{{ section.id }}.hidden { display: none; }
+
+  .ocf-totals-{{ section.id }} {
+    border-top: 1.5px solid #FF3F00;
+    padding-top: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .ocf-totals-row-{{ section.id }} {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font: 500 14.5px/1.6 var(--font-body-family);
+    color: #00180C;
+  }
+  .ocf-totals-final-{{ section.id }} {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-top: 6px;
+  }
+  .ocf-totals-final-{{ section.id }} span:first-child { font: 800 17px/1 var(--font-heading-family); color: #00180C; }
+  .ocf-totals-final-{{ section.id }} span:last-child { font: 800 26px/1 var(--font-heading-family); letter-spacing: -0.02em; color: #FF3F00; }
+  .ocf-tax-note-{{ section.id }} { margin: 0; font: 500 12.5px/1.55 var(--font-body-family); color: #00180C; }
+
+  .ocf-checkout-{{ section.id }} {
+    height: 56px;
+    width: 100%;
+    border: 1.5px solid #FF3F00;
+    background: #FF3F00;
+    color: #fff;
+    border-radius: 100px;
+    cursor: pointer;
+    font: 800 14px/1 var(--font-heading-family);
+    letter-spacing: 0.02em;
+  }
+  .ocf-checkout-{{ section.id }}:hover { background: #D63200; border-color: #D63200; }
+
+  .ocf-dynamic-{{ section.id }} { display: grid; }
+
+  .ocf-pay-icons-{{ section.id }} { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; list-style: none; margin: 0; padding: 0; }
+  .ocf-pay-icons-{{ section.id }} li { display: flex; }
+  .ocf-pay-icons-{{ section.id }} svg { height: 20px; display: block; }
+
+  .ocf-ship-{{ section.id }} { border-top: 1.5px solid #FF3F00; background: #FFE4E7; }
+  .ocf-ship-toggle-{{ section.id }} {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    padding: 18px 24px;
+    font: 800 15px/1 var(--font-heading-family);
+    color: #FF3F00;
+    text-align: left;
+  }
+  .ocf-ship-body-{{ section.id }} { padding: 0 24px 22px; display: none; flex-direction: column; gap: 10px; }
+  .ocf-ship-{{ section.id }}[data-open] .ocf-ship-body-{{ section.id }} { display: flex; }
+  .ocf-ship-field-{{ section.id }} { position: relative; }
+  .ocf-ship-{{ section.id }} select,
+  .ocf-ship-{{ section.id }} input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+    height: 44px;
+    appearance: none;
+    -webkit-appearance: none;
+    border: 1.5px solid #FF3F00;
+    border-radius: 100px;
+    background: #fff;
+    padding: 0 38px 0 16px;
+    font: 700 13px/1 var(--font-heading-family);
+    color: #FF3F00;
+    cursor: pointer;
+  }
+  .ocf-ship-{{ section.id }} input[type="text"] { cursor: text; font: 500 14.5px/1 var(--font-body-family); color: #00180C; padding-right: 16px; }
+  .ocf-ship-chevron-{{ section.id }} { position: absolute; right: 16px; top: 50%; width: 11px; height: 8px; margin-top: -4px; pointer-events: none; }
+  .ocf-ship-row-{{ section.id }} { display: flex; gap: 8px; }
+  .ocf-ship-row-{{ section.id }} input { flex: 1; min-width: 0; }
+  .ocf-ship-calc-{{ section.id }} {
+    flex: none;
+    height: 44px;
+    padding: 0 18px;
+    border: 1.5px solid #FF3F00;
+    background: #FF3F00;
+    color: #fff;
+    border-radius: 100px;
+    cursor: pointer;
+    font: 800 12px/1 var(--font-heading-family);
+  }
+  .ocf-ship-calc-{{ section.id }}:hover { background: #D63200; border-color: #D63200; }
+  .ocf-ship-calc-{{ section.id }}.loading { opacity: 0.6; pointer-events: none; }
+  .ocf-ship-msg-{{ section.id }} { margin: 0; font: 500 12.5px/1.55 var(--font-body-family); color: #00180C; }
+  .ocf-ship-msg-{{ section.id }}.hidden { display: none; }
+  .ocf-ship-msg-{{ section.id }} p { margin: 0 0 4px; }
+{%- endstyle -%}
+
+<div id="main-cart-footer" class="{% if cart == empty %}is-empty{% else %}ocf-has-items-{{ section.id }}{% endif %}" data-id="{{ section.id }}">
+  <div class="js-contents">
+    {%- if cart != empty -%}
+      <div class="ocf-card-{{ section.id }}">
+        <div class="ocf-pad-{{ section.id }}">
+          <h2 class="ocf-title-{{ section.id }}">{{ 'sections.cart.subtotal' | t | default: 'Order summary' }}</h2>
+
+          {%- if settings.show_add_discount_code -%}
+            {%- liquid
+              assign discount_codes = cart.cart_level_discount_applications | where: 'type', 'discount_code' | map: 'title'
+              for item in cart.items
+                for allocation in item.line_level_discount_allocations
+                  if allocation.discount_application.type == 'discount_code'
+                    assign discount_codes = item.line_level_discount_allocations | slice: forloop.index0 | map: 'discount_application' | map: 'title' | concat: discount_codes
+                  endif
+                endfor
+              endfor
+              assign discount_codes = discount_codes | uniq
+            -%}
+            <div class="ocf-discount-{{ section.id }}">
+              <label for="CartDiscountForm-{{ section.id }}">{{ 'general.cart.discount.title' | t | default: 'Discount code' }}</label>
+              <cart-discount data-section-id="{{ section.id }}">
+                {%- if discount_codes.size > 0 -%}
+                  <ul class="ocf-discount-pills-{{ section.id }}" role="list">
+                    {%- for discount_code in discount_codes -%}
+                      <li>
+                        <span class="ocf-discount-pill-{{ section.id }}">
+                          {{ discount_code }}
+                          <button type="button" is="discount-remove" data-discount="{{ discount_code }}" aria-label="{{ 'general.cart.discount.remove' | t: code: discount_code | escape }}">&times;</button>
+                        </span>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                  <span class="ocf-discount-note-{{ section.id }}">Applied at checkout</span>
+                {%- else -%}
+                  <div class="ocf-discount-row-{{ section.id }}">
+                    <input type="text" name="discount" id="CartDiscountForm-{{ section.id }}" placeholder="{{ 'general.cart.discount.caption' | t | default: 'Enter code' }}">
+                    <button type="button" data-discount-btn>{{ 'general.cart.discount.button' | t | default: 'Apply' }}</button>
+                  </div>
+                {%- endif -%}
+                <div class="ocf-discount-error-{{ section.id }} hidden">
+                  <span></span>
+                </div>
+              </cart-discount>
+            </div>
+          {%- endif -%}
+
+          <div class="ocf-totals-{{ section.id }}">
+            <div class="ocf-totals-row-{{ section.id }}">
+              <span>{{ cart.item_count }} {% if cart.item_count == 1 %}item{% else %}items{% endif %}</span>
+              <span>{{ cart.original_total_price | money }}</span>
+            </div>
+            <div class="ocf-totals-row-{{ section.id }}">
+              <span>Shipping</span>
+              <span>Calculated at checkout</span>
+            </div>
+            <div class="ocf-totals-final-{{ section.id }}">
+              <span>{{ 'sections.cart.subtotal' | t | default: 'Subtotal' }}</span>
+              <span>{{ cart.total_price | money }}</span>
+            </div>
+            <p class="ocf-tax-note-{{ section.id }}">Taxes, discounts and shipping calculated at checkout.</p>
+          </div>
+
+          <button type="submit" name="checkout" form="cart" class="ocf-checkout-{{ section.id }}">
+            {{ 'sections.cart.checkout' | t | default: 'Check out' }} &middot; {{ cart.total_price | money }}
+          </button>
+
+          {%- if section.settings.show_dynamic_checkout and additional_checkout_buttons -%}
+            <div class="ocf-dynamic-{{ section.id }} additional-checkout-buttons">
+              {{ content_for_additional_checkout_buttons }}
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
+            <ul class="ocf-pay-icons-{{ section.id }}" role="list">
+              {%- for type in shop.enabled_payment_types -%}
+                <li>{{ type | payment_type_svg_tag }}</li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.show_shipping_estimator -%}
+          <div class="ocf-ship-{{ section.id }}" id="ShipAccordion-{{ section.id }}">
+            <button type="button" class="ocf-ship-toggle-{{ section.id }}" data-ocf-ship-toggle aria-expanded="false">
+              <span>{{ 'general.cart.shipping_calculator.title' | t | default: 'Estimate shipping' }}</span>
+              <span aria-hidden="true" data-ocf-ship-sign>+</span>
+            </button>
+            <div class="ocf-ship-body-{{ section.id }}">
+              <shipping-calculator>
+                <form-state>
+                  <div class="ocf-ship-field-{{ section.id }}">
+                    <select
+                      id="ShippingCalculatorCountry"
+                      data-default="{% if shop.customer_accounts_enabled and customer %}{{ customer.default_address.country }}{% endif %}"
+                      autocomplete="country"
+                      data-empty="---"
+                      aria-label="{{ 'customer.addresses.country' | t }}"
+                    >
+                      {{ all_country_option_tags }}
+                    </select>
+                    <svg class="ocf-ship-chevron-{{ section.id }}" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="#FF3F00" stroke-width="2" stroke-linecap="round"/></svg>
+                  </div>
+                  <div class="ocf-ship-field-{{ section.id }}" id="ShippingCalculatorProvinceContainer" style="display:none">
+                    <select id="ShippingCalculatorProvince" autocomplete="address-level1" aria-label="{{ 'customer.addresses.province' | t }}"></select>
+                    <svg class="ocf-ship-chevron-{{ section.id }}" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="#FF3F00" stroke-width="2" stroke-linecap="round"/></svg>
+                  </div>
+                  <div class="ocf-ship-row-{{ section.id }}">
+                    <input
+                      id="ShippingCalculatorZip"
+                      type="text"
+                      {% if shop.customer_accounts_enabled and customer %}value="{{ customer.default_address.zip }}"{% endif %}
+                      autocapitalize="characters"
+                      autocomplete="postal-code"
+                      placeholder="{{ 'customer.addresses.zip' | t | default: 'Postal code' }}"
+                    >
+                    <button type="button" class="ocf-ship-calc-{{ section.id }}">{{ 'general.cart.shipping_calculator.button' | t | default: 'Calculate' }}</button>
+                  </div>
+                </form-state>
+                <div class="ocf-ship-msg-{{ section.id }} hidden" id="ShippingCalculatorErrors">
+                  <div class="errors"></div>
+                </div>
+                <div class="ocf-ship-msg-{{ section.id }} hidden" id="ShippingCalculatorSuccess"></div>
+              </shipping-calculator>
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  (function () {
+    var acc = document.getElementById('ShipAccordion-{{ section.id }}');
+    if (acc) {
+      var toggle = acc.querySelector('[data-ocf-ship-toggle]');
+      var sign = acc.querySelector('[data-ocf-ship-sign]');
+      toggle.addEventListener('click', function () {
+        var open = acc.hasAttribute('data-open');
+        if (open) {
+          acc.removeAttribute('data-open');
+          toggle.setAttribute('aria-expanded', 'false');
+          sign.textContent = '+';
+        } else {
+          acc.setAttribute('data-open', '');
+          toggle.setAttribute('aria-expanded', 'true');
+          sign.textContent = '−';
+        }
+      });
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "OMA Cart Footer",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout buttons", "default": true },
+    { "type": "checkbox", "id": "show_payment_icons", "label": "Show accepted payment icons", "default": true },
+    { "type": "checkbox", "id": "show_shipping_estimator", "label": "Show shipping estimator", "default": true }
+  ],
+  "presets": [{ "name": "OMA Cart Footer" }]
+}
+{% endschema %}

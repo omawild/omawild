@@ -1,4 +1,9 @@
 {%- style -%}
+  body.template-cart #shopify-section-{{ section.id }} {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+  }
+
   .section-{{ section.id }} {
     background-color: {{ section.settings.background_color }};
     padding-top: {{ section.settings.padding_top }}px;
@@ -31,10 +36,25 @@
   .crumbs-{{ section.id }} a { color: inherit; text-decoration: none; }
   .crumbs-{{ section.id }} a:hover { opacity: 0.75; }
 
+  .title-row-{{ section.id }} {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px 40px;
+  }
+
   .title-{{ section.id }} {
     margin: 0;
     font: 900 clamp(40px, 7vw, 88px)/0.95 var(--font-heading-family);
     letter-spacing: -0.03em;
+    color: {{ section.settings.heading_color }};
+  }
+
+  .aside-{{ section.id }} {
+    padding-bottom: 8px;
+    font: 800 clamp(20px, 2vw, 26px)/1.1 var(--font-heading-family);
+    letter-spacing: -0.02em;
     color: {{ section.settings.heading_color }};
   }
 
@@ -130,7 +150,12 @@
       </ul>
     {%- endif -%}
 
-    <h1 class="title-{{ section.id }}">{{ section.settings.heading }}</h1>
+    <div class="title-row-{{ section.id }}">
+      <h1 class="title-{{ section.id }}">{{ section.settings.heading }}</h1>
+      {%- if template.name == 'cart' and cart.item_count > 0 -%}
+        <div class="aside-{{ section.id }}">{{ cart.item_count }} {% if cart.item_count == 1 %}item{% else %}items{% endif %}</div>
+      {%- endif -%}
+    </div>
 
     {%- if section.settings.body != blank -%}
       <div class="body-{{ section.id }} rte">{{ section.settings.body }}</div>

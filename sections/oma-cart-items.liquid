@@ -1,0 +1,560 @@
+{%- comment -%}
+  oma-cart-items — Omawild cart page, item list (left column).
+
+  Pairs with oma-cart-footer.liquid (right column) via a shared grid on
+  #MainContent, scoped to body.template-cart so it never touches any other
+  template. The two sections stay separate Shopify sections (not merged into
+  one) because assets/cart.js's AJAX re-render does
+  `document.getElementById('main-cart-items'|'main-cart-footer')` and then
+  `.querySelector('.js-contents')` against a FRESH PARSE of just that one
+  section's HTML — merging them would make that querySelector ambiguous
+  (it'd always grab the first `.js-contents` in the combined markup for
+  both targets). Keeping them separate, and gluing them into one row with
+  `#shopify-section-{{ section.id }}` self-targeting, preserves the AJAX
+  contract untouched.
+
+  Kept from the vendor's main-cart-items.liquid on purpose (same JS hooks):
+  - <cart-items>, <quantity-input>, <cart-remove-button> custom elements
+  - name="updates[]", data-quantity-variant-id, data-index, id="Quantity-N"
+  - item.url_to_remove, id="Remove-N", id="CartItem-N"
+  - .js-contents (the node cart.js replaces on every AJAX update)
+  - #cart-live-region-text / #shopping-cart-line-item-status
+  - the optional gift-wrapping linklist block (vendor feature, own store may not use it)
+
+  The cart note textarea moved here from the vendor's main-cart-footer.liquid
+  to match the design's placement, using form="cart" so it still submits with
+  the #cart form and CartNote (assets/cart.js) still PATCHes it independently
+  on change — the textarea doesn't care which section renders it.
+{%- endcomment -%}
+
+{%- liquid
+  if linklists.gift-wrapping.links != blank and linklists.gift-wrapping.links.first.type == 'product_link'
+    assign gift_wrapping = linklists.gift-wrapping.links.first
+    assign gift_wrap_id = gift_wrapping.object.variants.first.id
+  endif
+-%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} { display: contents; }
+
+  body.template-cart #MainContent {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: 32px;
+    align-items: start;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 4vw, 48px);
+    box-sizing: border-box;
+  }
+
+  body.template-cart #MainContent > .shopify-section {
+    grid-column: 1 / -1;
+  }
+
+  @media screen and (min-width: 980px) {
+    body.template-cart #MainContent {
+      grid-template-columns: minmax(0, 848px) 400px;
+    }
+  }
+
+  #main-cart-items { grid-column: 1; min-width: 0; }
+
+  .oci-empty-{{ section.id }} {
+    border-bottom: 1.5px solid #FF3F00;
+  }
+  .oci-empty-inner-{{ section.id }} {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 72px clamp(20px, 4vw, 48px) 96px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .oci-empty-title-{{ section.id }} {
+    margin: 0;
+    font: 800 clamp(30px, 3.4vw, 44px)/1 var(--font-heading-family);
+    letter-spacing: -0.03em;
+    color: #FF3F00;
+  }
+  .oci-empty-body-{{ section.id }} {
+    margin: 0;
+    max-width: 52ch;
+    font: 500 16.5px/1.6 var(--font-body-family);
+    color: #00180C;
+  }
+  .oci-empty-cta-{{ section.id }} {
+    text-decoration: none;
+    background: #FF3F00;
+    color: #fff;
+    padding: 16px 28px;
+    border-radius: 100px;
+    font: 800 13px/1 var(--font-heading-family);
+  }
+  .oci-empty-cta-{{ section.id }}:hover { background: #D63200; }
+
+  .oci-wrap-{{ section.id }} {
+    border-bottom: 1.5px solid #FF3F00;
+    padding: 8px 0 80px;
+  }
+  #main-cart-items.is-empty .oci-wrap-{{ section.id }} { display: none; }
+
+  .oci-list-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .oci-item-{{ section.id }} {
+    display: grid;
+    grid-template-columns: 84px 1fr;
+    grid-template-areas: "img identity-m" "qtyrow qtyrow";
+    gap: 14px;
+    align-items: start;
+    background: #fff;
+    border: 1.5px solid #FF3F00;
+    border-radius: 10px;
+    padding: 14px;
+    position: relative;
+  }
+
+  .oci-item__img-{{ section.id }} {
+    grid-area: img;
+    display: block;
+    aspect-ratio: 1 / 1;
+    border: 1.5px solid #FF3F00;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #FBB925;
+  }
+  .oci-item__img-{{ section.id }} img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .oci-item__badge-{{ section.id }} {
+    display: inline-block;
+    white-space: nowrap;
+    background: #FF3F00;
+    color: #fff;
+    padding: 5px 9px;
+    border-radius: 4px;
+    font: 800 9.5px/1 var(--font-heading-family);
+    letter-spacing: 0.1em;
+    margin: 0 0 10px;
+  }
+
+  .oci-item__name-{{ section.id }} {
+    text-decoration: none;
+    display: block;
+  }
+  .oci-item__name-{{ section.id }} h3 {
+    margin: 0;
+    font: 800 19px/1.1 var(--font-heading-family);
+    letter-spacing: -0.02em;
+    color: #FF3F00;
+  }
+
+  .oci-item__pills-{{ section.id }} {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .oci-item__pill-{{ section.id }} {
+    white-space: nowrap;
+    border: 1.5px solid #FF3F00;
+    border-radius: 100px;
+    padding: 5px 10px;
+    font: 700 11.5px/1 var(--font-heading-family);
+    color: #FF3F00;
+  }
+
+  .oci-item__optline-{{ section.id }} {
+    font: 500 12.5px/1.55 var(--font-body-family);
+    color: #00180C;
+  }
+
+  .oci-item__price-row-{{ section.id }} {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+  }
+  .oci-item__price-{{ section.id }} {
+    font: 800 16px/1 var(--font-heading-family);
+    color: #FF3F00;
+    white-space: nowrap;
+  }
+  .oci-item__unit-{{ section.id }} {
+    font: 500 12.5px/1.55 var(--font-body-family);
+    color: #00180C;
+    white-space: nowrap;
+  }
+  .oci-item__was-{{ section.id }} {
+    font: 600 13px/1 var(--font-body-family);
+    color: #00180C;
+    text-decoration: line-through;
+    white-space: nowrap;
+  }
+
+  .oci-identity-m-{{ section.id }} { grid-area: identity-m; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+  .oci-identity-d-{{ section.id }} { display: none; }
+
+  .oci-qtyrow-{{ section.id }} {
+    grid-area: qtyrow;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 12px;
+    border-top: 1.5px solid #FFE4E7;
+  }
+  .oci-qtyrow__price-{{ section.id }} { display: none; }
+
+  .oci-stepper-{{ section.id }} {
+    display: inline-flex;
+    align-items: center;
+    border: 1.5px solid #FF3F00;
+    border-radius: 100px;
+    background: #fff;
+    height: 44px;
+    box-sizing: border-box;
+  }
+  .oci-stepper-{{ section.id }} button {
+    width: 44px;
+    height: 100%;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    font: 800 18px/1 var(--font-heading-family);
+    color: #FF3F00;
+    border-radius: 100px;
+  }
+  .oci-stepper-{{ section.id }} button:hover { background: rgba(255, 63, 0, 0.08); }
+  .oci-stepper-{{ section.id }} button.disabled { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
+  .oci-stepper__val-{{ section.id }} {
+    min-width: 24px;
+    text-align: center;
+    font: 800 15px/1 var(--font-heading-family);
+    color: #00180C;
+  }
+
+  .oci-remove-{{ section.id }} {
+    min-height: 44px;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    padding: 0 4px;
+    font: 700 13px/1 var(--font-heading-family);
+    color: #FF3F00;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .oci-item__error-{{ section.id }} {
+    grid-column: 1 / -1;
+    margin: 0;
+    font: 500 12px/1.5 var(--font-body-family);
+    color: #FF3F00;
+  }
+  .oci-item__error-{{ section.id }}:empty { display: none; }
+
+  .oci-loading-{{ section.id }} {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
+  }
+  .oci-loading-{{ section.id }}.hidden { display: none; }
+  .oci-loading-{{ section.id }} svg { width: 28px; height: 28px; animation: oci-spin-{{ section.id }} 0.8s linear infinite; }
+  @keyframes oci-spin-{{ section.id }} { to { transform: rotate(360deg); } }
+
+  .oci-note-{{ section.id }} {
+    margin-top: 16px;
+    background: #fff;
+    border: 1.5px solid #FF3F00;
+    border-radius: 10px;
+  }
+  .oci-note-toggle-{{ section.id }} {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    padding: 18px 20px;
+    font: 800 15px/1 var(--font-heading-family);
+    color: #FF3F00;
+    text-align: left;
+  }
+  .oci-note-body-{{ section.id }} { padding: 0 20px 20px; display: none; }
+  .oci-note-{{ section.id }}[data-open] .oci-note-body-{{ section.id }} { display: block; }
+  .oci-note-{{ section.id }} textarea {
+    width: 100%;
+    box-sizing: border-box;
+    resize: vertical;
+    border: 1.5px solid #FF3F00;
+    border-radius: 8px;
+    padding: 12px 14px;
+    background: #F7F5F1;
+    font: 500 14.5px/1.6 var(--font-body-family);
+    color: #00180C;
+  }
+
+  .oci-giftwrap-{{ section.id }} {
+    margin-top: 16px;
+    background: #fff;
+    border: 1.5px solid #FF3F00;
+    border-radius: 10px;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font: 500 14.5px/1.6 var(--font-body-family);
+    color: #00180C;
+  }
+  .oci-giftwrap-{{ section.id }} label { display: flex; align-items: center; gap: 10px; cursor: pointer; font: 700 13px/1.4 var(--font-heading-family); color: #FF3F00; }
+  .oci-giftwrap-{{ section.id }} textarea {
+    width: 100%;
+    box-sizing: border-box;
+    resize: vertical;
+    border: 1.5px solid #FF3F00;
+    border-radius: 8px;
+    padding: 12px 14px;
+    background: #F7F5F1;
+    font: 500 14.5px/1.6 var(--font-body-family);
+    color: #00180C;
+  }
+
+  .oci-continue-{{ section.id }} {
+    display: inline-block;
+    margin-top: 16px;
+    text-decoration: none;
+    font: 800 13px/1 var(--font-heading-family);
+    color: #FF3F00;
+    padding: 8px 0;
+  }
+
+  @media screen and (min-width: 640px) {
+    .oci-item-{{ section.id }} {
+      grid-template-columns: 132px 1fr auto;
+      grid-template-areas: "img identity-d qtyrow";
+      gap: 20px;
+      padding: 16px;
+    }
+    .oci-identity-m-{{ section.id }} { display: none; }
+    .oci-identity-d-{{ section.id }} { display: block; grid-area: identity-d; min-width: 0; padding-top: 4px; }
+    .oci-item__name-{{ section.id }} h3 { font: 800 23px/1.05 var(--font-heading-family); margin-top: 12px; }
+    .oci-qtyrow-{{ section.id }} {
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+      border-top: 0;
+      padding-top: 4px;
+      justify-content: flex-start;
+    }
+    .oci-qtyrow__price-{{ section.id }} { display: block; text-align: right; }
+    .oci-qtyrow__price-{{ section.id }} .oci-item__price-{{ section.id }} { font: 800 19px/1 var(--font-heading-family); }
+    .oci-qtyrow__price-{{ section.id }} .oci-item__unit-{{ section.id }},
+    .oci-qtyrow__price-{{ section.id }} .oci-item__was-{{ section.id }} { display: block; margin-top: 6px; }
+    .oci-item__error-{{ section.id }} { grid-column: unset; }
+    .oci-remove-{{ section.id }} { margin-top: -4px; }
+  }
+{%- endstyle -%}
+
+<cart-items class="oci-{{ section.id }}{% if cart == empty %} is-empty{% endif %}" id="main-cart-items" data-id="{{ section.id }}">
+  <div class="js-contents">
+    {%- if cart == empty -%}
+      <div class="oci-empty-{{ section.id }}">
+        <div class="oci-empty-inner-{{ section.id }}">
+          <h2 class="oci-empty-title-{{ section.id }}">{{ 'sections.cart.empty' | t | default: 'Your cart is empty.' }}</h2>
+          <p class="oci-empty-body-{{ section.id }}">Every bag ships with its roast date printed on it.</p>
+          <a href="{{ routes.all_products_collection_url }}" class="oci-empty-cta-{{ section.id }}">{{ 'general.continue_shopping' | t }}</a>
+        </div>
+      </div>
+    {%- else -%}
+      <div class="oci-wrap-{{ section.id }}">
+        <form action="{{ routes.cart_url }}" class="cart__contents" method="post" id="cart">
+          <div class="oci-list-{{ section.id }}">
+            {%- for item in cart.items -%}
+              {%- liquid
+                assign index = item.index | plus: 1
+                assign is_gift_wrap = false
+                if gift_wrap_id != nil and item.id == gift_wrap_id
+                  assign is_gift_wrap = true
+                endif
+              -%}
+              <article class="oci-item-{{ section.id }}" id="CartItem-{{ index }}">
+                <div class="oci-loading-{{ section.id }} hidden">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="#FF3F00" stroke-width="2" stroke-dasharray="42" stroke-dashoffset="14" stroke-linecap="round"/></svg>
+                </div>
+
+                <a href="{{ item.url }}" class="oci-item__img-{{ section.id }}">
+                  {%- if item.image -%}
+                    <img
+                      srcset="{{ item.image | image_url: width: 168 }} 1x, {{ item.image | image_url: width: 336 }} 2x"
+                      src="{{ item.image | image_url: width: 168 }}"
+                      alt="{{ item.image.alt | escape | split: '#' | first }}"
+                      loading="lazy"
+                      width="132"
+                      height="132"
+                    >
+                  {%- endif -%}
+                </a>
+
+                {%- comment -%} mobile identity: title, options, price together {%- endcomment -%}
+                <div class="oci-identity-m-{{ section.id }}">
+                  <a href="{{ item.url }}" class="oci-item__name-{{ section.id }}"><h3>{{ item.product.title | escape }}</h3></a>
+                  {%- if item.product.has_only_default_variant == false -%}
+                    <div class="oci-item__optline-{{ section.id }}">{{ item.options_with_values | map: 'value' | join: ' · ' }}</div>
+                  {%- endif -%}
+                  <div class="oci-item__price-row-{{ section.id }}">
+                    <span class="oci-item__price-{{ section.id }}">{{ item.final_line_price | money }}</span>
+                    {%- if item.quantity > 1 -%}
+                      <span class="oci-item__unit-{{ section.id }}">{{ item.final_price | money }} each</span>
+                    {%- endif -%}
+                  </div>
+                </div>
+
+                {%- comment -%} desktop identity: badge, title, options pills, selling plan {%- endcomment -%}
+                <div class="oci-identity-d-{{ section.id }}">
+                  {%- if item.product.tags.first != blank -%}
+                    <span class="oci-item__badge-{{ section.id }}">{{ item.product.tags.first | upcase }}</span>
+                  {%- endif -%}
+                  <a href="{{ item.url }}" class="oci-item__name-{{ section.id }}"><h3>{{ item.product.title | escape }}</h3></a>
+                  {%- if item.product.has_only_default_variant == false or item.selling_plan_allocation != null -%}
+                    <div class="oci-item__pills-{{ section.id }}">
+                      {%- for option in item.options_with_values -%}
+                        <span class="oci-item__pill-{{ section.id }}">{{ option.value }}</span>
+                      {%- endfor -%}
+                      {%- if item.selling_plan_allocation != null -%}
+                        <span class="oci-item__pill-{{ section.id }}">{{ item.selling_plan_allocation.selling_plan.name }}</span>
+                      {%- endif -%}
+                    </div>
+                  {%- endif -%}
+                </div>
+
+                <div class="oci-qtyrow-{{ section.id }}">
+                  <div class="oci-qtyrow__price-{{ section.id }}">
+                    <span class="oci-item__price-{{ section.id }}">{{ item.final_line_price | money }}</span>
+                    {%- if item.original_line_price != item.final_line_price -%}
+                      <span class="oci-item__was-{{ section.id }}">{{ item.original_line_price | money }}</span>
+                    {%- elsif item.quantity > 1 -%}
+                      <span class="oci-item__unit-{{ section.id }}">{{ item.final_price | money }} each</span>
+                    {%- endif -%}
+                  </div>
+
+                  {%- unless is_gift_wrap -%}
+                    <quantity-input class="oci-stepper-{{ section.id }} quantity">
+                      <button class="quantity__button" name="minus" type="button" aria-label="{{ 'products.product.quantity.decrease' | t: product: item.product.title | escape }}">&minus;</button>
+                      <input
+                        class="oci-stepper__val-{{ section.id }} quantity__input"
+                        data-quantity-variant-id="{{ item.variant.id }}"
+                        type="number"
+                        name="updates[]"
+                        value="{{ item.quantity }}"
+                        {% # theme-check-disable %}
+                        data-cart-quantity="{{ cart | item_count_for_variant: item.variant.id }}"
+                        min="0"
+                        data-min="{{ item.variant.quantity_rule.min }}"
+                        {% if item.variant.quantity_rule.max != null %}max="{{ item.variant.quantity_rule.max }}"{% endif %}
+                        step="{{ item.variant.quantity_rule.increment }}"
+                        {% # theme-check-enable %}
+                        aria-label="{{ 'products.product.quantity.input_label' | t: product: item.product.title | escape }}"
+                        id="Quantity-{{ index }}"
+                        data-index="{{ index }}"
+                      >
+                      <button class="quantity__button" name="plus" type="button" aria-label="{{ 'products.product.quantity.increase' | t: product: item.product.title | escape }}">+</button>
+                    </quantity-input>
+                    <cart-remove-button id="Remove-{{ index }}" data-index="{{ index }}">
+                      <a href="{{ item.url_to_remove }}" class="oci-remove-{{ section.id }}" aria-label="{{ 'sections.cart.remove_title' | t: title: item.title }}">Remove</a>
+                    </cart-remove-button>
+                  {%- endunless -%}
+                </div>
+
+                <p class="oci-item__error-{{ section.id }}" id="Line-item-error-{{ index }}"></p>
+              </article>
+            {%- endfor -%}
+          </div>
+
+          {%- if gift_wrapping != nil -%}
+            <div class="oci-giftwrap-{{ section.id }}">
+              <label for="gift-wrapping">
+                <input
+                  id="gift-wrapping"
+                  type="checkbox"
+                  name="attributes[gift-wrapping]"
+                  value="yes"
+                  {% if cart.attributes.gift-wrapping %}checked="checked"{% endif %}
+                >
+                {{ 'sections.cart.gift_wrapping_html' | t: price: gift_wrapping.object.price | money }}
+              </label>
+              {%- if cart.attributes.gift-wrapping -%}
+                <textarea name="attributes[gift-note]" id="gift-note" placeholder="{{ 'sections.cart.gift_note_placeholder' | t }}" rows="2">{{ cart.attributes.gift-note }}</textarea>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+
+          <div class="oci-note-{{ section.id }}" id="CartNoteAccordion-{{ section.id }}">
+            <button type="button" class="oci-note-toggle-{{ section.id }}" data-oci-note-toggle aria-expanded="false">
+              <span>{{ 'sections.cart.note' | t | default: 'Add a note to your order' }}</span>
+              <span aria-hidden="true" data-oci-note-sign>+</span>
+            </button>
+            <div class="oci-note-body-{{ section.id }}">
+              <cart-note>
+                <textarea
+                  name="note"
+                  id="Cart-note"
+                  form="cart"
+                  rows="3"
+                  placeholder="{{ 'sections.cart.note_placeholder' | t | default: 'Gift message, delivery instructions…' }}"
+                >{{ cart.note }}</textarea>
+              </cart-note>
+            </div>
+          </div>
+
+          <a href="{{ routes.all_products_collection_url }}" class="oci-continue-{{ section.id }}">&larr; {{ 'general.continue_shopping' | t }}</a>
+        </form>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <p class="visually-hidden" id="cart-live-region-text" aria-live="polite" role="status"></p>
+  <p class="visually-hidden" id="shopping-cart-line-item-status" aria-live="polite" aria-hidden="true" role="status">{{ 'accessibility.loading' | t }}</p>
+</cart-items>
+
+<script>
+  (function () {
+    var acc = document.getElementById('CartNoteAccordion-{{ section.id }}');
+    if (!acc) return;
+    var toggle = acc.querySelector('[data-oci-note-toggle]');
+    var sign = acc.querySelector('[data-oci-note-sign]');
+    toggle.addEventListener('click', function () {
+      var open = acc.hasAttribute('data-open');
+      if (open) {
+        acc.removeAttribute('data-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        sign.textContent = '+';
+      } else {
+        acc.setAttribute('data-open', '');
+        toggle.setAttribute('aria-expanded', 'true');
+        sign.textContent = '−';
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "OMA Cart Items",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "presets": [{ "name": "OMA Cart Items" }]
+}
+{% endschema %}
