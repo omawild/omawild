@@ -10,7 +10,7 @@
 {
   "sections": {
     "od_page_header_iMJiVK": {
-      "type": "od-page-header",
+      "type": "oma-page-header",
       "blocks": {
         "collection_row_YKT9DB": {
           "type": "collection_row",
