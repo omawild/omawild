@@ -504,6 +504,53 @@
         "padding_top": 64,
         "padding_bottom": 64
       }
+    },
+    "owv2_values_N9MGw3": {
+      "type": "owv2-values",
+      "blocks": {
+        "value_n8HpHR": {
+          "type": "value",
+          "settings": {
+            "heading": "Good coffee",
+            "body": "<p>Every cup is a chance to do something good.</p>",
+            "cta_label": "",
+            "cta_link": ""
+          }
+        },
+        "value_a8K7ip": {
+          "type": "value",
+          "settings": {
+            "heading": "Living landscapes",
+            "body": "<p>Every cup is a chance to do something good.</p>",
+            "cta_label": "",
+            "cta_link": ""
+          }
+        },
+        "value_jNPEWn": {
+          "type": "value",
+          "settings": {
+            "heading": "A shared future",
+            "body": "<p>Every cup is a chance to do something good.</p>",
+            "cta_label": "",
+            "cta_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "value_n8HpHR",
+        "value_a8K7ip",
+        "value_jNPEWn"
+      ],
+      "name": "OWV2 Values",
+      "settings": {
+        "heading": "There are many reasons to give a damn…",
+        "intro": "<p>A better daily ritual, with nature at its heart.</p>",
+        "background_color": "#F7F5F1",
+        "text_color": "#FF3F00",
+        "card_background": "#FFFFFF",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
@@ -515,6 +562,7 @@
     "owv2_subscribe_BGiGnM",
     "owv2_regen_tE6yiU",
     "owv2_story_hBtcLa",
-    "owv2_banner"
+    "owv2_banner",
+    "owv2_values_N9MGw3"
   ]
 }
