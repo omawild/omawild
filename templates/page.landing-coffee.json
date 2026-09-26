@@ -88,10 +88,7 @@
             "price_caption": "",
             "benefit_1": "Best for pour-over",
             "benefit_2": "Exceptional for cold brew",
-            "benefit_3": "Great for nitro",
-            "show_subscription_notice": true,
-            "subscription_notice_text": "For subscriptions, [click here].",
-            "subscription_custom_url": "{{ block.settings.product_item.url }}"
+            "benefit_3": "Great for nitro"
           }
         },
         "collection_7A9XCX": {
@@ -107,10 +104,7 @@
             "price_caption": "",
             "benefit_1": "Crafted for espresso",
             "benefit_2": "Brews rich in a moka pot",
-            "benefit_3": "Shines in milk-based beverages",
-            "show_subscription_notice": true,
-            "subscription_notice_text": "For subscriptions, [click here]",
-            "subscription_custom_url": "{{ block.settings.product_item.url }}"
+            "benefit_3": "Shines in milk-based beverages"
           }
         },
         "collection_xXGJWc": {
@@ -125,10 +119,7 @@
             "price_caption": "",
             "benefit_1": "Best for pour-over and hot over ice",
             "benefit_2": "Makes insanely delicious cold brew",
-            "benefit_3": "Rare micro-lot",
-            "show_subscription_notice": true,
-            "subscription_notice_text": "For subscriptions, [click here].",
-            "subscription_custom_url": "{{ block.settings.product_item.url }}"
+            "benefit_3": "Rare micro-lot"
           }
         }
       },
