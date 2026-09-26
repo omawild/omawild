@@ -408,6 +408,17 @@
       ]
     }
   </script>
+
+  {%- comment -%}
+    Shopify Subscriptions app embed (config/settings_data.json — theme-editor
+    owned, not ours to touch) has no section placement of its own. Without a
+    target div somewhere in the template it falls back to rendering after the
+    footer, admin-only warning banner included. This section already builds
+    its own subscribe/one-time UI from product.selling_plan_groups above, so
+    the app isn't doing anything else on this page — the div just gives it
+    somewhere inert to land instead of the page-bottom fallback.
+  {%- endcomment -%}
+  <div class="subscriptions_app_embed_block" style="display:none" aria-hidden="true"></div>
 </div>
 
 {% schema %}
