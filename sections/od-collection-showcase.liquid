@@ -6,6 +6,10 @@
   if showcase_description == blank and showcase_collection != blank
     assign showcase_description = showcase_collection.description
   endif
+  assign has_more_products = false
+  if showcase_collection != blank and showcase_collection.all_products_count > section.settings.products_to_show
+    assign has_more_products = true
+  endif
 -%}
 
 {%- style -%}
@@ -302,7 +306,7 @@
             <div class="desc-{{ section.id }} rte">{{ showcase_description }}</div>
           {%- endif -%}
         </div>
-        {%- if section.settings.show_view_all -%}
+        {%- if section.settings.show_view_all and has_more_products -%}
           <a href="{{ showcase_collection.url }}" class="view-all-{{ section.id }}">{{ section.settings.view_all_label }} &rarr;</a>
         {%- endif -%}
       </div>
@@ -413,7 +417,7 @@
     { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Blank uses the collection's handle. Must match the \"Anchor ID override\" on the matching row in the OD Page Header section above." },
     { "type": "text", "id": "heading_override", "label": "Heading override", "info": "Blank uses the collection's own title." },
     { "type": "richtext", "id": "description_override", "label": "Description override", "info": "Blank uses the collection's own description." },
-    { "type": "checkbox", "id": "show_view_all", "label": "Show \"View all\" link", "default": true },
+    { "type": "checkbox", "id": "show_view_all", "label": "Show \"View all\" link", "default": true, "info": "Only shows when the collection has more products than \"Products to show\" below — no point linking onward if this grid already shows everything." },
     { "type": "text", "id": "view_all_label", "label": "\"View all\" label", "default": "View all" },
     { "type": "header", "content": "Products" },
     { "type": "range", "id": "products_to_show", "label": "Products to show", "min": 1, "max": 24, "step": 1, "default": 8 },
