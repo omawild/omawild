@@ -360,31 +360,17 @@
         "padding_bottom": 64
       }
     },
-    "owv2_story_KEJr7R": {
+    "owv2_story_hBtcLa": {
       "type": "owv2-story",
       "blocks": {
-        "photo_yFa3LH": {
-          "type": "photo",
-          "settings": {
-            "caption": "",
-            "link": ""
-          }
-        },
-        "photo_gAJMKW": {
-          "type": "photo",
-          "settings": {
-            "caption": "",
-            "link": ""
-          }
-        },
-        "photo_7cc3hG": {
+        "photo_XqcpNy": {
           "type": "photo",
           "settings": {
             "caption": "It started with a one-way ticket to Bali.",
             "link": ""
           }
         },
-        "photo_HTALnw": {
+        "photo_6miyAf": {
           "type": "photo",
           "settings": {
             "caption": "A shared love for wild places.",
@@ -393,10 +379,8 @@
         }
       },
       "block_order": [
-        "photo_yFa3LH",
-        "photo_gAJMKW",
-        "photo_7cc3hG",
-        "photo_HTALnw"
+        "photo_XqcpNy",
+        "photo_6miyAf"
       ],
       "name": "OWV2 Founder story",
       "settings": {
@@ -417,9 +401,9 @@
     "owv2_hero_C33844",
     "owv2_marquee",
     "scrolling_promotion_c3aaUQ",
-    "od_featured_products_VgPWWJ",
     "owv2_value_grid_QXFMkK",
+    "od_featured_products_VgPWWJ",
     "owv2_banner",
-    "owv2_story_KEJr7R"
+    "owv2_story_hBtcLa"
   ]
 }
