@@ -49,32 +49,41 @@
 {%- endcomment -%}
 <div id="top-chrome" class="fixed-header">
   <nav class="navbar" id="navbar" aria-label="Site navigation">
-    <a class="navbar-logo" href="{{ routes.root_url }}">
-      <img src="{{ 'ow-logo.svg' | asset_url }}" alt="{{ shop.name | escape }}" width="480" height="80">
-    </a>
-    <ul class="navbar-links">
-      {%- for link in section.settings.menu.links -%}
-        {%- comment -%}
-          The design keeps the first link in sentence case while the rest are
-          uppercased by CSS — navbar-link--plain opts that one out.
-        {%- endcomment -%}
-        {%- if link.links.size > 0 -%}
-          <li class="navbar-link-dropdown">
-            <a href="{{ link.url }}" class="navbar-link-toggle">
-              {{ link.title }}
-              <img class="navbar-link-chevron" src="{{ 'ow-chevron-link.svg' | asset_url }}" alt="" width="14" height="14">
-            </a>
-            <div class="navbar-dropdown">
-              {%- for child in link.links -%}
-                <a href="{{ child.url }}">{{ child.title }}</a>
-              {%- endfor -%}
-            </div>
-          </li>
-        {%- else -%}
-          <li><a href="{{ link.url }}"{% if forloop.first %} class="navbar-link--plain"{% endif %}>{{ link.title }}</a></li>
-        {%- endif -%}
-      {%- endfor -%}
-    </ul>
+    {%- comment -%}
+      Logo + links are one flex group (navbar-left) so they sit together on
+      the left, icons/cart/region/menu-btn form the other on the right --
+      .navbar's own justify-content:space-between splits the two. Previously
+      the links sat absolutely centered on the bar independent of both
+      clusters; the redesign groups them with the logo instead.
+    {%- endcomment -%}
+    <div class="navbar-left">
+      <a class="navbar-logo" href="{{ routes.root_url }}">
+        <img src="{{ 'ow-logo.svg' | asset_url }}" alt="{{ shop.name | escape }}" width="480" height="80">
+      </a>
+      <ul class="navbar-links">
+        {%- for link in section.settings.menu.links -%}
+          {%- comment -%}
+            The design keeps the first link in sentence case while the rest are
+            uppercased by CSS — navbar-link--plain opts that one out.
+          {%- endcomment -%}
+          {%- if link.links.size > 0 -%}
+            <li class="navbar-link-dropdown">
+              <a href="{{ link.url }}" class="navbar-link-toggle">
+                {{ link.title }}
+                <img class="navbar-link-chevron" src="{{ 'ow-chevron-link.svg' | asset_url }}" alt="" width="14" height="14">
+              </a>
+              <div class="navbar-dropdown">
+                {%- for child in link.links -%}
+                  <a href="{{ child.url }}">{{ child.title }}</a>
+                {%- endfor -%}
+              </div>
+            </li>
+          {%- else -%}
+            <li><a href="{{ link.url }}"{% if forloop.first %} class="navbar-link--plain"{% endif %}>{{ link.title }}</a></li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </div>
     <div class="navbar-right">
       {%- if section.settings.show_region_selector -%}
         {% render 'ow-region-selector',
@@ -108,14 +117,19 @@
             <img src="{{ 'ow-icon-account.svg' | asset_url }}" alt="" width="30" height="30">
           </a>
         {%- endif -%}
-
-        <a href="{{ routes.cart_url }}" class="navbar-cart" aria-label="{{ 'templates.cart.cart' | t }} ({{ cart.item_count }})">
-          <img src="{{ 'ow-icon-cart.svg' | asset_url }}" alt="" width="30" height="30">
-          {%- if cart.item_count > 0 -%}
-            <span class="navbar-cart-count" aria-hidden="true">{{ cart.item_count }}</span>
-          {%- endif -%}
-        </a>
       </div>
+      {%- comment -%}
+        Cart is its own solid pill with a visible label, not another icon in
+        .navbar-icons with a corner badge -- matches the design file. Text
+        comes from the same translation key the old aria-label used, so this
+        still respects the store's locale; CSS uppercases it.
+      {%- endcomment -%}
+      <a href="{{ routes.cart_url }}" class="navbar-cart" aria-label="{{ 'templates.cart.cart' | t }} ({{ cart.item_count }})">
+        {{- 'templates.cart.cart' | t -}}
+        {%- if cart.item_count > 0 -%}
+          <span class="navbar-cart-count" aria-hidden="true">{{ cart.item_count }}</span>
+        {%- endif -%}
+      </a>
       <button class="navbar-menu-btn" id="menuBtn" aria-label="Open menu">
         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path fill-rule="evenodd" clip-rule="evenodd" d="M5 6.25C4.30965 6.25 3.75 6.80965 3.75 7.5C3.75 8.19035 4.30965 8.75 5 8.75H25C25.6904 8.75 26.25 8.19035 26.25 7.5C26.25 6.80965 25.6904 6.25 25 6.25H5ZM3.75 15C3.75 14.3096 4.30965 13.75 5 13.75H25C25.6904 13.75 26.25 14.3096 26.25 15C26.25 15.6904 25.6904 16.25 25 16.25H5C4.30965 16.25 3.75 15.6904 3.75 15ZM3.75 22.5C3.75 21.8096 4.30965 21.25 5 21.25H25C25.6904 21.25 26.25 21.8096 26.25 22.5C26.25 23.1904 25.6904 23.75 25 23.75H5C4.30965 23.75 3.75 23.1904 3.75 22.5Z" fill="#FF3F00"/>

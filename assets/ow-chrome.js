@@ -445,14 +445,17 @@ document.addEventListener('DOMContentLoaded', syncFooterNavExpanded);
 window.addEventListener('resize', syncFooterNavExpanded);
 
 // ── REGION / LANGUAGE / CURRENCY SELECTOR ──
-// Two instances (navbar + mobile menu). Desktop open/close is CSS
-// (:hover / :focus-within). This only handles: selecting a row (pending),
-// Save (copy into hidden inputs + submit), and re-syncing selection from
-// the hidden inputs when the panel is re-opened so an abandoned pick does
-// not stick. Inline (mobile) is click-to-toggle .expanded.
+// Two instances (navbar + mobile menu), both click-to-toggle .expanded now —
+// desktop used to open on :hover/:focus-within, which doesn't fire reliably
+// on touch/tablet (no real hover state), so it's the same mechanism as the
+// mobile menu's own Discover accordion for both. This handles: opening
+// (click the trigger), re-syncing selection from the hidden inputs on open
+// so an abandoned pick doesn't stick, selecting a row (pending), and Save
+// (copy into hidden inputs + submit).
 document.querySelectorAll('.navbar-region').forEach(regionEl => {
   const form = regionEl.querySelector('form.navbar-region-form');
-  if (!form) return;
+  const trigger = regionEl.querySelector('.navbar-lang');
+  if (!form || !trigger) return;
 
   const countryInput = form.querySelector('[name="country_code"]');
   const localeInput = form.querySelector('[name="locale_code"]');
@@ -488,6 +491,12 @@ document.querySelectorAll('.navbar-region').forEach(regionEl => {
     }
   }
 
+  function setExpanded(open) {
+    regionEl.classList.toggle('expanded', open);
+    trigger.setAttribute('aria-expanded', String(open));
+    if (open) syncFromInputs();
+  }
+
   countryOptions.forEach(option => {
     option.addEventListener('click', () => selectInList(countryOptions, option));
   });
@@ -495,12 +504,21 @@ document.querySelectorAll('.navbar-region').forEach(regionEl => {
     option.addEventListener('click', () => selectInList(localeOptions, option));
   });
 
-  // Re-sync when the shopper comes back to the panel without saving.
-  // mouseenter on the region (not focusin): focusin would re-fire when
-  // tabbing from a row to Save and wipe the pending selection.
-  regionEl.addEventListener('mouseenter', syncFromInputs);
-  const trigger = regionEl.querySelector('.navbar-lang');
-  if (trigger) trigger.addEventListener('focus', syncFromInputs);
+  trigger.addEventListener('click', () => {
+    setExpanded(!regionEl.classList.contains('expanded'));
+  });
+
+  // Floating desktop popover needs an explicit close; the inline mobile
+  // accordion lives inside the already-dismissable full-screen menu and
+  // doesn't, so this is scoped to the non-inline variant only.
+  if (!regionEl.classList.contains('navbar-region--inline')) {
+    document.addEventListener('click', (e) => {
+      if (regionEl.classList.contains('expanded') && !regionEl.contains(e.target)) setExpanded(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && regionEl.classList.contains('expanded')) setExpanded(false);
+    });
+  }
 
   form.addEventListener('submit', () => {
     const countryOpt = regionEl.querySelector('.navbar-region-option[data-country][aria-selected="true"]');
@@ -523,31 +541,5 @@ document.querySelectorAll('.navbar-region').forEach(regionEl => {
       localeInput.value = localeOpt.dataset.locale;
     }
     // Native submit continues; page reloads on Shopify's response.
-  });
-});
-
-// Inline variant (mobile menu modal) is click-to-toggle, not
-// hover-driven — same accordion mechanism as the Discover group above.
-document.querySelectorAll('.navbar-region--inline').forEach(regionEl => {
-  const toggle = regionEl.querySelector('.navbar-lang');
-  if (!toggle) return;
-  toggle.addEventListener('click', () => {
-    const isOpen = regionEl.classList.toggle('expanded');
-    toggle.setAttribute('aria-expanded', String(isOpen));
-    if (isOpen) {
-      // Same abandoned-pick reset as desktop mouseenter.
-      const countryInput = regionEl.querySelector('[name="country_code"]');
-      const localeInput = regionEl.querySelector('[name="locale_code"]');
-      regionEl.querySelectorAll('.navbar-region-option[data-country]').forEach(o => {
-        const on = countryInput && o.dataset.country === countryInput.value;
-        o.setAttribute('aria-selected', on ? 'true' : 'false');
-        o.classList.toggle('navbar-region-option--selected', on);
-      });
-      regionEl.querySelectorAll('.navbar-region-option[data-locale]').forEach(o => {
-        const on = localeInput && o.dataset.locale === localeInput.value;
-        o.setAttribute('aria-selected', on ? 'true' : 'false');
-        o.classList.toggle('navbar-region-option--selected', on);
-      });
-    }
   });
 });

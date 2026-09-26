@@ -7,130 +7,150 @@
   shows the success toast; on a real submit Shopify round-trips the page and the
   form.posted_successfully? branch below re-opens the toast on return.
 
-  Nav columns come from Shopify Navigation link lists so they stay editable in
-  the admin. Four columns are the design; leave a menu unset to drop a column.
+  Nav columns are blocks (nav_column), one per column, however many the
+  merchant adds/removes/reorders -- not a fixed set of slots. Each points at
+  a Shopify Navigation link list, so the links themselves stay editable in
+  the admin; leave a column's menu unset to drop it.
+
+  Layout: .footer-grid puts the brand block (logo/copyright/1% badge) and
+  the nav columns in one CSS grid row on tablet+ (assets/ow-chrome.css),
+  ordered via `order`, not DOM position, so mobile can stack them in the
+  opposite order (nav accordion, then brand) without duplicating markup.
+  Social icons and payment icons are each a single instance now too,
+  repositioned per breakpoint by CSS rather than rendered into two slots.
 {%- endcomment -%}
 
 {{ 'ow-chrome.css' | asset_url | stylesheet_tag }}
 
 <footer class="footer">
-  <div class="footer-head">
-    <img src="{{ 'ow-nature-head.svg' | asset_url }}" alt="" width="284" height="74">
-  </div>
-  <p class="footer-tagline">{{ section.settings.tagline }}</p>
+  <div class="footer-top">
+    <div class="footer-newsletter">
+      <img class="footer-head" src="{{ 'ow-nature-head.svg' | asset_url }}" alt="" width="284" height="74">
+      <p class="footer-tagline">{{ section.settings.tagline }}</p>
 
-  {%- form 'customer', id: 'footerEmailForm', class: 'footer-email' -%}
-    <input type="hidden" name="contact[tags]" value="newsletter">
-    <input type="hidden" name="contact[accepts_marketing]" value="true">
-    <input type="email"
-           name="contact[email]"
-           placeholder="{{ section.settings.email_placeholder | escape }}"
-           aria-label="{{ section.settings.email_placeholder | escape }}"
-           autocomplete="email"
-           required>
-    <button type="submit" aria-label="{{ section.settings.submit_label | escape }}">
-      <img src="{{ 'ow-icon-submit.svg' | asset_url }}" alt="" width="24" height="24">
-    </button>
-    {%- comment -%}
-      The `form` object only exists inside this {% form %} block, so the success
-      state has to be captured here — the toast below cannot read it directly.
-      Liquid assigns outlive the block, which is what makes this work.
-    {%- endcomment -%}
-    {%- if form.posted_successfully? -%}
-      {%- assign newsletter_posted = true -%}
-    {%- endif -%}
-  {%- endform -%}
+      {%- form 'customer', id: 'footerEmailForm', class: 'footer-email' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <input type="hidden" name="contact[accepts_marketing]" value="true">
+        <input type="email"
+               name="contact[email]"
+               placeholder="{{ section.settings.email_placeholder | escape }}"
+               aria-label="{{ section.settings.email_placeholder | escape }}"
+               autocomplete="email"
+               required>
+        <button type="submit">{{ section.settings.submit_label | escape }}</button>
+        {%- comment -%}
+          The `form` object only exists inside this {% form %} block, so the success
+          state has to be captured here — the toast below cannot read it directly.
+          Liquid assigns outlive the block, which is what makes this work.
+        {%- endcomment -%}
+        {%- if form.posted_successfully? -%}
+          {%- assign newsletter_posted = true -%}
+        {%- endif -%}
+      {%- endform -%}
 
-  <div class="email-toast-backdrop" id="emailToastBackdrop"></div>
-  <div class="email-toast{% if newsletter_posted %} show{% endif %}" id="emailToast" role="status" aria-live="polite">
-    <span class="email-toast-icon">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M20 6L9 17l-5-5" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </span>
-    <span class="email-toast-text">{{ section.settings.toast_text }}</span>
-  </div>
+      <div class="email-toast-backdrop" id="emailToastBackdrop"></div>
+      <div class="email-toast{% if newsletter_posted %} show{% endif %}" id="emailToast" role="status" aria-live="polite">
+        <span class="email-toast-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M20 6L9 17l-5-5" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="email-toast-text">{{ section.settings.toast_text }}</span>
+      </div>
+    </div>
 
-  {%- comment -%} Social row — repeated by the design at two breakpoints. {%- endcomment -%}
-  {%- capture social_links -%}
-    {%- if section.settings.linkedin != blank -%}
-      <a href="{{ section.settings.linkedin }}" target="_blank" rel="noopener" aria-label="LinkedIn" style="position:relative;z-index:1;">
-        <img src="{{ 'ow-icon-linkedin.svg' | asset_url }}" alt="" width="20" height="20">
-      </a>
-    {%- endif -%}
-    {%- if section.settings.instagram != blank -%}
-      <a href="{{ section.settings.instagram }}" target="_blank" rel="noopener" aria-label="Instagram" style="position:relative;z-index:1;">
-        <img src="{{ 'ow-icon-instagram.svg' | asset_url }}" alt="" width="20" height="20">
-      </a>
-    {%- endif -%}
-  {%- endcapture -%}
-
-  {%- comment -%}
-    Payment icons from Shopify Payments — same source as the vendor footer
-    (shop.enabled_payment_types). Rendered in two slots like social_links:
-    desktop sits under the top social row; mobile sits in .footer-bottom-row.
-  {%- endcomment -%}
-  {%- capture footer_payments -%}
-    {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
-      <div class="footer-payments">
-        <span class="visually-hidden">{{ 'sections.footer.payment' | t }}</span>
-        <ul class="footer-payments-list" role="list">
-          {%- for type in shop.enabled_payment_types -%}
-            <li class="footer-payments-item">
-              {{ type | payment_type_svg_tag: class: 'footer-payment-icon' }}
-            </li>
-          {%- endfor -%}
-        </ul>
+    {%- if section.settings.linkedin != blank or section.settings.instagram != blank -%}
+      <div class="footer-social">
+        {%- if section.settings.linkedin != blank -%}
+          <a href="{{ section.settings.linkedin }}" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <img src="{{ 'ow-icon-linkedin.svg' | asset_url }}" alt="" width="20" height="20">
+          </a>
+        {%- endif -%}
+        {%- if section.settings.instagram != blank -%}
+          <a href="{{ section.settings.instagram }}" target="_blank" rel="noopener" aria-label="Instagram">
+            <img src="{{ 'ow-icon-instagram.svg' | asset_url }}" alt="" width="20" height="20">
+          </a>
+        {%- endif -%}
       </div>
     {%- endif -%}
-  {%- endcapture -%}
+  </div>
 
-  <div class="footer-social">{{ social_links }}</div>
-  <div class="footer-payments-slot footer-payments-slot--desktop">{{ footer_payments }}</div>
-
-  <nav class="footer-nav">
-    {%- for i in (1..4) -%}
-      {%- assign menu_key = 'menu_' | append: i -%}
-      {%- assign title_key = 'menu_' | append: i | append: '_title' -%}
-      {%- assign menu = section.settings[menu_key] -%}
-      {%- if menu != blank and menu.links.size > 0 -%}
-        <div class="footer-nav-section">
-          {%- comment -%}
-            A real <button>, not a div: it has to be reachable by keyboard and
-            announce its own state. type="button" keeps it from submitting the
-            newsletter form it shares a page with. aria-expanded is seeded
-            false and then corrected by ow-chrome.js, which owns the truth of
-            whether the links are actually visible at the current width.
-          {%- endcomment -%}
-          <button type="button"
-                  class="footer-nav-section-head"
-                  aria-expanded="false"
-                  onclick="toggleFooterNav(this)">
-            {{ section.settings[title_key] | default: menu.title }}
-            <img src="{{ 'ow-bullet.svg' | asset_url }}" alt="" width="16" height="16">
-          </button>
-          <div class="footer-nav-links">
-            {%- for link in menu.links -%}
-              <a href="{{ link.url }}">{{ link.title }}</a>
-            {%- endfor -%}
+  {%- comment -%}
+    One block per column, however many the merchant adds/removes/reorders --
+    replaces the old fixed menu_1..menu_4 settings, which always reserved
+    four slots whether or not all four were configured. --nav-count drives
+    the desktop grid's column count in assets/ow-chrome.css.
+  {%- endcomment -%}
+  {%- liquid
+    assign nav_columns = section.blocks | where: 'type', 'nav_column'
+    assign visible_nav_count = 0
+    for block in nav_columns
+      if block.settings.menu != blank and block.settings.menu.links.size > 0
+        assign visible_nav_count = visible_nav_count | plus: 1
+      endif
+    endfor
+  -%}
+  {%- comment -%}
+    Grid on desktop: the brand block sits in its own column beside the nav
+    columns (order:-1 in CSS puts it first regardless of DOM position).
+    .footer-nav becomes display:contents there, so each .footer-nav-section
+    is a direct grid item instead of a nested flex child -- see
+    assets/ow-chrome.css. Mobile ignores the grid entirely and just stacks
+    nav (accordion) then brand, in DOM order.
+  {%- endcomment -%}
+  <div class="footer-grid">
+    <nav class="footer-nav" style="--nav-count: {{ visible_nav_count }};">
+      {%- for block in nav_columns -%}
+        {%- assign menu = block.settings.menu -%}
+        {%- if menu != blank and menu.links.size > 0 -%}
+          <div class="footer-nav-section" {{ block.shopify_attributes }}>
+            {%- comment -%}
+              A real <button>, not a div: it has to be reachable by keyboard and
+              announce its own state. type="button" keeps it from submitting the
+              newsletter form it shares a page with. aria-expanded is seeded
+              false and then corrected by ow-chrome.js, which owns the truth of
+              whether the links are actually visible at the current width.
+            {%- endcomment -%}
+            <button type="button"
+                    class="footer-nav-section-head"
+                    aria-expanded="false"
+                    onclick="toggleFooterNav(this)">
+              {{ block.settings.title | default: menu.title }}
+              <img src="{{ 'ow-bullet.svg' | asset_url }}" alt="" width="16" height="16">
+            </button>
+            <div class="footer-nav-links">
+              {%- for link in menu.links -%}
+                <a href="{{ link.url }}">{{ link.title }}</a>
+              {%- endfor -%}
+            </div>
           </div>
-        </div>
-      {%- endif -%}
-    {%- endfor -%}
-  </nav>
+        {%- endif -%}
+      {%- endfor -%}
+    </nav>
 
-  <div class="footer-bottom-row">
-    <div class="footer-social">{{ social_links }}</div>
-    <div class="footer-payments-slot footer-payments-slot--mobile">{{ footer_payments }}</div>
+    <div class="footer-brand">
+      <a class="footer-logo" href="{{ routes.root_url }}">
+        <img src="{{ 'ow-logo-menu.svg' | asset_url }}" alt="{{ shop.name | escape }}" width="320" height="53">
+      </a>
+      <p class="footer-copy">{{ section.settings.copyright }}</p>
+      <a class="footer-1ftp-link" href="https://www.onepercentfortheplanet.org" aria-label="Member of 1% for the Planet">
+        <img class="footer-1ftp" src="{{ 'ow-badge-1ftp.png' | asset_url }}" alt="1% for the Planet" width="376" height="160">
+      </a>
+    </div>
   </div>
 
-  <div class="footer-1ftp">
-    <img src="{{ 'ow-badge-1ftp.png' | asset_url }}" alt="1% for the Planet" width="376" height="160">
-  </div>
-  <a class="footer-logo" href="{{ routes.root_url }}">
-    <img src="{{ 'ow-logo-menu.svg' | asset_url }}" alt="{{ shop.name | escape }}" width="320" height="53">
-  </a>
-  <p class="footer-copy">{{ section.settings.copyright }}</p>
+  {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
+    <div class="footer-payments-row">
+      <span class="visually-hidden">{{ 'sections.footer.payment' | t }}</span>
+      <ul class="footer-payments-list" role="list">
+        {%- for type in shop.enabled_payment_types -%}
+          <li class="footer-payments-item">
+            {{ type | payment_type_svg_tag: class: 'footer-payment-icon' }}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  {%- endif -%}
 </footer>
 
 {% schema %}
@@ -140,7 +160,7 @@
     { "type": "textarea", "id": "tagline", "label": "Tagline", "default": "Coffee is just the beginning. Join us for the adventure, a little chaos, and a whole lot of love (because life is better together). 🫶" },
     { "type": "header", "content": "Email signup" },
     { "type": "text", "id": "email_placeholder", "label": "Input placeholder", "default": "your@email.com" },
-    { "type": "text", "id": "submit_label", "label": "Submit button label (screen readers)", "default": "Subscribe" },
+    { "type": "text", "id": "submit_label", "label": "Submit button label", "default": "Subscribe" },
     { "type": "text", "id": "toast_text", "label": "Success message", "default": "Welcome to Omawild" },
     { "type": "header", "content": "Social" },
     { "type": "paragraph", "content": "Shopify's url setting cannot carry a default, so these are seeded from sections/footer-group.json instead. Clearing one hides that icon." },
@@ -149,19 +169,29 @@
     { "type": "header", "content": "Payment icons" },
     { "type": "paragraph", "content": "Icons are pulled from your store's enabled payment methods (Settings → Payments). Toggle off to hide the row." },
     { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true },
-    { "type": "header", "content": "Nav columns" },
-    { "type": "paragraph", "content": "Leave a menu unset to hide that column." },
-    { "type": "text", "id": "menu_1_title", "label": "Column 1 heading", "default": "Foundation" },
-    { "type": "link_list", "id": "menu_1", "label": "Column 1 menu" },
-    { "type": "text", "id": "menu_2_title", "label": "Column 2 heading", "default": "Shop" },
-    { "type": "link_list", "id": "menu_2", "label": "Column 2 menu" },
-    { "type": "text", "id": "menu_3_title", "label": "Column 3 heading", "default": "Support" },
-    { "type": "link_list", "id": "menu_3", "label": "Column 3 menu" },
-    { "type": "text", "id": "menu_4_title", "label": "Column 4 heading", "default": "Legal" },
-    { "type": "link_list", "id": "menu_4", "label": "Column 4 menu" },
     { "type": "header", "content": "Bottom" },
     { "type": "text", "id": "copyright", "label": "Copyright", "default": "© Wilde Planet Limited 2026" }
   ],
-  "presets": [{ "name": "OW Footer" }]
+  "blocks": [
+    {
+      "type": "nav_column",
+      "name": "Nav column",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Heading", "info": "Blank uses the menu's own title." },
+        { "type": "link_list", "id": "menu", "label": "Menu", "info": "Leave unset to hide this column." }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "OW Footer",
+      "blocks": [
+        { "type": "nav_column", "settings": { "title": "Foundation" } },
+        { "type": "nav_column", "settings": { "title": "Shop" } },
+        { "type": "nav_column", "settings": { "title": "Support" } }
+      ]
+    }
+  ]
 }
 {% endschema %}

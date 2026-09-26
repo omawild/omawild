@@ -13,20 +13,27 @@
   "sections": {
     "ow-footer": {
       "type": "ow-footer",
+      "blocks": {
+        "nav_column_1": {
+          "type": "nav_column",
+          "settings": { "title": "Foundation", "menu": "footer" }
+        },
+        "nav_column_2": {
+          "type": "nav_column",
+          "settings": { "title": "Shop", "menu": "footer-shop" }
+        },
+        "nav_column_3": {
+          "type": "nav_column",
+          "settings": { "title": "Support", "menu": "footer-support" }
+        }
+      },
+      "block_order": ["nav_column_1", "nav_column_2", "nav_column_3"],
       "settings": {
         "tagline": "Coffee is just the beginning. Join us for the adventure, a little chaos, and a whole lot of love (because life is better together). 🫶",
         "email_placeholder": "your@email.com",
         "toast_text": "Welcome to Omawild",
         "linkedin": "https://www.linkedin.com/company/omawild/",
         "instagram": "https://www.instagram.com/itsomawild",
-        "menu_1_title": "Foundation",
-        "menu_1": "footer",
-        "menu_2_title": "Shop",
-        "menu_2": "footer-shop",
-        "menu_3_title": "Support",
-        "menu_3": "footer-support",
-        "menu_4_title": "Legal",
-        "menu_4": "",
         "copyright": "© Wilde Planet Limited 2026"
       }
     }

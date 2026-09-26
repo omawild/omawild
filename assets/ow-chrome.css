@@ -117,7 +117,7 @@
   background:var(--wonderland);
   height:54px;
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 20px;
+  padding:0 16px;
   margin-bottom:-54px;
   transform:translateY(-100%);
   opacity:0;
@@ -146,22 +146,32 @@
 @media(prefers-reduced-motion:reduce){
   .navbar{transition:none;}
 }
+/* Logo + links are one flex group on the left; icons/cart/region/menu-btn
+   are the other on the right (.navbar's own justify-content:space-between
+   splits the two). Previously the links sat absolutely centered on the bar
+   independent of both clusters' widths -- the redesign groups them with the
+   logo instead. */
+.navbar-left{display:flex;align-items:center;gap:30px;min-width:0;}
 .navbar-logo img{height:22px;width:auto;}
-/* Links sit centered on the bar itself, independent of the logo/right
-   cluster widths — matches how it's built in Figma. */
+@media(min-width:750px){
+  .navbar-logo img{height:26px;}
+}
 .navbar-links{
-  display:none;align-items:center;gap:25px;list-style:none;
-  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  display:none;align-items:center;gap:22px;list-style:none;
+  margin:0;padding:0;
 }
 .navbar-links a{
-  font-size:13px;font-weight:600;letter-spacing:.02em;
+  font-size:12px;font-weight:800;letter-spacing:.02em;
   text-transform:uppercase;color:var(--electric);text-decoration:none;
   transition:opacity .2s;
 }
 .navbar-links a:hover{opacity:.6;}
 /* Figma keeps "Shop" in sentence case while the rest of the links are
    uppercase — preserved as designed. */
-.navbar-link--plain{text-transform:none;}
+/* .navbar-links a (a class + a type selector) otherwise outranks the single
+   class here, so the uppercase it sets never actually got overridden --
+   found while testing this pass, pre-existing, unrelated to it. */
+.navbar-links a.navbar-link--plain{text-transform:none;}
 .navbar-link-dropdown{position:relative;display:flex;}
 .navbar-link-dropdown::after{
   content:'';position:absolute;top:100%;left:0;right:0;height:10px;
@@ -197,29 +207,36 @@
   width:44px;height:44px;margin:-7px;
 }
 .navbar-icons img{width:30px;height:30px;}
-.navbar-cart{position:relative;}
-/* Anchored to the 44px hit area's own center, not the 30px icon inside it, so
-   the badge sits at the same corner regardless of the icon's negative margin. */
+/* Cart is its own solid pill with a visible label now, not another icon in
+   .navbar-icons with a corner badge -- matches the design file. Count sits
+   inline inside the pill instead of absolutely anchored to a hit box. */
+.navbar-cart{
+  display:flex;align-items:center;gap:8px;
+  background:var(--electric);color:var(--sand);
+  padding:10px 16px;border-radius:999px;
+  font:800 11.5px/1 var(--f);letter-spacing:.04em;
+  text-decoration:none;text-transform:uppercase;
+  transition:background-color .2s;
+}
+.navbar-cart:hover{background:#D63200;}
 .navbar-cart-count{
-  position:absolute;top:2px;right:2px;
-  min-width:16px;height:16px;padding:0 3px;
-  display:flex;align-items:center;justify-content:center;
-  border-radius:999px;background:var(--electric);color:var(--sand);
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:17px;height:17px;padding:0 3px;
+  border-radius:999px;background:var(--sand);color:var(--electric);
   font-size:10px;font-weight:700;line-height:1;
   pointer-events:none;
 }
 /* Region / language / currency selector: flag + code + chevron,
-   opens a panel of independent country and language lists + Save. */
+   opens a panel of independent country and language lists + Save.
+   Click-to-toggle .expanded (assets/ow-chrome.js) at every breakpoint now —
+   used to open on :hover/:focus-within on desktop, which doesn't fire
+   reliably on touch/tablet. */
 .navbar-region{position:relative;}
-.navbar-region::after{
-  content:'';position:absolute;top:100%;left:0;right:0;height:10px;
-}
 .navbar-right .navbar-region{display:none;}
 .navbar-lang{display:flex;align-items:center;gap:8px;background:none;border:none;padding:0;cursor:pointer;white-space:nowrap;}
 .navbar-lang .fi{width:24px;height:18px;border-radius:2px;background-size:cover;flex-shrink:0;}
 .navbar-lang-chevron{width:16px;height:16px;transition:transform .15s;}
-.navbar-region:hover .navbar-lang-chevron,
-.navbar-region:focus-within .navbar-lang-chevron{transform:rotate(180deg);}
+.navbar-region.expanded .navbar-lang-chevron{transform:rotate(180deg);}
 .navbar-lang span{
   font-size:13px;font-weight:600;letter-spacing:.02em;
   text-transform:uppercase;color:var(--electric);
@@ -227,30 +244,38 @@
 /* Panel is sized by content — min-width is a floor, rows are
    white-space:nowrap — so it grows leftward from right:0. Height is capped
    so long country lists scroll inside the panel instead of running off the
-   viewport; overscroll-behavior stops that scroll chaining to the page. */
+   viewport; overscroll-behavior stops that scroll chaining to the page.
+   Width and radius match the design file's popover treatment. */
 .navbar-region-panel{
   display:none;position:absolute;top:calc(100% + 10px);right:0;
-  background:var(--wonderland);border:2px solid var(--electric);
-  border-radius:2px;padding:8px;margin:0;
-  min-width:250px;z-index:5;
+  background:var(--wonderland);border:1.5px solid var(--electric);
+  border-radius:14px;padding:12px;margin:0;
+  min-width:340px;z-index:5;
   max-height:min(70vh,420px);overflow-y:auto;overscroll-behavior:contain;
-  flex-direction:column;gap:8px;
+  flex-direction:column;gap:10px;
+  box-shadow:0 10px 30px rgba(0,24,12,.12);
 }
-.navbar-region:hover .navbar-region-panel,
-.navbar-region:focus-within .navbar-region-panel{display:flex;}
+.navbar-region.expanded .navbar-region-panel{display:flex;}
+/* Country and language sit in their own bordered card inside the panel,
+   matching the design file's grouped treatment, rather than a flat list
+   under a small uppercase label. */
+.navbar-region-section{
+  border:1.5px solid var(--electric);border-radius:10px;
+  background:#fff;overflow:hidden;
+}
 .navbar-region-section-label{
-  margin:0;padding:4px 10px 2px;
-  font-size:11px;font-weight:600;letter-spacing:.06em;
-  text-transform:uppercase;color:var(--electric);opacity:.55;
+  margin:0;padding:10px 14px 0;
+  font-size:10px;font-weight:800;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--electric);
 }
 .navbar-region-options{
-  list-style:none;margin:0;padding:0;
+  list-style:none;margin:0;padding:4px 0 4px;
   display:flex;flex-direction:column;gap:0;
 }
 .navbar-region-option{
   display:flex;align-items:center;gap:10px;
-  padding:8px 10px;border-radius:2px;cursor:pointer;
-  font-size:14px;font-weight:400;color:var(--electric);white-space:nowrap;
+  padding:8px 14px;cursor:pointer;
+  font-size:14px;font-weight:500;color:var(--electric);white-space:nowrap;
 }
 .navbar-region-option .fi{
   width:24px;height:18px;border-radius:2px;flex-shrink:0;
@@ -258,18 +283,26 @@
 }
 .navbar-region-option:hover{background:rgba(255,63,0,.1);}
 .navbar-region-option--selected,
-.navbar-region-option[aria-selected="true"]{background:rgba(255,63,0,.15);}
+.navbar-region-option[aria-selected="true"]{background:var(--salmon);}
 .navbar-region-save{
-  width:100%;margin-top:4px;padding:10px 14px;
-  font-size:13px;border-radius:2px;
+  width:100%;margin-top:0;padding:11px 14px;
+  font-size:13px;border-radius:999px;
 }
 .navbar-menu-btn{
   background:none;border:none;padding:4px;
   display:flex;align-items:center;justify-content:center;
 }
 .navbar-menu-btn svg{width:24px;height:24px;display:block;}
-@media(min-width:800px){
-  .navbar{padding:0 20px;}
+@media(min-width:750px){
+  .navbar{padding:0 24px;}
+}
+/* 960px, not the theme's usual 750px tablet split: a 900px iPad-landscape
+   view was showing the full desktop nav, and the region selector's flag +
+   code + chevron had no room left beside the links -- they overlapped. The
+   hamburger now covers tablet too, matching the design file's own "compact"
+   breakpoint. */
+@media(min-width:960px){
+  .navbar{padding:0 30px;}
   .navbar-right .navbar-region{display:block;}
   .navbar-links{display:flex;}
   .navbar-menu-btn{display:none;}
@@ -280,41 +313,63 @@
 ════════════════════════════════ */
 .footer{
   background:var(--wonderland);
-  padding:40px 24px 30px;
+  padding:40px 24px 24px;
   text-align:center;
   position:relative;
   overflow:hidden;
 }
-.footer-head{height:70px;margin:0 auto 20px;}
-.footer-head img{height:70px;width:auto;margin:0 auto;}
+/* Newsletter + social sit in one row together on desktop (side by side),
+   stacked and centered on mobile -- previously social was desktop-only
+   here, duplicated further down for mobile in .footer-bottom-row. One
+   instance now, repositioned by flex-direction instead. */
+.footer-top{
+  display:flex;flex-direction:column;align-items:center;gap:20px;
+  max-width:1280px;margin:0 auto;
+}
+.footer-newsletter{
+  display:flex;flex-direction:column;align-items:center;
+  max-width:540px;width:100%;
+}
+/* The "nature fund" wordmark: sized relative to its column and tilted, not
+   a fixed 70px icon -- matches the design file's stamp-like treatment. */
+.footer-head{
+  width:min(320px,86%);height:auto;
+  transform:rotate(-2.5deg);
+  margin:0 0 0 -6px;
+}
 .footer-tagline{
-  font-weight:600;font-size:16px;line-height:19px;
-  color:var(--electric);width:100%;min-width:300px;max-width:500px;
-  margin:0 auto 20px;
+  font-weight:600;font-size:14.5px;line-height:1.25;
+  color:var(--electric);width:100%;
+  margin:14px 0 0;
   text-align:center;
 }
 .footer-email{
-  display:flex;align-items:center;
-  border:1px solid var(--electric);border-radius:100px;
-  width:100%;min-width:300px;max-width:500px;margin:0 auto 24px;
-  overflow:hidden;
+  display:flex;align-items:center;gap:8px;
+  border:1.5px solid var(--electric);border-radius:100px;
+  width:100%;margin:14px 0 0;
+  padding:6px 6px 6px 20px;box-sizing:border-box;
   background:#fff;
 }
 .footer-email input{
-  flex:1;border:none;outline:none;
-  padding:10px 16px;
-  font-family:var(--f);font-size:16px;
+  flex:1;min-width:0;border:none;outline:none;
+  font-family:var(--f);font-size:13.5px;
   color:#6f6f6f;background:transparent;
 }
 .footer-email input:focus,
 .footer-email input:not(:placeholder-shown){
   color:var(--midnight);
 }
+/* Visible "Subscribe" label now, not an icon-only button -- matches the
+   design file. Still a real customer-signup form; only the button's own
+   markup/style changed, not how the submit itself works. */
 .footer-email button{
-  background:none;border:none;padding:8px 12px;
-  display:flex;align-items:center;
+  flex:none;border:none;cursor:pointer;
+  background:var(--electric);color:#fff;
+  padding:12px 22px;border-radius:100px;
+  font:800 12px/1 var(--f);
+  transition:background-color .2s;
 }
-.footer-email img{width:24px;height:24px;}
+.footer-email button:hover{background:#D63200;}
 /* Success toast — pops up centered on screen with a dimmed backdrop on
    a successful signup, then auto-dismisses. */
 .email-toast-backdrop{
@@ -346,40 +401,49 @@
   font-size:16px;font-weight:600;
   color:#2E7D5B;white-space:nowrap;
 }
-/* Desktop only — on mobile the social icons move down into
-   .footer-bottom-row instead. */
-.footer-social{display:none;gap:0;justify-content:center;margin-bottom:24px;}
 /* 38×38 tap target on a 24px icon (slightly under the 44px recommendation,
    traded for tighter visual spacing — still comfortably above the 24px
    accessibility floor). Unlike the navbar there is room to spare here, so the
    box grows rather than being pulled back — gap stays 0 because the padding
    supplies the separation on its own. */
+.footer-social{display:flex;gap:0;align-items:center;justify-content:center;}
 .footer-social a{
   display:flex;align-items:center;justify-content:center;
   min-width:38px;min-height:38px;
 }
 .footer-social img{width:24px;height:24px;}
-/* Accepted payment methods — icons from shop.enabled_payment_types */
-.footer-payments-slot--desktop{display:none;}
-.footer-payments{
+/* Accepted payment methods — icons from shop.enabled_payment_types. One
+   instance, its own row at the very bottom of the footer, not duplicated
+   into a separate desktop/mobile slot. */
+.footer-payments-row{
   display:flex;justify-content:center;
-  width:100%;max-width:600px;margin:0 auto;
+  max-width:1280px;margin:16px auto 0;padding-top:16px;
+  border-top:1px solid rgba(255,63,0,.28);
 }
 .footer-payments-list{
   display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
-  gap:8px;
-  margin:0;padding:10px 16px;
+  gap:6px;
+  margin:0;padding:0;
   list-style:none;
-  background:transparent;
 }
 .footer-payments-item{display:flex;align-items:center;}
 .footer-payment-icon{
   display:block;
-  width:38px;height:24px;
+  width:auto;height:26px;border-radius:4px;
+}
+/* Nav columns + brand block (logo/copyright/1% badge). Mobile just stacks
+   them in DOM order (nav accordion, then brand); tablet+ turns this into a
+   CSS grid with the brand alongside the columns -- see the breakpoints
+   below. order:-1 on .footer-brand is what puts it first visually there
+   without changing DOM order, so mobile's stacking is unaffected. */
+.footer-grid{
+  display:flex;flex-direction:column;
+  max-width:1280px;margin:24px auto 0;
+  padding-top:20px;border-top:1px solid rgba(255,63,0,.28);
 }
 .footer-nav{
   display:flex;flex-direction:column;gap:0;
-  text-align:left;width:100%;max-width:600px;margin:0 auto 24px;
+  text-align:left;width:100%;
 }
 .footer-nav-section{
   border-bottom:1px solid rgba(255,63,0,.2);
@@ -390,7 +454,7 @@
    before it reads as the heading it looks like. */
 .footer-nav-section-head{
   display:flex;align-items:center;gap:6px;
-  font-size:13px;font-weight:600;letter-spacing:.06em;
+  font-size:10px;font-weight:800;letter-spacing:.14em;
   text-transform:uppercase;color:var(--electric);
   cursor:pointer;
   width:100%;text-align:left;
@@ -412,42 +476,37 @@
   font-size:15px;color:var(--electric);
   text-decoration:none;font-weight:400;
 }
-/* Mobile only — social icons and payment row, right above the 1% badge.
-   Hidden on desktop, where .footer-social shows in its own place instead. */
-.footer-bottom-row{
+.footer-brand{
   display:flex;flex-direction:column;align-items:center;
-  width:100%;max-width:600px;margin:0 auto 24px;
+  text-align:center;
+  margin-top:24px;
 }
-.footer-bottom-row .footer-social{display:flex;margin-bottom:12px;}
-.footer-bottom-row .footer-payments{margin-bottom:0;}
-.footer-1ftp{margin:0 auto 20px;height:52px;width:122px;}
-.footer-1ftp img{height:100%;width:auto;}
-/* Contained wordmark at both breakpoints, capped at 280px on mobile and 320px
-   on desktop. This was previously full-bleed on mobile (width:100vw via the
-   negative-margin trick), which read as oversized on a phone — the wordmark
-   touched both screen edges with no gutter. Capping below the 320px intrinsic
-   width also means it is only ever downscaled, so it stays crisp. */
-.footer-logo{display:block;width:100%;max-width:280px;margin:20px auto;}
+/* Contained wordmark, capped at 280px on mobile. Previously full-bleed on
+   mobile (width:100vw via the negative-margin trick), which read as
+   oversized on a phone — the wordmark touched both screen edges with no
+   gutter. Capping below the 320px intrinsic width also means it is only
+   ever downscaled, so it stays crisp. Desktop sizing is in the breakpoint
+   below -- a small column heading now, not a standalone centered mark. */
+.footer-logo{display:block;width:100%;max-width:280px;margin:0;}
 .footer-logo img{width:100%;height:auto;display:block;}
-.footer-copy{font-size:13px;font-weight:600;text-transform:uppercase;color:var(--electric);}
+.footer-copy{
+  font-size:12.5px;font-weight:600;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--electric);white-space:nowrap;
+  margin:12px 0 0;
+}
+.footer-1ftp-link{display:block;line-height:0;margin-top:14px;}
+.footer-1ftp{height:48px;width:auto;}
 
 /* ── Mobile footer rhythm ──
    The footer measured 600px on a 390×844 screen — 71% of the viewport. Only
    377px of that was content; 172px was margins and 70px was section padding,
    all inherited from the desktop spacing. This block tightens the gaps for
    mobile only, so the desktop footer keeps its original rhythm untouched.
-   Scoped to max-width:799px to sit exactly against the min-width:800px
+   Scoped to max-width:749px to sit exactly against the min-width:750px
    desktop block below, leaving no gap or overlap between the two. */
-@media(max-width:799px){
-  .footer{padding:28px 24px 20px;}
-  .footer-head{margin-bottom:14px;}
-  .footer-tagline{margin-bottom:14px;}
-  .footer-email{margin-bottom:16px;}
-  .footer-nav{margin-bottom:16px;}
-  .footer-bottom-row{margin-bottom:16px;}
-  .footer-payments-slot--mobile .footer-payments{max-width:100%;}
-  .footer-1ftp{margin-bottom:14px;}
-  .footer-logo{margin-top:14px;margin-bottom:14px;}
+@media(max-width:749px){
+  .footer-grid{margin-top:16px;padding-top:16px;}
+  .footer-brand{margin-top:16px;}
 
   /* The accordion row was a 342×23 target. Moving the section's padding onto
      the heading itself makes the clickable element fill the row — 44px tall
@@ -458,25 +517,36 @@
   .footer-nav-links{padding-bottom:10px;}
 }
 
-/* Desktop footer */
-@media(min-width:800px){
-  .footer{padding:60px 40px 30px;}
-  .footer-nav{
-    flex-direction:row;justify-content:space-between;
-    max-width:600px;gap:0;
+/* Desktop/tablet footer: 960px matches the navbar's own hamburger cutover
+   (see .navbar's breakpoints above) so both switch together, but the grid
+   itself only needs 750px worth of room to read as columns rather than a
+   cramped single-file list -- so it turns on a step earlier. */
+@media(min-width:750px){
+  .footer{padding:40px clamp(20px,4vw,48px) 24px;}
+  .footer-top{flex-direction:row;align-items:flex-end;justify-content:space-between;}
+  .footer-newsletter{align-items:flex-start;}
+  .footer-tagline{text-align:left;}
+  .footer-grid{
+    display:grid;
+    grid-template-columns:repeat(var(--nav-count,3),minmax(0,1fr));
+    gap:24px;align-items:start;
   }
+  .footer-nav{display:contents;}
   .footer-nav-section{border-bottom:none;padding:0;}
   .footer-nav-section-head img{display:none;}
   .footer-nav-links{display:flex;}
-  .footer-social{display:flex;}
-  .footer-payments-slot--desktop{
-    display:block;
-    margin:-8px auto 24px;
+  .footer-brand{
+    grid-column:1/-1;order:-1;
+    align-items:flex-start;text-align:left;
+    margin-top:0;margin-bottom:8px;
   }
-  .footer-payments-slot--mobile{display:none;}
-  .footer-bottom-row{display:none;}
-  .footer-logo{width:auto;max-width:320px;margin:20px auto;}
+  .footer-logo{width:auto;max-width:none;height:24px;}
   .footer-logo img{width:auto;height:100%;}
+  .footer-payments-row{justify-content:flex-start;}
+}
+@media(min-width:960px){
+  .footer-grid{grid-template-columns:1.3fr repeat(var(--nav-count,3),minmax(0,1fr));}
+  .footer-brand{grid-column:auto;margin-bottom:0;}
 }
 
 /* ════════════════════════════════
@@ -531,13 +601,11 @@
   padding:8px 0;
 }
 .menu-bottom{margin-top:40px;}
-/* Inline region/lang selector — same line-item accordion pattern as
-   Discover above, instead of the floating hover-popover used in the
-   navbar (hover has no equivalent on touch). */
+/* Inline region/lang selector — same click-to-toggle accordion pattern as
+   Discover above and the navbar's own floating popover now (both click,
+   not hover — see assets/ow-chrome.js). The country/language cards inside
+   keep their bordered-box styling here too, same as the popover. */
 .navbar-region.navbar-region--inline{border-bottom:1px solid rgba(255,63,0,.15);}
-/* No floating panel to bridge to here, and the empty hit-box would
-   otherwise sit on top of the expanded panel's first tap target. */
-.navbar-region.navbar-region--inline::after{display:none;}
 .navbar-region.navbar-region--inline .navbar-lang{width:100%;padding:18px 0;}
 .navbar-region.navbar-region--inline .navbar-lang-chevron{transform:none;}
 .navbar-region.navbar-region--inline.expanded .navbar-lang-chevron{transform:rotate(180deg);}
@@ -550,8 +618,6 @@
   max-height:none;overflow-y:visible;
 }
 .navbar-region.navbar-region--inline.expanded .navbar-region-panel{display:flex;}
-.navbar-region.navbar-region--inline .navbar-region-option{padding:8px 0;}
-.navbar-region.navbar-region--inline .navbar-region-section-label{padding-left:0;}
 .menu-bottom-links{display:flex;gap:24px;margin-bottom:20px;}
 .menu-bottom-links a{font-size:15px;color:var(--electric);font-weight:400;text-decoration:none;}
 
