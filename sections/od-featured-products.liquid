@@ -310,7 +310,6 @@
   flex-direction: column;
   gap: 8px !important;
   margin-bottom: 20px;
-  flex-grow: 1;
 }
 
 .benefit-{{ section.id }} {
@@ -337,6 +336,10 @@
   display: flex;
   flex-direction: column;
   margin-bottom: {{ section.settings.price_row_margin_bottom }}px;
+  /* Pins price/variant-pill/CTA to the bottom of the card regardless of how
+     many lines the description above wraps to, so they align across cards
+     of unequal content height (cards are stretched equal-height by the row). */
+  margin-top: auto;
 }
 
 .price-row-{{ section.id }} {
