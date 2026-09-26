@@ -1,6 +1,6 @@
 {% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
 {% style %}
-.owv2-hero-{{ owid }} {
+.oma-hero-{{ owid }} {
   box-sizing: border-box;
   --bg: {{ section.settings.background_color }};
   --ink: {{ section.settings.text_color }};
@@ -12,10 +12,10 @@
   font-size: 15px;
   line-height: 1.2;
   }
-.owv2-hero-{{ owid }} *, .owv2-hero-{{ owid }} *::before, .owv2-hero-{{ owid }} *::after {
+.oma-hero-{{ owid }} *, .oma-hero-{{ owid }} *::before, .oma-hero-{{ owid }} *::after {
   box-sizing: border-box;
   }
-.owv2-hero-{{ owid }} h1, .owv2-hero-{{ owid }} h2, .owv2-hero-{{ owid }} h3 {
+.oma-hero-{{ owid }} h1, .oma-hero-{{ owid }} h2, .oma-hero-{{ owid }} h3 {
   font-family: var(--font-heading-family);
   color: inherit;
   font-weight: 900;
@@ -25,45 +25,45 @@
   margin: 0;
   overflow-wrap: anywhere;
   }
-.owv2-hero-{{ owid }} h2 {
+.oma-hero-{{ owid }} h2 {
   font-size: clamp(30px, 4vw, 58px);
   }
-.owv2-hero-{{ owid }} h3 {
+.oma-hero-{{ owid }} h3 {
   font-size: 26px;
   }
-.owv2-hero-{{ owid }} p {
+.oma-hero-{{ owid }} p {
   margin: 0 0 16px;
   }
-.owv2-hero-{{ owid }} p:last-child {
+.oma-hero-{{ owid }} p:last-child {
   margin-bottom: 0;
   }
-.owv2-hero-{{ owid }} a {
+.oma-hero-{{ owid }} a {
   color: inherit;
   }
-.owv2-hero-{{ owid }} img, .owv2-hero-{{ owid }} svg {
+.oma-hero-{{ owid }} img, .oma-hero-{{ owid }} svg {
   display: block;
   max-width: 100%;
   height: auto;
   }
-.owv2-hero-{{ owid }} .inner {
+.oma-hero-{{ owid }} .inner {
   max-width: 1320px;
   margin-inline: auto;
   min-width: 0;
   }
-.owv2-hero-{{ owid }} .intro {
+.oma-hero-{{ owid }} .intro {
   max-width: 760px;
   margin-bottom: 32px;
   }
-.owv2-hero-{{ owid }} .intro > * + * {
+.oma-hero-{{ owid }} .intro > * + * {
   margin-top: 20px;
   }
-.owv2-hero-{{ owid }} .eyebrow {
+.oma-hero-{{ owid }} .eyebrow {
   font-size: 12px;
   font-weight: 700;
   letter-spacing: .12em;
   text-transform: uppercase;
   }
-.owv2-hero-{{ owid }} .owv2-button {
+.oma-hero-{{ owid }} .oma-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -78,11 +78,11 @@
   text-align: center;
   cursor: pointer;
   }
-.owv2-hero-{{ owid }} :focus-visible {
+.oma-hero-{{ owid }} :focus-visible {
   outline: 3px solid currentColor;
   outline-offset: 4px;
   }
-.owv2-hero-{{ owid }} .owv2-placeholder {
+.oma-hero-{{ owid }} .oma-placeholder {
   width: 100%;
   height: 100%;
   min-height: 200px;
@@ -90,21 +90,21 @@
   fill: var(--ink);
   }
 @media (prefers-reduced-motion: reduce) {
-  .owv2-hero-{{ owid }} * {
+  .oma-hero-{{ owid }} * {
   scroll-behavior: auto !important;
   scroll-snap-type: none !important;
   animation: none !important;
   }
 }
 
-.owv2-hero-{{ owid }} {
+.oma-hero-{{ owid }} {
   padding: 0;
   }
-.owv2-hero-{{ owid }} .split {
+.oma-hero-{{ owid }} .split {
   display:grid;
   grid-template-columns:1fr 1fr;
   }
-.owv2-hero-{{ owid }} .copy {
+.oma-hero-{{ owid }} .copy {
   padding: {{ section.settings.content_padding }}px;
   display:flex;
   flex-direction:column;
@@ -113,31 +113,31 @@
   min-width:0;
   font-size:{{ section.settings.body_size }}px;
   }
-.owv2-hero-{{ owid }} h1 {
+.oma-hero-{{ owid }} h1 {
   font-size:clamp(40px, 5.6vw, {{ section.settings.heading_size }}px);
   }
-.owv2-hero-{{ owid }} .stamp {
+.oma-hero-{{ owid }} .stamp {
   width:100px;
   }
-.owv2-hero-{{ owid }} .stamp img,
-.owv2-hero-{{ owid }} .stamp svg {
-  animation: owv2-hero-spin-{{ owid }} 12s linear infinite;
+.oma-hero-{{ owid }} .stamp img,
+.oma-hero-{{ owid }} .stamp svg {
+  animation: oma-hero-spin-{{ owid }} 12s linear infinite;
   }
-@keyframes owv2-hero-spin-{{ owid }} {
+@keyframes oma-hero-spin-{{ owid }} {
   to {
   transform: rotate(360deg);
   }
 }
-.owv2-hero-{{ owid }} .actions {
+.oma-hero-{{ owid }} .actions {
   display:flex;
   flex-wrap:wrap;
   gap:10px;
   }
-.owv2-hero-{{ owid }} .secondary {
+.oma-hero-{{ owid }} .secondary {
   background:transparent;
   color:var(--ink);
   }
-.owv2-hero-{{ owid }} .features {
+.oma-hero-{{ owid }} .features {
   list-style:none;
   padding:0;
   margin:0;
@@ -146,20 +146,20 @@
   gap:10px;
   font-size:12px;
   }
-.owv2-hero-{{ owid }} .features span {
+.oma-hero-{{ owid }} .features span {
   margin-left:10px;
   }
-.owv2-hero-{{ owid }} .photo {
+.oma-hero-{{ owid }} .photo {
   position:relative;
   min-height:560px;
   }
-.owv2-hero-{{ owid }} .photo > img, .owv2-hero-{{ owid }} .photo > svg {
+.oma-hero-{{ owid }} .photo > img, .oma-hero-{{ owid }} .photo > svg {
   width:100%;
   height:100%;
   position:absolute;
   object-fit:cover;
   }
-.owv2-hero-{{ owid }} .caption {
+.oma-hero-{{ owid }} .caption {
   position:absolute;
   bottom:20px;
   left:20px;
@@ -171,13 +171,13 @@
   font-size:14px;
   line-height:1.35;
   }
-.owv2-hero-{{ owid }} .caption p {
+.oma-hero-{{ owid }} .caption p {
   margin:0 0 8px;
   }
-.owv2-hero-{{ owid }} .caption p:last-child {
+.oma-hero-{{ owid }} .caption p:last-child {
   margin-bottom:0;
   }
-.owv2-hero-{{ owid }} .badge {
+.oma-hero-{{ owid }} .badge {
   position:absolute;
   right:24px;
   top:24px;
@@ -195,25 +195,25 @@
   transform:rotate(3deg);
   }
 @media(max-width:749px) {
-  .owv2-hero-{{ owid }} .split {
+  .oma-hero-{{ owid }} .split {
   grid-template-columns:1fr;
   }
-.owv2-hero-{{ owid }} .copy {
+.oma-hero-{{ owid }} .copy {
   padding:32px 20px;
   }
-.owv2-hero-{{ owid }} .actions {
+.oma-hero-{{ owid }} .actions {
   flex-direction:column;
   }
-.owv2-hero-{{ owid }} .photo {
+.oma-hero-{{ owid }} .photo {
   min-height:360px;
   }
-.owv2-hero-{{ owid }} .badge {
+.oma-hero-{{ owid }} .badge {
   max-width:96px;
   }
 }
 
 {% endstyle %}
-<div class="owv2-hero-{{ owid }}">
+<div class="oma-hero-{{ owid }}">
 
 <div class="split">
 <div class="copy">
@@ -227,16 +227,16 @@
 <div class="actions">
 {% if section.settings.cta_primary_label != blank %}
 {% if section.settings.cta_primary_link != blank %}
-<a class="owv2-button" href="{{ section.settings.cta_primary_link }}">{{ section.settings.cta_primary_label | escape }}</a>
+<a class="oma-button" href="{{ section.settings.cta_primary_link }}">{{ section.settings.cta_primary_label | escape }}</a>
 {% else %}
-<span class="owv2-button" aria-disabled="true">{{ section.settings.cta_primary_label | escape }}</span>
+<span class="oma-button" aria-disabled="true">{{ section.settings.cta_primary_label | escape }}</span>
 {% endif %}
 {% endif %}
 {% if section.settings.cta_secondary_label != blank %}
 {% if section.settings.cta_secondary_link != blank %}
-<a class="owv2-button secondary" href="{{ section.settings.cta_secondary_link }}">{{ section.settings.cta_secondary_label | escape }}</a>
+<a class="oma-button secondary" href="{{ section.settings.cta_secondary_link }}">{{ section.settings.cta_secondary_label | escape }}</a>
 {% else %}
-<span class="owv2-button secondary" aria-disabled="true">{{ section.settings.cta_secondary_label | escape }}</span>
+<span class="oma-button secondary" aria-disabled="true">{{ section.settings.cta_secondary_label | escape }}</span>
 {% endif %}
 {% endif %}
 </div>
@@ -250,7 +250,7 @@
 </ul>
 </div>
 <div class="photo">
-{% if section.settings.hero_image != blank %}{{ section.settings.hero_image | image_url: width: 1800 | image_tag: loading: 'eager', widths: '390, 750, 1100, 1500, 1800', sizes: '(min-width: 990px) 50vw, 100vw' }}{% else %}{{ 'lifestyle-1' | placeholder_svg_tag: 'owv2-placeholder' }}{% endif %}
+{% if section.settings.hero_image != blank %}{{ section.settings.hero_image | image_url: width: 1800 | image_tag: loading: 'eager', widths: '390, 750, 1100, 1500, 1800', sizes: '(min-width: 990px) 50vw, 100vw' }}{% else %}{{ 'lifestyle-1' | placeholder_svg_tag: 'oma-placeholder' }}{% endif %}
 {% if section.settings.image_badge_text != blank %}
 <span class="badge">{{ section.settings.image_badge_text | escape }}</span>
 {% endif %}
@@ -263,7 +263,7 @@
 </div>
 {% schema %}
 {
-  "name": "OWV2 Split hero",
+  "name": "OMA Split hero",
   "tag": "section",
   "disabled_on": {
     "groups": [
@@ -425,7 +425,7 @@
   ],
   "presets": [
     {
-      "name": "OWV2 Split hero",
+      "name": "OMA Split hero",
       "blocks": [
         {
           "type": "feature",
