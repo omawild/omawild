@@ -395,11 +395,14 @@
         "eyebrow": "HOW WE GOT HERE",
         "heading": "We plunged our entire life savings into conservation — and then went broke",
         "subcopy": "<p>It started with a one-way ticket to Bali.</p>",
+        "teaser_image": "shopify://shop_images/Origin-004_896a8bd5-4f1e-4011-ab84-ddbc89810d6f.jpg",
         "teaser_text": "11 more photographs.",
+        "teaser_button_label": "Read the rest →",
+        "teaser_caption": "# more photographs.",
         "teaser_link": "",
-        "background_color": "#FBDCDC",
-        "text_color": "#F5450D",
-        "card_background": "#FFFFFF",
+        "background_color": "#fbdcdc",
+        "text_color": "#f5450d",
+        "card_background": "#ffffff",
         "padding_top": 64,
         "padding_bottom": 64
       }
