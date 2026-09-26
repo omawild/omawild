@@ -71,6 +71,7 @@
         "announcement_7t7aHN": {
           "type": "announcement",
           "name": "OMAWILD",
+          "disabled": true,
           "settings": {
             "icon": "none",
             "icon_size": "medium",
@@ -100,7 +101,7 @@
             "icon_size": "medium",
             "custom_icon": "",
             "text": "OFFICES",
-            "text_size": 14,
+            "text_size": 13,
             "link": ""
           }
         },
@@ -124,11 +125,35 @@
             "icon_size": "medium",
             "custom_icon": "",
             "text": "FOR HOTELS",
-            "text_size": 14,
+            "text_size": 13,
             "link": ""
           }
         },
         "announcement_3VQ8NQ": {
+          "type": "announcement",
+          "name": "✷",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "✷",
+            "text_size": 14,
+            "link": ""
+          }
+        },
+        "announcement_niQBGf": {
+          "type": "announcement",
+          "name": "Hotels",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "FOR RETAIL PARTNERS",
+            "text_size": 13,
+            "link": ""
+          }
+        },
+        "announcement_FMNBrY": {
           "type": "announcement",
           "name": "✷",
           "settings": {
@@ -148,7 +173,9 @@
         "announcement_jdRazg",
         "announcement_XrGy8y",
         "announcement_P6jUz4",
-        "announcement_3VQ8NQ"
+        "announcement_3VQ8NQ",
+        "announcement_niQBGf",
+        "announcement_FMNBrY"
       ],
       "name": "t:sections.scrolling-promotion.presets.name",
       "settings": {
