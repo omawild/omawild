@@ -342,24 +342,6 @@
         "button_text_color": "#ffffff"
       }
     },
-    "owv2_banner": {
-      "type": "owv2-banner",
-      "name": "OWV2 Photo banner",
-      "settings": {
-        "image": "shopify://shop_images/canyonclimber.png",
-        "heading": "Drink like you give a damn",
-        "overlay_color": "#000000",
-        "overlay_opacity": 35,
-        "link": "",
-        "min_height": 320,
-        "min_height_mobile": 240,
-        "background_color": "#f1ece2",
-        "text_color": "#ffffff",
-        "card_background": "#ffffff",
-        "padding_top": 64,
-        "padding_bottom": 64
-      }
-    },
     "owv2_story_hBtcLa": {
       "type": "owv2-story",
       "blocks": {
@@ -406,6 +388,93 @@
         "padding_top": 64,
         "padding_bottom": 64
       }
+    },
+    "owv2_banner": {
+      "type": "owv2-banner",
+      "name": "OWV2 Photo banner",
+      "settings": {
+        "image": "shopify://shop_images/canyonclimber.png",
+        "heading": "Drink like you give a damn",
+        "overlay_color": "#000000",
+        "overlay_opacity": 35,
+        "link": "",
+        "min_height": 320,
+        "min_height_mobile": 240,
+        "background_color": "#f1ece2",
+        "text_color": "#ffffff",
+        "card_background": "#ffffff",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "owv2_regen_tE6yiU": {
+      "type": "owv2-regen",
+      "blocks": {
+        "point_DAp3kg": {
+          "type": "point",
+          "settings": {
+            "title": "Canopy cools the ground",
+            "body": "<p>Tree canopies cool the ground and shelter critical wildlife.</p>"
+          }
+        },
+        "point_CBK3Wr": {
+          "type": "point",
+          "settings": {
+            "title": "Roots hold the slope together",
+            "body": "<p>Healthy root systems help keep soil in place on steep slopes.</p>"
+          }
+        },
+        "point_rYmAJm": {
+          "type": "point",
+          "settings": {
+            "title": "Diversity keeps the land resilient",
+            "body": "<p>A mix of trees and crops creates habitat and supports a thriving ecosystem.</p>"
+          }
+        },
+        "point_rrra8n": {
+          "type": "point",
+          "settings": {
+            "title": "Forests store more carbon than air",
+            "body": "<p>Keeping forests standing protects the carbon stored in trees and soil.</p>"
+          }
+        },
+        "point_yQVEEY": {
+          "type": "point",
+          "settings": {
+            "title": "Living soil banks the water",
+            "body": "<p>Healthy soil absorbs and holds water for the landscape.</p>"
+          }
+        },
+        "point_fPfCJU": {
+          "type": "point",
+          "settings": {
+            "title": "The oldest filtration tech there is",
+            "body": "<p>Roots and living soil help filter water as it moves through the ground.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "point_DAp3kg",
+        "point_CBK3Wr",
+        "point_rYmAJm",
+        "point_rrra8n",
+        "point_yQVEEY",
+        "point_fPfCJU"
+      ],
+      "name": "OWV2 Regen education",
+      "settings": {
+        "eyebrow": "NO APP. NO AI. NO PROBLEM.",
+        "heading": "The most powerful climate solution is in what you eat and drink",
+        "illustration": "shopify://shop_images/regenerative-system-desktop_8c5a91c3-85fd-4964-bbdd-91a093ab2a36.png",
+        "caption": "Good coffee starts with living soil.",
+        "cta_label": "How regen farming works →",
+        "cta_link": "",
+        "background_color": "#F7F5F1",
+        "text_color": "#FF3F00",
+        "card_background": "#FFFFFF",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
@@ -414,7 +483,8 @@
     "scrolling_promotion_c3aaUQ",
     "owv2_value_grid_QXFMkK",
     "od_featured_products_VgPWWJ",
+    "owv2_story_hBtcLa",
     "owv2_banner",
-    "owv2_story_hBtcLa"
+    "owv2_regen_tE6yiU"
   ]
 }
