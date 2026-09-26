@@ -98,14 +98,38 @@
 .owv2-story-{{ owid }} .gallery-wrap {
   position:relative;
   }
+/* Always one row, always potentially scrollable: card width is fixed per
+   breakpoint below (2-up mobile, 3-up tablet, 4-up desktop), and the row
+   only actually scrolls when there are more cards than fit -- a merchant
+   adding extra photos stays reachable by swipe/drag instead of being
+   dropped, rather than wrapping to a second row. */
 .owv2-story-{{ owid }} .gallery {
   display:flex;
-  flex-wrap:wrap;
+  flex-wrap:nowrap;
   gap:24px;
-  padding:0;
+  padding:6px 0 16px;
+  margin:0;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  cursor:grab;
+  }
+.owv2-story-{{ owid }} .gallery::-webkit-scrollbar {
+  display:none;
+  }
+.owv2-story-{{ owid }} .gallery.dragging {
+  cursor:grabbing;
+  user-select:none;
+  }
+.owv2-story-{{ owid }} .gallery::after {
+  content:"";
+  flex:0 0 6px;
   }
 .owv2-story-{{ owid }} figure, .owv2-story-{{ owid }} .teaser {
-  flex:0 0 calc((100% - 72px) / 4);
+  /* mobile: 2 cards in view, 1 gap between them */
+  flex:0 0 calc((100% - 24px) / 2);
   min-width:0;
   margin:0;
   padding:12px;
@@ -113,54 +137,80 @@
   border:1px solid var(--ink);
   box-shadow:5px 5px 0 var(--ink);
   scroll-snap-align:start;
-  }
-.owv2-story-{{ owid }} figure {
   display:flex;
   flex-direction:column;
+  text-decoration:none;
+  color:inherit;
   }
+@media (min-width:750px) {
+  .owv2-story-{{ owid }} figure, .owv2-story-{{ owid }} .teaser {
+  /* tablet: 3 cards in view, 2 gaps */
+  flex-basis:calc((100% - 48px) / 3);
+  }
+}
+@media (min-width:990px) {
+  .owv2-story-{{ owid }} figure, .owv2-story-{{ owid }} .teaser {
+  /* desktop: 4 cards in view, 3 gaps */
+  flex-basis:calc((100% - 72px) / 4);
+  }
+}
 /* Keep the image from claiming the figure's full height (the placeholder rule
    sets height:100%, which pushes the caption outside the card); let it size
    from its aspect ratio so the caption sits inside the card. */
-.owv2-story-{{ owid }} figure img, .owv2-story-{{ owid }} figure svg, .owv2-story-{{ owid }} figure .owv2-placeholder {
+.owv2-story-{{ owid }} figure img, .owv2-story-{{ owid }} figure svg, .owv2-story-{{ owid }} figure .owv2-placeholder,
+.owv2-story-{{ owid }} .teaser-media img {
   width:100%;
   aspect-ratio:4/5;
   object-fit:cover;
   height:auto;
   min-height:0;
   }
-.owv2-story-{{ owid }} figcaption {
+.owv2-story-{{ owid }} figcaption, .owv2-story-{{ owid }} .teaser figcaption {
   margin-top:16px;
   padding:0 4px 2px;
   text-align:center;
   font-size:14px;
   }
-.owv2-story-{{ owid }} .teaser {
-  display:none;
+/* Teaser card: a real photo (dimmed), with its own heading + button
+   permanently overlaid -- not a hover reveal, matching the design file,
+   which shows this treatment at rest with no separate interaction state. */
+.owv2-story-{{ owid }} .teaser-media {
+  position:relative;
   }
-/* Desktop carousel: once there are more than four cards, the row stops
-   wrapping and becomes a horizontal drag-scroll rail (same pattern as the old
-   homepage's about-cards carousel). Four narrow cards stay in view; the rest
-   scroll. */
-.owv2-story-{{ owid }} .gallery-wrap.is-scroll .gallery {
-  flex-wrap:nowrap;
-  overflow-x:auto;
-  overflow-y:hidden;
-  scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;
-  scrollbar-width:none;
-  padding:6px 0 16px;
-  cursor:grab;
+.owv2-story-{{ owid }} .teaser-media img, .owv2-story-{{ owid }} .teaser-media .owv2-placeholder {
+  opacity:.15;
   }
-.owv2-story-{{ owid }} .gallery-wrap.is-scroll .gallery::-webkit-scrollbar {
-  display:none;
+.owv2-story-{{ owid }} .teaser-overlay {
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  text-align:center;
+  padding:16px;
   }
-.owv2-story-{{ owid }} .gallery-wrap.is-scroll .gallery.dragging {
-  cursor:grabbing;
-  user-select:none;
+.owv2-story-{{ owid }} .teaser-heading {
+  font-family:var(--font-heading-family);
+  font-weight:800;
+  font-size:19px;
+  line-height:1.2;
+  letter-spacing:-.02em;
+  color:var(--ink);
+  max-width:14ch;
   }
-.owv2-story-{{ owid }} .gallery-wrap.is-scroll .gallery::after {
-  content:"";
-  flex:0 0 6px;
+.owv2-story-{{ owid }} .teaser-button {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--ink);
+  color:var(--bg);
+  padding:11px 16px;
+  border-radius:999px;
+  font-weight:800;
+  font-size:11px;
+  white-space:nowrap;
   }
 .owv2-story-{{ owid }} .scroll-fade {
   position:absolute;
@@ -181,30 +231,6 @@
 .owv2-story-{{ owid }} .scroll-fade.hide {
   opacity:0;
   }
-@media(max-width:749px) {
-  .owv2-story-{{ owid }} .gallery {
-  flex-wrap:nowrap;
-  overflow-x:auto;
-  overflow-y:hidden;
-  padding:6px 6px 16px 0;
-  scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;
-  scrollbar-width:none;
-  }
-  .owv2-story-{{ owid }} .gallery::-webkit-scrollbar {
-  display:none;
-  }
-  .owv2-story-{{ owid }} figure, .owv2-story-{{ owid }} .teaser {
-  flex-basis:80%;
-  }
-  .owv2-story-{{ owid }} .teaser {
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  }
-}
 {% endstyle %}
 <div class="owv2-story-{{ owid }} owv2-story">
 <div class="inner">
@@ -213,14 +239,14 @@
 <h2>{{ section.settings.heading }}</h2>
 <div>{{ section.settings.subcopy }}</div>
 </div>
-<div class="gallery-wrap{% if section.blocks.size > 4 %} is-scroll{% endif %}">
+<div class="gallery-wrap is-scroll">
 <div class="gallery">
 {% for block in section.blocks %}
 <figure {{ block.shopify_attributes }}>
 {% if block.settings.link != blank %}
 <a href="{{ block.settings.link }}">
 {% endif %}
-{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 1800 | image_tag: loading: 'lazy', widths: '390, 750, 1100, 1500, 1800', sizes: '(min-width: 990px) 50vw, 100vw' }}{% else %}{{ 'lifestyle-1' | placeholder_svg_tag: 'owv2-placeholder' }}{% endif %}
+{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 1800 | image_tag: loading: 'lazy', widths: '390, 750, 1100, 1500, 1800', sizes: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw' }}{% else %}{{ 'lifestyle-1' | placeholder_svg_tag: 'owv2-placeholder' }}{% endif %}
 <figcaption>{{ block.settings.caption | escape }}</figcaption>
 {% if block.settings.link != blank %}
 </a>
@@ -228,23 +254,32 @@
 </figure>
 {% endfor %}
 {% if section.settings.teaser_text != blank %}
-<div class="teaser">
-{% if section.settings.teaser_link != blank %}
-<a href="{{ section.settings.teaser_link }}">
-{% endif %}{{ section.settings.teaser_text | escape }}{% if section.settings.teaser_link != blank %}
-</a>
+{%- comment -%}
+  The always-last card: a real, deliberately dimmed photo with its heading
+  and button overlaid at rest -- see the CSS comment above teaser-media.
+  Falls back to a plain div when no link is set, same tag-switch pattern
+  used for the photo blocks above, so an empty href never renders.
+{%- endcomment -%}
+{% assign teaser_tag = 'div' %}
+{% if section.settings.teaser_link != blank %}{% assign teaser_tag = 'a' %}{% endif %}
+<{{ teaser_tag }} class="teaser" {% if teaser_tag == 'a' %}href="{{ section.settings.teaser_link }}"{% endif %}>
+<div class="teaser-media">
+{% if section.settings.teaser_image != blank %}{{ section.settings.teaser_image | image_url: width: 1800 | image_tag: loading: 'lazy', widths: '390, 750, 1100, 1500, 1800', sizes: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw', alt: '' }}{% else %}{{ 'lifestyle-1' | placeholder_svg_tag: 'owv2-placeholder' }}{% endif %}
+<div class="teaser-overlay">
+<div class="teaser-heading">{{ section.settings.teaser_text | escape }}</div>
+{% if section.settings.teaser_button_label != blank %}<span class="teaser-button">{{ section.settings.teaser_button_label | escape }}</span>{% endif %}
+</div>
+</div>
+{% if section.settings.teaser_caption != blank %}<figcaption>{{ section.settings.teaser_caption | escape }}</figcaption>{% endif %}
+</{{ teaser_tag }}>
 {% endif %}
 </div>
-{% endif %}
-</div>
-{% if section.blocks.size > 4 %}
 <div class="scroll-fade scroll-fade-left hide" aria-hidden="true"></div>
 <div class="scroll-fade scroll-fade-right hide" aria-hidden="true"></div>
-{% endif %}
 </div>
 </div>
 </div>
-{% if section.blocks.size > 4 %}<script src="{{ 'owv2-story.js' | asset_url }}" defer></script>{% endif %}
+<script src="{{ 'owv2-story.js' | asset_url }}" defer></script>
 {% schema %}
 {
   "name": "OWV2 Founder story",
@@ -266,24 +301,49 @@
       "type": "inline_richtext",
       "id": "heading",
       "label": "Heading",
-      "default": "We plunged our entire life savings into conservation \u2014 and then went broke"
+      "default": "We plunged our entire life savings into conservation work, until then went broke"
     },
     {
       "type": "richtext",
       "id": "subcopy",
       "label": "Subcopy",
-      "default": "<p>It started with a one-way ticket to Bali.</p>"
+      "default": "<p>Which is how we learned nature needed a better business model.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Teaser card",
+      "info": "The always-last card in the row, on every breakpoint. Blank teaser text hides it entirely."
+    },
+    {
+      "type": "image_picker",
+      "id": "teaser_image",
+      "label": "Image",
+      "info": "Shown dimmed behind the heading and button, same treatment as the other cards' photos."
     },
     {
       "type": "text",
       "id": "teaser_text",
-      "label": "Teaser text",
-      "default": "11 more photographs."
+      "label": "Heading",
+      "default": "Follow us down our rabbit hole"
+    },
+    {
+      "type": "text",
+      "id": "teaser_button_label",
+      "label": "Button label",
+      "default": "Read the rest of the story \u2192"
+    },
+    {
+      "type": "text",
+      "id": "teaser_caption",
+      "label": "Caption",
+      "info": "Shown below the card, matching the photo blocks' captions.",
+      "default": "Reefs rebuilt, a rice farmer who changed everything, and the farm that became Omawild."
     },
     {
       "type": "url",
       "id": "teaser_link",
-      "label": "Teaser link"
+      "label": "Link",
+      "info": "Wherever the rest of the story lives -- an About page, an Origins page, or leave blank for a non-clickable card."
     },
     {
       "type": "color",
@@ -331,13 +391,19 @@
         {
           "type": "photo",
           "settings": {
-            "caption": "It started with a one-way ticket to Bali."
+            "caption": "It started with a one-way ticket to Bali, in search of answers we could no longer find in the rush of everyday life."
           }
         },
         {
           "type": "photo",
           "settings": {
-            "caption": "A shared love for wild places."
+            "caption": "That summer, we traded the comforts of the city to live and learn alongside those who grew more than just our food."
+          }
+        },
+        {
+          "type": "photo",
+          "settings": {
+            "caption": "We cleaned up beaches and rivers chocked with plastic."
           }
         }
       ]

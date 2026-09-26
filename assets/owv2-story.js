@@ -3,9 +3,12 @@
  * Borrowed from the old homepage's `about-cards-carousel` (assets/ow-landing.js
  * enableDragScroll + edge-fade update). Progressive enhancement: the rail is a
  * native overflow-x scroller, so touch + trackpad work with no JS. JS only adds
- * mouse drag-to-scroll and the gradient edge fades, and only for the scrolling
- * variant (>3 cards on desktop). Honours prefers-reduced-motion implicitly —
- * it adds no animation of its own beyond native scrolling.
+ * mouse drag-to-scroll and the gradient edge fades. Always active -- the row
+ * shows a fixed 2/3/4-up card count per breakpoint (see the section's CSS) and
+ * only actually scrolls once a merchant adds more photos than that, at any
+ * breakpoint, not just a fixed "more than N blocks" threshold. Honours
+ * prefers-reduced-motion implicitly — it adds no animation of its own beyond
+ * native scrolling.
  */
 (function () {
   if (window.__owv2StoryInit) return;
