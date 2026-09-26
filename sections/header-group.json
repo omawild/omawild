@@ -55,35 +55,10 @@
     "scrolling_promotion_njaBmd": {
       "type": "scrolling-promotion",
       "blocks": {
-        "announcement_8eRBa4": {
-          "type": "announcement",
-          "name": "✷",
-          "disabled": true,
-          "settings": {
-            "icon": "none",
-            "icon_size": "medium",
-            "custom_icon": "",
-            "text": "✷",
-            "text_size": 14,
-            "link": ""
-          }
-        },
-        "announcement_jdRazg": {
-          "type": "announcement",
-          "name": "中文",
-          "disabled": true,
-          "settings": {
-            "icon": "none",
-            "icon_size": "medium",
-            "custom_icon": "",
-            "text": "中文版馬上來",
-            "text_size": 14,
-            "link": ""
-          }
-        },
         "announcement_JQjU8N": {
           "type": "announcement",
           "name": "🏃‍♀️",
+          "disabled": true,
           "settings": {
             "icon": "none",
             "icon_size": "medium",
@@ -100,17 +75,80 @@
             "icon": "none",
             "icon_size": "medium",
             "custom_icon": "",
-            "text": "OMAWILD IS EVOLVING",
+            "text": "OMAWILD FOR",
             "text_size": 13,
+            "link": ""
+          }
+        },
+        "announcement_8eRBa4": {
+          "type": "announcement",
+          "name": "✷",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "✷",
+            "text_size": 14,
+            "link": ""
+          }
+        },
+        "announcement_jdRazg": {
+          "type": "announcement",
+          "name": "Offices",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "OFFICES",
+            "text_size": 14,
+            "link": ""
+          }
+        },
+        "announcement_XrGy8y": {
+          "type": "announcement",
+          "name": "✷",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "✷",
+            "text_size": 14,
+            "link": ""
+          }
+        },
+        "announcement_P6jUz4": {
+          "type": "announcement",
+          "name": "Hotels",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "FOR HOTELS",
+            "text_size": 14,
+            "link": ""
+          }
+        },
+        "announcement_3VQ8NQ": {
+          "type": "announcement",
+          "name": "✷",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "✷",
+            "text_size": 14,
             "link": ""
           }
         }
       },
       "block_order": [
+        "announcement_JQjU8N",
+        "announcement_7t7aHN",
         "announcement_8eRBa4",
         "announcement_jdRazg",
-        "announcement_JQjU8N",
-        "announcement_7t7aHN"
+        "announcement_XrGy8y",
+        "announcement_P6jUz4",
+        "announcement_3VQ8NQ"
       ],
       "name": "t:sections.scrolling-promotion.presets.name",
       "settings": {
