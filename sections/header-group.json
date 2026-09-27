@@ -17,7 +17,7 @@
         "countdown_MWDGiX": {
           "type": "countdown",
           "settings": {
-            "date": "2026-09-31T09:00:00",
+            "date": "2026-10-05T09:00:00",
             "text": "<strong>BATCH #002 DROPPING IN</strong>",
             "expired_message": "<strong>NOW PLACING ORDERS FOR BATCH #002</strong>",
             "link": "",
