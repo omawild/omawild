@@ -42,7 +42,7 @@
         "heading": "Drink like you give a damn",
         "body": "<p>Specialty-grade coffee grown inside forests. Uncompromised taste for your morning ritual—real restoration for our planet</p>",
         "cta_primary_label": "Shop the coffee",
-        "cta_primary_link": "",
+        "cta_primary_link": "shopify://collections",
         "cta_secondary_label": "Or learn about regen",
         "cta_secondary_link": "",
         "hero_image": "shopify://shop_images/Omawild-Forest-Trail-001_bf803a57-005a-401b-af23-cb5b659995b7.png",
@@ -513,8 +513,8 @@
           "settings": {
             "heading": "Good coffee",
             "body": "<p>Every cup is a chance to do something good.</p>",
-            "cta_label": "",
-            "cta_link": ""
+            "cta_label": "asdfasdf",
+            "cta_link": "shopify://pages/dispatch"
           }
         },
         "value_a8K7ip": {
