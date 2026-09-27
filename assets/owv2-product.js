@@ -198,6 +198,56 @@
       if (alt != null) mainImg.alt = alt;
     }
 
+    // Ordinary /cart/add form, but intercepted: current.available only
+    // reflects inventory, not Shopify Markets catalog exclusion, so a
+    // variant can render as buyable here and still get rejected by
+    // /cart/add for a shopper in a market it isn't published to. Without
+    // this, that rejection would fall through to a native form POST and
+    // the browser would navigate to Shopify's raw, unstyled error page.
+    var formEl = root.querySelector('[data-odp-form]');
+    var errorBox = root.querySelector('[data-odp-error]');
+    if (formEl && !formEl.__odpSubmit) {
+      formEl.__odpSubmit = true;
+      formEl.addEventListener('submit', function (e) {
+        var btn = formEl.querySelector('[data-odp-cta]');
+        if (btn && btn.disabled) return;
+        e.preventDefault();
+
+        if (errorBox) { errorBox.hidden = true; errorBox.textContent = ''; }
+        each('[data-odp-cta]', function (b) { b.disabled = true; });
+
+        var routes = (window.theme && window.theme.routes) || {};
+        var addUrl = routes.cart_add_url || '/cart/add';
+        var cartUrl = routes.cart_url || '/cart';
+
+        fetch(addUrl, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(formEl)
+        })
+          .then(function (res) {
+            return res.json().then(function (body) { return { ok: res.ok, body: body }; });
+          })
+          .then(function (result) {
+            if (!result.ok || result.body.status) {
+              var message = (result.body && (result.body.description || result.body.message))
+                || 'Something went wrong. Please try again.';
+              if (errorBox) { errorBox.textContent = message; errorBox.hidden = false; }
+              each('[data-odp-cta]', function (b) { b.disabled = false; });
+              return;
+            }
+            window.location = cartUrl;
+          })
+          .catch(function () {
+            if (errorBox) {
+              errorBox.textContent = 'Something went wrong. Please try again.';
+              errorBox.hidden = false;
+            }
+            each('[data-odp-cta]', function (b) { b.disabled = false; });
+          });
+      });
+    }
+
     root.addEventListener('click', function (e) {
       var t = e.target.closest('button');
       if (!t || !root.contains(t)) return;

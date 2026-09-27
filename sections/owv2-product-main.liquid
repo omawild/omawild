@@ -313,6 +313,18 @@
             {%- if current.available -%}{{ cta }}{%- else -%}{{ section.settings.cta_sold_out }}{%- endif -%}
           </button>
         </div>
+
+        {%- comment -%}
+          product.available/current.available only reflect inventory — they
+          carry no signal about Shopify Markets catalog exclusion, so a
+          variant can render as a normal, enabled buy button while still
+          being genuinely unsellable in the shopper's active market. That
+          only surfaces when /cart/add actually rejects it. This box is
+          where owv2-product.js shows that rejection (it's Shopify's own
+          message, which already says "sold out") instead of letting the
+          browser navigate to Shopify's raw error page.
+        {%- endcomment -%}
+        <div class="odp-error" data-odp-error hidden role="alert"></div>
       {%- endform -%}
 
       {%- if section.settings.funds_title != blank or section.settings.funds_text != blank -%}

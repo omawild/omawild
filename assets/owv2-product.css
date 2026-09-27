@@ -232,6 +232,17 @@
 .odp-nudge .odp-btn { margin-left: auto; }
 .odp-nudge[hidden] { display: none; }
 
+.odp-error {
+  margin-top: 12px;
+  padding: 12px 15px;
+  border: 1.5px solid var(--odp-red);
+  border-radius: 10px;
+  background: var(--odp-pink);
+  font: 400 12.5px/1.4 var(--odp-body);
+  color: var(--odp-red);
+}
+.odp-error[hidden] { display: none; }
+
 /* no-subscription scarcity block (canvas 4c) */
 .odp-scarce {
   margin-top: 22px;
