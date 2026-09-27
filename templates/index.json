@@ -441,7 +441,7 @@
       }
     },
     "owv2_story_hBtcLa": {
-      "type": "owv2-story",
+      "type": "oma-story",
       "blocks": {
         "photo_BwMPmW": {
           "type": "photo",
