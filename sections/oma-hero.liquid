@@ -80,15 +80,13 @@
   transition: background .2s ease, color .2s ease;
   }
 {%- comment -%}
-  Primary hover swaps fill and text (the same two tokens, reversed) rather
-  than darkening — it ends up looking exactly like the secondary button's
-  own default state. Secondary hover does the opposite swap: it fills with
-  Electric and the text goes literal white, not var(--bg) — a design call
-  distinct from the primary's token swap.
+  Darken on hover, not a color swap — matches the site's established filled-
+  button convention (owv2-subscribe.liquid's own CTA, the cart/PDP buttons).
+  filter:brightness() rather than a hardcoded Electric Deep hex so this still
+  looks right if a merchant sets --ink to something other than Electric.
 {%- endcomment -%}
 .oma-hero-{{ owid }} .oma-button:hover {
-  background: var(--bg);
-  color: var(--ink);
+  filter: brightness(.85);
   }
 .oma-hero-{{ owid }} :focus-visible {
   outline: 3px solid currentColor;
@@ -152,6 +150,7 @@
 .oma-hero-{{ owid }} .secondary:hover {
   background:var(--ink);
   color:#ffffff;
+  filter:none;
   }
 .oma-hero-{{ owid }} .features {
   list-style:none;
