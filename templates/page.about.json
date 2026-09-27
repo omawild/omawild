@@ -556,6 +556,22 @@
         "text_color": "#00180C",
         "callout_background": "#FCD0FD"
       }
+    },
+    "oma_cta_banner_6aHzUU": {
+      "type": "oma-cta-banner",
+      "name": "OMA CTA banner",
+      "settings": {
+        "eyebrow": "FUEL FOR ADVENTURES THAT IGNITE THE SOUL",
+        "heading": "What begins with coffee is part of a larger vision at Omawild: to build an outdoor pantry that fuels our adventures while helping protect our home planet for generations to come.",
+        "cta_primary_label": "Shop the coffee →",
+        "cta_primary_link": "",
+        "cta_secondary_label": "Meet our origins",
+        "cta_secondary_link": "",
+        "background_color": "#FFE4E7",
+        "text_color": "#FF3F00",
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
     }
   },
   "order": [
@@ -566,6 +582,7 @@
     "od_notice_board_pgF7YM",
     "oma_page_header_bLQPRj",
     "oma_story_ytyxqm",
-    "oma_sticky_story_cWHiFq"
+    "oma_sticky_story_cWHiFq",
+    "oma_cta_banner_6aHzUU"
   ]
 }
