@@ -483,15 +483,30 @@
         "breadcrumb_label": "About Us",
         "body": "",
         "show_collection_list": true,
-        "background_color": "#ffe4e7",
+        "background_color": "#F7F5F1",
         "heading_color": "#ff3f00",
         "text_color": "#00180c",
-        "divider_color": "#ff3f00",
+        "divider_color": "#F7F5F1",
         "thumb_background": "#fbb925",
         "padding_top": 36,
         "padding_bottom": 44,
         "mobile_padding_horizontal": 20,
         "desktop_padding_horizontal": 48
+      }
+    },
+    "oma_image_text_tTL8aK": {
+      "type": "oma-image-text",
+      "name": "OMA Image + text — Our story began in Bali",
+      "settings": {
+        "layout": "stacked",
+        "label": "Our story began in Bali.",
+        "show_divider": true,
+        "tone": "sand",
+        "reverse": false,
+        "eyebrow": "",
+        "title": "",
+        "pull": "",
+        "body": "<p>Our story began during an expedition across Bali, in a season of change when little made sense except for the conservation work that kept calling us back to Indonesia. That journey led us into communities protecting forest reserves, restoring coral reefs, and improving soil health across some of the most biodiverse places on this planet. Those experiences left us changed, inspiring us to create Omawild: a brand built on the belief that the places we love are worth protecting.</p>"
       }
     },
     "oma_story_ytyxqm": {
@@ -572,21 +587,6 @@
         "text_color": "#ff3f00",
         "padding_top": 72,
         "padding_bottom": 72
-      }
-    },
-    "oma_image_text_tTL8aK": {
-      "type": "oma-image-text",
-      "name": "OMA Image + text — Our story began in Bali",
-      "settings": {
-        "layout": "stacked",
-        "label": "Our story began in Bali.",
-        "show_divider": true,
-        "tone": "electric",
-        "reverse": false,
-        "eyebrow": "",
-        "title": "",
-        "pull": "",
-        "body": "<p>Our story began during an expedition across Bali, in a season of change when little made sense except for the conservation work that kept calling us back to Indonesia. That journey led us into communities protecting forest reserves, restoring coral reefs, and improving soil health across some of the most biodiverse places on this planet. Those experiences left us changed, inspiring us to create Omawild: a brand built on the belief that the places we love are worth protecting.</p>"
       }
     }
   },
