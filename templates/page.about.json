@@ -131,6 +131,7 @@
         "notice_box_nDjiUh",
         "notice_box_GX6yBf"
       ],
+      "disabled": true,
       "name": "Notice Board",
       "settings": {
         "image": "shopify://shop_images/sanddunes_filter_crop.png",
@@ -272,6 +273,7 @@
         "card_Pg7hpd",
         "card_ECdWp6"
       ],
+      "disabled": true,
       "name": "OD Cards Gallery (Hrz)",
       "settings": {
         "section_padding_top": 10,
@@ -428,6 +430,7 @@
         "notice_box_fi6tH9",
         "notice_box_AFbURg"
       ],
+      "disabled": true,
       "name": "Notice Board",
       "settings": {
         "image": "shopify://shop_images/sanddunes_filter_crop.png",
@@ -443,6 +446,52 @@
         "inner_padding_top_mobile": 20,
         "inner_padding_bottom_mobile": 20
       }
+    },
+    "oma_page_header_bLQPRj": {
+      "type": "oma-page-header",
+      "blocks": {
+        "collection_row_iB7bGY": {
+          "type": "collection_row",
+          "settings": {
+            "collection": "",
+            "title_override": "",
+            "anchor_override": "",
+            "thumbnail_count": 3,
+            "count_label_override": ""
+          }
+        },
+        "collection_row_Mepp4V": {
+          "type": "collection_row",
+          "settings": {
+            "collection": "",
+            "title_override": "",
+            "anchor_override": "",
+            "thumbnail_count": 3,
+            "count_label_override": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_row_iB7bGY",
+        "collection_row_Mepp4V"
+      ],
+      "name": "OMA Page Header",
+      "settings": {
+        "heading": "Shop",
+        "title_size": "display",
+        "show_breadcrumb": true,
+        "body": "<h1>Omawild is a conservation-led food brand born from our adventures through tropical jungles, coral reefs, and regenerative farms.</h1>",
+        "show_collection_list": true,
+        "background_color": "#FFE4E7",
+        "heading_color": "#FF3F00",
+        "text_color": "#00180C",
+        "divider_color": "#FF3F00",
+        "thumb_background": "#FBB925",
+        "padding_top": 36,
+        "padding_bottom": 44,
+        "mobile_padding_horizontal": 20,
+        "desktop_padding_horizontal": 48
+      }
     }
   },
   "order": [
@@ -450,6 +499,7 @@
     "notice_board_VjWthq",
     "od_card_gallery_horizontal_BAfizR",
     "od_canvas_qpHRwp",
-    "od_notice_board_pgF7YM"
+    "od_notice_board_pgF7YM",
+    "oma_page_header_bLQPRj"
   ]
 }
