@@ -18,8 +18,8 @@
           "type": "countdown",
           "settings": {
             "date": "2026-10-05T09:00:00",
-            "text": "<strong>BATCH #002 DROPPING IN</strong>",
-            "expired_message": "<strong>NOW PLACING ORDERS FOR BATCH #002</strong>",
+            "text": "<strong>BATCH #002 ROASTS IN</strong>",
+            "expired_message": "<strong>BATCH #002 IS HERE. ORDER YOUR FRESH ROAST.</strong>",
             "link": "",
             "position": "top",
             "display_style": "full",
