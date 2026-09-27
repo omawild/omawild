@@ -1,8 +1,15 @@
 {%- comment -%}
-  oma-story-block — universal image + text block, matching "COMPONENT -
+  oma-image-text — universal image + text block, matching "COMPONENT -
   Story Block" from the Omawild Web Redesign design file exactly (fixed
   spacing/type per that spec, not exposed as merchant padding settings —
   this is a defined component, not a generic content section).
+
+  Rebuilt under this filename after sections/oma-story-block.liquid (same
+  content) never synced from git to the omawild/omawild-v2 theme — every
+  other file in that same commit landed correctly, just not that one path.
+  Deleted the old file and recreated it here as a genuinely new path in
+  case something in the sync pipeline was stuck specifically on that
+  filename.
 
   Two layouts:
   - stacked: full-width photo, then a bordered row below it with a short
@@ -15,71 +22,71 @@
     "Image left" setting, matching the design file's own flip-only-if-wide
     rule.
 
-  Add via the theme editor's section picker by searching "Story block" —
-  its schema name is "OMA Story block" (with spaces), which won't match a
-  search for the filename "oma-story-block".
+  Add via the theme editor's section picker by searching "Image + text" —
+  its schema name is "OMA Image + text block" (with spaces), which won't
+  match a search for the filename.
 {%- endcomment -%}
 {% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
 {% style %}
-.oma-story-{{ owid }} {
+.oma-imgtext-{{ owid }} {
   box-sizing: border-box;
   font-family: var(--font-body-family);
   }
-.oma-story-{{ owid }} *, .oma-story-{{ owid }} *::before, .oma-story-{{ owid }} *::after {
+.oma-imgtext-{{ owid }} *, .oma-imgtext-{{ owid }} *::before, .oma-imgtext-{{ owid }} *::after {
   box-sizing: border-box;
   }
-.oma-story-{{ owid }} h2 {
+.oma-imgtext-{{ owid }} h2 {
   font-family: var(--font-heading-family);
   font-weight: 900;
   margin: 0;
   overflow-wrap: anywhere;
   }
-.oma-story-{{ owid }} p {
+.oma-imgtext-{{ owid }} p {
   margin: 0;
   }
-.oma-story-{{ owid }} img, .oma-story-{{ owid }} svg {
+.oma-imgtext-{{ owid }} img, .oma-imgtext-{{ owid }} svg {
   display: block;
   max-width: 100%;
   height: auto;
   }
-.oma-story-{{ owid }} .oma-placeholder {
+.oma-imgtext-{{ owid }} .oma-placeholder {
   width: 100%;
   height: 100%;
   min-height: 200px;
   background: #FFE4E7;
   fill: #FF3F00;
   }
-.oma-story-{{ owid }} :focus-visible {
+.oma-imgtext-{{ owid }} :focus-visible {
   outline: 3px solid currentColor;
   outline-offset: 4px;
   }
 @media (prefers-reduced-motion: reduce) {
-  .oma-story-{{ owid }} * {
+  .oma-imgtext-{{ owid }} * {
   scroll-behavior: auto !important;
   }
 }
 
 {%- comment -%} Stacked {%- endcomment -%}
-.oma-story-{{ owid }} .stacked-inner {
+.oma-imgtext-{{ owid }} .stacked-inner {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 clamp(20px, 4vw, 48px);
   }
-.oma-story-{{ owid }} .stacked-photo {
+.oma-imgtext-{{ owid }} .stacked-photo {
   position: relative;
   aspect-ratio: 21 / 9;
   min-height: 260px;
   background: #FFE4E7;
   border: 1.5px solid #FF3F00;
   }
-.oma-story-{{ owid }} .stacked-photo img {
+.oma-imgtext-{{ owid }} .stacked-photo img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   }
-.oma-story-{{ owid }} .stacked-row {
+.oma-imgtext-{{ owid }} .stacked-row {
   display: flex;
   flex-wrap: wrap;
   gap: 20px 48px;
@@ -88,37 +95,37 @@
   border-bottom: 1.5px solid #FF3F00;
   {%- endif %}
   }
-.oma-story-{{ owid }} .stacked-label {
+.oma-imgtext-{{ owid }} .stacked-label {
   flex: 1 1 240px;
   font: 900 clamp(22px, 2vw, 28px)/1.15 var(--font-heading-family);
   letter-spacing: -.02em;
   color: #FF3F00;
   }
-.oma-story-{{ owid }} .stacked-body {
+.oma-imgtext-{{ owid }} .stacked-body {
   flex: 2 1 480px;
   min-width: 0;
   max-width: 780px;
   font: 400 16.5px/1.6 var(--font-body-family);
   color: #00180C;
   }
-.oma-story-{{ owid }} .stacked-body p {
+.oma-imgtext-{{ owid }} .stacked-body p {
   margin: 0 0 18px;
   }
-.oma-story-{{ owid }} .stacked-body p:last-child {
+.oma-imgtext-{{ owid }} .stacked-body p:last-child {
   margin-bottom: 0;
   }
 
 {%- comment -%} Split {%- endcomment -%}
-.oma-story-{{ owid }} .split-section {
+.oma-imgtext-{{ owid }} .split-section {
   padding: clamp(56px, 7vw, 80px) 0;
   }
-.oma-story-{{ owid }}.tone-electric .split-section {
+.oma-imgtext-{{ owid }}.tone-electric .split-section {
   background: #FF3F00;
   }
-.oma-story-{{ owid }}.tone-sand .split-section {
+.oma-imgtext-{{ owid }}.tone-sand .split-section {
   background: #F7F5F1;
   }
-.oma-story-{{ owid }} .split-inner {
+.oma-imgtext-{{ owid }} .split-inner {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 clamp(20px, 4vw, 48px);
@@ -128,103 +135,103 @@
   align-items: center;
   }
 @media (min-width: 1024px) {
-  .oma-story-{{ owid }} .split-inner {
+  .oma-imgtext-{{ owid }} .split-inner {
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
   }
-  .oma-story-{{ owid }}.is-reverse .split-inner {
+  .oma-imgtext-{{ owid }}.is-reverse .split-inner {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
   }
-  .oma-story-{{ owid }}.is-reverse .split-text {
+  .oma-imgtext-{{ owid }}.is-reverse .split-text {
   order: 2;
   }
 }
-.oma-story-{{ owid }} .split-eyebrow {
+.oma-imgtext-{{ owid }} .split-eyebrow {
   margin-bottom: 16px;
   font: 900 12px/1.3 var(--font-heading-family);
   letter-spacing: .14em;
   }
-.oma-story-{{ owid }}.tone-electric .split-eyebrow {
+.oma-imgtext-{{ owid }}.tone-electric .split-eyebrow {
   color: #FCD0FD;
   }
-.oma-story-{{ owid }}.tone-sand .split-eyebrow {
+.oma-imgtext-{{ owid }}.tone-sand .split-eyebrow {
   color: #FF3F00;
   }
-.oma-story-{{ owid }} .split-title {
+.oma-imgtext-{{ owid }} .split-title {
   font-size: clamp(40px, 5vw, 72px);
   line-height: .95;
   letter-spacing: -.045em;
   }
-.oma-story-{{ owid }}.tone-electric .split-title {
+.oma-imgtext-{{ owid }}.tone-electric .split-title {
   color: #ffffff;
   }
-.oma-story-{{ owid }}.tone-sand .split-title {
+.oma-imgtext-{{ owid }}.tone-sand .split-title {
   color: #FF3F00;
   }
-.oma-story-{{ owid }} .split-body {
+.oma-imgtext-{{ owid }} .split-body {
   margin-top: 28px;
   max-width: 560px;
   font: 400 16.5px/1.6 var(--font-body-family);
   }
-.oma-story-{{ owid }} .split-body p {
+.oma-imgtext-{{ owid }} .split-body p {
   margin: 0 0 18px;
   }
-.oma-story-{{ owid }} .split-body p:last-child {
+.oma-imgtext-{{ owid }} .split-body p:last-child {
   margin-bottom: 0;
   }
-.oma-story-{{ owid }}.tone-electric .split-body {
+.oma-imgtext-{{ owid }}.tone-electric .split-body {
   color: #ffffff;
   }
-.oma-story-{{ owid }}.tone-sand .split-body {
+.oma-imgtext-{{ owid }}.tone-sand .split-body {
   color: #00180C;
   }
-.oma-story-{{ owid }} .split-pull {
+.oma-imgtext-{{ owid }} .split-pull {
   margin-top: 28px;
   max-width: 560px;
   padding-top: 22px;
   font: 900 clamp(22px, 2vw, 28px)/1.2 var(--font-heading-family);
   letter-spacing: -.02em;
   }
-.oma-story-{{ owid }}.tone-electric .split-pull {
+.oma-imgtext-{{ owid }}.tone-electric .split-pull {
   border-top: 1.5px solid #FCD0FD;
   color: #FCD0FD;
   }
-.oma-story-{{ owid }}.tone-sand .split-pull {
+.oma-imgtext-{{ owid }}.tone-sand .split-pull {
   border-top: 1.5px solid #FF3F00;
   color: #FF3F00;
   }
-.oma-story-{{ owid }} .split-photo {
+.oma-imgtext-{{ owid }} .split-photo {
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 3;
   max-height: min(60vh, 520px);
   background: #FFE4E7;
   }
-.oma-story-{{ owid }} .split-photo img {
+.oma-imgtext-{{ owid }} .split-photo img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   }
-.oma-story-{{ owid }}.tone-electric .split-photo {
+.oma-imgtext-{{ owid }}.tone-electric .split-photo {
   border: 1.5px solid #FCD0FD;
   }
-.oma-story-{{ owid }}.tone-sand .split-photo {
+.oma-imgtext-{{ owid }}.tone-sand .split-photo {
   border: 1.5px solid #FF3F00;
   }
 @media (min-width: 600px) {
-  .oma-story-{{ owid }} .split-photo {
+  .oma-imgtext-{{ owid }} .split-photo {
   aspect-ratio: 3 / 2;
   }
 }
 @media (min-width: 1024px) {
-  .oma-story-{{ owid }} .split-photo {
+  .oma-imgtext-{{ owid }} .split-photo {
   aspect-ratio: 4 / 5;
   max-height: 640px;
   }
 }
 {% endstyle %}
-<div class="oma-story-{{ owid }} tone-{{ section.settings.tone }}{% if section.settings.reverse %} is-reverse{% endif %}">
+<div class="oma-imgtext-{{ owid }} tone-{{ section.settings.tone }}{% if section.settings.reverse %} is-reverse{% endif %}">
 {%- if section.settings.layout == 'stacked' -%}
 <section class="stacked-inner">
   <div class="stacked-photo">
@@ -261,7 +268,7 @@
 </div>
 {% schema %}
 {
-  "name": "OMA Story block",
+  "name": "OMA Image + text block",
   "tag": "section",
   "disabled_on": {
     "groups": ["header", "footer"]
@@ -301,7 +308,7 @@
   ],
   "presets": [
     {
-      "name": "OMA Story block — Our story began in Bali",
+      "name": "OMA Image + text — Our story began in Bali",
       "settings": {
         "layout": "stacked",
         "label": "Our story began in Bali.",
@@ -309,7 +316,7 @@
       }
     },
     {
-      "name": "OMA Story block — A different way of being",
+      "name": "OMA Image + text — A different way of being",
       "settings": {
         "layout": "split",
         "tone": "electric",
