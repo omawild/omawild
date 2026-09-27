@@ -47,7 +47,7 @@
         "cta_secondary_link": "",
         "hero_image": "shopify://shop_images/Omawild-Forest-Trail-001_bf803a57-005a-401b-af23-cb5b659995b7.png",
         "image_badge_text": "COFFEE FOR THE PLANET",
-        "caption_text": "<p>Restoring nature isn’t a job for specialised roles, it’s something we can all take part in, one cup at a time.</p>",
+        "caption_text": "<p>You don’t need a degree in science to give a shit about our planet. If someone came into your house and started burning down your furniture, you’d defend it. Nature is our home too. Restoring it is all of our responsibility, and it can begin with what’s in your cup.</p>",
         "caption_link_label": "See how it works ↓",
         "caption_link": "",
         "separator": "✷",
@@ -58,7 +58,7 @@
         "background_color": "#ffe4e7",
         "text_color": "#ff3f00",
         "card_background": "#ffffff",
-        "caption_opacity": 90
+        "caption_opacity": 95
       }
     },
     "owv2_marquee": {
@@ -548,6 +548,7 @@
         "background_color": "#f7f5f1",
         "text_color": "#ff3f00",
         "card_background": "#ffffff",
+        "card_alignment": "left",
         "padding_top": 64,
         "padding_bottom": 64
       }
