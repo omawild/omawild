@@ -156,7 +156,7 @@
       <ul class="crumbs-{{ section.id }}">
         <li><a href="{{ routes.root_url }}">{{ 'general.breadcrumbs.home' | t | default: 'Home' }}</a></li>
         <li aria-hidden="true">/</li>
-        <li>{{ section.settings.heading }}</li>
+        <li>{{ section.settings.breadcrumb_label | default: section.settings.heading }}</li>
       </ul>
     {%- endif -%}
 
@@ -237,6 +237,7 @@
       "default": "display"
     },
     { "type": "checkbox", "id": "show_breadcrumb", "label": "Show breadcrumb", "default": true },
+    { "type": "text", "id": "breadcrumb_label", "label": "Breadcrumb label", "info": "Defaults to the title above when left blank — set this if the title is long (e.g. a full sentence) and the breadcrumb should stay short (e.g. \"About Us\")." },
     { "type": "richtext", "id": "body", "label": "Lead paragraph" },
     { "type": "header", "content": "Collection overview list" },
     { "type": "checkbox", "id": "show_collection_list", "label": "Show collection overview list", "default": true, "info": "Add one 'Collection row' block below per collection you want listed." },
