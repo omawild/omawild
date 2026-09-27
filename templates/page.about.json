@@ -492,6 +492,70 @@
         "mobile_padding_horizontal": 20,
         "desktop_padding_horizontal": 48
       }
+    },
+    "oma_story_ytyxqm": {
+      "type": "oma-story",
+      "blocks": {
+        "photo_TUawGV": {
+          "type": "photo",
+          "settings": {
+            "caption": "It started with a one-way ticket to Bali, in search of answers we could no longer find in the rush of everyday life.",
+            "link": ""
+          }
+        },
+        "photo_iVtiPx": {
+          "type": "photo",
+          "settings": {
+            "caption": "That summer, we traded the comforts of the city to live and learn alongside those who grew more than just our food.",
+            "link": ""
+          }
+        },
+        "photo_GQpkib": {
+          "type": "photo",
+          "settings": {
+            "caption": "We cleaned up beaches and rivers chocked with plastic.",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "photo_TUawGV",
+        "photo_iVtiPx",
+        "photo_GQpkib"
+      ],
+      "name": "OMA Story",
+      "settings": {
+        "show_eyebrow": true,
+        "eyebrow": "HOW WE GOT HERE",
+        "heading": "We plunged our entire life savings into conservation work, until then went broke",
+        "show_subcopy": true,
+        "subcopy": "<p>Which is how we learned nature needed a better business model.</p>",
+        "teaser_text": "Follow us down our rabbit hole",
+        "teaser_button_label": "Read the rest →",
+        "teaser_caption": "# more photographs.",
+        "teaser_link": "",
+        "background_color": "#FBDCDC",
+        "text_color": "#F5450D",
+        "card_background": "#FFFFFF",
+        "padding_top": 56,
+        "padding_bottom": 64
+      }
+    },
+    "oma_sticky_story_cWHiFq": {
+      "type": "oma-sticky-story",
+      "name": "OMA Sticky story",
+      "settings": {
+        "eyebrow": "FROM WONDER TO RESTORATION",
+        "heading": "Food felt like the natural place to begin",
+        "lead": "Food is not something we simply consume, but a direct expression of our relationship with the world.",
+        "body": "<p>Every breath we take, every meal we eat, and every sip we drink begins in living ecosystems. Healthy land grows healthy food, and healthy food nourishes healthy people.</p><p>That understanding shaped the way we built Omawild. We partner with producers who share our belief that the future of food depends on thriving ecosystems, and support farming practices that regenerate the land rather than deplete it.</p>",
+        "show_callout": true,
+        "callout_text": "<p>Our commitment extends beyond the farms we source from. As members of 1% for the Planet, we contribute at least 1% of our annual sales to environmental organisations restoring ecosystems, protecting biodiversity, and supporting communities on the frontlines of environmental stewardship.</p>",
+        "background_color": "#F7F5F1",
+        "accent_color": "#FF3F00",
+        "text_color": "#00180C",
+        "callout_background": "#FCD0FD"
+      }
     }
   },
   "order": [
@@ -500,6 +564,8 @@
     "od_card_gallery_horizontal_BAfizR",
     "od_canvas_qpHRwp",
     "od_notice_board_pgF7YM",
-    "oma_page_header_bLQPRj"
+    "oma_page_header_bLQPRj",
+    "oma_story_ytyxqm",
+    "oma_sticky_story_cWHiFq"
   ]
 }
