@@ -1,6 +1,6 @@
 {% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
 {% style %}
-.owv2-story-{{ owid }} {
+.oma-story-{{ owid }} {
   box-sizing: border-box;
   --bg: {{ section.settings.background_color }};
   --ink: {{ section.settings.text_color }};
@@ -12,10 +12,10 @@
   font-size: 16px;
   line-height: 1.5;
   }
-.owv2-story-{{ owid }} *, .owv2-story-{{ owid }} *::before, .owv2-story-{{ owid }} *::after {
+.oma-story-{{ owid }} *, .oma-story-{{ owid }} *::before, .oma-story-{{ owid }} *::after {
   box-sizing: border-box;
   }
-.owv2-story-{{ owid }} h1, .owv2-story-{{ owid }} h2, .owv2-story-{{ owid }} h3 {
+.oma-story-{{ owid }} h1, .oma-story-{{ owid }} h2, .oma-story-{{ owid }} h3 {
   font-family: var(--font-heading-family);
   color: inherit;
   font-weight: 900;
@@ -25,42 +25,42 @@
   margin: 0;
   overflow-wrap: anywhere;
   }
-.owv2-story-{{ owid }} h2 {
+.oma-story-{{ owid }} h2 {
   font-size: clamp(30px, 4vw, 58px);
   }
-.owv2-story-{{ owid }} h3 {
+.oma-story-{{ owid }} h3 {
   font-size: 26px;
   }
-.owv2-story-{{ owid }} p {
+.oma-story-{{ owid }} p {
   margin: 0 0 16px;
   }
-.owv2-story-{{ owid }} p:last-child {
+.oma-story-{{ owid }} p:last-child {
   margin-bottom: 0;
   }
-.owv2-story-{{ owid }} a {
+.oma-story-{{ owid }} a {
   color: inherit;
   }
-.owv2-story-{{ owid }} img, .owv2-story-{{ owid }} svg {
+.oma-story-{{ owid }} img, .oma-story-{{ owid }} svg {
   display: block;
   max-width: 100%;
   height: auto;
   }
-.owv2-story-{{ owid }} .inner {
+.oma-story-{{ owid }} .inner {
   max-width: 1320px;
   margin-inline: auto;
   min-width: 0;
   }
-.owv2-story-{{ owid }} .intro {
+.oma-story-{{ owid }} .intro {
   max-width: 760px;
   margin-bottom: 20px;
   }
-.owv2-story-{{ owid }} .intro .eyebrow {
+.oma-story-{{ owid }} .intro .eyebrow {
   margin: 0;
   }
-.owv2-story-{{ owid }} .intro h2 {
+.oma-story-{{ owid }} .intro h2 {
   margin-top: 14px;
   }
-.owv2-story-{{ owid }} .intro > div {
+.oma-story-{{ owid }} .intro > div {
   margin-top: 10px;
   }
 {%- comment -%}
@@ -69,27 +69,27 @@
   the eyebrow above it) needs to be 0, at both breakpoints, or it just reads
   as stray top padding on the section.
 {%- endcomment -%}
-.owv2-story-{{ owid }} .intro.no-eyebrow h2 {
+.oma-story-{{ owid }} .intro.no-eyebrow h2 {
   margin-top: 0;
   }
 @media (min-width:750px) {
-  .owv2-story-{{ owid }} .intro {
+  .oma-story-{{ owid }} .intro {
   margin-bottom: 26px;
   }
-  .owv2-story-{{ owid }} .intro h2 {
+  .oma-story-{{ owid }} .intro h2 {
   margin-top: 16px;
   }
-  .owv2-story-{{ owid }} .intro > div {
+  .oma-story-{{ owid }} .intro > div {
   margin-top: 12px;
   }
 }
-.owv2-story-{{ owid }} .eyebrow {
+.oma-story-{{ owid }} .eyebrow {
   font-size: 12px;
   font-weight: 700;
   letter-spacing: .12em;
   text-transform: uppercase;
   }
-.owv2-story-{{ owid }} .owv2-button {
+.oma-story-{{ owid }} .oma-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -104,11 +104,11 @@
   text-align: center;
   cursor: pointer;
   }
-.owv2-story-{{ owid }} :focus-visible {
+.oma-story-{{ owid }} :focus-visible {
   outline: 3px solid currentColor;
   outline-offset: 4px;
   }
-.owv2-story-{{ owid }} .owv2-placeholder {
+.oma-story-{{ owid }} .oma-placeholder {
   width: 100%;
   height: 100%;
   min-height: 200px;
@@ -116,12 +116,12 @@
   fill: var(--ink);
   }
 @media (prefers-reduced-motion: reduce) {
-  .owv2-story-{{ owid }} * {
+  .oma-story-{{ owid }} * {
   scroll-behavior: auto !important;
   scroll-snap-type: none !important;
   }
 }
-.owv2-story-{{ owid }} .gallery-wrap {
+.oma-story-{{ owid }} .gallery-wrap {
   position:relative;
   }
 /* Always one row, always potentially scrollable: card width is fixed per
@@ -129,7 +129,7 @@
    only actually scrolls when there are more cards than fit -- a merchant
    adding extra photos stays reachable by swipe/drag instead of being
    dropped, rather than wrapping to a second row. */
-.owv2-story-{{ owid }} .gallery {
+.oma-story-{{ owid }} .gallery {
   display:flex;
   flex-wrap:nowrap;
   gap:14px;
@@ -142,23 +142,23 @@
   scrollbar-width:none;
   cursor:grab;
   }
-.owv2-story-{{ owid }} .gallery::-webkit-scrollbar {
+.oma-story-{{ owid }} .gallery::-webkit-scrollbar {
   display:none;
   }
-.owv2-story-{{ owid }} .gallery.dragging {
+.oma-story-{{ owid }} .gallery.dragging {
   cursor:grabbing;
   user-select:none;
   }
-.owv2-story-{{ owid }} .gallery::after {
+.oma-story-{{ owid }} .gallery::after {
   content:"";
   flex:0 0 6px;
   }
 @media (min-width:750px) {
-  .owv2-story-{{ owid }} .gallery {
+  .oma-story-{{ owid }} .gallery {
   gap:24px;
   }
 }
-.owv2-story-{{ owid }} figure, .owv2-story-{{ owid }} .teaser {
+.oma-story-{{ owid }} figure, .oma-story-{{ owid }} .teaser {
   /* mobile: 2 cards in view, 1 gap between them */
   flex:0 0 calc((100% - 14px) / 2);
   min-width:0;
@@ -174,7 +174,7 @@
   color:inherit;
   }
 @media (min-width:750px) {
-  .owv2-story-{{ owid }} figure, .owv2-story-{{ owid }} .teaser {
+  .oma-story-{{ owid }} figure, .oma-story-{{ owid }} .teaser {
   /* tablet: 3 cards in view, 2 gaps */
   flex-basis:calc((100% - 48px) / 3);
   padding:12px 12px 16px;
@@ -182,7 +182,7 @@
   }
 }
 @media (min-width:990px) {
-  .owv2-story-{{ owid }} figure, .owv2-story-{{ owid }} .teaser {
+  .oma-story-{{ owid }} figure, .oma-story-{{ owid }} .teaser {
   /* desktop: 4 cards in view, 3 gaps */
   flex-basis:calc((100% - 72px) / 4);
   }
@@ -191,8 +191,8 @@
    sets height:100%, which pushes the caption outside the card); let it size
    from its aspect ratio so the caption sits inside the card. 1:1, per the
    design file -- not a taller portrait crop, which read as too long/narrow. */
-.owv2-story-{{ owid }} figure img, .owv2-story-{{ owid }} figure svg, .owv2-story-{{ owid }} figure .owv2-placeholder,
-.owv2-story-{{ owid }} .teaser-media img {
+.oma-story-{{ owid }} figure img, .oma-story-{{ owid }} figure svg, .oma-story-{{ owid }} figure .oma-placeholder,
+.oma-story-{{ owid }} .teaser-media img {
   width:100%;
   aspect-ratio:1/1;
   object-fit:cover;
@@ -203,7 +203,7 @@
    defaults to Electric red, meant for headings/eyebrow) -- and a tighter
    1.32 line-height than the section's base 1.5, without going so tight it
    crowds a two-line caption. Matches the design file at both breakpoints. */
-.owv2-story-{{ owid }} figcaption, .owv2-story-{{ owid }} .teaser figcaption {
+.oma-story-{{ owid }} figcaption, .oma-story-{{ owid }} .teaser figcaption {
   margin-top:10px;
   padding:0 4px 2px;
   text-align:center;
@@ -212,7 +212,7 @@
   color:#00180C;
   }
 @media (min-width:750px) {
-  .owv2-story-{{ owid }} figcaption, .owv2-story-{{ owid }} .teaser figcaption {
+  .oma-story-{{ owid }} figcaption, .oma-story-{{ owid }} .teaser figcaption {
   margin-top:13px;
   font-size:12.5px;
   }
@@ -220,13 +220,13 @@
 /* Teaser card: a real photo (dimmed), with its own heading + button
    permanently overlaid -- not a hover reveal, matching the design file,
    which shows this treatment at rest with no separate interaction state. */
-.owv2-story-{{ owid }} .teaser-media {
+.oma-story-{{ owid }} .teaser-media {
   position:relative;
   }
-.owv2-story-{{ owid }} .teaser-media img, .owv2-story-{{ owid }} .teaser-media .owv2-placeholder {
+.oma-story-{{ owid }} .teaser-media img, .oma-story-{{ owid }} .teaser-media .oma-placeholder {
   opacity:.15;
   }
-.owv2-story-{{ owid }} .teaser-overlay {
+.oma-story-{{ owid }} .teaser-overlay {
   position:absolute;
   inset:0;
   display:flex;
@@ -237,7 +237,7 @@
   text-align:center;
   padding:12px;
   }
-.owv2-story-{{ owid }} .teaser-heading {
+.oma-story-{{ owid }} .teaser-heading {
   font-family:var(--font-heading-family);
   font-weight:800;
   font-size:15px;
@@ -246,7 +246,7 @@
   color:var(--ink);
   max-width:14ch;
   }
-.owv2-story-{{ owid }} .teaser-button {
+.oma-story-{{ owid }} .teaser-button {
   display:inline-flex;
   align-items:center;
   justify-content:center;
@@ -259,19 +259,19 @@
   white-space:nowrap;
   }
 @media (min-width:750px) {
-  .owv2-story-{{ owid }} .teaser-overlay {
+  .oma-story-{{ owid }} .teaser-overlay {
   gap:18px;
   padding:20px;
   }
-  .owv2-story-{{ owid }} .teaser-heading {
+  .oma-story-{{ owid }} .teaser-heading {
   font-size:19px;
   }
-  .owv2-story-{{ owid }} .teaser-button {
+  .oma-story-{{ owid }} .teaser-button {
   padding:11px 16px;
   font-size:11px;
   }
 }
-.owv2-story-{{ owid }} .scroll-fade {
+.oma-story-{{ owid }} .scroll-fade {
   position:absolute;
   top:0;
   bottom:16px;
@@ -279,19 +279,19 @@
   pointer-events:none;
   transition:opacity .2s ease;
   }
-.owv2-story-{{ owid }} .scroll-fade-left {
+.oma-story-{{ owid }} .scroll-fade-left {
   left:0;
   background:linear-gradient(to right, var(--bg), rgba(0,0,0,0));
   }
-.owv2-story-{{ owid }} .scroll-fade-right {
+.oma-story-{{ owid }} .scroll-fade-right {
   right:0;
   background:linear-gradient(to left, var(--bg), rgba(0,0,0,0));
   }
-.owv2-story-{{ owid }} .scroll-fade.hide {
+.oma-story-{{ owid }} .scroll-fade.hide {
   opacity:0;
   }
 {% endstyle %}
-<div class="owv2-story-{{ owid }} owv2-story">
+<div class="oma-story-{{ owid }} oma-story">
 <div class="inner">
 <div class="intro{% unless section.settings.show_eyebrow %} no-eyebrow{% endunless %}">
 {%- if section.settings.show_eyebrow -%}
@@ -309,7 +309,7 @@
 {% if block.settings.link != blank %}
 <a href="{{ block.settings.link }}">
 {% endif %}
-{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 1800 | image_tag: loading: 'lazy', widths: '390, 750, 1100, 1500, 1800', sizes: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw' }}{% else %}{{ 'lifestyle-1' | placeholder_svg_tag: 'owv2-placeholder' }}{% endif %}
+{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 1800 | image_tag: loading: 'lazy', widths: '390, 750, 1100, 1500, 1800', sizes: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw' }}{% else %}{{ 'lifestyle-1' | placeholder_svg_tag: 'oma-placeholder' }}{% endif %}
 <figcaption>{{ block.settings.caption | escape }}</figcaption>
 {% if block.settings.link != blank %}
 </a>
@@ -327,7 +327,7 @@
 {% if section.settings.teaser_link != blank %}{% assign teaser_tag = 'a' %}{% endif %}
 <{{ teaser_tag }} class="teaser" {% if teaser_tag == 'a' %}href="{{ section.settings.teaser_link }}"{% endif %}>
 <div class="teaser-media">
-{% if section.settings.teaser_image != blank %}{{ section.settings.teaser_image | image_url: width: 1800 | image_tag: loading: 'lazy', widths: '390, 750, 1100, 1500, 1800', sizes: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw', alt: '' }}{% else %}{{ 'lifestyle-1' | placeholder_svg_tag: 'owv2-placeholder' }}{% endif %}
+{% if section.settings.teaser_image != blank %}{{ section.settings.teaser_image | image_url: width: 1800 | image_tag: loading: 'lazy', widths: '390, 750, 1100, 1500, 1800', sizes: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw', alt: '' }}{% else %}{{ 'lifestyle-1' | placeholder_svg_tag: 'oma-placeholder' }}{% endif %}
 <div class="teaser-overlay">
 <div class="teaser-heading">{{ section.settings.teaser_text | escape }}</div>
 {% if section.settings.teaser_button_label != blank %}<span class="teaser-button">{{ section.settings.teaser_button_label | escape }}</span>{% endif %}
@@ -342,10 +342,10 @@
 </div>
 </div>
 </div>
-<script src="{{ 'owv2-story.js' | asset_url }}" defer></script>
+<script src="{{ 'oma-story.js' | asset_url }}" defer></script>
 {% schema %}
 {
-  "name": "OWV2 Founder story",
+  "name": "OMA Story",
   "tag": "section",
   "disabled_on": {
     "groups": [
@@ -461,7 +461,7 @@
   ],
   "presets": [
     {
-      "name": "OWV2 Founder story",
+      "name": "OMA Story",
       "blocks": [
         {
           "type": "photo",
@@ -484,7 +484,7 @@
       ]
     },
     {
-      "name": "OWV2 Founder story — Field notes",
+      "name": "Field notes",
       "settings": {
         "show_eyebrow": false,
         "show_subcopy": false,
