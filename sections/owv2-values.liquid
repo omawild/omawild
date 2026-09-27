@@ -123,6 +123,8 @@
 .owv2-values-{{ owid }} article {
   display:flex;
   flex-direction:column;
+  align-items: {% if section.settings.card_alignment == 'center' %}center{% else %}flex-start{% endif %};
+  text-align: {% if section.settings.card_alignment == 'center' %}center{% else %}left{% endif %};
   padding:24px;
   background:var(--surface);
   border:1.5px solid var(--ink);
@@ -130,6 +132,15 @@
   }
 .owv2-values-{{ owid }} article > * + * {
   margin-top:16px;
+  }
+{%- comment -%}
+  Title-to-body gap read as too wide at the shared 16px card rhythm — this
+  narrows just that one relationship (a body <div> directly after the <h3>),
+  leaving the icon-to-title and body-to-CTA gaps at the normal 16px/dedicated
+  spacing below.
+{%- endcomment -%}
+.owv2-values-{{ owid }} article > h3 + div {
+  margin-top:8px;
   }
 .owv2-values-{{ owid }} .icon {
   /* Height-locked, width-auto: a square icon still renders 42x42, but a
@@ -155,8 +166,19 @@
   color:#5A5550;
   }
 .owv2-values-{{ owid }} article a {
-  align-self:flex-start;
-  margin-top:auto;
+  {%- comment -%}
+    No align-self here on purpose — it follows the article's own
+    align-items (left or center per the Card alignment setting) instead of
+    always pinning left regardless of that choice.
+
+    margin-top was `auto` (push-to-bottom in the flex column), but a card
+    with a CTA is usually the tallest in its grid row to begin with — grid's
+    default align-items:stretch equalizes row height, so the CTA's own card
+    has no leftover space for `auto` to distribute, and it rendered flush
+    against the body text. An explicit margin gives it real breathing room
+    regardless of whether that card happens to be the tallest.
+  {%- endcomment -%}
+  margin-top:22px;
   display:inline-flex;
   text-decoration:none;
   border:1.5px solid var(--ink);
@@ -253,6 +275,17 @@
       "id": "card_background",
       "label": "Card background",
       "default": "#FFFFFF"
+    },
+    {
+      "type": "select",
+      "id": "card_alignment",
+      "label": "Card alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "left",
+      "info": "Applies to every element in the card — icon, title, body and CTA — together, not just the text."
     },
     {
       "type": "range",

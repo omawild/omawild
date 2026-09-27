@@ -77,6 +77,18 @@
   text-decoration: none;
   text-align: center;
   cursor: pointer;
+  transition: background .2s ease, color .2s ease;
+  }
+{%- comment -%}
+  Primary hover swaps fill and text (the same two tokens, reversed) rather
+  than darkening — it ends up looking exactly like the secondary button's
+  own default state. Secondary hover does the opposite swap: it fills with
+  Electric and the text goes literal white, not var(--bg) — a design call
+  distinct from the primary's token swap.
+{%- endcomment -%}
+.oma-hero-{{ owid }} .oma-button:hover {
+  background: var(--bg);
+  color: var(--ink);
   }
 .oma-hero-{{ owid }} :focus-visible {
   outline: 3px solid currentColor;
@@ -136,6 +148,10 @@
 .oma-hero-{{ owid }} .secondary {
   background:transparent;
   color:var(--ink);
+  }
+.oma-hero-{{ owid }} .secondary:hover {
+  background:var(--ink);
+  color:#ffffff;
   }
 .oma-hero-{{ owid }} .features {
   list-style:none;
