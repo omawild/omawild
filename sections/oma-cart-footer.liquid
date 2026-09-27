@@ -204,7 +204,7 @@
     background: #fff;
     padding: 0 38px 0 16px;
     font: 700 13px/1 var(--font-heading-family);
-    color: #FF3F00;
+    color: #00180C;
     cursor: pointer;
   }
   .ocf-ship-{{ section.id }} input[type="text"] { cursor: text; font: 500 14.5px/1 var(--font-body-family); color: #00180C; padding-right: 16px; }
@@ -293,7 +293,7 @@
           </div>
 
           <button type="submit" name="checkout" form="cart" class="ocf-checkout-{{ section.id }}">
-            {{ 'sections.cart.checkout' | t | default: 'Check out' }} &middot; {{ cart.total_price | money }}
+            {{ 'sections.cart.checkout' | t | default: 'Check out' }}
           </button>
 
           {%- if section.settings.show_dynamic_checkout and additional_checkout_buttons -%}
@@ -387,6 +387,70 @@
         }
       });
     }
+  })();
+
+  {%- comment -%}
+    Neither <cart-discount> nor <shipping-calculator> (assets/cart.js, vendor
+    code, untouched) surface a message to the shopper on a silent failure —
+    both only console.error and stop. These two IIFEs add a 6s fallback: if
+    the vendor's own success/error class toggle hasn't happened by then, show
+    a generic retry message using the same error boxes the vendor code
+    already renders. They defer entirely to the vendor's own outcome when it
+    does respond (MutationObserver cancels the fallback the moment its class
+    changes), so this never overrides or races a real result.
+  {%- endcomment -%}
+  (function () {
+    var wrap = document.querySelector('.ocf-discount-{{ section.id }}');
+    if (!wrap) return;
+    var btn = wrap.querySelector('[data-discount-btn]');
+    if (!btn) return;
+    var errorBox = wrap.querySelector('.ocf-discount-error-{{ section.id }}');
+    var timer = null;
+
+    if (errorBox) {
+      new MutationObserver(function () {
+        if (timer) { window.clearTimeout(timer); timer = null; }
+      }).observe(errorBox, { attributes: true, attributeFilter: ['class'] });
+    }
+
+    btn.addEventListener('click', function () {
+      if (timer) window.clearTimeout(timer);
+      timer = window.setTimeout(function () {
+        timer = null;
+        if (!errorBox || !errorBox.isConnected) return;
+        var span = errorBox.lastElementChild;
+        if (span) span.textContent = 'Something went wrong applying that code. Please try again.';
+        errorBox.classList.remove('hidden');
+      }, 6000);
+    });
+  })();
+
+  (function () {
+    var calcBtn = document.querySelector('.ocf-ship-calc-{{ section.id }}');
+    if (!calcBtn) return;
+    var errBox = document.getElementById('ShippingCalculatorErrors');
+    var okBox = document.getElementById('ShippingCalculatorSuccess');
+    var timer = null;
+
+    [errBox, okBox].forEach(function (box) {
+      if (!box) return;
+      new MutationObserver(function () {
+        if (timer) { window.clearTimeout(timer); timer = null; }
+      }).observe(box, { attributes: true, attributeFilter: ['class'] });
+    });
+
+    calcBtn.addEventListener('click', function () {
+      if (timer) window.clearTimeout(timer);
+      timer = window.setTimeout(function () {
+        timer = null;
+        if ((errBox && !errBox.classList.contains('hidden')) || (okBox && !okBox.classList.contains('hidden'))) return;
+        if (errBox) {
+          var inner = errBox.querySelector('.errors');
+          if (inner) inner.textContent = 'Could not fetch shipping rates. Please try again.';
+          errBox.classList.remove('hidden');
+        }
+      }, 6000);
+    });
   })();
 </script>
 
