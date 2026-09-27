@@ -1,0 +1,181 @@
+{%- comment -%}
+  oma-sticky-story — "Food felt like the natural place to begin" pattern:
+  a short sticky eyebrow+heading beside flowing body copy that ends in a
+  1% for the Planet callout card. Built new rather than reusing
+  od-sticky-split-feature.liquid — that section's sticky side is always the
+  IMAGE column and always requires a photo; this design has no image at
+  all, with the STICKY side being the short text instead. Reworking it to
+  support an image-less, sticky-text mode would fork behavior for its
+  existing placements elsewhere, so this is its own section instead.
+
+  The callout's 1% for the Planet logo defaults to the theme's own bundled
+  asset (assets/ow-badge-1ftp.png) when no image is picked — same fallback
+  pattern already used in owv2-product-main.liquid's own funds block, not a
+  merchant upload requirement.
+{%- endcomment -%}
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{% style %}
+.oma-sticky-{{ owid }} {
+  box-sizing: border-box;
+  background: {{ section.settings.background_color }};
+  font-family: var(--font-body-family);
+  }
+.oma-sticky-{{ owid }} *, .oma-sticky-{{ owid }} *::before, .oma-sticky-{{ owid }} *::after {
+  box-sizing: border-box;
+  }
+.oma-sticky-{{ owid }} img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  }
+.oma-sticky-{{ owid }} :focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 4px;
+  }
+.oma-sticky-{{ owid }} .inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: clamp(56px, 8vw, 88px) clamp(20px, 4vw, 48px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+  }
+@media (min-width: 750px) {
+  .oma-sticky-{{ owid }} .inner {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+  gap: 32px 64px;
+  }
+}
+.oma-sticky-{{ owid }} .heading-col {
+  position: static;
+  }
+@media (min-width: 834px) {
+  .oma-sticky-{{ owid }} .heading-col {
+  position: sticky;
+  top: 112px;
+  }
+}
+.oma-sticky-{{ owid }} .eyebrow {
+  font: 900 12px/1.3 var(--font-heading-family);
+  letter-spacing: .14em;
+  color: {{ section.settings.accent_color }};
+  }
+.oma-sticky-{{ owid }} .heading {
+  margin: 16px 0 0;
+  font-family: var(--font-heading-family);
+  font-weight: 900;
+  font-size: clamp(40px, 5vw, 72px);
+  line-height: .95;
+  letter-spacing: -.045em;
+  color: {{ section.settings.accent_color }};
+  text-wrap: balance;
+  }
+.oma-sticky-{{ owid }} .body-col {
+  display: flex;
+  flex-direction: column;
+  }
+.oma-sticky-{{ owid }} .lead {
+  margin: 0;
+  font-family: var(--font-heading-family);
+  font-weight: 900;
+  font-size: clamp(22px, 2vw, 28px);
+  line-height: 1.25;
+  letter-spacing: -.02em;
+  color: {{ section.settings.accent_color }};
+  }
+.oma-sticky-{{ owid }} .body {
+  margin-top: 18px;
+  font: 400 16.5px/1.6 var(--font-body-family);
+  color: {{ section.settings.text_color }};
+  }
+.oma-sticky-{{ owid }} .body p {
+  margin: 0 0 18px;
+  }
+.oma-sticky-{{ owid }} .body p:last-child {
+  margin-bottom: 0;
+  }
+.oma-sticky-{{ owid }} .callout {
+  margin-top: 36px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 28px;
+  align-items: center;
+  padding: 28px;
+  background: {{ section.settings.callout_background }};
+  border: 1.5px solid {{ section.settings.accent_color }};
+  }
+.oma-sticky-{{ owid }} .callout img {
+  height: 52px;
+  width: auto;
+  flex: none;
+  }
+.oma-sticky-{{ owid }} .callout-text {
+  flex: 1 1 260px;
+  margin: 0;
+  font: 400 14.5px/1.6 var(--font-body-family);
+  color: {{ section.settings.text_color }};
+  }
+.oma-sticky-{{ owid }} .callout-text p {
+  margin: 0;
+  }
+{% endstyle %}
+<div class="oma-sticky-{{ owid }}">
+  <div class="inner">
+    <div class="heading-col">
+      {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
+      <h2 class="heading">{{ section.settings.heading }}</h2>
+    </div>
+    <div class="body-col">
+      {%- if section.settings.lead != blank -%}<p class="lead">{{ section.settings.lead }}</p>{%- endif -%}
+      <div class="body">{{ section.settings.body }}</div>
+      {%- if section.settings.show_callout -%}
+        <div class="callout">
+          {%- if section.settings.callout_image != blank -%}
+            {{ section.settings.callout_image | image_url: width: 320 | image_tag: loading: 'lazy', alt: section.settings.callout_image.alt }}
+          {%- else -%}
+            <img src="{{ 'ow-badge-1ftp.png' | asset_url }}" alt="1% for the Planet member" loading="lazy" width="122" height="52">
+          {%- endif -%}
+          <div class="callout-text">{{ section.settings.callout_text }}</div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "OMA Sticky story",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "FROM WONDER TO RESTORATION" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Food felt like the natural place to begin" },
+    { "type": "text", "id": "lead", "label": "Lead line", "info": "A short, bold first line before the body copy.", "default": "Food is not something we simply consume, but a direct expression of our relationship with the world." },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>Every breath we take, every meal we eat, and every sip we drink begins in living ecosystems. Healthy land grows healthy food, and healthy food nourishes healthy people.</p><p>That understanding shaped the way we built Omawild. We partner with producers who share our belief that the future of food depends on thriving ecosystems, and support farming practices that regenerate the land rather than deplete it.</p>"
+    },
+    { "type": "header", "content": "1% for the Planet callout" },
+    { "type": "checkbox", "id": "show_callout", "label": "Show callout", "default": true },
+    { "type": "image_picker", "id": "callout_image", "label": "Logo", "info": "Blank uses the theme's own 1% for the Planet horizontal mark." },
+    {
+      "type": "richtext",
+      "id": "callout_text",
+      "label": "Callout text",
+      "default": "<p>Our commitment extends beyond the farms we source from. As members of 1% for the Planet, we contribute at least 1% of our annual sales to environmental organisations restoring ecosystems, protecting biodiversity, and supporting communities on the frontlines of environmental stewardship.</p>"
+    },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#F7F5F1" },
+    { "type": "color", "id": "accent_color", "label": "Eyebrow, heading & lead color", "default": "#FF3F00" },
+    { "type": "color", "id": "text_color", "label": "Body text color", "default": "#00180C" },
+    { "type": "color", "id": "callout_background", "label": "Callout background", "default": "#FCD0FD" }
+  ],
+  "presets": [
+    { "name": "OMA Sticky story" }
+  ]
+}
+{% endschema %}

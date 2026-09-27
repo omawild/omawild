@@ -1,0 +1,315 @@
+{%- comment -%}
+  oma-story-block — universal image + text block, matching "COMPONENT -
+  Story Block" from the Omawild Web Redesign design file exactly (fixed
+  spacing/type per that spec, not exposed as merchant padding settings —
+  this is a defined component, not a generic content section).
+
+  Two layouts:
+  - stacked: full-width photo, then a bordered row below it with a short
+    label on the left and body paragraphs on the right. No heading.
+  - split: two-column grid (image + eyebrow/title/body/pull-quote), tone
+    sand or electric, image side flippable on desktop only — narrower than
+    1024px the text always renders above the image regardless of the
+    "Image left" setting, matching the design file's own flip-only-if-wide
+    rule.
+{%- endcomment -%}
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{% style %}
+.oma-story-{{ owid }} {
+  box-sizing: border-box;
+  font-family: var(--font-body-family);
+  }
+.oma-story-{{ owid }} *, .oma-story-{{ owid }} *::before, .oma-story-{{ owid }} *::after {
+  box-sizing: border-box;
+  }
+.oma-story-{{ owid }} h2 {
+  font-family: var(--font-heading-family);
+  font-weight: 900;
+  margin: 0;
+  overflow-wrap: anywhere;
+  }
+.oma-story-{{ owid }} p {
+  margin: 0;
+  }
+.oma-story-{{ owid }} img, .oma-story-{{ owid }} svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  }
+.oma-story-{{ owid }} .oma-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  background: #FFE4E7;
+  fill: #FF3F00;
+  }
+.oma-story-{{ owid }} :focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 4px;
+  }
+@media (prefers-reduced-motion: reduce) {
+  .oma-story-{{ owid }} * {
+  scroll-behavior: auto !important;
+  }
+}
+
+{%- comment -%} Stacked {%- endcomment -%}
+.oma-story-{{ owid }} .stacked-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 48px);
+  }
+.oma-story-{{ owid }} .stacked-photo {
+  position: relative;
+  aspect-ratio: 21 / 9;
+  min-height: 260px;
+  background: #FFE4E7;
+  border: 1.5px solid #FF3F00;
+  }
+.oma-story-{{ owid }} .stacked-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  }
+.oma-story-{{ owid }} .stacked-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 48px;
+  padding: 40px 0 72px;
+  border-bottom: 1.5px solid #FF3F00;
+  }
+.oma-story-{{ owid }} .stacked-label {
+  flex: 1 1 240px;
+  font: 900 clamp(22px, 2vw, 28px)/1.15 var(--font-heading-family);
+  letter-spacing: -.02em;
+  color: #FF3F00;
+  }
+.oma-story-{{ owid }} .stacked-body {
+  flex: 2 1 480px;
+  min-width: 0;
+  max-width: 780px;
+  font: 400 16.5px/1.6 var(--font-body-family);
+  color: #00180C;
+  }
+.oma-story-{{ owid }} .stacked-body p {
+  margin: 0 0 18px;
+  }
+.oma-story-{{ owid }} .stacked-body p:last-child {
+  margin-bottom: 0;
+  }
+
+{%- comment -%} Split {%- endcomment -%}
+.oma-story-{{ owid }} .split-section {
+  padding: clamp(56px, 7vw, 80px) 0;
+  }
+.oma-story-{{ owid }}.tone-electric .split-section {
+  background: #FF3F00;
+  }
+.oma-story-{{ owid }}.tone-sand .split-section {
+  background: #F7F5F1;
+  }
+.oma-story-{{ owid }} .split-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 48px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 40px 64px;
+  align-items: center;
+  }
+@media (min-width: 1024px) {
+  .oma-story-{{ owid }} .split-inner {
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  }
+  .oma-story-{{ owid }}.is-reverse .split-inner {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  }
+  .oma-story-{{ owid }}.is-reverse .split-text {
+  order: 2;
+  }
+}
+.oma-story-{{ owid }} .split-eyebrow {
+  margin-bottom: 16px;
+  font: 900 12px/1.3 var(--font-heading-family);
+  letter-spacing: .14em;
+  }
+.oma-story-{{ owid }}.tone-electric .split-eyebrow {
+  color: #FCD0FD;
+  }
+.oma-story-{{ owid }}.tone-sand .split-eyebrow {
+  color: #FF3F00;
+  }
+.oma-story-{{ owid }} .split-title {
+  font-size: clamp(40px, 5vw, 72px);
+  line-height: .95;
+  letter-spacing: -.045em;
+  }
+.oma-story-{{ owid }}.tone-electric .split-title {
+  color: #ffffff;
+  }
+.oma-story-{{ owid }}.tone-sand .split-title {
+  color: #FF3F00;
+  }
+.oma-story-{{ owid }} .split-body {
+  margin-top: 28px;
+  max-width: 560px;
+  font: 400 16.5px/1.6 var(--font-body-family);
+  }
+.oma-story-{{ owid }} .split-body p {
+  margin: 0 0 18px;
+  }
+.oma-story-{{ owid }} .split-body p:last-child {
+  margin-bottom: 0;
+  }
+.oma-story-{{ owid }}.tone-electric .split-body {
+  color: #ffffff;
+  }
+.oma-story-{{ owid }}.tone-sand .split-body {
+  color: #00180C;
+  }
+.oma-story-{{ owid }} .split-pull {
+  margin-top: 28px;
+  max-width: 560px;
+  padding-top: 22px;
+  font: 900 clamp(22px, 2vw, 28px)/1.2 var(--font-heading-family);
+  letter-spacing: -.02em;
+  }
+.oma-story-{{ owid }}.tone-electric .split-pull {
+  border-top: 1.5px solid #FCD0FD;
+  color: #FCD0FD;
+  }
+.oma-story-{{ owid }}.tone-sand .split-pull {
+  border-top: 1.5px solid #FF3F00;
+  color: #FF3F00;
+  }
+.oma-story-{{ owid }} .split-photo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  max-height: min(60vh, 520px);
+  background: #FFE4E7;
+  }
+.oma-story-{{ owid }} .split-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  }
+.oma-story-{{ owid }}.tone-electric .split-photo {
+  border: 1.5px solid #FCD0FD;
+  }
+.oma-story-{{ owid }}.tone-sand .split-photo {
+  border: 1.5px solid #FF3F00;
+  }
+@media (min-width: 600px) {
+  .oma-story-{{ owid }} .split-photo {
+  aspect-ratio: 3 / 2;
+  }
+}
+@media (min-width: 1024px) {
+  .oma-story-{{ owid }} .split-photo {
+  aspect-ratio: 4 / 5;
+  max-height: 640px;
+  }
+}
+{% endstyle %}
+<div class="oma-story-{{ owid }} tone-{{ section.settings.tone }}{% if section.settings.reverse %} is-reverse{% endif %}">
+{%- if section.settings.layout == 'stacked' -%}
+<section class="stacked-inner">
+  <div class="stacked-photo">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 1800 | image_tag: loading: 'lazy', widths: '390, 750, 1100, 1500, 1800', sizes: '100vw' }}
+    {%- else -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'oma-placeholder' }}
+    {%- endif -%}
+  </div>
+  <div class="stacked-row">
+    <div class="stacked-label">{{ section.settings.label | escape }}</div>
+    <div class="stacked-body">{{ section.settings.body }}</div>
+  </div>
+</section>
+{%- else -%}
+<section class="split-section">
+  <div class="split-inner">
+    <div class="split-text">
+      {%- if section.settings.eyebrow != blank -%}<div class="split-eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
+      <h2 class="split-title">{{ section.settings.title }}</h2>
+      <div class="split-body">{{ section.settings.body }}</div>
+      {%- if section.settings.pull != blank -%}<p class="split-pull">{{ section.settings.pull | escape }}</p>{%- endif -%}
+    </div>
+    <div class="split-photo">
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '390, 600, 900, 1200', sizes: '(min-width: 1024px) 45vw, 100vw' }}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'oma-placeholder' }}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+</div>
+{% schema %}
+{
+  "name": "OMA Story block",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "stacked", "label": "Stacked (full-width photo, label + body below)" },
+        { "value": "split", "label": "Split (side-by-side, eyebrow/title/body/pull-quote)" }
+      ],
+      "default": "stacked"
+    },
+    { "type": "image_picker", "id": "image", "label": "Photo", "info": "Edit alternative text in the image picker for accessibility." },
+    { "type": "header", "content": "Stacked layout only" },
+    { "type": "text", "id": "label", "label": "Side label", "default": "Our story began in Bali." },
+    { "type": "header", "content": "Split layout only" },
+    {
+      "type": "select",
+      "id": "tone",
+      "label": "Tone",
+      "options": [
+        { "value": "electric", "label": "Electric (red background, white text)" },
+        { "value": "sand", "label": "Sand (light background, red/dark text)" }
+      ],
+      "default": "electric"
+    },
+    { "type": "checkbox", "id": "reverse", "label": "Image on the left (desktop only)", "default": false },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "inline_richtext", "id": "title", "label": "Title" },
+    { "type": "text", "id": "pull", "label": "Pull quote", "info": "Optional. Shown below the body, with a rule above it." },
+    { "type": "header", "content": "Body (both layouts)" },
+    { "type": "richtext", "id": "body", "label": "Body" }
+  ],
+  "presets": [
+    {
+      "name": "OMA Story block — Our story began in Bali",
+      "settings": {
+        "layout": "stacked",
+        "label": "Our story began in Bali.",
+        "body": "<p>Our story began during an expedition across Bali, in a season of change when little made sense except for the conservation work that kept calling us back to Indonesia. That journey led us into communities protecting forest reserves, restoring coral reefs, and improving soil health across some of the most biodiverse places on this planet. Those experiences left us changed, inspiring us to create Omawild: a brand built on the belief that the places we love are worth protecting.</p>"
+      }
+    },
+    {
+      "name": "OMA Story block — A different way of being",
+      "settings": {
+        "layout": "split",
+        "tone": "electric",
+        "eyebrow": "THE MAGIC OF BEING ALIVE",
+        "title": "A different way of being",
+        "body": "<p>Our adventures across Indonesia changed the way we saw the world. While we had spent a decade improving people's lives, it was there that we were reminded our wellbeing has always depended on the health of our planet. Healthy soil grows nourishing food. Biodiversity creates resilient and thriving ecosystems.</p>",
+        "pull": "Our wellbeing has never been separate from the planet, because we are nature."
+      }
+    }
+  ]
+}
+{% endschema %}

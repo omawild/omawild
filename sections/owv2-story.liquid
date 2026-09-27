@@ -63,6 +63,15 @@
 .owv2-story-{{ owid }} .intro > div {
   margin-top: 10px;
   }
+{%- comment -%}
+  Eyebrow/subcopy are each optional now — when the eyebrow is hidden, the
+  heading becomes .intro's first child and its margin-top (meant to clear
+  the eyebrow above it) needs to be 0, at both breakpoints, or it just reads
+  as stray top padding on the section.
+{%- endcomment -%}
+.owv2-story-{{ owid }} .intro.no-eyebrow h2 {
+  margin-top: 0;
+  }
 @media (min-width:750px) {
   .owv2-story-{{ owid }} .intro {
   margin-bottom: 26px;
@@ -284,10 +293,14 @@
 {% endstyle %}
 <div class="owv2-story-{{ owid }} owv2-story">
 <div class="inner">
-<div class="intro">
+<div class="intro{% unless section.settings.show_eyebrow %} no-eyebrow{% endunless %}">
+{%- if section.settings.show_eyebrow -%}
 <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+{%- endif -%}
 <h2>{{ section.settings.heading }}</h2>
+{%- if section.settings.show_subcopy -%}
 <div>{{ section.settings.subcopy }}</div>
+{%- endif -%}
 </div>
 <div class="gallery-wrap is-scroll">
 <div class="gallery">
@@ -342,6 +355,12 @@
   },
   "settings": [
     {
+      "type": "checkbox",
+      "id": "show_eyebrow",
+      "label": "Show eyebrow",
+      "default": true
+    },
+    {
       "type": "text",
       "id": "eyebrow",
       "label": "Eyebrow",
@@ -352,6 +371,12 @@
       "id": "heading",
       "label": "Heading",
       "default": "We plunged our entire life savings into conservation work, until then went broke"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_subcopy",
+      "label": "Show subcopy",
+      "default": true
     },
     {
       "type": "richtext",
@@ -456,6 +481,32 @@
             "caption": "We cleaned up beaches and rivers chocked with plastic."
           }
         }
+      ]
+    },
+    {
+      "name": "OWV2 Founder story — Field notes",
+      "settings": {
+        "show_eyebrow": false,
+        "show_subcopy": false,
+        "heading": "From the field",
+        "teaser_text": "",
+        "background_color": "#F7F5F1",
+        "text_color": "#FF3F00"
+      },
+      "blocks": [
+        { "type": "photo", "settings": { "caption": "Construction of THKB Permaculture Center in 2023" } },
+        { "type": "photo", "settings": { "caption": "Overbooked production on the impacts of mass tourism on our planet" } },
+        { "type": "photo", "settings": { "caption": "Overbooked Interview with Balinese rice farmer in 2023" } },
+        { "type": "photo", "settings": { "caption": "Permaculture project: regenerating degraded corn fields" } },
+        { "type": "photo", "settings": { "caption": "Restoration of degraded reefs in Tulamben of summer 2025" } },
+        { "type": "photo", "settings": { "caption": "Site survey around Tianyar artificial reef in 2025" } },
+        { "type": "photo", "settings": { "caption": "River clean up with Sungai Watch and local middle school kids" } },
+        { "type": "photo", "settings": { "caption": "Sorting through plastic trash with Sungai Watch" } },
+        { "type": "photo", "settings": { "caption": "Permaculture workshop with engineering graduates from Malaysia" } },
+        { "type": "photo", "settings": { "caption": "Origin visit to Garut, West Java, 2025" } },
+        { "type": "photo", "settings": { "caption": "Permaculture workshop to train local farmers in Bali" } },
+        { "type": "photo", "settings": { "caption": "Farmers learning workshop to train local farmers in Bali" } },
+        { "type": "photo", "settings": { "caption": "Our conservation work continues with your support :)" } }
       ]
     }
   ],

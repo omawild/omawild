@@ -46,6 +46,21 @@
     color: {{ section.settings.heading_color }};
   }
 
+  {%- comment -%}
+    "Statement" is for a sentence-length heading (About page's mission
+    statement) rather than a short word like "Shop"/"Cart" — smaller max
+    size, tighter tracking, and text-wrap:balance so it breaks evenly
+    across lines instead of leaving a short orphan line. NHD only ships
+    400/600/700/900 (no 800), so this stays at weight 900 like "display"
+    rather than the design file's 800 — same substitution already used
+    elsewhere in this theme (see owv2-subscribe.liquid).
+  {%- endcomment -%}
+  .title-{{ section.id }}.statement {
+    font: 900 clamp(40px, 5.4vw, 78px)/0.98 var(--font-heading-family);
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+
   .aside-{{ section.id }} {
     padding-bottom: 8px;
     font: 800 clamp(20px, 2vw, 26px)/1.1 var(--font-heading-family);
@@ -146,7 +161,7 @@
     {%- endif -%}
 
     <div class="title-row-{{ section.id }}">
-      <h1 class="title-{{ section.id }}">{{ section.settings.heading }}</h1>
+      <h1 class="title-{{ section.id }}{% if section.settings.title_size == 'statement' %} statement{% endif %}">{{ section.settings.heading }}</h1>
       {%- if template.name == 'cart' and cart.item_count > 0 -%}
         <div class="aside-{{ section.id }}">{{ cart.item_count }} {% if cart.item_count == 1 %}item{% else %}items{% endif %}</div>
       {%- endif -%}
@@ -211,6 +226,16 @@
   "name": "OMA Page Header",
   "settings": [
     { "type": "text", "id": "heading", "label": "Title", "default": "Shop" },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title size",
+      "options": [
+        { "value": "display", "label": "Display (short title, e.g. \"Shop\")" },
+        { "value": "statement", "label": "Statement (sentence-length heading)" }
+      ],
+      "default": "display"
+    },
     { "type": "checkbox", "id": "show_breadcrumb", "label": "Show breadcrumb", "default": true },
     { "type": "richtext", "id": "body", "label": "Lead paragraph" },
     { "type": "header", "content": "Collection overview list" },
