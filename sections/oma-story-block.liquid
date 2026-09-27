@@ -78,7 +78,9 @@
   flex-wrap: wrap;
   gap: 20px 48px;
   padding: 40px 0 72px;
+  {%- if section.settings.show_divider %}
   border-bottom: 1.5px solid #FF3F00;
+  {%- endif %}
   }
 .oma-story-{{ owid }} .stacked-label {
   flex: 1 1 240px;
@@ -272,6 +274,7 @@
     { "type": "image_picker", "id": "image", "label": "Photo", "info": "Edit alternative text in the image picker for accessibility." },
     { "type": "header", "content": "Stacked layout only" },
     { "type": "text", "id": "label", "label": "Side label", "default": "Our story began in Bali." },
+    { "type": "checkbox", "id": "show_divider", "label": "Show divider line beneath the text row", "default": true },
     { "type": "header", "content": "Split layout only" },
     {
       "type": "select",
