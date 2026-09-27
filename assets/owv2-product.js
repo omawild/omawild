@@ -226,21 +226,34 @@
           body: new FormData(formEl)
         })
           .then(function (res) {
-            return res.json().then(function (body) { return { ok: res.ok, body: body }; });
+            return res.text().then(function (text) {
+              var parsed;
+              try { parsed = JSON.parse(text); }
+              catch (parseErr) {
+                // The response wasn't JSON at all — most commonly the storefront
+                // redirected somewhere (a password gate, a login wall) instead of
+                // handling /cart/add. Logged so this is diagnosable from the
+                // console instead of just "nothing happened".
+                console.error('[owv2-product] /cart/add returned non-JSON:', res.status, text.slice(0, 300));
+                throw parseErr;
+              }
+              return { ok: res.ok, body: parsed };
+            });
           })
           .then(function (result) {
             if (!result.ok || result.body.status) {
               var message = (result.body && (result.body.description || result.body.message))
-                || 'Something went wrong. Please try again.';
+                || "This item can't be added to your cart right now.";
               if (errorBox) { errorBox.textContent = message; errorBox.hidden = false; }
               each('[data-odp-cta]', function (b) { b.disabled = false; });
               return;
             }
             window.location = cartUrl;
           })
-          .catch(function () {
+          .catch(function (err) {
+            console.error('[owv2-product] add-to-cart request failed:', err);
             if (errorBox) {
-              errorBox.textContent = 'Something went wrong. Please try again.';
+              errorBox.textContent = "Couldn't reach the cart just now — please refresh the page and try again.";
               errorBox.hidden = false;
             }
             each('[data-odp-cta]', function (b) { b.disabled = false; });
