@@ -447,10 +447,10 @@
         "inner_padding_bottom_mobile": 20
       }
     },
-    "oma_page_header_bLQPRj": {
+    "oma_page_header_GUmnDU": {
       "type": "oma-page-header",
       "blocks": {
-        "collection_row_iB7bGY": {
+        "collection_row_TXRczt": {
           "type": "collection_row",
           "settings": {
             "collection": "",
@@ -460,7 +460,7 @@
             "count_label_override": ""
           }
         },
-        "collection_row_Mepp4V": {
+        "collection_row_tcXfrM": {
           "type": "collection_row",
           "settings": {
             "collection": "",
@@ -472,15 +472,16 @@
         }
       },
       "block_order": [
-        "collection_row_iB7bGY",
-        "collection_row_Mepp4V"
+        "collection_row_TXRczt",
+        "collection_row_tcXfrM"
       ],
       "name": "OMA Page Header",
       "settings": {
-        "heading": "Shop",
-        "title_size": "display",
+        "heading": "Omawild is a conservation-led food brand born from our adventures through tropical jungles, coral reefs, and regenerative farms.",
+        "title_size": "statement",
         "show_breadcrumb": true,
-        "body": "<h1>Omawild is a conservation-led food brand born from our adventures through tropical jungles, coral reefs, and regenerative farms.</h1>",
+        "breadcrumb_label": "About Us",
+        "body": "",
         "show_collection_list": true,
         "background_color": "#FFE4E7",
         "heading_color": "#FF3F00",
@@ -534,9 +535,9 @@
         "teaser_button_label": "Read the rest →",
         "teaser_caption": "# more photographs.",
         "teaser_link": "",
-        "background_color": "#FBDCDC",
-        "text_color": "#F5450D",
-        "card_background": "#FFFFFF",
+        "background_color": "#fbdcdc",
+        "text_color": "#f5450d",
+        "card_background": "#ffffff",
         "padding_top": 56,
         "padding_bottom": 64
       }
@@ -551,10 +552,10 @@
         "body": "<p>Every breath we take, every meal we eat, and every sip we drink begins in living ecosystems. Healthy land grows healthy food, and healthy food nourishes healthy people.</p><p>That understanding shaped the way we built Omawild. We partner with producers who share our belief that the future of food depends on thriving ecosystems, and support farming practices that regenerate the land rather than deplete it.</p>",
         "show_callout": true,
         "callout_text": "<p>Our commitment extends beyond the farms we source from. As members of 1% for the Planet, we contribute at least 1% of our annual sales to environmental organisations restoring ecosystems, protecting biodiversity, and supporting communities on the frontlines of environmental stewardship.</p>",
-        "background_color": "#F7F5F1",
-        "accent_color": "#FF3F00",
-        "text_color": "#00180C",
-        "callout_background": "#FCD0FD"
+        "background_color": "#f7f5f1",
+        "accent_color": "#ff3f00",
+        "text_color": "#00180c",
+        "callout_background": "#fcd0fd"
       }
     },
     "oma_cta_banner_6aHzUU": {
@@ -567,8 +568,8 @@
         "cta_primary_link": "",
         "cta_secondary_label": "Meet our origins",
         "cta_secondary_link": "",
-        "background_color": "#FFE4E7",
-        "text_color": "#FF3F00",
+        "background_color": "#ffe4e7",
+        "text_color": "#ff3f00",
         "padding_top": 72,
         "padding_bottom": 72
       }
@@ -580,7 +581,7 @@
     "od_card_gallery_horizontal_BAfizR",
     "od_canvas_qpHRwp",
     "od_notice_board_pgF7YM",
-    "oma_page_header_bLQPRj",
+    "oma_page_header_GUmnDU",
     "oma_story_ytyxqm",
     "oma_sticky_story_cWHiFq",
     "oma_cta_banner_6aHzUU"
