@@ -6,12 +6,18 @@
 
   Two layouts:
   - stacked: full-width photo, then a bordered row below it with a short
-    label on the left and body paragraphs on the right. No heading.
+    label on the left and body paragraphs on the right. No heading. The
+    divider along that row's bottom edge is a merchant toggle
+    (show_divider), not always-on.
   - split: two-column grid (image + eyebrow/title/body/pull-quote), tone
     sand or electric, image side flippable on desktop only — narrower than
     1024px the text always renders above the image regardless of the
     "Image left" setting, matching the design file's own flip-only-if-wide
     rule.
+
+  Add via the theme editor's section picker by searching "Story block" —
+  its schema name is "OMA Story block" (with spaces), which won't match a
+  search for the filename "oma-story-block".
 {%- endcomment -%}
 {% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
 {% style %}
