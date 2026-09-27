@@ -1,4 +1,4 @@
-/* owv2-story founder-story gallery — horizontal card carousel.
+/* oma-story founder-story gallery — horizontal card carousel.
  *
  * Borrowed from the old homepage's `about-cards-carousel` (assets/ow-landing.js
  * enableDragScroll + edge-fade update). Progressive enhancement: the rail is a
@@ -11,18 +11,18 @@
  * native scrolling.
  */
 (function () {
-  if (window.__owv2StoryInit) return;
-  window.__owv2StoryInit = true;
+  if (window.__omaStoryInit) return;
+  window.__omaStoryInit = true;
 
   function enhance(root) {
-    var wraps = (root || document).querySelectorAll('.owv2-story .gallery-wrap.is-scroll');
+    var wraps = (root || document).querySelectorAll('.oma-story .gallery-wrap.is-scroll');
     for (var i = 0; i < wraps.length; i++) bind(wraps[i]);
   }
 
   function bind(wrap) {
     var scroller = wrap.querySelector('.gallery');
-    if (!scroller || scroller.__owv2) return;
-    scroller.__owv2 = true;
+    if (!scroller || scroller.__oma) return;
+    scroller.__oma = true;
 
     // Drag-to-scroll (mouse). Touch is handled natively by overflow-x:auto.
     var down = false, startX = 0, startScroll = 0, moved = false;
