@@ -627,20 +627,20 @@
               </span>
             </button>
             <div class="oci-note-body-{{ section.id }}">
-              <cart-note data-max-length="500">
+              <cart-note data-max-length="150">
                 <div class="oci-note-editor-{{ section.id }}" data-cart-note-editor{% if cart.note != blank %} hidden{% endif %}>
                   <textarea
                     name="note"
                     id="Cart-note-{{ section.id }}"
                     form="cart"
                     rows="3"
-                    maxlength="500"
+                    maxlength="150"
                     aria-label="{{ 'sections.cart.note' | t | default: 'Add a note to your order' }}"
                     placeholder="{{ 'sections.cart.note_placeholder' | t | default: 'Gift message, delivery instructions…' }}"
                     data-cart-note-textarea
                   >{{ cart.note }}</textarea>
                   <div class="oci-note-editor-row-{{ section.id }}">
-                    <span class="oci-note-count-{{ section.id }}" data-cart-note-count>{{ cart.note.size }}/500</span>
+                    <span class="oci-note-count-{{ section.id }}" data-cart-note-count>{{ cart.note.size }}/150</span>
                     <div class="oci-note-editor-actions-{{ section.id }}">
                       <button type="button" class="oci-note-cancel-{{ section.id }}" data-cart-note-cancel{% if cart.note == blank %} hidden{% endif %}>Cancel</button>
                       <button type="button" class="oci-note-save-{{ section.id }}" data-cart-note-save{% if cart.note == blank %} disabled{% endif %}>

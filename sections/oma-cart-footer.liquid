@@ -92,7 +92,7 @@
 
   .ocf-discount-pills-{{ section.id }} {
     list-style: none;
-    margin: 0;
+    margin: 0 0 10px;
     padding: 0;
     display: flex;
     align-items: center;
@@ -138,8 +138,8 @@
     border-radius: 8px;
     padding: 10px 12px;
   }
-  .ocf-discount-error-{{ section.id }} { background: #FFE4E7; }
-  .ocf-ship-error-{{ section.id }} { background: #fff; }
+  .ocf-discount-error-{{ section.id }} { background: #FFE4E7; margin-top: 10px; }
+  .ocf-ship-error-{{ section.id }} { background: #fff; margin-top: 10px; }
   .ocf-discount-error-{{ section.id }}.hidden,
   .ocf-ship-error-{{ section.id }}.hidden { display: none; }
   .ocf-alert-icon-{{ section.id }} {
@@ -263,7 +263,7 @@
   .ocf-ship-calc-{{ section.id }}:hover { background: #D63200; border-color: #D63200; }
   .ocf-ship-calc-{{ section.id }}.loading { opacity: 0.6; pointer-events: none; }
 
-  .ocf-ship-rates-{{ section.id }} { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+  .ocf-ship-rates-{{ section.id }} { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
   .ocf-ship-rates-{{ section.id }}.hidden { display: none; }
   .ocf-ship-rates-head-{{ section.id }} { font: 700 12.5px/1.55 var(--font-heading-family); color: #00180C; }
   .ocf-ship-rate-card-{{ section.id }} {
@@ -310,6 +310,12 @@
             <div class="ocf-discount-{{ section.id }}">
               <label for="CartDiscountForm-{{ section.id }}">{{ 'general.cart.discount.title' | t | default: 'Discount code' }}</label>
               <cart-discount data-section-id="{{ section.id }}">
+                {%- comment -%}
+                  Input row stays visible even once codes are applied, so a
+                  shopper can keep stacking additional codes — it used to be
+                  replaced entirely by the pills, which hid the only way to
+                  add a second discount.
+                {%- endcomment -%}
                 {%- if discount_codes.size > 0 -%}
                   <ul class="ocf-discount-pills-{{ section.id }}" role="list">
                     {%- for discount_code in discount_codes -%}
@@ -322,12 +328,11 @@
                       </li>
                     {%- endfor -%}
                   </ul>
-                {%- else -%}
-                  <div class="ocf-discount-row-{{ section.id }}">
-                    <input type="text" name="discount" id="CartDiscountForm-{{ section.id }}" placeholder="{{ 'general.cart.discount.caption' | t | default: 'Enter code' }}">
-                    <button type="button" data-discount-btn>{{ 'general.cart.discount.button' | t | default: 'Apply' }}</button>
-                  </div>
                 {%- endif -%}
+                <div class="ocf-discount-row-{{ section.id }}">
+                  <input type="text" name="discount" id="CartDiscountForm-{{ section.id }}" placeholder="{{ 'general.cart.discount.caption' | t | default: 'Enter code' }}">
+                  <button type="button" data-discount-btn>{{ 'general.cart.discount.button' | t | default: 'Apply' }}</button>
+                </div>
                 <div class="ocf-discount-error-{{ section.id }} hidden" role="alert">
                   <span class="ocf-alert-icon-{{ section.id }}" aria-hidden="true">!</span>
                   <span class="ocf-alert-msg-{{ section.id }}"></span>
@@ -416,7 +421,7 @@
         {%- if section.settings.show_shipping_estimator -%}
           <div class="ocf-ship-{{ section.id }}" id="ShipAccordion-{{ section.id }}" data-ocf-ship-accordion>
             <button type="button" class="ocf-ship-toggle-{{ section.id }}" data-ocf-ship-toggle aria-expanded="false">
-              <span>{{ 'general.cart.shipping_calculator.title' | t | default: 'Estimate shipping' }}</span>
+              <span>{{ 'general.cart.shipping_calculator.title' | t | default: 'Estimated Shipping' }}</span>
               <span aria-hidden="true" data-ocf-ship-sign>+</span>
             </button>
             <div class="ocf-ship-body-{{ section.id }}">
