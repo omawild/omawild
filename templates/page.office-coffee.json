@@ -1,0 +1,73 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "narrow": true,
+        "padding_top": 60,
+        "padding_bottom": 72
+      }
+    },
+    "oma_page_header_mVyFgr": {
+      "type": "oma-page-header",
+      "blocks": {
+        "collection_row_xxkePX": {
+          "type": "collection_row",
+          "settings": {
+            "collection": "",
+            "title_override": "",
+            "anchor_override": "",
+            "thumbnail_count": 3,
+            "count_label_override": ""
+          }
+        },
+        "collection_row_wUYj8A": {
+          "type": "collection_row",
+          "settings": {
+            "collection": "",
+            "title_override": "",
+            "anchor_override": "",
+            "thumbnail_count": 3,
+            "count_label_override": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_row_xxkePX",
+        "collection_row_wUYj8A"
+      ],
+      "name": "OMA Page Header",
+      "settings": {
+        "heading": "Shop",
+        "title_size": "display",
+        "show_breadcrumb": true,
+        "breadcrumb_label": "",
+        "body": "",
+        "show_collection_list": true,
+        "background_color": "#FFE4E7",
+        "heading_color": "#FF3F00",
+        "text_color": "#00180C",
+        "divider_color": "#FF3F00",
+        "thumb_background": "#FBB925",
+        "padding_top": 36,
+        "padding_bottom": 44,
+        "mobile_padding_horizontal": 20,
+        "desktop_padding_horizontal": 48
+      }
+    }
+  },
+  "order": [
+    "main",
+    "oma_page_header_mVyFgr"
+  ]
+}
