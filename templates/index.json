@@ -40,7 +40,7 @@
       "settings": {
         "stamp_alt": "Welcome to the expedition",
         "heading": "Drink like you give a damn",
-        "body": "<p>Specialty-grade coffee from forest reserves. Grown to nourish you and our planet.</p>",
+        "body": "<p>Specialty-grade coffee from forest reserves. Grown to nourish you and our planet.&nbsp;</p>",
         "cta_primary_label": "SHOP THE COLLECTION",
         "cta_primary_link": "shopify://collections",
         "cta_secondary_label": "LEARN ABOUT REGEN AG",
@@ -216,7 +216,7 @@
         "card_kUQN6D": {
           "type": "card",
           "settings": {
-            "heading": "Funding nature",
+            "heading": "Financing Nature",
             "body": "<p>At least 1% of our revenue goes to environmental causes.</p>"
           }
         },
@@ -230,7 +230,7 @@
         "card_4JxW4V": {
           "type": "card",
           "settings": {
-            "heading": "Made for your ritual",
+            "heading": "Specialty Grade Coffee",
             "body": "<p>Specialty coffee, roasted fresh each month.</p>"
           }
         }
