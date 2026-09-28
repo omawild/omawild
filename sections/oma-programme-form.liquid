@@ -259,7 +259,7 @@
   color: {{ section.settings.text_color }};
   }
 {% endstyle %}
-<div class="oma-programme-form-{{ owid }}">
+<div id="build" class="oma-programme-form-{{ owid }}">
   <div class="inner">
     {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
     <p class="heading">{{ section.settings.heading }}</p>
