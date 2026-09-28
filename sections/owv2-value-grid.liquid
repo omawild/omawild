@@ -109,14 +109,14 @@
   }
 .owv2-value-grid-{{ owid }} h3 {
   color:{{ section.settings.card_heading_color }};
-  font-size:19px;
+  font-size:{{ section.settings.card_heading_size }}px;
   font-weight:800;
   letter-spacing:-.02em;
   line-height:1.15;
   margin-bottom:11px;
   }
 .owv2-value-grid-{{ owid }} .cards p {
-  font-size:12.5px;
+  font-size:{{ section.settings.card_body_size }}px;
   line-height:1.4;
   font-weight:500;
   margin:0;
@@ -208,10 +208,30 @@
       "default": "#FF3F00"
     },
     {
+      "type": "range",
+      "id": "card_heading_size",
+      "label": "Card heading size",
+      "min": 14,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 19
+    },
+    {
       "type": "color",
       "id": "card_body_color",
       "label": "Card body color",
       "default": "#00180C"
+    },
+    {
+      "type": "range",
+      "id": "card_body_size",
+      "label": "Card body text size",
+      "min": 10,
+      "max": 18,
+      "step": 0.5,
+      "unit": "px",
+      "default": 12.5
     },
     {
       "type": "color",
