@@ -48,7 +48,7 @@
       ],
       "name": "OMA Page Header",
       "settings": {
-        "heading": "Shop",
+        "heading": "Workplace Coffee",
         "title_size": "display",
         "show_breadcrumb": true,
         "breadcrumb_label": "",
@@ -116,11 +116,236 @@
         "padding_top": 52,
         "padding_bottom": 52
       }
+    },
+    "oma_sampler_form_CFDgAq": {
+      "type": "oma-sampler-form",
+      "name": "OMA Sampler Form",
+      "settings": {
+        "eyebrow": "TRY BEFORE YOU COMMIT",
+        "heading": "Not sure what your team will love? We'll send a sampler.",
+        "body": "<p>A tasting pack of our current profiles, so your team can find their favorite before you order a full batch. You just cover shipping.</p>",
+        "team_size_label": "Team size",
+        "team_size_placeholder": "Select a range",
+        "team_size_options": "1–10 people, 11–25 people, 26–50 people, 51–100 people, 100+ people",
+        "submit_label": "Get my sampler",
+        "fine_print": "You just cover shipping. No card, no commitment.",
+        "tag": "workplace-sampler-request",
+        "success_heading": "On its way — check your inbox",
+        "success_body": "<p>We've got your request. Keep an eye on your inbox for next steps.</p>",
+        "background_color": "#FBB925",
+        "border_color": "#FF3F00",
+        "accent_color": "#FF3F00",
+        "heading_color": "#00180C",
+        "text_color": "#00180C",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "oma_impact_callout_JJ7iWJ": {
+      "type": "oma-impact-callout",
+      "name": "OMA Impact Callout",
+      "settings": {
+        "statement": "A nature fund disguised as coffee",
+        "body": "<p>Through 1% for the Planet, one percent of everything we sell funds ecosystem protection — beyond our own producers, every year, whether we profit or not.</p>",
+        "stat_1": "1% OF REVENUE, NOT PROFIT",
+        "stat_2": "INDEPENDENTLY CERTIFIED",
+        "logo_link": "",
+        "section_background": "transparent",
+        "card_background": "#ffffff",
+        "border_color": "#FF3F00",
+        "card_shadow": true,
+        "statement_color": "#FF3F00",
+        "body_color": "#00180C",
+        "padding_top": 16,
+        "padding_bottom": 40
+      }
+    },
+    "od_featured_products_9MdJbe": {
+      "type": "od-featured-products",
+      "blocks": {
+        "collection_D9BKLA": {
+          "type": "collection",
+          "settings": {
+            "grade_badge": "",
+            "product_item": "",
+            "highlight_card": false,
+            "banner_text": "★ BEST VALUE",
+            "coming_soon": false,
+            "size_chips": "",
+            "collection_tag": "",
+            "collection_title": "",
+            "collection_blurb": "",
+            "price_caption": "",
+            "benefit_1": "",
+            "benefit_2": "",
+            "benefit_3": ""
+          }
+        },
+        "collection_3wkLPt": {
+          "type": "collection",
+          "settings": {
+            "grade_badge": "",
+            "product_item": "",
+            "highlight_card": false,
+            "banner_text": "★ BEST VALUE",
+            "coming_soon": false,
+            "size_chips": "",
+            "collection_tag": "",
+            "collection_title": "",
+            "collection_blurb": "",
+            "price_caption": "",
+            "benefit_1": "",
+            "benefit_2": "",
+            "benefit_3": ""
+          }
+        },
+        "collection_nxxTgD": {
+          "type": "collection",
+          "settings": {
+            "grade_badge": "",
+            "product_item": "",
+            "highlight_card": false,
+            "banner_text": "★ BEST VALUE",
+            "coming_soon": false,
+            "size_chips": "",
+            "collection_tag": "",
+            "collection_title": "",
+            "collection_blurb": "",
+            "price_caption": "",
+            "benefit_1": "",
+            "benefit_2": "",
+            "benefit_3": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_D9BKLA",
+        "collection_3wkLPt",
+        "collection_nxxTgD"
+      ],
+      "name": "OMA Featured Products",
+      "settings": {
+        "header_alignment": "flex-start",
+        "limit_header_width": false,
+        "header_max_width": 650,
+        "heading_size": 38,
+        "heading": "Title here",
+        "subheading": "<p>Subheading</p>",
+        "heading_tag": "h2",
+        "background_color": "#F7F5F1",
+        "heading_color": "#FF3F00",
+        "text_color": "#00180C",
+        "card_text_color": "#00180C",
+        "benefit_text_color": "#00180C",
+        "descriptor_color": "#FF3F00",
+        "price_color": "#FF3F00",
+        "emphasis_color": "#FF3F00",
+        "coming_soon_label": "COMING SOON",
+        "coming_soon_bg": "#FBB925",
+        "coming_soon_text": "#00180C",
+        "view_all_label": "View All",
+        "view_all_link": "",
+        "section_padding_top": 52,
+        "section_padding_bottom": 58,
+        "mobile_padding_horizontal": 24,
+        "desktop_padding_horizontal": 40,
+        "grid_gap": 20,
+        "price_row_margin_bottom": 16,
+        "price_caption_margin_bottom": 4,
+        "image_aspect_ratio": "1/1",
+        "button_action": "add_to_cart",
+        "button_bg_color": "#FF3F00",
+        "button_text_color": "#ffffff"
+      }
+    },
+    "oma_programme_form_9G9wp4": {
+      "type": "oma-programme-form",
+      "blocks": {
+        "pill_group_c4pqfz": {
+          "type": "pill_group",
+          "settings": {
+            "field_label": "How do you brew?",
+            "options": "Pour-over, Batch brew, Espresso, Cold brew, Other",
+            "allow_multiple": true,
+            "multiple_hint": "Select all that apply"
+          }
+        },
+        "pill_group_BJFBUA": {
+          "type": "pill_group",
+          "settings": {
+            "field_label": "Flavor preference",
+            "options": "Bright & fruit-forward, Chocolatey & comforting, A mix, Not sure",
+            "allow_multiple": true,
+            "multiple_hint": "Select all that apply"
+          }
+        },
+        "pill_group_xp3Nwh": {
+          "type": "pill_group",
+          "settings": {
+            "field_label": "Delivery cadence",
+            "options": "Every 2 weeks, Monthly, Other",
+            "allow_multiple": false,
+            "multiple_hint": "Select all that apply"
+          }
+        },
+        "pill_group_FtzrWc": {
+          "type": "pill_group",
+          "settings": {
+            "field_label": "Gifting interest",
+            "options": "Yes, Maybe, Not right now",
+            "allow_multiple": false,
+            "multiple_hint": "Select all that apply"
+          }
+        }
+      },
+      "block_order": [
+        "pill_group_c4pqfz",
+        "pill_group_BJFBUA",
+        "pill_group_xp3Nwh",
+        "pill_group_FtzrWc"
+      ],
+      "name": "OMA Programme Form",
+      "settings": {
+        "eyebrow": "READY FOR A FULL PROGRAMME?",
+        "heading": "Build your programme",
+        "body": "<p>Tell us about your workplace and we'll come back with a recommendation built around your team.</p>",
+        "company_label": "Company",
+        "company_placeholder": "Company name",
+        "team_size_label": "Team size",
+        "team_size_placeholder": "Select a range",
+        "team_size_options": "1–10 people, 11–25 people, 26–50 people, 51–100 people, 100+ people",
+        "volume_label": "Coffee volume",
+        "volume_placeholder": "Select a range",
+        "volume_options": "Under 2 kg per month, 2–5 kg per month, 5–10 kg per month, 10–20 kg per month, 20 kg+ per month, Not sure yet",
+        "brewing_setup_label": "Brewing setup",
+        "brewing_setup_placeholder": "e.g. Moccamaster + a Wilfa grinder",
+        "spend_label": "Monthly coffee spend",
+        "spend_note": "Total per month in NT$, across all coffee",
+        "spend_placeholder": "Select a range",
+        "spend_options": "Under NT$5,000, NT$5,000–15,000, NT$15,000–30,000, NT$30,000+, Not sure yet",
+        "notes_label": "Anything else we should know",
+        "notes_placeholder": "Anything else",
+        "submit_label": "Build your programme",
+        "fine_print": "Required. No minimum, no contract. We'll reply within two working days.",
+        "success_eyebrow": "REQUEST RECEIVED",
+        "success_heading": "Thanks, we'll be in touch",
+        "success_body": "<p>We'll reply within two working days with a recommendation built around your team. Keep an eye on your inbox.</p>",
+        "background_color": "#FCD0FD",
+        "accent_color": "#FF3F00",
+        "text_color": "#00180C",
+        "required_color": "#D63200",
+        "padding_top": 76,
+        "padding_bottom": 76
+      }
     }
   },
   "order": [
     "main",
     "oma_page_header_mVyFgr",
-    "owv2_value_grid_bPHiX8"
+    "owv2_value_grid_bPHiX8",
+    "oma_sampler_form_CFDgAq",
+    "oma_impact_callout_JJ7iWJ",
+    "od_featured_products_9MdJbe",
+    "oma_programme_form_9G9wp4"
   ]
 }
