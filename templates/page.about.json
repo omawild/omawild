@@ -39,12 +39,13 @@
         "desktop_padding_horizontal": 48
       }
     },
-    "oma_image_text_HTkbLn": {
+    "oma_image_text_ddtdBq": {
       "type": "oma-image-text",
       "name": "OMA Image Text (Stacked)",
       "settings": {
         "layout": "stacked",
         "image": "shopify://shop_images/Origin-004.jpg",
+        "stacked_image_ratio": "16 / 9",
         "label": "Our story began in Bali.",
         "show_divider": true,
         "tone": "electric",
@@ -104,21 +105,6 @@
         "padding_bottom": 64
       }
     },
-    "oma_image_text_6yiKw8": {
-      "type": "oma-image-text",
-      "name": "OMA Image Text (Stacked)",
-      "settings": {
-        "layout": "split",
-        "label": "Our story began in Bali.",
-        "show_divider": false,
-        "tone": "electric",
-        "reverse": false,
-        "eyebrow": "THE MAGIC OF BEING ALIVE",
-        "title": "A different way of being",
-        "pull": "Our wellbeing has never been separate from the planet, because we are nature.",
-        "body": "<p>Our adventures across Indonesia changed the way we saw the world. While we had spent a decade improving people's lives, it was there that we were reminded our wellbeing has always depended on the health of our planet. Healthy soil grows nourishing food. Biodiversity creates resilient and thriving ecosystems.</p>"
-      }
-    },
     "oma_sticky_story_cWHiFq": {
       "type": "oma-sticky-story",
       "name": "OMA Sticky story",
@@ -150,15 +136,31 @@
         "padding_top": 72,
         "padding_bottom": 72
       }
+    },
+    "oma_image_text_KqwtHq": {
+      "type": "oma-image-text",
+      "name": "OMA Image Text (Split)",
+      "settings": {
+        "layout": "split",
+        "stacked_image_ratio": "21 / 9",
+        "label": "Our story began in Bali.",
+        "show_divider": true,
+        "tone": "electric",
+        "reverse": false,
+        "eyebrow": "THE MAGIC OF BEING ALIVE",
+        "title": "A different way of being",
+        "pull": "Our wellbeing has never been separate from the planet, because we are nature.",
+        "body": "<p>Our adventures across Indonesia changed the way we saw the world. While we had spent a decade improving people's lives, it was there that we were reminded our wellbeing has always depended on the health of our planet. Healthy soil grows nourishing food. Biodiversity creates resilient and thriving ecosystems.</p>"
+      }
     }
   },
   "order": [
     "main",
     "oma_page_header_GUmnDU",
-    "oma_image_text_HTkbLn",
+    "oma_image_text_ddtdBq",
     "oma_story_ytyxqm",
-    "oma_image_text_6yiKw8",
     "oma_sticky_story_cWHiFq",
-    "oma_cta_banner_6aHzUU"
+    "oma_cta_banner_6aHzUU",
+    "oma_image_text_KqwtHq"
   ]
 }
