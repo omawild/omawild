@@ -23,6 +23,19 @@
   already guards for this and falls back to redirecting to the cart page
   (see its `else if (!this.cart)` branch). Verify that flow on staging.
 
+  assets/cart.js ALSO only used to load from sections/header.liquid, so
+  replacing it silently dropped cart.js site-wide too -- not just the drawer.
+  That's a bigger loss than the paragraph above covers: cart.js is what
+  defines <cart-items>, <cart-note> and <cart-discount>/<discount-remove>,
+  so without it the whole cart page (oma-cart-items.liquid /
+  oma-cart-footer.liquid) silently had no AJAX quantity updates, no remove,
+  no note save, and no discount code apply/remove -- every click just did
+  nothing until the page's own 6s fallback timer showed a generic error.
+  Loaded back in here, deliberately NOT pairing it with cart-drawer.js
+  (defines <mini-cart>/the drawer UI we don't use) or quantity-popover.js
+  (a vendor cart-line volume-pricing popover main-cart-items.liquid loads
+  for itself; oma-cart-items.liquid doesn't use it).
+
   Loads the shared base + chrome CSS and JS for every page. ow-chrome.js must
   load before ow-landing.js — it is included here, in the header group, which
   renders before section content.
@@ -186,6 +199,7 @@
 </div>
 
 <script src="{{ 'ow-chrome.js' | asset_url }}" defer></script>
+<script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
 
 {% schema %}
 {
