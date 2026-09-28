@@ -74,7 +74,7 @@
   }
 .oma-imgtext-{{ owid }} .stacked-photo {
   position: relative;
-  aspect-ratio: 21 / 9;
+  aspect-ratio: {{ section.settings.stacked_image_ratio }};
   min-height: 260px;
   background: #FFE4E7;
   border: 1.5px solid #FF3F00;
@@ -287,6 +287,20 @@
     },
     { "type": "image_picker", "id": "image", "label": "Photo", "info": "Edit alternative text in the image picker for accessibility." },
     { "type": "header", "content": "Stacked layout only" },
+    {
+      "type": "select",
+      "id": "stacked_image_ratio",
+      "label": "Photo aspect ratio",
+      "options": [
+        { "value": "21 / 9", "label": "Wide banner (21:9)" },
+        { "value": "16 / 9", "label": "Widescreen (16:9)" },
+        { "value": "3 / 2", "label": "Landscape (3:2)" },
+        { "value": "4 / 3", "label": "Standard (4:3)" },
+        { "value": "1 / 1", "label": "Square (1:1)" }
+      ],
+      "default": "21 / 9",
+      "info": "21:9 crops tightly — group/portrait photos usually read better at 4:3 or 3:2."
+    },
     { "type": "text", "id": "label", "label": "Side label", "default": "Our story began in Bali." },
     { "type": "checkbox", "id": "show_divider", "label": "Show divider line beneath the text row", "default": true },
     { "type": "header", "content": "Split layout only" },
