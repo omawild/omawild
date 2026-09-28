@@ -1,0 +1,248 @@
+{%- comment -%}
+  oma-sampler-form — "Not sure what your team will love? We'll send a
+  sampler." lead-capture strip. Uses Shopify's native `customer` form action
+  (the same one newsletter.liquid uses) rather than a third-party ESP, since
+  none is wired into this theme yet. Team size has no native field on the
+  customer form, so it's folded into `contact[tags]` client-side (see
+  assets/oma-sampler-form.js) alongside a fixed tag, so every submission is a
+  taggable, filterable Customer in Admin > Customers even without email.
+{%- endcomment -%}
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{% style %}
+.oma-sampler-form-{{ owid }} {
+  box-sizing: border-box;
+  background: {{ section.settings.background_color }};
+  border-top: 1.5px solid {{ section.settings.border_color }};
+  border-bottom: 1.5px solid {{ section.settings.border_color }};
+  padding: {{ section.settings.padding_top }}px clamp(20px, 4vw, 48px) {{ section.settings.padding_bottom }}px;
+  font-family: var(--font-body-family);
+  }
+.oma-sampler-form-{{ owid }} *, .oma-sampler-form-{{ owid }} *::before, .oma-sampler-form-{{ owid }} *::after {
+  box-sizing: border-box;
+  }
+.oma-sampler-form-{{ owid }} .inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(28px, 4vw, 56px);
+  align-items: center;
+  }
+@media (min-width: 750px) {
+  .oma-sampler-form-{{ owid }} .inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.oma-sampler-form-{{ owid }} .eyebrow {
+  font: 800 10.5px/1 var(--font-heading-family);
+  letter-spacing: .18em;
+  color: {{ section.settings.accent_color }};
+  }
+.oma-sampler-form-{{ owid }} .heading {
+  margin: 16px 0 0;
+  font-family: var(--font-heading-family);
+  font-weight: 900;
+  font-size: clamp(28px, 3.4vw, 44px);
+  line-height: 1.02;
+  letter-spacing: -.03em;
+  color: {{ section.settings.heading_color }};
+  text-wrap: balance;
+  }
+.oma-sampler-form-{{ owid }} .body {
+  margin: 20px 0 0;
+  max-width: 50ch;
+  font-size: 16.5px;
+  line-height: 1.5;
+  color: {{ section.settings.text_color }};
+  }
+.oma-sampler-form-{{ owid }} .card {
+  background: #ffffff;
+  border: 2px solid {{ section.settings.accent_color }};
+  border-radius: 14px;
+  box-shadow: 8px 8px 0 {{ section.settings.accent_color }};
+  padding: clamp(22px, 3vw, 32px);
+  }
+.oma-sampler-form-{{ owid }} .field-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  }
+.oma-sampler-form-{{ owid }} label {
+  display: block;
+  }
+.oma-sampler-form-{{ owid }} .field-label {
+  display: block;
+  font: 800 10px/1 var(--font-heading-family);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: {{ section.settings.accent_color }};
+  margin-bottom: 10px;
+  }
+.oma-sampler-form-{{ owid }} input[type="email"],
+.oma-sampler-form-{{ owid }} select {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1.5px solid {{ section.settings.accent_color }};
+  border-radius: 999px;
+  padding: 14px 18px;
+  outline: none;
+  background: #ffffff;
+  font: 500 14px var(--font-body-family);
+  color: {{ section.settings.accent_color }};
+  }
+.oma-sampler-form-{{ owid }} .select-wrap {
+  position: relative;
+  }
+.oma-sampler-form-{{ owid }} select {
+  padding-right: 44px;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  }
+.oma-sampler-form-{{ owid }} .select-chevron {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  width: 11px;
+  height: 8px;
+  margin-top: -4px;
+  pointer-events: none;
+  color: {{ section.settings.accent_color }};
+  }
+.oma-sampler-form-{{ owid }} button[type="submit"] {
+  border: none;
+  cursor: pointer;
+  background: {{ section.settings.accent_color }};
+  color: #ffffff;
+  padding: 16px 28px;
+  border-radius: 999px;
+  font: 800 13px/1 var(--font-heading-family);
+  transition: filter .2s ease;
+  }
+.oma-sampler-form-{{ owid }} button[type="submit"]:hover {
+  filter: brightness(.85);
+  }
+.oma-sampler-form-{{ owid }} .fine-print {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: {{ section.settings.text_color }};
+  }
+.oma-sampler-form-{{ owid }} .field--with-error input {
+  border-color: #d72c0d;
+  }
+.oma-sampler-form-{{ owid }} .field-error {
+  margin-top: 8px;
+  font-size: 12.5px;
+  color: #d72c0d;
+  }
+.oma-sampler-form-{{ owid }} .success {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  }
+.oma-sampler-form-{{ owid }} .success-heading {
+  font-family: var(--font-heading-family);
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: -.01em;
+  color: {{ section.settings.accent_color }};
+  }
+.oma-sampler-form-{{ owid }} .success-body {
+  font-size: 14px;
+  line-height: 1.5;
+  color: {{ section.settings.text_color }};
+  }
+{% endstyle %}
+<div class="oma-sampler-form-{{ owid }}">
+  <div class="inner">
+    <div>
+      {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
+      <p class="heading">{{ section.settings.heading }}</p>
+      {%- if section.settings.body != blank -%}<div class="body">{{ section.settings.body }}</div>{%- endif -%}
+    </div>
+    <div class="card">
+      {% form 'customer', class: 'oma-sampler-form-native', data-oma-sampler-form: '' %}
+        {%- if form.posted_successfully? -%}
+          <div class="success" role="status" tabindex="-1" autofocus>
+            <div class="success-heading">{{ section.settings.success_heading | escape }}</div>
+            <div class="success-body">{{ section.settings.success_body }}</div>
+          </div>
+        {%- else -%}
+          <input type="hidden" name="contact[tags]" value="{{ section.settings.tag | escape }}" data-oma-sampler-tags>
+          <div class="field-stack">
+            <div class="{% if form.errors contains 'email' %}field--with-error{% endif %}">
+              <label class="field-label" for="SamplerEmail-{{ section.id }}">{{ 'templates.contact.form.email' | t }}</label>
+              <input
+                id="SamplerEmail-{{ section.id }}"
+                type="email"
+                name="contact[email]"
+                autocomplete="email"
+                autocorrect="off"
+                autocapitalize="off"
+                required
+                aria-required="true"
+                value="{{ form.email }}"
+                placeholder="you@company.com"
+              >
+              {%- if form.errors contains 'email' -%}
+                <div class="field-error">{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</div>
+              {%- endif -%}
+            </div>
+            <label for="SamplerTeamSize-{{ section.id }}">
+              <span class="field-label">{{ section.settings.team_size_label | escape }}</span>
+              <div class="select-wrap">
+                <select id="SamplerTeamSize-{{ section.id }}" data-oma-sampler-team-size>
+                  <option value="">{{ section.settings.team_size_placeholder | escape }}</option>
+                  {%- assign options = section.settings.team_size_options | split: ',' -%}
+                  {%- for option in options -%}
+                    <option value="{{ option | strip | escape }}">{{ option | strip | escape }}</option>
+                  {%- endfor -%}
+                </select>
+                <svg class="select-chevron" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+              </div>
+            </label>
+            <button type="submit">{{ section.settings.submit_label | escape }}</button>
+            <div class="fine-print">{{ section.settings.fine_print }}</div>
+          </div>
+        {%- endif -%}
+      {% endform %}
+    </div>
+  </div>
+</div>
+<script src="{{ 'oma-sampler-form.js' | asset_url }}" defer></script>
+{% schema %}
+{
+  "name": "OMA Sampler Form",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "TRY BEFORE YOU COMMIT" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Not sure what your team will love? We'll send a sampler." },
+    { "type": "richtext", "id": "body", "label": "Body", "default": "<p>A tasting pack of our current profiles, so your team can find their favorite before you order a full batch. You just cover shipping.</p>" },
+    { "type": "header", "content": "Form" },
+    { "type": "text", "id": "team_size_label", "label": "Team size field label", "default": "Team size" },
+    { "type": "text", "id": "team_size_placeholder", "label": "Team size placeholder", "default": "Select a range" },
+    { "type": "text", "id": "team_size_options", "label": "Team size options", "info": "Comma-separated.", "default": "1–10 people, 11–25 people, 26–50 people, 51–100 people, 100+ people" },
+    { "type": "text", "id": "submit_label", "label": "Submit button label", "default": "Get my sampler" },
+    { "type": "text", "id": "fine_print", "label": "Fine print", "default": "You just cover shipping. No card, no commitment." },
+    { "type": "text", "id": "tag", "label": "Customer tag applied on submit", "default": "workplace-sampler-request", "info": "Team size is appended automatically as a second tag, e.g. \"workplace-sampler-request, 11-25-people\". Filter for these under Customers in Admin." },
+    { "type": "header", "content": "Success state" },
+    { "type": "text", "id": "success_heading", "label": "Success heading", "default": "On its way — check your inbox" },
+    { "type": "richtext", "id": "success_body", "label": "Success body", "default": "<p>We've got your request. Keep an eye on your inbox for next steps.</p>" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Section background", "default": "#FBB925" },
+    { "type": "color", "id": "border_color", "label": "Section border", "default": "#FF3F00" },
+    { "type": "color", "id": "accent_color", "label": "Accent (card border, button, labels)", "default": "#FF3F00" },
+    { "type": "color", "id": "heading_color", "label": "Heading color", "default": "#00180C" },
+    { "type": "color", "id": "text_color", "label": "Body text color", "default": "#00180C" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 64 }
+  ],
+  "presets": [
+    { "name": "OMA Sampler Form" }
+  ]
+}
+{% endschema %}

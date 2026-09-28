@@ -471,6 +471,37 @@
   text-transform: uppercase;
 }
 
+.coming-soon-{{ section.id }} {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: {{ section.settings.coming_soon_bg }};
+  color: {{ section.settings.coming_soon_text }};
+  font-weight: 800;
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.chips-{{ section.id }} {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 4px 0 0;
+}
+
+.chip-{{ section.id }} {
+  font-weight: 700;
+  font-size: 11px;
+  padding: 8px 11px;
+  border-radius: 999px;
+  border: 1.5px solid color-mix(in srgb, {{ section.settings.heading_color }} 45%, transparent);
+  color: {{ section.settings.heading_color }};
+}
+
 .im8-cta-{{ section.id }} {
   display: block;
   width: 100%;
@@ -607,6 +638,9 @@
                       <span>{{ block.settings.banner_text }}</span>
                     </div>
                   {%- endif -%}
+                  {%- if block.settings.coming_soon -%}
+                    <span class="coming-soon-{{ section.id }}">{{ section.settings.coming_soon_label | escape }}</span>
+                  {%- endif -%}
 
                   {%- comment -%}
                     Image and title both link to the product, but only the
@@ -656,6 +690,15 @@
                     <div class="divider-{{ section.id }}"></div>
                   {%- endif -%}
 
+                  {%- if block.settings.size_chips != blank -%}
+                    <div class="chips-{{ section.id }}">
+                      {%- assign chip_list = block.settings.size_chips | split: ',' -%}
+                      {%- for chip in chip_list -%}
+                        <span class="chip-{{ section.id }}">{{ chip | strip | escape }}</span>
+                      {%- endfor -%}
+                    </div>
+                  {%- endif -%}
+
                   <div class="benefits-{{ section.id }}">
                     {%- if block.settings.benefit_1 != blank -%}
                       <span class="benefit-{{ section.id }}"><svg class="benefit-check-{{ section.id }}" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 5.8 4.2 8.5 9.5 2.8" stroke="{{ section.settings.emphasis_color }}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>{{ block.settings.benefit_1 }}</span>
@@ -668,7 +711,7 @@
                     {%- endif -%}
                   </div>
 
-                  {%- if product != blank -%}
+                  {%- if product != blank and block.settings.coming_soon != true -%}
                   <div class="price-presentation-container-{{ section.id }}">
                     <div class="price-row-{{ section.id }}">
                       {%- if product.price_varies -%}
@@ -883,6 +926,9 @@
     { "type": "color", "id": "descriptor_color", "label": "Descriptor Tag Color", "default": "#FF3F00" },
     { "type": "color", "id": "price_color", "label": "Price Color", "default": "#FF3F00" },
     { "type": "color", "id": "emphasis_color", "label": "Highlight & Accent Color", "default": "#FF3F00" },
+    { "type": "text", "id": "coming_soon_label", "label": "\"Coming soon\" badge label", "default": "COMING SOON" },
+    { "type": "color", "id": "coming_soon_bg", "label": "\"Coming soon\" badge background", "default": "#FBB925" },
+    { "type": "color", "id": "coming_soon_text", "label": "\"Coming soon\" badge text", "default": "#00180C" },
 
     { "type": "header", "content": "Layout" },
     { "type": "text", "id": "view_all_label", "label": "Link Label", "default": "View All" },
@@ -925,6 +971,8 @@
         { "type": "header", "content": "Visual Styling Overrides" },
         { "type": "checkbox", "id": "highlight_card", "label": "Highlight this Card", "default": false },
         { "type": "text", "id": "banner_text", "label": "Top Banner Text", "default": "★ BEST VALUE" },
+        { "type": "checkbox", "id": "coming_soon", "label": "Mark as \"Coming soon\"", "default": false, "info": "Shows a badge and hides the price/Add to Cart, even if a product is selected." },
+        { "type": "text", "id": "size_chips", "label": "Size chips", "info": "Comma-separated, e.g. \"500g, 1kg\". Blank hides this row." },
         { "type": "image_picker", "id": "custom_image", "label": "Custom Card Image (Overrides default)" },
         { "type": "header", "content": "Text Content Overrides" },
         { "type": "paragraph", "content": "Leave a field blank to use the product's own value: Title falls back to the product title, Description to its description, Descriptor tag to its Product Eyebrow metafield." },

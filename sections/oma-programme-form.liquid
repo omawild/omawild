@@ -1,0 +1,460 @@
+{%- comment -%}
+  oma-programme-form — "Build your programme" lead-gen form. Uses Shopify's
+  native `contact` form action (same handler contact-form.liquid already uses
+  sitewide) rather than a third-party ESP. Every answer, including the
+  pill-group preferences below, is submitted as its own contact[<Label>]
+  field -- the same pattern contact-form.liquid's custom_field blocks already
+  rely on, which only works because Shopify's default contact notification
+  email lists every contact[...] field it receives, not just name/email/body.
+  Success state is server-rendered via form.posted_successfully?, no JS
+  required for that part; JS is only used to fold each pill group's toggled
+  buttons into one hidden input value (see assets/oma-programme-form.js).
+{%- endcomment -%}
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{% style %}
+.oma-programme-form-{{ owid }} {
+  box-sizing: border-box;
+  background: {{ section.settings.background_color }};
+  border-bottom: 1.5px solid {{ section.settings.accent_color }};
+  padding: {{ section.settings.padding_top }}px clamp(20px, 4vw, 48px) {{ section.settings.padding_bottom }}px;
+  font-family: var(--font-body-family);
+  }
+.oma-programme-form-{{ owid }} *, .oma-programme-form-{{ owid }} *::before, .oma-programme-form-{{ owid }} *::after {
+  box-sizing: border-box;
+  }
+.oma-programme-form-{{ owid }} .inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  }
+.oma-programme-form-{{ owid }} .eyebrow {
+  font: 800 10.5px/1 var(--font-heading-family);
+  letter-spacing: .18em;
+  color: {{ section.settings.accent_color }};
+  }
+.oma-programme-form-{{ owid }} .heading {
+  margin: 16px 0 0;
+  max-width: 56ch;
+  font-family: var(--font-heading-family);
+  font-weight: 900;
+  font-size: clamp(30px, 3.8vw, 50px);
+  line-height: 1;
+  letter-spacing: -.035em;
+  color: {{ section.settings.accent_color }};
+  text-wrap: balance;
+  }
+.oma-programme-form-{{ owid }} .body {
+  margin: 18px 0 0;
+  max-width: 80ch;
+  font-size: 16.5px;
+  line-height: 1.5;
+  color: {{ section.settings.accent_color }};
+  }
+.oma-programme-form-{{ owid }} .card {
+  margin-top: 32px;
+  background: #ffffff;
+  border: 2px solid {{ section.settings.accent_color }};
+  border-radius: 14px;
+  box-shadow: 8px 8px 0 {{ section.settings.accent_color }};
+  padding: clamp(22px, 3vw, 36px);
+  }
+.oma-programme-form-{{ owid }} .grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  }
+@media (min-width: 600px) {
+  .oma-programme-form-{{ owid }} .grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}
+.oma-programme-form-{{ owid }} .field {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  }
+.oma-programme-form-{{ owid }} .field-label {
+  display: block;
+  font: 800 10px/1 var(--font-heading-family);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: {{ section.settings.accent_color }};
+  margin-bottom: 10px;
+  }
+.oma-programme-form-{{ owid }} .required-mark {
+  color: {{ section.settings.required_color }};
+  }
+.oma-programme-form-{{ owid }} .field-note {
+  display: block;
+  margin: -4px 0 10px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: {{ section.settings.accent_color }};
+  }
+.oma-programme-form-{{ owid }} input[type="text"],
+.oma-programme-form-{{ owid }} input[type="email"],
+.oma-programme-form-{{ owid }} select {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: auto;
+  border: 1.5px solid {{ section.settings.accent_color }};
+  border-radius: 999px;
+  padding: 14px 18px;
+  outline: none;
+  background: #ffffff;
+  font: 500 14px var(--font-body-family);
+  color: {{ section.settings.accent_color }};
+  }
+.oma-programme-form-{{ owid }} textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1.5px solid {{ section.settings.accent_color }};
+  border-radius: 14px;
+  padding: 14px 18px;
+  outline: none;
+  resize: vertical;
+  background: #ffffff;
+  font: 500 14px/1.5 var(--font-body-family);
+  color: {{ section.settings.accent_color }};
+  }
+.oma-programme-form-{{ owid }} .select-wrap {
+  position: relative;
+  margin-top: auto;
+  }
+.oma-programme-form-{{ owid }} .select-wrap select {
+  margin-top: 0;
+  padding-right: 44px;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  }
+.oma-programme-form-{{ owid }} .select-chevron {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  width: 11px;
+  height: 8px;
+  margin-top: -4px;
+  pointer-events: none;
+  color: {{ section.settings.accent_color }};
+  }
+.oma-programme-form-{{ owid }} .pill-groups {
+  margin-top: 22px;
+  padding-top: 22px;
+  border-top: 1.5px solid color-mix(in srgb, {{ section.settings.accent_color }} 30%, transparent);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  }
+.oma-programme-form-{{ owid }} .pill-group {
+  border: none;
+  margin: 0;
+  padding: 0;
+  }
+.oma-programme-form-{{ owid }} .pill-group-legend {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  font: 800 10px/1 var(--font-heading-family);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: {{ section.settings.accent_color }};
+  }
+.oma-programme-form-{{ owid }} .pill-group-hint {
+  font: 500 11px/1 var(--font-body-family);
+  letter-spacing: normal;
+  text-transform: none;
+  color: {{ section.settings.text_color }};
+  }
+.oma-programme-form-{{ owid }} .pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  }
+.oma-programme-form-{{ owid }} .pill {
+  font: 700 12.5px/1 var(--font-heading-family);
+  padding: 12px 16px;
+  border-radius: 999px;
+  border: 1.5px solid {{ section.settings.accent_color }};
+  background: #ffffff;
+  color: {{ section.settings.accent_color }};
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease;
+  }
+.oma-programme-form-{{ owid }} .pill[aria-pressed="true"] {
+  background: {{ section.settings.accent_color }};
+  color: #ffffff;
+  }
+.oma-programme-form-{{ owid }} .closing {
+  margin-top: 22px;
+  }
+.oma-programme-form-{{ owid }} .actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-top: 26px;
+  }
+.oma-programme-form-{{ owid }} button[type="submit"] {
+  border: none;
+  cursor: pointer;
+  background: {{ section.settings.accent_color }};
+  color: #ffffff;
+  padding: 17px 32px;
+  border-radius: 999px;
+  font: 800 13px/1 var(--font-heading-family);
+  transition: filter .2s ease;
+  }
+.oma-programme-form-{{ owid }} button[type="submit"]:hover {
+  filter: brightness(.85);
+  }
+.oma-programme-form-{{ owid }} .fine-print {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: {{ section.settings.text_color }};
+  }
+.oma-programme-form-{{ owid }} .field-error {
+  margin-top: 8px;
+  font-size: 12.5px;
+  color: #d72c0d;
+  }
+.oma-programme-form-{{ owid }} .success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 18px;
+  padding: clamp(24px, 5vw, 56px) 0;
+  }
+.oma-programme-form-{{ owid }} .success-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 999px;
+  background: {{ section.settings.accent_color }};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  }
+.oma-programme-form-{{ owid }} .success-eyebrow {
+  font: 800 10.5px/1 var(--font-heading-family);
+  letter-spacing: .18em;
+  color: {{ section.settings.accent_color }};
+  }
+.oma-programme-form-{{ owid }} .success-heading {
+  margin: 0;
+  font-family: var(--font-heading-family);
+  font-weight: 900;
+  font-size: clamp(28px, 3.2vw, 42px);
+  line-height: 1.02;
+  letter-spacing: -.03em;
+  color: {{ section.settings.accent_color }};
+  text-wrap: balance;
+  }
+.oma-programme-form-{{ owid }} .success-body {
+  margin: 0;
+  max-width: 48ch;
+  font-size: 16.5px;
+  line-height: 1.6;
+  color: {{ section.settings.text_color }};
+  }
+{% endstyle %}
+<div class="oma-programme-form-{{ owid }}">
+  <div class="inner">
+    {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
+    <p class="heading">{{ section.settings.heading }}</p>
+    {%- if section.settings.body != blank -%}<div class="body">{{ section.settings.body }}</div>{%- endif -%}
+
+    <div class="card">
+      {%- assign form_id = 'OmaProgrammeForm-' | append: section.id -%}
+      {% form 'contact', id: form_id %}
+        {%- if form.posted_successfully? -%}
+          <div class="success" role="status" tabindex="-1" autofocus>
+            <span class="success-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 18" width="32" height="24"><path d="M2 9.5l6.5 6.5L22 2" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </span>
+            <div class="success-eyebrow">{{ section.settings.success_eyebrow | escape }}</div>
+            <h3 class="success-heading">{{ section.settings.success_heading | escape }}</h3>
+            <div class="success-body">{{ section.settings.success_body }}</div>
+          </div>
+        {%- else -%}
+          <div class="grid">
+            <label class="field">
+              <span class="field-label">{{ section.settings.company_label | escape }} <span class="required-mark">*</span></span>
+              <input type="text" name="contact[{{ section.settings.company_label | escape }}]" placeholder="{{ section.settings.company_placeholder | escape }}" required aria-required="true">
+            </label>
+            <div class="field {% if form.errors contains 'email' %}field--with-error{% endif %}">
+              <span class="field-label">{{ 'templates.contact.form.email' | t }} <span class="required-mark">*</span></span>
+              <input
+                type="email"
+                name="contact[email]"
+                autocomplete="email"
+                autocorrect="off"
+                autocapitalize="off"
+                required
+                aria-required="true"
+                value="{{ form.email }}"
+                placeholder="you@company.com"
+              >
+              {%- if form.errors contains 'email' -%}
+                <div class="field-error">{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</div>
+              {%- endif -%}
+            </div>
+            <label class="field">
+              <span class="field-label">{{ section.settings.team_size_label | escape }} <span class="required-mark">*</span></span>
+              <div class="select-wrap">
+                <select name="contact[{{ section.settings.team_size_label | escape }}]" required aria-required="true">
+                  <option value="" disabled selected>{{ section.settings.team_size_placeholder | escape }}</option>
+                  {%- assign team_size_options = section.settings.team_size_options | split: ',' -%}
+                  {%- for option in team_size_options -%}
+                    <option value="{{ option | strip | escape }}">{{ option | strip | escape }}</option>
+                  {%- endfor -%}
+                </select>
+                <svg class="select-chevron" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+              </div>
+            </label>
+            <label class="field">
+              <span class="field-label">{{ section.settings.volume_label | escape }}</span>
+              <div class="select-wrap">
+                <select name="contact[{{ section.settings.volume_label | escape }}]">
+                  <option value="" disabled selected>{{ section.settings.volume_placeholder | escape }}</option>
+                  {%- assign volume_options = section.settings.volume_options | split: ',' -%}
+                  {%- for option in volume_options -%}
+                    <option value="{{ option | strip | escape }}">{{ option | strip | escape }}</option>
+                  {%- endfor -%}
+                </select>
+                <svg class="select-chevron" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+              </div>
+            </label>
+            <label class="field">
+              <span class="field-label">{{ section.settings.brewing_setup_label | escape }}</span>
+              <input type="text" name="contact[{{ section.settings.brewing_setup_label | escape }}]" placeholder="{{ section.settings.brewing_setup_placeholder | escape }}">
+            </label>
+            <label class="field">
+              <span class="field-label">{{ section.settings.spend_label | escape }}</span>
+              {%- if section.settings.spend_note != blank -%}<span class="field-note">{{ section.settings.spend_note | escape }}</span>{%- endif -%}
+              <div class="select-wrap">
+                <select name="contact[{{ section.settings.spend_label | escape }}]">
+                  <option value="" disabled selected>{{ section.settings.spend_placeholder | escape }}</option>
+                  {%- assign spend_options = section.settings.spend_options | split: ',' -%}
+                  {%- for option in spend_options -%}
+                    <option value="{{ option | strip | escape }}">{{ option | strip | escape }}</option>
+                  {%- endfor -%}
+                </select>
+                <svg class="select-chevron" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+              </div>
+            </label>
+          </div>
+
+          {%- if section.blocks.size > 0 -%}
+            <div class="pill-groups">
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'pill_group' -%}
+                  {%- assign group_field_name = 'contact[' | append: block.settings.field_label | append: ']' -%}
+                  {%- assign group_options = block.settings.options | split: ',' -%}
+                  <fieldset class="pill-group" data-pill-group {% if block.settings.allow_multiple %}data-multiple="true"{% endif %} {{ block.shopify_attributes }}>
+                    <legend class="pill-group-legend">
+                      <span>{{ block.settings.field_label | escape }}</span>
+                      {%- if block.settings.allow_multiple -%}<span class="pill-group-hint">{{ block.settings.multiple_hint | escape }}</span>{%- endif -%}
+                    </legend>
+                    <input type="hidden" name="{{ group_field_name }}" data-pill-group-value>
+                    <div class="pill-row">
+                      {%- for option in group_options -%}
+                        {%- assign option_clean = option | strip -%}
+                        {%- if option_clean != blank -%}
+                          <button type="button" class="pill" data-value="{{ option_clean | escape }}" aria-pressed="false">{{ option_clean | escape }}</button>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </div>
+                  </fieldset>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+          <div class="closing">
+            <label>
+              <span class="field-label">{{ section.settings.notes_label | escape }}</span>
+              <textarea rows="3" name="contact[{{ 'templates.contact.form.comment' | t }}]" placeholder="{{ section.settings.notes_placeholder | escape }}">{{ form.body }}</textarea>
+            </label>
+          </div>
+
+          <div class="actions">
+            <button type="submit">{{ section.settings.submit_label | escape }}</button>
+            <div class="fine-print"><span class="required-mark">*</span> {{ section.settings.fine_print }}</div>
+          </div>
+        {%- endif -%}
+      {% endform %}
+    </div>
+  </div>
+</div>
+<script src="{{ 'oma-programme-form.js' | asset_url }}" defer></script>
+{% schema %}
+{
+  "name": "OMA Programme Form",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "READY FOR A FULL PROGRAMME?" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Build your programme" },
+    { "type": "richtext", "id": "body", "label": "Body", "default": "<p>Tell us about your workplace and we'll come back with a recommendation built around your team.</p>" },
+    { "type": "header", "content": "Fixed fields" },
+    { "type": "text", "id": "company_label", "label": "Company field label", "default": "Company" },
+    { "type": "text", "id": "company_placeholder", "label": "Company placeholder", "default": "Company name" },
+    { "type": "text", "id": "team_size_label", "label": "Team size field label", "default": "Team size" },
+    { "type": "text", "id": "team_size_placeholder", "label": "Team size placeholder", "default": "Select a range" },
+    { "type": "text", "id": "team_size_options", "label": "Team size options", "info": "Comma-separated.", "default": "1–10 people, 11–25 people, 26–50 people, 51–100 people, 100+ people" },
+    { "type": "text", "id": "volume_label", "label": "Coffee volume field label", "default": "Coffee volume" },
+    { "type": "text", "id": "volume_placeholder", "label": "Coffee volume placeholder", "default": "Select a range" },
+    { "type": "text", "id": "volume_options", "label": "Coffee volume options", "info": "Comma-separated.", "default": "Under 2 kg per month, 2–5 kg per month, 5–10 kg per month, 10–20 kg per month, 20 kg+ per month, Not sure yet" },
+    { "type": "text", "id": "brewing_setup_label", "label": "Brewing setup field label", "default": "Brewing setup" },
+    { "type": "text", "id": "brewing_setup_placeholder", "label": "Brewing setup placeholder", "default": "e.g. Moccamaster + a Wilfa grinder" },
+    { "type": "text", "id": "spend_label", "label": "Monthly spend field label", "default": "Monthly coffee spend" },
+    { "type": "text", "id": "spend_note", "label": "Monthly spend note", "default": "Total per month in NT$, across all coffee" },
+    { "type": "text", "id": "spend_placeholder", "label": "Monthly spend placeholder", "default": "Select a range" },
+    { "type": "text", "id": "spend_options", "label": "Monthly spend options", "info": "Comma-separated.", "default": "Under NT$5,000, NT$5,000–15,000, NT$15,000–30,000, NT$30,000+, Not sure yet" },
+    { "type": "text", "id": "notes_label", "label": "Notes field label", "default": "Anything else we should know" },
+    { "type": "text", "id": "notes_placeholder", "label": "Notes placeholder", "default": "Anything else" },
+    { "type": "header", "content": "Submit" },
+    { "type": "text", "id": "submit_label", "label": "Submit button label", "default": "Build your programme" },
+    { "type": "text", "id": "fine_print", "label": "Fine print", "default": "Required. No minimum, no contract. We'll reply within two working days." },
+    { "type": "header", "content": "Success state" },
+    { "type": "text", "id": "success_eyebrow", "label": "Success eyebrow", "default": "REQUEST RECEIVED" },
+    { "type": "text", "id": "success_heading", "label": "Success heading", "default": "Thanks, we'll be in touch" },
+    { "type": "richtext", "id": "success_body", "label": "Success body", "default": "<p>We'll reply within two working days with a recommendation built around your team. Keep an eye on your inbox.</p>" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Section background", "default": "#FCD0FD" },
+    { "type": "color", "id": "accent_color", "label": "Accent (headings, borders, button, labels)", "default": "#FF3F00" },
+    { "type": "color", "id": "text_color", "label": "Secondary text color", "default": "#00180C" },
+    { "type": "color", "id": "required_color", "label": "Required-field asterisk color", "default": "#D63200" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 140, "step": 4, "unit": "px", "default": 76 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 140, "step": 4, "unit": "px", "default": 76 }
+  ],
+  "blocks": [
+    {
+      "type": "pill_group",
+      "name": "Pill group",
+      "settings": [
+        { "type": "text", "id": "field_label", "label": "Field label", "default": "Preference" },
+        { "type": "text", "id": "options", "label": "Options", "info": "Comma-separated, e.g. \"Pour-over, Batch brew, Espresso\".", "default": "Option A, Option B, Option C" },
+        { "type": "checkbox", "id": "allow_multiple", "label": "Allow multiple selections", "default": false },
+        { "type": "text", "id": "multiple_hint", "label": "Multi-select hint text", "default": "Select all that apply", "info": "Only shown when \"Allow multiple selections\" is on." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "OMA Programme Form",
+      "blocks": [
+        { "type": "pill_group", "settings": { "field_label": "How do you brew?", "options": "Pour-over, Batch brew, Espresso, Cold brew, Other", "allow_multiple": true } },
+        { "type": "pill_group", "settings": { "field_label": "Flavor preference", "options": "Bright & fruit-forward, Chocolatey & comforting, A mix, Not sure", "allow_multiple": true } },
+        { "type": "pill_group", "settings": { "field_label": "Delivery cadence", "options": "Every 2 weeks, Monthly, Other", "allow_multiple": false } },
+        { "type": "pill_group", "settings": { "field_label": "Gifting interest", "options": "Yes, Maybe, Not right now", "allow_multiple": false } }
+      ]
+    }
+  ]
+}
+{% endschema %}

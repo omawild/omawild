@@ -1,0 +1,494 @@
+{%- comment -%}
+  oma-origin-cards — "Field Guide" preview grid, reading from the `origin`
+  metaobject (Settings > Metaobjects). Region, country, elevation, producers,
+  process and varieties are deliberately NOT fields on the metaobject itself
+  -- they're derived here from the linked products' existing metafields
+  (custom.region, custom.origin-of-country, custom.elevation_masl,
+  custom.farm_producer, custom.process, custom.varietal-coffee) so there is
+  exactly one place to edit each of those facts. An origin with no product
+  linked yet renders "Coming soon" for whatever it can't derive, rather than
+  hiding the row or showing a blank dash.
+{%- endcomment -%}
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{% style %}
+.oma-origin-cards-{{ owid }} {
+  box-sizing: border-box;
+  background: {{ section.settings.background_color }};
+  padding: {{ section.settings.padding_top }}px clamp(20px, 4vw, 48px) {{ section.settings.padding_bottom }}px;
+  font-family: var(--font-body-family);
+  }
+.oma-origin-cards-{{ owid }} *, .oma-origin-cards-{{ owid }} *::before, .oma-origin-cards-{{ owid }} *::after {
+  box-sizing: border-box;
+  }
+.oma-origin-cards-{{ owid }} .inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  }
+.oma-origin-cards-{{ owid }} .head-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px 40px;
+  }
+.oma-origin-cards-{{ owid }} .eyebrow {
+  font: 800 10.5px/1 var(--font-heading-family);
+  letter-spacing: .18em;
+  color: {{ section.settings.accent_color }};
+  }
+.oma-origin-cards-{{ owid }} .heading {
+  margin: 14px 0 0;
+  font-family: var(--font-heading-family);
+  font-weight: 900;
+  font-size: clamp(34px, 4.4vw, 60px);
+  line-height: .95;
+  letter-spacing: -.04em;
+  color: {{ section.settings.accent_color }};
+  }
+.oma-origin-cards-{{ owid }} .intro {
+  flex: 1 1 480px;
+  min-width: 0;
+  max-width: 780px;
+  }
+.oma-origin-cards-{{ owid }} .body {
+  margin: 18px 0 0;
+  font-size: 16.5px;
+  line-height: 1.6;
+  color: {{ section.settings.text_color }};
+  }
+.oma-origin-cards-{{ owid }} .cta {
+  flex: none;
+  text-decoration: none;
+  border: 1.5px solid {{ section.settings.accent_color }};
+  color: {{ section.settings.accent_color }};
+  padding: 15px 20px;
+  border-radius: 999px;
+  font: 800 12px/1 var(--font-heading-family);
+  white-space: nowrap;
+  transition: background .15s ease, color .15s ease;
+  }
+.oma-origin-cards-{{ owid }} .cta:hover {
+  background: {{ section.settings.accent_color }};
+  color: #ffffff;
+  }
+.oma-origin-cards-{{ owid }} .cards {
+  margin-top: 36px;
+  }
+.oma-origin-cards-{{ owid }} .card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: 1.5px solid {{ section.settings.accent_color }};
+  background: #ffffff;
+  text-decoration: none;
+  color: {{ section.settings.text_color }};
+  transition: background .15s ease;
+  }
+.oma-origin-cards-{{ owid }} a.card:hover {
+  background: {{ section.settings.hover_background }};
+  }
+.oma-origin-cards-{{ owid }} .cover {
+  position: relative;
+  width: 100%;
+  background: {{ section.settings.hover_background }};
+  overflow: hidden;
+  }
+.oma-origin-cards-{{ owid }} .cover img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  }
+.oma-origin-cards-{{ owid }} .card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  }
+.oma-origin-cards-{{ owid }} .num-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 24px;
+  }
+.oma-origin-cards-{{ owid }} .num {
+  font: 800 14px/1 var(--font-heading-family);
+  color: {{ section.settings.accent_color }};
+  }
+.oma-origin-cards-{{ owid }} .place {
+  margin: 12px 0 0;
+  font-family: var(--font-heading-family);
+  font-weight: 900;
+  color: {{ section.settings.accent_color }};
+  letter-spacing: -.045em;
+  }
+.oma-origin-cards-{{ owid }} .subtitle {
+  margin-top: 10px;
+  font-weight: 600;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: {{ section.settings.text_color }};
+  }
+.oma-origin-cards-{{ owid }} .facts {
+  margin-top: auto;
+  }
+.oma-origin-cards-{{ owid }} .fact {
+  padding-top: 8px;
+  border-top: 1.5px solid {{ section.settings.accent_color }};
+  }
+.oma-origin-cards-{{ owid }} .fact-label {
+  font: 800 10.5px/1.4 var(--font-heading-family);
+  letter-spacing: .12em;
+  color: {{ section.settings.accent_color }};
+  }
+.oma-origin-cards-{{ owid }} .fact-value {
+  font: 700 14.5px/1.35 var(--font-heading-family);
+  color: {{ section.settings.text_color }};
+  }
+.oma-origin-cards-{{ owid }} .fact-value.is-pending {
+  font-weight: 500;
+  font-style: italic;
+  color: color-mix(in srgb, {{ section.settings.text_color }} 60%, transparent);
+  }
+.oma-origin-cards-{{ owid }} .visit {
+  align-self: flex-start;
+  background: {{ section.settings.accent_color }};
+  color: #ffffff;
+  padding: 14px 22px;
+  border-radius: 999px;
+  font: 800 12px/1 var(--font-heading-family);
+  }
+
+/* Single origin: wide feature card */
+.oma-origin-cards-{{ owid }} .cards.is-single .card {
+  flex-direction: row;
+  flex-wrap: wrap;
+  }
+.oma-origin-cards-{{ owid }} .cards.is-single .cover {
+  flex: 1.3 1 420px;
+  min-height: 320px;
+  aspect-ratio: 4 / 3;
+  border-right: 1.5px solid {{ section.settings.accent_color }};
+  }
+.oma-origin-cards-{{ owid }} .cards.is-single .card-body {
+  flex: 1 1 360px;
+  min-width: 0;
+  padding: clamp(24px, 3vw, 44px);
+  gap: 28px;
+  }
+.oma-origin-cards-{{ owid }} .cards.is-single .place {
+  font-size: clamp(56px, 7vw, 112px);
+  line-height: .86;
+  }
+.oma-origin-cards-{{ owid }} .cards.is-single .lead {
+  margin: 28px 0 0;
+  max-width: 30ch;
+  font-family: var(--font-heading-family);
+  font-weight: 800;
+  font-size: clamp(22px, 2vw, 28px);
+  line-height: 1.2;
+  letter-spacing: -.02em;
+  color: {{ section.settings.accent_color }};
+  text-wrap: pretty;
+  }
+.oma-origin-cards-{{ owid }} .cards.is-single .facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0 24px;
+  padding-top: 32px;
+  }
+.oma-origin-cards-{{ owid }} .cards.is-single .fact-label {
+  margin-bottom: 8px;
+  }
+.oma-origin-cards-{{ owid }} .cards.is-single .visit {
+  margin-top: 28px;
+  }
+@media (max-width: 781px) {
+  .oma-origin-cards-{{ owid }} .cards.is-single .cover {
+    flex-basis: 100%;
+    border-right: none;
+    border-bottom: 1.5px solid {{ section.settings.accent_color }};
+  }
+}
+
+/* Multiple origins: grid */
+.oma-origin-cards-{{ owid }} .cards.is-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  gap: 24px;
+  }
+.oma-origin-cards-{{ owid }} .cards.is-grid .cover {
+  aspect-ratio: 4 / 3;
+  border-bottom: 1.5px solid {{ section.settings.accent_color }};
+  }
+.oma-origin-cards-{{ owid }} .cards.is-grid .card-body {
+  padding: 22px 22px 24px;
+  gap: 8px;
+  }
+.oma-origin-cards-{{ owid }} .cards.is-grid .place {
+  font-size: clamp(40px, 4.4vw, 60px);
+  line-height: .9;
+  }
+.oma-origin-cards-{{ owid }} .cards.is-grid .facts {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 22px;
+  }
+.oma-origin-cards-{{ owid }} .cards.is-grid .fact {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  }
+.oma-origin-cards-{{ owid }} .cards.is-grid .fact-label {
+  flex: none;
+  white-space: nowrap;
+  }
+.oma-origin-cards-{{ owid }} .cards.is-grid .fact-value {
+  flex: 1;
+  min-width: 0;
+  text-align: right;
+  }
+.oma-origin-cards-{{ owid }} .cards.is-grid .read-link {
+  margin-top: 20px;
+  font: 800 14.5px/1 var(--font-heading-family);
+  color: {{ section.settings.accent_color }};
+  }
+{% endstyle %}
+{%- liquid
+  assign origin_blocks = section.blocks | where: 'type', 'origin_card'
+  assign origin_count = 0
+  for block in origin_blocks
+    if block.settings.origin_reference != blank
+      assign origin_count = origin_count | plus: 1
+    endif
+  endfor
+-%}
+<div class="oma-origin-cards-{{ owid }}">
+  <div class="inner">
+    <div class="head-row">
+      <div class="intro">
+        {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
+        <h2 class="heading">{{ section.settings.heading }}</h2>
+        {%- if section.settings.body != blank -%}<div class="body">{{ section.settings.body }}</div>{%- endif -%}
+      </div>
+      {%- if section.settings.show_cta and section.settings.cta_label != blank -%}
+        <a class="cta" href="{{ section.settings.cta_link | default: '#' }}">{{ section.settings.cta_label | escape }}</a>
+      {%- endif -%}
+    </div>
+
+    <div class="cards {% if origin_count == 1 %}is-single{% else %}is-grid{% endif %}">
+      {%- for block in origin_blocks -%}
+        {%- liquid
+          assign origin = block.settings.origin_reference
+          if origin == blank
+            continue
+          endif
+
+          assign linked_products = origin.fields.products.value
+          assign region = blank
+          assign country = blank
+          assign elev_values = ''
+          assign producer_values = ''
+          assign process_values = ''
+          assign coffee_names = ''
+
+          for p in linked_products
+            if region == blank and p.metafields.custom.region.value != blank
+              assign region = p.metafields.custom.region.value
+            endif
+            if country == blank and p.metafields.custom.origin-of-country.value != blank
+              assign country = p.metafields.custom.origin-of-country.value
+            endif
+            if p.metafields.custom.elevation_masl.value != blank
+              assign elev_values = elev_values | append: p.metafields.custom.elevation_masl.value | append: '|'
+            endif
+            if p.metafields.custom.farm_producer.value != blank
+              for name in p.metafields.custom.farm_producer.value
+                assign producer_values = producer_values | append: name | append: '|'
+              endfor
+            endif
+            if p.metafields.custom.process.value != blank
+              for name in p.metafields.custom.process.value
+                assign process_values = process_values | append: name | append: '|'
+              endfor
+            endif
+            assign coffee_names = coffee_names | append: p.title | append: '|'
+          endfor
+
+          assign elev_list = elev_values | split: '|' | uniq | sort
+          assign producer_list = producer_values | split: '|' | uniq
+          assign process_list = process_values | split: '|' | uniq
+          assign coffee_list = coffee_names | split: '|' | uniq
+
+          assign elev_display = blank
+          if elev_list.size == 1
+            assign elev_display = elev_list.first | append: ' m'
+          elsif elev_list.size > 1
+            assign elev_display = elev_list.first | append: '–' | append: elev_list.last | append: ' m'
+          endif
+
+          assign subtitle = blank
+          if region != blank and country != blank
+            assign subtitle = region | append: ', ' | append: country
+          elsif region != blank
+            assign subtitle = region
+          elsif country != blank
+            assign subtitle = country
+          endif
+
+          assign card_tag = 'div'
+          if origin.fields.link.value != blank
+            assign card_tag = 'a'
+          endif
+        -%}
+        <{{ card_tag }} class="card" {% if card_tag == 'a' %}href="{{ origin.fields.link.value }}"{% endif %}>
+          <div class="cover">
+            {%- if origin.fields.cover.value != blank -%}
+              <img
+                src="{{ origin.fields.cover.value | image_url: width: 900 }}"
+                alt="{{ origin.fields.place.value | escape }}"
+                loading="lazy"
+                width="{{ origin.fields.cover.value.width }}"
+                height="{{ origin.fields.cover.value.height }}"
+              >
+            {%- else -%}
+              {{ 'lifestyle-1' | placeholder_svg_tag }}
+            {%- endif -%}
+          </div>
+          <div class="card-body">
+            {%- if origin_count == 1 -%}
+              <div class="num-row"><span class="num">{{ section.settings.origin_number_prefix | escape }}01</span></div>
+              <h3 class="place">{{ origin.fields.place.value }}</h3>
+              {%- if subtitle != blank -%}<div class="subtitle">{{ subtitle }}</div>{%- endif -%}
+              {%- if origin.fields.tagline.value != blank -%}<p class="lead">{{ origin.fields.tagline.value }}</p>{%- endif -%}
+              <div class="facts">
+                <div class="fact">
+                  <div class="fact-label">{{ section.settings.producer_label | escape }}</div>
+                  {%- if producer_list.size > 0 -%}
+                    <div class="fact-value">{{ producer_list | join: ', ' }}</div>
+                  {%- else -%}
+                    <div class="fact-value is-pending">{{ section.settings.coming_soon_label | escape }}</div>
+                  {%- endif -%}
+                </div>
+                <div class="fact">
+                  <div class="fact-label">{{ section.settings.elevation_label | escape }}</div>
+                  {%- if elev_display != blank -%}
+                    <div class="fact-value">{{ elev_display }}</div>
+                  {%- else -%}
+                    <div class="fact-value is-pending">{{ section.settings.coming_soon_label | escape }}</div>
+                  {%- endif -%}
+                </div>
+                <div class="fact">
+                  <div class="fact-label">{{ section.settings.process_label | escape }}</div>
+                  {%- if process_list.size > 0 -%}
+                    <div class="fact-value">{{ process_list | join: ', ' }}</div>
+                  {%- else -%}
+                    <div class="fact-value is-pending">{{ section.settings.coming_soon_label | escape }}</div>
+                  {%- endif -%}
+                </div>
+                <div class="fact">
+                  <div class="fact-label">{% if coffee_list.size > 1 %}{{ section.settings.coffees_label_plural | escape }}{% else %}{{ section.settings.coffees_label_singular | escape }}{% endif %}</div>
+                  {%- if coffee_list.size > 0 -%}
+                    <div class="fact-value">{{ coffee_list | join: ', ' }}</div>
+                  {%- else -%}
+                    <div class="fact-value is-pending">{{ section.settings.coming_soon_label | escape }}</div>
+                  {%- endif -%}
+                </div>
+              </div>
+              {%- if card_tag == 'a' -%}<span class="visit">{{ section.settings.visit_label | escape }} {{ origin.fields.place.value }} →</span>{%- endif -%}
+            {%- else -%}
+              <div class="num-row"><span class="num">{{ section.settings.origin_number_prefix | escape }}{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span></div>
+              <h3 class="place">{{ origin.fields.place.value }}</h3>
+              {%- if subtitle != blank -%}<div class="subtitle">{{ subtitle }}</div>{%- endif -%}
+              <div class="facts">
+                <div class="fact">
+                  <span class="fact-label">{{ section.settings.producer_label | escape }}</span>
+                  {%- if producer_list.size > 0 -%}
+                    <span class="fact-value">{{ producer_list | join: ', ' }}</span>
+                  {%- else -%}
+                    <span class="fact-value is-pending">{{ section.settings.coming_soon_label | escape }}</span>
+                  {%- endif -%}
+                </div>
+                <div class="fact">
+                  <span class="fact-label">{{ section.settings.elevation_label | escape }}</span>
+                  {%- if elev_display != blank -%}
+                    <span class="fact-value">{{ elev_display }}</span>
+                  {%- else -%}
+                    <span class="fact-value is-pending">{{ section.settings.coming_soon_label | escape }}</span>
+                  {%- endif -%}
+                </div>
+                <div class="fact">
+                  <span class="fact-label">{{ section.settings.process_label | escape }}</span>
+                  {%- if process_list.size > 0 -%}
+                    <span class="fact-value">{{ process_list | join: ', ' }}</span>
+                  {%- else -%}
+                    <span class="fact-value is-pending">{{ section.settings.coming_soon_label | escape }}</span>
+                  {%- endif -%}
+                </div>
+              </div>
+              {%- if card_tag == 'a' -%}<span class="read-link">{{ section.settings.read_label | escape }} →</span>{%- endif -%}
+            {%- endif -%}
+          </div>
+        </{{ card_tag }}>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "OMA Origin Cards",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE FIELD GUIDE" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Where our coffee grows" },
+    { "type": "richtext", "id": "body", "label": "Body", "default": "<p>Every Omawild coffee is grown inside a working forest by a producer we buy from directly. The Field Guide has a page for each farm.</p>" },
+    { "type": "header", "content": "Button" },
+    { "type": "checkbox", "id": "show_cta", "label": "Show button", "default": true },
+    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Open the Field Guide →" },
+    { "type": "url", "id": "cta_link", "label": "Button link" },
+    { "type": "header", "content": "Card copy" },
+    { "type": "text", "id": "origin_number_prefix", "label": "Card number prefix", "default": "Origin " },
+    { "type": "text", "id": "producer_label", "label": "Producer fact label", "default": "PRODUCER" },
+    { "type": "text", "id": "elevation_label", "label": "Elevation fact label", "default": "ELEVATION" },
+    { "type": "text", "id": "process_label", "label": "Process fact label", "default": "PROCESS" },
+    { "type": "text", "id": "coffees_label_singular", "label": "Coffees fact label (one coffee)", "default": "GROWN HERE" },
+    { "type": "text", "id": "coffees_label_plural", "label": "Coffees fact label (multiple coffees)", "default": "COFFEES" },
+    { "type": "text", "id": "coming_soon_label", "label": "Placeholder for a fact with no linked product data yet", "default": "Coming soon" },
+    { "type": "text", "id": "visit_label", "label": "Feature-card button prefix", "default": "Visit" },
+    { "type": "text", "id": "read_label", "label": "Grid-card link label", "default": "Read the story" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Section background", "default": "#FFE4E7" },
+    { "type": "color", "id": "accent_color", "label": "Accent (headings, borders, facts)", "default": "#FF3F00" },
+    { "type": "color", "id": "text_color", "label": "Body & fact value color", "default": "#00180C" },
+    { "type": "color", "id": "hover_background", "label": "Card hover / image placeholder background", "default": "#FFE4E7" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 72 }
+  ],
+  "blocks": [
+    {
+      "type": "origin_card",
+      "name": "Origin",
+      "settings": [
+        { "type": "metaobject", "id": "origin_reference", "metaobject_type": "origin", "label": "Origin" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "OMA Origin Cards",
+      "blocks": [
+        { "type": "origin_card" },
+        { "type": "origin_card" },
+        { "type": "origin_card" }
+      ]
+    }
+  ]
+}
+{% endschema %}

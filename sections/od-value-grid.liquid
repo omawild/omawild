@@ -33,22 +33,89 @@
 }
 
 /* --- The USP Grid --- */
-.usp-grid-{{ section.id }} 
+.usp-grid-{{ section.id }}
 {
   display: grid;
-  grid-template-columns: 1fr; 
+  grid-template-columns: 1fr;
   gap: 40px 20px;
 }
 
-.usp-item-{{ section.id }} 
+.usp-item-{{ section.id }}
 {
   display: flex;
   flex-direction: column;
   /* Mobile Default */
-  align-items: center; 
+  align-items: center;
   text-align: center;
-  font-family: var(--font-heading-family); 
+  font-family: var(--font-heading-family);
   font-style: var(--font-heading-style);
+}
+
+/* --- Bordered card style (card_style: "bordered") --- */
+.usp-item-{{ section.id }}.style-bordered
+{
+  align-items: flex-start;
+  text-align: left;
+  background: {{ section.settings.card_background }};
+  border: {{ section.settings.card_border_width }}px solid {{ section.settings.card_border_color }};
+  border-radius: {{ section.settings.card_radius }}px;
+  {% if section.settings.card_shadow_offset > 0 -%}
+  box-shadow: {{ section.settings.card_shadow_offset }}px {{ section.settings.card_shadow_offset }}px 0 {{ section.settings.card_border_color }};
+  {%- endif %}
+  padding: {{ section.settings.card_padding }}px;
+  box-sizing: border-box;
+}
+
+.usp-item-{{ section.id }}.style-bordered .usp-icon-wrap-{{ section.id }}
+{
+  justify-content: flex-start;
+  margin-bottom: 14px;
+}
+
+.usp-item-{{ section.id }}.style-bordered .usp-title-{{ section.id }}
+{
+  text-align: left;
+  width: auto;
+}
+
+.usp-number-{{ section.id }}
+{
+  display: block;
+  font-family: var(--font-heading-family);
+  font-weight: 900;
+  font-size: 34px;
+  line-height: .9;
+  letter-spacing: -.04em;
+  color: {{ section.settings.card_border_color }};
+  opacity: .3;
+  margin-bottom: 14px;
+}
+
+.usp-tag-{{ section.id }}
+{
+  display: inline-flex;
+  align-self: flex-start;
+  font-family: var(--font-heading-family);
+  font-weight: 800;
+  font-size: 9.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: {{ section.settings.card_border_color }};
+  padding: 6px 11px;
+  border-radius: 100px;
+  margin-bottom: 11px;
+}
+
+.usp-body-{{ section.id }}
+{
+  margin: 10px 0 0;
+  width: 100%;
+  font-family: var(--font-body-family);
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: {{ section.settings.text_color }};
+  text-align: left;
 }
 
 .usp-icon-wrap-{{ section.id }} 
@@ -116,10 +183,15 @@
     font-size: {{ section.settings.global_title_size }}px;
   }
 
-  .usp-grid-{{ section.id }} 
+  .usp-grid-{{ section.id }}
   {
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 0 30px; 
+    grid-template-columns: repeat(auto-fit, minmax({{ section.settings.card_min_width }}px, 1fr));
+    gap: 0 30px;
+  }
+
+  .usp-grid-{{ section.id }}.style-bordered
+  {
+    gap: 16px;
   }
 
   .usp-item-{{ section.id }} 
@@ -173,17 +245,21 @@
       </div>
     {% endif %}
 
-    <div class="usp-grid-{{ section.id }}">
+    <div class="usp-grid-{{ section.id }}{% if section.settings.card_style == 'bordered' %} style-bordered{% endif %}">
       {%- for block in section.blocks -%}
-        <div 
-          class="usp-item-{{ section.id }}" 
+        <div
+          class="usp-item-{{ section.id }}{% if section.settings.card_style == 'bordered' %} style-bordered{% endif %}"
           {{ block.shopify_attributes }}
         >
-          
-          {% if block.settings.icon != blank %}
+
+          {% if section.settings.card_style == 'bordered' and section.settings.show_numbers %}
+            <span class="usp-number-{{ section.id }}">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
+          {% elsif section.settings.card_style == 'bordered' and block.settings.tag != blank %}
+            <span class="usp-tag-{{ section.id }}">{{ block.settings.tag | escape }}</span>
+          {% elsif block.settings.icon != blank %}
             <div class="usp-icon-wrap-{{ section.id }}">
-              <img 
-                src="{{ block.settings.icon | image_url: width: 400 }}" 
+              <img
+                src="{{ block.settings.icon | image_url: width: 400 }}"
                 alt="{{ block.settings.title | escape }}"
                 loading="lazy"
                 width="{{ block.settings.icon.width }}"
@@ -195,6 +271,10 @@
           <h4 class="usp-title-{{ section.id }}">
             {{ block.settings.title }}
           </h4>
+
+          {% if section.settings.card_style == 'bordered' and block.settings.body != blank %}
+            <div class="usp-body-{{ section.id }}">{{ block.settings.body }}</div>
+          {% endif %}
 
           {% if block.settings.link_label != blank %}
             <div class="usp-link-wrap-{{ section.id }}">
@@ -275,6 +355,16 @@
       "default": 18
     },
     {
+      "type": "range",
+      "id": "card_min_width",
+      "label": "Card minimum width (desktop)",
+      "min": 120,
+      "max": 340,
+      "step": 10,
+      "unit": "px",
+      "default": 120
+    },
+    {
       "type": "header",
       "content": "Layout Spacing"
     },
@@ -329,6 +419,80 @@
     },
     {
       "type": "header",
+      "content": "Card style"
+    },
+    {
+      "type": "select",
+      "id": "card_style",
+      "label": "Card style",
+      "options": [
+        { "value": "plain", "label": "Plain (icon + title + link)" },
+        { "value": "bordered", "label": "Bordered card (title + body)" }
+      ],
+      "default": "plain"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_numbers",
+      "label": "Show numbered index instead of icon/tag",
+      "default": false,
+      "info": "Only applies in Bordered card style."
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border, number & tag color",
+      "default": "#1a1b18"
+    },
+    {
+      "type": "range",
+      "id": "card_border_width",
+      "label": "Card border width",
+      "min": 0,
+      "max": 4,
+      "step": 0.5,
+      "unit": "px",
+      "default": 1.5
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "card_shadow_offset",
+      "label": "Card shadow offset",
+      "min": 0,
+      "max": 12,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "info": "0 disables the shadow."
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "label": "Card padding",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "header",
       "content": "Colors"
     },
     {
@@ -377,6 +541,21 @@
           "type": "url",
           "id": "link_url",
           "label": "Link URL"
+        },
+        {
+          "type": "header",
+          "content": "Bordered card style only"
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Tag / badge",
+          "info": "Small pill shown above the title. Blank hides it. Ignored when the section's \"Show numbered index\" is on."
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "Body text"
         }
       ]
     }

@@ -1,0 +1,166 @@
+{%- comment -%}
+  oma-impact-callout — the boxed "nature fund disguised as coffee" 1%-for-the-
+  Planet statement + stat line + logo. Standalone section rather than a new
+  od-value-grid block type: it's a one-off layout (statement column + body
+  column + logo, sticker-card border/shadow) that doesn't fit the grid's
+  repeating-card model, and od-value-grid is already gaining a lot of new
+  options for the Workplace page's four card grids (see that file).
+{%- endcomment -%}
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{% style %}
+.oma-impact-callout-{{ owid }} {
+  box-sizing: border-box;
+  background: {{ section.settings.section_background }};
+  padding: {{ section.settings.padding_top }}px clamp(20px, 4vw, 48px) {{ section.settings.padding_bottom }}px;
+  font-family: var(--font-body-family);
+  }
+.oma-impact-callout-{{ owid }} *, .oma-impact-callout-{{ owid }} *::before, .oma-impact-callout-{{ owid }} *::after {
+  box-sizing: border-box;
+  }
+.oma-impact-callout-{{ owid }} img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  }
+.oma-impact-callout-{{ owid }} .inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  }
+.oma-impact-callout-{{ owid }} .card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: clamp(24px, 3vw, 40px);
+  background: {{ section.settings.card_background }};
+  border: 2px solid {{ section.settings.border_color }};
+  border-radius: 12px;
+  {% if section.settings.card_shadow -%}
+  box-shadow: 8px 8px 0 {{ section.settings.border_color }};
+  {%- endif %}
+  padding: clamp(28px, 3.4vw, 44px);
+  }
+.oma-impact-callout-{{ owid }} .statement {
+  flex: 1 1 300px;
+  max-width: 17ch;
+  min-width: 0;
+  margin: 0;
+  font-family: var(--font-heading-family);
+  font-weight: 900;
+  font-size: clamp(24px, 2.6vw, 34px);
+  line-height: 1.05;
+  letter-spacing: -.03em;
+  color: {{ section.settings.statement_color }};
+  text-wrap: balance;
+  }
+.oma-impact-callout-{{ owid }} .body-col {
+  flex: 1 1 340px;
+  min-width: 0;
+  }
+.oma-impact-callout-{{ owid }} .body {
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 1.5;
+  color: {{ section.settings.body_color }};
+  }
+.oma-impact-callout-{{ owid }} .body p {
+  margin: 0 0 12px;
+  }
+.oma-impact-callout-{{ owid }} .body p:last-child {
+  margin-bottom: 0;
+  }
+.oma-impact-callout-{{ owid }} .stats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: 18px;
+  font-family: var(--font-heading-family);
+  font-weight: 800;
+  font-size: 10.5px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: {{ section.settings.statement_color }};
+  }
+.oma-impact-callout-{{ owid }} .stats .divider {
+  width: 1.5px;
+  height: 12px;
+  background: color-mix(in srgb, {{ section.settings.statement_color }} 35%, transparent);
+  }
+.oma-impact-callout-{{ owid }} .logo {
+  flex: 0 0 auto;
+  margin-left: auto;
+  align-self: center;
+  width: clamp(76px, 7.5vw, 98px);
+  }
+@media (max-width: 640px) {
+  .oma-impact-callout-{{ owid }} .logo {
+    margin-left: 0;
+  }
+}
+{% endstyle %}
+<div class="oma-impact-callout-{{ owid }}">
+  <div class="inner">
+    <div class="card">
+      {%- if section.settings.statement != blank -%}
+        <p class="statement">{{ section.settings.statement }}</p>
+      {%- endif -%}
+      <div class="body-col">
+        {%- if section.settings.body != blank -%}
+          <div class="body">{{ section.settings.body }}</div>
+        {%- endif -%}
+        {%- if section.settings.stat_1 != blank or section.settings.stat_2 != blank -%}
+          <div class="stats">
+            {%- if section.settings.stat_1 != blank -%}<span>{{ section.settings.stat_1 | escape }}</span>{%- endif -%}
+            {%- if section.settings.stat_1 != blank and section.settings.stat_2 != blank -%}<span class="divider" aria-hidden="true"></span>{%- endif -%}
+            {%- if section.settings.stat_2 != blank -%}<span>{{ section.settings.stat_2 | escape }}</span>{%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+      {%- if section.settings.logo != blank -%}
+        {%- assign logo_tag = 'div' -%}
+        {%- if section.settings.logo_link != blank -%}{%- assign logo_tag = 'a' -%}{%- endif -%}
+        <{{ logo_tag }} class="logo" {% if logo_tag == 'a' %}href="{{ section.settings.logo_link }}"{% endif %}>
+          <img
+            src="{{ section.settings.logo | image_url: width: 200 }}"
+            alt="{{ section.settings.logo.alt | default: section.settings.statement | escape }}"
+            loading="lazy"
+            width="{{ section.settings.logo.width }}"
+            height="{{ section.settings.logo.height }}"
+          >
+        </{{ logo_tag }}>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "OMA Impact Callout",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    { "type": "inline_richtext", "id": "statement", "label": "Statement", "default": "A nature fund disguised as coffee" },
+    { "type": "richtext", "id": "body", "label": "Body", "default": "<p>Through 1% for the Planet, one percent of everything we sell funds ecosystem protection — beyond our own producers, every year, whether we profit or not.</p>" },
+    { "type": "header", "content": "Stat line" },
+    { "type": "text", "id": "stat_1", "label": "Stat 1", "default": "1% OF REVENUE, NOT PROFIT" },
+    { "type": "text", "id": "stat_2", "label": "Stat 2", "default": "INDEPENDENTLY CERTIFIED", "info": "Blank hides the divider and this stat." },
+    { "type": "header", "content": "Logo" },
+    { "type": "image_picker", "id": "logo", "label": "Logo image" },
+    { "type": "url", "id": "logo_link", "label": "Logo link", "info": "Optional — makes the logo clickable." },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "section_background", "label": "Section background", "default": "transparent" },
+    { "type": "color", "id": "card_background", "label": "Card background", "default": "#ffffff" },
+    { "type": "color", "id": "border_color", "label": "Card border color", "default": "#FF3F00" },
+    { "type": "checkbox", "id": "card_shadow", "label": "Show card shadow", "default": true },
+    { "type": "color", "id": "statement_color", "label": "Statement & stat color", "default": "#FF3F00" },
+    { "type": "color", "id": "body_color", "label": "Body text color", "default": "#00180C" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 16 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 40 }
+  ],
+  "presets": [
+    { "name": "OMA Impact Callout" }
+  ]
+}
+{% endschema %}
