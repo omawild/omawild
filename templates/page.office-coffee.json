@@ -141,25 +141,6 @@
         "padding_bottom": 64
       }
     },
-    "oma_impact_callout_JJ7iWJ": {
-      "type": "oma-impact-callout",
-      "name": "OMA Impact Callout",
-      "settings": {
-        "statement": "A nature fund disguised as coffee",
-        "body": "<p>Through 1% for the Planet, one percent of everything we sell funds ecosystem protection — beyond our own producers, every year, whether we profit or not.</p>",
-        "stat_1": "1% OF REVENUE, NOT PROFIT",
-        "stat_2": "INDEPENDENTLY CERTIFIED",
-        "logo_link": "",
-        "section_background": "transparent",
-        "card_background": "#ffffff",
-        "border_color": "#FF3F00",
-        "card_shadow": true,
-        "statement_color": "#FF3F00",
-        "body_color": "#00180C",
-        "padding_top": 16,
-        "padding_bottom": 40
-      }
-    },
     "od_featured_products_9MdJbe": {
       "type": "od-featured-products",
       "blocks": {
@@ -258,6 +239,25 @@
         "button_text_color": "#ffffff"
       }
     },
+    "oma_impact_callout_JJ7iWJ": {
+      "type": "oma-impact-callout",
+      "name": "OMA Impact Callout",
+      "settings": {
+        "statement": "A nature fund disguised as coffee",
+        "body": "<p>Through 1% for the Planet, one percent of everything we sell funds ecosystem protection — beyond our own producers, every year, whether we profit or not.</p>",
+        "stat_1": "1% OF REVENUE, NOT PROFIT",
+        "stat_2": "INDEPENDENTLY CERTIFIED",
+        "logo_link": "",
+        "section_background": "transparent",
+        "card_background": "#ffffff",
+        "border_color": "#FF3F00",
+        "card_shadow": true,
+        "statement_color": "#FF3F00",
+        "body_color": "#00180C",
+        "padding_top": 16,
+        "padding_bottom": 40
+      }
+    },
     "oma_programme_form_9G9wp4": {
       "type": "oma-programme-form",
       "blocks": {
@@ -344,8 +344,8 @@
     "oma_page_header_mVyFgr",
     "owv2_value_grid_bPHiX8",
     "oma_sampler_form_CFDgAq",
-    "oma_impact_callout_JJ7iWJ",
     "od_featured_products_9MdJbe",
+    "oma_impact_callout_JJ7iWJ",
     "oma_programme_form_9G9wp4"
   ]
 }
