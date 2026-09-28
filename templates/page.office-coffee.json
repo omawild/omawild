@@ -54,11 +54,11 @@
         "breadcrumb_label": "",
         "body": "",
         "show_collection_list": true,
-        "background_color": "#FFE4E7",
-        "heading_color": "#FF3F00",
-        "text_color": "#00180C",
-        "divider_color": "#FF3F00",
-        "thumb_background": "#FBB925",
+        "background_color": "#ffe4e7",
+        "heading_color": "#ff3f00",
+        "text_color": "#00180c",
+        "divider_color": "#ff3f00",
+        "thumb_background": "#fbb925",
         "padding_top": 36,
         "padding_bottom": 44,
         "mobile_padding_horizontal": 20,
@@ -107,11 +107,11 @@
       "settings": {
         "heading": "Flexible by nature",
         "mobile_hint_text": "← SWIPE →",
-        "card_heading_color": "#FF3F00",
-        "card_body_color": "#00180C",
-        "background_color": "#FF3F00",
-        "text_color": "#FFFFFF",
-        "card_background": "#FFFFFF",
+        "card_heading_color": "#ff3f00",
+        "card_body_color": "#00180c",
+        "background_color": "#ff3f00",
+        "text_color": "#ffffff",
+        "card_background": "#ffffff",
         "show_top_line": true,
         "padding_top": 52,
         "padding_bottom": 52
@@ -132,111 +132,13 @@
         "tag": "workplace-sampler-request",
         "success_heading": "On its way — check your inbox",
         "success_body": "<p>We've got your request. Keep an eye on your inbox for next steps.</p>",
-        "background_color": "#FBB925",
-        "border_color": "#FF3F00",
-        "accent_color": "#FF3F00",
-        "heading_color": "#00180C",
-        "text_color": "#00180C",
+        "background_color": "#fbb925",
+        "border_color": "#ff3f00",
+        "accent_color": "#ff3f00",
+        "heading_color": "#00180c",
+        "text_color": "#00180c",
         "padding_top": 64,
         "padding_bottom": 64
-      }
-    },
-    "od_featured_products_9MdJbe": {
-      "type": "od-featured-products",
-      "blocks": {
-        "collection_D9BKLA": {
-          "type": "collection",
-          "settings": {
-            "grade_badge": "",
-            "product_item": "",
-            "highlight_card": false,
-            "banner_text": "★ BEST VALUE",
-            "coming_soon": false,
-            "size_chips": "",
-            "collection_tag": "",
-            "collection_title": "",
-            "collection_blurb": "",
-            "price_caption": "",
-            "benefit_1": "",
-            "benefit_2": "",
-            "benefit_3": ""
-          }
-        },
-        "collection_3wkLPt": {
-          "type": "collection",
-          "settings": {
-            "grade_badge": "",
-            "product_item": "",
-            "highlight_card": false,
-            "banner_text": "★ BEST VALUE",
-            "coming_soon": false,
-            "size_chips": "",
-            "collection_tag": "",
-            "collection_title": "",
-            "collection_blurb": "",
-            "price_caption": "",
-            "benefit_1": "",
-            "benefit_2": "",
-            "benefit_3": ""
-          }
-        },
-        "collection_nxxTgD": {
-          "type": "collection",
-          "settings": {
-            "grade_badge": "",
-            "product_item": "",
-            "highlight_card": false,
-            "banner_text": "★ BEST VALUE",
-            "coming_soon": false,
-            "size_chips": "",
-            "collection_tag": "",
-            "collection_title": "",
-            "collection_blurb": "",
-            "price_caption": "",
-            "benefit_1": "",
-            "benefit_2": "",
-            "benefit_3": ""
-          }
-        }
-      },
-      "block_order": [
-        "collection_D9BKLA",
-        "collection_3wkLPt",
-        "collection_nxxTgD"
-      ],
-      "name": "OMA Featured Products",
-      "settings": {
-        "header_alignment": "flex-start",
-        "limit_header_width": false,
-        "header_max_width": 650,
-        "heading_size": 38,
-        "heading": "Title here",
-        "subheading": "<p>Subheading</p>",
-        "heading_tag": "h2",
-        "background_color": "#F7F5F1",
-        "heading_color": "#FF3F00",
-        "text_color": "#00180C",
-        "card_text_color": "#00180C",
-        "benefit_text_color": "#00180C",
-        "descriptor_color": "#FF3F00",
-        "price_color": "#FF3F00",
-        "emphasis_color": "#FF3F00",
-        "coming_soon_label": "COMING SOON",
-        "coming_soon_bg": "#FBB925",
-        "coming_soon_text": "#00180C",
-        "view_all_label": "View All",
-        "view_all_link": "",
-        "section_padding_top": 52,
-        "section_padding_bottom": 58,
-        "mobile_padding_horizontal": 24,
-        "desktop_padding_horizontal": 40,
-        "grid_gap": 20,
-        "price_row_margin_bottom": 16,
-        "price_caption_margin_bottom": 4,
-        "image_aspect_ratio": "1/1",
-        "button_action": "add_to_cart",
-        "button_bg_color": "#FF3F00",
-        "button_text_color": "#ffffff"
       }
     },
     "oma_impact_callout_JJ7iWJ": {
@@ -248,12 +150,12 @@
         "stat_1": "1% OF REVENUE, NOT PROFIT",
         "stat_2": "INDEPENDENTLY CERTIFIED",
         "logo_link": "",
-        "section_background": "transparent",
+        "section_background": "rgba(0,0,0,0)",
         "card_background": "#ffffff",
-        "border_color": "#FF3F00",
+        "border_color": "#ff3f00",
         "card_shadow": true,
-        "statement_color": "#FF3F00",
-        "body_color": "#00180C",
+        "statement_color": "#ff3f00",
+        "body_color": "#00180c",
         "padding_top": 16,
         "padding_bottom": 40
       }
@@ -330,12 +232,83 @@
         "success_eyebrow": "REQUEST RECEIVED",
         "success_heading": "Thanks, we'll be in touch",
         "success_body": "<p>We'll reply within two working days with a recommendation built around your team. Keep an eye on your inbox.</p>",
-        "background_color": "#FCD0FD",
-        "accent_color": "#FF3F00",
-        "text_color": "#00180C",
-        "required_color": "#D63200",
+        "background_color": "#fcd0fd",
+        "accent_color": "#ff3f00",
+        "text_color": "#00180c",
+        "required_color": "#d63200",
         "padding_top": 76,
         "padding_bottom": 76
+      }
+    },
+    "oma_range_cards_FzUJ36": {
+      "type": "oma-range-cards",
+      "blocks": {
+        "card_KYJijz": {
+          "type": "card",
+          "settings": {
+            "tag": "HOUSE BLEND",
+            "coming_soon": true,
+            "title": "Rimba Jawa",
+            "blurb": "Our high-volume workplace blend for busy offices and coworking spaces.",
+            "size_chips": "500g, 1kg"
+          }
+        },
+        "card_TLTmKQ": {
+          "type": "card",
+          "settings": {
+            "tag": "EVERYDAY CHOICE",
+            "coming_soon": false,
+            "image": "shopify://shop_images/Omawild-Forest-Trail-001_bf803a57-005a-401b-af23-cb5b659995b7.png",
+            "title": "Forest Trail",
+            "blurb": "Chocolate and toasty nuts. Forgiving to brew, reliable through a busy morning.",
+            "size_chips": "500g, 1kg"
+          }
+        },
+        "card_ApMKx3": {
+          "type": "card",
+          "settings": {
+            "tag": "FRUITY & FLORAL",
+            "coming_soon": false,
+            "title": "Wild Bloom",
+            "blurb": "Bright, floral, a little unhinged.",
+            "size_chips": "500g, 1kg"
+          }
+        },
+        "card_9YJAWx": {
+          "type": "card",
+          "settings": {
+            "tag": "RARE MICRO-LOT",
+            "coming_soon": false,
+            "title": "Limited Reserve",
+            "blurb": "For gifting and occasions worth celebrating.",
+            "size_chips": "100g"
+          }
+        }
+      },
+      "block_order": [
+        "card_KYJijz",
+        "card_TLTmKQ",
+        "card_ApMKx3",
+        "card_9YJAWx"
+      ],
+      "name": "OMA Range Cards",
+      "settings": {
+        "eyebrow": "THE RANGE",
+        "heading": "Four coffees, one programme",
+        "show_cta": true,
+        "cta_label": "See full range & pricing",
+        "cta_link": "#build",
+        "coming_soon_label": "COMING SOON",
+        "placeholder_label": "product shot",
+        "background_color": "#F7F5F1",
+        "accent_color": "#FF3F00",
+        "text_color": "#00180C",
+        "coming_soon_bg": "#FBB925",
+        "coming_soon_text": "#00180C",
+        "image_placeholder_background": "#FFE4E7",
+        "image_placeholder_stripe": "#FFD2D7",
+        "padding_top": 56,
+        "padding_bottom": 56
       }
     }
   },
@@ -344,8 +317,8 @@
     "oma_page_header_mVyFgr",
     "owv2_value_grid_bPHiX8",
     "oma_sampler_form_CFDgAq",
-    "od_featured_products_9MdJbe",
     "oma_impact_callout_JJ7iWJ",
-    "oma_programme_form_9G9wp4"
+    "oma_programme_form_9G9wp4",
+    "oma_range_cards_FzUJ36"
   ]
 }
