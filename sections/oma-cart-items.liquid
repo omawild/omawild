@@ -54,7 +54,7 @@
     align-items: start;
     max-width: 1280px;
     margin: 0 auto 24px;
-    padding: 0 clamp(20px, 4vw, 48px);
+    padding: 40px clamp(20px, 4vw, 48px) 0;
     box-sizing: border-box;
   }
 
@@ -103,8 +103,7 @@
   .oci-empty-cta-{{ section.id }}:hover { background: #D63200; }
 
   .oci-wrap-{{ section.id }} {
-    border-bottom: 1.5px solid #FF3F00;
-    padding: 8px 0 80px;
+    padding: 8px 0 40px;
   }
   #main-cart-items.is-empty .oci-wrap-{{ section.id }} { display: none; }
 
@@ -147,7 +146,7 @@
     border-radius: 4px;
     font: 800 9.5px/1 var(--font-heading-family);
     letter-spacing: 0.1em;
-    margin: 0 0 10px;
+    margin: 0 0 12px;
   }
 
   .oci-item__name-{{ section.id }} {
@@ -390,7 +389,7 @@
     }
     .oci-identity-m-{{ section.id }} { display: none; }
     .oci-identity-d-{{ section.id }} { display: block; grid-area: identity-d; min-width: 0; padding-top: 4px; }
-    .oci-item__name-{{ section.id }} h3 { font: 800 23px/1.05 var(--font-heading-family); margin-top: 12px; }
+    .oci-item__name-{{ section.id }} h3 { font: 800 23px/1.05 var(--font-heading-family); }
     .oci-qtyrow-{{ section.id }} {
       flex-direction: column;
       align-items: flex-end;
@@ -463,10 +462,18 @@
                   </div>
                 </div>
 
-                {%- comment -%} desktop identity: badge, title, options pills, selling plan {%- endcomment -%}
+                {%- comment -%}
+                  desktop identity: badge, title, options pills, selling plan.
+                  Badge source matches blocks/ow-product-card.liquid /
+                  sections/od-featured-products.liquid: the curated
+                  product_eyebrow metafield, not the product's first store tag
+                  (tags.first was showing the generic "Coffee" tag shared by
+                  the whole catalog instead of a per-product descriptor).
+                {%- endcomment -%}
                 <div class="oci-identity-d-{{ section.id }}">
-                  {%- if item.product.tags.first != blank -%}
-                    <span class="oci-item__badge-{{ section.id }}">{{ item.product.tags.first | upcase }}</span>
+                  {%- assign eyebrow = item.product.metafields.custom.product_eyebrow.value -%}
+                  {%- if eyebrow != blank -%}
+                    <span class="oci-item__badge-{{ section.id }}">{{ eyebrow | upcase }}</span>
                   {%- endif -%}
                   <a href="{{ item.url }}" class="oci-item__name-{{ section.id }}"><h3>{{ item.product.title | escape }}</h3></a>
                   {%- if item.product.has_only_default_variant == false or item.selling_plan_allocation != null -%}
