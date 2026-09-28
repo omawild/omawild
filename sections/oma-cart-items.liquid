@@ -202,6 +202,17 @@
     text-decoration: line-through;
     white-space: nowrap;
   }
+  .oci-item__saved-{{ section.id }} {
+    display: inline-block;
+    margin-top: 8px;
+    align-self: flex-start;
+    white-space: nowrap;
+    border: 1.5px solid #02972F;
+    border-radius: 100px;
+    padding: 5px 9px;
+    font: 800 11.5px/1 var(--font-heading-family);
+    color: #02972F;
+  }
 
   .oci-identity-m-{{ section.id }} { grid-area: identity-m; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
   .oci-identity-d-{{ section.id }} { display: none; }
@@ -298,32 +309,26 @@
     color: #FF3F00;
     text-align: left;
   }
-  .oci-note-body-{{ section.id }} { padding: 0 20px 20px; display: none; }
+  .oci-note-body-{{ section.id }} { display: none; }
   .oci-note-{{ section.id }}[data-open] .oci-note-body-{{ section.id }} { display: block; }
-  .oci-note-save-row-{{ section.id }} {
-    margin-top: 10px;
-    display: flex;
+
+  .oci-note-toggle-right-{{ section.id }} { display: flex; align-items: center; gap: 12px; }
+  .oci-note-chip-{{ section.id }} {
+    display: inline-flex;
     align-items: center;
-    gap: 12px;
-  }
-  .oci-note-save-{{ section.id }} {
-    border: 1.5px solid #FF3F00;
-    background: #FF3F00;
-    color: #fff;
-    cursor: pointer;
-    padding: 10px 20px;
+    gap: 6px;
+    background: #FCD0FD;
     border-radius: 100px;
-    font: 800 12px/1 var(--font-heading-family);
+    padding: 6px 10px;
+    font: 800 11.5px/1 var(--font-heading-family);
+    color: #FF3F00;
   }
-  .oci-note-save-{{ section.id }}:hover { background: #D63200; border-color: #D63200; }
-  .oci-note-saved-{{ section.id }} {
-    font: 700 12px/1 var(--font-heading-family);
-    color: #00180C;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-  }
-  .oci-note-saved-{{ section.id }}.is-visible { opacity: 1; }
-  .oci-note-{{ section.id }} textarea {
+  .oci-note-chip-{{ section.id }} svg { width: 11px; height: 9px; display: block; }
+  .oci-note-chip-{{ section.id }}[hidden] { display: none; }
+
+  .oci-note-editor-{{ section.id }} { padding: 0 20px 20px; display: flex; flex-direction: column; gap: 12px; }
+  .oci-note-editor-{{ section.id }}[hidden] { display: none; }
+  .oci-note-editor-{{ section.id }} textarea {
     width: 100%;
     box-sizing: border-box;
     resize: vertical;
@@ -333,6 +338,61 @@
     background: #F7F5F1;
     font: 500 14.5px/1.6 var(--font-body-family);
     color: #00180C;
+  }
+  .oci-note-editor-row-{{ section.id }} { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .oci-note-count-{{ section.id }} { font: 500 12.5px/1.55 var(--font-body-family); color: #00180C; }
+  .oci-note-editor-actions-{{ section.id }} { display: flex; align-items: center; gap: 8px; }
+  .oci-note-cancel-{{ section.id }} {
+    height: 44px;
+    padding: 0 14px;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    font: 700 13px/1 var(--font-heading-family);
+    color: #FF3F00;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .oci-note-cancel-{{ section.id }}[hidden] { display: none; }
+  .oci-note-save-{{ section.id }} {
+    height: 44px;
+    padding: 0 22px;
+    border: 1.5px solid #FF3F00;
+    background: #FF3F00;
+    color: #fff;
+    border-radius: 100px;
+    cursor: pointer;
+    font: 800 12px/1 var(--font-heading-family);
+  }
+  .oci-note-save-{{ section.id }}:hover { background: #D63200; border-color: #D63200; }
+  .oci-note-save-{{ section.id }}[disabled] { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+
+  .oci-note-saved-view-{{ section.id }} { padding: 0 20px 20px; display: flex; flex-direction: column; gap: 12px; }
+  .oci-note-saved-view-{{ section.id }}[hidden] { display: none; }
+  .oci-note-saved-text-{{ section.id }} {
+    margin: 0;
+    background: #F7F5F1;
+    border-radius: 8px;
+    padding: 12px 14px;
+    font: 500 14.5px/1.6 var(--font-body-family);
+    color: #00180C;
+    white-space: pre-wrap;
+  }
+  .oci-note-saved-row-{{ section.id }} { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .oci-note-saved-label-{{ section.id }} { display: inline-flex; align-items: center; gap: 8px; font: 700 13px/1.4 var(--font-heading-family); color: #00180C; }
+  .oci-note-saved-icon-{{ section.id }} { width: 20px; height: 20px; border-radius: 100px; background: #FF3F00; display: flex; align-items: center; justify-content: center; }
+  .oci-note-saved-icon-{{ section.id }} svg { width: 10px; height: 8px; display: block; }
+  .oci-note-saved-actions-{{ section.id }} { display: flex; gap: 16px; }
+  .oci-note-saved-actions-{{ section.id }} button {
+    min-height: 32px;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+    font: 700 13px/1 var(--font-heading-family);
+    color: #FF3F00;
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
   .oci-giftwrap-{{ section.id }} {
@@ -460,6 +520,9 @@
                       <span class="oci-item__unit-{{ section.id }}">{{ item.final_price | money }} each</span>
                     {%- endif -%}
                   </div>
+                  {%- if item.original_line_price != item.final_line_price -%}
+                    <span class="oci-item__saved-{{ section.id }}">Saved {{ item.original_line_price | minus: item.final_line_price | money }}</span>
+                  {%- endif -%}
                 </div>
 
                 {%- comment -%}
@@ -495,6 +558,9 @@
                       <span class="oci-item__was-{{ section.id }}">{{ item.original_line_price | money }}</span>
                     {%- elsif item.quantity > 1 -%}
                       <span class="oci-item__unit-{{ section.id }}">{{ item.final_price | money }} each</span>
+                    {%- endif -%}
+                    {%- if item.original_line_price != item.final_line_price -%}
+                      <span class="oci-item__saved-{{ section.id }}">Saved {{ item.original_line_price | minus: item.final_line_price | money }}</span>
                     {%- endif -%}
                   </div>
 
@@ -549,26 +615,57 @@
             </div>
           {%- endif -%}
 
-          <div class="oci-note-{{ section.id }}" id="CartNoteAccordion-{{ section.id }}">
-            <button type="button" class="oci-note-toggle-{{ section.id }}" data-oci-note-toggle aria-expanded="false">
+          <div class="oci-note-{{ section.id }}" id="CartNoteAccordion-{{ section.id }}" data-oci-note-accordion{% if cart.note != blank %} data-open{% endif %}>
+            <button type="button" class="oci-note-toggle-{{ section.id }}" data-oci-note-toggle aria-expanded="{% if cart.note != blank %}true{% else %}false{% endif %}">
               <span>{{ 'sections.cart.note' | t | default: 'Add a note to your order' }}</span>
-              <span aria-hidden="true" data-oci-note-sign>+</span>
+              <span class="oci-note-toggle-right-{{ section.id }}">
+                <span class="oci-note-chip-{{ section.id }}" data-oci-note-chip{% if cart.note == blank %} hidden{% endif %}>
+                  <svg viewBox="0 0 12 10" aria-hidden="true"><path d="M1 5l3.5 3.5L11 1" fill="none" stroke="#FF3F00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Added
+                </span>
+                <span aria-hidden="true" data-oci-note-sign>{% if cart.note != blank %}&minus;{% else %}+{% endif %}</span>
+              </span>
             </button>
             <div class="oci-note-body-{{ section.id }}">
-              <cart-note>
-                <textarea
-                  name="note"
-                  id="Cart-note-{{ section.id }}"
-                  form="cart"
-                  rows="3"
-                  aria-label="{{ 'sections.cart.note' | t | default: 'Add a note to your order' }}"
-                  placeholder="{{ 'sections.cart.note_placeholder' | t | default: 'Gift message, delivery instructions…' }}"
-                >{{ cart.note }}</textarea>
+              <cart-note data-max-length="500">
+                <div class="oci-note-editor-{{ section.id }}" data-cart-note-editor{% if cart.note != blank %} hidden{% endif %}>
+                  <textarea
+                    name="note"
+                    id="Cart-note-{{ section.id }}"
+                    form="cart"
+                    rows="3"
+                    maxlength="500"
+                    aria-label="{{ 'sections.cart.note' | t | default: 'Add a note to your order' }}"
+                    placeholder="{{ 'sections.cart.note_placeholder' | t | default: 'Gift message, delivery instructions…' }}"
+                    data-cart-note-textarea
+                  >{{ cart.note }}</textarea>
+                  <div class="oci-note-editor-row-{{ section.id }}">
+                    <span class="oci-note-count-{{ section.id }}" data-cart-note-count>{{ cart.note.size }}/500</span>
+                    <div class="oci-note-editor-actions-{{ section.id }}">
+                      <button type="button" class="oci-note-cancel-{{ section.id }}" data-cart-note-cancel{% if cart.note == blank %} hidden{% endif %}>Cancel</button>
+                      <button type="button" class="oci-note-save-{{ section.id }}" data-cart-note-save{% if cart.note == blank %} disabled{% endif %}>
+                        {%- if cart.note != blank -%}Update note{%- else -%}Add to order{%- endif -%}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="oci-note-saved-view-{{ section.id }}" data-cart-note-saved-view{% if cart.note == blank %} hidden{% endif %}>
+                  <p class="oci-note-saved-text-{{ section.id }}" data-cart-note-saved-text>{{ cart.note }}</p>
+                  <div class="oci-note-saved-row-{{ section.id }}" role="status">
+                    <span class="oci-note-saved-label-{{ section.id }}">
+                      <span class="oci-note-saved-icon-{{ section.id }}" aria-hidden="true">
+                        <svg viewBox="0 0 12 10"><path d="M1 5l3.5 3.5L11 1" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      </span>
+                      Note added to your order
+                    </span>
+                    <div class="oci-note-saved-actions-{{ section.id }}">
+                      <button type="button" data-cart-note-edit>Edit</button>
+                      <button type="button" data-cart-note-remove>Remove</button>
+                    </div>
+                  </div>
+                </div>
               </cart-note>
-              <div class="oci-note-save-row-{{ section.id }}">
-                <button type="button" class="oci-note-save-{{ section.id }}" data-oci-note-save>Save note</button>
-                <span class="oci-note-saved-{{ section.id }}" data-oci-note-saved>Saved</span>
-              </div>
             </div>
           </div>
 
@@ -587,38 +684,36 @@
 
 <script>
   (function () {
-    var acc = document.getElementById('CartNoteAccordion-{{ section.id }}');
-    if (!acc) return;
-    var toggle = acc.querySelector('[data-oci-note-toggle]');
-    var sign = acc.querySelector('[data-oci-note-sign]');
-    toggle.addEventListener('click', function () {
+    {%- comment -%}
+      Delegated on #main-cart-items — that element is never destroyed, only
+      its .js-contents child's innerHTML gets replaced on every AJAX cart
+      update (assets/cart.js CartItems#onCartUpdate). A listener bound
+      directly to the toggle button (as this used to be) gets silently
+      orphaned the first time any cart action re-renders this section.
+      The note field's own save/cancel/edit/remove buttons don't need this:
+      they live inside <cart-note>, a custom element that re-runs its own
+      constructor and re-attaches its own listeners whenever a fresh copy of
+      it is parsed into the DOM.
+    {%- endcomment -%}
+    var root = document.getElementById('main-cart-items');
+    if (!root) return;
+    root.addEventListener('click', function (event) {
+      var toggle = event.target.closest('[data-oci-note-toggle]');
+      if (!toggle) return;
+      var acc = toggle.closest('[data-oci-note-accordion]');
+      if (!acc) return;
+      var sign = acc.querySelector('[data-oci-note-sign]');
       var open = acc.hasAttribute('data-open');
       if (open) {
         acc.removeAttribute('data-open');
         toggle.setAttribute('aria-expanded', 'false');
-        sign.textContent = '+';
+        if (sign) sign.textContent = '+';
       } else {
         acc.setAttribute('data-open', '');
         toggle.setAttribute('aria-expanded', 'true');
-        sign.textContent = '−';
+        if (sign) sign.textContent = '−';
       }
     });
-
-    var saveBtn = acc.querySelector('[data-oci-note-save]');
-    var savedLabel = acc.querySelector('[data-oci-note-saved]');
-    var textarea = acc.querySelector('textarea[name="note"]');
-    if (saveBtn && textarea) {
-      saveBtn.addEventListener('click', function () {
-        textarea.dispatchEvent(new Event('change', { bubbles: true }));
-        if (savedLabel) {
-          savedLabel.classList.add('is-visible');
-          window.clearTimeout(savedLabel._ociTimer);
-          savedLabel._ociTimer = window.setTimeout(function () {
-            savedLabel.classList.remove('is-visible');
-          }, 2000);
-        }
-      });
-    }
   })();
 </script>
 

@@ -19,8 +19,16 @@
   };
   
   theme.discountStrings = {
-    error: {{ 'general.cart.discount.error' | t | json }},
-    shippingError: {{ 'general.cart.discount.shipping_error' | t | json }}
+    error: {{ 'general.cart.discount.error_html' | t | json }},
+    shippingError: {{ 'general.cart.discount.shipping_error_html' | t | json }},
+    empty: {{ 'general.cart.discount.empty_html' | t | json }},
+    duplicate: {{ 'general.cart.discount.duplicate_html' | t | json }},
+    network: {{ 'general.cart.discount.network_html' | t | json }}
+  };
+
+  theme.shippingCalculatorStrings = {
+    networkError: {{ 'general.cart.shipping_calculator.network_error_html' | t | json }},
+    noRates: {{ 'general.cart.shipping_calculator.no_rates_html' | t | json }}
   };
 
   theme.variantStrings = {
