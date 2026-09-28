@@ -40,10 +40,10 @@
       "settings": {
         "stamp_alt": "Welcome to the expedition",
         "heading": "Drink like you give a damn",
-        "body": "<p>Specialty-grade coffee from forest reserves. Grown to nourish you and our planet.&nbsp;</p>",
+        "body": "<p>Specialty-grade coffee from forest reserves. Grown to nourish you and Planet Earth.</p>",
         "cta_primary_label": "SHOP THE COLLECTION",
         "cta_primary_link": "shopify://collections",
-        "cta_secondary_label": "LEARN ABOUT REGEN AG",
+        "cta_secondary_label": "FINANCING NATURE",
         "cta_secondary_link": "shopify://pages/regenerative-agriculture",
         "hero_image": "shopify://shop_images/Omawild-Forest-Trail-001_bf803a57-005a-401b-af23-cb5b659995b7.png",
         "image_badge_text": "COFFEE FOR PLANET EARTH",
@@ -125,11 +125,12 @@
         },
         "announcement_8dELnU": {
           "type": "announcement",
+          "name": "FOREST COFFEE",
           "settings": {
             "icon": "none",
             "icon_size": "medium",
             "custom_icon": "",
-            "text": "REGENERATIVE COFFEE",
+            "text": "FOREST COFFEE",
             "text_size": 14,
             "link": ""
           }
@@ -148,6 +149,7 @@
         },
         "announcement_Wrbtw3": {
           "type": "announcement",
+          "name": "100% RECYCLABLE PACKAGING",
           "settings": {
             "icon": "none",
             "icon_size": "medium",
@@ -171,11 +173,36 @@
         },
         "announcement_6x8pQG": {
           "type": "announcement",
+          "name": "1% FOR THE PLANET",
           "settings": {
             "icon": "none",
             "icon_size": "medium",
             "custom_icon": "",
             "text": "1% FOR THE PLANET",
+            "text_size": 14,
+            "link": ""
+          }
+        },
+        "announcement_TmYgQD": {
+          "type": "announcement",
+          "name": "✷",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "✷",
+            "text_size": 15,
+            "link": ""
+          }
+        },
+        "announcement_JTwyJV": {
+          "type": "announcement",
+          "name": "REGENERATIVE FINANCING",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "REGENERATIVE FINANCING",
             "text_size": 14,
             "link": ""
           }
@@ -187,7 +214,9 @@
         "announcement_mHTkFP",
         "announcement_Wrbtw3",
         "announcement_FwgiLy",
-        "announcement_6x8pQG"
+        "announcement_6x8pQG",
+        "announcement_TmYgQD",
+        "announcement_JTwyJV"
       ],
       "name": "t:sections.scrolling-promotion.presets.name",
       "settings": {
@@ -210,28 +239,28 @@
           "type": "card",
           "settings": {
             "heading": "Growing Inside Forests",
-            "body": "<p>Our coffee is grown exclusively in regenerative agroforestry systems that support forests and wildlife conservation.</p>"
+            "body": "<p>Our coffee grows exclusively in regenerative agroforestry systems to support forests and wildlife conservation.</p>"
           }
         },
         "card_kUQN6D": {
           "type": "card",
           "settings": {
             "heading": "Financing Nature",
-            "body": "<p>Building regenerative finance to fund the transitioning towards climate resilience and ecosystem restoration.&nbsp;</p><p></p><p></p><p>regenerative finance redirects it back to stewardship. By buying directly at true value, we route capital straight to agroforestry producers—while investing sales back into ecosystem restoration.</p>"
+            "body": "<p>We build natural capital to fund the regenerative transition towards long-term climate resilience.</p>"
           }
         },
         "card_dgdDNx": {
           "type": "card",
           "settings": {
             "heading": "Direct Partnerships",
-            "body": "<p>We purchase and partner directly with regenerative producers to sustain their practices and provide market demand so they can thrive.</p>"
+            "body": "<p>We purchase and partner directly with regenerative farmers to sustain community and land stewardship.</p>"
           }
         },
         "card_4JxW4V": {
           "type": "card",
           "settings": {
             "heading": "Ecosystem Restoration",
-            "body": "<p>Every lot is rigorously selected and roasted fresh in small batches with the crop year and roast date so you know what you’re drinking.</p>"
+            "body": "<p>We direct 1% of total sales to ecosystem restoration through certified partnerships with 1% for the Planet.</p>"
           }
         }
       },
