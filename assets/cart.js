@@ -73,7 +73,7 @@ if (!customElements.get('cart-items')) {
     }
 
     updateQuantity(line, quantity, name, target) {
-      const sections = this.getSectionsToRender().map((section) => section.section);
+      const sections = this.getSectionsToRender().map((section) => section.section).filter(Boolean);
       const body = JSON.stringify({
         line,
         quantity,
@@ -103,22 +103,23 @@ if (!customElements.get('cart-items')) {
       this.updateQuantity(event.target.dataset.index, event.target.value, document.activeElement.getAttribute('name'));
     }
 
+    // mini-cart and cart-icon-bubble dropped: sections/header.liquid, the
+    // only file that ever rendered either of them, is dead code since
+    // sections/ow-header.liquid replaced it, so #mini-cart and
+    // #cart-icon-bubble don't exist anywhere on the live page. Requesting
+    // them still made Shopify fully server-render both sections on every
+    // single AJAX cart action for zero benefit, since nothing consumed the
+    // result. mobile-cart-icon-bubble stays: sections/mobile-dock.liquid
+    // (rendered globally via the overlay-group section group) has a real
+    // #mobile-cart-icon-bubble target. So does cart-live-region-text:
+    // oma-cart-items.liquid's own #cart-live-region-text element depends on
+    // it for the "New subtotal: $X" screen-reader announcement.
     getSectionsToRender() {
       let sections = [
-        {
-          id: 'mini-cart',
-          section: document.getElementById('mini-cart')?.id,
-          selector: '.shopify-section',
-        },
         {
           id: 'main-cart-items',
           section: document.getElementById('main-cart-items')?.dataset.id,
           selector: '.js-contents',
-        },
-        {
-          id: 'cart-icon-bubble',
-          section: 'cart-icon-bubble',
-          selector: '.shopify-section'
         },
         {
           id: 'mobile-cart-icon-bubble',
@@ -357,22 +358,23 @@ if (!customElements.get('cart-discount')) {
       if (this.discountInput) this.discountInput.removeEventListener('keydown', this.onDiscountKeydown);
     }
 
+    // mini-cart and cart-icon-bubble dropped: sections/header.liquid, the
+    // only file that ever rendered either of them, is dead code since
+    // sections/ow-header.liquid replaced it, so #mini-cart and
+    // #cart-icon-bubble don't exist anywhere on the live page. Requesting
+    // them still made Shopify fully server-render both sections on every
+    // single AJAX cart action for zero benefit, since nothing consumed the
+    // result. mobile-cart-icon-bubble stays: sections/mobile-dock.liquid
+    // (rendered globally via the overlay-group section group) has a real
+    // #mobile-cart-icon-bubble target. So does cart-live-region-text:
+    // oma-cart-items.liquid's own #cart-live-region-text element depends on
+    // it for the "New subtotal: $X" screen-reader announcement.
     getSectionsToRender() {
       let sections = [
-        {
-          id: 'mini-cart',
-          section: document.getElementById('mini-cart')?.id,
-          selector: '.shopify-section',
-        },
         {
           id: 'main-cart-items',
           section: document.getElementById('main-cart-items')?.dataset.id,
           selector: '.js-contents',
-        },
-        {
-          id: 'cart-icon-bubble',
-          section: 'cart-icon-bubble',
-          selector: '.shopify-section'
         },
         {
           id: 'mobile-cart-icon-bubble',
@@ -424,7 +426,7 @@ if (!customElements.get('cart-discount')) {
       this.setDiscountError('');
       this.submitButton.setAttribute('aria-busy', 'true');
       
-      const sections = this.getSectionsToRender().map((section) => section.section);
+      const sections = this.getSectionsToRender().map((section) => section.section).filter(Boolean);
       const body = JSON.stringify({
         discount: [...existingDiscounts, discountCodeValue].join(','),
         sections: sections,
@@ -504,7 +506,7 @@ if (!customElements.get('cart-discount')) {
       this.setDiscountError('');
       event.currentTarget.setAttribute('loading', '');
 
-      const sections = this.getSectionsToRender().map((section) => section.section);
+      const sections = this.getSectionsToRender().map((section) => section.section).filter(Boolean);
       const body = JSON.stringify({
         discount: existingDiscounts.join(','),
         sections: sections,

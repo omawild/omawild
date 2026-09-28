@@ -92,7 +92,7 @@
 
   .ocf-discount-pills-{{ section.id }} {
     list-style: none;
-    margin: 0 0 10px;
+    margin: 10px 0 0;
     padding: 0;
     display: flex;
     align-items: center;
@@ -314,8 +314,13 @@
                   Input row stays visible even once codes are applied, so a
                   shopper can keep stacking additional codes — it used to be
                   replaced entirely by the pills, which hid the only way to
-                  add a second discount.
+                  add a second discount. Pills render below the input,
+                  matching where an applied code should sit.
                 {%- endcomment -%}
+                <div class="ocf-discount-row-{{ section.id }}">
+                  <input type="text" name="discount" id="CartDiscountForm-{{ section.id }}" placeholder="{{ 'general.cart.discount.caption' | t | default: 'Enter code' }}">
+                  <button type="button" data-discount-btn>{{ 'general.cart.discount.button' | t | default: 'Apply' }}</button>
+                </div>
                 {%- if discount_codes.size > 0 -%}
                   <ul class="ocf-discount-pills-{{ section.id }}" role="list">
                     {%- for discount_code in discount_codes -%}
@@ -329,10 +334,6 @@
                     {%- endfor -%}
                   </ul>
                 {%- endif -%}
-                <div class="ocf-discount-row-{{ section.id }}">
-                  <input type="text" name="discount" id="CartDiscountForm-{{ section.id }}" placeholder="{{ 'general.cart.discount.caption' | t | default: 'Enter code' }}">
-                  <button type="button" data-discount-btn>{{ 'general.cart.discount.button' | t | default: 'Apply' }}</button>
-                </div>
                 <div class="ocf-discount-error-{{ section.id }} hidden" role="alert">
                   <span class="ocf-alert-icon-{{ section.id }}" aria-hidden="true">!</span>
                   <span class="ocf-alert-msg-{{ section.id }}"></span>
@@ -435,7 +436,7 @@
                       data-empty="---"
                       aria-label="{{ 'customer.addresses.country' | t }}"
                     >
-                      {{ all_country_option_tags }}
+                      {{ country_option_tags }}
                     </select>
                     <svg class="ocf-ship-chevron-{{ section.id }}" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="#FF3F00" stroke-width="2" stroke-linecap="round"/></svg>
                   </div>
