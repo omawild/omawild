@@ -226,10 +226,102 @@ class CartNote extends HTMLElement {
   constructor() {
     super();
 
-    this.addEventListener('change', debounce((event) => {
-      const body = JSON.stringify({ note: event.target.value });
-      fetch(`${theme.routes.cart_update_url}`, {...fetchConfig(), ...{ body }});
-    }, 300));
+    this.textarea = this.querySelector('[data-cart-note-textarea]');
+    if (!this.textarea) return;
+
+    this.counter = this.querySelector('[data-cart-note-count]');
+    this.editorView = this.querySelector('[data-cart-note-editor]');
+    this.savedView = this.querySelector('[data-cart-note-saved-view]');
+    this.savedText = this.querySelector('[data-cart-note-saved-text]');
+    this.saveBtn = this.querySelector('[data-cart-note-save]');
+    this.cancelBtn = this.querySelector('[data-cart-note-cancel]');
+    this.editBtn = this.querySelector('[data-cart-note-edit]');
+    this.removeBtn = this.querySelector('[data-cart-note-remove]');
+    this.accordion = this.closest('[data-oci-note-accordion]');
+    this.maxLength = parseInt(this.dataset.maxLength || '500', 10);
+
+    this.savedValue = this.textarea.value.trim();
+
+    this.updateCounter();
+    this.updateSaveState();
+
+    this.textarea.addEventListener('input', () => {
+      this.updateCounter();
+      this.updateSaveState();
+    });
+
+    if (this.saveBtn) this.saveBtn.addEventListener('click', () => this.save());
+    if (this.cancelBtn) this.cancelBtn.addEventListener('click', () => this.cancel());
+    if (this.editBtn) this.editBtn.addEventListener('click', () => this.edit());
+    if (this.removeBtn) this.removeBtn.addEventListener('click', () => this.remove());
+  }
+
+  updateCounter() {
+    if (this.counter) this.counter.textContent = `${this.textarea.value.length}/${this.maxLength}`;
+  }
+
+  updateSaveState() {
+    const hasValue = this.textarea.value.trim().length > 0;
+    if (this.saveBtn) {
+      this.saveBtn.disabled = !hasValue;
+      this.saveBtn.textContent = this.savedValue ? 'Update note' : 'Add to order';
+    }
+  }
+
+  showEditor() {
+    if (this.editorView) this.editorView.hidden = false;
+    if (this.savedView) this.savedView.hidden = true;
+  }
+
+  showSaved() {
+    if (this.editorView) this.editorView.hidden = true;
+    if (this.savedView) this.savedView.hidden = false;
+  }
+
+  setHeaderChip(show) {
+    const chip = this.accordion ? this.accordion.querySelector('[data-oci-note-chip]') : null;
+    if (chip) chip.hidden = !show;
+  }
+
+  save() {
+    const value = this.textarea.value.trim();
+    if (!value) return;
+    this.savedValue = value;
+    if (this.savedText) this.savedText.textContent = value;
+    if (this.cancelBtn) this.cancelBtn.hidden = false;
+    this.persist(value);
+    this.updateSaveState();
+    this.showSaved();
+    this.setHeaderChip(true);
+  }
+
+  cancel() {
+    this.textarea.value = this.savedValue;
+    this.updateCounter();
+    this.updateSaveState();
+    this.showSaved();
+  }
+
+  edit() {
+    this.showEditor();
+    this.textarea.focus();
+  }
+
+  remove() {
+    this.savedValue = '';
+    this.textarea.value = '';
+    if (this.savedText) this.savedText.textContent = '';
+    if (this.cancelBtn) this.cancelBtn.hidden = true;
+    this.persist('');
+    this.updateCounter();
+    this.updateSaveState();
+    this.showEditor();
+    this.setHeaderChip(false);
+  }
+
+  persist(value) {
+    const body = JSON.stringify({ note: value });
+    fetch(`${theme.routes.cart_update_url}`, { ...fetchConfig(), ...{ body } });
   }
 }
 customElements.define('cart-note', CartNote);
@@ -309,10 +401,16 @@ if (!customElements.get('cart-discount')) {
       this.abortController = new AbortController();
 
       const discountCodeValue = discountCode.value.trim();
-      if (discountCodeValue === '') return;
+      if (discountCodeValue === '') {
+        this.setDiscountError(theme.discountStrings.empty);
+        return;
+      }
 
       const existingDiscounts = this.existingDiscounts();
-      if (existingDiscounts.includes(discountCodeValue)) return;
+      if (existingDiscounts.includes(discountCodeValue)) {
+        this.setDiscountError(theme.discountStrings.duplicate.replace('[code]', discountCodeValue));
+        return;
+      }
 
       this.setDiscountError('');
       this.submitButton.setAttribute('aria-busy', 'true');
@@ -368,6 +466,7 @@ if (!customElements.get('cart-discount')) {
           }
           else {
             console.error(error);
+            this.setDiscountError(theme.discountStrings.network.replace('[code]', discountCodeValue));
           }
         })
         .finally(() => {
@@ -483,7 +582,7 @@ class ShippingCalculator extends HTMLElement {
 
   onSubmitHandler(event) {
     event.preventDefault();
-    
+
     this.errors.classList.add('hidden');
     this.success.classList.add('hidden');
     this.zip.classList.remove('invalid');
@@ -507,33 +606,97 @@ class ShippingCalculator extends HTMLElement {
     fetch(sectionUrl, { ...fetchConfig('javascript'), body })
       .then((response) => response.json())
       .then((parsedState) => {
-        if (parsedState.shipping_rates) {
-          this.success.classList.remove('hidden');
-          this.success.innerHTML = '';
-          
-          parsedState.shipping_rates.forEach((rate) => {
-            const child = document.createElement('p');
-            child.innerHTML = `${rate.name}: ${rate.price} ${Shopify.currency.active}`;
-            this.success.appendChild(child);
-          });
+        if (parsedState.shipping_rates && parsedState.shipping_rates.length > 0) {
+          this.renderRates(parsedState.shipping_rates);
+        }
+        else if (parsedState.shipping_rates) {
+          this.renderError(theme.shippingCalculatorStrings.noRates);
         }
         else {
-          let errors = [];
-          Object.entries(parsedState).forEach(([attribute, messages]) => {
-            errors.push(`${attribute.charAt(0).toUpperCase() + attribute.slice(1)} ${messages[0]}`);
-          });
-
-          this.errors.classList.remove('hidden');
-          this.errors.querySelector('.errors').innerHTML = errors.join('; ');
+          this.renderError(this.formatApiErrors(parsedState));
         }
       })
       .catch((e) => {
         console.error(e);
+        this.renderError(theme.shippingCalculatorStrings.networkError);
       })
       .finally(() => {
         this.button.classList.remove('loading');
         this.button.removeAttribute('disabled');
       });
+  }
+
+  formatApiErrors(parsedState) {
+    return Object.entries(parsedState)
+      .map(([attribute, messages]) => `${attribute.charAt(0).toUpperCase() + attribute.slice(1)} ${messages[0]}`)
+      .join('; ');
+  }
+
+  renderError(message) {
+    this.errors.classList.remove('hidden');
+    const inner = this.errors.querySelector('.errors');
+    if (inner) inner.textContent = message;
+  }
+
+  // Only renders an ETA line when the real rate actually carries delivery-time
+  // data — never fabricates a delivery estimate the API didn't return.
+  formatDeliveryEstimate(rate) {
+    if (Array.isArray(rate.delivery_range) && rate.delivery_range.length === 2) {
+      const fmt = (iso) => new Date(iso).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+      return `${fmt(rate.delivery_range[0])}–${fmt(rate.delivery_range[1])}`;
+    }
+    if (Array.isArray(rate.delivery_days) && rate.delivery_days.length === 2) {
+      const [min, max] = rate.delivery_days;
+      return `${min}–${max} business days`;
+    }
+    return null;
+  }
+
+  renderRates(rates) {
+    this.success.classList.remove('hidden');
+    this.success.innerHTML = '';
+
+    const sectionId = this.closest('[data-id]') ? this.closest('[data-id]').dataset.id : '';
+    const country = this.country.options[this.country.selectedIndex] ? this.country.options[this.country.selectedIndex].text : this.country.value;
+    const zip = this.zip.value.trim();
+
+    const heading = document.createElement('div');
+    heading.className = `ocf-ship-rates-head-${sectionId}`;
+    heading.textContent = `${rates.length} option${rates.length === 1 ? '' : 's'} for ${country}${zip ? ' ' + zip : ''}`;
+    this.success.appendChild(heading);
+
+    rates.forEach((rate) => {
+      const card = document.createElement('div');
+      card.className = `ocf-ship-rate-card-${sectionId}`;
+
+      const info = document.createElement('div');
+      const name = document.createElement('div');
+      name.className = `ocf-ship-rate-name-${sectionId}`;
+      name.textContent = rate.name;
+      info.appendChild(name);
+
+      const eta = this.formatDeliveryEstimate(rate);
+      if (eta) {
+        const etaEl = document.createElement('div');
+        etaEl.className = `ocf-ship-rate-eta-${sectionId}`;
+        etaEl.textContent = eta;
+        info.appendChild(etaEl);
+      }
+      card.appendChild(info);
+
+      const price = document.createElement('div');
+      price.className = `ocf-ship-rate-price-${sectionId}`;
+      const cents = Math.round(parseFloat(rate.price) * 100);
+      price.textContent = theme.Currency.formatMoney(cents, theme.shopSettings.moneyFormat);
+      card.appendChild(price);
+
+      this.success.appendChild(card);
+    });
+
+    const note = document.createElement('p');
+    note.className = `ocf-ship-rates-note-${sectionId}`;
+    note.textContent = 'Choose your rate at checkout.';
+    this.success.appendChild(note);
   }
 }
 
