@@ -44,7 +44,7 @@
         "cta_primary_label": "Shop the coffee",
         "cta_primary_link": "shopify://collections",
         "cta_secondary_label": "Or learn about regen",
-        "cta_secondary_link": "",
+        "cta_secondary_link": "shopify://pages/regenerative-agriculture",
         "hero_image": "shopify://shop_images/Omawild-Forest-Trail-001_bf803a57-005a-401b-af23-cb5b659995b7.png",
         "image_badge_text": "COFFEE FOR THE PLANET",
         "caption_text": "<p>You don’t need a degree in science to give a damn about our planet. If someone came into your house and started burning down your furniture, you’d defend it. Nature is our home too. Restoring it is all of our responsibility, and it can begin with what’s in your cup.</p>",
@@ -440,6 +440,55 @@
         "padding_bottom": 64
       }
     },
+    "oma_story_6xiQqf": {
+      "type": "oma-story",
+      "blocks": {
+        "photo_bHFdEY": {
+          "type": "photo",
+          "settings": {
+            "caption": "It started with a one-way ticket to Bali, in search of answers we could no longer find in the rush of everyday life.",
+            "link": ""
+          }
+        },
+        "photo_cyhRqy": {
+          "type": "photo",
+          "settings": {
+            "caption": "That summer, we traded the comforts of the city to live and learn alongside those who grew more than just our food.",
+            "link": ""
+          }
+        },
+        "photo_UgWj6E": {
+          "type": "photo",
+          "settings": {
+            "caption": "We cleaned up beaches and rivers chocked with plastic.",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "photo_bHFdEY",
+        "photo_cyhRqy",
+        "photo_UgWj6E"
+      ],
+      "name": "OMA Story",
+      "settings": {
+        "show_eyebrow": true,
+        "eyebrow": "HOW WE GOT HERE",
+        "heading": "We plunged our entire life savings into conservation work, until then went broke",
+        "show_subcopy": true,
+        "subcopy": "<p>Which is how we learned nature needed a better business model.</p>",
+        "teaser_text": "Follow us down our rabbit hole",
+        "teaser_button_label": "Read the rest →",
+        "teaser_caption": "# more photographs.",
+        "teaser_link": "",
+        "background_color": "#fbdcdc",
+        "text_color": "#f5450d",
+        "card_background": "#ffffff",
+        "card_border_color": "#f5450d",
+        "padding_top": 56,
+        "padding_bottom": 64
+      }
+    },
     "owv2_banner": {
       "type": "owv2-banner",
       "name": "OWV2 Photo banner",
@@ -503,54 +552,6 @@
         "card_background": "#ffffff",
         "card_alignment": "left",
         "padding_top": 64,
-        "padding_bottom": 64
-      }
-    },
-    "oma_story_6xiQqf": {
-      "type": "oma-story",
-      "blocks": {
-        "photo_bHFdEY": {
-          "type": "photo",
-          "settings": {
-            "caption": "It started with a one-way ticket to Bali, in search of answers we could no longer find in the rush of everyday life.",
-            "link": ""
-          }
-        },
-        "photo_cyhRqy": {
-          "type": "photo",
-          "settings": {
-            "caption": "That summer, we traded the comforts of the city to live and learn alongside those who grew more than just our food.",
-            "link": ""
-          }
-        },
-        "photo_UgWj6E": {
-          "type": "photo",
-          "settings": {
-            "caption": "We cleaned up beaches and rivers chocked with plastic.",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "photo_bHFdEY",
-        "photo_cyhRqy",
-        "photo_UgWj6E"
-      ],
-      "name": "OMA Story",
-      "settings": {
-        "show_eyebrow": true,
-        "eyebrow": "HOW WE GOT HERE",
-        "heading": "We plunged our entire life savings into conservation work, until then went broke",
-        "show_subcopy": true,
-        "subcopy": "<p>Which is how we learned nature needed a better business model.</p>",
-        "teaser_text": "Follow us down our rabbit hole",
-        "teaser_button_label": "Read the rest →",
-        "teaser_caption": "# more photographs.",
-        "teaser_link": "",
-        "background_color": "#FBDCDC",
-        "text_color": "#F5450D",
-        "card_background": "#FFFFFF",
-        "padding_top": 56,
         "padding_bottom": 64
       }
     }
