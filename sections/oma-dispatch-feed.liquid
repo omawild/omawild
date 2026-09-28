@@ -72,6 +72,9 @@
 .oma-dispatch-feed-{{ owid }} .featured:hover {
   background: {{ section.settings.hover_background }};
   }
+.oma-dispatch-feed-{{ owid }} .featured[hidden] {
+  display: none;
+  }
 @media (min-width: 900px) {
   .oma-dispatch-feed-{{ owid }} .featured {
     grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
@@ -183,6 +186,9 @@
 .oma-dispatch-feed-{{ owid }} .story-card:hover {
   background: {{ section.settings.hover_background }};
   }
+.oma-dispatch-feed-{{ owid }} .story-card[hidden] {
+  display: none;
+  }
 .oma-dispatch-feed-{{ owid }} .story-media {
   position: relative;
   width: 100%;
@@ -246,6 +252,9 @@
   align-items: center;
   gap: 14px;
   padding-top: 16px;
+  }
+.oma-dispatch-feed-{{ owid }} .more-row[hidden] {
+  display: none;
   }
 .oma-dispatch-feed-{{ owid }} .shown-count {
   font: 700 12.5px/1.55 var(--font-body-family);

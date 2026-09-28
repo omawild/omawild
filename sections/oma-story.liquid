@@ -5,6 +5,7 @@
   --bg: {{ section.settings.background_color }};
   --ink: {{ section.settings.text_color }};
   --surface: {{ section.settings.card_background }};
+  --card-border: {{ section.settings.card_border_color }};
   background: var(--bg);
   color: var(--ink);
   padding: {{ section.settings.padding_top }}px max(20px, 5vw) {{ section.settings.padding_bottom }}px;
@@ -165,8 +166,8 @@
   margin:0;
   padding:9px 9px 12px;
   background:var(--surface);
-  border:2px solid var(--ink);
-  box-shadow:4px 4px 0 var(--ink);
+  border:2px solid var(--card-border);
+  box-shadow:4px 4px 0 var(--card-border);
   scroll-snap-align:start;
   display:flex;
   flex-direction:column;
@@ -178,7 +179,7 @@
   /* tablet: 3 cards in view, 2 gaps */
   flex-basis:calc((100% - 48px) / 3);
   padding:12px 12px 16px;
-  box-shadow:5px 5px 0 var(--ink);
+  box-shadow:5px 5px 0 var(--card-border);
   }
 }
 @media (min-width:990px) {
@@ -439,6 +440,13 @@
       "default": "#FFFFFF"
     },
     {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border & shadow color",
+      "default": "#F5450D",
+      "info": "Independent of Text color above, which only affects headings and the eyebrow."
+    },
+    {
       "type": "range",
       "id": "padding_top",
       "label": "Padding top",
@@ -491,7 +499,8 @@
         "heading": "From the field",
         "teaser_text": "",
         "background_color": "#F7F5F1",
-        "text_color": "#FF3F00"
+        "text_color": "#FF3F00",
+        "card_border_color": "#FF3F00"
       },
       "blocks": [
         { "type": "photo", "settings": { "caption": "Construction of THKB Permaculture Center in 2023" } },

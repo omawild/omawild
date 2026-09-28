@@ -287,7 +287,7 @@
             continue
           endif
 
-          assign linked_products = origin.fields.products.value
+          assign linked_products = origin.products.value
           assign region = blank
           assign country = blank
           assign elev_values = ''
@@ -340,19 +340,19 @@
           endif
 
           assign card_tag = 'div'
-          if origin.fields.link.value != blank
+          if origin.link != blank
             assign card_tag = 'a'
           endif
         -%}
-        <{{ card_tag }} class="card" {% if card_tag == 'a' %}href="{{ origin.fields.link.value }}"{% endif %}>
+        <{{ card_tag }} class="card" {% if card_tag == 'a' %}href="{{ origin.link }}"{% endif %}>
           <div class="cover">
-            {%- if origin.fields.cover.value != blank -%}
+            {%- if origin.cover.value != blank -%}
               <img
-                src="{{ origin.fields.cover.value | image_url: width: 900 }}"
-                alt="{{ origin.fields.place.value | escape }}"
+                src="{{ origin.cover.value | image_url: width: 900 }}"
+                alt="{{ origin.place | escape }}"
                 loading="lazy"
-                width="{{ origin.fields.cover.value.width }}"
-                height="{{ origin.fields.cover.value.height }}"
+                width="{{ origin.cover.value.width }}"
+                height="{{ origin.cover.value.height }}"
               >
             {%- else -%}
               {{ 'lifestyle-1' | placeholder_svg_tag }}
@@ -361,9 +361,9 @@
           <div class="card-body">
             {%- if origin_count == 1 -%}
               <div class="num-row"><span class="num">{{ section.settings.origin_number_prefix | escape }}01</span></div>
-              <h3 class="place">{{ origin.fields.place.value }}</h3>
+              <h3 class="place">{{ origin.place }}</h3>
               {%- if subtitle != blank -%}<div class="subtitle">{{ subtitle }}</div>{%- endif -%}
-              {%- if origin.fields.tagline.value != blank -%}<p class="lead">{{ origin.fields.tagline.value }}</p>{%- endif -%}
+              {%- if origin.tagline != blank -%}<p class="lead">{{ origin.tagline }}</p>{%- endif -%}
               <div class="facts">
                 <div class="fact">
                   <div class="fact-label">{{ section.settings.producer_label | escape }}</div>
@@ -398,10 +398,10 @@
                   {%- endif -%}
                 </div>
               </div>
-              {%- if card_tag == 'a' -%}<span class="visit">{{ section.settings.visit_label | escape }} {{ origin.fields.place.value }} →</span>{%- endif -%}
+              {%- if card_tag == 'a' -%}<span class="visit">{{ section.settings.visit_label | escape }} {{ origin.place }} →</span>{%- endif -%}
             {%- else -%}
               <div class="num-row"><span class="num">{{ section.settings.origin_number_prefix | escape }}{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span></div>
-              <h3 class="place">{{ origin.fields.place.value }}</h3>
+              <h3 class="place">{{ origin.place }}</h3>
               {%- if subtitle != blank -%}<div class="subtitle">{{ subtitle }}</div>{%- endif -%}
               <div class="facts">
                 <div class="fact">
