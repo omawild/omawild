@@ -40,11 +40,22 @@
             "thumbnail_count": 3,
             "count_label_override": ""
           }
+        },
+        "collection_row_bJ6ayP": {
+          "type": "collection_row",
+          "settings": {
+            "collection": "",
+            "title_override": "",
+            "anchor_override": "",
+            "thumbnail_count": 3,
+            "count_label_override": ""
+          }
         }
       },
       "block_order": [
         "collection_row_TXRczt",
-        "collection_row_tcXfrM"
+        "collection_row_tcXfrM",
+        "collection_row_bJ6ayP"
       ],
       "name": "OMA Page Header",
       "settings": {
