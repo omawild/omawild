@@ -44,6 +44,7 @@
       "name": "OMA Image Text (Stacked)",
       "settings": {
         "layout": "stacked",
+        "image": "shopify://shop_images/Origin-004.jpg",
         "label": "Our story began in Bali.",
         "show_divider": true,
         "tone": "electric",
@@ -95,7 +96,7 @@
         "teaser_button_label": "Read the rest →",
         "teaser_caption": "# more photographs.",
         "teaser_link": "",
-        "background_color": "#F7F5F1",
+        "background_color": "#f7f5f1",
         "text_color": "#f5450d",
         "card_background": "#ffffff",
         "padding_top": 56,
