@@ -72,11 +72,87 @@
         "padding_top": 0,
         "padding_bottom": 32
       }
+    },
+    "oma_page_header_GCHRbB": {
+      "type": "oma-page-header",
+      "blocks": {
+        "collection_row_iNrwWn": {
+          "type": "collection_row",
+          "settings": {
+            "collection": "",
+            "title_override": "",
+            "anchor_override": "",
+            "thumbnail_count": 3,
+            "count_label_override": ""
+          }
+        },
+        "collection_row_Vr9ECn": {
+          "type": "collection_row",
+          "settings": {
+            "collection": "",
+            "title_override": "",
+            "anchor_override": "",
+            "thumbnail_count": 3,
+            "count_label_override": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_row_iNrwWn",
+        "collection_row_Vr9ECn"
+      ],
+      "name": "OMA Page Header",
+      "settings": {
+        "heading": "Subscriptions",
+        "title_size": "display",
+        "show_breadcrumb": true,
+        "breadcrumb_label": "",
+        "body": "",
+        "show_collection_list": true,
+        "background_color": "#FFE4E7",
+        "heading_color": "#FF3F00",
+        "text_color": "#00180C",
+        "divider_color": "#FF3F00",
+        "thumb_background": "#FBB925",
+        "padding_top": 36,
+        "padding_bottom": 44,
+        "mobile_padding_horizontal": 20,
+        "desktop_padding_horizontal": 48
+      }
+    },
+    "owv2_subscribe_rqUqtU": {
+      "type": "owv2-subscribe",
+      "name": "OWV2 Subscription spot",
+      "settings": {
+        "badge_text": "SUBSCRIBE & SAVE",
+        "heading": "Keep the ritual going and never run low on energy",
+        "body": "<p>Fresh roast on your schedule. Save on every delivery. And each subscription helps us do more for you and our planet. Skip, swap or cancel any time.</p>",
+        "collection": "subscriptions",
+        "product_limit": 12,
+        "roast_display": "pills",
+        "step1_label": "Pick your roast",
+        "step2_label": "Select your quantity",
+        "step3_label": "Set your frequency",
+        "summary_title": "YOUR SUBSCRIPTION",
+        "summary_offset": 110,
+        "shipping_note": "Freshly roasted. Delivered on your schedule.",
+        "cta_label": "Start subscription",
+        "cta_sold_out_label": "Sold out",
+        "savings_template": "Save [amount] every delivery",
+        "empty_message": "Choose your coffee options to get started.",
+        "background_color": "#FFE4E7",
+        "text_color": "#FF3F00",
+        "card_background": "#FFFFFF",
+        "padding_top": 72,
+        "padding_bottom": 76
+      }
     }
   },
   "order": [
     "banner",
     "subs",
-    "product-grid"
+    "product-grid",
+    "oma_page_header_GCHRbB",
+    "owv2_subscribe_rqUqtU"
   ]
 }
