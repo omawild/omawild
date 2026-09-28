@@ -238,7 +238,7 @@ class CartNote extends HTMLElement {
     this.editBtn = this.querySelector('[data-cart-note-edit]');
     this.removeBtn = this.querySelector('[data-cart-note-remove]');
     this.accordion = this.closest('[data-oci-note-accordion]');
-    this.maxLength = parseInt(this.dataset.maxLength || '500', 10);
+    this.maxLength = parseInt(this.dataset.maxLength || '150', 10);
 
     this.savedValue = this.textarea.value.trim();
 
@@ -341,11 +341,20 @@ if (!customElements.get('cart-discount')) {
       this.submitButton = this.querySelector('[data-discount-btn]');
       this.resultsElement = this.lastElementChild;
       this.submitButton.addEventListener('click', this.onApplyDiscount);
+
+      this.discountInput = this.querySelector('[name="discount"]');
+      if (this.discountInput) {
+        this.onDiscountKeydown = (event) => {
+          if (event.key === 'Enter') this.applyDiscount(event);
+        };
+        this.discountInput.addEventListener('keydown', this.onDiscountKeydown);
+      }
     }
 
     disconnectedCallback() {
       this.abortController?.abort();
       this.submitButton.removeEventListener('click', this.onApplyDiscount);
+      if (this.discountInput) this.discountInput.removeEventListener('keydown', this.onDiscountKeydown);
     }
 
     getSectionsToRender() {
@@ -695,7 +704,7 @@ class ShippingCalculator extends HTMLElement {
 
     const note = document.createElement('p');
     note.className = `ocf-ship-rates-note-${sectionId}`;
-    note.textContent = 'Choose your rate at checkout.';
+    note.textContent = theme.shippingCalculatorStrings.chooseMethod;
     this.success.appendChild(note);
   }
 }
