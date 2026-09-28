@@ -119,12 +119,61 @@
         "padding_top": 56,
         "padding_bottom": 72
       }
+    },
+    "oma_story_bcqYjU": {
+      "type": "oma-story",
+      "blocks": {
+        "photo_AVfGG9": {
+          "type": "photo",
+          "settings": {
+            "caption": "It started with a one-way ticket to Bali, in search of answers we could no longer find in the rush of everyday life.",
+            "link": ""
+          }
+        },
+        "photo_VgTeEW": {
+          "type": "photo",
+          "settings": {
+            "caption": "That summer, we traded the comforts of the city to live and learn alongside those who grew more than just our food.",
+            "link": ""
+          }
+        },
+        "photo_zdXmJA": {
+          "type": "photo",
+          "settings": {
+            "caption": "We cleaned up beaches and rivers chocked with plastic.",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "photo_AVfGG9",
+        "photo_VgTeEW",
+        "photo_zdXmJA"
+      ],
+      "name": "OMA Story",
+      "settings": {
+        "show_eyebrow": true,
+        "eyebrow": "HOW WE GOT HERE",
+        "heading": "We plunged our entire life savings into conservation work, until then went broke",
+        "show_subcopy": true,
+        "subcopy": "<p>Which is how we learned nature needed a better business model.</p>",
+        "teaser_text": "Follow us down our rabbit hole",
+        "teaser_button_label": "Read the rest →",
+        "teaser_caption": "# more photographs.",
+        "teaser_link": "",
+        "background_color": "#FF3F00",
+        "text_color": "#F7F5F1",
+        "card_background": "#F7F5F1",
+        "padding_top": 56,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
     "main",
     "oma_page_header_n799qx",
     "oma_dispatch_feed_EnaNVd",
-    "oma_origin_cards_dgRmjr"
+    "oma_origin_cards_dgRmjr",
+    "oma_story_bcqYjU"
   ]
 }
