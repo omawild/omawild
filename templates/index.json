@@ -275,7 +275,9 @@
         "heading": "",
         "mobile_hint_text": "← SWIPE →",
         "card_heading_color": "#ff3f00",
+        "card_heading_size": 19,
         "card_body_color": "#00180c",
+        "card_body_size": 12.5,
         "background_color": "#ff3f00",
         "text_color": "#ffffff",
         "card_background": "#ffffff",
@@ -400,45 +402,45 @@
         "padding_bottom": 64
       }
     },
-    "owv2_regen_tE6yiU": {
+    "oma_regen_bzN94V": {
       "type": "oma-regen",
       "blocks": {
-        "point_DAp3kg": {
+        "point_DTLLTG": {
           "type": "point",
           "settings": {
             "title": "Canopy cools the ground",
             "body": "<p>Tree canopies cool the ground and shelter critical wildlife.</p>"
           }
         },
-        "point_CBK3Wr": {
+        "point_4rPPip": {
           "type": "point",
           "settings": {
             "title": "Roots hold the slope together",
             "body": "<p>Healthy root systems help keep soil in place on steep slopes.</p>"
           }
         },
-        "point_rYmAJm": {
+        "point_MhGhkj": {
           "type": "point",
           "settings": {
             "title": "Diversity keeps the land resilient",
             "body": "<p>A mix of trees and crops creates habitat and supports a thriving ecosystem.</p>"
           }
         },
-        "point_rrra8n": {
+        "point_gnBbAa": {
           "type": "point",
           "settings": {
             "title": "Forests store more carbon than air",
             "body": "<p>Keeping forests standing protects the carbon stored in trees and soil.</p>"
           }
         },
-        "point_yQVEEY": {
+        "point_Fykb6b": {
           "type": "point",
           "settings": {
             "title": "Living soil banks the water",
             "body": "<p>Healthy soil absorbs and holds water for the landscape.</p>"
           }
         },
-        "point_fPfCJU": {
+        "point_hjL3VM": {
           "type": "point",
           "settings": {
             "title": "The oldest filtration tech there is",
@@ -447,14 +449,14 @@
         }
       },
       "block_order": [
-        "point_DAp3kg",
-        "point_CBK3Wr",
-        "point_rYmAJm",
-        "point_rrra8n",
-        "point_yQVEEY",
-        "point_fPfCJU"
+        "point_DTLLTG",
+        "point_4rPPip",
+        "point_MhGhkj",
+        "point_gnBbAa",
+        "point_Fykb6b",
+        "point_hjL3VM"
       ],
-      "name": "OWV2 Regen education",
+      "name": "OMA Regen Tip",
       "settings": {
         "eyebrow": "NO APP. NO AI. NO PROBLEM.",
         "heading": "The most powerful climate solution is in what you eat and drink",
@@ -462,9 +464,9 @@
         "caption": "Good coffee starts with living soil.",
         "cta_label": "How regen farming works →",
         "cta_link": "",
-        "background_color": "#f7f5f1",
-        "text_color": "#ff3f00",
-        "card_background": "#ffffff",
+        "background_color": "#F7F5F1",
+        "text_color": "#FF3F00",
+        "card_background": "#FFFFFF",
         "padding_top": 64,
         "padding_bottom": 64
       }
@@ -592,7 +594,7 @@
     "owv2_value_grid_QXFMkK",
     "od_featured_products_VgPWWJ",
     "owv2_subscribe_BGiGnM",
-    "owv2_regen_tE6yiU",
+    "oma_regen_bzN94V",
     "oma_story_6xiQqf",
     "owv2_banner",
     "owv2_values_N9MGw3"
