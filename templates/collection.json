@@ -157,7 +157,7 @@
         "collection": "subscriptions",
         "anchor_id": "",
         "heading_override": "",
-        "description_override": "",
+        "description_override": "<p>Never worry about running out of fresh roasted coffee. Subscribers also gets first access to new drops before the public.</p>",
         "show_view_all": true,
         "view_all_label": "View all",
         "products_to_show": 8,
