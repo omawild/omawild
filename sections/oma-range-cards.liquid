@@ -73,13 +73,13 @@
   box-shadow: 6px 6px 0 {{ section.settings.accent_color }};
   overflow: hidden;
   }
-.oma-range-cards-{{ owid }} .media {
+.oma-range-cards-{{ owid }} .shot {
   position: relative;
   background: {{ section.settings.image_placeholder_background }};
   border-bottom: 1.5px solid {{ section.settings.accent_color }};
   aspect-ratio: 1 / 1;
   }
-.oma-range-cards-{{ owid }} .media img {
+.oma-range-cards-{{ owid }} .shot img {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -87,7 +87,7 @@
   object-fit: cover;
   display: block;
   }
-.oma-range-cards-{{ owid }} .media-placeholder-text {
+.oma-range-cards-{{ owid }} .shot-placeholder-text {
   position: absolute;
   inset: 0;
   display: flex;
@@ -95,7 +95,7 @@
   padding: 16px;
   background: repeating-linear-gradient(135deg, {{ section.settings.image_placeholder_background }} 0 9px, {{ section.settings.image_placeholder_stripe }} 9px 18px);
   }
-.oma-range-cards-{{ owid }} .media-placeholder-text span {
+.oma-range-cards-{{ owid }} .shot-placeholder-text span {
   font: 500 10.5px/1.35 ui-monospace, SFMono-Regular, Menlo, monospace;
   color: {{ section.settings.accent_color }};
   background: rgba(255, 255, 255, .9);
@@ -185,7 +185,12 @@
       <div class="grid">
         {%- for block in card_blocks -%}
           <div class="card" {{ block.shopify_attributes }}>
-            <div class="media">
+            {%- comment -%}
+              Not named .media: base.css's global `.media > *` rule stretches
+              every direct child of a `.media` element to 100% width/height,
+              which turned these pill badges into full circles.
+            {%- endcomment -%}
+            <div class="shot">
               {%- if block.settings.image != blank -%}
                 <img
                   src="{{ block.settings.image | image_url: width: 800 }}"
@@ -195,7 +200,7 @@
                   height="{{ block.settings.image.height }}"
                 >
               {%- else -%}
-                <div class="media-placeholder-text"><span>{{ section.settings.placeholder_label | escape }} — {{ block.settings.title | escape }}</span></div>
+                <div class="shot-placeholder-text"><span>{{ section.settings.placeholder_label | escape }} — {{ block.settings.title | escape }}</span></div>
               {%- endif -%}
               {%- if block.settings.tag != blank -%}<span class="tag">{{ block.settings.tag | escape }}</span>{%- endif -%}
               {%- if block.settings.coming_soon -%}<span class="coming-soon">{{ section.settings.coming_soon_label | escape }}</span>{%- endif -%}
