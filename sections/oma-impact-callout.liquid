@@ -1,12 +1,21 @@
 {%- comment -%}
-  oma-impact-callout — the boxed "nature fund disguised as coffee" 1%-for-the-
-  Planet statement + stat line + logo. Standalone section rather than a new
-  od-value-grid block type: it's a one-off layout (statement column + body
-  column + logo, sticker-card border/shadow) that doesn't fit the grid's
-  repeating-card model, and od-value-grid is already gaining a lot of new
-  options for the Workplace page's four card grids (see that file).
+  oma-impact-callout — "Why omawild" grid: an eyebrow/heading followed by a
+  row of simple `reason` cards (title + body, merchant-addable, N per row)
+  and an optional full-width `banner` block (statement + body + stat line +
+  logo, the "nature fund disguised as coffee" 1%-for-the-Planet card). The
+  two block types share one section on purpose — same background, spacing
+  and border color — rather than being two sections stacked by hand.
+
+  `reason` cards use flexbox, not grid, for the row: `flex: 1 1 <basis>`
+  lets an incomplete last row's cards grow to fill the leftover width
+  (one leftover card stretches full width, two split it evenly) instead of
+  sitting at a fixed width with empty space beside them.
 {%- endcomment -%}
 {% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{% assign per_row = section.settings.cards_per_row %}
+{% assign gap = 18 %}
+{% assign gap_steps = per_row | minus: 1 %}
+{% assign gap_total = gap_steps | times: gap %}
 {% style %}
 .oma-impact-callout-{{ owid }} {
   box-sizing: border-box;
@@ -26,16 +35,71 @@
   max-width: 1280px;
   margin: 0 auto;
   }
+.oma-impact-callout-{{ owid }} .head {
+  max-width: 56ch;
+  }
+.oma-impact-callout-{{ owid }} .eyebrow {
+  font: 800 10.5px/1 var(--font-heading-family);
+  letter-spacing: .18em;
+  color: {{ section.settings.accent_color }};
+  }
+.oma-impact-callout-{{ owid }} .heading {
+  margin: 16px 0 0;
+  font-family: var(--font-heading-family);
+  font-weight: 900;
+  font-size: clamp(28px, 3.4vw, 46px);
+  line-height: 1.02;
+  letter-spacing: -.03em;
+  color: {{ section.settings.accent_color }};
+  text-wrap: balance;
+  }
+.oma-impact-callout-{{ owid }} .cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: {{ gap }}px;
+  margin-top: 30px;
+  }
 .oma-impact-callout-{{ owid }} .card {
+  box-sizing: border-box;
+  background: {{ section.settings.card_background }};
+  border-radius: 12px;
+  }
+.oma-impact-callout-{{ owid }} .card--reason {
+  flex: 1 1 calc((100% - {{ gap_total }}px) / {{ per_row }});
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  border: 1.5px solid {{ section.settings.accent_color }};
+  padding: 24px;
+  }
+.oma-impact-callout-{{ owid }} .card-heading {
+  margin: 0;
+  font-family: var(--font-heading-family);
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  color: {{ section.settings.accent_color }};
+  text-wrap: balance;
+  }
+.oma-impact-callout-{{ owid }} .card-body {
+  margin: 10px 0 0;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: {{ section.settings.body_color }};
+  }
+.oma-impact-callout-{{ owid }} .card-body :last-child {
+  margin-bottom: 0;
+  }
+.oma-impact-callout-{{ owid }} .card--banner {
+  flex: 1 1 100%;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
   gap: clamp(24px, 3vw, 40px);
-  background: {{ section.settings.card_background }};
-  border: 2px solid {{ section.settings.border_color }};
-  border-radius: 12px;
+  border: 2px solid {{ section.settings.accent_color }};
   {% if section.settings.card_shadow -%}
-  box-shadow: 8px 8px 0 {{ section.settings.border_color }};
+  box-shadow: 8px 8px 0 {{ section.settings.accent_color }};
   {%- endif %}
   padding: clamp(28px, 3.4vw, 44px);
   }
@@ -49,7 +113,7 @@
   font-size: clamp(24px, 2.6vw, 34px);
   line-height: 1.05;
   letter-spacing: -.03em;
-  color: {{ section.settings.statement_color }};
+  color: {{ section.settings.accent_color }};
   text-wrap: balance;
   }
 .oma-impact-callout-{{ owid }} .body-col {
@@ -79,12 +143,12 @@
   font-size: 10.5px;
   letter-spacing: .12em;
   text-transform: uppercase;
-  color: {{ section.settings.statement_color }};
+  color: {{ section.settings.accent_color }};
   }
 .oma-impact-callout-{{ owid }} .stats .divider {
   width: 1.5px;
   height: 12px;
-  background: color-mix(in srgb, {{ section.settings.statement_color }} 35%, transparent);
+  background: color-mix(in srgb, {{ section.settings.accent_color }} 35%, transparent);
   }
 .oma-impact-callout-{{ owid }} .logo {
   flex: 0 0 auto;
@@ -93,43 +157,62 @@
   width: clamp(76px, 7.5vw, 98px);
   }
 @media (max-width: 640px) {
+  .oma-impact-callout-{{ owid }} .card--reason {
+    flex-basis: 100%;
+    }
   .oma-impact-callout-{{ owid }} .logo {
     margin-left: 0;
+    }
   }
-}
 {% endstyle %}
 <div class="oma-impact-callout-{{ owid }}">
   <div class="inner">
-    <div class="card">
-      {%- if section.settings.statement != blank -%}
-        <p class="statement">{{ section.settings.statement }}</p>
-      {%- endif -%}
-      <div class="body-col">
-        {%- if section.settings.body != blank -%}
-          <div class="body">{{ section.settings.body }}</div>
-        {%- endif -%}
-        {%- if section.settings.stat_1 != blank or section.settings.stat_2 != blank -%}
-          <div class="stats">
-            {%- if section.settings.stat_1 != blank -%}<span>{{ section.settings.stat_1 | escape }}</span>{%- endif -%}
-            {%- if section.settings.stat_1 != blank and section.settings.stat_2 != blank -%}<span class="divider" aria-hidden="true"></span>{%- endif -%}
-            {%- if section.settings.stat_2 != blank -%}<span>{{ section.settings.stat_2 | escape }}</span>{%- endif -%}
-          </div>
-        {%- endif -%}
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+      <div class="head">
+        {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2 class="heading">{{ section.settings.heading }}</h2>{%- endif -%}
       </div>
-      {%- if section.settings.logo != blank -%}
-        {%- assign logo_tag = 'div' -%}
-        {%- if section.settings.logo_link != blank -%}{%- assign logo_tag = 'a' -%}{%- endif -%}
-        <{{ logo_tag }} class="logo" {% if logo_tag == 'a' %}href="{{ section.settings.logo_link }}"{% endif %}>
-          <img
-            src="{{ section.settings.logo | image_url: width: 200 }}"
-            alt="{{ section.settings.logo.alt | default: section.settings.statement | escape }}"
-            loading="lazy"
-            width="{{ section.settings.logo.width }}"
-            height="{{ section.settings.logo.height }}"
-          >
-        </{{ logo_tag }}>
-      {%- endif -%}
-    </div>
+    {%- endif -%}
+    {%- if section.blocks.size > 0 -%}
+      <div class="cards">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'reason' -%}
+              <div class="card card--reason" {{ block.shopify_attributes }}>
+                {%- if block.settings.heading != blank -%}<h3 class="card-heading">{{ block.settings.heading | escape }}</h3>{%- endif -%}
+                {%- if block.settings.body != blank -%}<div class="card-body">{{ block.settings.body }}</div>{%- endif -%}
+              </div>
+            {%- when 'banner' -%}
+              <div class="card card--banner" {{ block.shopify_attributes }}>
+                {%- if block.settings.statement != blank -%}<p class="statement">{{ block.settings.statement }}</p>{%- endif -%}
+                <div class="body-col">
+                  {%- if block.settings.body != blank -%}<div class="body">{{ block.settings.body }}</div>{%- endif -%}
+                  {%- if block.settings.stat_1 != blank or block.settings.stat_2 != blank -%}
+                    <div class="stats">
+                      {%- if block.settings.stat_1 != blank -%}<span>{{ block.settings.stat_1 | escape }}</span>{%- endif -%}
+                      {%- if block.settings.stat_1 != blank and block.settings.stat_2 != blank -%}<span class="divider" aria-hidden="true"></span>{%- endif -%}
+                      {%- if block.settings.stat_2 != blank -%}<span>{{ block.settings.stat_2 | escape }}</span>{%- endif -%}
+                    </div>
+                  {%- endif -%}
+                </div>
+                {%- if block.settings.logo != blank -%}
+                  {%- assign logo_tag = 'div' -%}
+                  {%- if block.settings.logo_link != blank -%}{%- assign logo_tag = 'a' -%}{%- endif -%}
+                  <{{ logo_tag }} class="logo" {% if logo_tag == 'a' %}href="{{ block.settings.logo_link }}"{% endif %}>
+                    <img
+                      src="{{ block.settings.logo | image_url: width: 200 }}"
+                      alt="{{ block.settings.logo.alt | default: block.settings.statement | escape }}"
+                      loading="lazy"
+                      width="{{ block.settings.logo.width }}"
+                      height="{{ block.settings.logo.height }}"
+                    >
+                  </{{ logo_tag }}>
+                {%- endif -%}
+              </div>
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
   </div>
 </div>
 {% schema %}
@@ -140,27 +223,54 @@
     "groups": ["header", "footer"]
   },
   "settings": [
-    { "type": "inline_richtext", "id": "statement", "label": "Statement", "default": "A nature fund disguised as coffee" },
-    { "type": "richtext", "id": "body", "label": "Body", "default": "<p>Through 1% for the Planet, one percent of everything we sell funds ecosystem protection — beyond our own producers, every year, whether we profit or not.</p>" },
-    { "type": "header", "content": "Stat line" },
-    { "type": "text", "id": "stat_1", "label": "Stat 1", "default": "1% OF REVENUE, NOT PROFIT" },
-    { "type": "text", "id": "stat_2", "label": "Stat 2", "default": "INDEPENDENTLY CERTIFIED", "info": "Blank hides the divider and this stat." },
-    { "type": "header", "content": "Logo" },
-    { "type": "image_picker", "id": "logo", "label": "Logo image" },
-    { "type": "url", "id": "logo_link", "label": "Logo link", "info": "Optional — makes the logo clickable." },
-    { "type": "header", "content": "Colors" },
-    { "type": "color", "id": "section_background", "label": "Section background", "default": "transparent" },
-    { "type": "color", "id": "card_background", "label": "Card background", "default": "#ffffff" },
-    { "type": "color", "id": "border_color", "label": "Card border color", "default": "#FF3F00" },
-    { "type": "checkbox", "id": "card_shadow", "label": "Show card shadow", "default": true },
-    { "type": "color", "id": "statement_color", "label": "Statement & stat color", "default": "#FF3F00" },
-    { "type": "color", "id": "body_color", "label": "Body text color", "default": "#00180C" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "WHY OMAWILD" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "What makes us different" },
     { "type": "header", "content": "Layout" },
-    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 16 },
-    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 40 }
+    { "type": "range", "id": "cards_per_row", "label": "Reason cards per row (desktop)", "min": 1, "max": 4, "step": 1, "default": 3, "info": "A last row with fewer cards than this stretches to fill the width. The full-width banner card always sits on its own row." },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "section_background", "label": "Section background", "default": "#FFE4E7" },
+    { "type": "color", "id": "card_background", "label": "Card background", "default": "#ffffff" },
+    { "type": "color", "id": "accent_color", "label": "Accent (eyebrow, heading, borders, statement)", "default": "#FF3F00" },
+    { "type": "color", "id": "body_color", "label": "Body text color", "default": "#00180C" },
+    { "type": "checkbox", "id": "card_shadow", "label": "Show shadow on the banner card", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "reason",
+      "name": "Reason card",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Reason" },
+        { "type": "richtext", "id": "body", "label": "Body", "default": "<p>Tell your story.</p>" }
+      ]
+    },
+    {
+      "type": "banner",
+      "name": "Nature fund banner",
+      "limit": 1,
+      "settings": [
+        { "type": "inline_richtext", "id": "statement", "label": "Statement", "default": "A nature fund disguised as coffee" },
+        { "type": "richtext", "id": "body", "label": "Body", "default": "<p>Through 1% for the Planet, one percent of everything we sell funds ecosystem protection — beyond our own producers, every year, whether we profit or not.</p>" },
+        { "type": "header", "content": "Stat line" },
+        { "type": "text", "id": "stat_1", "label": "Stat 1", "default": "1% OF REVENUE, NOT PROFIT" },
+        { "type": "text", "id": "stat_2", "label": "Stat 2", "default": "INDEPENDENTLY CERTIFIED", "info": "Blank hides the divider and this stat." },
+        { "type": "header", "content": "Logo" },
+        { "type": "image_picker", "id": "logo", "label": "Logo image" },
+        { "type": "url", "id": "logo_link", "label": "Logo link", "info": "Optional — makes the logo clickable." }
+      ]
+    }
   ],
   "presets": [
-    { "name": "OMA Impact Callout" }
+    {
+      "name": "OMA Impact Callout",
+      "blocks": [
+        { "type": "reason", "settings": { "heading": "Grown inside a forest, not instead of one", "body": "<p>Agroforestry-grown coffee that improves soil and biodiversity with every harvest.</p>" } },
+        { "type": "reason", "settings": { "heading": "Fully traceable, back to the source", "body": "<p>Every bag traces to a named origin: grown at 1,500m+ in Garut, West Java, by producers like Faizal Hazbi Assidi.</p>" } },
+        { "type": "reason", "settings": { "heading": "Roasted around your schedule", "body": "<p>A cadence that suits your office, with no minimum volume and the roast date printed on every bag.</p>" } },
+        { "type": "banner" }
+      ]
+    }
   ]
 }
 {% endschema %}
