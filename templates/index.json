@@ -474,32 +474,35 @@
     "oma_story_6xiQqf": {
       "type": "oma-story",
       "blocks": {
+        "photo_XE34bY": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/Origin-001.jpg",
+            "caption": "It started with a one-way ticket to Bali, in search of answers we could no longer find in the rush of everyday life.",
+            "link": ""
+          }
+        },
         "photo_bHFdEY": {
           "type": "photo",
           "settings": {
-            "caption": "It started with a one-way ticket to Bali, in search of answers we could no longer find in the rush of everyday life.",
+            "image": "shopify://shop_images/Origin-002.jpg",
+            "caption": "That summer, we traded the comforts of the city to live and learn alongside those who grew more than just our food.",
             "link": ""
           }
         },
         "photo_cyhRqy": {
           "type": "photo",
           "settings": {
-            "caption": "That summer, we traded the comforts of the city to live and learn alongside those who grew more than just our food.",
-            "link": ""
-          }
-        },
-        "photo_UgWj6E": {
-          "type": "photo",
-          "settings": {
-            "caption": "We cleaned up beaches and rivers chocked with plastic.",
+            "image": "shopify://shop_images/Origin-003.jpg",
+            "caption": "We got our hands dirty restoring degraded land while harnessing the river to power a local village.",
             "link": ""
           }
         }
       },
       "block_order": [
+        "photo_XE34bY",
         "photo_bHFdEY",
-        "photo_cyhRqy",
-        "photo_UgWj6E"
+        "photo_cyhRqy"
       ],
       "name": "OMA Story",
       "settings": {
@@ -508,16 +511,17 @@
         "heading": "We plunged our entire life savings into conservation, until then went broke.",
         "show_subcopy": true,
         "subcopy": "<p>Which is how we learned nature needed a better business model 🤓</p>",
-        "teaser_text": "Follow us down our rabbit hole",
-        "teaser_button_label": "Read the rest →",
-        "teaser_caption": "# more photographs.",
-        "teaser_link": "",
+        "teaser_image": "shopify://shop_images/Origin-004_896a8bd5-4f1e-4011-ab84-ddbc89810d6f.jpg",
+        "teaser_text": "And the rest unfolds...",
+        "teaser_button_label": "Read our story →",
+        "teaser_caption": "Follow us down our rabbit hole",
+        "teaser_link": "shopify://pages/about",
         "background_color": "#fbdcdc",
         "text_color": "#f5450d",
         "card_background": "#ffffff",
         "card_border_color": "#f5450d",
-        "padding_top": 56,
-        "padding_bottom": 64
+        "padding_top": 52,
+        "padding_bottom": 56
       }
     },
     "owv2_banner": {
@@ -544,10 +548,10 @@
         "value_n8HpHR": {
           "type": "value",
           "settings": {
-            "heading": "Good coffee",
-            "body": "<p>Every cup is a chance to do something good.</p>",
-            "cta_label": "asdfasdf",
-            "cta_link": "shopify://pages/dispatch"
+            "heading": "Regenerative Farming",
+            "body": "<p>Soil health is nurtured by the farmers we grow alongside, season after season, through regenerative agriculture: our direct mechanism for better food and climate resilience.</p>",
+            "cta_label": "",
+            "cta_link": ""
           }
         },
         "value_a8K7ip": {
@@ -576,8 +580,8 @@
       ],
       "name": "OWV2 Values",
       "settings": {
-        "heading": "There are many reasons to give a damn…",
-        "intro": "<p>A better daily ritual, with nature at its heart.</p>",
+        "heading": "There are many reasons to give a damn. And we don't need the same reasons.",
+        "intro": "<p>Maybe you're here for the vibes and adventure. Or for a damn good cup of coffee. You don't have to care about the climate for any of that, but there's one thing none of us can opt out of: everything that sustains a well-lived life runs on healthy ecosystems.</p>",
         "background_color": "#f7f5f1",
         "text_color": "#ff3f00",
         "card_background": "#ffffff",
