@@ -557,17 +557,17 @@
         "value_a8K7ip": {
           "type": "value",
           "settings": {
-            "heading": "Living landscapes",
-            "body": "<p>Every cup is a chance to do something good.</p>",
-            "cta_label": "",
-            "cta_link": ""
+            "heading": "1% for the Planet",
+            "body": "<p>Regenerative farming is just one part of caring for our planet. As members of 1% for the Planet, we give at minimum one percent of annual sales to environmental organisations working hard beyond our own supply chains.</p>",
+            "cta_label": "Coming soon",
+            "cta_link": "shopify://pages/one-percent-for-the-planet"
           }
         },
         "value_jNPEWn": {
           "type": "value",
           "settings": {
-            "heading": "A shared future",
-            "body": "<p>Every cup is a chance to do something good.</p>",
+            "heading": "Fully Recyclable",
+            "body": "<p>Pretty \"paper\" bags that can't be recycled. BS \"compostable\" claims that don't actually degrade. None of that is eco-friendly. It's plain greenwashing. Ours is fully recyclable: one PE material from start to finish.</p>",
             "cta_label": "",
             "cta_link": ""
           }
