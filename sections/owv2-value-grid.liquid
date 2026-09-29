@@ -8,7 +8,7 @@
   background: var(--bg);
   color: var(--ink);
   {% if section.settings.show_top_line %}border-top: 1px solid #FFFFFF;{% endif %}
-  padding: {{ section.settings.padding_top }}px max(20px, 5vw) {{ section.settings.padding_bottom }}px;
+  padding: {{ section.settings.padding_top }}px clamp(20px, 4vw, 48px) {{ section.settings.padding_bottom }}px;
   font-family: var(--font-body-family);
   font-size: 16px;
   line-height: 1.5;
@@ -47,7 +47,7 @@
   height: auto;
   }
 .owv2-value-grid-{{ owid }} .inner {
-  max-width: 1320px;
+  max-width: 1344px;
   margin-inline: auto;
   min-width: 0;
   }
@@ -134,16 +134,16 @@
      the true viewport edge, then re-add that padding as scroll-padding so
      the resting position still looks inset -- same pattern as the slider
      in od-featured-products.liquid. */
-  margin-left:calc(-1 * max(20px, 5vw));
-  margin-right:calc(-1 * max(20px, 5vw));
-  padding-left:max(20px, 5vw);
-  padding-right:max(20px, 5vw);
+  margin-left:calc(-1 * clamp(20px, 4vw, 48px));
+  margin-right:calc(-1 * clamp(20px, 4vw, 48px));
+  padding-left:clamp(20px, 4vw, 48px);
+  padding-right:clamp(20px, 4vw, 48px);
   /* Without matching scroll-padding, mandatory snap has no valid snap
      point at rest (the first card's start doesn't line up with the
      scrollport's own start, which ignores regular padding) and Chrome
      silently scrolls past the left inset on load to "fix" it. */
-  scroll-padding-left:max(20px, 5vw);
-  scroll-padding-right:max(20px, 5vw);
+  scroll-padding-left:clamp(20px, 4vw, 48px);
+  scroll-padding-right:clamp(20px, 4vw, 48px);
   scrollbar-width:none;
   }
 .owv2-value-grid-{{ owid }} .cards::-webkit-scrollbar {

@@ -7,7 +7,7 @@
   --surface: {{ section.settings.card_background }};
   background: var(--bg);
   color: var(--ink);
-  padding: {{ section.settings.padding_top }}px max(20px, 5vw) {{ section.settings.padding_bottom }}px;
+  padding: {{ section.settings.padding_top }}px clamp(20px, 4vw, 48px) {{ section.settings.padding_bottom }}px;
   font-family: var(--font-body-family);
   font-size: 16px;
   line-height: 1.5;
@@ -46,7 +46,7 @@
   height: auto;
   }
 .oma-newsletter-{{ owid }} .inner {
-  max-width: 1320px;
+  max-width: 1344px;
   margin-inline: auto;
   min-width: 0;
   }
