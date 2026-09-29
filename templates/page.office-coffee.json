@@ -370,6 +370,52 @@
         "padding_top": 16,
         "padding_bottom": 40
       }
+    },
+    "owv2_value_grid_G7yjqw": {
+      "type": "owv2-value-grid",
+      "blocks": {
+        "card_jpwQ33": {
+          "type": "card",
+          "settings": {
+            "heading": "Agroforestry coffee",
+            "body": "<p>Grown using regenerative practices inside agroforestry systems, so each harvest improves soil health while our forest stays standing.</p>"
+          }
+        },
+        "card_Bd9Xgy": {
+          "type": "card",
+          "settings": {
+            "heading": "Funding nature",
+            "body": "<p>At least 1% of our revenue goes to environmental causes.</p>"
+          }
+        },
+        "card_BwnyCJ": {
+          "type": "card",
+          "settings": {
+            "heading": "Made for your ritual",
+            "body": "<p>Specialty coffee, roasted fresh each month.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "card_jpwQ33",
+        "card_Bd9Xgy",
+        "card_BwnyCJ"
+      ],
+      "name": "OWV2 Value grid",
+      "settings": {
+        "heading": "",
+        "mobile_hint_text": "← SWIPE →",
+        "card_heading_color": "#FF3F00",
+        "card_heading_size": 19,
+        "card_body_color": "#00180C",
+        "card_body_size": 12.5,
+        "background_color": "#FF3F00",
+        "text_color": "#FFFFFF",
+        "card_background": "#FFFFFF",
+        "show_top_line": true,
+        "padding_top": 52,
+        "padding_bottom": 52
+      }
     }
   },
   "order": [
@@ -381,6 +427,7 @@
     "oma_impact_callout_JJ7iWJ",
     "oma_programme_form_9G9wp4",
     "oma_range_cards_FzUJ36",
+    "owv2_value_grid_G7yjqw",
     "oma_impact_callout_gVMgKp"
   ]
 }
