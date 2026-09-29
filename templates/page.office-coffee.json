@@ -65,6 +65,134 @@
         "desktop_padding_horizontal": 48
       }
     },
+    "oma_page_header_office_jiH6Fd": {
+      "type": "oma-page-header-office",
+      "name": "OMA Page Header — Office",
+      "settings": {
+        "heading": "Workplace Coffee",
+        "title_size": "display",
+        "eyebrow": "COFFEE FOR THE WORKPLACE",
+        "show_breadcrumb": true,
+        "breadcrumb_label": "",
+        "body": "",
+        "background_color": "#F7F5F1",
+        "heading_color": "#FF3F00",
+        "text_color": "#00180C",
+        "show_bottom_border": false,
+        "border_color": "#FF3F00",
+        "padding_top": 36,
+        "padding_bottom": 44,
+        "mobile_padding_horizontal": 20,
+        "desktop_padding_horizontal": 48
+      }
+    },
+    "scrolling_promotion_pFUrhR": {
+      "type": "scrolling-promotion",
+      "blocks": {
+        "announcement_HBTUnB": {
+          "type": "announcement",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "Welcome to our store",
+            "text_size": 15,
+            "link": ""
+          }
+        },
+        "announcement_X8wrYd": {
+          "type": "announcement",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "Welcome to our store",
+            "text_size": 15,
+            "link": ""
+          }
+        },
+        "announcement_W3x3LH": {
+          "type": "announcement",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "Welcome to our store",
+            "text_size": 15,
+            "link": ""
+          }
+        },
+        "announcement_B8PQFL": {
+          "type": "announcement",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "Welcome to our store",
+            "text_size": 15,
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement_HBTUnB",
+        "announcement_X8wrYd",
+        "announcement_W3x3LH",
+        "announcement_B8PQFL"
+      ],
+      "name": "t:sections.scrolling-promotion.presets.name",
+      "settings": {
+        "direction": "left",
+        "speed": 6,
+        "show_divider": false,
+        "use_custom_colors": false,
+        "colors_icon": "#ffffff",
+        "colors_text": "#1a1b18",
+        "colors_background": "#ffffff",
+        "gradient_background": "",
+        "padding_top": 12,
+        "padding_bottom": 12
+      }
+    },
+    "owv2_marquee_wEQyBN": {
+      "type": "owv2-marquee",
+      "blocks": {
+        "item_qKMgaz": {
+          "type": "item",
+          "settings": {
+            "text": "100% RECYCLABLE PACKAGING"
+          }
+        },
+        "item_WB6qNq": {
+          "type": "item",
+          "settings": {
+            "text": "DIRECT FARM RELATIONSHIPS"
+          }
+        },
+        "item_NFxNgT": {
+          "type": "item",
+          "settings": {
+            "text": "REGENERATIVE INGREDIENTS"
+          }
+        }
+      },
+      "block_order": [
+        "item_qKMgaz",
+        "item_WB6qNq",
+        "item_NFxNgT"
+      ],
+      "name": "OWV2 Trust marquee",
+      "settings": {
+        "speed": 30,
+        "direction": "left",
+        "separator": "✷",
+        "background_color": "#f5450d",
+        "text_color": "#ffffff",
+        "card_background": "#ffffff",
+        "padding_top": 16,
+        "padding_bottom": 16
+      }
+    },
     "oma_range_cards_FzUJ36": {
       "type": "oma-range-cards",
       "blocks": {
@@ -134,45 +262,6 @@
         "image_placeholder_stripe": "#ffd2d7",
         "padding_top": 56,
         "padding_bottom": 56
-      }
-    },
-    "owv2_marquee_wEQyBN": {
-      "type": "owv2-marquee",
-      "blocks": {
-        "item_qKMgaz": {
-          "type": "item",
-          "settings": {
-            "text": "100% RECYCLABLE PACKAGING"
-          }
-        },
-        "item_WB6qNq": {
-          "type": "item",
-          "settings": {
-            "text": "DIRECT FARM RELATIONSHIPS"
-          }
-        },
-        "item_NFxNgT": {
-          "type": "item",
-          "settings": {
-            "text": "REGENERATIVE INGREDIENTS"
-          }
-        }
-      },
-      "block_order": [
-        "item_qKMgaz",
-        "item_WB6qNq",
-        "item_NFxNgT"
-      ],
-      "name": "OWV2 Trust marquee",
-      "settings": {
-        "speed": 30,
-        "direction": "left",
-        "separator": "✷",
-        "background_color": "#f5450d",
-        "text_color": "#ffffff",
-        "card_background": "#ffffff",
-        "padding_top": 16,
-        "padding_bottom": 16
       }
     },
     "oma_sampler_form_CFDgAq": {
@@ -335,25 +424,52 @@
         "padding_bottom": 76
       }
     },
-    "oma_page_header_office_jiH6Fd": {
-      "type": "oma-page-header-office",
-      "name": "OMA Page Header — Office",
+    "oma_brewing_at_dWh4UW": {
+      "type": "oma-brewing-at",
+      "blocks": {
+        "logo_MrxQYR": {
+          "type": "logo",
+          "settings": {
+            "alt": ""
+          }
+        },
+        "logo_PnykXQ": {
+          "type": "logo",
+          "settings": {
+            "alt": ""
+          }
+        },
+        "logo_yFa3Dp": {
+          "type": "logo",
+          "settings": {
+            "alt": ""
+          }
+        },
+        "logo_tVG9zB": {
+          "type": "logo",
+          "settings": {
+            "alt": ""
+          }
+        }
+      },
+      "block_order": [
+        "logo_MrxQYR",
+        "logo_PnykXQ",
+        "logo_yFa3Dp",
+        "logo_tVG9zB"
+      ],
+      "name": "OMA Brewing At",
       "settings": {
-        "heading": "Workplace Coffee",
-        "title_size": "display",
-        "eyebrow": "COFFEE FOR THE WORKPLACE",
-        "show_breadcrumb": true,
-        "breadcrumb_label": "",
-        "body": "",
+        "label": "CURRENTLY BREWING AT",
         "background_color": "#F7F5F1",
-        "heading_color": "#FF3F00",
-        "text_color": "#00180C",
-        "show_bottom_border": false,
+        "accent_color": "#FF3F00",
+        "tile_background": "#FFFFFF",
+        "show_top_border": false,
+        "show_bottom_border": true,
         "border_color": "#FF3F00",
-        "padding_top": 36,
-        "padding_bottom": 44,
-        "mobile_padding_horizontal": 20,
-        "desktop_padding_horizontal": 48
+        "tile_height": 96,
+        "padding_top": 44,
+        "padding_bottom": 44
       }
     }
   },
@@ -361,8 +477,10 @@
     "main",
     "oma_page_header_mVyFgr",
     "oma_page_header_office_jiH6Fd",
-    "oma_range_cards_FzUJ36",
+    "oma_brewing_at_dWh4UW",
+    "scrolling_promotion_pFUrhR",
     "owv2_marquee_wEQyBN",
+    "oma_range_cards_FzUJ36",
     "oma_sampler_form_CFDgAq",
     "oma_impact_callout_wqrwfx",
     "oma_programme_form_9G9wp4"
