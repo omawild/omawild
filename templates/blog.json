@@ -1,1 +1,144 @@
-{"sections":{"rich_text_a83XRq":{"type":"rich-text","blocks":{"heading_RYdNf6":{"type":"heading","settings":{"heading":"The Dispatch","heading_size":"h0","heading_tag":"h2","enable_highlight":false,"highlight_style":"marker"}},"text_KrdYjx":{"type":"text","settings":{"text":"<p>Welcome to the Dispatch where we share stories from our expeditions across regenerative farms and conservation projects as we build Omawild from the ground up.<\/p>","text_size":"typeset","secondary_color":false,"enable_highlight":false,"highlight_style":"marker"}}},"block_order":["heading_RYdNf6","text_KrdYjx"],"name":"t:sections.rich-text.presets.name","settings":{"text_alignment":"left","mobile_text_alignment":"left","horizontal_content":false,"narrow":false,"show_divider":false,"use_custom_colors":false,"colors_button_label":"#ffffff","colors_button_background":"#1a1b18","colors_text":"#212326","colors_background":"#ffffff","colors_highlight":"#ffb503","gradient_background":"","padding_top":36,"padding_bottom":12}},"main":{"type":"main-blog","blocks":{"title":{"type":"title","settings":{"show_date":true,"show_author":true,"show_comment_count":true}},"summary":{"type":"summary","settings":{}},"read_more":{"type":"read_more","settings":{}}},"block_order":["title","summary","read_more"],"settings":{"per_page":12,"show_tag_filter":true,"show_image":true,"image_ratio":"landscape","image_position":"center center","padding_top":12,"padding_bottom":60}}},"order":["rich_text_a83XRq","main"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-blog",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+            "show_date": true,
+            "show_author": true,
+            "show_comment_count": true
+          }
+        },
+        "summary": {
+          "type": "summary",
+          "settings": {}
+        },
+        "read_more": {
+          "type": "read_more",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "title",
+        "summary",
+        "read_more"
+      ],
+      "disabled": true,
+      "settings": {
+        "per_page": 12,
+        "show_tag_filter": true,
+        "show_image": true,
+        "image_ratio": "landscape",
+        "image_position": "center center",
+        "padding_top": 12,
+        "padding_bottom": 60
+      }
+    },
+    "oma_page_header_tjjVdP": {
+      "type": "oma-page-header",
+      "blocks": {
+        "collection_row_ahYeVd": {
+          "type": "collection_row",
+          "settings": {
+            "collection": "",
+            "title_override": "",
+            "anchor_override": "",
+            "thumbnail_count": 3,
+            "count_label_override": ""
+          }
+        },
+        "collection_row_MjMJrY": {
+          "type": "collection_row",
+          "settings": {
+            "collection": "",
+            "title_override": "",
+            "anchor_override": "",
+            "thumbnail_count": 3,
+            "count_label_override": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_row_ahYeVd",
+        "collection_row_MjMJrY"
+      ],
+      "name": "OMA Page Header",
+      "settings": {
+        "heading": "Shop",
+        "title_size": "display",
+        "show_breadcrumb": true,
+        "breadcrumb_label": "",
+        "body": "",
+        "show_collection_list": true,
+        "background_color": "#FFE4E7",
+        "heading_color": "#FF3F00",
+        "text_color": "#00180C",
+        "divider_color": "#FF3F00",
+        "thumb_background": "#FBB925",
+        "padding_top": 36,
+        "padding_bottom": 44,
+        "mobile_padding_horizontal": 20,
+        "desktop_padding_horizontal": 48
+      }
+    },
+    "oma_dispatch_feed_Wbfpfn": {
+      "type": "oma-dispatch-feed",
+      "blocks": {
+        "filter_mgUxw8": {
+          "type": "filter",
+          "settings": {
+            "tag": "reflections",
+            "label": "Reflections"
+          }
+        },
+        "filter_Hgqjw9": {
+          "type": "filter",
+          "settings": {
+            "tag": "expedition",
+            "label": "Expeditions"
+          }
+        }
+      },
+      "block_order": [
+        "filter_mgUxw8",
+        "filter_Hgqjw9"
+      ],
+      "name": "OMA Dispatch Feed",
+      "settings": {
+        "blog": "",
+        "post_limit": 60,
+        "page_size": 12,
+        "show_featured": true,
+        "all_label": "All",
+        "featured_badge_label": "LATEST",
+        "read_label": "Read the story",
+        "read_time_label": "min read",
+        "shown_of_total_label": "Showing {shown} of {total} stories",
+        "load_more_label": "Load {count} more",
+        "empty_message": "More stories from this series are on their way.",
+        "background_color": "#F7F5F1",
+        "accent_color": "#FF3F00",
+        "text_color": "#00180C",
+        "hover_background": "#FFE4E7",
+        "padding_top": 8,
+        "padding_bottom": 72
+      }
+    }
+  },
+  "order": [
+    "main",
+    "oma_page_header_tjjVdP",
+    "oma_dispatch_feed_Wbfpfn"
+  ]
+}
