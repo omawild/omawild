@@ -1,0 +1,150 @@
+{%- comment -%}
+  OMA Page Header — Office. A dedicated variant for the Workplace Coffee page's
+  top section, kept as its own file rather than an edit to oma-page-header.liquid
+  since that section is shared by Shop/Subscriptions/About/Origins/Dispatch too.
+  Container, padding scale and type sizing are copied from oma-page-header.liquid
+  so the two stay visually interchangeable; this one drops the collection-list
+  table of contents (not part of the Workplace Coffee design) and adds the small
+  eyebrow line the new design uses above the title.
+{%- endcomment -%}
+{%- style -%}
+  .section-{{ section.id }} {
+    background-color: {{ section.settings.background_color }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    {%- if section.settings.show_bottom_border -%}
+      border-bottom: 1.5px solid {{ section.settings.border_color }};
+    {%- endif -%}
+  }
+
+  .container-{{ section.id }} {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding-left: {{ section.settings.mobile_padding_horizontal }}px;
+    padding-right: {{ section.settings.mobile_padding_horizontal }}px;
+    box-sizing: border-box;
+  }
+
+  .crumbs-{{ section.id }} {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 6px;
+    margin: 0 0 18px;
+    padding: 0;
+    list-style: none;
+    font: 700 11px/1.4 var(--font-heading-family);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: {{ section.settings.heading_color }};
+  }
+
+  .crumbs-{{ section.id }} li { display: flex; gap: 6px; }
+  .crumbs-{{ section.id }} a { color: inherit; text-decoration: none; }
+  .crumbs-{{ section.id }} a:hover { opacity: 0.75; }
+
+  .eyebrow-{{ section.id }} {
+    margin: 0 0 18px;
+    font: 900 10.5px/1 var(--font-heading-family);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: {{ section.settings.heading_color }};
+  }
+
+  .title-row-{{ section.id }} {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px 40px;
+  }
+
+  .title-{{ section.id }} {
+    margin: 0;
+    font: 900 clamp(40px, 7vw, 88px)/0.95 var(--font-heading-family);
+    letter-spacing: -0.03em;
+    color: {{ section.settings.heading_color }};
+  }
+
+  .title-{{ section.id }}.statement {
+    font: 900 clamp(40px, 5.4vw, 78px)/0.98 var(--font-heading-family);
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+
+  .body-{{ section.id }} {
+    margin: 20px 0 0;
+    max-width: 62ch;
+    font: 400 16.5px/1.6 var(--font-body-family);
+    color: {{ section.settings.text_color }};
+  }
+
+  .body-{{ section.id }} p { margin: 0; }
+
+  @media screen and (min-width: 750px) {
+    .container-{{ section.id }} {
+      padding-left: {{ section.settings.desktop_padding_horizontal }}px;
+      padding-right: {{ section.settings.desktop_padding_horizontal }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }}">
+  <div class="container-{{ section.id }}">
+    {%- if section.settings.show_breadcrumb -%}
+      <ul class="crumbs-{{ section.id }}">
+        <li><a href="{{ routes.root_url }}">{{ 'general.breadcrumbs.home' | t | default: 'Home' }}</a></li>
+        <li aria-hidden="true">/</li>
+        <li>{{ section.settings.breadcrumb_label | default: section.settings.heading }}</li>
+      </ul>
+    {%- endif -%}
+
+    {%- if section.settings.eyebrow != blank -%}
+      <div class="eyebrow-{{ section.id }}">{{ section.settings.eyebrow }}</div>
+    {%- endif -%}
+
+    <div class="title-row-{{ section.id }}">
+      <h1 class="title-{{ section.id }}{% if section.settings.title_size == 'statement' %} statement{% endif %}">{{ section.settings.heading }}</h1>
+    </div>
+
+    {%- if section.settings.body != blank -%}
+      <div class="body-{{ section.id }} rte">{{ section.settings.body }}</div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "OMA Page Header — Office",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Title", "default": "Workplace Coffee" },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title size",
+      "options": [
+        { "value": "display", "label": "Display (short title, e.g. \"Workplace Coffee\")" },
+        { "value": "statement", "label": "Statement (sentence-length heading)" }
+      ],
+      "default": "display"
+    },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow (optional)", "default": "COFFEE FOR THE WORKPLACE" },
+    { "type": "checkbox", "id": "show_breadcrumb", "label": "Show breadcrumb", "default": true },
+    { "type": "text", "id": "breadcrumb_label", "label": "Breadcrumb label", "info": "Defaults to the title above when left blank." },
+    { "type": "richtext", "id": "body", "label": "Lead paragraph" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#F7F5F1" },
+    { "type": "color", "id": "heading_color", "label": "Heading & link color", "default": "#FF3F00" },
+    { "type": "color", "id": "text_color", "label": "Body text color", "default": "#00180C" },
+    { "type": "checkbox", "id": "show_bottom_border", "label": "Show bottom border", "default": false },
+    { "type": "color", "id": "border_color", "label": "Border color", "default": "#FF3F00" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 36 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 44 },
+    { "type": "range", "id": "mobile_padding_horizontal", "label": "Mobile side gutter", "min": 10, "max": 40, "step": 2, "unit": "px", "default": 20 },
+    { "type": "range", "id": "desktop_padding_horizontal", "label": "Desktop side gutter", "min": 10, "max": 100, "step": 2, "unit": "px", "default": 48 }
+  ],
+  "presets": [
+    { "name": "OMA Page Header — Office" }
+  ]
+}
+{% endschema %}

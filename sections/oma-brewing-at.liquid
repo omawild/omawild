@@ -1,0 +1,148 @@
+{%- comment -%}
+  OMA Brewing At — standalone client-logo strip. Matches the Workplace Coffee
+  Page (new) design's static "CURRENTLY BREWING AT" treatment: plain bordered
+  tiles in a wrapping grid, no animation (unlike the rotated marquee carousel
+  built into the Page Header component's own optional logos feature — that
+  playful style is kept for consumer pages, not used here). Built as its own
+  section rather than folded into oma-page-header-office.liquid so it can sit
+  anywhere on the page independent of the header, and be reused elsewhere a
+  plain trust-logo strip is needed.
+{%- endcomment -%}
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{% style %}
+.oma-brewing-at-{{ owid }} {
+  box-sizing: border-box;
+  background: {{ section.settings.background_color }};
+  padding: {{ section.settings.padding_top }}px clamp(20px, 4vw, 48px) {{ section.settings.padding_bottom }}px;
+  {%- if section.settings.show_top_border -%}
+    border-top: 1.5px solid {{ section.settings.border_color }};
+  {%- endif -%}
+  {%- if section.settings.show_bottom_border -%}
+    border-bottom: 1.5px solid {{ section.settings.border_color }};
+  {%- endif -%}
+}
+.oma-brewing-at-{{ owid }} *, .oma-brewing-at-{{ owid }} *::before, .oma-brewing-at-{{ owid }} *::after {
+  box-sizing: border-box;
+}
+.oma-brewing-at-{{ owid }} .inner {
+  max-width: 1344px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px clamp(24px, 3vw, 40px);
+}
+.oma-brewing-at-{{ owid }} .label {
+  flex: none;
+  font: 900 10.5px/1.5 var(--font-heading-family);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: {{ section.settings.accent_color }};
+}
+.oma-brewing-at-{{ owid }} .logos {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+.oma-brewing-at-{{ owid }} .logo-tile {
+  position: relative;
+  height: {{ section.settings.tile_height }}px;
+  background: {{ section.settings.tile_background }};
+  border: 1.5px solid {{ section.settings.accent_color }};
+  border-radius: 12px;
+  overflow: hidden;
+}
+.oma-brewing-at-{{ owid }} .logo-tile img {
+  position: absolute;
+  inset: 14px 20px;
+  width: calc(100% - 40px);
+  height: calc(100% - 28px);
+  object-fit: contain;
+  display: block;
+}
+.oma-brewing-at-{{ owid }} .logo-tile .placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 700 10px/1.3 var(--font-body-family);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: {{ section.settings.accent_color }};
+  opacity: 0.55;
+  text-align: center;
+  padding: 0 12px;
+}
+{% endstyle %}
+{%- liquid
+  assign logo_blocks = section.blocks | where: 'type', 'logo'
+-%}
+<div class="oma-brewing-at-{{ owid }}">
+  <div class="inner">
+    {%- if section.settings.label != blank -%}
+      <div class="label">{{ section.settings.label }}</div>
+    {%- endif -%}
+    {%- if logo_blocks.size > 0 -%}
+      <div class="logos">
+        {%- for block in logo_blocks -%}
+          <div class="logo-tile" {{ block.shopify_attributes }}>
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 320 | image_tag: loading: 'lazy', alt: block.settings.alt | default: block.settings.image.alt }}
+            {%- else -%}
+              <span class="placeholder">{{ block.settings.alt | default: 'Client logo' }}</span>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- elsif request.design_mode -%}
+      <div class="logos">
+        <div class="logo-tile"><span class="placeholder">Add a "Logo" block</span></div>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "OMA Brewing At",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "label", "label": "Label", "default": "CURRENTLY BREWING AT" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Section background", "default": "#F7F5F1" },
+    { "type": "color", "id": "accent_color", "label": "Accent (label & tile border)", "default": "#FF3F00" },
+    { "type": "color", "id": "tile_background", "label": "Logo tile background", "default": "#FFFFFF" },
+    { "type": "checkbox", "id": "show_top_border", "label": "Show top border", "default": false },
+    { "type": "checkbox", "id": "show_bottom_border", "label": "Show bottom border", "default": true },
+    { "type": "color", "id": "border_color", "label": "Section border color", "default": "#FF3F00" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "tile_height", "label": "Logo tile height", "min": 64, "max": 140, "step": 4, "unit": "px", "default": 96 },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 44 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 44 }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Logo image" },
+        { "type": "text", "id": "alt", "label": "Alt text / fallback label", "info": "Shown as a placeholder label until an image is uploaded." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "OMA Brewing At",
+      "blocks": [
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" }
+      ]
+    }
+  ]
+}
+{% endschema %}
