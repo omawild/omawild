@@ -10,6 +10,11 @@
  * before submit. The hidden tags input already carries the section's
  * schema defaults server-side, so if JS never runs the email still goes
  * through; it just isn't tagged with whatever the visitor actually chose.
+ *
+ * On submit, a second background request also fires (see the submit
+ * listener near the end of bind()) so the shop actually gets notified —
+ * the visible 'customer' form alone is silent; nobody's emailed when it's
+ * submitted, only a Customer record gets created/tagged.
  */
 (function () {
   if (window.__omaPageHeaderOfficeInit) return;
@@ -177,6 +182,53 @@
         tasteIndex = (tasteIndex + 1) % tastes.length;
         if (tasteLabelEl) tasteLabelEl.textContent = tastes[tasteIndex];
         render();
+      });
+    }
+
+    /* The visible form submits natively to Shopify's 'customer' form action
+     * (creates/tags a Customer — see the tags-folding above), which is silent:
+     * nobody at the shop is told a submission happened. Rather than switch the
+     * visible form to 'contact' (and lose the tagged Customer record), fire a
+     * second, background request using the exact form_type=contact convention
+     * oma-programme-form.liquid already uses successfully, so this submission
+     * ALSO lands as a normal contact-form notification email. sendBeacon (not
+     * fetch) specifically because the native form submit navigates the page
+     * away immediately after this handler returns — fetch's request can get
+     * cancelled mid-flight by that navigation; sendBeacon is built to survive
+     * it. Never blocks or cancels the real submission: on the rare chance
+     * sendBeacon itself throws, the customer-tagging submit still goes through
+     * untouched.
+     */
+    var officeForm = root.querySelector('[data-oma-page-header-office-form]');
+    if (officeForm) {
+      officeForm.addEventListener('submit', function () {
+        try {
+          if (!navigator.sendBeacon) return;
+          var emailInput = officeForm.querySelector('input[name="contact[email]"]');
+          var email = emailInput && emailInput.value;
+          if (!email) return;
+
+          var team = getValue('team');
+          var cups = getValue('cups');
+          var days = getValue('days');
+          var cupsPerMonth = team * cups * days * 4.33;
+          var kg = (cupsPerMonth * gramsPerCup) / 1000;
+
+          var body = new URLSearchParams();
+          body.set('form_type', 'contact');
+          body.set('utf8', '✓');
+          body.set('contact[email]', email);
+          body.set('contact[Source]', 'Workplace Coffee — Get a free sampler');
+          body.set('contact[Team size]', Math.round(team) + ' people');
+          body.set('contact[Cups per person per day]', String(cups));
+          body.set('contact[Office days per week]', String(Math.round(days)));
+          body.set('contact[Taste preference]', tastes[tasteIndex]);
+          body.set('contact[Estimated volume]', '≈ ' + formatKg(kg) + ' kg/month, ≈ ' + formatInt(cupsPerMonth) + ' cups/month');
+
+          navigator.sendBeacon(window.location.pathname, body);
+        } catch (err) {
+          /* never let the notification beacon block the real submission */
+        }
       });
     }
 
