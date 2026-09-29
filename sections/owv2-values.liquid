@@ -101,15 +101,20 @@
   max-width:720px;
   margin-bottom:34px;
   }
+{%- comment -%}
+  font-size only, not a full override — weight/letter-spacing/line-height
+  fall through from the shared h1/h2/h3 rule above (900 / -.035em / 1.05),
+  same as every sibling section (oma-hero, oma-newsletter, oma-regen, etc.)
+  that uses that same clamp(30px, 4vw, 58px) as "the" standard H2. Only the
+  ceiling is merchant-adjustable, so a merchant can size it down but the
+  default is the shared standard, not a bespoke smaller one.
+{%- endcomment -%}
 .owv2-values-{{ owid }} .intro h2 {
-  font-size:23px;
-  font-weight:800;
-  letter-spacing:-.02em;
-  line-height:1.2;
+  font-size: clamp(30px, 4vw, {{ section.settings.heading_max_size | default: 58 }}px);
   }
 .owv2-values-{{ owid }} .intro div {
   font-size:13.5px;
-  line-height:1.65;
+  line-height:1.5;
   font-weight:500;
   /* Body copy is muted warm-gray in the design, distinct from the
      section's --ink accent (which stays reserved for headings). */
@@ -161,7 +166,7 @@
   }
 .owv2-values-{{ owid }} article > div {
   font-size:12.5px;
-  line-height:1.6;
+  line-height:1.45;
   font-weight:500;
   color:#5A5550;
   }
@@ -257,6 +262,17 @@
       "id": "intro",
       "label": "Intro",
       "default": "<p>Maybe you're here for the vibes and adventure. Or for a damn good cup of coffee. You don't have to care about the climate for any of that, but there's one thing none of us can opt out of: everything that sustains a well-lived life runs on healthy ecosystems.</p>"
+    },
+    {
+      "type": "range",
+      "id": "heading_max_size",
+      "label": "Heading max size",
+      "min": 30,
+      "max": 58,
+      "step": 2,
+      "unit": "px",
+      "default": 58,
+      "info": "58px is the standard heading size shared with other sections. Lower this to size the heading down; it still shrinks responsively below this on narrower screens either way."
     },
     {
       "type": "color",
