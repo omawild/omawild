@@ -102,12 +102,12 @@
       "name": "OMA Brewing At",
       "settings": {
         "label": "CURRENTLY BREWING AT",
-        "background_color": "#F7F5F1",
-        "accent_color": "#FF3F00",
-        "tile_background": "#FFFFFF",
+        "background_color": "#f7f5f1",
+        "accent_color": "#ff3f00",
+        "tile_background": "#ffffff",
         "show_top_border": false,
         "show_bottom_border": true,
-        "border_color": "#FF3F00",
+        "border_color": "#ff3f00",
         "tile_height": 96,
         "padding_top": 44,
         "padding_bottom": 44
@@ -450,11 +450,33 @@
         "padding_top": 76,
         "padding_bottom": 76
       }
+    },
+    "oma_page_header_office_XfMyLh": {
+      "type": "oma-page-header-office",
+      "name": "OMA Page Header — Office",
+      "settings": {
+        "heading": "Workplace Coffee",
+        "title_size": "display",
+        "eyebrow": "COFFEE FOR THE WORKPLACE",
+        "show_breadcrumb": true,
+        "breadcrumb_label": "",
+        "body": "",
+        "background_color": "#F7F5F1",
+        "heading_color": "#FF3F00",
+        "text_color": "#00180C",
+        "show_bottom_border": false,
+        "border_color": "#FF3F00",
+        "padding_top": 36,
+        "padding_bottom": 44,
+        "mobile_padding_horizontal": 20,
+        "desktop_padding_horizontal": 48
+      }
     }
   },
   "order": [
     "main",
     "oma_page_header_mVyFgr",
+    "oma_page_header_office_XfMyLh",
     "oma_brewing_at_dWh4UW",
     "scrolling_promotion_pFUrhR",
     "owv2_marquee_wEQyBN",
