@@ -134,11 +134,114 @@
         "padding_top": 8,
         "padding_bottom": 72
       }
+    },
+    "oma_origin_cards_zwYiGF": {
+      "type": "oma-origin-cards",
+      "blocks": {
+        "origin_card_zyQD3A": {
+          "type": "origin_card",
+          "settings": {
+            "origin_reference": ""
+          }
+        },
+        "origin_card_Tt44ia": {
+          "type": "origin_card",
+          "settings": {
+            "origin_reference": ""
+          }
+        },
+        "origin_card_VFdMKM": {
+          "type": "origin_card",
+          "settings": {
+            "origin_reference": ""
+          }
+        }
+      },
+      "block_order": [
+        "origin_card_zyQD3A",
+        "origin_card_Tt44ia",
+        "origin_card_VFdMKM"
+      ],
+      "name": "OMA Origin Cards",
+      "settings": {
+        "eyebrow": "THE FIELD GUIDE",
+        "heading": "Where our coffee grows",
+        "body": "<p>Every Omawild coffee is grown inside a working forest by a producer we buy from directly. The Field Guide has a page for each farm.</p>",
+        "show_cta": true,
+        "cta_label": "Open the Field Guide →",
+        "cta_link": "",
+        "origin_number_prefix": "Origin",
+        "producer_label": "PRODUCER",
+        "elevation_label": "ELEVATION",
+        "process_label": "PROCESS",
+        "coffees_label_singular": "GROWN HERE",
+        "coffees_label_plural": "COFFEES",
+        "coming_soon_label": "Coming soon",
+        "visit_label": "Visit",
+        "read_label": "Read the story",
+        "background_color": "#FFE4E7",
+        "accent_color": "#FF3F00",
+        "text_color": "#00180C",
+        "hover_background": "#FFE4E7",
+        "padding_top": 56,
+        "padding_bottom": 72
+      }
+    },
+    "oma_story_Y4Ur6L": {
+      "type": "oma-story",
+      "blocks": {
+        "photo_jQkVbL": {
+          "type": "photo",
+          "settings": {
+            "caption": "It started with a one-way ticket to Bali, in search of answers we could no longer find in the rush of everyday life.",
+            "link": ""
+          }
+        },
+        "photo_y8cYbB": {
+          "type": "photo",
+          "settings": {
+            "caption": "That summer, we traded the comforts of the city to live and learn alongside those who grew more than just our food.",
+            "link": ""
+          }
+        },
+        "photo_jeFJT7": {
+          "type": "photo",
+          "settings": {
+            "caption": "We cleaned up beaches and rivers chocked with plastic.",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "photo_jQkVbL",
+        "photo_y8cYbB",
+        "photo_jeFJT7"
+      ],
+      "name": "OMA Story",
+      "settings": {
+        "show_eyebrow": true,
+        "eyebrow": "HOW WE GOT HERE",
+        "heading": "We plunged our entire life savings into conservation work, until then went broke",
+        "show_subcopy": true,
+        "subcopy": "<p>Which is how we learned nature needed a better business model.</p>",
+        "teaser_text": "Follow us down our rabbit hole",
+        "teaser_button_label": "Read the rest →",
+        "teaser_caption": "# more photographs.",
+        "teaser_link": "",
+        "background_color": "#FBDCDC",
+        "text_color": "#F5450D",
+        "card_background": "#FFFFFF",
+        "card_border_color": "#F5450D",
+        "padding_top": 56,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
     "main",
     "oma_page_header_tjjVdP",
-    "oma_dispatch_feed_Wbfpfn"
+    "oma_dispatch_feed_Wbfpfn",
+    "oma_origin_cards_zwYiGF",
+    "oma_story_Y4Ur6L"
   ]
 }
