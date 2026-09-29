@@ -108,13 +108,54 @@
         "heading": "Flexible by nature",
         "mobile_hint_text": "← SWIPE →",
         "card_heading_color": "#ff3f00",
+        "card_heading_size": 19,
         "card_body_color": "#00180c",
+        "card_body_size": 12.5,
         "background_color": "#ff3f00",
         "text_color": "#ffffff",
         "card_background": "#ffffff",
         "show_top_line": true,
         "padding_top": 52,
         "padding_bottom": 52
+      }
+    },
+    "owv2_marquee_wEQyBN": {
+      "type": "owv2-marquee",
+      "blocks": {
+        "item_qKMgaz": {
+          "type": "item",
+          "settings": {
+            "text": "100% RECYCLABLE PACKAGING"
+          }
+        },
+        "item_WB6qNq": {
+          "type": "item",
+          "settings": {
+            "text": "DIRECT FARM RELATIONSHIPS"
+          }
+        },
+        "item_NFxNgT": {
+          "type": "item",
+          "settings": {
+            "text": "REGENERATIVE INGREDIENTS"
+          }
+        }
+      },
+      "block_order": [
+        "item_qKMgaz",
+        "item_WB6qNq",
+        "item_NFxNgT"
+      ],
+      "name": "OWV2 Trust marquee",
+      "settings": {
+        "speed": 30,
+        "direction": "left",
+        "separator": "✷",
+        "background_color": "#F5450D",
+        "text_color": "#FFFFFF",
+        "card_background": "#FFFFFF",
+        "padding_top": 16,
+        "padding_bottom": 16
       }
     },
     "oma_sampler_form_CFDgAq": {
@@ -300,15 +341,35 @@
         "cta_link": "#build",
         "coming_soon_label": "COMING SOON",
         "placeholder_label": "product shot",
-        "background_color": "#F7F5F1",
-        "accent_color": "#FF3F00",
-        "text_color": "#00180C",
-        "coming_soon_bg": "#FBB925",
-        "coming_soon_text": "#00180C",
-        "image_placeholder_background": "#FFE4E7",
-        "image_placeholder_stripe": "#FFD2D7",
+        "background_color": "#f7f5f1",
+        "accent_color": "#ff3f00",
+        "text_color": "#00180c",
+        "coming_soon_bg": "#fbb925",
+        "coming_soon_text": "#00180c",
+        "image_placeholder_background": "#ffe4e7",
+        "image_placeholder_stripe": "#ffd2d7",
         "padding_top": 56,
         "padding_bottom": 56
+      }
+    },
+    "oma_impact_callout_gVMgKp": {
+      "type": "oma-impact-callout",
+      "name": "OMA Impact Callout",
+      "settings": {
+        "statement": "A nature fund disguised as coffee",
+        "body": "<p>Through 1% for the Planet, one percent of everything we sell funds ecosystem protection — beyond our own producers, every year, whether we profit or not.</p>",
+        "stat_1": "1% OF REVENUE, NOT PROFIT",
+        "stat_2": "INDEPENDENTLY CERTIFIED",
+        "logo": "shopify://shop_images/favicon-96x96.png",
+        "logo_link": "",
+        "section_background": "transparent",
+        "card_background": "#ffffff",
+        "border_color": "#FF3F00",
+        "card_shadow": true,
+        "statement_color": "#FF3F00",
+        "body_color": "#00180C",
+        "padding_top": 16,
+        "padding_bottom": 40
       }
     }
   },
@@ -316,9 +377,11 @@
     "main",
     "oma_page_header_mVyFgr",
     "owv2_value_grid_bPHiX8",
+    "owv2_marquee_wEQyBN",
     "oma_sampler_form_CFDgAq",
     "oma_impact_callout_JJ7iWJ",
     "oma_programme_form_9G9wp4",
-    "oma_range_cards_FzUJ36"
+    "oma_range_cards_FzUJ36",
+    "oma_impact_callout_gVMgKp"
   ]
 }
