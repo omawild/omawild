@@ -1,6 +1,6 @@
 {% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
 {% style %}
-.owv2-regen-{{ owid }} {
+.oma-regen-{{ owid }} {
   box-sizing: border-box;
   --bg: {{ section.settings.background_color }};
   --ink: {{ section.settings.text_color }};
@@ -14,10 +14,10 @@
   font-size: 16px;
   line-height: 1.5;
   }
-.owv2-regen-{{ owid }} *, .owv2-regen-{{ owid }} *::before, .owv2-regen-{{ owid }} *::after {
+.oma-regen-{{ owid }} *, .oma-regen-{{ owid }} *::before, .oma-regen-{{ owid }} *::after {
   box-sizing: border-box;
   }
-.owv2-regen-{{ owid }} h1, .owv2-regen-{{ owid }} h2, .owv2-regen-{{ owid }} h3 {
+.oma-regen-{{ owid }} h1, .oma-regen-{{ owid }} h2, .oma-regen-{{ owid }} h3 {
   font-family: var(--font-heading-family);
   color: inherit;
   font-weight: 900;
@@ -27,45 +27,45 @@
   margin: 0;
   overflow-wrap: anywhere;
   }
-.owv2-regen-{{ owid }} h2 {
+.oma-regen-{{ owid }} h2 {
   font-size: clamp(30px, 4vw, 58px);
   }
-.owv2-regen-{{ owid }} h3 {
+.oma-regen-{{ owid }} h3 {
   font-size: 26px;
   }
-.owv2-regen-{{ owid }} p {
+.oma-regen-{{ owid }} p {
   margin: 0 0 16px;
   }
-.owv2-regen-{{ owid }} p:last-child {
+.oma-regen-{{ owid }} p:last-child {
   margin-bottom: 0;
   }
-.owv2-regen-{{ owid }} a {
+.oma-regen-{{ owid }} a {
   color: inherit;
   }
-.owv2-regen-{{ owid }} img, .owv2-regen-{{ owid }} svg {
+.oma-regen-{{ owid }} img, .oma-regen-{{ owid }} svg {
   display: block;
   max-width: 100%;
   height: auto;
   }
-.owv2-regen-{{ owid }} .inner {
+.oma-regen-{{ owid }} .inner {
   max-width: 1320px;
   margin-inline: auto;
   min-width: 0;
   }
-.owv2-regen-{{ owid }} .intro {
+.oma-regen-{{ owid }} .intro {
   max-width: 760px;
   margin-bottom: 32px;
   }
-.owv2-regen-{{ owid }} .intro > * + * {
+.oma-regen-{{ owid }} .intro > * + * {
   margin-top: 20px;
   }
-.owv2-regen-{{ owid }} .eyebrow {
+.oma-regen-{{ owid }} .eyebrow {
   font-size: 12px;
   font-weight: 700;
   letter-spacing: .12em;
   text-transform: uppercase;
   }
-.owv2-regen-{{ owid }} .owv2-button {
+.oma-regen-{{ owid }} .oma-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -81,14 +81,14 @@
   cursor: pointer;
   transition: filter .2s ease;
   }
-.owv2-regen-{{ owid }} .owv2-button:hover {
+.oma-regen-{{ owid }} .oma-button:hover {
   filter: brightness(.88);
   }
-.owv2-regen-{{ owid }} :focus-visible {
+.oma-regen-{{ owid }} :focus-visible {
   outline: 3px solid currentColor;
   outline-offset: 4px;
   }
-.owv2-regen-{{ owid }} .owv2-placeholder {
+.oma-regen-{{ owid }} .oma-placeholder {
   width: 100%;
   height: 100%;
   min-height: 200px;
@@ -96,33 +96,33 @@
   fill: var(--ink);
   }
 @media (prefers-reduced-motion: reduce) {
-  .owv2-regen-{{ owid }} * {
+  .oma-regen-{{ owid }} * {
   scroll-behavior: auto !important;
   scroll-snap-type: none !important;
   }
 }
-.owv2-regen-{{ owid }} .columns {
+.oma-regen-{{ owid }} .columns {
   display:grid;
   grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);
   gap:50px;
   align-items:start;
   }
-.owv2-regen-{{ owid }} .columns .intro {
+.oma-regen-{{ owid }} .columns .intro {
   max-width:none;
   margin-bottom:0;
   }
-.owv2-regen-{{ owid }} .columns .intro .eyebrow {
+.oma-regen-{{ owid }} .columns .intro .eyebrow {
   font-size:10.5px;
   letter-spacing:.18em;
   }
-.owv2-regen-{{ owid }} .illustration {
+.oma-regen-{{ owid }} .illustration {
   margin-top:26px;
   }
-.owv2-regen-{{ owid }} .illustration img,
-.owv2-regen-{{ owid }} .illustration svg {
+.oma-regen-{{ owid }} .illustration img,
+.oma-regen-{{ owid }} .illustration svg {
   mix-blend-mode:multiply;
   }
-.owv2-regen-{{ owid }} .caption {
+.oma-regen-{{ owid }} .caption {
   margin-top:14px;
   font-size:12.5px;
   line-height:1.55;
@@ -130,14 +130,14 @@
      bold), which reads thinner/blurrier than an actual heavier face. */
   font-weight:600;
   }
-.owv2-regen-{{ owid }} details {
+.oma-regen-{{ owid }} details {
   border-bottom:1px solid var(--ink);
   padding:18px 0;
   }
-.owv2-regen-{{ owid }} details.is-last {
+.oma-regen-{{ owid }} details.is-last {
   border-bottom:none;
   }
-.owv2-regen-{{ owid }} summary {
+.oma-regen-{{ owid }} summary {
   display:flex;
   gap:24px;
   align-items:center;
@@ -148,19 +148,19 @@
   line-height:1.35;
   list-style:none;
   }
-.owv2-regen-{{ owid }} summary::-webkit-details-marker {
+.oma-regen-{{ owid }} summary::-webkit-details-marker {
   display:none;
   }
-.owv2-regen-{{ owid }} summary::after {
+.oma-regen-{{ owid }} summary::after {
   content:'+';
   margin-left:auto;
   font-size:18px;
   font-weight:800;
   }
-.owv2-regen-{{ owid }} details[open] summary::after {
+.oma-regen-{{ owid }} details[open] summary::after {
   content:'−';
   }
-.owv2-regen-{{ owid }} .number {
+.oma-regen-{{ owid }} .number {
   width:var(--num-col);
   font-size:12px;
   font-weight:800;
@@ -168,7 +168,7 @@
   padding-top:3px;
   flex-shrink:0;
   }
-.owv2-regen-{{ owid }} .answer {
+.oma-regen-{{ owid }} .answer {
   /* Matches summary's number column (--num-col) + its 24px gap exactly,
      so the answer text lines up under the title regardless of digit count. */
   padding:13px 0 0 calc(var(--num-col) + 24px);
@@ -177,17 +177,17 @@
   font-weight:500;
   color: var(--midnight);
   }
-.owv2-regen-{{ owid }} .cta {
+.oma-regen-{{ owid }} .cta {
   margin:24px 0 16px;
   }
 @media(max-width:749px) {
-  .owv2-regen-{{ owid }} .columns {
+  .oma-regen-{{ owid }} .columns {
   grid-template-columns:1fr;
   gap:16px;
   }
 }
 {% endstyle %}
-<div class="owv2-regen-{{ owid }} owv2-regen">
+<div class="oma-regen-{{ owid }} oma-regen">
 <div class="inner">
 <div class="columns">
 <div>
@@ -196,7 +196,7 @@
 <h2>{{ section.settings.heading }}</h2>
 </div>
 <div class="illustration">
-{% if section.settings.illustration != blank %}{{ section.settings.illustration | image_url: width: 1800 | image_tag: loading: 'lazy', widths: '390, 750, 1100, 1500, 1800', sizes: '(min-width: 990px) 50vw, 100vw' }}{% else %}{{ 'lifestyle-1' | placeholder_svg_tag: 'owv2-placeholder' }}{% endif %}
+{% if section.settings.illustration != blank %}{{ section.settings.illustration | image_url: width: 1800 | image_tag: loading: 'lazy', widths: '390, 750, 1100, 1500, 1800', sizes: '(min-width: 990px) 50vw, 100vw' }}{% else %}{{ 'lifestyle-1' | placeholder_svg_tag: 'oma-placeholder' }}{% endif %}
 </div>
 <p class="caption">{{ section.settings.caption | escape }}</p>
 </div>
@@ -212,9 +212,9 @@
 <div class="cta">
 {% if section.settings.cta_label != blank %}
 {% if section.settings.cta_link != blank %}
-<a class="owv2-button" href="{{ section.settings.cta_link }}">{{ section.settings.cta_label | escape }}</a>
+<a class="oma-button" href="{{ section.settings.cta_link }}">{{ section.settings.cta_label | escape }}</a>
 {% else %}
-<span class="owv2-button" aria-disabled="true">{{ section.settings.cta_label | escape }}</span>
+<span class="oma-button" aria-disabled="true">{{ section.settings.cta_label | escape }}</span>
 {% endif %}
 {% endif %}
 </div>
@@ -222,10 +222,10 @@
 </div>
 </div>
 </div>
-<script src="{{ 'owv2-regen.js' | asset_url }}" defer></script>
+<script src="{{ 'oma-regen.js' | asset_url }}" defer></script>
 {% schema %}
 {
-  "name": "OWV2 Regen education",
+  "name": "OMA Regen Tip",
   "tag": "section",
   "disabled_on": {
     "groups": [
@@ -311,7 +311,7 @@
   ],
   "presets": [
     {
-      "name": "OWV2 Regen education",
+      "name": "OMA Regen Tip",
       "blocks": [
         {
           "type": "point",
