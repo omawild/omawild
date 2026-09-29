@@ -2,11 +2,16 @@
  * discount badge) shown next to it" wiring for a product card whose price
  * is otherwise static HTML computed once at render time.
  *
- * Both blocks/ow-product-card.liquid (Home) and sections/od-collection-
- * showcase.liquid (Shop/Collections) render a real variant <select> but had
- * no JS reading it at all — the displayed price was whatever Liquid printed
- * for the product's default variant at page-render time, and never changed
- * no matter which variant a shopper picked. The Product Detail page doesn't
+ * Three separate card markups turned out to have this exact same bug,
+ * independently: blocks/ow-product-card.liquid, sections/od-collection-
+ * showcase.liquid (Shop/Collections) and sections/od-featured-products.liquid
+ * (Home — NOT blocks/ow-product-card.liquid despite the similar name and the
+ * "OW Landing products band" card looking near-identical; od-featured-
+ * products has its own separate inline card markup, first-attempt fix missed
+ * this entirely). All three render a real variant <select> with no JS ever
+ * reading it — the displayed price was whatever Liquid printed for the
+ * product's default variant at page-render time, and never changed no
+ * matter which variant a shopper picked. The Product Detail page doesn't
  * have this problem; it has its own JS (assets/owv2-product.js) already
  * driving its price display.
  *
@@ -20,6 +25,8 @@
  * - optionally, [data-discount-badge] is shown/hidden and its text set from
  *   its own data-discount-label-template (default "SAVE {percent}%") when
  *   the selected variant has/hasn't got a real compare-at discount
+ * - optionally, [data-price-prefix] (e.g. a "From" label) is hidden once a
+ *   variant has actually been picked, since the price shown is then exact
  */
 (function () {
   if (window.__variantPriceSyncInit) return;
@@ -43,6 +50,9 @@
 
     var priceEl = card.querySelector('[data-price-display]');
     if (priceEl) priceEl.textContent = formatMoney(price);
+
+    var prefixEl = card.querySelector('[data-price-prefix]');
+    if (prefixEl) prefixEl.hidden = true;
 
     var badge = card.querySelector('[data-discount-badge]');
     if (badge) {
