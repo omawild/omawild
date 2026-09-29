@@ -62,6 +62,7 @@
         "photo_TUawGV": {
           "type": "photo",
           "settings": {
+            "image": "shopify://shop_images/Origin-001.jpg",
             "caption": "It started with a one-way ticket to Bali, in search of answers we could no longer find in the rush of everyday life.",
             "link": ""
           }
@@ -69,6 +70,7 @@
         "photo_iVtiPx": {
           "type": "photo",
           "settings": {
+            "image": "shopify://shop_images/Origin-002.jpg",
             "caption": "That summer, we traded the comforts of the city to live and learn alongside those who grew more than just our food.",
             "link": ""
           }
