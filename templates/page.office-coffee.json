@@ -20,6 +20,31 @@
     },
     "oma_page_header_office_qNJTwn": {
       "type": "oma-page-header-office",
+      "blocks": {
+        "taste_cQmQHU": {
+          "type": "taste",
+          "settings": {
+            "label": "smooth and bold"
+          }
+        },
+        "taste_miTkyk": {
+          "type": "taste",
+          "settings": {
+            "label": "bright and fruity"
+          }
+        },
+        "taste_fU6XHc": {
+          "type": "taste",
+          "settings": {
+            "label": "a bit of both"
+          }
+        }
+      },
+      "block_order": [
+        "taste_cQmQHU",
+        "taste_miTkyk",
+        "taste_fU6XHc"
+      ],
       "name": "OMA Page Header — Office",
       "settings": {
         "show_breadcrumb": false,
@@ -50,8 +75,8 @@
         "footnote_prefix": "Estimate assumes [grams] g per cup.",
         "footnote_link_label": "See the full product range ↓",
         "footnote_link_href": "",
-        "background_color": "#FF3F00",
-        "border_color": "#FF3F00",
+        "background_color": "#ff3f00",
+        "border_color": "#ff3f00",
         "breadcrumb_color": "#fcd0fd",
         "badge_background": "#fcd0fd",
         "eyebrow_color": "#fbb925",
