@@ -18,6 +18,51 @@
         "padding_bottom": 72
       }
     },
+    "oma_page_header_office_qNJTwn": {
+      "type": "oma-page-header-office",
+      "name": "OMA Page Header — Office",
+      "settings": {
+        "show_breadcrumb": false,
+        "breadcrumb_label": "",
+        "badge_text": "FREE SAMPLER · YOU COVER SHIPPING",
+        "eyebrow_text": "Coffee for the Workplace",
+        "text_lead": "We're a team of",
+        "team_unit": "human",
+        "text_after_team": "drinking",
+        "cups_unit": "cup",
+        "text_after_cups": "each, in the office",
+        "days_unit": "day",
+        "text_after_days": "a week, and we prefer our coffee",
+        "team_default": 101,
+        "cups_default": 1,
+        "days_default": 5,
+        "grams_per_cup": 15,
+        "stats_label_1": "TOTAL COFFEE VOLUME",
+        "stats_unit_1": "kg per month",
+        "stats_label_2": "TOTAL CUPS",
+        "stats_unit_2": "cups per month",
+        "form_eyebrow": "GET A FREE SAMPLER",
+        "email_placeholder": "you@company.com",
+        "submit_label": "Send my sampler",
+        "success_message": "On its way — check your inbox.",
+        "fine_print": "<p>You just cover shipping. No card, no contract. Your answers above come with the request.</p>",
+        "tag": "workplace-sampler-request",
+        "footnote_prefix": "Estimate assumes [grams] g per cup.",
+        "footnote_link_label": "See the full product range ↓",
+        "footnote_link_href": "",
+        "background_color": "#FF3F00",
+        "border_color": "#FF3F00",
+        "breadcrumb_color": "#fcd0fd",
+        "badge_background": "#fcd0fd",
+        "eyebrow_color": "#fbb925",
+        "sentence_color": "#ffffff",
+        "accent_color": "#ff3f00",
+        "card_border_color": "#fbb925",
+        "form_panel_background": "#ffe4e7",
+        "text_color": "#00180c",
+        "footnote_color": "#ffffff"
+      }
+    },
     "oma_brewing_at_dWh4UW": {
       "type": "oma-brewing-at",
       "blocks": {
@@ -403,38 +448,17 @@
         "padding_top": 76,
         "padding_bottom": 76
       }
-    },
-    "oma_page_header_office_qNJTwn": {
-      "type": "oma-page-header-office",
-      "name": "OMA Page Header — Office",
-      "settings": {
-        "heading": "Workplace Coffee",
-        "title_size": "display",
-        "eyebrow": "COFFEE FOR THE WORKPLACE",
-        "show_breadcrumb": true,
-        "breadcrumb_label": "",
-        "body": "",
-        "background_color": "#F7F5F1",
-        "heading_color": "#FF3F00",
-        "text_color": "#00180C",
-        "show_bottom_border": false,
-        "border_color": "#FF3F00",
-        "padding_top": 36,
-        "padding_bottom": 44,
-        "mobile_padding_horizontal": 20,
-        "desktop_padding_horizontal": 48
-      }
     }
   },
   "order": [
     "main",
+    "oma_page_header_office_qNJTwn",
     "oma_brewing_at_dWh4UW",
     "scrolling_promotion_pFUrhR",
     "owv2_marquee_wEQyBN",
     "oma_range_cards_FzUJ36",
     "oma_sampler_form_CFDgAq",
     "oma_impact_callout_wqrwfx",
-    "oma_programme_form_9G9wp4",
-    "oma_page_header_office_qNJTwn"
+    "oma_programme_form_9G9wp4"
   ]
 }
