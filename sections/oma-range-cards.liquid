@@ -169,7 +169,7 @@
 {%- liquid
   assign card_blocks = section.blocks | where: 'type', 'card'
 -%}
-<div class="oma-range-cards-{{ owid }}">
+<div class="oma-range-cards-{{ owid }}" id="{{ section.settings.anchor_id | default: 'range' }}">
   <div class="inner">
     <div class="head-row">
       <div>
@@ -233,6 +233,7 @@
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE RANGE" },
     { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Four coffees, one programme" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "default": "range", "info": "Lets other sections (e.g. OMA Page Header — Office's footnote link) scroll here with #range. Must be unique on the page." },
     { "type": "header", "content": "Button" },
     { "type": "checkbox", "id": "show_cta", "label": "Show button", "default": true },
     { "type": "text", "id": "cta_label", "label": "Button label", "default": "See full range & pricing" },

@@ -12,21 +12,27 @@
   pluralize their unit word client-side; assets/oma-page-header-office.js
   owns that plus the stepper math and the taste toggle.
 
-  The email capture reuses the theme's native `customer` form action (see
-  oma-sampler-form.liquid) rather than a third-party ESP. The customer form
-  has no fields for team size/cups/days/taste, so those are folded into
-  `contact[tags]` client-side, same trick as oma-sampler-form.js. If JS never
-  runs, the hidden tag input still carries the schema defaults baked in at
-  render time, so the email is never lost — it just isn't tagged with
-  whatever the visitor actually chose.
+  The email capture uses the theme's native `contact` form action (the same
+  one oma-programme-form.liquid uses for "Build Your Programme") rather than
+  the `customer` form action. Deliberately NOT `customer`: that action
+  creates/tags a Shopify Customer record on every submit with no email
+  notification, which is neither what the shop wants surfaced as a Customer
+  (a pile of `team-10, cups-1, days-5, taste-...` tags) nor reliably seen —
+  `contact` sends a real notification to the shop's configured contact
+  address instead, same mechanism already confirmed working for Programme.
+  Team size, cups and days submit straight off the stepper inputs (each one
+  carries its own `contact[...]` name); taste and the estimate are mirrored
+  into hidden fields by assets/oma-page-header-office.js on every change, so
+  a visitor who never touches JS still submits the schema defaults baked into
+  those hidden fields' initial values.
 {%- endcomment -%}
 {% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
 {%- liquid
   assign taste_blocks = section.blocks | where: 'type', 'taste'
   assign first_taste = taste_blocks.first.settings.label | default: 'chocolatey'
-  assign first_taste_slug = first_taste | handleize
   assign cups_per_month_default = section.settings.team_default | times: section.settings.cups_default | times: section.settings.days_default | times: 4.33
   assign kg_default = cups_per_month_default | times: section.settings.grams_per_cup | divided_by: 1000.0
+  assign form_id = 'oma-page-header-office-' | append: section.id
 
   assign team_word = section.settings.team_unit
   if section.settings.team_default != 1
@@ -89,7 +95,7 @@
   font: 900 10.5px/1 var(--font-heading-family);
   letter-spacing: .12em;
   text-transform: uppercase;
-  transform: rotate(-2deg);
+  transform: rotate(2deg);
 }
 .oma-page-header-office-{{ owid }} .eyebrow {
   margin: clamp(28px, 4vw, 48px) 0 0;
@@ -252,6 +258,7 @@
 }
 .oma-page-header-office-{{ owid }} .capture-row button:hover { filter: brightness(.85); }
 .oma-page-header-office-{{ owid }} .fine-print {
+  margin-top: 6px;
   font-size: 12.5px;
   line-height: 1.55;
   color: {{ section.settings.text_color }};
@@ -280,7 +287,6 @@
   data-team-unit-singular="{{ section.settings.team_unit | escape }}"
   data-cups-unit-singular="{{ section.settings.cups_unit | escape }}"
   data-days-unit-singular="{{ section.settings.days_unit | escape }}"
-  data-base-tag="{{ section.settings.tag | escape }}"
 >
   <div class="inner">
     <div class="top-row">
@@ -304,21 +310,21 @@
       {{ section.settings.text_lead }}
       <span class="stepper" data-stepper="team">
         <button type="button" data-step="down" aria-label="Fewer people">&minus;</button>
-        <input type="text" inputmode="numeric" value="{{ section.settings.team_default }}" data-input aria-label="Number of people on the team">
+        <input type="text" inputmode="numeric" name="contact[Team size]" value="{{ section.settings.team_default }}" data-input aria-label="Number of people on the team">
         <button type="button" data-step="up" aria-label="More people">+</button>
       </span>
       <span class="unit" data-unit="team">{{ team_word }}</span>,
       {{ section.settings.text_after_team }}
       <span class="stepper" data-stepper="cups">
         <button type="button" data-step="down" aria-label="Fewer cups">&minus;</button>
-        <input type="text" inputmode="decimal" value="{{ section.settings.cups_default }}" data-input aria-label="Cups per person per day">
+        <input type="text" inputmode="decimal" name="contact[Cups per person per day]" value="{{ section.settings.cups_default }}" data-input aria-label="Cups per person per day">
         <button type="button" data-step="up" aria-label="More cups">+</button>
       </span>
       <span class="unit" data-unit="cups">{{ cups_word }}</span>
       {{ section.settings.text_after_cups }}
       <span class="stepper" data-stepper="days">
         <button type="button" data-step="down" aria-label="Fewer days">&minus;</button>
-        <input type="text" inputmode="numeric" value="{{ section.settings.days_default }}" data-input aria-label="Days in the office per week">
+        <input type="text" inputmode="numeric" name="contact[Office days per week]" value="{{ section.settings.days_default }}" data-input aria-label="Days in the office per week">
         <button type="button" data-step="up" aria-label="More days">+</button>
       </span>
       <span class="unit" data-unit="days">{{ days_word }}</span>
@@ -347,17 +353,14 @@
         </div>
       </div>
       <div class="form-panel">
-        {% form 'customer', class: 'oma-page-header-office-form', data-oma-page-header-office-form: '' %}
+        {% form 'contact', id: form_id, class: 'oma-page-header-office-form', data-oma-page-header-office-form: '' %}
           {%- if form.posted_successfully? -%}
             <p class="success" role="status" tabindex="-1" autofocus>{{ section.settings.success_message | escape }}</p>
           {%- else -%}
             <span class="form-label">{{ section.settings.form_eyebrow | escape }}</span>
-            <input
-              type="hidden"
-              name="contact[tags]"
-              value="{{ section.settings.tag | escape }}, team-{{ section.settings.team_default }}, cups-{{ section.settings.cups_default }}, days-{{ section.settings.days_default }}, taste-{{ first_taste_slug }}"
-              data-tags-input
-            >
+            <input type="hidden" name="contact[Source]" value="Workplace Coffee — Get a free sampler">
+            <input type="hidden" name="contact[Taste preference]" value="{{ first_taste }}" data-taste-hidden>
+            <input type="hidden" name="contact[Estimated volume]" value="≈ {{ kg_default | round: 1 }} kg/month, ≈ {{ cups_per_month_default | round }} cups/month" data-volume-hidden>
             <div class="capture-row {% if form.errors contains 'email' %}field--with-error{% endif %}">
               <label class="visually-hidden" for="OfficeSamplerEmail-{{ section.id }}">{{ 'templates.contact.form.email' | t }}</label>
               <input
@@ -430,7 +433,6 @@
     { "type": "text", "id": "submit_label", "label": "Submit button label", "default": "Send my sampler" },
     { "type": "text", "id": "success_message", "label": "Success message", "default": "On its way — check your inbox." },
     { "type": "richtext", "id": "fine_print", "label": "Fine print", "default": "<p>You just cover shipping. No card, no contract. Your answers above come with the request.</p>" },
-    { "type": "text", "id": "tag", "label": "Customer tag applied on submit", "default": "workplace-sampler-request", "info": "Team size, cups, days and taste are appended automatically as separate tags." },
     { "type": "header", "content": "Footnote" },
     { "type": "text", "id": "footnote_prefix", "label": "Footnote text", "default": "Estimate assumes [grams] g per cup.", "info": "Use [grams] as a placeholder for the setting above." },
     { "type": "text", "id": "footnote_link_label", "label": "Footnote link label", "default": "See the full product range ↓" },
