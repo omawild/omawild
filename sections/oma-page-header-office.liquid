@@ -384,7 +384,7 @@
     </div>
 
     <p class="footnote">
-      {{ section.settings.footnote_prefix | replace: '{grams}', section.settings.grams_per_cup }}
+      {{ section.settings.footnote_prefix | replace: '[grams]', section.settings.grams_per_cup }}
       {%- if section.settings.footnote_link_label != blank -%}
         &nbsp;<a href="{{ section.settings.footnote_link_href | default: '#range' }}">{{ section.settings.footnote_link_label }}</a>
       {%- endif -%}
@@ -432,7 +432,7 @@
     { "type": "richtext", "id": "fine_print", "label": "Fine print", "default": "<p>You just cover shipping. No card, no contract. Your answers above come with the request.</p>" },
     { "type": "text", "id": "tag", "label": "Customer tag applied on submit", "default": "workplace-sampler-request", "info": "Team size, cups, days and taste are appended automatically as separate tags." },
     { "type": "header", "content": "Footnote" },
-    { "type": "text", "id": "footnote_prefix", "label": "Footnote text", "default": "Estimate assumes {grams} g per cup.", "info": "Use {grams} as a placeholder for the setting above." },
+    { "type": "text", "id": "footnote_prefix", "label": "Footnote text", "default": "Estimate assumes [grams] g per cup.", "info": "Use [grams] as a placeholder for the setting above." },
     { "type": "text", "id": "footnote_link_label", "label": "Footnote link label", "default": "See the full product range ↓" },
     { "type": "url", "id": "footnote_link_href", "label": "Footnote link destination" },
     { "type": "header", "content": "Colors" },
