@@ -362,11 +362,15 @@
                     {%- else -%}
                       <span class="price-{{ section.id }}" data-price-display>{{ product.price | money_with_currency }}</span>
                     {%- endif -%}
-                    {%- if product.compare_at_price > product.price -%}
-                      <span class="discount-badge-{{ section.id }}">
-                        SAVE {{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round }}%
-                      </span>
-                    {%- endif -%}
+                    {%- liquid
+                      assign has_discount = false
+                      assign discount_pct = 0
+                      if product.compare_at_price > product.price
+                        assign has_discount = true
+                        assign discount_pct = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round
+                      endif
+                    -%}
+                    <span class="discount-badge-{{ section.id }}" data-discount-badge data-discount-label-template="SAVE {percent}%" {% unless has_discount %}hidden{% endunless %}>SAVE {{ discount_pct }}%</span>
                   </div>
 
                   {%- if product.available -%}
@@ -387,7 +391,7 @@
                           <div class="select-wrap-{{ section.id }}">
                             <select class="variant-select-{{ section.id }}" name="id" aria-label="{{ product.title | escape }} options" data-variant-price-select>
                               {%- for variant in product.variants -%}
-                                <option value="{{ variant.id }}" data-price="{{ variant.price }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>{{ variant.title | escape }}{% unless variant.available %} — {{ 'products.product.sold_out' | t }}{% endunless %}</option>
+                                <option value="{{ variant.id }}" data-price="{{ variant.price }}" data-compare-at="{{ variant.compare_at_price | default: 0 }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>{{ variant.title | escape }}{% unless variant.available %} — {{ 'products.product.sold_out' | t }}{% endunless %}</option>
                               {%- endfor -%}
                             </select>
                             <svg class="select-chevron-{{ section.id }}" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>

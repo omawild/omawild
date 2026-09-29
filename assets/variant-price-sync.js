@@ -1,6 +1,6 @@
-/* variant-price-sync — generic "pick a variant, update the price shown next
- * to it" wiring for a product card whose price is otherwise static HTML
- * computed once at render time.
+/* variant-price-sync — generic "pick a variant, update the price (and any
+ * discount badge) shown next to it" wiring for a product card whose price
+ * is otherwise static HTML computed once at render time.
  *
  * Both blocks/ow-product-card.liquid (Home) and sections/od-collection-
  * showcase.liquid (Shop/Collections) render a real variant <select> but had
@@ -10,17 +10,16 @@
  * have this problem; it has its own JS (assets/owv2-product.js) already
  * driving its price display.
  *
- * Scoped to price only, deliberately -- od-collection-showcase.liquid's
- * "SAVE X%" discount badge isn't touched here, since keeping it in sync
- * would mean recomputing a percentage rather than just swapping a price
- * string, a different (and separate) fix if it turns out to matter.
- *
  * Contract, so any future card can opt in the same way:
  * - the <select> carries [data-variant-price-select]
- * - each <option> carries data-price="{cents}"
+ * - each <option> carries data-price="{cents}" and, optionally,
+ *   data-compare-at="{cents}" (0/absent = no compare-at price)
  * - the nearest ancestor with [data-price-card] is the whole card
  * - within it, [data-price-display] is the element whose text becomes the
  *   selected variant's formatted price
+ * - optionally, [data-discount-badge] is shown/hidden and its text set from
+ *   its own data-discount-label-template (default "SAVE {percent}%") when
+ *   the selected variant has/hasn't got a real compare-at discount
  */
 (function () {
   if (window.__variantPriceSyncInit) return;
@@ -40,8 +39,23 @@
     var card = select.closest('[data-price-card]');
     if (!card) return;
 
+    var price = parseInt(option.dataset.price, 10) || 0;
+
     var priceEl = card.querySelector('[data-price-display]');
-    if (priceEl) priceEl.textContent = formatMoney(option.dataset.price);
+    if (priceEl) priceEl.textContent = formatMoney(price);
+
+    var badge = card.querySelector('[data-discount-badge]');
+    if (badge) {
+      var compareAt = parseInt(option.dataset.compareAt, 10) || 0;
+      if (compareAt > price) {
+        var pct = Math.round(((compareAt - price) / compareAt) * 100);
+        var template = badge.dataset.discountLabelTemplate || 'SAVE {percent}%';
+        badge.textContent = template.replace('{percent}', pct);
+        badge.hidden = false;
+      } else {
+        badge.hidden = true;
+      }
+    }
   }
 
   function bind(select) {
