@@ -78,7 +78,8 @@
         "photo_GQpkib": {
           "type": "photo",
           "settings": {
-            "caption": "We cleaned up beaches and rivers chocked with plastic.",
+            "image": "shopify://shop_images/Origin-003.jpg",
+            "caption": "We got our hands dirty restoring degraded land while harnessing the river to power a local village.",
             "link": ""
           }
         }
