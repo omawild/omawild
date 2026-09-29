@@ -127,7 +127,7 @@
         "collection": "specialty-coffee",
         "anchor_id": "",
         "heading_override": "",
-        "description_override": "",
+        "description_override": "<p>Every lot is rigorously selected and roasted fresh in small batches with the crop year and roast date listed so you know what you’re drinking.</p>",
         "show_view_all": true,
         "view_all_label": "View all",
         "products_to_show": 8,
