@@ -186,19 +186,16 @@
       "type": "oma-impact-callout",
       "name": "OMA Impact Callout",
       "settings": {
-        "statement": "A nature fund disguised as coffee",
-        "body": "<p>Through 1% for the Planet, one percent of everything we sell funds ecosystem protection — beyond our own producers, every year, whether we profit or not.</p>",
-        "stat_1": "1% OF REVENUE, NOT PROFIT",
-        "stat_2": "INDEPENDENTLY CERTIFIED",
-        "logo_link": "",
+        "eyebrow": "WHY OMAWILD",
+        "heading": "What makes us different",
+        "cards_per_row": 3,
+        "padding_top": 16,
+        "padding_bottom": 40,
         "section_background": "rgba(0,0,0,0)",
         "card_background": "#ffffff",
-        "border_color": "#ff3f00",
-        "card_shadow": true,
-        "statement_color": "#ff3f00",
+        "accent_color": "#ff3f00",
         "body_color": "#00180c",
-        "padding_top": 16,
-        "padding_bottom": 40
+        "card_shadow": true
       }
     },
     "oma_programme_form_9G9wp4": {
@@ -352,69 +349,59 @@
         "padding_bottom": 56
       }
     },
-    "oma_impact_callout_gVMgKp": {
+    "oma_impact_callout_wqrwfx": {
       "type": "oma-impact-callout",
-      "name": "OMA Impact Callout",
-      "settings": {
-        "statement": "A nature fund disguised as coffee",
-        "body": "<p>Through 1% for the Planet, one percent of everything we sell funds ecosystem protection — beyond our own producers, every year, whether we profit or not.</p>",
-        "stat_1": "1% OF REVENUE, NOT PROFIT",
-        "stat_2": "INDEPENDENTLY CERTIFIED",
-        "logo_link": "",
-        "section_background": "rgba(0,0,0,0)",
-        "card_background": "#ffffff",
-        "border_color": "#ff3f00",
-        "card_shadow": true,
-        "statement_color": "#ff3f00",
-        "body_color": "#00180c",
-        "padding_top": 16,
-        "padding_bottom": 40
-      }
-    },
-    "owv2_value_grid_G7yjqw": {
-      "type": "owv2-value-grid",
       "blocks": {
-        "card_jpwQ33": {
-          "type": "card",
+        "reason_agiMrt": {
+          "type": "reason",
           "settings": {
-            "heading": "Agroforestry coffee",
-            "body": "<p>Grown using regenerative practices inside agroforestry systems, so each harvest improves soil health while our forest stays standing.</p>"
+            "heading": "Grown inside a forest, not instead of one",
+            "body": "<p>Agroforestry-grown coffee that improves soil and biodiversity with every harvest.</p>"
           }
         },
-        "card_Bd9Xgy": {
-          "type": "card",
+        "reason_yiVLxG": {
+          "type": "reason",
           "settings": {
-            "heading": "Funding nature",
-            "body": "<p>At least 1% of our revenue goes to environmental causes.</p>"
+            "heading": "Fully traceable, back to the source",
+            "body": "<p>Every bag traces to a named origin: grown at 1,500m+ in Garut, West Java, by producers like Faizal Hazbi Assidi.</p>"
           }
         },
-        "card_BwnyCJ": {
-          "type": "card",
+        "reason_bFtXE3": {
+          "type": "reason",
           "settings": {
-            "heading": "Made for your ritual",
-            "body": "<p>Specialty coffee, roasted fresh each month.</p>"
+            "heading": "Roasted around your schedule",
+            "body": "<p>A cadence that suits your office, with no minimum volume and the roast date printed on every bag.</p>"
+          }
+        },
+        "banner_tFDNnh": {
+          "type": "banner",
+          "settings": {
+            "statement": "A nature fund disguised as coffee",
+            "body": "<p>Through 1% for the Planet, one percent of everything we sell funds ecosystem protection — beyond our own producers, every year, whether we profit or not.</p>",
+            "stat_1": "1% OF REVENUE, NOT PROFIT",
+            "stat_2": "INDEPENDENTLY CERTIFIED",
+            "logo_link": ""
           }
         }
       },
       "block_order": [
-        "card_jpwQ33",
-        "card_Bd9Xgy",
-        "card_BwnyCJ"
+        "reason_agiMrt",
+        "reason_yiVLxG",
+        "reason_bFtXE3",
+        "banner_tFDNnh"
       ],
-      "name": "OWV2 Value grid",
+      "name": "OMA Impact Callout",
       "settings": {
-        "heading": "",
-        "mobile_hint_text": "← SWIPE →",
-        "card_heading_color": "#FF3F00",
-        "card_heading_size": 19,
-        "card_body_color": "#00180C",
-        "card_body_size": 12.5,
-        "background_color": "#FF3F00",
-        "text_color": "#FFFFFF",
-        "card_background": "#FFFFFF",
-        "show_top_line": true,
-        "padding_top": 52,
-        "padding_bottom": 52
+        "eyebrow": "WHY OMAWILD",
+        "heading": "What makes us different",
+        "cards_per_row": 3,
+        "padding_top": 56,
+        "padding_bottom": 56,
+        "section_background": "#FFE4E7",
+        "card_background": "#ffffff",
+        "accent_color": "#FF3F00",
+        "body_color": "#00180C",
+        "card_shadow": true
       }
     }
   },
@@ -427,7 +414,6 @@
     "oma_impact_callout_JJ7iWJ",
     "oma_programme_form_9G9wp4",
     "oma_range_cards_FzUJ36",
-    "owv2_value_grid_G7yjqw",
-    "oma_impact_callout_gVMgKp"
+    "oma_impact_callout_wqrwfx"
   ]
 }
