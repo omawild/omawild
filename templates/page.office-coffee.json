@@ -18,27 +18,6 @@
         "padding_bottom": 72
       }
     },
-    "oma_page_header_office_XfMyLh": {
-      "type": "oma-page-header-office",
-      "name": "OMA Page Header — Office",
-      "settings": {
-        "heading": "Workplace Coffee",
-        "title_size": "display",
-        "eyebrow": "COFFEE FOR THE WORKPLACE",
-        "show_breadcrumb": true,
-        "breadcrumb_label": "",
-        "body": "",
-        "background_color": "#f7f5f1",
-        "heading_color": "#ff3f00",
-        "text_color": "#00180c",
-        "show_bottom_border": false,
-        "border_color": "#ff3f00",
-        "padding_top": 36,
-        "padding_bottom": 44,
-        "mobile_padding_horizontal": 20,
-        "desktop_padding_horizontal": 48
-      }
-    },
     "oma_brewing_at_dWh4UW": {
       "type": "oma-brewing-at",
       "blocks": {
@@ -428,7 +407,6 @@
   },
   "order": [
     "main",
-    "oma_page_header_office_XfMyLh",
     "oma_brewing_at_dWh4UW",
     "scrolling_promotion_pFUrhR",
     "owv2_marquee_wEQyBN",
