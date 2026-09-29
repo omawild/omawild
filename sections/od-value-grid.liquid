@@ -1,35 +1,54 @@
+{%- comment -%}
+  od-value-grid — shared bordered/plain card grid used for the Workplace
+  page's repeating-card sections (e.g. "Flexible by nature", "Beyond the
+  coffee"). Section padding, inner max-width, and card grid gap intentionally
+  match the values used in oma-range-cards.liquid and oma-impact-callout.liquid
+  (1280px inner, clamp(20px, 4vw, 48px) horizontal padding, 18px grid gap,
+  30px gap before the grid) so every section on the page shares the same
+  rhythm. Keep new sections consistent with these values rather than picking
+  new ones.
+{%- endcomment -%}
 {%- style -%}
-.section-{{ section.id }} 
+.section-{{ section.id }}
 {
   background-color: {{ section.settings.background_color }};
-  padding-top: {{ section.settings.section_padding_top }}px;
-  padding-bottom: {{ section.settings.section_padding_bottom }}px;
+  padding: {{ section.settings.padding_top }}px clamp(20px, 4vw, 48px) {{ section.settings.padding_bottom }}px;
 }
 
-.container-{{ section.id }} 
+.container-{{ section.id }}
 {
-  {%- if section.settings.full_width -%}
-    max-width: 100%;
-  {%- else -%}
-    max-width: {{ section.settings.max_width }}px;
-  {%- endif -%}
+  max-width: 1280px;
   margin: 0 auto;
-  padding-left: {{ section.settings.mobile_padding_horizontal }}px;
-  padding-right: {{ section.settings.mobile_padding_horizontal }}px;
 }
 
-.header-{{ section.id }} 
+.header-{{ section.id }}
 {
-  margin-bottom: 50px;
   text-align: {{ section.settings.header_alignment }};
 }
 
-.title-{{ section.id }} 
+.eyebrow-{{ section.id }}
 {
-  margin: 0;
+  font: 800 10.5px/1 var(--font-heading-family);
+  letter-spacing: .18em;
+  color: {{ section.settings.eyebrow_color }};
+}
+
+.title-{{ section.id }}
+{
+  margin: 16px 0 0;
   color: {{ section.settings.heading_color }};
   font-size: 32px;
   font-weight: 700;
+}
+
+.intro-{{ section.id }}
+{
+  margin: 20px 0 0;
+  max-width: 80ch;
+  font-family: var(--font-body-family);
+  font-size: 16.5px;
+  line-height: 1.5;
+  color: {{ section.settings.text_color }};
 }
 
 /* --- The USP Grid --- */
@@ -37,7 +56,8 @@
 {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 40px 20px;
+  gap: 18px;
+  margin-top: 30px;
 }
 
 .usp-item-{{ section.id }}
@@ -86,7 +106,7 @@
   font-size: 34px;
   line-height: .9;
   letter-spacing: -.04em;
-  color: {{ section.settings.card_border_color }};
+  color: {{ section.settings.accent_color }};
   opacity: .3;
   margin-bottom: 14px;
 }
@@ -101,7 +121,7 @@
   letter-spacing: .1em;
   text-transform: uppercase;
   color: #ffffff;
-  background: {{ section.settings.card_border_color }};
+  background: {{ section.settings.accent_color }};
   padding: 6px 11px;
   border-radius: 100px;
   margin-bottom: 11px;
@@ -118,7 +138,7 @@
   text-align: left;
 }
 
-.usp-icon-wrap-{{ section.id }} 
+.usp-icon-wrap-{{ section.id }}
 {
   margin-bottom: 20px;
   display: flex;
@@ -127,7 +147,7 @@
   justify-content: center;
 }
 
-.usp-icon-wrap-{{ section.id }} img 
+.usp-icon-wrap-{{ section.id }} img
 {
   height: auto;
   width: auto;
@@ -135,29 +155,30 @@
   object-fit: contain;
 }
 
-.usp-title-{{ section.id }} 
+.usp-title-{{ section.id }}
 {
   all: unset;
   display: block;
   width: 100%; /* The Fix: Ensures the title spans the full column width */
   margin-top: 0;
   margin-bottom: 10px;
-  color: {{ section.settings.text_color }};
-  line-height: 1.1;
-  font-weight: 700;
+  color: {{ section.settings.accent_color }};
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -.02em;
   font-size: {{ section.settings.global_title_size }}px;
   font-size: {{ section.settings.mobile_title_size }}px; /* Mobile first */
   box-sizing: border-box;
 }
 
-.usp-link-wrap-{{ section.id }} 
+.usp-link-wrap-{{ section.id }}
 {
   width: 100%;
   display: flex;
   justify-content: center;
 }
 
-.usp-link-{{ section.id }} 
+.usp-link-{{ section.id }}
 {
   font-family: var(--font-body-family) !important;
   font-size: 13px;
@@ -171,14 +192,8 @@
 }
 
 /* --- Desktop Logic (900px+) --- */
-@media screen and (min-width: 900px) 
+@media screen and (min-width: 900px)
 {
-  .container-{{ section.id }} 
-  {
-    padding-left: {{ section.settings.desktop_padding_horizontal }}px;
-    padding-right: {{ section.settings.desktop_padding_horizontal }}px;
-  }
-
   .usp-title-{{ section.id }} {
     font-size: {{ section.settings.global_title_size }}px;
   }
@@ -186,62 +201,51 @@
   .usp-grid-{{ section.id }}
   {
     grid-template-columns: repeat(auto-fit, minmax({{ section.settings.card_min_width }}px, 1fr));
-    gap: 0 30px;
   }
 
-  .usp-grid-{{ section.id }}.style-bordered
-  {
-    gap: 16px;
-  }
-
-  .usp-item-{{ section.id }} 
+  .usp-item-{{ section.id }}
   {
     /* Change flex alignment based on setting */
     align-items: {{ section.settings.content_alignment }};
     text-align: {{ section.settings.content_alignment | replace: 'flex-start', 'left' }};
   }
 
-  .usp-icon-wrap-{{ section.id }} 
+  .usp-icon-wrap-{{ section.id }}
   {
     justify-content: {{ section.settings.content_alignment }};
   }
 
-  .usp-link-wrap-{{ section.id }} 
+  .usp-link-wrap-{{ section.id }}
   {
     justify-content: {{ section.settings.content_alignment }};
-  }
-}
-
-
-/* Tablet intermediary (3 across) */
-@media screen and (max-width: 899px) and (min-width: 750px) {
-  .usp-grid-{{ section.id }} 
-  {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .usp-title-{{ section.id }} {
-    font-size: 18px !important; 
   }
 }
 
 @media screen and (max-width: 750px) {
- .usp-item-{{ section.id }} {
+ .usp-item-{{ section.id }}:not(.style-bordered) {
     margin-left: 40px;
     margin-right: 40px;
   }
 }
-  
+
 {%- endstyle -%}
 
 <div class="section-{{ section.id }}">
   <div class="container-{{ section.id }}">
-    
-    {% if section.settings.heading != blank %}
+
+    {% if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.intro != blank %}
       <div class="header-{{ section.id }}">
-        <h2 class="title-{{ section.id }}">
-          {{ section.settings.heading }}
-        </h2>
+        {% if section.settings.eyebrow != blank %}
+          <div class="eyebrow-{{ section.id }}">{{ section.settings.eyebrow | escape }}</div>
+        {% endif %}
+        {% if section.settings.heading != blank %}
+          <h2 class="title-{{ section.id }}">
+            {{ section.settings.heading }}
+          </h2>
+        {% endif %}
+        {% if section.settings.intro != blank %}
+          <div class="intro-{{ section.id }}">{{ section.settings.intro }}</div>
+        {% endif %}
       </div>
     {% endif %}
 
@@ -278,8 +282,8 @@
 
           {% if block.settings.link_label != blank %}
             <div class="usp-link-wrap-{{ section.id }}">
-              <a 
-                href="{{ block.settings.link_url | default: '#' }}" 
+              <a
+                href="{{ block.settings.link_url | default: '#' }}"
                 class="usp-link-{{ section.id }}"
               >
                 {{ block.settings.link_label }}
@@ -299,9 +303,20 @@
   "name": "OD Value Grid",
   "settings": [
     {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
       "type": "inline_richtext",
       "id": "heading",
       "label": "Section Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "Intro text",
+      "info": "Optional. Shown below the heading, above the cards."
     },
     {
       "type": "select",
@@ -343,7 +358,7 @@
       "min": 16,
       "max": 80,
       "step": 1,
-      "default": 24
+      "default": 20
     },
     {
       "type": "range",
@@ -362,60 +377,31 @@
       "max": 340,
       "step": 10,
       "unit": "px",
-      "default": 120
+      "default": 250
     },
     {
       "type": "header",
       "content": "Layout Spacing"
     },
     {
-      "type": "checkbox",
-      "id": "full_width",
-      "label": "Make section full width",
-      "default": false
-    },
-    {
       "type": "range",
-      "id": "max_width",
-      "label": "Max Width",
-      "info": "Applies only when full width is disabled",
-      "min": 1000,
-      "max": 1800,
-      "step": 50,
-      "default": 1400
-    },
-    {
-      "type": "range",
-      "id": "section_padding_top",
-      "label": "Top Padding",
+      "id": "padding_top",
+      "label": "Padding top",
       "min": 0,
-      "max": 100,
-      "default": 40
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 56
     },
     {
       "type": "range",
-      "id": "section_padding_bottom",
-      "label": "Bottom Padding",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
       "min": 0,
-      "max": 100,
-      "default": 40
-    },
-    {
-      "type": "range",
-      "id": "desktop_padding_horizontal",
-      "label": "Desktop Side Padding",
-      "min": 10,
-      "max": 100,
-      "step": 5,
-      "default": 40
-    },
-    {
-      "type": "range",
-      "id": "mobile_padding_horizontal",
-      "label": "Mobile Side Padding",
-      "min": 10,
-      "max": 50,
-      "default": 20
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 56
     },
     {
       "type": "header",
@@ -446,8 +432,14 @@
     },
     {
       "type": "color",
+      "id": "accent_color",
+      "label": "Accent color (number, tag & title)",
+      "default": "#1a1b18"
+    },
+    {
+      "type": "color",
       "id": "card_border_color",
-      "label": "Card border, number & tag color",
+      "label": "Card border & shadow color",
       "default": "#1a1b18"
     },
     {
@@ -503,14 +495,20 @@
     },
     {
       "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#1a1b18"
+    },
+    {
+      "type": "color",
       "id": "heading_color",
-      "label": "Heading Color",
+      "label": "Heading color",
       "default": "#000000"
     },
     {
       "type": "color",
       "id": "text_color",
-      "label": "Text/Link Color",
+      "label": "Body & link text color",
       "default": "#000000"
     }
   ],
