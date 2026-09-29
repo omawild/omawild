@@ -324,7 +324,7 @@
                 assign eyebrow = product.metafields.custom.product_eyebrow.value
                 assign grade = product.metafields.custom.coffee_grade.value | first
               -%}
-              <div class="card-{{ section.id }}">
+              <div class="card-{{ section.id }}" data-price-card>
                 <a class="image-wrap-{{ section.id }}" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
                   {%- if grade != blank -%}
                     <span class="grade-{{ section.id }}">{{ grade | escape }}</span>
@@ -358,9 +358,9 @@
 
                   <div class="price-row-{{ section.id }}">
                     {%- if product.price_varies -%}
-                      <span class="price-{{ section.id }}">From {{ product.price_min | money_with_currency }}</span>
+                      <span class="price-{{ section.id }}" data-price-display>From {{ product.price_min | money_with_currency }}</span>
                     {%- else -%}
-                      <span class="price-{{ section.id }}">{{ product.price | money_with_currency }}</span>
+                      <span class="price-{{ section.id }}" data-price-display>{{ product.price | money_with_currency }}</span>
                     {%- endif -%}
                     {%- if product.compare_at_price > product.price -%}
                       <span class="discount-badge-{{ section.id }}">
@@ -385,9 +385,9 @@
                           </div>
                         {%- else -%}
                           <div class="select-wrap-{{ section.id }}">
-                            <select class="variant-select-{{ section.id }}" name="id" aria-label="{{ product.title | escape }} options">
+                            <select class="variant-select-{{ section.id }}" name="id" aria-label="{{ product.title | escape }} options" data-variant-price-select>
                               {%- for variant in product.variants -%}
-                                <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>{{ variant.title | escape }}{% unless variant.available %} — {{ 'products.product.sold_out' | t }}{% endunless %}</option>
+                                <option value="{{ variant.id }}" data-price="{{ variant.price }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>{{ variant.title | escape }}{% unless variant.available %} — {{ 'products.product.sold_out' | t }}{% endunless %}</option>
                               {%- endfor -%}
                             </select>
                             <svg class="select-chevron-{{ section.id }}" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
@@ -409,6 +409,7 @@
     {%- endif -%}
   </div>
 </div>
+<script src="{{ 'variant-price-sync.js' | asset_url }}" defer></script>
 
 {% schema %}
 {

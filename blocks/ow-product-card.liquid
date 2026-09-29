@@ -51,7 +51,7 @@
     </div>
   {%- endif -%}
 {%- else -%}
-  <div class="product-card" {{ block.shopify_attributes }}>
+  <div class="product-card" data-price-card {{ block.shopify_attributes }}>
     <div class="product-card-img-wrap" style="position:relative">
       {%- if block.settings.grade != blank -%}
         <div class="grade-tag">{{ block.settings.grade }}</div>
@@ -110,7 +110,7 @@
           apply money to the translated string rather than to the price.
         {%- endcomment -%}
         {%- assign price_str = prod.price | money -%}
-        <p class="product-price">
+        <p class="product-price" data-price-display>
           {%- if prod.price_varies -%}
             {{ 'products.product.price.from_price_html' | t: price: price_str }}
           {%- else -%}
@@ -153,9 +153,10 @@
             {%- endcomment -%}
             <select class="product-dropdown product-dropdown--spacer" aria-hidden="true" tabindex="-1" disabled></select>
           {%- else -%}
-            <select class="product-dropdown" name="id" aria-label="{{ p_name | escape }} options">
+            <select class="product-dropdown" name="id" aria-label="{{ p_name | escape }} options" data-variant-price-select>
               {%- for variant in prod.variants -%}
                 <option value="{{ variant.id }}"
+                        data-price="{{ variant.price }}"
                         {% if variant == prod.selected_or_first_available_variant %}selected{% endif %}
                         {% unless variant.available %}disabled{% endunless %}>
                   {{ variant.title }}
@@ -176,6 +177,7 @@
       {%- endif -%}
     </div>
   </div>
+  <script src="{{ 'variant-price-sync.js' | asset_url }}" defer></script>
 {%- endif -%}
 
 {% schema %}
