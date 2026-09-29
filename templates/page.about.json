@@ -82,12 +82,48 @@
             "caption": "We got our hands dirty restoring degraded land while harnessing the river to power a local village.",
             "link": ""
           }
+        },
+        "photo_G8H3Rg": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/Origin-004_896a8bd5-4f1e-4011-ab84-ddbc89810d6f.jpg",
+            "caption": "We even built a permaculture school, with our bare hands (and a lot of sweat).",
+            "link": ""
+          }
+        },
+        "photo_yeAMWk": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/Origin-005.jpg",
+            "caption": "An interview with a rice farmer changed the way we saw our future.",
+            "link": ""
+          }
+        },
+        "photo_tyb4Mx": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/Origin-006.jpg",
+            "caption": "We began to understand something we had forgotten: everything we need depends on nature.",
+            "link": ""
+          }
+        },
+        "photo_HmVXEz": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/Origin-007.jpg",
+            "caption": "What started as volunteering in 2023 became something we couldn’t walk away from. We kept returning.",
+            "link": ""
+          }
         }
       },
       "block_order": [
         "photo_TUawGV",
         "photo_iVtiPx",
-        "photo_GQpkib"
+        "photo_GQpkib",
+        "photo_G8H3Rg",
+        "photo_yeAMWk",
+        "photo_tyb4Mx",
+        "photo_HmVXEz"
       ],
       "name": "OMA Story",
       "settings": {
