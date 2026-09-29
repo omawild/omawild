@@ -18,47 +18,21 @@
         "padding_bottom": 72
       }
     },
-    "oma_page_header_mVyFgr": {
-      "type": "oma-page-header",
-      "blocks": {
-        "collection_row_xxkePX": {
-          "type": "collection_row",
-          "settings": {
-            "collection": "",
-            "title_override": "",
-            "anchor_override": "",
-            "thumbnail_count": 3,
-            "count_label_override": ""
-          }
-        },
-        "collection_row_wUYj8A": {
-          "type": "collection_row",
-          "settings": {
-            "collection": "",
-            "title_override": "",
-            "anchor_override": "",
-            "thumbnail_count": 3,
-            "count_label_override": ""
-          }
-        }
-      },
-      "block_order": [
-        "collection_row_xxkePX",
-        "collection_row_wUYj8A"
-      ],
-      "name": "OMA Page Header",
+    "oma_page_header_office_XfMyLh": {
+      "type": "oma-page-header-office",
+      "name": "OMA Page Header — Office",
       "settings": {
         "heading": "Workplace Coffee",
         "title_size": "display",
+        "eyebrow": "COFFEE FOR THE WORKPLACE",
         "show_breadcrumb": true,
         "breadcrumb_label": "",
         "body": "",
-        "show_collection_list": true,
-        "background_color": "#ffe4e7",
+        "background_color": "#f7f5f1",
         "heading_color": "#ff3f00",
         "text_color": "#00180c",
-        "divider_color": "#ff3f00",
-        "thumb_background": "#fbb925",
+        "show_bottom_border": false,
+        "border_color": "#ff3f00",
         "padding_top": 36,
         "padding_bottom": 44,
         "mobile_padding_horizontal": 20,
@@ -450,32 +424,10 @@
         "padding_top": 76,
         "padding_bottom": 76
       }
-    },
-    "oma_page_header_office_XfMyLh": {
-      "type": "oma-page-header-office",
-      "name": "OMA Page Header — Office",
-      "settings": {
-        "heading": "Workplace Coffee",
-        "title_size": "display",
-        "eyebrow": "COFFEE FOR THE WORKPLACE",
-        "show_breadcrumb": true,
-        "breadcrumb_label": "",
-        "body": "",
-        "background_color": "#F7F5F1",
-        "heading_color": "#FF3F00",
-        "text_color": "#00180C",
-        "show_bottom_border": false,
-        "border_color": "#FF3F00",
-        "padding_top": 36,
-        "padding_bottom": 44,
-        "mobile_padding_horizontal": 20,
-        "desktop_padding_horizontal": 48
-      }
     }
   },
   "order": [
     "main",
-    "oma_page_header_mVyFgr",
     "oma_page_header_office_XfMyLh",
     "oma_brewing_at_dWh4UW",
     "scrolling_promotion_pFUrhR",
