@@ -458,7 +458,7 @@
         "spend_label": "Monthly coffee budget",
         "spend_note": "",
         "spend_placeholder": "Select a range",
-        "spend_options": "Under $5,000, $5,000–10,000, $10,000–15,000, $30,000+, Not sure",
+        "spend_options": "Under $5000, $5000–10K, $10K–15K, $30K+, Not sure",
         "notes_label": "Anything else we should know",
         "notes_placeholder": "Anything else",
         "submit_label": "Build your programme",
