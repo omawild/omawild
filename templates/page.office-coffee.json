@@ -151,9 +151,9 @@
         "speed": 30,
         "direction": "left",
         "separator": "✷",
-        "background_color": "#F5450D",
-        "text_color": "#FFFFFF",
-        "card_background": "#FFFFFF",
+        "background_color": "#f5450d",
+        "text_color": "#ffffff",
+        "card_background": "#ffffff",
         "padding_top": 16,
         "padding_bottom": 16
       }
@@ -360,14 +360,13 @@
         "body": "<p>Through 1% for the Planet, one percent of everything we sell funds ecosystem protection — beyond our own producers, every year, whether we profit or not.</p>",
         "stat_1": "1% OF REVENUE, NOT PROFIT",
         "stat_2": "INDEPENDENTLY CERTIFIED",
-        "logo": "shopify://shop_images/favicon-96x96.png",
         "logo_link": "",
-        "section_background": "transparent",
+        "section_background": "rgba(0,0,0,0)",
         "card_background": "#ffffff",
-        "border_color": "#FF3F00",
+        "border_color": "#ff3f00",
         "card_shadow": true,
-        "statement_color": "#FF3F00",
-        "body_color": "#00180C",
+        "statement_color": "#ff3f00",
+        "body_color": "#00180c",
         "padding_top": 16,
         "padding_bottom": 40
       }
