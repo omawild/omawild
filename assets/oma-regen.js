@@ -1,4 +1,4 @@
-/* owv2-regen accordion — smooth open/close for the native <details> points.
+/* oma-regen accordion — smooth open/close for the native <details> points.
  *
  * Progressive enhancement: with JS off the <details> still toggle (abruptly);
  * with JS on we intercept the toggle and animate the element height with the
@@ -7,8 +7,8 @@
  * storefront serves. Honours prefers-reduced-motion by toggling instantly.
  */
 (function () {
-  if (window.__owv2RegenInit) return;
-  window.__owv2RegenInit = true;
+  if (window.__omaRegenInit) return;
+  window.__omaRegenInit = true;
 
   var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -21,7 +21,7 @@
     this.expanding = false;
     if (!this.summary || !this.content) return;
     this.summary.addEventListener('click', this.onClick.bind(this));
-    details.__owv2 = true;
+    details.__oma = true;
   }
 
   // The <details> carries its own vertical padding + border-bottom; offsetHeight
@@ -86,9 +86,9 @@
 
   function init(root) {
     var scope = root || document;
-    var list = scope.querySelectorAll('.owv2-regen details');
+    var list = scope.querySelectorAll('.oma-regen details');
     for (var i = 0; i < list.length; i++) {
-      if (!list[i].__owv2) new Accordion(list[i]);
+      if (!list[i].__oma) new Accordion(list[i]);
     }
   }
 
