@@ -59,7 +59,6 @@
 .oma-page-header-office-{{ owid }} .top-row {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
   align-items: center;
   gap: 14px 24px;
 }
@@ -80,6 +79,7 @@
 .oma-page-header-office-{{ owid }} .crumbs a:hover { opacity: .75; }
 .oma-page-header-office-{{ owid }} .badge {
   flex: none;
+  margin-left: auto;
   display: inline-block;
   white-space: nowrap;
   background: {{ section.settings.badge_background }};
@@ -180,7 +180,7 @@
   grid-template-columns: repeat(auto-fit, minmax(150px, 200px));
   align-content: center;
   align-items: center;
-  gap: 20px 40px;
+  gap: 20px clamp(16px, 3vw, 28px);
   padding: clamp(22px, 3vw, 32px);
 }
 .oma-page-header-office-{{ owid }} .stat { display: flex; flex-direction: column; gap: 8px; }
@@ -208,7 +208,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 12px;
+  gap: 16px;
   padding: clamp(22px, 3vw, 32px);
   background: {{ section.settings.form_panel_background }};
   border-left: 1.5px solid {{ section.settings.accent_color }};
