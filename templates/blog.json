@@ -207,7 +207,7 @@
       "settings": {
         "show_eyebrow": true,
         "eyebrow": "HOW WE GOT HERE",
-        "heading": "We plunged our entire life savings into conservation work, until then went broke",
+        "heading": "We plunged our entire life savings into conservation work — until we went broke.",
         "show_subcopy": true,
         "subcopy": "<p>Which is how we learned nature needed a better business model.</p>",
         "show_nav_buttons": false,
@@ -216,10 +216,10 @@
         "teaser_button_label": "Read the rest →",
         "teaser_caption": "# more photographs.",
         "teaser_link": "",
-        "background_color": "#fbdcdc",
-        "text_color": "#f5450d",
+        "background_color": "#FF3F00",
+        "text_color": "#F7F5F1",
         "card_background": "#ffffff",
-        "card_border_color": "#f5450d",
+        "card_border_color": "#FBB925",
         "padding_top": 56,
         "padding_bottom": 64
       }
