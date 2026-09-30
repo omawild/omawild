@@ -51,9 +51,16 @@
   margin-inline: auto;
   min-width: 0;
   }
+.oma-story-{{ owid }} .story-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  }
 .oma-story-{{ owid }} .intro {
   max-width: 760px;
-  margin-bottom: 20px;
+  margin-bottom: 0;
   }
 .oma-story-{{ owid }} .intro .eyebrow {
   margin: 0;
@@ -74,7 +81,7 @@
   margin-top: 0;
   }
 @media (min-width:750px) {
-  .oma-story-{{ owid }} .intro {
+  .oma-story-{{ owid }} .story-head {
   margin-bottom: 26px;
   }
   .oma-story-{{ owid }} .intro h2 {
@@ -89,6 +96,48 @@
   font-weight: 700;
   letter-spacing: .12em;
   text-transform: uppercase;
+  }
+{%- comment -%}
+  Prev/next buttons: merchant-toggled (default off, matching the Home page
+  instance's existing look) for pages like About where the row's own edge
+  fade isn't a strong enough hint that it scrolls. Disabled state (dimmed,
+  native :disabled — see oma-story.js) is what actually communicates "no
+  more that way", same information the scroll-fade already gives, just
+  legible without a hover/drag gesture first.
+{%- endcomment -%}
+.oma-story-{{ owid }} .story-nav {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+  padding-top: 4px;
+  }
+.oma-story-{{ owid }} .story-nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1.5px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background-color .2s ease, color .2s ease, opacity .2s ease;
+  }
+.oma-story-{{ owid }} .story-nav-btn svg {
+  width: 16px;
+  height: 16px;
+  }
+@media (hover:hover) {
+  .oma-story-{{ owid }} .story-nav-btn:hover:not(:disabled) {
+  background: var(--ink);
+  color: var(--bg);
+  }
+}
+.oma-story-{{ owid }} .story-nav-btn:disabled {
+  opacity: .35;
+  cursor: default;
   }
 .oma-story-{{ owid }} .oma-button {
   display: inline-flex;
@@ -294,6 +343,7 @@
 {% endstyle %}
 <div class="oma-story-{{ owid }} oma-story">
 <div class="inner">
+<div class="story-head">
 <div class="intro{% unless section.settings.show_eyebrow %} no-eyebrow{% endunless %}">
 {%- if section.settings.show_eyebrow -%}
 <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
@@ -301,6 +351,17 @@
 <h2>{{ section.settings.heading }}</h2>
 {%- if section.settings.show_subcopy -%}
 <div>{{ section.settings.subcopy }}</div>
+{%- endif -%}
+</div>
+{%- if section.settings.show_nav_buttons -%}
+<div class="story-nav" role="group" aria-label="Scroll {{ section.settings.heading | strip_html | escape }} gallery">
+<button type="button" class="story-nav-btn story-nav-prev" aria-label="Previous photos">
+<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5 8 12l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+<button type="button" class="story-nav-btn story-nav-next" aria-label="Next photos">
+<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+</div>
 {%- endif -%}
 </div>
 <div class="gallery-wrap is-scroll">
@@ -317,7 +378,7 @@
 {% endif %}
 </figure>
 {% endfor %}
-{% if section.settings.teaser_text != blank %}
+{% if section.settings.show_teaser_card and section.settings.teaser_text != blank %}
 {%- comment -%}
   The always-last card: a real, deliberately dimmed photo with its heading
   and button overlaid at rest -- see the CSS comment above teaser-media.
@@ -386,9 +447,23 @@
       "default": "<p>Which is how we learned nature needed a better business model.</p>"
     },
     {
+      "type": "checkbox",
+      "id": "show_nav_buttons",
+      "label": "Show prev/next buttons",
+      "default": false,
+      "info": "Circular arrow buttons next to the heading, for pages where it isn't obvious the row scrolls -- e.g. the About page. Off by default to match this section's existing look on the Home page."
+    },
+    {
       "type": "header",
       "content": "Teaser card",
-      "info": "The always-last card in the row, on every breakpoint. Blank teaser text hides it entirely."
+      "info": "The always-last card in the row, on every breakpoint. Blank teaser text, or the toggle below, hides it entirely."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_teaser_card",
+      "label": "Show teaser card",
+      "default": true,
+      "info": "Turn off for a page that already tells the full story -- e.g. the About page, where a \"read more\" card doesn't make sense."
     },
     {
       "type": "image_picker",
@@ -497,6 +572,8 @@
         "show_eyebrow": false,
         "show_subcopy": false,
         "heading": "From the field",
+        "show_nav_buttons": true,
+        "show_teaser_card": false,
         "teaser_text": "",
         "background_color": "#F7F5F1",
         "text_color": "#FF3F00",
