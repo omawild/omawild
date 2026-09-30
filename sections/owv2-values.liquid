@@ -5,6 +5,16 @@
   --bg: {{ section.settings.background_color }};
   --ink: {{ section.settings.text_color }};
   --surface: {{ section.settings.card_background }};
+  {%- comment -%}
+    Heading / intro / card-title / card-body used to all read the same
+    --ink var (or, for card body, a hardcoded color) — so repainting the
+    heading repainted the intro paragraph and every card title along with
+    it. Each now has its own var, independently settable below.
+  {%- endcomment -%}
+  --heading-color: {{ section.settings.text_color }};
+  --intro-color: {{ section.settings.intro_color }};
+  --card-heading-color: {{ section.settings.card_heading_color }};
+  --card-body-color: {{ section.settings.card_body_color }};
   background: var(--bg);
   color: var(--ink);
   padding: {{ section.settings.padding_top }}px clamp(20px, 4vw, 48px) {{ section.settings.padding_bottom }}px;
@@ -17,7 +27,6 @@
   }
 .owv2-values-{{ owid }} h1, .owv2-values-{{ owid }} h2, .owv2-values-{{ owid }} h3 {
   font-family: var(--font-heading-family);
-  color: inherit;
   font-weight: 900;
   letter-spacing: -.035em;
   line-height: 1.05;
@@ -106,7 +115,7 @@
     keeps growing with the viewport -- capped, not full-bleed, but with
     real room for that font size on a wide screen.
   {%- endcomment -%}
-  max-width:clamp(720px, 65vw, 960px);
+  max-width:clamp(720px, 67vw, 1040px);
   margin-bottom:34px;
   }
 {%- comment -%}
@@ -118,11 +127,17 @@
   default is the shared standard, not a bespoke smaller one.
 {%- endcomment -%}
 .owv2-values-{{ owid }} .intro h2 {
+  color: var(--heading-color);
   font-size: clamp(30px, 4vw, {{ section.settings.heading_max_size | default: 58 }}px);
   }
+{%- comment -%}
+  Matches the lead-paragraph treatment used for the same role elsewhere
+  (e.g. oma-page-header's .body-{{ id }}) — 400/16.5px/1.6, not the
+  synthesized 500 weight this carried before (NHD has no 500 face).
+{%- endcomment -%}
 .owv2-values-{{ owid }} .intro div {
-  line-height:1.5;
-  font-weight:500;
+  color: var(--intro-color);
+  font: 400 16.5px/1.6 var(--font-body-family);
   }
 .owv2-values-{{ owid }} .cards {
   display:grid;
@@ -163,16 +178,17 @@
   object-fit:contain;
   }
 .owv2-values-{{ owid }} article h3 {
+  color: var(--card-heading-color);
   font-size:15px;
   font-weight:800;
   letter-spacing:normal;
   line-height:1.2;
   }
 .owv2-values-{{ owid }} article > div {
+  color: var(--card-body-color);
   font-size:12.5px;
   line-height:1.45;
   font-weight:500;
-  color:#5A5550;
   }
 .owv2-values-{{ owid }} article a {
   {%- comment -%}
@@ -287,7 +303,13 @@
     {
       "type": "color",
       "id": "text_color",
-      "label": "Text color",
+      "label": "Heading color",
+      "default": "#FF3F00"
+    },
+    {
+      "type": "color",
+      "id": "intro_color",
+      "label": "Intro text color",
       "default": "#FF3F00"
     },
     {
@@ -295,6 +317,18 @@
       "id": "card_background",
       "label": "Card background",
       "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_heading_color",
+      "label": "Card title color",
+      "default": "#FF3F00"
+    },
+    {
+      "type": "color",
+      "id": "card_body_color",
+      "label": "Card body color",
+      "default": "#5A5550"
     },
     {
       "type": "select",
