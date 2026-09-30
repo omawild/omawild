@@ -314,8 +314,17 @@
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  background:var(--ink);
-  color:var(--bg);
+  {%- comment -%}
+    Fixed brand color, not var(--ink)/var(--bg) -- those are the merchant's
+    text/background color pickers for the section, and a merchant setting
+    text_color to something pale (e.g. white, to sit on a dark background)
+    made this button match the surrounding text/background almost exactly,
+    reading as plain overlay text rather than a tappable button. A button
+    telling someone to keep reading needs to look like a button regardless
+    of whatever colors the section around it is using.
+  {%- endcomment -%}
+  background:var(--electric);
+  color:var(--sand);
   padding:10px 13px;
   border-radius:999px;
   font-weight:800;

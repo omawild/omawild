@@ -98,7 +98,15 @@
 .owv2-values-{{ owid }} .intro {
   text-align:center;
   margin-inline:auto;
-  max-width:720px;
+  {%- comment -%}
+    A flat 720px stayed that narrow at every viewport width, so the H2 (its
+    font-size clamps up to heading_max_size, 58px by default, well past
+    where 720px still holds only 2-3 words a line) wrapped into more lines
+    than it needed to on anything wider than a laptop. Clamp instead, so it
+    keeps growing with the viewport -- capped, not full-bleed, but with
+    real room for that font size on a wide screen.
+  {%- endcomment -%}
+  max-width:clamp(720px, 65vw, 960px);
   margin-bottom:34px;
   }
 {%- comment -%}
@@ -115,9 +123,6 @@
 .owv2-values-{{ owid }} .intro div {
   line-height:1.5;
   font-weight:500;
-  /* Body copy is muted warm-gray in the design, distinct from the
-     section's --ink accent (which stays reserved for headings). */
-  color:#5A5550;
   }
 .owv2-values-{{ owid }} .cards {
   display:grid;
