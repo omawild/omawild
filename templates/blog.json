@@ -141,26 +141,12 @@
         "origin_card_zyQD3A": {
           "type": "origin_card",
           "settings": {
-            "origin_reference": ""
-          }
-        },
-        "origin_card_Tt44ia": {
-          "type": "origin_card",
-          "settings": {
-            "origin_reference": ""
-          }
-        },
-        "origin_card_VFdMKM": {
-          "type": "origin_card",
-          "settings": {
-            "origin_reference": ""
+            "origin_reference": "garut-west-java"
           }
         }
       },
       "block_order": [
-        "origin_card_zyQD3A",
-        "origin_card_Tt44ia",
-        "origin_card_VFdMKM"
+        "origin_card_zyQD3A"
       ],
       "name": "OMA Origin Cards",
       "settings": {
