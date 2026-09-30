@@ -54,9 +54,11 @@
         card.hidden = visible.indexOf(card) === -1;
       });
 
-      var total = matching.length;
-      var shown = visible.length;
-      var remaining = total - shown;
+      var featuredVisible = !!featured && !featured.hidden;
+      var extra = featuredVisible ? 1 : 0;
+      var total = matching.length + extra;
+      var shown = visible.length + extra;
+      var remaining = matching.length - visible.length;
 
       if (moreRow) moreRow.hidden = total === 0;
       if (emptyMessage) emptyMessage.hidden = total !== 0;
