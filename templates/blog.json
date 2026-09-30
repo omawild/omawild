@@ -227,23 +227,6 @@
         "padding_top": 56,
         "padding_bottom": 64
       }
-    },
-    "oma_newsletter_477r3k": {
-      "type": "oma-newsletter",
-      "name": "OMA Newsletter",
-      "settings": {
-        "sticker_text": "A nature fund disguised as coffee <em>for now</em>",
-        "heading": "Good things are growing.",
-        "placeholder": "your@email.com",
-        "email_label": "Email address",
-        "button_label": "Subscribe",
-        "success_message": "You’re on the list. Welcome to the expedition!",
-        "background_color": "#FBDCDC",
-        "text_color": "#F5450D",
-        "card_background": "#FFFFFF",
-        "padding_top": 64,
-        "padding_bottom": 64
-      }
     }
   },
   "order": [
@@ -251,7 +234,6 @@
     "oma_page_header_tjjVdP",
     "oma_dispatch_feed_Wbfpfn",
     "oma_origin_cards_zwYiGF",
-    "oma_story_Y4Ur6L",
-    "oma_newsletter_477r3k"
+    "oma_story_Y4Ur6L"
   ]
 }
