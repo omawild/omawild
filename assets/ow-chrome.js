@@ -53,6 +53,11 @@
   setInterval(tick, 1000);
 })();
 
+// Geolocation redirect: see the inline <script> in sections/ow-header.liquid,
+// right after #top-chrome. It has to run synchronously, before this
+// (deferred) file even loads, to keep the flash of the wrong market to a
+// fraction of a second -- so its logic lives there, not here.
+
 // ── FIXED TOP CHROME + NAVBAR HIDE-ON-SCROLL ──
 // The navbar is global chrome: this same behaviour runs on every template,
 // not just the landing page. A page that names a hero (see `hero` below)

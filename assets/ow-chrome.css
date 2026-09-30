@@ -159,16 +159,22 @@
 .navbar-links{
   display:none;align-items:center;gap:22px;list-style:none;
   margin:0;padding:0;
+  /* The <li> is what actually establishes the line box a wrapped <a>'s text
+     flows into, so IT (not the <a>) is what needs the tighter font-size/
+     line-height -- an inline element's own line-height only affects the
+     line box's minimum height, not the "strut" that sets line-to-line
+     spacing, which comes from its block container's font-size/line-height.
+     Putting line-height:1.25 on .navbar-links a alone (previous attempt)
+     left the <li> inheriting body's 16px/1.8 strut (=28.8px between lines)
+     completely unaffected -- the fix had zero visible effect. Setting both
+     here, inherited down to the <li>, is what actually closes the gap. */
+  font-size:12px;
+  line-height:1.25;
 }
 .navbar-links a{
-  font-size:12px;font-weight:800;letter-spacing:.02em;
+  font-weight:800;letter-spacing:.02em;
   text-transform:uppercase;color:var(--electric);text-decoration:none;
   transition:opacity .2s;
-  /* Otherwise inherits body's 1.8 line-height -- fine for paragraph copy,
-     way too loose once a link's label wraps to two lines at tablet widths
-     (e.g. "WORKPLACE COFFEE"), reading as two lines with a gap between them
-     rather than one wrapped label. */
-  line-height:1.25;
 }
 .navbar-links a:hover{opacity:.6;}
 .navbar-link-dropdown{position:relative;display:flex;}

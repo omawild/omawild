@@ -159,6 +159,67 @@
 </div><!-- /#top-chrome -->
 
 {%- comment -%}
+  Geolocation redirect: auto-detect a visitor's country and, if it matches a
+  market with its own subfolder (e.g. Taiwan at /en-tw) that differs from
+  the market currently being served, silently redirect them there -- at
+  most ONCE ever per browser (localStorage flag), never repeatedly, and
+  preserving the current path/query so a deep link (a product page, a
+  collection) lands on the equivalent page in that market, not just its
+  homepage.
+
+  Markets with NO dedicated web presence (e.g. Hong Kong, this shop's
+  default) need no entry in the block list below -- a country not matched
+  by any block just keeps seeing that default, same as today. Shopify does
+  not do this redirect itself (confirmed against the Admin API -- there is
+  no merchant toggle for it), so nothing else on the page will.
+
+  Plain synchronous script (no `defer`, no DOMContentLoaded wait) so it
+  runs the instant the parser reaches it -- this section renders at the top
+  of <body>, so that's as early as this can fire without editing the
+  vendor layout templates, and keeps the flash of the "wrong" market to a
+  fraction of a second rather than waiting for the full page + deferred
+  scripts to load first (which is what the previous banner version did).
+
+  detectedCountry() reads the `country` entry Shopify already stamps into
+  the response's own Server-Timing header, via the same-origin Navigation
+  Timing API -- no third-party geolocation call, no extra request.
+{%- endcomment -%}
+{%- if section.settings.show_geo_redirect and section.blocks.size > 0 -%}
+<script>
+(function () {
+  try {
+    if (localStorage.getItem('omaMarketRedirected')) return;
+    // Never relocate someone mid-checkout/cart/account off a shared link --
+    // the one-in-a-million first-ever-page-load-is-this-url case isn't worth
+    // the risk of a cart not carrying over across markets.
+    if (/^\/(cart|checkout|account|orders)(\/|$)/.test(window.location.pathname)) return;
+
+    var nav = (performance.getEntriesByType('navigation') || [])[0];
+    var entry = nav && nav.serverTiming && nav.serverTiming.filter(function (t) { return t.name === 'country'; })[0];
+    var detected = entry && entry.description ? entry.description.toUpperCase() : null;
+    if (!detected) return;
+
+    var current = {{ localization.country.iso_code | json }}.toUpperCase();
+    if (detected === current) return;
+
+    var map = {
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'geo_market' and block.settings.country_code != blank and block.settings.market_path != blank -%}
+      {{ block.settings.country_code | strip | upcase | json }}: {{ block.settings.market_path | strip | json }},
+        {%- endif -%}
+      {%- endfor -%}
+    };
+    var path = map[detected];
+    if (!path) return;
+
+    localStorage.setItem('omaMarketRedirected', '1');
+    window.location.replace('/' + path.replace(/^\/+|\/+$/g, '') + window.location.pathname + window.location.search);
+  } catch (e) {}
+})();
+</script>
+{%- endif -%}
+
+{%- comment -%}
   Menu modal. The nav list is populated at runtime by ow-chrome.js from
   #navbar .navbar-links, so the markup here stays empty on purpose — one
   source of truth for the menu.
@@ -211,11 +272,41 @@
     { "type": "checkbox", "id": "show_account", "label": "Show account icon", "default": true, "info": "Hidden automatically if customer accounts are disabled in Settings > Customer accounts." },
     { "type": "header", "content": "Country selector" },
     { "type": "checkbox", "id": "show_region_selector", "label": "Show country selector", "default": true },
-    { "type": "text", "id": "region_countries", "label": "Countries to show", "info": "Comma-separated ISO codes, e.g. HK, TW, GB, US. Leave blank to show every country your Markets settings publish. This can only narrow that list — to ADD a country, publish it in Settings > Markets first. Codes Markets does not publish are ignored, and the shopper's current country always appears." }
+    { "type": "text", "id": "region_countries", "label": "Countries to show", "info": "Comma-separated ISO codes, e.g. HK, TW, GB, US. Leave blank to show every country your Markets settings publish. This can only narrow that list — to ADD a country, publish it in Settings > Markets first. Codes Markets does not publish are ignored, and the shopper's current country always appears." },
+    {
+      "type": "header",
+      "content": "Geolocation redirect",
+      "info": "Shopify does not automatically redirect visitors into a market with its own domain/subfolder (e.g. Taiwan at /en-tw) — only this does. Redirects at most once per visitor ever (remembered in their browser), never repeatedly, and only when their detected country matches a block below. Markets shown by the country selector above instead (no dedicated subfolder, e.g. Hong Kong) don't need a block — an unmatched country just keeps seeing that default, same as today. Add one block per market that has its own subfolder."
+    },
+    { "type": "checkbox", "id": "show_geo_redirect", "label": "Enable geolocation redirect", "default": true }
   ],
+  "blocks": [
+    {
+      "type": "geo_market",
+      "name": "Geo market",
+      "settings": [
+        {
+          "type": "text",
+          "id": "country_code",
+          "label": "Country code",
+          "info": "Two-letter ISO code, e.g. TW. Detected using Shopify's own edge geolocation — no third-party service."
+        },
+        {
+          "type": "text",
+          "id": "market_path",
+          "label": "Market subfolder",
+          "info": "From Settings > Markets > (market) > Domain/language, e.g. en-tw for omawild.com/en-tw."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 20,
   "presets": [
     {
-      "name": "OW Navbar"
+      "name": "OW Navbar",
+      "blocks": [
+        { "type": "geo_market", "settings": { "country_code": "TW", "market_path": "en-tw" } }
+      ]
     }
   ]
 }
