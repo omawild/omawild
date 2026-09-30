@@ -144,6 +144,16 @@
   .oma-imgtext-{{ owid }}.is-reverse .split-text {
   order: 2;
   }
+  {%- comment -%}
+    Capped only once the layout actually goes two-column -- below this the
+    section is single-column full-width (see .split-inner above), and a
+    fixed 560px reads as a stray narrow column with the rest of the width
+    unused instead of using the space the single-column layout actually has.
+  {%- endcomment -%}
+  .oma-imgtext-{{ owid }} .split-body,
+  .oma-imgtext-{{ owid }} .split-pull {
+  max-width: 560px;
+  }
 }
 .oma-imgtext-{{ owid }} .split-eyebrow {
   margin-bottom: 16px;
@@ -169,7 +179,6 @@
   }
 .oma-imgtext-{{ owid }} .split-body {
   margin-top: 28px;
-  max-width: 560px;
   font: 400 16.5px/1.6 var(--font-body-family);
   }
 .oma-imgtext-{{ owid }} .split-body p {
@@ -186,7 +195,6 @@
   }
 .oma-imgtext-{{ owid }} .split-pull {
   margin-top: 28px;
-  max-width: 560px;
   padding-top: 22px;
   font: 900 clamp(22px, 2vw, 28px)/1.2 var(--font-heading-family);
   letter-spacing: -.02em;
