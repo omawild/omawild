@@ -289,11 +289,11 @@
     "od_featured_products_VgPWWJ": {
       "type": "od-featured-products",
       "blocks": {
-        "collection_EwNxCE": {
+        "collection_MPemRi": {
           "type": "collection",
           "settings": {
             "grade_badge": "",
-            "product_item": "wild-bloom",
+            "product_item": "forest-trail",
             "highlight_card": false,
             "banner_text": "★ BEST VALUE",
             "collection_tag": "",
@@ -305,11 +305,11 @@
             "benefit_3": ""
           }
         },
-        "collection_MPemRi": {
+        "collection_EwNxCE": {
           "type": "collection",
           "settings": {
             "grade_badge": "",
-            "product_item": "forest-trail",
+            "product_item": "wild-bloom",
             "highlight_card": false,
             "banner_text": "★ BEST VALUE",
             "collection_tag": "",
@@ -339,8 +339,8 @@
         }
       },
       "block_order": [
-        "collection_EwNxCE",
         "collection_MPemRi",
+        "collection_EwNxCE",
         "collection_3JTqdK"
       ],
       "name": "OD Featured Products",
@@ -511,6 +511,8 @@
         "heading": "We plunged our entire life savings into conservation, until then went broke.",
         "show_subcopy": true,
         "subcopy": "<p>Which is how we learned nature needed a better business model 🤓</p>",
+        "show_nav_buttons": false,
+        "show_teaser_card": true,
         "teaser_image": "shopify://shop_images/Origin-004_896a8bd5-4f1e-4011-ab84-ddbc89810d6f.jpg",
         "teaser_text": "And the rest unfolds...",
         "teaser_button_label": "Read our story →",
@@ -582,6 +584,7 @@
       "settings": {
         "heading": "There are many reasons to give a damn. And we don't need the same reasons.",
         "intro": "<p>Maybe you're here for the vibes and adventure. Or for a damn good cup of coffee. You don't have to care about the climate for any of that, but there's one thing none of us can opt out of: everything that sustains a well-lived life runs on healthy ecosystems.</p>",
+        "heading_max_size": 58,
         "background_color": "#f7f5f1",
         "text_color": "#ff3f00",
         "card_background": "#ffffff",
