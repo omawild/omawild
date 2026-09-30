@@ -204,12 +204,9 @@
         "padding_bottom": 11
       }
     },
-    "ow-header": {
+    "ow_header_nJrjkq": {
       "type": "ow-header",
-      "custom_css": [
-        ".navbar,.navbar-dropdown {background: #fcd0fd;}",
-        ".ann-bar--orange {background: #fcd0fd; color: #ffffff;}"
-      ],
+      "name": "OW Navbar",
       "settings": {
         "menu": "main-menu",
         "menu_bottom": "",
@@ -223,6 +220,6 @@
   "order": [
     "announcement-bar",
     "scrolling_promotion_njaBmd",
-    "ow-header"
+    "ow_header_nJrjkq"
   ]
 }
