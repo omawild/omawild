@@ -407,43 +407,49 @@
       "blocks": {
         "point_DTLLTG": {
           "type": "point",
+          "name": "01",
           "settings": {
-            "title": "Canopy cools the ground",
+            "title": "Shade & Shelter",
             "body": "<p>Tree canopies cool the ground and shelter critical wildlife.</p>"
           }
         },
         "point_4rPPip": {
           "type": "point",
+          "name": "02",
           "settings": {
-            "title": "Roots hold the slope together",
+            "title": "Deep-Root Anchoring",
             "body": "<p>Deep roots function as anchors, preventing landslides while drawing water underground.</p>"
           }
         },
         "point_MhGhkj": {
           "type": "point",
+          "name": "03",
           "settings": {
-            "title": "Diversity keeps the land resilient",
+            "title": "Agroecological Diversity",
             "body": "<p>Crop diversification supports soil health, nutrient cycling, pest control and land resilience.</p>"
           }
         },
         "point_gnBbAa": {
           "type": "point",
+          "name": "04",
           "settings": {
-            "title": "Forests store more carbon than air",
+            "title": "Carbon Sequestration",
             "body": "<p>Healthy forests sequester 3x more greenhouse gases than the atmosphere.</p>"
           }
         },
         "point_Fykb6b": {
           "type": "point",
+          "name": "05",
           "settings": {
-            "title": "Living soil banks the water",
+            "title": "Living Sponge",
             "body": "<p>One hectare of living soil holds up to 50,000 litres of water, combating heat and drought.</p>"
           }
         },
         "point_hjL3VM": {
           "type": "point",
+          "name": "06",
           "settings": {
-            "title": "The oldest filtration tech there is",
+            "title": "Water Filtration",
             "body": "<p>The oldest water filtration tech runs through roots, rocks and rivers while storing fresh water.</p>"
           }
         }
