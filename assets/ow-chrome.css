@@ -164,6 +164,11 @@
   font-size:12px;font-weight:800;letter-spacing:.02em;
   text-transform:uppercase;color:var(--electric);text-decoration:none;
   transition:opacity .2s;
+  /* Otherwise inherits body's 1.8 line-height -- fine for paragraph copy,
+     way too loose once a link's label wraps to two lines at tablet widths
+     (e.g. "WORKPLACE COFFEE"), reading as two lines with a gap between them
+     rather than one wrapped label. */
+  line-height:1.25;
 }
 .navbar-links a:hover{opacity:.6;}
 .navbar-link-dropdown{position:relative;display:flex;}
