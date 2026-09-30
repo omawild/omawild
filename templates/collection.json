@@ -182,6 +182,7 @@
     },
     "owv2_subscribe_EP3jCf": {
       "type": "owv2-subscribe",
+      "disabled": true,
       "name": "OWV2 Subscription spot",
       "settings": {
         "badge_text": "SUBSCRIBE & SAVE",
