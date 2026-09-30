@@ -179,6 +179,33 @@
         "desktop_padding_horizontal": 48,
         "grid_gap": 24
       }
+    },
+    "owv2_subscribe_EP3jCf": {
+      "type": "owv2-subscribe",
+      "name": "OWV2 Subscription spot",
+      "settings": {
+        "badge_text": "SUBSCRIBE & SAVE",
+        "heading": "Keep the ritual going and never run low on energy",
+        "body": "<p>Fresh roast on your schedule. Save on every delivery. And each subscription helps us do more for you and our planet. Skip, swap or cancel any time.</p>",
+        "collection": "subscriptions",
+        "product_limit": 12,
+        "roast_display": "cards",
+        "step1_label": "Pick your roast",
+        "step2_label": "Select your quantity",
+        "step3_label": "Set your frequency",
+        "summary_title": "YOUR SUBSCRIPTION",
+        "summary_offset": 110,
+        "shipping_note": "Freshly roasted. Delivered on your schedule.",
+        "cta_label": "Start subscription",
+        "cta_sold_out_label": "Sold out",
+        "savings_template": "Save [amount] every delivery",
+        "empty_message": "Choose your coffee options to get started.",
+        "background_color": "#FFE4E7",
+        "text_color": "#FF3F00",
+        "card_background": "#FFFFFF",
+        "padding_top": 72,
+        "padding_bottom": 76
+      }
     }
   },
   "order": [
@@ -187,6 +214,7 @@
     "subs",
     "product-grid",
     "od_collection_showcase_7LHQXz",
-    "od_collection_showcase_BcwkDD"
+    "od_collection_showcase_BcwkDD",
+    "owv2_subscribe_EP3jCf"
   ]
 }
