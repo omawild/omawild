@@ -179,6 +179,7 @@
         "photo_jQkVbL": {
           "type": "photo",
           "settings": {
+            "image": "shopify://shop_images/Origin-001.jpg",
             "caption": "It started with a one-way ticket to Bali, in search of answers we could no longer find in the rush of everyday life.",
             "link": ""
           }
@@ -186,6 +187,7 @@
         "photo_y8cYbB": {
           "type": "photo",
           "settings": {
+            "image": "shopify://shop_images/Origin-002.jpg",
             "caption": "That summer, we traded the comforts of the city to live and learn alongside those who grew more than just our food.",
             "link": ""
           }
@@ -193,7 +195,8 @@
         "photo_jeFJT7": {
           "type": "photo",
           "settings": {
-            "caption": "We cleaned up beaches and rivers chocked with plastic.",
+            "image": "shopify://shop_images/Origin-003.jpg",
+            "caption": "We got our hands dirty restoring degraded land while harnessing the river to power a local village.",
             "link": ""
           }
         }
@@ -212,9 +215,10 @@
         "subcopy": "<p>Which is how we learned nature needed a better business model.</p>",
         "show_nav_buttons": false,
         "show_teaser_card": true,
-        "teaser_text": "Follow us down our rabbit hole",
-        "teaser_button_label": "Read the rest →",
-        "teaser_caption": "# more photographs.",
+        "teaser_image": "shopify://shop_images/Origin-004_896a8bd5-4f1e-4011-ab84-ddbc89810d6f.jpg",
+        "teaser_text": "And the rest unfolds...",
+        "teaser_button_label": "Red the rest →",
+        "teaser_caption": "Follow us down our rabbit hole",
         "teaser_link": "",
         "background_color": "#FF3F00",
         "text_color": "#F7F5F1",
