@@ -78,12 +78,18 @@
     { "type": "text", "id": "submit_label", "label": "Submit button label", "default": "Subscribe" },
     { "type": "text", "id": "toast_text", "label": "Success message", "default": "Welcome to Omawild" },
     { "type": "header", "content": "Social" },
-    { "type": "paragraph", "content": "Shopify's url setting cannot carry a default, so these are seeded from sections/footer-group.json instead. Clearing one hides that icon." },
+    { "type": "paragraph", "content": "Shopify's url setting cannot carry a default, so these are seeded via the preset below instead (only applies to a newly-added instance of this section — an already-placed one keeps whatever it already has). Clearing one hides that icon." },
     { "type": "url", "id": "linkedin", "label": "LinkedIn URL" },
     { "type": "url", "id": "instagram", "label": "Instagram URL" }
   ],
   "presets": [
-    { "name": "OMA Footer Newsletter" }
+    {
+      "name": "OMA Footer Newsletter",
+      "settings": {
+        "linkedin": "https://www.linkedin.com/company/omawild",
+        "instagram": "https://www.instagram.com/itsomawild"
+      }
+    }
   ]
 }
 {% endschema %}
