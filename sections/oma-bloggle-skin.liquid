@@ -40,12 +40,25 @@
   rules for it.
 {%- endcomment -%}
 {% style %}
-#bloggle_article-layout {
+{%- comment -%}
+  The id is doubled (#bloggle_article-layout#bloggle_article-layout) to
+  double its specificity against Bloggle's own same-id rule, which sets
+  width/max-width with !important in two places (its CDN stylesheet and
+  its own inline <style>). Equal specificity would fall back to source
+  order, which depends on where this section sits relative to "blog" in
+  the template's section list — doubling the id wins outright instead, so
+  this doesn't silently break again if that order changes.
+{%- endcomment -%}
+#bloggle_article-layout#bloggle_article-layout {
   box-sizing: border-box;
+  max-width: {{ section.settings.card_max_width }}px !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
   background: {{ section.settings.card_background }};
   border: 1.5px solid {{ section.settings.accent_color }};
   box-shadow: 8px 8px 0 {{ section.settings.accent_color }};
-  padding: clamp(28px, 5vw, 64px) clamp(20px, 5vw, 64px);
+  padding: {{ section.settings.card_padding_top }}px clamp(20px, 5vw, 64px) {{ section.settings.card_padding_bottom }}px;
 }
 
 #bloggle_article-layout .bloggle--blog-item-img {
@@ -57,7 +70,7 @@
 #bloggle_article-layout #article-header {
   text-align: left;
   max-width: {{ section.settings.text_max_width }}px;
-  margin-left: auto;
+  margin-left: 0;
   margin-right: auto;
 }
 
@@ -99,7 +112,7 @@
 #bloggle_article-layout .bloggle_rte,
 #bloggle_article-layout #bloggle_rte {
   max-width: {{ section.settings.text_max_width }}px;
-  margin-left: auto;
+  margin-left: 0;
   margin-right: auto;
   font-family: var(--font-body-family);
 }
@@ -134,7 +147,7 @@
 
 #bloggle_article-layout #bloggle--blog-item-goback {
   max-width: {{ section.settings.text_max_width }}px;
-  margin-left: auto;
+  margin-left: 0;
   margin-right: auto;
   margin-top: 32px;
 }
@@ -154,9 +167,10 @@
 
 #bloggle_article-layout #share-buttons {
   max-width: {{ section.settings.text_max_width }}px;
-  margin-left: auto;
+  margin-left: 0;
   margin-right: auto;
   display: flex;
+  justify-content: flex-start;
   align-items: center;
   gap: 20px;
   margin-top: 28px;
@@ -216,12 +230,15 @@
     { "type": "header", "content": "Card" },
     { "type": "color", "id": "card_background", "label": "Card background", "default": "#FFFFFF" },
     { "type": "color", "id": "accent_color", "label": "Accent (card border & shadow, blockquote rule)", "info": "Border and shadow always match each other, same convention as OMA Editorial.", "default": "#FBB925" },
+    { "type": "range", "id": "card_max_width", "label": "Max card width", "min": 480, "max": 1100, "step": 20, "unit": "px", "default": 800, "info": "Matches OMA Editorial's own \"Max Card Width\" default." },
+    { "type": "range", "id": "card_padding_top", "label": "Card padding top", "min": 24, "max": 160, "step": 4, "unit": "px", "default": 72 },
+    { "type": "range", "id": "card_padding_bottom", "label": "Card padding bottom", "min": 24, "max": 160, "step": 4, "unit": "px", "default": 72 },
     { "type": "header", "content": "Colors" },
     { "type": "color", "id": "heading_color", "label": "Title & blockquote color", "default": "#00180C" },
     { "type": "color", "id": "text_color", "label": "Body text color", "default": "#00180C" },
     { "type": "color", "id": "link_color", "label": "Link / share / back-to-blog color", "default": "#FF3F00" },
     { "type": "header", "content": "Layout" },
-    { "type": "range", "id": "text_max_width", "label": "Reading column width", "min": 480, "max": 900, "step": 20, "unit": "px", "default": 720, "info": "Shared by the title, meta line, body text, back-to-blog link and share row, so their left edges line up." }
+    { "type": "range", "id": "text_max_width", "label": "Reading column width", "min": 480, "max": 900, "step": 20, "unit": "px", "default": 720, "info": "Shared by the title, meta line, body text, back-to-blog link and share row, so their left edges line up. Left-aligned within the card, not centered." }
   ],
   "presets": [
     { "name": "OMA Bloggle Skin" }
