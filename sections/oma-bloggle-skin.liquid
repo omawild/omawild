@@ -132,10 +132,28 @@
   font-family: var(--font-body-family);
 }
 
+{%- comment -%}
+  margin is bottom-only (zeroed on first-child, zeroed on last-child's
+  bottom) rather than top-and-bottom -- adjacent paragraphs would normally
+  margin-collapse down to a single gap anyway, but a bottom-only margin
+  guarantees every gap is exactly paragraph_spacing regardless of what
+  markup the rich text editor happens to produce (e.g. an empty <p><br></p>
+  for a blank line still only adds one more of the same fixed amount,
+  rather than two different top+bottom values compounding unevenly).
+{%- endcomment -%}
 #bloggle_article-layout .bloggle_rte p:not(.bggle-font) {
   font-size: 16px;
-  line-height: 1.65;
+  line-height: {{ section.settings.text_line_height }};
   color: {{ section.settings.text_color }};
+  margin: 0 0 {{ section.settings.paragraph_spacing }}px;
+}
+
+#bloggle_article-layout .bloggle_rte p:not(.bggle-font):first-child {
+  margin-top: 0;
+}
+
+#bloggle_article-layout .bloggle_rte p:not(.bggle-font):last-child {
+  margin-bottom: 0;
 }
 
 #bloggle_article-layout .bloggle_rte a {
@@ -255,7 +273,9 @@
     { "type": "color", "id": "text_color", "label": "Body text color", "default": "#00180C" },
     { "type": "color", "id": "link_color", "label": "Link / share / back-to-blog color", "default": "#FF3F00" },
     { "type": "header", "content": "Layout" },
-    { "type": "range", "id": "text_max_width", "label": "Reading column width", "min": 480, "max": 900, "step": 20, "unit": "px", "default": 720, "info": "Shared by the title, meta line, body text, back-to-blog link and share row, so their left edges line up. Left-aligned within the card, not centered." }
+    { "type": "range", "id": "text_max_width", "label": "Reading column width", "min": 480, "max": 900, "step": 20, "unit": "px", "default": 720, "info": "Shared by the title, meta line, body text, back-to-blog link and share row, so their left edges line up. Left-aligned within the card, not centered." },
+    { "type": "range", "id": "text_line_height", "label": "Body line height", "min": 1.2, "max": 2, "step": 0.1, "default": 1.5 },
+    { "type": "range", "id": "paragraph_spacing", "label": "Space between paragraphs", "min": 0, "max": 48, "step": 2, "unit": "px", "default": 22, "info": "Bottom margin only, so every gap between paragraphs is identical regardless of what the rich text editor outputs." }
   ],
   "presets": [
     { "name": "OMA Bloggle Skin" }
