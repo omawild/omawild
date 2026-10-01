@@ -16,7 +16,12 @@
   card's border and box-shadow always match each other (both read
   accent_color, on purpose -- a mismatched border/shadow would look like a
   bug), but the heading text must be repaintable independently of that
-  border/shadow/link color rather than inheriting it.
+  border/shadow color rather than inheriting it.
+
+  Links (in paragraph text and the sources list) are shown by font color,
+  not an underline -- link_color, its own setting, defaults to the same
+  accent orange but is independent so it doesn't drag the border/shadow
+  color along if repainted.
 {%- endcomment -%}
 {% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
 {% style %}
@@ -111,14 +116,11 @@
   margin-bottom: 0;
   }
 .oma-editorial-{{ owid }} .p-block a {
-  color: {{ section.settings.text_color }};
-  text-decoration: underline;
-  text-decoration-color: {{ section.settings.accent_color }};
-  text-decoration-thickness: 1.5px;
-  text-underline-offset: 3px;
+  color: {{ section.settings.link_color }};
+  text-decoration: none;
   }
 .oma-editorial-{{ owid }} .p-block a:hover {
-  color: {{ section.settings.accent_color }};
+  opacity: .8;
   }
 .oma-editorial-{{ owid }} .sources {
   width: 100%;
@@ -153,13 +155,11 @@
   color: {{ section.settings.accent_color }};
   }
 .oma-editorial-{{ owid }} .sources-list a {
-  color: {{ section.settings.text_color }};
-  text-decoration: underline;
-  text-decoration-color: {{ section.settings.accent_color }};
-  text-underline-offset: 3px;
+  color: {{ section.settings.link_color }};
+  text-decoration: none;
   }
 .oma-editorial-{{ owid }} .sources-list a:hover {
-  color: {{ section.settings.accent_color }};
+  opacity: .8;
   }
 {% endstyle %}
 {%- liquid
@@ -239,8 +239,9 @@
     { "type": "color", "id": "background_color", "label": "Background (behind photo / fallback)", "default": "#FFE4E7" },
     { "type": "color", "id": "card_background", "label": "Card background", "default": "#FFFFFF" },
     { "type": "color", "id": "heading_color", "label": "Heading color", "default": "#FF3F00" },
-    { "type": "color", "id": "accent_color", "label": "Accent (card border & shadow, series label, links, sources)", "info": "Border and shadow always match each other — this one color drives both, independent of the heading color above.", "default": "#FF3F00" },
+    { "type": "color", "id": "accent_color", "label": "Accent (card border & shadow, series label, source numbers)", "info": "Border and shadow always match each other — this one color drives both, independent of the heading color above.", "default": "#FF3F00" },
     { "type": "color", "id": "text_color", "label": "Body text color", "default": "#00180C" },
+    { "type": "color", "id": "link_color", "label": "Link color", "info": "Links are shown by color, not an underline.", "default": "#FF3F00" },
     { "type": "header", "content": "Layout" },
     { "type": "range", "id": "max_width", "label": "Max card width", "min": 300, "max": 1600, "step": 20, "unit": "px", "default": 800, "info": "Narrower shows more of the background photo at the sides — matches OD Notice Board's \"Max Card Width\" setting (also 800px by default) so the two read as one visual system." },
     { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 96 },
