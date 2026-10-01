@@ -1,32 +1,3 @@
-{%- comment -%}
-  ow-footer — Omawild site footer, replacing the RoarTheme footer site-wide via
-  sections/footer-group.json.
-
-  The email signup + social icons (the old .footer-top row) used to live
-  here but moved out into their own section, sections/oma-footer-
-  newsletter.liquid, so that row can be placed deliberately on pages that
-  want it rather than always sitting inside the global footer -- and so a
-  page can swap in a bolder/different newsletter banner instead while
-  still getting the plain nav/brand/payments chrome below from this file.
-  oma-footer-newsletter reuses this file's own ow-chrome.css classes/
-  markup (.footer-top, .footer-newsletter, .footer-social, .footer-email,
-  #emailToast, etc.) and ow-chrome.js's toast behavior, so placing it
-  directly above this section reproduces the original combined footer
-  exactly. See its own comment for more.
-
-  Nav columns are blocks (nav_column), one per column, however many the
-  merchant adds/removes/reorders -- not a fixed set of slots. Each points at
-  a Shopify Navigation link list, so the links themselves stay editable in
-  the admin; leave a column's menu unset to drop it.
-
-  Layout: .footer-grid puts the brand block (logo/copyright/1% badge) and
-  the nav columns in one CSS grid row on tablet+ (assets/ow-chrome.css),
-  ordered via `order`, not DOM position, so mobile can stack them in the
-  opposite order (nav accordion, then brand) without duplicating markup.
-  Payment icons are a single instance, repositioned per breakpoint by CSS
-  rather than rendered into two slots.
-{%- endcomment -%}
-
 {{ 'ow-chrome.css' | asset_url | stylesheet_tag }}
 
 <footer class="footer footer-no-newsletter">

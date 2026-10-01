@@ -24,7 +24,7 @@
       }
     },
     "ow-footer": {
-      "type": "ow-footer",
+      "type": "oma-footer",
       "blocks": {
         "nav_column_1": {
           "type": "nav_column",
