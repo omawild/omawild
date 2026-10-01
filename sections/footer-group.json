@@ -33,6 +33,13 @@
             "menu": "footer"
           }
         },
+        "nav_column_kTihiy": {
+          "type": "nav_column",
+          "settings": {
+            "title": "Knowledge",
+            "menu": "footer-knowledge"
+          }
+        },
         "nav_column_2": {
           "type": "nav_column",
           "settings": {
@@ -50,6 +57,7 @@
       },
       "block_order": [
         "nav_column_1",
+        "nav_column_kTihiy",
         "nav_column_2",
         "nav_column_3"
       ],
