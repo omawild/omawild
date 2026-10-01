@@ -363,8 +363,15 @@
    divider line when nothing renders above it any more. This zeroes both
    so the line sits at the footer's own top edge, "cutting" the footer
    right there, as intended. oma-footer-newsletter keeps the original
-   spacing since .footer-top still renders inside it. */
-.footer-no-newsletter{padding-top:0;}
+   spacing since .footer-top still renders inside it.
+
+   Selector is `footer.footer-no-newsletter`, not `.footer-no-newsletter`
+   alone: .footer's own `padding:...` shorthand (below, and again in the
+   750px breakpoint) resets padding-top as a side effect, and at equal
+   specificity the later rule in the file wins regardless of which one
+   this comment sits above -- the extra element-selector specificity is
+   what actually makes this win. */
+footer.footer-no-newsletter{padding-top:0;}
 .footer-no-newsletter .footer-grid{margin-top:0;}
 .footer{
   background:var(--wonderland);
