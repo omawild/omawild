@@ -75,63 +75,6 @@
         "inner_padding_bottom_mobile": 20
       }
     },
-    "od_notice_board_cNpAiY": {
-      "type": "od-notice-board",
-      "blocks": {
-        "notice_box_L4EzBy": {
-          "type": "notice_box",
-          "settings": {
-            "card_padding_vertical": 40,
-            "card_padding_horizontal": 40,
-            "card_padding_vertical_mobile": 24,
-            "card_padding_horizontal_mobile": 20,
-            "content_alignment": "left",
-            "label_tag": "h3",
-            "section_label": "WHERE LIFE BEGINS",
-            "heading": "<h2>Our amazing heading</h2>",
-            "content": "<p>Lorem ipsum dolor sit amet consectetur adipiscing elit.</p>",
-            "label_size": 12,
-            "heading_size": 40,
-            "text_size": 15,
-            "heading_line_height": 1,
-            "body_line_height": 1.4,
-            "body_line_height_mobile": 1.3,
-            "heading_to_body_gap": 18,
-            "label_color": "#666666",
-            "heading_color": "#161616",
-            "emphasis_color": "#B231C6",
-            "text_color": "#333333",
-            "image_width": 200,
-            "image_aspect_ratio": "1 / 1",
-            "image_fit": "cover",
-            "image_radius": 0,
-            "image_margin_top": 20,
-            "card_background": "#ffffff",
-            "card_border_color": "#e5e5e5",
-            "card_border_width": 1,
-            "card_border_radius": 2
-          }
-        }
-      },
-      "block_order": [
-        "notice_box_L4EzBy"
-      ],
-      "name": "OD Notice Board",
-      "settings": {
-        "image": "shopify://shop_images/jatiluwih-rice-fields.png",
-        "background_color": "#ffffff",
-        "colors_overlay_opacity": 0,
-        "colors_overlay": "#000000",
-        "image_ratio": "600",
-        "image_ratio_mobile": "500",
-        "max_width": 800,
-        "side_padding": 10,
-        "inner_padding_top": 60,
-        "inner_padding_bottom": 60,
-        "inner_padding_top_mobile": 20,
-        "inner_padding_bottom_mobile": 20
-      }
-    },
     "oma_newsletter_t4Fni8": {
       "type": "oma-newsletter",
       "disabled": true,
@@ -156,12 +99,24 @@
         "padding_top": 64,
         "padding_bottom": 64
       }
+    },
+    "oma_footer_newsletter_64RqzC": {
+      "type": "oma-footer-newsletter",
+      "name": "OMA Footer Newsletter",
+      "settings": {
+        "tagline": "Coffee is just the beginning. Join us for the adventure, a little chaos, and a whole lot of love (because life is better together). 🫶",
+        "email_placeholder": "your@email.com",
+        "submit_label": "Subscribe",
+        "toast_text": "Welcome to Omawild",
+        "linkedin": "",
+        "instagram": ""
+      }
     }
   },
   "order": [
     "main",
     "od_notice_board_jAQktV",
-    "od_notice_board_cNpAiY",
-    "oma_newsletter_t4Fni8"
+    "oma_newsletter_t4Fni8",
+    "oma_footer_newsletter_64RqzC"
   ]
 }
