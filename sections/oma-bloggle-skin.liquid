@@ -18,8 +18,9 @@
     it and centers it.
   - The title, meta line (author/date/read time), RTE body, back-to-blog
     link and share row are independent block children with no shared
-    column — each one independently gets the same max-width + centered
-    margin so their left edges line up.
+    column — each one independently gets the same max-width and is
+    left-aligned (not centered) so their left edges line up with each
+    other and with the card's own left padding edge.
 
   Every selector is doubled up with "#bloggle_article-layout" as a prefix so
   it outranks Bloggle's own same-selector rules on specificity alone,
@@ -55,6 +56,8 @@
   width: 100% !important;
   margin-left: auto !important;
   margin-right: auto !important;
+  margin-top: {{ section.settings.card_margin_top }}px !important;
+  margin-bottom: {{ section.settings.card_margin_bottom }}px !important;
   background: {{ section.settings.card_background }};
   border: 1.5px solid {{ section.settings.accent_color }};
   box-shadow: 8px 8px 0 {{ section.settings.accent_color }};
@@ -231,8 +234,10 @@
     { "type": "color", "id": "card_background", "label": "Card background", "default": "#FFFFFF" },
     { "type": "color", "id": "accent_color", "label": "Accent (card border & shadow, blockquote rule)", "info": "Border and shadow always match each other, same convention as OMA Editorial.", "default": "#FBB925" },
     { "type": "range", "id": "card_max_width", "label": "Max card width", "min": 480, "max": 1100, "step": 20, "unit": "px", "default": 800, "info": "Matches OMA Editorial's own \"Max Card Width\" default." },
-    { "type": "range", "id": "card_padding_top", "label": "Card padding top", "min": 24, "max": 160, "step": 4, "unit": "px", "default": 72 },
-    { "type": "range", "id": "card_padding_bottom", "label": "Card padding bottom", "min": 24, "max": 160, "step": 4, "unit": "px", "default": 72 },
+    { "type": "range", "id": "card_padding_top", "label": "Card padding top (inside, border to title)", "min": 24, "max": 160, "step": 4, "unit": "px", "default": 40 },
+    { "type": "range", "id": "card_padding_bottom", "label": "Card padding bottom (inside, share row to border)", "min": 24, "max": 160, "step": 4, "unit": "px", "default": 72 },
+    { "type": "range", "id": "card_margin_top", "label": "Space above card (outside, section to border)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 48 },
+    { "type": "range", "id": "card_margin_bottom", "label": "Space below card (outside, border to next section)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 56 },
     { "type": "header", "content": "Colors" },
     { "type": "color", "id": "heading_color", "label": "Title & blockquote color", "default": "#00180C" },
     { "type": "color", "id": "text_color", "label": "Body text color", "default": "#00180C" },

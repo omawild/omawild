@@ -24,8 +24,17 @@
     assets/ow-chrome.css. Mobile ignores the grid entirely and just stacks
     nav (accordion) then brand, in DOM order.
   {%- endcomment -%}
-  <div class="footer-grid">
-    <nav class="footer-nav" style="--nav-count: {{ visible_nav_count }};">
+  <div class="footer-grid" style="--nav-count: {{ visible_nav_count }};">
+    <nav class="footer-nav">
+      {%- comment -%}
+        --nav-count lives on .footer-grid (the element whose own CSS reads
+        it, in assets/ow-chrome.css's grid-template-columns), not on .footer-
+        nav. Custom properties only inherit downward (ancestor to
+        descendant) -- set on a child, .footer-grid (its parent) could never
+        see it and always fell back to the CSS default of 3, no matter how
+        many nav columns were actually configured. That's what caused a 4th
+        populated column to always wrap to its own row regardless of value.
+      {%- endcomment -%}
       {%- for block in nav_columns -%}
         {%- assign menu = block.settings.menu -%}
         {%- if menu != blank and menu.links.size > 0 -%}
