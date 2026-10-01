@@ -9,60 +9,12 @@
  */
 {
   "sections": {
-    "oma_page_header_QKE69f": {
-      "type": "oma-page-header",
-      "blocks": {
-        "collection_row_6zDMBM": {
-          "type": "collection_row",
-          "settings": {
-            "collection": "",
-            "title_override": "",
-            "anchor_override": "",
-            "thumbnail_count": 3,
-            "count_label_override": ""
-          }
-        },
-        "collection_row_M9retp": {
-          "type": "collection_row",
-          "settings": {
-            "collection": "",
-            "title_override": "",
-            "anchor_override": "",
-            "thumbnail_count": 3,
-            "count_label_override": ""
-          }
-        }
-      },
-      "block_order": [
-        "collection_row_6zDMBM",
-        "collection_row_M9retp"
-      ],
-      "disabled": true,
-      "name": "OMA Page Header",
-      "settings": {
-        "heading": "Shop",
-        "title_size": "display",
-        "show_breadcrumb": true,
-        "breadcrumb_label": "",
-        "body": "",
-        "show_collection_list": true,
-        "background_color": "#ffe4e7",
-        "heading_color": "#ff3f00",
-        "text_color": "#00180c",
-        "divider_color": "#ff3f00",
-        "thumb_background": "#fbb925",
-        "padding_top": 36,
-        "padding_bottom": 44,
-        "mobile_padding_horizontal": 20,
-        "desktop_padding_horizontal": 48
-      }
-    },
     "oma_bloggle_skin_y7mVGh": {
       "type": "oma-bloggle-skin",
       "name": "OMA Bloggle Skin",
       "settings": {
         "card_background": "#ffffff",
-        "accent_color": "#FBB925",
+        "accent_color": "#fbb925",
         "card_max_width": 800,
         "card_padding_top": 40,
         "card_padding_bottom": 72,
@@ -71,12 +23,38 @@
         "heading_color": "#00180c",
         "text_color": "#00180c",
         "link_color": "#ff3f00",
-        "text_max_width": 720
+        "text_max_width": 720,
+        "text_line_height": 1.5,
+        "paragraph_spacing": 22
       }
     },
     "blog": {
       "type": "main-bloggle-article",
       "settings": {}
+    },
+    "oma_newsletter_Dbdazb": {
+      "type": "oma-newsletter",
+      "name": "OMA Newsletter",
+      "settings": {
+        "eyebrow_text": "Get the latest Dispatch",
+        "heading": "Get the next story first",
+        "body": "<p>New expeditions and reflections, sent to your inbox.</p>",
+        "placeholder": "your@email.com",
+        "email_label": "Email address",
+        "button_label": "Subscribe",
+        "success_message": "You’re on the list. The next story will land in your inbox.",
+        "background_color": "#FF3F00",
+        "eyebrow_color": "#FCD0FD",
+        "heading_color": "#FFFFFF",
+        "body_color": "#FFFFFF",
+        "capsule_background": "#FFFFFF",
+        "input_text_color": "#00180C",
+        "button_background": "#FF3F00",
+        "button_hover_background": "#D63200",
+        "button_text_color": "#FFFFFF",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     },
     "oma_related_stories_jjpFnf": {
       "type": "oma-related-stories",
@@ -99,9 +77,9 @@
     }
   },
   "order": [
-    "oma_page_header_QKE69f",
     "oma_bloggle_skin_y7mVGh",
     "blog",
+    "oma_newsletter_Dbdazb",
     "oma_related_stories_jjpFnf"
   ]
 }
