@@ -62,7 +62,7 @@
       "name": "OMA Bloggle Skin",
       "settings": {
         "card_background": "#ffffff",
-        "accent_color": "#fbb925",
+        "accent_color": "#FBB925",
         "card_max_width": 800,
         "card_padding_top": 40,
         "card_padding_bottom": 72,
