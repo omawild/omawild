@@ -75,9 +75,43 @@
         "inner_padding_bottom_mobile": 20
       }
     },
+    "oma_editorial_P9qkLj": {
+      "type": "oma-editorial",
+      "blocks": {
+        "lines_gqAtma": {
+          "type": "lines",
+          "settings": {
+            "lines": "We breathe the same air.\nDrink the same water.\nEat from the same soil."
+          }
+        },
+        "paragraph_k4TYGT": {
+          "type": "paragraph",
+          "settings": {
+            "text": ""
+          }
+        }
+      },
+      "block_order": [
+        "lines_gqAtma",
+        "paragraph_k4TYGT"
+      ],
+      "name": "OMA Editorial",
+      "settings": {
+        "background_image": "shopify://shop_images/jatiluwih-rice-fields.png",
+        "series": "Common Ground",
+        "heading": "Down to Earth",
+        "show_sources": true,
+        "sources_label": "Sources",
+        "background_color": "#FFE4E7",
+        "card_background": "#FFFFFF",
+        "accent_color": "#FF3F00",
+        "text_color": "#00180C",
+        "padding_top": 96,
+        "padding_bottom": 96
+      }
+    },
     "oma_newsletter_t4Fni8": {
       "type": "oma-newsletter",
-      "disabled": true,
       "name": "OMA Newsletter",
       "settings": {
         "eyebrow_text": "The Dispatch, by email",
@@ -116,6 +150,7 @@
   "order": [
     "main",
     "od_notice_board_jAQktV",
+    "oma_editorial_P9qkLj",
     "oma_newsletter_t4Fni8",
     "oma_footer_newsletter_64RqzC"
   ]
