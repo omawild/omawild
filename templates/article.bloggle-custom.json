@@ -60,7 +60,19 @@
     "oma_bloggle_skin_y7mVGh": {
       "type": "oma-bloggle-skin",
       "name": "OMA Bloggle Skin",
-      "settings": {}
+      "settings": {
+        "card_background": "#ffffff",
+        "accent_color": "#fbb925",
+        "card_max_width": 800,
+        "card_padding_top": 40,
+        "card_padding_bottom": 72,
+        "card_margin_top": 48,
+        "card_margin_bottom": 56,
+        "heading_color": "#00180c",
+        "text_color": "#00180c",
+        "link_color": "#ff3f00",
+        "text_max_width": 720
+      }
     },
     "blog": {
       "type": "main-bloggle-article",
@@ -77,10 +89,10 @@
         "count": 3,
         "exclude_current": true,
         "read_label": "Read the story",
-        "background_color": "#F7F5F1",
-        "accent_color": "#FF3F00",
-        "text_color": "#00180C",
-        "hover_background": "#FFE4E7",
+        "background_color": "#f7f5f1",
+        "accent_color": "#ff3f00",
+        "text_color": "#00180c",
+        "hover_background": "#ffe4e7",
         "padding_top": 48,
         "padding_bottom": 72
       }
