@@ -1,17 +1,209 @@
 {%- comment -%}
-  oma-bloggle-skin — loads assets/oma-bloggle-article.css, which brand-skins
-  the Bloggle app's article template (fonts, colors, spacing on its fixed
-  IDs/classes). Renders no markup of its own.
+  oma-bloggle-skin — brand skin for the Bloggle app's article template.
+  Renders no markup of its own; its only job is the {% style %} block below,
+  which re-skins the fixed IDs/classes Bloggle's own section
+  (main-bloggle-article.liquid, app-owned — see CLAUDE.md's ownership map,
+  can't be edited directly) always renders.
 
-  main-bloggle-article.liquid is Bloggle-app-owned (ownership map: "no"),
-  so it can't be edited directly — this is the only lever available for
-  bringing the live article template (templateSuffix: bloggle-custom, used
-  by every published article as of Oct 2026) in line with the rest of the
-  site's NHD/brand-color system. The stylesheet's selectors are doubled up
-  for specificity, so this section's position in the template's section
-  order doesn't matter — add it anywhere on article.bloggle-custom.json.
+  Settings-driven like every other oma-* section, rather than a static CSS
+  file, so colors/width are adjustable from the theme editor without a code
+  change.
+
+  Two fixes this covers that plain font/color swaps didn't:
+  - Bloggle's own CDN stylesheet (article-layout.min.css) makes
+    #bloggle_article-layout a flex row: the article content takes
+    `calc(100% - 210px)` when a related product is linked to make room for
+    its sticky sidebar, otherwise the full width — up to ~1100px either way,
+    with nothing capping the RTE's reading width. text_max_width below caps
+    it and centers it.
+  - The title, meta line (author/date/read time), RTE body, back-to-blog
+    link and share row are independent block children with no shared
+    column — each one independently gets the same max-width + centered
+    margin so their left edges line up.
+
+  Every selector is doubled up with "#bloggle_article-layout" as a prefix so
+  it outranks Bloggle's own same-selector rules on specificity alone,
+  regardless of where this section sits in the template's section order.
+
+  Styled to read as a sibling of oma-editorial (bordered card, offset
+  shadow, Sunbrella accent by default) rather than a from-scratch look —
+  but note the adaptation: oma-editorial's card floats over a separate
+  full-bleed sticky background photo with no image inside the card itself;
+  Bloggle's structure puts the article's own image at the top of the same
+  flex container as the text, so here the image sits inside the bordered
+  card instead. There's no DOM hook to pull it out into a separate layer.
+
+  Known gap: Bloggle's comment form isn't in main-bloggle-article.liquid's
+  source — it's injected client-side by their CDN script
+  (lazysizes-bloggle.min.js) with class names this repo can't see. Not
+  styled here; check a review theme once comments are visible before adding
+  rules for it.
 {%- endcomment -%}
-{{ 'oma-bloggle-article.css' | asset_url | stylesheet_tag }}
+{% style %}
+#bloggle_article-layout {
+  box-sizing: border-box;
+  background: {{ section.settings.card_background }};
+  border: 1.5px solid {{ section.settings.accent_color }};
+  box-shadow: 8px 8px 0 {{ section.settings.accent_color }};
+  padding: clamp(28px, 5vw, 64px) clamp(20px, 5vw, 64px);
+}
+
+#bloggle_article-layout .bloggle--blog-item-img {
+  border-radius: 0;
+}
+
+/* Bloggle centers the header via a "text__center" utility class; the brand
+   reads left-aligned, so that's overridden here along with the type. */
+#bloggle_article-layout #article-header {
+  text-align: left;
+  max-width: {{ section.settings.text_max_width }}px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#bloggle_article-layout #bloggle--article-title {
+  font-family: var(--font-heading-family);
+  font-weight: 900;
+  font-size: clamp(32px, 5vw, 56px);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: {{ section.settings.heading_color }};
+  text-wrap: balance;
+}
+
+#bloggle_article-layout .info_header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px 10px;
+  margin-top: 14px;
+}
+
+#bloggle_article-layout .info_header #bloggle--blog-item-author,
+#bloggle_article-layout .info_header #bloggle--blog-item-ttread {
+  margin: 0;
+  font-family: var(--font-body-family);
+  font-weight: 700;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: {{ section.settings.text_color }};
+}
+
+#bloggle_article-layout .info_header #separator {
+  margin: 0;
+  color: {{ section.settings.accent_color }};
+  opacity: 0.6;
+}
+
+#bloggle_article-layout .bloggle_rte,
+#bloggle_article-layout #bloggle_rte {
+  max-width: {{ section.settings.text_max_width }}px;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: var(--font-body-family);
+}
+
+#bloggle_article-layout .bloggle_rte p:not(.bggle-font) {
+  font-size: 16px;
+  line-height: 1.65;
+  color: {{ section.settings.text_color }};
+}
+
+#bloggle_article-layout .bloggle_rte a {
+  color: {{ section.settings.link_color }};
+  text-decoration-color: {{ section.settings.link_color }};
+  text-underline-offset: 3px;
+}
+
+#bloggle_article-layout .bloggle_rte a:hover {
+  opacity: 0.8;
+}
+
+#bloggle_article-layout .bloggle_rte blockquote {
+  margin: 28px 0;
+  padding: 4px 0 4px 20px;
+  border-left: 3px solid {{ section.settings.accent_color }};
+  font-style: italic;
+  color: {{ section.settings.heading_color }};
+}
+
+#bloggle_article-layout .bloggle_rte img {
+  border-radius: 0;
+}
+
+#bloggle_article-layout #bloggle--blog-item-goback {
+  max-width: {{ section.settings.text_max_width }}px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 32px;
+}
+
+#bloggle_article-layout #bloggle--blog-item-goback a {
+  font-family: var(--font-heading-family);
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: {{ section.settings.link_color }};
+  text-decoration: none;
+}
+
+#bloggle_article-layout #bloggle--blog-item-goback a:hover {
+  opacity: 0.8;
+}
+
+#bloggle_article-layout #share-buttons {
+  max-width: {{ section.settings.text_max_width }}px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1.5px solid {{ section.settings.accent_color }};
+}
+
+#bloggle_article-layout #share-buttons a {
+  font-family: var(--font-heading-family);
+  font-weight: 700;
+  font-size: 12.5px;
+  color: {{ section.settings.text_color }};
+  text-decoration: none;
+}
+
+#bloggle_article-layout #share-buttons a:hover {
+  opacity: 0.75;
+}
+
+/* The share icons carry inline style="fill:#000000" on the <svg>/<path>
+   elements themselves (vendor markup, not editable) — only an !important
+   external rule can out-rank an inline style attribute. */
+#bloggle_article-layout #share-buttons svg,
+#bloggle_article-layout #share-buttons svg path {
+  fill: {{ section.settings.link_color }} !important;
+}
+
+#bloggle_sideBar {
+  font-family: var(--font-body-family);
+}
+
+#bloggle_sideBar .bggle--product-info,
+#bloggle_sideBar p,
+#bloggle_sideBar li {
+  color: {{ section.settings.text_color }} !important;
+}
+
+#bloggle_sideBar .bggle--product-title {
+  font-family: var(--font-heading-family);
+  font-weight: 800;
+}
+
+#bloggle_sideBar .bggle--product-vendor {
+  font-family: var(--font-heading-family);
+  color: {{ section.settings.link_color }};
+}
+{% endstyle %}
 
 {% schema %}
 {
@@ -20,7 +212,17 @@
   "disabled_on": {
     "groups": ["header", "footer"]
   },
-  "settings": [],
+  "settings": [
+    { "type": "header", "content": "Card" },
+    { "type": "color", "id": "card_background", "label": "Card background", "default": "#FFFFFF" },
+    { "type": "color", "id": "accent_color", "label": "Accent (card border & shadow, blockquote rule)", "info": "Border and shadow always match each other, same convention as OMA Editorial.", "default": "#FBB925" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "heading_color", "label": "Title & blockquote color", "default": "#00180C" },
+    { "type": "color", "id": "text_color", "label": "Body text color", "default": "#00180C" },
+    { "type": "color", "id": "link_color", "label": "Link / share / back-to-blog color", "default": "#FF3F00" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "text_max_width", "label": "Reading column width", "min": 480, "max": 900, "step": 20, "unit": "px", "default": 720, "info": "Shared by the title, meta line, body text, back-to-blog link and share row, so their left edges line up." }
+  ],
   "presets": [
     { "name": "OMA Bloggle Skin" }
   ]
