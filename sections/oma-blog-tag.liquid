@@ -1,0 +1,110 @@
+{%- comment -%}
+  oma-blog-tag — breadcrumb + category tag strip for an article page.
+
+  Bloggle's own article template (main-bloggle-article.liquid, app-owned —
+  see CLAUDE.md's ownership map) already renders the title, author, date and
+  read time itself, so this section deliberately does NOT repeat any of
+  those — it only covers what Bloggle has no equivalent for: a breadcrumb
+  trail back to the blog, and a category tag pulled from the article's first
+  tag. Place it directly above the Bloggle section on article.bloggle-
+  custom.json.
+
+  Reads the global `article` and `blog` objects, so it only renders anything
+  on an article page — on any other template it just shows a design-mode
+  notice.
+{%- endcomment -%}
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{% style %}
+.oma-blog-tag-{{ owid }} {
+  box-sizing: border-box;
+  background: {{ section.settings.background_color }};
+  border-bottom: 1.5px solid {{ section.settings.accent_color }};
+  padding: {{ section.settings.padding_top }}px clamp(20px, 4vw, 48px) {{ section.settings.padding_bottom }}px;
+  font-family: var(--font-body-family);
+  }
+.oma-blog-tag-{{ owid }} *, .oma-blog-tag-{{ owid }} *::before, .oma-blog-tag-{{ owid }} *::after {
+  box-sizing: border-box;
+  }
+.oma-blog-tag-{{ owid }} .inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 24px;
+  }
+.oma-blog-tag-{{ owid }} .crumbs {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 6px;
+  font: 700 11px/1.4 var(--font-heading-family);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: {{ section.settings.accent_color }};
+  }
+.oma-blog-tag-{{ owid }} .crumbs li { display: flex; gap: 6px; }
+.oma-blog-tag-{{ owid }} .crumbs a { color: inherit; text-decoration: none; }
+.oma-blog-tag-{{ owid }} .crumbs a:hover { opacity: 0.75; }
+.oma-blog-tag-{{ owid }} .tag {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  background: {{ section.settings.tag_background }};
+  border: 1.5px solid {{ section.settings.accent_color }};
+  border-radius: 100px;
+  padding: 9px 16px;
+  font: 900 12px/1 var(--font-heading-family);
+  letter-spacing: 0.08em;
+  color: {{ section.settings.accent_color }};
+  white-space: nowrap;
+  }
+{% endstyle %}
+<div class="oma-blog-tag-{{ owid }}">
+  <div class="inner">
+    {%- if article == blank -%}
+      {%- if request.design_mode -%}
+        <p>This section only renders on an article page.</p>
+      {%- endif -%}
+    {%- else -%}
+      {%- if section.settings.show_breadcrumb -%}
+        <ul class="crumbs">
+          <li><a href="{{ routes.root_url }}">{{ 'general.breadcrumbs.home' | t | default: 'Home' }}</a></li>
+          <li><a href="{{ blog.url }}">{{ section.settings.blog_crumb_label | default: blog.title }}</a></li>
+          <li>{{ article.title }}</li>
+        </ul>
+      {%- endif -%}
+      {%- if section.settings.show_tag and article.tags.size > 0 -%}
+        <span class="tag">{{ article.tags.first | upcase }}</span>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "OMA Blog Tag",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    { "type": "checkbox", "id": "show_breadcrumb", "label": "Show breadcrumb", "default": true },
+    { "type": "text", "id": "blog_crumb_label", "label": "Blog breadcrumb label", "info": "Defaults to the blog's own title when left blank." },
+    { "type": "checkbox", "id": "show_tag", "label": "Show category tag", "default": true, "info": "Uses the article's first tag." },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Section background", "default": "#F7F5F1" },
+    { "type": "color", "id": "accent_color", "label": "Accent (breadcrumb, tag border/text)", "default": "#FF3F00" },
+    { "type": "color", "id": "tag_background", "label": "Tag background", "default": "#FCD0FD" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 24 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 24 }
+  ],
+  "presets": [
+    { "name": "OMA Blog Tag" }
+  ]
+}
+{% endschema %}

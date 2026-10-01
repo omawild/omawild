@@ -1,0 +1,28 @@
+{%- comment -%}
+  oma-bloggle-skin — loads assets/oma-bloggle-article.css, which brand-skins
+  the Bloggle app's article template (fonts, colors, spacing on its fixed
+  IDs/classes). Renders no markup of its own.
+
+  main-bloggle-article.liquid is Bloggle-app-owned (ownership map: "no"),
+  so it can't be edited directly — this is the only lever available for
+  bringing the live article template (templateSuffix: bloggle-custom, used
+  by every published article as of Oct 2026) in line with the rest of the
+  site's NHD/brand-color system. The stylesheet's selectors are doubled up
+  for specificity, so this section's position in the template's section
+  order doesn't matter — add it anywhere on article.bloggle-custom.json.
+{%- endcomment -%}
+{{ 'oma-bloggle-article.css' | asset_url | stylesheet_tag }}
+
+{% schema %}
+{
+  "name": "OMA Bloggle Skin",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [],
+  "presets": [
+    { "name": "OMA Bloggle Skin" }
+  ]
+}
+{% endschema %}
