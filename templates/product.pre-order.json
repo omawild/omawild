@@ -9,13 +9,6 @@
  */
 {
   "sections": {
-    "empty-space": {
-      "type": "empty-space",
-      "settings": {
-        "desktop_height": 36,
-        "mobile_height": 0
-      }
-    },
     "main": {
       "type": "main-product",
       "blocks": {
@@ -133,90 +126,10 @@
         "enable_highlight": false,
         "highlight_style": "marker"
       }
-    },
-    "testimonials": {
-      "type": "testimonials",
-      "blocks": {
-        "testimonials-0": {
-          "type": "testimonial",
-          "settings": {
-            "icon": "5",
-            "text": "<p>Add customer reviews and testimonials to showcase your store's happy customers.</p>",
-            "author": "Author's name",
-            "enable_highlight": false,
-            "highlight_style": "marker"
-          }
-        },
-        "testimonials-1": {
-          "type": "testimonial",
-          "settings": {
-            "icon": "5",
-            "text": "<p>Add customer reviews and testimonials to showcase your store's happy customers.</p>",
-            "author": "Author's name",
-            "enable_highlight": false,
-            "highlight_style": "marker"
-          }
-        },
-        "testimonials-2": {
-          "type": "testimonial",
-          "settings": {
-            "icon": "5",
-            "text": "<p>Add customer reviews and testimonials to showcase your store's happy customers.</p>",
-            "author": "Author's name",
-            "enable_highlight": false,
-            "highlight_style": "marker"
-          }
-        },
-        "testimonials-3": {
-          "type": "testimonial",
-          "settings": {
-            "icon": "5",
-            "text": "<p>Add customer reviews and testimonials to showcase your store's happy customers.</p>",
-            "author": "Author's name",
-            "enable_highlight": false,
-            "highlight_style": "marker"
-          }
-        },
-        "testimonials-4": {
-          "type": "testimonial",
-          "settings": {
-            "icon": "5",
-            "text": "<p>Add customer reviews and testimonials to showcase your store's happy customers.</p>",
-            "author": "Author's name",
-            "enable_highlight": false,
-            "highlight_style": "marker"
-          }
-        }
-      },
-      "block_order": [
-        "testimonials-0",
-        "testimonials-1",
-        "testimonials-2",
-        "testimonials-3",
-        "testimonials-4"
-      ],
-      "disabled": true,
-      "settings": {
-        "autorotate": false,
-        "autorotate_speed": 5,
-        "hide_images": false,
-        "show_divider": false,
-        "heading": "Testimonials",
-        "heading_size": "h2",
-        "heading_alignment": "center",
-        "heading_tag": "h2",
-        "colors_highlight": "#ffb503",
-        "padding_top": 36,
-        "padding_bottom": 72,
-        "enable_highlight": false,
-        "highlight_style": "marker"
-      }
     }
   },
   "order": [
-    "empty-space",
     "main",
-    "product-recommendations",
-    "testimonials"
+    "product-recommendations"
   ]
 }
