@@ -68,10 +68,22 @@
   border-radius: 0;
 }
 
-/* Bloggle centers the header via a "text__center" utility class; the brand
-   reads left-aligned, so that's overridden here along with the type. */
+{%- comment -%}
+  Bloggle's "text__center" utility class on #article-header isn't just
+  text-align:center -- it's display:flex;flex-direction:column;align-items
+  :center (confirmed in their CDN stylesheet, article-layout.min.css). That
+  makes #article-header a flex container that horizontally CENTERS its
+  children as flex items -- the title and the meta row (.info_header) --
+  regardless of text-align. The title looks unaffected because it's nearly
+  as wide as its own column already, so centering it is invisible; the much
+  narrower meta row visibly floats in the middle. text-align:left alone
+  never fixed this because text-align only affects inline content inside a
+  box, not a flex item's own position -- align-items is the property that
+  actually controls it, overridden explicitly below.
+{%- endcomment -%}
 #bloggle_article-layout #article-header {
   text-align: left;
+  align-items: flex-start;
   max-width: {{ section.settings.text_max_width }}px;
   margin-left: 0;
   margin-right: auto;
