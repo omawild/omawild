@@ -594,16 +594,21 @@ footer.footer-no-newsletter{padding-top:0;}
   /* Nav columns size to their own widest line (heading or link text)
      instead of splitting the row into equal fractions -- a short column
      ("Shop") no longer reserves the same width as a long one ("Footer -
-     Knowledge"), so the flat 30px gap reads as even spacing between
-     columns rather than leftover space of varying size. minmax(0,...)
-     keeps each track able to shrink under real width pressure instead of
-     forcing an overflow. (A trailing minmax(0,1fr) track appears at the
-     960px breakpoint below, where there are enough columns for it to
-     matter -- see the comment there.) */
+     Knowledge"). gap:30px is the guaranteed minimum between every pair of
+     tracks (brand included); justify-content:space-between then spreads
+     any leftover row width as EXTRA space on top of that minimum, so the
+     whole brand+nav row fills the container edge-to-edge -- tried instead
+     of this with a flat gap and a trailing spacer track, but that read as
+     too static and left the nav group sitting too close to the brand
+     logo. On a row with little or no leftover width (narrow viewports,
+     many/long nav columns) this just degrades to the flat 30px gap.
+     minmax(0,...) keeps each nav track able to shrink under real pressure
+     instead of forcing an overflow. */
   .footer-grid{
     display:grid;
     grid-template-columns:repeat(var(--nav-count,3),minmax(0,max-content));
     gap:30px;align-items:start;
+    justify-content:space-between;
   }
   .footer-nav{display:contents;}
   .footer-nav-section{border-bottom:none;padding:0;}
@@ -623,21 +628,14 @@ footer.footer-no-newsletter{padding-top:0;}
 }
 @media(min-width:960px){
   /* Brand is content-sized here too (minmax(180px,max-content), not a
-     flexible 1.3fr) -- a flexible brand column absorbed ALL the row's
-     leftover width itself, which read as one big dead gap between the
-     brand block and "Foundation" while the nav columns stayed clustered
-     together on the right, far from the brand content. Shrinking it lets
-     the nav group's left edge sit close to the brand instead of being
-     pushed out by it -- gap stays a flat 30px between every column either
-     way (not stretched), so the trailing minmax(0,1fr) track below is
-     what actually makes "spread across a wider row" happen: an extra,
-     final column with no nav item to fill it, which just silently absorbs
-     whatever width is left over after brand + the real nav columns + their
-     30px gaps. The nav group reads as starting right after the brand
-     content and stretching out across the row, without inflating the gap
-     between individual columns the way justify-content:space-between
-     would have. */
-  .footer-grid{grid-template-columns:minmax(180px,max-content) repeat(var(--nav-count,3),minmax(0,max-content)) minmax(0,1fr);}
+     flexible 1.3fr) -- a flexible brand column would absorb ALL the row's
+     leftover width itself, leaving nothing for justify-content:space-
+     between (set above) to distribute between brand and the nav columns.
+     With brand content-sized, space-between spreads the row's full
+     leftover width as extra room between brand and "Foundation" and
+     between each nav column in turn, so the whole row fills edge-to-edge
+     instead of the nav group clustering on the right. */
+  .footer-grid{grid-template-columns:minmax(180px,max-content) repeat(var(--nav-count,3),minmax(0,max-content));}
   .footer-brand{grid-column:auto;margin-bottom:0;}
 }
 
