@@ -93,13 +93,13 @@
   display: flex;
   flex-direction: column;
   gap: 22px;
-  margin-top: 20px;
+  margin-top: 8px;
   }
 .oma-editorial-{{ owid }} .lines-block {
   width: 100%;
   max-width: 720px;
   margin: 0 auto;
-  font: 600 16.5px/1.6 var(--font-body-family);
+  font: 600 15px/1.35 var(--font-body-family);
   color: {{ section.settings.text_color }};
   }
 .oma-editorial-{{ owid }} .lines-block span {
@@ -118,6 +118,31 @@
   }
 .oma-editorial-{{ owid }} .p-block p:last-child {
   margin-bottom: 0;
+  }
+{%- comment -%}
+  Headings an editor adds inside the rich text (e.g. formatting a line
+  as Heading 1) otherwise fall back to the browser's own UA margin,
+  which reads as "barely any spacing" before whatever follows (a list's
+  own margin-top is zeroed above, so margins don't collapse into
+  anything bigger). Explicit, generous margin on both sides, zeroed on
+  whichever heading opens the block so it doesn't float down from the
+  card's own top edge.
+{%- endcomment -%}
+.oma-editorial-{{ owid }} .p-block h1,
+.oma-editorial-{{ owid }} .p-block h2,
+.oma-editorial-{{ owid }} .p-block h3,
+.oma-editorial-{{ owid }} .p-block h4,
+.oma-editorial-{{ owid }} .p-block h5,
+.oma-editorial-{{ owid }} .p-block h6 {
+  margin: 1.4em 0 .6em;
+  }
+.oma-editorial-{{ owid }} .p-block h1:first-child,
+.oma-editorial-{{ owid }} .p-block h2:first-child,
+.oma-editorial-{{ owid }} .p-block h3:first-child,
+.oma-editorial-{{ owid }} .p-block h4:first-child,
+.oma-editorial-{{ owid }} .p-block h5:first-child,
+.oma-editorial-{{ owid }} .p-block h6:first-child {
+  margin-top: 0;
   }
 {%- comment -%}
   Explicit list indentation rather than relying on the browser/theme
