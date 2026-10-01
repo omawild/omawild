@@ -24,7 +24,7 @@
         "lines_aDtci4": {
           "type": "lines",
           "settings": {
-            "lines": "The best adventures leave us changed. They deepen our connection to the places we love and remind us that they're worth protecting long after we've returned home. That's why, at Omawild, our journey doesn't end when the trip is over."
+            "lines": "The best adventures deepen our connection with the world. They make us feel alive, and remind us what is worth protecting, long after we've returned home. That's why, at Omawild, our journey doesn't end when the trip is over."
           }
         },
         "paragraph_kXpzHW": {
@@ -47,8 +47,8 @@
         "sources_label": "Sources",
         "background_color": "#ffe4e7",
         "card_background": "#ffffff",
-        "heading_color": "#FF3F00",
-        "series_color": "#FBB925",
+        "heading_color": "#ff3f00",
+        "series_color": "#9234DA",
         "accent_color": "#fbb925",
         "text_color": "#00180c",
         "link_color": "#ff3f00",
