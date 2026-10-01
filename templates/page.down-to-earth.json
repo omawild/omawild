@@ -38,16 +38,19 @@
         "heading": "Down to Earth",
         "show_sources": true,
         "sources_label": "Sources",
-        "background_color": "#FFE4E7",
-        "card_background": "#FFFFFF",
-        "accent_color": "#FF3F00",
-        "text_color": "#00180C",
+        "background_color": "#ffe4e7",
+        "card_background": "#ffffff",
+        "heading_color": "#ff3f00",
+        "accent_color": "#ff3f00",
+        "text_color": "#00180c",
+        "max_width": 800,
         "padding_top": 96,
         "padding_bottom": 96
       }
     },
     "oma_newsletter_t4Fni8": {
       "type": "oma-newsletter",
+      "disabled": true,
       "name": "OMA Newsletter",
       "settings": {
         "eyebrow_text": "The Dispatch, by email",
@@ -72,7 +75,6 @@
     },
     "oma_footer_newsletter_64RqzC": {
       "type": "oma-footer-newsletter",
-      "disabled": true,
       "name": "OMA Footer Newsletter",
       "settings": {
         "tagline": "Coffee is just the beginning. Join us for the adventure, a little chaos, and a whole lot of love (because life is better together). 🫶",
