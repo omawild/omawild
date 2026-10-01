@@ -2,10 +2,17 @@
   ow-footer — Omawild site footer, replacing the RoarTheme footer site-wide via
   sections/footer-group.json.
 
-  The email signup is a real Shopify customer form (tags it as accepts_marketing)
-  rather than the design's inert <form id="footerEmailForm">. ow-chrome.js still
-  shows the success toast; on a real submit Shopify round-trips the page and the
-  form.posted_successfully? branch below re-opens the toast on return.
+  The email signup + social icons (the old .footer-top row) used to live
+  here but moved out into their own section, sections/oma-footer-
+  newsletter.liquid, so that row can be placed deliberately on pages that
+  want it rather than always sitting inside the global footer -- and so a
+  page can swap in a bolder/different newsletter banner instead while
+  still getting the plain nav/brand/payments chrome below from this file.
+  oma-footer-newsletter reuses this file's own ow-chrome.css classes/
+  markup (.footer-top, .footer-newsletter, .footer-social, .footer-email,
+  #emailToast, etc.) and ow-chrome.js's toast behavior, so placing it
+  directly above this section reproduces the original combined footer
+  exactly. See its own comment for more.
 
   Nav columns are blocks (nav_column), one per column, however many the
   merchant adds/removes/reorders -- not a fixed set of slots. Each points at
@@ -16,65 +23,13 @@
   the nav columns in one CSS grid row on tablet+ (assets/ow-chrome.css),
   ordered via `order`, not DOM position, so mobile can stack them in the
   opposite order (nav accordion, then brand) without duplicating markup.
-  Social icons and payment icons are each a single instance now too,
-  repositioned per breakpoint by CSS rather than rendered into two slots.
+  Payment icons are a single instance, repositioned per breakpoint by CSS
+  rather than rendered into two slots.
 {%- endcomment -%}
 
 {{ 'ow-chrome.css' | asset_url | stylesheet_tag }}
 
 <footer class="footer">
-  <div class="footer-top">
-    <div class="footer-newsletter">
-      <img class="footer-head" src="{{ 'ow-nature-head.svg' | asset_url }}" alt="" width="284" height="74">
-      <p class="footer-tagline">{{ section.settings.tagline }}</p>
-
-      {%- form 'customer', id: 'footerEmailForm', class: 'footer-email' -%}
-        <input type="hidden" name="contact[tags]" value="newsletter">
-        <input type="hidden" name="contact[accepts_marketing]" value="true">
-        <input type="email"
-               name="contact[email]"
-               placeholder="{{ section.settings.email_placeholder | escape }}"
-               aria-label="{{ section.settings.email_placeholder | escape }}"
-               autocomplete="email"
-               required>
-        <button type="submit">{{ section.settings.submit_label | escape }}</button>
-        {%- comment -%}
-          The `form` object only exists inside this {% form %} block, so the success
-          state has to be captured here — the toast below cannot read it directly.
-          Liquid assigns outlive the block, which is what makes this work.
-        {%- endcomment -%}
-        {%- if form.posted_successfully? -%}
-          {%- assign newsletter_posted = true -%}
-        {%- endif -%}
-      {%- endform -%}
-
-      <div class="email-toast-backdrop" id="emailToastBackdrop"></div>
-      <div class="email-toast{% if newsletter_posted %} show{% endif %}" id="emailToast" role="status" aria-live="polite">
-        <span class="email-toast-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M20 6L9 17l-5-5" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
-        <span class="email-toast-text">{{ section.settings.toast_text }}</span>
-      </div>
-    </div>
-
-    {%- if section.settings.linkedin != blank or section.settings.instagram != blank -%}
-      <div class="footer-social">
-        {%- if section.settings.linkedin != blank -%}
-          <a href="{{ section.settings.linkedin }}" target="_blank" rel="noopener" aria-label="LinkedIn">
-            <img src="{{ 'ow-icon-linkedin.svg' | asset_url }}" alt="" width="20" height="20">
-          </a>
-        {%- endif -%}
-        {%- if section.settings.instagram != blank -%}
-          <a href="{{ section.settings.instagram }}" target="_blank" rel="noopener" aria-label="Instagram">
-            <img src="{{ 'ow-icon-instagram.svg' | asset_url }}" alt="" width="20" height="20">
-          </a>
-        {%- endif -%}
-      </div>
-    {%- endif -%}
-  </div>
-
   {%- comment -%}
     One block per column, however many the merchant adds/removes/reorders --
     replaces the old fixed menu_1..menu_4 settings, which always reserved
@@ -157,15 +112,6 @@
 {
   "name": "OW Footer",
   "settings": [
-    { "type": "textarea", "id": "tagline", "label": "Tagline", "default": "Coffee is just the beginning. Join us for the adventure, a little chaos, and a whole lot of love (because life is better together). 🫶" },
-    { "type": "header", "content": "Email signup" },
-    { "type": "text", "id": "email_placeholder", "label": "Input placeholder", "default": "your@email.com" },
-    { "type": "text", "id": "submit_label", "label": "Submit button label", "default": "Subscribe" },
-    { "type": "text", "id": "toast_text", "label": "Success message", "default": "Welcome to Omawild" },
-    { "type": "header", "content": "Social" },
-    { "type": "paragraph", "content": "Shopify's url setting cannot carry a default, so these are seeded from sections/footer-group.json instead. Clearing one hides that icon." },
-    { "type": "url", "id": "linkedin", "label": "LinkedIn URL" },
-    { "type": "url", "id": "instagram", "label": "Instagram URL" },
     { "type": "header", "content": "Payment icons" },
     { "type": "paragraph", "content": "Icons are pulled from your store's enabled payment methods (Settings → Payments). Toggle off to hide the row." },
     { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true },

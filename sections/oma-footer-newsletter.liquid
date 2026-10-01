@@ -1,0 +1,89 @@
+{%- comment -%}
+  oma-footer-newsletter — the email signup + social icons (the old
+  .footer-top row) that used to live inside ow-footer.liquid, pulled out
+  so they can be placed deliberately rather than always rendering inside
+  the global footer. Placed directly above ow-footer (typically in
+  footer-group.json), it reproduces the original combined footer
+  exactly. The point of the split: a page can swap this out for a
+  bolder/different newsletter banner instead, while ow-footer still
+  supplies the plain nav/brand/payments chrome underneath either way.
+
+  Reuses ow-footer's own markup/classes from assets/ow-chrome.css
+  (.footer-top, .footer-newsletter, .footer-head, .footer-tagline,
+  .footer-email, .footer-social, .email-toast*) and ow-chrome.js's
+  existing toast behavior, rather than a parallel set of styles.
+{%- endcomment -%}
+{{ 'ow-chrome.css' | asset_url | stylesheet_tag }}
+<div class="footer">
+  <div class="footer-top">
+    <div class="footer-newsletter">
+      <img class="footer-head" src="{{ 'ow-nature-head.svg' | asset_url }}" alt="" width="284" height="74">
+      <p class="footer-tagline">{{ section.settings.tagline }}</p>
+
+      {%- form 'customer', id: 'footerEmailForm', class: 'footer-email' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <input type="hidden" name="contact[accepts_marketing]" value="true">
+        <input type="email"
+               name="contact[email]"
+               placeholder="{{ section.settings.email_placeholder | escape }}"
+               aria-label="{{ section.settings.email_placeholder | escape }}"
+               autocomplete="email"
+               required>
+        <button type="submit">{{ section.settings.submit_label | escape }}</button>
+        {%- comment -%}
+          The `form` object only exists inside this {% form %} block, so the success
+          state has to be captured here — the toast below cannot read it directly.
+          Liquid assigns outlive the block, which is what makes this work.
+        {%- endcomment -%}
+        {%- if form.posted_successfully? -%}
+          {%- assign newsletter_posted = true -%}
+        {%- endif -%}
+      {%- endform -%}
+
+      <div class="email-toast-backdrop" id="emailToastBackdrop"></div>
+      <div class="email-toast{% if newsletter_posted %} show{% endif %}" id="emailToast" role="status" aria-live="polite">
+        <span class="email-toast-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M20 6L9 17l-5-5" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="email-toast-text">{{ section.settings.toast_text }}</span>
+      </div>
+    </div>
+
+    {%- if section.settings.linkedin != blank or section.settings.instagram != blank -%}
+      <div class="footer-social">
+        {%- if section.settings.linkedin != blank -%}
+          <a href="{{ section.settings.linkedin }}" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <img src="{{ 'ow-icon-linkedin.svg' | asset_url }}" alt="" width="20" height="20">
+          </a>
+        {%- endif -%}
+        {%- if section.settings.instagram != blank -%}
+          <a href="{{ section.settings.instagram }}" target="_blank" rel="noopener" aria-label="Instagram">
+            <img src="{{ 'ow-icon-instagram.svg' | asset_url }}" alt="" width="20" height="20">
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "OMA Footer Newsletter",
+  "tag": "section",
+  "settings": [
+    { "type": "textarea", "id": "tagline", "label": "Tagline", "default": "Coffee is just the beginning. Join us for the adventure, a little chaos, and a whole lot of love (because life is better together). 🫶" },
+    { "type": "text", "id": "email_placeholder", "label": "Input placeholder", "default": "your@email.com" },
+    { "type": "text", "id": "submit_label", "label": "Submit button label", "default": "Subscribe" },
+    { "type": "text", "id": "toast_text", "label": "Success message", "default": "Welcome to Omawild" },
+    { "type": "header", "content": "Social" },
+    { "type": "paragraph", "content": "Shopify's url setting cannot carry a default, so these are seeded from sections/footer-group.json instead. Clearing one hides that icon." },
+    { "type": "url", "id": "linkedin", "label": "LinkedIn URL" },
+    { "type": "url", "id": "instagram", "label": "Instagram URL" }
+  ],
+  "presets": [
+    { "name": "OMA Footer Newsletter" }
+  ]
+}
+{% endschema %}

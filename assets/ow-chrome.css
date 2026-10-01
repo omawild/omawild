@@ -366,7 +366,10 @@
 /* Newsletter + social sit in one row together on desktop (side by side),
    stacked and centered on mobile -- previously social was desktop-only
    here, duplicated further down for mobile in .footer-bottom-row. One
-   instance now, repositioned by flex-direction instead. */
+   instance now, repositioned by flex-direction instead. Both this row's
+   classes now render from sections/oma-footer-newsletter.liquid rather
+   than ow-footer.liquid directly (see that section's comment) -- placed
+   right above ow-footer, it reproduces this exact row. */
 .footer-top{
   display:flex;flex-direction:column;align-items:center;gap:20px;
   max-width:1280px;margin:0 auto;
