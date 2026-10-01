@@ -56,6 +56,11 @@
         "desktop_padding_horizontal": 48
       }
     },
+    "oma_bloggle_skin_y7mVGh": {
+      "type": "oma-bloggle-skin",
+      "name": "OMA Bloggle Skin",
+      "settings": {}
+    },
     "blog": {
       "type": "main-bloggle-article",
       "settings": {}
@@ -63,6 +68,7 @@
   },
   "order": [
     "oma_page_header_QKE69f",
+    "oma_bloggle_skin_y7mVGh",
     "blog"
   ]
 }
