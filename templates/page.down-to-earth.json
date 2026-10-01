@@ -41,8 +41,10 @@
         "background_color": "#ffe4e7",
         "card_background": "#ffffff",
         "heading_color": "#ff3f00",
-        "accent_color": "#ff3f00",
+        "series_color": "#00180C",
+        "accent_color": "#9234DA",
         "text_color": "#00180c",
+        "link_color": "#ff3f00",
         "max_width": 800,
         "padding_top": 96,
         "padding_bottom": 96
