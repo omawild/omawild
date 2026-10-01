@@ -119,6 +119,30 @@
 .oma-editorial-{{ owid }} .p-block p:last-child {
   margin-bottom: 0;
   }
+{%- comment -%}
+  Explicit list indentation rather than relying on the browser/theme
+  default: with list-style-position's default of "outside" and no
+  padding reserved for the marker, a <ul>/<ol> from rich text renders
+  its bullets/numbers outside its own box -- to the left of the rest of
+  the paragraph text, past the card's padding. This keeps the marker
+  inside the block, aligned with it, regardless of what any other
+  stylesheet does to ul/ol elsewhere on the page.
+{%- endcomment -%}
+.oma-editorial-{{ owid }} .p-block ul,
+.oma-editorial-{{ owid }} .p-block ol {
+  margin: 0 0 1em;
+  padding-left: 1.25em;
+  }
+.oma-editorial-{{ owid }} .p-block ul:last-child,
+.oma-editorial-{{ owid }} .p-block ol:last-child {
+  margin-bottom: 0;
+  }
+.oma-editorial-{{ owid }} .p-block li {
+  margin-bottom: .4em;
+  }
+.oma-editorial-{{ owid }} .p-block li:last-child {
+  margin-bottom: 0;
+  }
 .oma-editorial-{{ owid }} .p-block a {
   color: {{ section.settings.link_color }};
   text-decoration: none;
