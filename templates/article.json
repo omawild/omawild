@@ -55,6 +55,7 @@
         "back_to_blog",
         "next_previous_posts"
       ],
+      "disabled": true,
       "settings": {
         "show_gravatar": false,
         "padding_top": 0,
@@ -72,10 +73,10 @@
         "count": 3,
         "exclude_current": true,
         "read_label": "Read the story",
-        "background_color": "#F7F5F1",
-        "accent_color": "#FF3F00",
-        "text_color": "#00180C",
-        "hover_background": "#FFE4E7",
+        "background_color": "#f7f5f1",
+        "accent_color": "#ff3f00",
+        "text_color": "#00180c",
+        "hover_background": "#ffe4e7",
         "padding_top": 48,
         "padding_bottom": 72
       }
@@ -91,15 +92,15 @@
         "email_label": "Email address",
         "button_label": "Subscribe",
         "success_message": "You’re on the list. The next story will land in your inbox.",
-        "background_color": "#FF3F00",
-        "eyebrow_color": "#FCD0FD",
-        "heading_color": "#FFFFFF",
-        "body_color": "#FFFFFF",
-        "capsule_background": "#FFFFFF",
-        "input_text_color": "#00180C",
-        "button_background": "#FF3F00",
-        "button_hover_background": "#D63200",
-        "button_text_color": "#FFFFFF",
+        "background_color": "#ff3f00",
+        "eyebrow_color": "#fcd0fd",
+        "heading_color": "#ffffff",
+        "body_color": "#ffffff",
+        "capsule_background": "#ffffff",
+        "input_text_color": "#00180c",
+        "button_background": "#ff3f00",
+        "button_hover_background": "#d63200",
+        "button_text_color": "#ffffff",
         "padding_top": 64,
         "padding_bottom": 64
       }
@@ -107,7 +108,7 @@
   },
   "order": [
     "main",
-    "oma_related_stories_eMDina",
-    "oma_newsletter_FFWax6"
+    "oma_newsletter_FFWax6",
+    "oma_related_stories_eMDina"
   ]
 }
