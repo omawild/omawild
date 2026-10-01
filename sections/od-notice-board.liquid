@@ -62,6 +62,13 @@
   .modular-block-wrapper { width: 100%; margin-bottom: 24px; }
   .modular-block-wrapper:last-child { margin-bottom: 0; }
   .notice-label { font-family: var(--font-body-family), sans-serif;text-transform: uppercase; letter-spacing: 0.12em; display: block; font-weight: 700; margin-top: 0 !important; }
+  {%- comment -%}
+    "Card style: V2" is opt-in per notice_box block (default stays
+    "classic", today's exact look) rather than a global change, since
+    this section is shared across four pages (Down to Earth, Ethos,
+    Letter, 1% for the Planet) with their own saved colors/sizes.
+  {%- endcomment -%}
+  .notice-label-v2 { font-weight: 900; }
   .raw-heading, .raw-body-text { margin: 0; width: 100%; word-break: break-word; }
 
  .notice-label a {
@@ -98,9 +105,21 @@
             </style>
 
           {%- when 'notice_box' -%}
+            {%- liquid
+              assign is_v2_card = false
+              assign card_border_css = block.settings.card_border_width | append: 'px'
+              assign card_radius_css = block.settings.card_border_radius | append: 'px'
+              assign heading_weight = 700
+              if block.settings.card_style == 'v2'
+                assign is_v2_card = true
+                assign card_border_css = '1.5px'
+                assign card_radius_css = '0px'
+                assign heading_weight = 900
+              endif
+            -%}
             <div class="notice-box-card-{{ block.id }} notice-box-card">
               {%- if block.settings.section_label != blank -%}
-                <{{ block.settings.label_tag }} class="notice-label" style="font-size: {{ block.settings.label_size }}px; color: {{ block.settings.label_color }} !important; margin-bottom: 20px;">
+                <{{ block.settings.label_tag }} class="notice-label{% if is_v2_card %} notice-label-v2{% endif %}" style="font-size: {{ block.settings.label_size }}px; color: {{ block.settings.label_color }} !important; margin-bottom: 20px;">
                   {{ block.settings.section_label }}
                 </{{ block.settings.label_tag }}>
               {%- endif -%}
@@ -127,11 +146,11 @@
             <style>
               .notice-box-card-{{ block.id }} {
                 background: {{ block.settings.card_background }};
-                border: {{ block.settings.card_border_width }}px solid {{ block.settings.card_border_color }};
-                border-radius: {{ block.settings.card_border_radius }}px;
+                border: {{ card_border_css }} solid {{ block.settings.card_border_color }};
+                border-radius: {{ card_radius_css }};
                 /* Desktop Defaults */
                 padding: {{ block.settings.card_padding_vertical }}px {{ block.settings.card_padding_horizontal }}px;
-                
+
                 text-align: {{ block.settings.content_alignment }};
                 display: flex;
                 flex-direction: column;
@@ -139,10 +158,11 @@
               }
 
               /* --- Tighten Heading Air --- */
-              .notice-heading-{{ block.id }} h1, 
-              .notice-heading-{{ block.id }} h2, 
+              .notice-heading-{{ block.id }} h1,
+              .notice-heading-{{ block.id }} h2,
               .notice-heading-{{ block.id }} h3 {
                 font-size: clamp({{ block.settings.heading_size | times: 0.7 | round }}px, 4vw + 15px, {{ block.settings.heading_size }}px) !important;
+                font-weight: {{ heading_weight }};
                 line-height: {{ block.settings.heading_line_height }};
                 letter-spacing: 0em;
                 color: {{ block.settings.heading_color }};
@@ -280,6 +300,10 @@
         { "type": "range", "id": "image_radius", "label": "Corner Radius", "min": 0, "max": 100, "default": 0 },
         { "type": "range", "id": "image_margin_top", "label": "Gap From Text", "min": 0, "max": 100, "default": 20 },
         { "type": "header", "content": "Box Visuals" },
+        { "type": "select", "id": "card_style", "label": "Card style", "default": "classic", "options": [
+            { "value": "classic", "label": "Classic (original)" },
+            { "value": "v2", "label": "V2 (1.5px square border, bolder heading/label)" }
+        ], "info": "V2 fixes the border to 1.5px with square corners and bumps the heading/label to the bolder display weight, ignoring Border Width/Corner Radius below. Colors still come from the settings below either way." },
         { "type": "color", "id": "card_background", "label": "Box Background", "default": "#ffffff" },
         { "type": "color", "id": "card_border_color", "label": "Border Color", "default": "#e5e5e5" },
         { "type": "range", "id": "card_border_width", "label": "Border Width", "min": 0, "max": 10, "default": 1 },
