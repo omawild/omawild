@@ -204,7 +204,7 @@
       }
     },
     "owv2_marquee_wEQyBN": {
-      "type": "owv2-marquee",
+      "type": "oma-marquee",
       "blocks": {
         "item_qKMgaz": {
           "type": "item",

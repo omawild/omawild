@@ -62,7 +62,7 @@
       }
     },
     "owv2_marquee": {
-      "type": "owv2-marquee",
+      "type": "oma-marquee",
       "blocks": {
         "item_1": {
           "type": "item",
