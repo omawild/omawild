@@ -64,11 +64,31 @@
     "blog": {
       "type": "main-bloggle-article",
       "settings": {}
+    },
+    "oma_related_stories_jjpFnf": {
+      "type": "oma-related-stories",
+      "name": "OMA Related Stories",
+      "settings": {
+        "blog": "",
+        "heading": "Keep reading",
+        "cta_label": "All stories →",
+        "cta_link": "",
+        "count": 3,
+        "exclude_current": true,
+        "read_label": "Read the story",
+        "background_color": "#F7F5F1",
+        "accent_color": "#FF3F00",
+        "text_color": "#00180C",
+        "hover_background": "#FFE4E7",
+        "padding_top": 48,
+        "padding_bottom": 72
+      }
     }
   },
   "order": [
     "oma_page_header_QKE69f",
     "oma_bloggle_skin_y7mVGh",
-    "blog"
+    "blog",
+    "oma_related_stories_jjpFnf"
   ]
 }
