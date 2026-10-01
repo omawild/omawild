@@ -6,6 +6,11 @@
   content field, since this renders on a Shopify Page, not an article
   template. Source numbering follows block order, independent of any links
   inside paragraph blocks.
+
+  Max card width defaults to 800px, same as OD Notice Board's own "Max Card
+  Width" setting, so the card reads as the same visual system (narrower
+  card = more of the background photo visible at the sides) rather than an
+  arbitrary different width.
 {%- endcomment -%}
 {% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
 {% style %}
@@ -39,7 +44,7 @@
   }
 .oma-editorial-{{ owid }} .content-wrap {
   position: relative;
-  max-width: 920px;
+  max-width: {{ section.settings.max_width | default: 800 }}px;
   margin: 0 auto;
   padding: {{ section.settings.padding_top }}px clamp(16px, 4vw, 48px) {{ section.settings.padding_bottom }}px;
   }
@@ -232,6 +237,7 @@
     { "type": "color", "id": "accent_color", "label": "Accent (border, headings, links)", "default": "#FF3F00" },
     { "type": "color", "id": "text_color", "label": "Body text color", "default": "#00180C" },
     { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "max_width", "label": "Max card width", "min": 300, "max": 1600, "step": 20, "unit": "px", "default": 800, "info": "Narrower shows more of the background photo at the sides — matches OD Notice Board's \"Max Card Width\" setting (also 800px by default) so the two read as one visual system." },
     { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 96 },
     { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 96 }
   ],

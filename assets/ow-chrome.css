@@ -356,6 +356,16 @@
 /* ════════════════════════════════
    FOOTER
 ════════════════════════════════ */
+/* .footer-no-newsletter: ow-footer.liquid no longer renders .footer-top
+   itself (it moved into sections/oma-footer-newsletter.liquid), so the
+   40px top padding + .footer-grid's own 24px/16px margin-top below --
+   tuned for sitting under that row -- just left dead space above the
+   divider line when nothing renders above it any more. This zeroes both
+   so the line sits at the footer's own top edge, "cutting" the footer
+   right there, as intended. oma-footer-newsletter keeps the original
+   spacing since .footer-top still renders inside it. */
+.footer-no-newsletter{padding-top:0;}
+.footer-no-newsletter .footer-grid{margin-top:0;}
 .footer{
   background:var(--wonderland);
   padding:40px 24px 24px;
