@@ -599,7 +599,10 @@ footer.footer-no-newsletter{padding-top:0;}
   .footer-nav{display:contents;}
   .footer-nav-section{border-bottom:none;padding:0;}
   .footer-nav-section-head img{display:none;}
-  .footer-nav-links{display:flex;}
+  /* Desktop only: tighter than the 4px mobile-accordion gap (that one's
+     fine, this complaint was specifically about the always-open desktop
+     list reading too spaced out). */
+  .footer-nav-links{display:flex;gap:0;}
   .footer-brand{
     grid-column:1/-1;order:-1;
     align-items:flex-start;text-align:left;
