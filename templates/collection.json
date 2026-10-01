@@ -121,7 +121,7 @@
       }
     },
     "od_collection_showcase_7LHQXz": {
-      "type": "od-collection-showcase",
+      "type": "oma-collection-showcase",
       "name": "OD Collection Showcase",
       "settings": {
         "collection": "specialty-coffee",
@@ -151,7 +151,7 @@
       }
     },
     "od_collection_showcase_BcwkDD": {
-      "type": "od-collection-showcase",
+      "type": "oma-collection-showcase",
       "name": "OD Collection Showcase",
       "settings": {
         "collection": "subscriptions",
