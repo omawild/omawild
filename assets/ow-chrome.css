@@ -591,9 +591,16 @@ footer.footer-no-newsletter{padding-top:0;}
   .footer-top{flex-direction:row;align-items:flex-end;justify-content:space-between;}
   .footer-newsletter{align-items:flex-start;}
   .footer-tagline{text-align:left;}
+  /* Nav columns size to their own widest line (heading or link text)
+     instead of splitting the row into equal fractions -- a short column
+     ("Shop") no longer reserves the same width as a long one ("Footer -
+     Knowledge"), so the fixed 24px gap reads as even spacing between
+     columns rather than leftover space of varying size. minmax(0,...)
+     keeps each track able to shrink under real width pressure instead of
+     forcing an overflow. */
   .footer-grid{
     display:grid;
-    grid-template-columns:repeat(var(--nav-count,3),minmax(0,1fr));
+    grid-template-columns:repeat(var(--nav-count,3),minmax(0,max-content));
     gap:24px;align-items:start;
   }
   .footer-nav{display:contents;}
@@ -613,7 +620,10 @@ footer.footer-no-newsletter{padding-top:0;}
   .footer-payments-row{justify-content:flex-start;}
 }
 @media(min-width:960px){
-  .footer-grid{grid-template-columns:1.3fr repeat(var(--nav-count,3),minmax(0,1fr));}
+  /* Same content-sized nav columns as the 750px breakpoint; the brand
+     column keeps a floor (minmax(180px,...)) so it can't get squeezed
+     toward zero if several nav columns' own content happens to be wide. */
+  .footer-grid{grid-template-columns:minmax(180px,1.3fr) repeat(var(--nav-count,3),minmax(0,max-content));}
   .footer-brand{grid-column:auto;margin-bottom:0;}
 }
 
