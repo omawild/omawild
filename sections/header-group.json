@@ -11,6 +11,158 @@
   "name": "t:sections.header-group.name",
   "type": "header",
   "sections": {
+    "scrolling_promotion_z9w7GM": {
+      "type": "scrolling-promotion",
+      "blocks": {
+        "announcement_CaqH6k": {
+          "type": "announcement",
+          "name": "🏃‍♀️",
+          "disabled": true,
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "🏃‍♀️",
+            "text_size": 15,
+            "link": ""
+          }
+        },
+        "announcement_Rw4XcM": {
+          "type": "announcement",
+          "name": "OMAWILD",
+          "disabled": true,
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "OMAWILD FOR",
+            "text_size": 13,
+            "link": ""
+          }
+        },
+        "announcement_H6kC8t": {
+          "type": "announcement",
+          "name": "Roast",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "ROAST FRESH",
+            "text_size": 13,
+            "link": ""
+          }
+        },
+        "announcement_zPphEA": {
+          "type": "announcement",
+          "name": "✷",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "✷",
+            "text_size": 14,
+            "link": ""
+          }
+        },
+        "announcement_QPqtj8": {
+          "type": "announcement",
+          "name": "Hotels",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "FOR HOTELS",
+            "text_size": 13,
+            "link": ""
+          }
+        },
+        "announcement_6bpzxH": {
+          "type": "announcement",
+          "name": "✷",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "✷",
+            "text_size": 14,
+            "link": ""
+          }
+        },
+        "announcement_TAcMVm": {
+          "type": "announcement",
+          "name": "Offices",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "WORKPLACE COFFEE",
+            "text_size": 13,
+            "link": ""
+          }
+        },
+        "announcement_9pYHwV": {
+          "type": "announcement",
+          "name": "✷",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "✷",
+            "text_size": 14,
+            "link": ""
+          }
+        },
+        "announcement_aK7cN4": {
+          "type": "announcement",
+          "name": "Retails",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "RETAIL PARTNERS",
+            "text_size": 13,
+            "link": ""
+          }
+        },
+        "announcement_7ahYVa": {
+          "type": "announcement",
+          "name": "✷",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "✷",
+            "text_size": 14,
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement_CaqH6k",
+        "announcement_Rw4XcM",
+        "announcement_H6kC8t",
+        "announcement_zPphEA",
+        "announcement_QPqtj8",
+        "announcement_6bpzxH",
+        "announcement_TAcMVm",
+        "announcement_9pYHwV",
+        "announcement_aK7cN4",
+        "announcement_7ahYVa"
+      ],
+      "name": "t:sections.scrolling-promotion.presets.name",
+      "settings": {
+        "direction": "left",
+        "speed": 6,
+        "show_divider": false,
+        "use_custom_colors": true,
+        "colors_icon": "#ffffff",
+        "colors_text": "#ff3f00",
+        "colors_background": "#f7f5f1",
+        "gradient_background": "",
+        "padding_top": 11,
+        "padding_bottom": 11
+      }
+    },
     "announcement-bar": {
       "type": "announcement-bar",
       "blocks": {
@@ -189,158 +341,6 @@
         "announcement_3VQ8NQ",
         "announcement_niQBGf",
         "announcement_FMNBrY"
-      ],
-      "name": "t:sections.scrolling-promotion.presets.name",
-      "settings": {
-        "direction": "left",
-        "speed": 6,
-        "show_divider": false,
-        "use_custom_colors": true,
-        "colors_icon": "#ffffff",
-        "colors_text": "#ff3f00",
-        "colors_background": "#f7f5f1",
-        "gradient_background": "",
-        "padding_top": 11,
-        "padding_bottom": 11
-      }
-    },
-    "scrolling_promotion_z9w7GM": {
-      "type": "scrolling-promotion",
-      "blocks": {
-        "announcement_CaqH6k": {
-          "type": "announcement",
-          "name": "🏃‍♀️",
-          "disabled": true,
-          "settings": {
-            "icon": "none",
-            "icon_size": "medium",
-            "custom_icon": "",
-            "text": "🏃‍♀️",
-            "text_size": 15,
-            "link": ""
-          }
-        },
-        "announcement_Rw4XcM": {
-          "type": "announcement",
-          "name": "OMAWILD",
-          "disabled": true,
-          "settings": {
-            "icon": "none",
-            "icon_size": "medium",
-            "custom_icon": "",
-            "text": "OMAWILD FOR",
-            "text_size": 13,
-            "link": ""
-          }
-        },
-        "announcement_H6kC8t": {
-          "type": "announcement",
-          "name": "Roast",
-          "settings": {
-            "icon": "none",
-            "icon_size": "medium",
-            "custom_icon": "",
-            "text": "ROAST FRESH",
-            "text_size": 13,
-            "link": ""
-          }
-        },
-        "announcement_zPphEA": {
-          "type": "announcement",
-          "name": "✷",
-          "settings": {
-            "icon": "none",
-            "icon_size": "medium",
-            "custom_icon": "",
-            "text": "✷",
-            "text_size": 14,
-            "link": ""
-          }
-        },
-        "announcement_QPqtj8": {
-          "type": "announcement",
-          "name": "Hotels",
-          "settings": {
-            "icon": "none",
-            "icon_size": "medium",
-            "custom_icon": "",
-            "text": "FOR HOTELS",
-            "text_size": 13,
-            "link": ""
-          }
-        },
-        "announcement_6bpzxH": {
-          "type": "announcement",
-          "name": "✷",
-          "settings": {
-            "icon": "none",
-            "icon_size": "medium",
-            "custom_icon": "",
-            "text": "✷",
-            "text_size": 14,
-            "link": ""
-          }
-        },
-        "announcement_TAcMVm": {
-          "type": "announcement",
-          "name": "Offices",
-          "settings": {
-            "icon": "none",
-            "icon_size": "medium",
-            "custom_icon": "",
-            "text": "WORKPLACE COFFEE",
-            "text_size": 13,
-            "link": ""
-          }
-        },
-        "announcement_9pYHwV": {
-          "type": "announcement",
-          "name": "✷",
-          "settings": {
-            "icon": "none",
-            "icon_size": "medium",
-            "custom_icon": "",
-            "text": "✷",
-            "text_size": 14,
-            "link": ""
-          }
-        },
-        "announcement_aK7cN4": {
-          "type": "announcement",
-          "name": "Retails",
-          "settings": {
-            "icon": "none",
-            "icon_size": "medium",
-            "custom_icon": "",
-            "text": "RETAIL PARTNERS",
-            "text_size": 13,
-            "link": ""
-          }
-        },
-        "announcement_7ahYVa": {
-          "type": "announcement",
-          "name": "✷",
-          "settings": {
-            "icon": "none",
-            "icon_size": "medium",
-            "custom_icon": "",
-            "text": "✷",
-            "text_size": 14,
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "announcement_CaqH6k",
-        "announcement_Rw4XcM",
-        "announcement_H6kC8t",
-        "announcement_zPphEA",
-        "announcement_QPqtj8",
-        "announcement_6bpzxH",
-        "announcement_TAcMVm",
-        "announcement_9pYHwV",
-        "announcement_aK7cN4",
-        "announcement_7ahYVa"
       ],
       "name": "t:sections.scrolling-promotion.presets.name",
       "settings": {
