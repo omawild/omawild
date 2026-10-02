@@ -354,7 +354,7 @@
         "heading_tag": "h2",
         "background_color": "#f7f5f1",
         "heading_color": "#ff3f00",
-        "text_color": "#00180C",
+        "text_color": "#00180c",
         "card_text_color": "#00180c",
         "benefit_text_color": "#00180c",
         "descriptor_color": "#ff3f00",
@@ -425,7 +425,7 @@
           "type": "point",
           "name": "03",
           "settings": {
-            "title": "Agroecological Diversity",
+            "title": "Biodiversity Protection",
             "body": "<p>Crop diversification supports soil health, nutrient cycling, pest control and land resilience.</p>"
           }
         },
@@ -441,7 +441,7 @@
           "type": "point",
           "name": "05",
           "settings": {
-            "title": "Living Sponge",
+            "title": "Water Retention",
             "body": "<p>One hectare of living soil holds up to 50,000 litres of water, combating heat and drought.</p>"
           }
         },
@@ -592,8 +592,11 @@
         "intro": "<p>Maybe you're here for the vibes and adventure. Or for a damn good cup of coffee. You don't have to care about the climate for any of that, but there's one thing none of us can opt out of: everything that sustains a well-lived life runs on healthy ecosystems.</p>",
         "heading_max_size": 50,
         "background_color": "#f7f5f1",
-        "text_color": "#FF3F00",
+        "text_color": "#ff3f00",
+        "intro_color": "#ff3f00",
         "card_background": "#ffffff",
+        "card_heading_color": "#ff3f00",
+        "card_body_color": "#5a5550",
         "card_alignment": "left",
         "padding_top": 64,
         "padding_bottom": 64
