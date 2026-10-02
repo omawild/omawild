@@ -90,6 +90,10 @@
 
 /* --- Slider Core --- */
 .slider-wrapper-{{ section.id }} {
+  /* Nav buttons below are absolutely positioned against this wrapper (not
+     the outer container), so top: 50% centers on the card row itself --
+     not on container height, which also includes the heading/subheading
+     above and used to push the buttons too high. */
   position: relative;
   margin-left: -{{ section.settings.mobile_padding_horizontal }}px;
   margin-right: -{{ section.settings.mobile_padding_horizontal }}px;
@@ -102,7 +106,15 @@
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
-  touch-action: pan-x;
+  /* touch-action: pan-x locks the gesture to horizontal-only from the first
+     frame, so iOS Safari won't hand a mostly-vertical swipe that started
+     over the track off to the page -- it stutters/fights instead of
+     scrolling. touch-action: auto lets the browser pick the axis itself;
+     overscroll-behavior-x: contain keeps the horizontal rubber-band from
+     chaining to the page. Same fix already applied in
+     assets/section-comparison-table.css for the same symptom. */
+  touch-action: auto;
+  overscroll-behavior-x: contain;
   padding-left: {{ section.settings.mobile_padding_horizontal }}px;
   padding-right: {{ section.settings.mobile_padding_horizontal }}px;
   gap: {{ section.settings.grid_gap }}px;
@@ -146,7 +158,7 @@
   font-family: var(--font-heading-family);
   font-style: var(--font-heading-style);
   position: absolute;
-  top: 35%;
+  top: 50%;
   width: 46px;
   height: 46px;
   background: white;
@@ -555,10 +567,10 @@
           </a>
         {% endif %}
 
-    <button type="button" class="nav-btn-{{ section.id }} btn-prev-{{ section.id }}" id="BtnPrev-{{ section.id }}" aria-label="Previous"></button>
-    <button type="button" class="nav-btn-{{ section.id }} btn-next-{{ section.id }}" id="BtnNext-{{ section.id }}" aria-label="Next"></button>
-
     <div class="slider-wrapper-{{ section.id }}">
+      <button type="button" class="nav-btn-{{ section.id }} btn-prev-{{ section.id }}" id="BtnPrev-{{ section.id }}" aria-label="Previous"></button>
+      <button type="button" class="nav-btn-{{ section.id }} btn-next-{{ section.id }}" id="BtnNext-{{ section.id }}" aria-label="Next"></button>
+
       <div class="slider-track-{{ section.id }}" id="Track-{{ section.id }}" tabindex="0" role="region" aria-label="Product carousel — swipe or use arrow keys to browse">
         {%- for block in section.blocks -%}
           {%- case block.type -%}
