@@ -17,8 +17,8 @@
         "countdown_MWDGiX": {
           "type": "countdown",
           "settings": {
-            "date": "2026-10-05T09:00:00",
-            "text": "<strong>BATCH #002 ROASTS IN</strong>",
+            "date": "2026-10-12T10:00:00",
+            "text": "<strong>BATCH #002 SHIPS IN</strong>",
             "expired_message": "<strong>BATCH #002 IS HERE. ORDER YOUR FRESH ROAST.</strong>",
             "link": "",
             "position": "top",
