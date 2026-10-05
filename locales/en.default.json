@@ -387,8 +387,8 @@
       "label": "Media gallery"
     },
     "product": {
-      "add_set_to_cart": "Pre-order set",
-      "add_to_cart": "Pre-order",
+      "add_set_to_cart": "Add set to cart",
+      "add_to_cart": "Add to cart",
       "choose_options": "Choose options",
       "choose_product_options": "Choose options for {{ product_name }}",
       "color_swatch_trigger": "Color",
