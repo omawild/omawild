@@ -398,7 +398,7 @@
                           </div>
                         {%- endif -%}
                         {% if section.settings.button_action == 'buy_now' %}<input type="hidden" name="return_to" value="/checkout">{% endif %}
-                        <button type="submit" name="add" class="product-form__submit cta-{{ section.id }}"><span>{% if section.settings.button_action == 'buy_now' %}BUY NOW{% else %}{{ 'products.product.add_to_cart' | t | default: 'Add to Cart' }}{% endif %}</span></button>
+                        <button type="submit" name="add" class="product-form__submit cta-{{ section.id }}"><span>{% if section.settings.button_action == 'buy_now' %}PRE-ORDER{% else %}{{ 'products.product.add_to_cart' | t | default: 'Pre-order' }}{% endif %}</span></button>
                       {%- endform -%}
                     {% unless section.settings.button_action == 'buy_now' %}</product-form>{% endunless %}
                   {%- else -%}
