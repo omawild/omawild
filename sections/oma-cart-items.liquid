@@ -489,6 +489,23 @@
                 if gift_wrap_id != nil and item.id == gift_wrap_id
                   assign is_gift_wrap = true
                 endif
+
+                comment
+                  item.original_line_price / item.final_line_price only differ
+                  for a cart/order-level discount (code, automatic discount) --
+                  a selling plan's own price reduction is a separate pair of
+                  fields entirely (selling_plan_allocation.compare_at_price /
+                  .price, per unit), so a subscribed item with no cart-level
+                  discount had original == final and silently showed no
+                  savings at all, even though it's paying less than one-time
+                  price. Folds both discount sources into one comparison so
+                  the existing "Saved $X" / struck-through "was" UI covers
+                  subscriptions too.
+                endcomment
+                assign display_original_line_price = item.original_line_price
+                if item.selling_plan_allocation != null and item.selling_plan_allocation.compare_at_price > item.selling_plan_allocation.price
+                  assign display_original_line_price = item.selling_plan_allocation.compare_at_price | times: item.quantity
+                endif
               -%}
               <article class="oci-item-{{ section.id }}" id="CartItem-{{ index }}">
                 <div class="oci-loading-{{ section.id }} hidden">
@@ -520,8 +537,8 @@
                       <span class="oci-item__unit-{{ section.id }}">{{ item.final_price | money }} each</span>
                     {%- endif -%}
                   </div>
-                  {%- if item.original_line_price != item.final_line_price -%}
-                    <span class="oci-item__saved-{{ section.id }}">Saved {{ item.original_line_price | minus: item.final_line_price | money }}</span>
+                  {%- if display_original_line_price != item.final_line_price -%}
+                    <span class="oci-item__saved-{{ section.id }}">Saved {{ display_original_line_price | minus: item.final_line_price | money }}</span>
                   {%- endif -%}
                 </div>
 
@@ -554,13 +571,13 @@
                 <div class="oci-qtyrow-{{ section.id }}">
                   <div class="oci-qtyrow__price-{{ section.id }}">
                     <span class="oci-item__price-{{ section.id }}">{{ item.final_line_price | money }}</span>
-                    {%- if item.original_line_price != item.final_line_price -%}
-                      <span class="oci-item__was-{{ section.id }}">{{ item.original_line_price | money }}</span>
+                    {%- if display_original_line_price != item.final_line_price -%}
+                      <span class="oci-item__was-{{ section.id }}">{{ display_original_line_price | money }}</span>
                     {%- elsif item.quantity > 1 -%}
                       <span class="oci-item__unit-{{ section.id }}">{{ item.final_price | money }} each</span>
                     {%- endif -%}
-                    {%- if item.original_line_price != item.final_line_price -%}
-                      <span class="oci-item__saved-{{ section.id }}">Saved {{ item.original_line_price | minus: item.final_line_price | money }}</span>
+                    {%- if display_original_line_price != item.final_line_price -%}
+                      <span class="oci-item__saved-{{ section.id }}">Saved {{ display_original_line_price | minus: item.final_line_price | money }}</span>
                     {%- endif -%}
                   </div>
 
