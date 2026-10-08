@@ -74,12 +74,6 @@
             "origin_reference": "garut-west-java"
           }
         },
-        "origin_card_mFeGj7": {
-          "type": "origin_card",
-          "settings": {
-            "origin_reference": ""
-          }
-        },
         "origin_card_fXjBEp": {
           "type": "origin_card",
           "settings": {
@@ -89,7 +83,6 @@
       },
       "block_order": [
         "origin_card_GBhgiw",
-        "origin_card_mFeGj7",
         "origin_card_fXjBEp"
       ],
       "name": "OMA Origin Cards",
@@ -116,11 +109,66 @@
         "padding_top": 56,
         "padding_bottom": 72
       }
+    },
+    "owv2_value_grid_x7b4Nb": {
+      "type": "owv2-value-grid",
+      "blocks": {
+        "card_L8zaVd": {
+          "type": "card",
+          "settings": {
+            "heading": "Agroforestry coffee",
+            "body": "<p>Grown using regenerative practices inside agroforestry systems, so each harvest improves soil health while our forest stays standing.</p>"
+          }
+        },
+        "card_mALeft": {
+          "type": "card",
+          "settings": {
+            "heading": "Funding nature",
+            "body": "<p>At least 1% of our revenue goes to environmental causes.</p>"
+          }
+        },
+        "card_9VBqte": {
+          "type": "card",
+          "settings": {
+            "heading": "Direct relationships",
+            "body": "<p>Good coffee starts with the people who grow it.</p>"
+          }
+        },
+        "card_FBAANn": {
+          "type": "card",
+          "settings": {
+            "heading": "Made for your ritual",
+            "body": "<p>Specialty coffee, roasted fresh each month.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "card_L8zaVd",
+        "card_mALeft",
+        "card_9VBqte",
+        "card_FBAANn"
+      ],
+      "name": "OWV2 Value grid",
+      "settings": {
+        "heading": "",
+        "mobile_hint_text": "← SWIPE →",
+        "card_heading_color": "#FF3F00",
+        "card_heading_size": 19,
+        "card_body_color": "#00180C",
+        "card_body_size": 12.5,
+        "background_color": "#FF3F00",
+        "text_color": "#FFFFFF",
+        "card_background": "#FFFFFF",
+        "show_top_line": true,
+        "padding_top": 52,
+        "padding_bottom": 52
+      }
     }
   },
   "order": [
     "main",
     "oma_page_header_fa7q6t",
-    "oma_origin_cards_VrYRqR"
+    "oma_origin_cards_VrYRqR",
+    "owv2_value_grid_x7b4Nb"
   ]
 }
