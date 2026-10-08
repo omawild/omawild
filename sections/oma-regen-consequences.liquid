@@ -1,0 +1,174 @@
+{%- comment -%}
+  oma-regen-consequences — Regenerative Agriculture page, chapter 02
+  ("Unintended consequences"): a 4-up era timeline followed by a two-column
+  body. The two body columns are separate richtext settings rather than
+  blocks -- this is one-instance narrative prose for this specific page, not
+  a repeatable pattern, so blocks would add editing indirection without
+  adding flexibility (see oma-regen-consequences vs. oma-regen-practices,
+  where the chapters genuinely do repeat per-practice).
+{%- endcomment -%}
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{% style %}
+.oma-regen-consequences-{{ owid }} {
+  box-sizing: border-box;
+  background: {{ section.settings.background_color }};
+  color: {{ section.settings.text_color }};
+  border-top: 1.5px solid {{ section.settings.accent_color }};
+  border-bottom: 1.5px solid {{ section.settings.accent_color }};
+  padding: clamp(48px, 6vw, 80px) clamp(20px, 4vw, 48px);
+  font-family: var(--font-body-family);
+  scroll-margin-top: 112px;
+  }
+.oma-regen-consequences-{{ owid }} *, .oma-regen-consequences-{{ owid }} *::before, .oma-regen-consequences-{{ owid }} *::after {
+  box-sizing: border-box;
+  }
+.oma-regen-consequences-{{ owid }} .inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  }
+.oma-regen-consequences-{{ owid }} .eyebrow {
+  font: 800 12px/1.3 var(--font-heading-family);
+  letter-spacing: .14em;
+  color: {{ section.settings.accent_color }};
+  }
+.oma-regen-consequences-{{ owid }} h2 {
+  margin: 16px 0 0;
+  font-family: var(--font-heading-family);
+  font-weight: 800;
+  font-size: clamp(34px, 4.4vw, 60px);
+  line-height: .98;
+  letter-spacing: -.04em;
+  color: {{ section.settings.accent_color }};
+  text-wrap: balance;
+  }
+.oma-regen-consequences-{{ owid }} .eras {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 32px;
+  }
+.oma-regen-consequences-{{ owid }} .era {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #ffffff;
+  border: 2px solid {{ section.settings.accent_color }};
+  box-shadow: 5px 5px 0 {{ section.settings.accent_color }};
+  padding: 20px 20px 22px;
+  min-width: 0;
+  }
+.oma-regen-consequences-{{ owid }} .era.is-accent {
+  background: {{ section.settings.accent_color }};
+  }
+.oma-regen-consequences-{{ owid }} .era .when {
+  font: 800 11px/1.3 var(--font-heading-family);
+  letter-spacing: .12em;
+  color: {{ section.settings.accent_color }};
+  }
+.oma-regen-consequences-{{ owid }} .era.is-accent .when {
+  color: #ffffff;
+  }
+.oma-regen-consequences-{{ owid }} .era .what {
+  font: 800 22px/1.1 var(--font-heading-family);
+  letter-spacing: -.03em;
+  color: {{ section.settings.accent_color }};
+  text-wrap: balance;
+  }
+.oma-regen-consequences-{{ owid }} .era.is-accent .what {
+  color: #ffffff;
+  }
+.oma-regen-consequences-{{ owid }} .columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 48px;
+  margin-top: 32px;
+  }
+.oma-regen-consequences-{{ owid }} .columns > div > * {
+  margin: 0 0 14px;
+  font-size: 14.5px;
+  line-height: 1.6;
+  font-weight: 500;
+  text-wrap: pretty;
+  }
+.oma-regen-consequences-{{ owid }} .columns > div > *:last-child {
+  margin-bottom: 0;
+  }
+.oma-regen-consequences-{{ owid }} .columns a {
+  color: inherit;
+  }
+@media (max-width: 989px) {
+  .oma-regen-consequences-{{ owid }} .eras {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 749px) {
+  .oma-regen-consequences-{{ owid }} .eras {
+    grid-template-columns: 1fr;
+  }
+  .oma-regen-consequences-{{ owid }} .columns {
+    grid-template-columns: 1fr;
+  }
+}
+{% endstyle %}
+<div id="regen-consequences" class="oma-regen-consequences-{{ owid }}">
+  <div class="inner">
+    {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
+    <h2>{{ section.settings.heading }}</h2>
+    {%- if section.blocks.size > 0 -%}
+      <div class="eras">
+        {%- for block in section.blocks -%}
+          <div class="era{% if block.settings.accent %} is-accent{% endif %}" {{ block.shopify_attributes }}>
+            <span class="when">{{ block.settings.when | escape }}</span>
+            <span class="what">{{ block.settings.what | escape }}</span>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+    <div class="columns">
+      <div>{{ section.settings.body_left }}</div>
+      <div>{{ section.settings.body_right }}</div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "OMA Regen Consequences",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "02 · HOW WE GOT HERE" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Unintended consequences" },
+    { "type": "richtext", "id": "body_left", "label": "Body (left column)", "default": "<p>For most of human history, farming was an act of observation. You observe the seasons and its rhythms. You work within the system based on knowledge accumulated over many generations. Your practices are localised and deeply unique to each origin.</p><p>After World War II, things changed. Widespread expansion of The Green Revolution introduced monoculture farming, heavy mechanisation, synthetic fertilisers, and chemical pest control. The goal was to combat world hunger in a booming population by maximising yield output. In many ways, the movement was a success. It's estimated to have saved one billion lives, with much of the credit due to agronomist and Nobel Prize winner Norman Borlaug.</p>" },
+    { "type": "richtext", "id": "body_right", "label": "Body (right column)", "default": "<p>Wheat became cheap and abundant. But productivity came at a price. Farming had shifted from interdependence to reliance on external inputs, which deepened in the 1990s. The rise of high-yield, genetically modified crops were engineered to work with chemical fertilisers and pesticides sold by the same corporations that supplied them. Industrial farming stripped the land of crop diversity with monocrop cultures drenching in chemicals year after year, depleting the microbial diversity of the soil beneath — a living web of fungi, bacteria and root systems that cycle water and nutrients naturally.</p><p>Today, a third of our world's topsoil is degraded.</p>" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#FCD0FD" },
+    { "type": "color", "id": "accent_color", "label": "Accent (eyebrow, heading, cards)", "default": "#FF3F00" },
+    { "type": "color", "id": "text_color", "label": "Body text", "default": "#00180C" }
+  ],
+  "blocks": [
+    {
+      "type": "era",
+      "name": "Era card",
+      "settings": [
+        { "type": "text", "id": "when", "label": "When" },
+        { "type": "text", "id": "what", "label": "What" },
+        { "type": "checkbox", "id": "accent", "label": "Use accent background", "default": false }
+      ],
+      "limit": 6
+    }
+  ],
+  "presets": [
+    {
+      "name": "OMA Regen Consequences",
+      "blocks": [
+        { "type": "era", "settings": { "when": "FOR MOST OF HUMAN HISTORY", "what": "Farming as observation" } },
+        { "type": "era", "settings": { "when": "AFTER WORLD WAR II", "what": "The Green Revolution" } },
+        { "type": "era", "settings": { "when": "THE 1990s", "what": "Reliance on external inputs" } },
+        { "type": "era", "settings": { "when": "TODAY", "what": "A third of our world's topsoil is degraded", "accent": true } }
+      ]
+    }
+  ]
+}
+{% endschema %}

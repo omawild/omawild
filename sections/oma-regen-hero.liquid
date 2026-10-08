@@ -1,0 +1,207 @@
+{%- comment -%}
+  oma-regen-hero — editorial-style opener for the Regenerative Agriculture
+  page: centered eyebrow/title/lead, jump-nav pills to the chapter sections
+  below, large photo. The design file also mocks up full-bleed and split
+  variants; only editorial shipped here per the 2026-10-08 scope call.
+
+  Jump-nav hrefs are blocks (not hardcoded) but the chapter sections they
+  point at DO use fixed ids (#regen-principle, #regen-consequences,
+  #regen-how, #regen-economics) rather than section.id, matching the
+  existing oma-regen.liquid's fixed #regen id -- safe because each of these
+  sections is placed once per page, and it's what lets this hero's default
+  jump links resolve without per-site configuration.
+{%- endcomment -%}
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{% style %}
+.oma-regen-hero-{{ owid }} {
+  box-sizing: border-box;
+  background: {{ section.settings.background_color }};
+  color: {{ section.settings.text_color }};
+  padding: clamp(40px, 5vw, 64px) clamp(20px, 4vw, 48px) clamp(40px, 5vw, 56px);
+  font-family: var(--font-body-family);
+  }
+.oma-regen-hero-{{ owid }} *, .oma-regen-hero-{{ owid }} *::before, .oma-regen-hero-{{ owid }} *::after {
+  box-sizing: border-box;
+  }
+.oma-regen-hero-{{ owid }} .inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  }
+.oma-regen-hero-{{ owid }} .text {
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  }
+.oma-regen-hero-{{ owid }} .eyebrow {
+  font: 800 12px/1.3 var(--font-heading-family);
+  letter-spacing: .14em;
+  color: {{ section.settings.accent_color }};
+  }
+.oma-regen-hero-{{ owid }} h1 {
+  margin: 20px 0 0;
+  font-family: var(--font-heading-family);
+  font-weight: 800;
+  font-size: clamp(52px, 9vw, 136px);
+  line-height: .9;
+  letter-spacing: -.05em;
+  color: {{ section.settings.accent_color }};
+  text-wrap: balance;
+  }
+.oma-regen-hero-{{ owid }} .lead {
+  margin: 20px 0 0;
+  max-width: 640px;
+  font-size: 16.5px;
+  line-height: 1.6;
+  font-weight: 500;
+  color: {{ section.settings.text_color }};
+  text-wrap: pretty;
+  }
+.oma-regen-hero-{{ owid }} .jump {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+  }
+.oma-regen-hero-{{ owid }} .jump a {
+  white-space: nowrap;
+  text-decoration: none;
+  border: 1.5px solid {{ section.settings.accent_color }};
+  color: {{ section.settings.accent_color }};
+  padding: 10px 16px;
+  border-radius: 100px;
+  font: 800 11.5px/1 var(--font-heading-family);
+  transition: background .15s ease, color .15s ease;
+  }
+.oma-regen-hero-{{ owid }} .jump a:hover {
+  background: {{ section.settings.accent_color }};
+  color: {{ section.settings.background_color }};
+  }
+.oma-regen-hero-{{ owid }} figure {
+  margin: 40px 0 0;
+  }
+.oma-regen-hero-{{ owid }} .photo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  background: {{ section.settings.hover_background }};
+  border: 1.5px solid {{ section.settings.accent_color }};
+  border-radius: 10px;
+  overflow: hidden;
+  }
+.oma-regen-hero-{{ owid }} .photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  }
+.oma-regen-hero-{{ owid }} .oma-placeholder {
+  width: 100%;
+  height: 100%;
+  background: {{ section.settings.hover_background }};
+  fill: {{ section.settings.accent_color }};
+  }
+.oma-regen-hero-{{ owid }} figcaption {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 24px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  font-weight: 500;
+  }
+.oma-regen-hero-{{ owid }} figcaption .location {
+  font-weight: 700;
+  color: {{ section.settings.accent_color }};
+  }
+.oma-regen-hero-{{ owid }} :focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 4px;
+  }
+@media (max-width: 749px) {
+  .oma-regen-hero-{{ owid }} .photo {
+    aspect-ratio: 4 / 3;
+  }
+}
+{% endstyle %}
+<div class="oma-regen-hero-{{ owid }}">
+  <div class="inner">
+    <div class="text">
+      {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
+      <h1>{{ section.settings.heading }}</h1>
+      {%- if section.settings.lead != blank -%}<div class="lead">{{ section.settings.lead }}</div>{%- endif -%}
+      {%- if section.blocks.size > 0 -%}
+        <nav class="jump" aria-label="{{ section.settings.heading | strip_html | escape }} sections">
+          {%- for block in section.blocks -%}
+            <a href="{{ block.settings.url | default: '#' }}" {{ block.shopify_attributes }}>{{ block.settings.label | escape }}</a>
+          {%- endfor -%}
+        </nav>
+      {%- endif -%}
+    </div>
+    <figure>
+      <div class="photo">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 2000 | image_tag: loading: 'lazy', widths: '750, 1100, 1500, 2000', sizes: '100vw' }}
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'oma-placeholder' }}
+        {%- endif -%}
+      </div>
+      {%- if section.settings.caption != blank or section.settings.location != blank -%}
+        <figcaption>
+          <span>{{ section.settings.caption | escape }}</span>
+          <span class="location">{{ section.settings.location | escape }}</span>
+        </figcaption>
+      {%- endif -%}
+    </figure>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "OMA Regen Hero",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "REGENERATIVE AGRICULTURE" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "The Future of Agriculture" },
+    { "type": "richtext", "id": "lead", "label": "Lead paragraph", "default": "<p>Nature has been running the most advanced system on Earth for 3.8 billion years. Regenerative agriculture asks us to learn from it.</p>" },
+    { "type": "image_picker", "id": "image", "label": "Hero photo" },
+    { "type": "text", "id": "caption", "label": "Caption (left)", "default": "How nature works 101 — for the distracted modern human." },
+    { "type": "text", "id": "location", "label": "Caption (right, location)", "default": "Bali, Indonesia" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#F7F5F1" },
+    { "type": "color", "id": "accent_color", "label": "Accent (eyebrow, heading, pills)", "default": "#FF3F00" },
+    { "type": "color", "id": "text_color", "label": "Body text", "default": "#00180C" },
+    { "type": "color", "id": "hover_background", "label": "Photo placeholder background", "default": "#FFE4E7" }
+  ],
+  "blocks": [
+    {
+      "type": "jump_link",
+      "name": "Jump link",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label" },
+        { "type": "url", "id": "url", "label": "Link" }
+      ],
+      "limit": 6
+    }
+  ],
+  "presets": [
+    {
+      "name": "OMA Regen Hero",
+      "blocks": [
+        { "type": "jump_link", "settings": { "label": "The principle", "url": "#regen-principle" } },
+        { "type": "jump_link", "settings": { "label": "How we got here", "url": "#regen-consequences" } },
+        { "type": "jump_link", "settings": { "label": "The practices", "url": "#regen-how" } },
+        { "type": "jump_link", "settings": { "label": "The economics", "url": "#regen-economics" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

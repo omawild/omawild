@@ -1,0 +1,198 @@
+{%- comment -%}
+  oma-regen-principle — Regenerative Agriculture page, chapter 01 ("Different
+  names, same principle"): intro copy, a bold pull-quote band, and a row of
+  place cards (Bali / Sahel / Finland in the source design, but editable
+  blocks since the point is "this looks different everywhere").
+{%- endcomment -%}
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{% style %}
+.oma-regen-principle-{{ owid }} {
+  box-sizing: border-box;
+  background: {{ section.settings.background_color }};
+  color: {{ section.settings.text_color }};
+  padding: clamp(48px, 6vw, 80px) clamp(20px, 4vw, 48px);
+  font-family: var(--font-body-family);
+  scroll-margin-top: 112px;
+  }
+.oma-regen-principle-{{ owid }} *, .oma-regen-principle-{{ owid }} *::before, .oma-regen-principle-{{ owid }} *::after {
+  box-sizing: border-box;
+  }
+.oma-regen-principle-{{ owid }} .inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  }
+.oma-regen-principle-{{ owid }} .head {
+  max-width: 900px;
+  }
+.oma-regen-principle-{{ owid }} .eyebrow {
+  font: 800 12px/1.3 var(--font-heading-family);
+  letter-spacing: .14em;
+  color: {{ section.settings.accent_color }};
+  }
+.oma-regen-principle-{{ owid }} h2 {
+  margin: 16px 0 0;
+  font-family: var(--font-heading-family);
+  font-weight: 800;
+  font-size: clamp(34px, 4.4vw, 60px);
+  line-height: .98;
+  letter-spacing: -.04em;
+  color: {{ section.settings.accent_color }};
+  text-wrap: balance;
+  }
+.oma-regen-principle-{{ owid }} .intro {
+  margin: 20px 0 0;
+  max-width: 780px;
+  font-size: 14.5px;
+  line-height: 1.6;
+  font-weight: 500;
+  text-wrap: pretty;
+  }
+.oma-regen-principle-{{ owid }} .quote {
+  margin-top: 32px;
+  background: {{ section.settings.accent_color }};
+  border-radius: 10px;
+  padding: clamp(28px, 4vw, 48px) clamp(24px, 4vw, 48px);
+  }
+.oma-regen-principle-{{ owid }} .quote p {
+  margin: 0;
+  max-width: 1100px;
+  font-family: var(--font-heading-family);
+  font-weight: 800;
+  font-size: clamp(28px, 3.8vw, 54px);
+  line-height: 1.05;
+  letter-spacing: -.035em;
+  color: {{ section.settings.quote_text_color }};
+  text-wrap: balance;
+  }
+.oma-regen-principle-{{ owid }} .body {
+  margin-top: 32px;
+  max-width: 780px;
+  font-size: 14.5px;
+  line-height: 1.6;
+  font-weight: 500;
+  text-wrap: pretty;
+  }
+.oma-regen-principle-{{ owid }} .body a {
+  color: inherit;
+  }
+.oma-regen-principle-{{ owid }} .places {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 32px;
+  }
+.oma-regen-principle-{{ owid }} .place {
+  margin: 0;
+  background: #ffffff;
+  border: 2px solid {{ section.settings.accent_color }};
+  box-shadow: 5px 5px 0 {{ section.settings.accent_color }};
+  padding: 12px 12px 16px;
+  min-width: 0;
+  }
+.oma-regen-principle-{{ owid }} .place .photo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: {{ section.settings.hover_background }};
+  overflow: hidden;
+  }
+.oma-regen-principle-{{ owid }} .place .photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  }
+.oma-regen-principle-{{ owid }} .oma-placeholder {
+  width: 100%;
+  height: 100%;
+  background: {{ section.settings.hover_background }};
+  fill: {{ section.settings.accent_color }};
+  }
+.oma-regen-principle-{{ owid }} .place figcaption {
+  margin-top: 14px;
+  font: 800 17px/1.2 var(--font-heading-family);
+  letter-spacing: -.01em;
+  color: {{ section.settings.accent_color }};
+  }
+@media (max-width: 749px) {
+  .oma-regen-principle-{{ owid }} .places {
+    grid-template-columns: 1fr;
+  }
+}
+{% endstyle %}
+<div id="regen-principle" class="oma-regen-principle-{{ owid }}">
+  <div class="inner">
+    <div class="head">
+      {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
+      <h2>{{ section.settings.heading }}</h2>
+      {%- if section.settings.intro != blank -%}<div class="intro">{{ section.settings.intro }}</div>{%- endif -%}
+    </div>
+    {%- if section.settings.quote != blank -%}
+      <div class="quote">{{ section.settings.quote }}</div>
+    {%- endif -%}
+    {%- if section.settings.body != blank -%}
+      <div class="body">{{ section.settings.body }}</div>
+    {%- endif -%}
+    {%- if section.blocks.size > 0 -%}
+      <div class="places">
+        {%- for block in section.blocks -%}
+          <figure class="place" {{ block.shopify_attributes }}>
+            <div class="photo">
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', widths: '400, 600, 800', sizes: '(min-width: 750px) 33vw, 100vw' }}
+              {%- else -%}
+                {{ 'lifestyle-1' | placeholder_svg_tag: 'oma-placeholder' }}
+              {%- endif -%}
+            </div>
+            <figcaption>{{ block.settings.label | escape }}</figcaption>
+          </figure>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+{% schema %}
+{
+  "name": "OMA Regen Principle",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "01 · THE PRINCIPLE" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Different names, same principle" },
+    { "type": "richtext", "id": "intro", "label": "Intro paragraph", "default": "<p>Regenerative agriculture. Permaculture. Agroecology. Syntropic Agroforestry. The names are many. Every system carries its own subtle nuance. But beneath every label is the same fundamental principle:</p>" },
+    { "type": "richtext", "id": "quote", "label": "Pull-quote", "default": "<p>Nature has its own intelligence and the role of the farmer is to learn and work with it.</p>" },
+    { "type": "richtext", "id": "body", "label": "Body paragraph (below the quote)", "default": "<p>Solutions designed for the volcanic fields of Bali look nothing like those designed for the deserts of the Sahel or the colder climates of Finnish fields. There is no universal blueprint. Practices follow the local climate and ecology, and is precisely why these “systems” resist industrial scale. They are living ecosystems that cannot be replicated, as each one has their own unique relationships that need nurturing.</p>" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#F7F5F1" },
+    { "type": "color", "id": "accent_color", "label": "Accent (eyebrow, heading, cards)", "default": "#FF3F00" },
+    { "type": "color", "id": "text_color", "label": "Body text", "default": "#00180C" },
+    { "type": "color", "id": "quote_text_color", "label": "Pull-quote text", "default": "#FFFFFF" },
+    { "type": "color", "id": "hover_background", "label": "Photo placeholder background", "default": "#FFE4E7" }
+  ],
+  "blocks": [
+    {
+      "type": "place",
+      "name": "Place",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo" },
+        { "type": "text", "id": "label", "label": "Label" }
+      ],
+      "limit": 6
+    }
+  ],
+  "presets": [
+    {
+      "name": "OMA Regen Principle",
+      "blocks": [
+        { "type": "place", "settings": { "label": "The volcanic fields of Bali" } },
+        { "type": "place", "settings": { "label": "The deserts of the Sahel" } },
+        { "type": "place", "settings": { "label": "The colder climates of Finnish fields" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
