@@ -32,6 +32,23 @@
     read pulled the coffee form instead of the bag size. A roast with a
     third option has that axis ignored, same simplification owv2-product-main
     does not need to make since it only ever shows one product at a time.
+  - The Type option (e.g. Whole Bean / Ground for espresso) is matched by
+    NAME the same way, and is NEVER collapsed/guessed: `assets/owv2-subscribe.js`
+    always filters variants down to one Type (either the shopper's pill pick,
+    or — see below — the Whole Bean default) before deriving the quantity
+    step, so the price and variant id shown always belong to that exact Type.
+    This replaces an earlier version that deduped straight to one variant
+    per weight value with no regard for Type, silently showing whichever
+    Type Shopify happened to list first in the variant array.
+  - `show_type_step` (merchant setting) decides whether that Type choice is
+    a step the shopper sees. When OFF, the Type is still selected — just not
+    shown — defaulting to that roast's first Type value, in the product's
+    own option order. Same rule Size and Frequency already use (first
+    available size, first selling plan): no text matching against a
+    specific word, just "whatever's listed first" — so it needs no merchant
+    naming convention, only that Whole Bean (or whichever Type should be
+    the default) is the first value on the product's Type option. A roast
+    with no Type option at all is unaffected either way.
   - Step 03 (frequency) is that roast's own product.selling_plan_groups,
     flattened across groups exactly like owv2-product-main's plan pills.
     Two roasts can offer different frequencies; switching roasts rebuilds
@@ -472,7 +489,7 @@
 <div class="body-copy">{{ section.settings.body }}</div>
 <div class="steps">
 <fieldset class="step">
-<div class="step__num" aria-hidden="true">01</div>
+<div class="step__num" aria-hidden="true" data-step-num>01</div>
 <legend>{{ section.settings.step1_label | escape }}</legend>
 <div class="step__label">{{ section.settings.step1_label | escape }}</div>
 <div class="options{% if is_cards %} options--cards{% endif %}">
@@ -506,14 +523,22 @@
 {%- endfor -%}
 </div>
 </fieldset>
+{%- if section.settings.show_type_step -%}
+<fieldset class="step" data-owv2-type-step hidden>
+<div class="step__num" aria-hidden="true" data-step-num></div>
+<legend>{{ section.settings.step_type_label | escape }}</legend>
+<div class="step__label">{{ section.settings.step_type_label | escape }}</div>
+<div class="options" data-owv2-types></div>
+</fieldset>
+{%- endif -%}
 <fieldset class="step">
-<div class="step__num" aria-hidden="true">02</div>
+<div class="step__num" aria-hidden="true" data-step-num></div>
 <legend>{{ section.settings.step2_label | escape }}</legend>
 <div class="step__label">{{ section.settings.step2_label | escape }}</div>
 <div class="options" data-owv2-sizes></div>
 </fieldset>
 <fieldset class="step step--last">
-<div class="step__num" aria-hidden="true">03</div>
+<div class="step__num" aria-hidden="true" data-step-num></div>
 <legend>{{ section.settings.step3_label | escape }}</legend>
 <div class="step__label">{{ section.settings.step3_label | escape }}</div>
 <div class="options" data-owv2-plans></div>
@@ -553,35 +578,42 @@
       {%- if roast.selling_plan_groups.size == 0 -%}{%- continue -%}{%- endif -%}
       {%- assign json_index = json_index | plus: 1 -%}
       {%- comment -%}
-        The quantity step must key off the SIZE/WEIGHT option, not whichever
-        option happens to sit first -- this store's products put "Type"
-        (Whole Bean / Ground for espresso) at position 1 and "Net Weight" at
-        position 2, so a positional .first pulled the coffee form instead of
-        the bag size. Match by name instead, falling back to the last option
-        (weight/size is the last axis on every roast we've seen) only if no
-        option name mentions weight or size at all.
+        Two option axes matter here, both matched by NAME rather than
+        position -- this store's products put "Type" (Whole Bean / Ground
+        for espresso) at position 1 and "Net Weight" at position 2, so a
+        positional read pulled the wrong axis for either one depending on
+        which was wanted. A roast with a third option axis has that axis
+        ignored, same simplification owv2-product-main does not need to
+        make since it only ever shows one product at a time.
       {%- endcomment -%}
       {%- assign size_option_index = -1 -%}
+      {%- assign type_option_index = -1 -%}
       {%- for o in roast.options -%}
         {%- assign o_name_down = o.name | downcase -%}
-        {%- if o_name_down contains 'weight' or o_name_down contains 'size' -%}
+        {%- if size_option_index == -1 and o_name_down contains 'weight' or o_name_down contains 'size' -%}
           {%- assign size_option_index = forloop.index0 -%}
-          {%- break -%}
+        {%- endif -%}
+        {%- if type_option_index == -1 and o_name_down contains 'type' -%}
+          {%- assign type_option_index = forloop.index0 -%}
         {%- endif -%}
       {%- endfor -%}
       {%- if size_option_index == -1 -%}
         {%- assign size_option_index = roast.options.size | minus: 1 -%}
       {%- endif -%}
       {%- assign size_option = roast.options[size_option_index] -%}
+      {%- assign has_type = false -%}
+      {%- if type_option_index > -1 -%}{%- assign has_type = true -%}{%- endif -%}
       {
         "id": {{ roast.id | json }},
         "title": {{ roast.title | json }},
         "optionName": {{ size_option.name | json }},
+        "hasType": {{ has_type | json }},
         "variants": [
           {%- for v in roast.variants -%}
             {
               "id": {{ v.id }},
-              "value": {{ v.options[size_option_index] | json }},
+              "size": {{ v.options[size_option_index] | json }},
+              "type": {% if has_type %}{{ v.options[type_option_index] | json }}{% else %}null{% endif %},
               "available": {{ v.available | json }},
               "price": {{ v.price }},
               "compare": {{ v.compare_at_price | default: 0 }},
@@ -697,6 +729,19 @@
       "id": "step1_label",
       "label": "Step1 label",
       "default": "Pick your roast"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_type_step",
+      "label": "Show a coffee type step (e.g. Whole Bean / Ground)",
+      "default": false,
+      "info": "Only applies to roasts with a product option named \"Type\". When off, each roast still resolves to one Type behind the scenes — its first Type value, in the product's own option order (so Whole Bean should be listed first on the product if it's meant to be the default) — it's just not shown as a choice."
+    },
+    {
+      "type": "text",
+      "id": "step_type_label",
+      "label": "Type step label",
+      "default": "Choose your type"
     },
     {
       "type": "text",
