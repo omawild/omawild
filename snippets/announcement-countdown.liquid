@@ -70,13 +70,28 @@
 
       const dateStr = container.dataset.countdownDate;
       let targetDate;
-      
+
       if (dateStr.includes('T')) {
         targetDate = new Date(dateStr);
       } else {
         const parts = dateStr.split('-');
         if (parts.length === 3) {
           targetDate = new Date(parts[2], parts[0] - 1, parts[1]);
+        }
+      }
+
+      // This "date" setting is a plain text field, so Shopify's theme
+      // translation feature treats it as translatable prose -- a machine
+      // translation can turn "2026-11-02T10:00:00" into "2026年11月2日
+      // 10:00:00" for a given locale. Neither branch above parses that, so
+      // fall back to pulling the numbers out in order and assume the same
+      // year/month/day[/hour/minute/second] layout, instead of silently
+      // freezing the display at its static 00:00:00 markup.
+      if (isNaN(targetDate)) {
+        const numbers = dateStr.match(/\d+/g);
+        if (numbers && numbers.length >= 3) {
+          const [year, month, day, hour, minute, second] = numbers.map(Number);
+          targetDate = new Date(year, month - 1, day, hour || 0, minute || 0, second || 0);
         }
       }
 
