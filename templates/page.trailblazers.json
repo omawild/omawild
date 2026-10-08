@@ -54,84 +54,9 @@
         "link_hover_color": "#b231c6",
         "success_background": "#d4edda",
         "success_text_color": "#155724",
-        "hero_image": "shopify://shop_images/summit-with-friends-01.png",
         "content_padding": 50,
         "content_gap": 12,
         "background_color": "#faf8f5"
-      }
-    },
-    "od_sticky_split_feature_Dn4FqW": {
-      "type": "od-sticky-split-feature",
-      "blocks": {
-        "body_text_kMDNKn": {
-          "type": "body_text",
-          "disabled": true,
-          "settings": {
-            "content": "<p>Focusing on the <strong>long-term health</strong> of our soil.</p>"
-          }
-        },
-        "stat_card_EMitRk": {
-          "type": "stat_card",
-          "settings": {
-            "stat_label": "Single Origin",
-            "stat_body": "<p>Every harvest begins in a food forest that changed how we see food, farming, and our relationship with this planet.</p>"
-          }
-        },
-        "stat_card_weRrCj": {
-          "type": "stat_card",
-          "settings": {
-            "stat_label": "Farmed Regeneratively",
-            "stat_body": "<p>Our beans grow in living food forests that rebuild soil health and restore biodiversity. Every cup restores the land from where they came.</p>"
-          }
-        },
-        "stat_card_gT38gE": {
-          "type": "stat_card",
-          "settings": {
-            "stat_label": "Peak Preservation",
-            "stat_body": "<p>The long approach from bean to cup: a slow brew followed by sublimation freeze-drying. Every flavour and nutrient, preserved until the moment you need them.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "body_text_kMDNKn",
-        "stat_card_EMitRk",
-        "stat_card_weRrCj",
-        "stat_card_gT38gE"
-      ],
-      "name": "OD Sticky Split Blocks",
-      "settings": {
-        "flip_layout": true,
-        "max_width": 1000,
-        "section_padding_top": 40,
-        "section_padding_bottom": 40,
-        "grid_gap": 60,
-        "mobile_padding_horizontal": 20,
-        "background_color": "#ffffff",
-        "image_ratio": "4 / 3",
-        "heading_size": 38,
-        "text_size": 16,
-        "body_line_height": 1.4,
-        "label_color": "#666666",
-        "heading_color": "#1a1b18",
-        "text_color": "#1b1b1b",
-        "emphasis_color": "#b231c6",
-        "link_color": "#b231c6",
-        "card_background": "#f9f9f9",
-        "card_border_color": "#eeeeee",
-        "card_padding": 24,
-        "cards_per_row_desktop": "1",
-        "stat_gap": 12,
-        "stat_label_size": 23,
-        "stat_body_size": 14,
-        "stat_label_height": 1,
-        "stat_body_height": 1.3,
-        "stat_label_margin_bottom": 8,
-        "stat_label_color": "#1a1b18",
-        "stat_body_color": "#333333",
-        "stat_emphasis_color": "#b231c6",
-        "label_tag": "h3",
-        "section_label": "<strong>Opt outside</strong>",
-        "heading": "<h2>Fuel for the distance</h2>"
       }
     },
     "od_notice_board_eHTD3t": {
@@ -165,6 +90,7 @@
             "image_fit": "cover",
             "image_radius": 0,
             "image_margin_top": 20,
+            "card_style": "classic",
             "card_background": "#ffffff",
             "card_border_color": "#e5e5e5",
             "card_border_width": 1,
@@ -240,79 +166,12 @@
         "icon_color": "#787878",
         "icon_border_weight": 1
       }
-    },
-    "od_newsletter_qQ98pL": {
-      "type": "od-newsletter",
-      "blocks": {
-        "heading_zdTjfM": {
-          "type": "heading",
-          "settings": {
-            "heading": "The adventure starts here.",
-            "heading_tag": "h5"
-          }
-        },
-        "paragraph_fjJrAG": {
-          "type": "paragraph",
-          "settings": {
-            "paragraph": "<p>Beat the crowds to the start line and break trail with us this summer. Launching 2026.</p>"
-          }
-        },
-        "email_form_VcLxVF": {
-          "type": "email_form",
-          "settings": {
-            "button_label": "Secure Your Start →",
-            "success_heading": "Welcome to the adventure",
-            "success_body": "Check your inbox for your first trailhead map."
-          }
-        },
-        "signup_note_rBVVQU": {
-          "type": "signup_note",
-          "settings": {
-            "note": "<p>Get wild on deals, expedition stories, activism awareness, events and more.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "heading_zdTjfM",
-        "paragraph_fjJrAG",
-        "email_form_VcLxVF",
-        "signup_note_rBVVQU"
-      ],
-      "name": "OD Newsletter",
-      "settings": {
-        "alignment_text": "center",
-        "content_max_width": 400,
-        "padding_top": 80,
-        "padding_bottom": 80,
-        "colors_background": "#faf8f5",
-        "colors_text": "#1a1b18",
-        "colors_border": "#d2d5d9"
-      }
-    },
-    "od_new_hero_PzV7Y4": {
-      "type": "ow-mgs-hero",
-      "name": "Hero Simple",
-      "settings": {
-        "logo_image": "shopify://shop_images/omawild_logo.svg",
-        "logo_svg_code": "",
-        "headline_image": "shopify://shop_images/welcome-expedition.svg",
-        "headline_svg_code": "",
-        "emblem_image": "shopify://shop_images/planet-emblem.svg",
-        "emblem_svg_code": "",
-        "tagline": "Coffee’s just the bait to reel you in",
-        "hero_image": "shopify://shop_images/Gemini_Generated_Image_kgjhkgjhkgjhkgjh.png",
-        "background_color": "#FCD0FD",
-        "text_color": "#FF3F00"
-      }
     }
   },
   "order": [
     "main",
     "od_hero_expedition_Uib6hK",
-    "od_sticky_split_feature_Dn4FqW",
     "od_notice_board_eHTD3t",
-    "od_faq_gAnj7m",
-    "od_newsletter_qQ98pL",
-    "od_new_hero_PzV7Y4"
+    "od_faq_gAnj7m"
   ]
 }
