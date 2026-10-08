@@ -18,56 +18,157 @@
         "padding_bottom": 60
       }
     },
-    "oma_page_header_rjWJKG": {
-      "type": "oma-page-header",
+    "oma_regen_hero_UztUay": {
+      "type": "oma-regen-hero",
       "blocks": {
-        "collection_row_qKRzi7": {
-          "type": "collection_row",
+        "jump_link_ktdgcb": {
+          "type": "jump_link",
           "settings": {
-            "collection": "",
-            "title_override": "",
-            "anchor_override": "",
-            "thumbnail_count": 3,
-            "count_label_override": ""
+            "label": "The principle",
+            "url": "#regen-principle"
           }
         },
-        "collection_row_JnxhJV": {
-          "type": "collection_row",
+        "jump_link_XzikdB": {
+          "type": "jump_link",
           "settings": {
-            "collection": "",
-            "title_override": "",
-            "anchor_override": "",
-            "thumbnail_count": 3,
-            "count_label_override": ""
+            "label": "How we got here",
+            "url": "#regen-consequences"
+          }
+        },
+        "jump_link_xPyh3C": {
+          "type": "jump_link",
+          "settings": {
+            "label": "The practices",
+            "url": "#regen-how"
+          }
+        },
+        "jump_link_Ewzarh": {
+          "type": "jump_link",
+          "settings": {
+            "label": "The economics",
+            "url": "#regen-economics"
           }
         }
       },
       "block_order": [
-        "collection_row_qKRzi7",
-        "collection_row_JnxhJV"
+        "jump_link_ktdgcb",
+        "jump_link_XzikdB",
+        "jump_link_xPyh3C",
+        "jump_link_Ewzarh"
       ],
-      "name": "OMA Page Header",
+      "name": "OMA Regen Hero",
       "settings": {
-        "heading": "Shop",
-        "title_size": "display",
-        "show_breadcrumb": false,
-        "breadcrumb_label": "",
-        "body": "",
-        "show_collection_list": true,
-        "background_color": "#FFE4E7",
-        "heading_color": "#FF3F00",
+        "eyebrow": "REGENERATIVE AGRICULTURE",
+        "heading": "The Future of Agriculture",
+        "lead": "<p>Nature has been running the most advanced system on Earth for 3.8 billion years. Regenerative agriculture asks us to learn from it.</p>",
+        "image": "shopify://shop_images/jatiluwih-rice-fields.png",
+        "caption": "How nature works 101 — for the distracted modern human.",
+        "location": "Bali, Indonesia",
+        "background_color": "#F7F5F1",
+        "accent_color": "#FF3F00",
         "text_color": "#00180C",
-        "divider_color": "#FF3F00",
-        "thumb_background": "#FBB925",
-        "padding_top": 36,
-        "padding_bottom": 44,
-        "mobile_padding_horizontal": 20,
-        "desktop_padding_horizontal": 48
+        "hover_background": "#FFE4E7"
+      }
+    },
+    "oma_regen_principle_nVVMU4": {
+      "type": "oma-regen-principle",
+      "blocks": {
+        "place_4T8Eg8": {
+          "type": "place",
+          "settings": {
+            "label": "The volcanic fields of Bali"
+          }
+        },
+        "place_zGjCWQ": {
+          "type": "place",
+          "settings": {
+            "label": "The deserts of the Sahel"
+          }
+        },
+        "place_fbL9MR": {
+          "type": "place",
+          "settings": {
+            "label": "The colder climates of Finnish fields"
+          }
+        }
+      },
+      "block_order": [
+        "place_4T8Eg8",
+        "place_zGjCWQ",
+        "place_fbL9MR"
+      ],
+      "name": "OMA Regen Principle",
+      "settings": {
+        "eyebrow": "01 · THE PRINCIPLE",
+        "heading": "Different names, same principle",
+        "intro": "<p>Regenerative agriculture. Permaculture. Agroecology. Syntropic Agroforestry. The names are many. Every system carries its own subtle nuance. But beneath every label is the same fundamental principle:</p>",
+        "quote": "<p>Nature has its own intelligence and the role of the farmer is to learn and work with it.</p>",
+        "body": "<p>Solutions designed for the volcanic fields of Bali look nothing like those designed for the deserts of the Sahel or the colder climates of Finnish fields. There is no universal blueprint. Practices follow the local climate and ecology, and is precisely why these “systems” resist industrial scale. They are living ecosystems that cannot be replicated, as each one has their own unique relationships that need nurturing.</p>",
+        "background_color": "#F7F5F1",
+        "accent_color": "#FF3F00",
+        "text_color": "#00180C",
+        "quote_text_color": "#FFFFFF",
+        "hover_background": "#FFE4E7"
+      }
+    },
+    "oma_regen_consequences_K88DKw": {
+      "type": "oma-regen-consequences",
+      "blocks": {
+        "era_rtTghG": {
+          "type": "era",
+          "settings": {
+            "when": "FOR MOST OF HUMAN HISTORY",
+            "what": "Farming as observation",
+            "accent": false
+          }
+        },
+        "era_mx6rfW": {
+          "type": "era",
+          "settings": {
+            "when": "AFTER WORLD WAR II",
+            "what": "The Green Revolution",
+            "accent": false
+          }
+        },
+        "era_g9htjz": {
+          "type": "era",
+          "settings": {
+            "when": "THE 1990s",
+            "what": "Reliance on external inputs",
+            "accent": false
+          }
+        },
+        "era_apUAJb": {
+          "type": "era",
+          "settings": {
+            "when": "TODAY",
+            "what": "A third of our world's topsoil is degraded",
+            "accent": true
+          }
+        }
+      },
+      "block_order": [
+        "era_rtTghG",
+        "era_mx6rfW",
+        "era_g9htjz",
+        "era_apUAJb"
+      ],
+      "name": "OMA Regen Consequences",
+      "settings": {
+        "eyebrow": "02 · HOW WE GOT HERE",
+        "heading": "Unintended consequences",
+        "body_left": "<p>For most of human history, farming was an act of observation. You observe the seasons and its rhythms. You work within the system based on knowledge accumulated over many generations. Your practices are localised and deeply unique to each origin.</p><p>After World War II, things changed. Widespread expansion of <a href=\"https://earth.org/data_visualization/food-production-recent-history-and-where-we-are-heading/\" target=\"_blank\" title=\"https://earth.org/data_visualization/food-production-recent-history-and-where-we-are-heading/\">The Green Revolution</a> introduced monoculture farming, heavy mechanisation, synthetic fertilisers, and chemical pest control. The goal was to combat world hunger in a booming population by maximising yield output. In many ways, the movement was a success. It's estimated to have saved one billion lives, with much of the credit due to agronomist and Nobel Prize winner Norman Borlaug.</p>",
+        "body_right": "<p>Wheat became cheap and abundant. But productivity came at a price. Farming had shifted from interdependence to reliance on external inputs, which deepened in the 1990s. The rise of high-yield, genetically modified crops were engineered to work with chemical fertilisers and pesticides sold by the same corporations that supplied them. Industrial farming stripped the land of crop diversity with monocrop cultures drenching in chemicals year after year, depleting the microbial diversity of the soil beneath — a living web of fungi, bacteria and root systems that cycle water and nutrients naturally.</p><p>Today, a third of our world's topsoil is degraded.</p>",
+        "background_color": "#FCD0FD",
+        "accent_color": "#FF3F00",
+        "text_color": "#00180C"
       }
     }
   },
   "order": [
     "main",
-    "oma_page_header_rjWJKG"
+    "oma_regen_hero_UztUay",
+    "oma_regen_principle_nVVMU4",
+    "oma_regen_consequences_K88DKw"
   ]
 }
