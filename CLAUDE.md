@@ -59,6 +59,21 @@ follows from that.
 5. **Ask before touching anything outside the theme.** `.shopifyignore`,
    `shopify.theme.toml`, `.gitignore` and `.env` decide what reaches a store.
    A change there is a deploy-safety change, not a code change.
+6. **Extend the theme's existing patterns; don't build a parallel one.** Before
+   writing a new mechanism, look for the one the theme (or our own `ow-`/`oma-`
+   code) already has, and use it: render existing snippets (`price`,
+   `card-product`, `icon`, `buy-buttons`, …) rather than re-templating them; use
+   the custom elements in `assets/global.js` (`modal-dialog`, `slider-component`,
+   `deferred-media`, `cart-drawer`, …) rather than writing a new drawer, modal or
+   slider; read the CSS tokens from `snippets/css-variables.liquid` and
+   `snippets/ow-fonts.liquid` rather than hardcoding colours, spacing or font
+   names; follow the vendor section schema conventions for settings. When two of
+   our own sections need the same markup or logic, pull it into one snippet or
+   asset rather than copying it. This does not conflict with rule 3: rule 3 says
+   *where* our code lives (new files), this rule says *what* it does (call into
+   the existing pattern, not re-implement it). Copying a vendor file into an
+   `oma-` file to change three lines satisfies neither. If the existing pattern
+   genuinely can't do the job, say so and explain why before introducing a new one.
 
 ## Ownership map
 
