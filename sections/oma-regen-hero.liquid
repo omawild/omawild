@@ -59,6 +59,10 @@
   color: {{ section.settings.text_color }};
   text-wrap: pretty;
   }
+.oma-regen-hero-{{ owid }} .lead a {
+  color: {{ section.settings.link_color }};
+  text-decoration: underline;
+  }
 .oma-regen-hero-{{ owid }} .jump {
   display: flex;
   flex-wrap: wrap;
@@ -179,6 +183,7 @@
     { "type": "color", "id": "background_color", "label": "Background", "default": "#F7F5F1" },
     { "type": "color", "id": "accent_color", "label": "Accent (eyebrow, heading, pills)", "default": "#FF3F00" },
     { "type": "color", "id": "text_color", "label": "Body text", "default": "#00180C" },
+    { "type": "color", "id": "link_color", "label": "Link color (within the lead paragraph)", "default": "#FF3F00" },
     { "type": "color", "id": "hover_background", "label": "Photo placeholder background", "default": "#FFE4E7" }
   ],
   "blocks": [

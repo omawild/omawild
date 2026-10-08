@@ -72,8 +72,17 @@
   font-weight: 500;
   text-wrap: pretty;
   }
+.oma-regen-principle-{{ owid }} .intro a,
 .oma-regen-principle-{{ owid }} .body a {
+  color: {{ section.settings.link_color }};
+  text-decoration: underline;
+  }
+.oma-regen-principle-{{ owid }} .quote a {
+  /* Inherits the quote's own (white-on-accent) text color rather than
+     link_color -- that setting is tuned for the light background the
+     intro/body sit on, and would be invisible against the orange band. */
   color: inherit;
+  text-decoration: underline;
   }
 .oma-regen-principle-{{ owid }} .places {
   display: grid;
@@ -171,6 +180,7 @@
     { "type": "color", "id": "accent_color", "label": "Accent (eyebrow, heading, cards)", "default": "#FF3F00" },
     { "type": "color", "id": "text_color", "label": "Body text", "default": "#00180C" },
     { "type": "color", "id": "quote_text_color", "label": "Pull-quote text", "default": "#FFFFFF" },
+    { "type": "color", "id": "link_color", "label": "Link color (intro & body paragraphs)", "default": "#FF3F00" },
     { "type": "color", "id": "hover_background", "label": "Photo placeholder background", "default": "#FFE4E7" }
   ],
   "blocks": [

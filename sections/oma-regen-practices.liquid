@@ -58,6 +58,11 @@
   font-weight: 500;
   text-wrap: pretty;
   }
+.oma-regen-practices-{{ owid }} .intro a,
+.oma-regen-practices-{{ owid }} .answer a {
+  color: {{ section.settings.link_color }};
+  text-decoration: underline;
+  }
 .oma-regen-practices-{{ owid }} .illustration {
   margin: 40px auto 0;
   max-width: 1100px;
@@ -339,6 +344,7 @@
     { "type": "color", "id": "background_color", "label": "Background", "default": "#F7F5F1" },
     { "type": "color", "id": "accent_color", "label": "Accent (eyebrow, headings, numbers)", "default": "#FF3F00" },
     { "type": "color", "id": "text_color", "label": "Body text", "default": "#00180C" },
+    { "type": "color", "id": "link_color", "label": "Link color (intro & practice bodies)", "default": "#FF3F00" },
     { "type": "color", "id": "toc_rule_color", "label": "TOC divider", "default": "#FFE4E7" },
     { "type": "color", "id": "hover_background", "label": "TOC item hover background", "default": "#FFE4E7" }
   ],

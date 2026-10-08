@@ -94,7 +94,8 @@
   margin-bottom: 0;
   }
 .oma-regen-consequences-{{ owid }} .columns a {
-  color: inherit;
+  color: {{ section.settings.link_color }};
+  text-decoration: underline;
   }
 @media (max-width: 989px) {
   .oma-regen-consequences-{{ owid }} .eras {
@@ -145,7 +146,8 @@
     { "type": "header", "content": "Colors" },
     { "type": "color", "id": "background_color", "label": "Background", "default": "#FCD0FD" },
     { "type": "color", "id": "accent_color", "label": "Accent (eyebrow, heading, cards)", "default": "#FF3F00" },
-    { "type": "color", "id": "text_color", "label": "Body text", "default": "#00180C" }
+    { "type": "color", "id": "text_color", "label": "Body text", "default": "#00180C" },
+    { "type": "color", "id": "link_color", "label": "Link color (body paragraphs)", "default": "#FF3F00" }
   ],
   "blocks": [
     {

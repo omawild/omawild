@@ -53,8 +53,16 @@
 .oma-origin-cards-{{ owid }} .body {
   margin: 18px 0 0;
   font-size: 16.5px;
-  line-height: 1.6;
+  /* The sitewide "Lead paragraph" token is 16.5px/1.6 (CLAUDE.md), tuned
+     for a longer passage. At this short 1-2 line length that leading reads
+     as oversized, so it's tightened locally here rather than in the token
+     itself -- flag it if other lead paragraphs should follow suit. */
+  line-height: 1.4;
   color: {{ section.settings.text_color }};
+  }
+.oma-origin-cards-{{ owid }} .body a {
+  color: {{ section.settings.link_color }};
+  text-decoration: underline;
   }
 .oma-origin-cards-{{ owid }} .cta {
   flex: none;
@@ -72,7 +80,7 @@
   color: #ffffff;
   }
 .oma-origin-cards-{{ owid }} .cards {
-  margin-top: 36px;
+  margin-top: 28px;
   }
 .oma-origin-cards-{{ owid }} .card {
   display: flex;
@@ -165,6 +173,12 @@
 .oma-origin-cards-{{ owid }} .cards.is-single .card {
   flex-direction: row;
   flex-wrap: wrap;
+  /* Default (stretch) forced .cover to match .card-body's full height --
+     with a 4-fact column that wraps to several lines, that height is tall,
+     and the photo (plus the placeholder before one's uploaded) stretched
+     well past its own 4:3 aspect-ratio to match it. flex-start lets the
+     cover size itself from its own aspect-ratio instead. */
+  align-items: flex-start;
   }
 .oma-origin-cards-{{ owid }} .cards.is-single .cover {
   flex: 1.3 1 420px;
@@ -176,7 +190,7 @@
   flex: 1 1 360px;
   min-width: 0;
   padding: clamp(24px, 3vw, 44px);
-  gap: 28px;
+  gap: 20px;
   }
 .oma-origin-cards-{{ owid }} .cards.is-single .place {
   font-size: clamp(56px, 7vw, 112px);
@@ -196,8 +210,16 @@
 .oma-origin-cards-{{ owid }} .cards.is-single .facts {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 0 24px;
-  padding-top: 32px;
+  /* Row-gap was 0 -- fine when every value fits one line, but a wrapped
+     2-line value (e.g. two producer names) then sat flush against the
+     border-top of the next row with no breathing room at all. The base
+     .facts also carries margin-top:auto (for pinning facts to the bottom
+     of a uniform grid card) and the parent .card-body now supplies its own
+     gap -- neither applies to this wide feature-card layout, so both are
+     zeroed here rather than stacking on top of each other. */
+  gap: 24px;
+  margin-top: 0;
+  padding-top: 0;
   }
 .oma-origin-cards-{{ owid }} .cards.is-single .fact-label {
   margin-bottom: 8px;
@@ -467,6 +489,7 @@
     { "type": "color", "id": "accent_color", "label": "Accent (headings, borders, facts)", "default": "#FF3F00" },
     { "type": "color", "id": "text_color", "label": "Body & fact value color", "default": "#00180C" },
     { "type": "color", "id": "hover_background", "label": "Card hover / image placeholder background", "default": "#FFE4E7" },
+    { "type": "color", "id": "link_color", "label": "Link color (within the body)", "default": "#FF3F00" },
     { "type": "header", "content": "Layout" },
     { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
     { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 72 }

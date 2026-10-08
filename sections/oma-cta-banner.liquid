@@ -1,11 +1,29 @@
 {%- comment -%}
   oma-cta-banner — full-width statement + two CTAs, no image (the "Vision"
-  band on the About page). Checked od-interstitial.liquid and
-  od-impact-text.liquid first; neither uses this theme's design tokens or
-  supports a two-button layout, so this is new rather than a forced reuse.
-  Button styling/hover matches oma-hero.liquid's CTAs exactly (primary
-  darkens via filter:brightness on hover, secondary fills solid with white
-  text) for visual consistency across the two sections' buttons.
+  band on the About page; also the Regenerative Agriculture page's closing
+  band, as of 2026-10-08 -- that page's chapter sections live in
+  sections/oma-regen-*.liquid, but the closing statement itself isn't
+  Regen-specific, so it was pulled out of oma-regen-economics.liquid into
+  this already-existing universal section instead of duplicating it).
+  Checked od-interstitial.liquid and od-impact-text.liquid first; neither
+  uses this theme's design tokens or supports a two-button layout, so this
+  is new rather than a forced reuse. Button styling/hover matches
+  oma-hero.liquid's CTAs exactly (primary darkens via filter:brightness on
+  hover, secondary fills solid) for visual consistency across sections.
+
+  `support_text` is optional and off by default -- when blank, the banner
+  renders exactly as it always has (heading straight into the buttons, no
+  divider), so the existing About page instance is unaffected. Filling it
+  in adds the divider-rule + buttons-beside-it row that a closing-statement
+  band (like Regen's) wants.
+
+  `button_label_color` decouples the primary button's label from a
+  hardcoded white: `text_color` still drives the button's own fill/border,
+  but the label (and the secondary button's hover-fill label) now reads in
+  `button_label_color`. Defaults to white, so existing instances are
+  pixel-identical; a band with an inverted scheme (e.g. Regen's white-on-
+  Electric) sets text_color to white and button_label_color to Electric, so
+  the filled button doesn't render white-on-white.
 {%- endcomment -%}
 {% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
 {% style %}
@@ -44,11 +62,38 @@
   color: {{ section.settings.text_color }};
   text-wrap: pretty;
   }
+.oma-cta-banner-{{ owid }} .heading a {
+  color: {{ section.settings.link_color }};
+  text-decoration: underline;
+  }
 .oma-cta-banner-{{ owid }} .actions {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 40px;
+  }
+.oma-cta-banner-{{ owid }} .support-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px 48px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1.5px solid {{ section.settings.text_color }};
+  }
+.oma-cta-banner-{{ owid }} .support-text {
+  flex: 1 1 420px;
+  margin: 0;
+  max-width: 560px;
+  font-size: 14.5px;
+  line-height: 1.6;
+  font-weight: 500;
+  color: {{ section.settings.text_color }};
+  text-wrap: pretty;
+  }
+.oma-cta-banner-{{ owid }} .support-row .actions {
+  margin-top: 0;
   }
 .oma-cta-banner-{{ owid }} .oma-button {
   display: inline-flex;
@@ -59,7 +104,7 @@
   border: 1.5px solid {{ section.settings.text_color }};
   border-radius: 999px;
   background: {{ section.settings.text_color }};
-  color: #ffffff;
+  color: {{ section.settings.button_label_color }};
   font: 800 12px/1 var(--font-heading-family);
   text-decoration: none;
   text-align: center;
@@ -76,31 +121,47 @@
   }
 .oma-cta-banner-{{ owid }} .secondary:hover {
   background: {{ section.settings.text_color }};
-  color: #ffffff;
+  color: {{ section.settings.button_label_color }};
   filter: none;
   }
 {% endstyle %}
+{%- liquid
+  assign has_actions = false
+  if section.settings.cta_primary_label != blank or section.settings.cta_secondary_label != blank
+    assign has_actions = true
+  endif
+-%}
+{%- capture actions_html -%}
+  {%- if has_actions -%}
+    <div class="actions">
+      {%- if section.settings.cta_primary_label != blank -%}
+        {%- if section.settings.cta_primary_link != blank -%}
+          <a class="oma-button" href="{{ section.settings.cta_primary_link }}">{{ section.settings.cta_primary_label | escape }}</a>
+        {%- else -%}
+          <span class="oma-button" aria-disabled="true">{{ section.settings.cta_primary_label | escape }}</span>
+        {%- endif -%}
+      {%- endif -%}
+      {%- if section.settings.cta_secondary_label != blank -%}
+        {%- if section.settings.cta_secondary_link != blank -%}
+          <a class="oma-button secondary" href="{{ section.settings.cta_secondary_link }}">{{ section.settings.cta_secondary_label | escape }}</a>
+        {%- else -%}
+          <span class="oma-button secondary" aria-disabled="true">{{ section.settings.cta_secondary_label | escape }}</span>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+{%- endcapture -%}
 <div class="oma-cta-banner-{{ owid }}">
   <div class="inner">
     {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
     <p class="heading">{{ section.settings.heading }}</p>
-    {%- if section.settings.cta_primary_label != blank or section.settings.cta_secondary_label != blank -%}
-      <div class="actions">
-        {%- if section.settings.cta_primary_label != blank -%}
-          {%- if section.settings.cta_primary_link != blank -%}
-            <a class="oma-button" href="{{ section.settings.cta_primary_link }}">{{ section.settings.cta_primary_label | escape }}</a>
-          {%- else -%}
-            <span class="oma-button" aria-disabled="true">{{ section.settings.cta_primary_label | escape }}</span>
-          {%- endif -%}
-        {%- endif -%}
-        {%- if section.settings.cta_secondary_label != blank -%}
-          {%- if section.settings.cta_secondary_link != blank -%}
-            <a class="oma-button secondary" href="{{ section.settings.cta_secondary_link }}">{{ section.settings.cta_secondary_label | escape }}</a>
-          {%- else -%}
-            <span class="oma-button secondary" aria-disabled="true">{{ section.settings.cta_secondary_label | escape }}</span>
-          {%- endif -%}
-        {%- endif -%}
+    {%- if section.settings.support_text != blank -%}
+      <div class="support-row">
+        <p class="support-text">{{ section.settings.support_text | escape }}</p>
+        {{ actions_html }}
       </div>
+    {%- else -%}
+      {{ actions_html }}
     {%- endif -%}
   </div>
 </div>
@@ -119,6 +180,7 @@
       "label": "Statement",
       "default": "What begins with coffee is part of a larger vision at Omawild: to build an outdoor pantry that fuels our adventures while helping protect our home planet for generations to come."
     },
+    { "type": "text", "id": "support_text", "label": "Supporting line (optional)", "info": "When filled in, shows above the buttons with a divider rule — the pattern used for a chapter's closing statement. Leave blank for the plain heading-into-buttons layout." },
     { "type": "header", "content": "Buttons" },
     { "type": "text", "id": "cta_primary_label", "label": "Primary label", "default": "Shop the coffee →" },
     { "type": "url", "id": "cta_primary_link", "label": "Primary link" },
@@ -127,6 +189,8 @@
     { "type": "header", "content": "Colors" },
     { "type": "color", "id": "background_color", "label": "Background", "default": "#FFE4E7" },
     { "type": "color", "id": "text_color", "label": "Text & button color", "default": "#FF3F00" },
+    { "type": "color", "id": "button_label_color", "label": "Button label color", "default": "#FFFFFF", "info": "The text shown on the filled primary button (and on the secondary button once it fills on hover). Only needs to change from white if Text & button color above is itself light — e.g. white text on an Electric background." },
+    { "type": "color", "id": "link_color", "label": "Link color (within the statement)", "default": "#FF3F00" },
     { "type": "header", "content": "Layout" },
     { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 140, "step": 4, "unit": "px", "default": 72 },
     { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 140, "step": 4, "unit": "px", "default": 72 }
