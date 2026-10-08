@@ -48,26 +48,79 @@
       ],
       "name": "OMA Page Header",
       "settings": {
-        "heading": "Shop",
+        "heading": "Origins",
         "title_size": "display",
         "show_breadcrumb": false,
         "breadcrumb_label": "",
         "body": "",
         "show_collection_list": true,
-        "background_color": "#FFE4E7",
-        "heading_color": "#FF3F00",
-        "text_color": "#00180C",
-        "divider_color": "#FF3F00",
-        "thumb_background": "#FBB925",
+        "background_color": "#ffe4e7",
+        "heading_color": "#ff3f00",
+        "text_color": "#00180c",
+        "divider_color": "#ff3f00",
+        "thumb_background": "#fbb925",
         "padding_top": 36,
         "padding_bottom": 44,
         "mobile_padding_horizontal": 20,
         "desktop_padding_horizontal": 48
       }
+    },
+    "oma_origin_cards_VrYRqR": {
+      "type": "oma-origin-cards",
+      "blocks": {
+        "origin_card_GBhgiw": {
+          "type": "origin_card",
+          "settings": {
+            "origin_reference": "garut-west-java"
+          }
+        },
+        "origin_card_mFeGj7": {
+          "type": "origin_card",
+          "settings": {
+            "origin_reference": ""
+          }
+        },
+        "origin_card_fXjBEp": {
+          "type": "origin_card",
+          "settings": {
+            "origin_reference": ""
+          }
+        }
+      },
+      "block_order": [
+        "origin_card_GBhgiw",
+        "origin_card_mFeGj7",
+        "origin_card_fXjBEp"
+      ],
+      "name": "OMA Origin Cards",
+      "settings": {
+        "eyebrow": "THE FIELD GUIDE",
+        "heading": "Where our coffee grows",
+        "body": "<p>Every Omawild coffee is grown inside a working forest by a producer we buy from directly. The Field Guide has a page for each farm.</p>",
+        "show_cta": true,
+        "cta_label": "Open the Field Guide →",
+        "cta_link": "",
+        "origin_number_prefix": "Origin",
+        "producer_label": "PRODUCER",
+        "elevation_label": "ELEVATION",
+        "process_label": "PROCESS",
+        "coffees_label_singular": "GROWN HERE",
+        "coffees_label_plural": "COFFEES",
+        "coming_soon_label": "Coming soon",
+        "visit_label": "Visit",
+        "read_label": "Read the story",
+        "background_color": "#FFE4E7",
+        "accent_color": "#FF3F00",
+        "text_color": "#00180C",
+        "hover_background": "#FFE4E7",
+        "padding_top": 56,
+        "padding_bottom": 72
+      }
     }
   },
   "order": [
     "main",
-    "oma_page_header_fa7q6t"
+    "oma_page_header_fa7q6t",
+    "oma_origin_cards_VrYRqR"
   ]
 }
