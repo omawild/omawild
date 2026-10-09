@@ -93,27 +93,35 @@
         this.onChange = this.onChange.bind(this);
         this.addEventListener('change', this.onChange);
 
-        this.start();
+        // Roast/Type/Size/Frequency selection doesn't depend on
+        // window.owMoney at all, so it runs immediately -- the shopper gets
+        // a fully selectable, working builder even if pricing is delayed or
+        // never shows up. See render()'s money() for the owMoney side.
+        var firstRoast = this.querySelector('[data-owv2-roast]:checked') || this.querySelector('[data-owv2-roast]');
+        if (firstRoast) this.selectRoast(firstRoast.value);
+
+        this.watchForMoney();
       }
 
       // window.owMoney (assets/ow-money.js) is a separate deferred script,
-      // earlier in the document, so it's normally ready by now -- but unlike
-      // every other price display here, this is a native custom element:
-      // connectedCallback can fire at points (e.g. the theme editor's
-      // section-reload AJAX swap) that don't line up with a normal page
-      // load's script order. render() calls money() right after setting the
-      // description, so if owMoney isn't a function yet, render() throws
-      // there and everything after it in the function -- prices, the saving
-      // pill, enabling the CTA -- silently never runs. Wait rather than
-      // assume, same as the wait-for-global pattern used elsewhere (e.g.
-      // origins-data.js).
-      start() {
-        if (typeof window.owMoney !== 'function') {
-          this.__retry = setTimeout(this.start.bind(this), 40);
+      // earlier in the document, so it's normally ready by the time
+      // connectedCallback runs -- but unlike every other price display here,
+      // this is a native custom element: connectedCallback can fire at
+      // points (e.g. the theme editor's section-reload AJAX swap) that
+      // don't line up with a normal page load's script order. render()
+      // already tolerates money() being unavailable (prices render blank
+      // rather than throwing), but if owMoney simply hasn't arrived *yet*,
+      // this re-renders once it does, so prices backfill instead of staying
+      // blank forever. Gives up after ~4s (owMoney truly isn't coming) and
+      // leaves prices blank rather than retrying forever.
+      watchForMoney(attempt) {
+        attempt = attempt || 0;
+        if (typeof window.owMoney === 'function') {
+          this.render();
           return;
         }
-        var firstRoast = this.querySelector('[data-owv2-roast]:checked') || this.querySelector('[data-owv2-roast]');
-        if (firstRoast) this.selectRoast(firstRoast.value);
+        if (attempt >= 100) return;
+        this.__retry = setTimeout(this.watchForMoney.bind(this, attempt + 1), 40);
       }
 
       disconnectedCallback() {
@@ -229,7 +237,12 @@
         var plan = plans.filter(function (p) { return String(p.id) === String(this.state.planId); }, this)[0];
 
         // Shared with every other custom price display — see assets/ow-money.js.
-        var money = window.owMoney;
+        // Guarded: if owMoney isn't ready (or ever) this degrades to a blank
+        // price rather than throwing partway through render() and leaving
+        // the CTA stuck disabled — see watchForMoney() for the retry/backfill.
+        var money = function (cents) {
+          try { return window.owMoney(cents); } catch (e) { return ''; }
+        };
 
         var original = variant.price;
         var subPrice = (plan && variant.plans[plan.id] != null) ? variant.plans[plan.id] : original;

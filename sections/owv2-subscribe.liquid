@@ -169,6 +169,14 @@
 .owv2-subscribe-{{ owid }} fieldset.step--last {
   padding-bottom: 0;
   }
+.owv2-subscribe-{{ owid }} fieldset.step[hidden] {
+  /* fieldset.step's own display:grid above otherwise outranks the browser's
+     [hidden]{display:none} UA rule (both are a 2-class-equivalent selector,
+     and this one is declared later), so the Type step -- hidden by default
+     until JS confirms the current roast actually has a Type option --
+     stayed visibly rendered (with nothing in it) instead of hidden. */
+  display: none;
+  }
 .owv2-subscribe-{{ owid }} .step__num {
   grid-column: 1;
   grid-row: 1;
