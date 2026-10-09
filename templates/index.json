@@ -386,7 +386,7 @@
         "product_limit": 12,
         "roast_display": "pills",
         "step1_label": "Pick your roast",
-        "show_type_step": false,
+        "show_type_step": true,
         "step_type_label": "Choose your type",
         "step2_label": "Select your quantity",
         "step3_label": "Set your frequency",
