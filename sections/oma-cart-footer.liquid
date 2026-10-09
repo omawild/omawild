@@ -306,6 +306,27 @@
             assign discount_codes = discount_codes | uniq
           -%}
 
+          {%- comment -%}
+            Subscription savings total — same per-line math as
+            oma-cart-items.liquid's "Saved [amount]" (selling_plan_allocation's
+            own compare_at_price vs. price, per unit, summed over quantity),
+            aggregated here into one row rather than duplicating that
+            comparison logic. Deliberately separate from the discount_codes
+            rows above: a selling plan's price reduction is its own
+            compare_at_price/price pair, not a cart_level_discount_application
+            or line_level_discount_allocation, so this never double-counts
+            against a discount code applied on top.
+          {%- endcomment -%}
+          {%- liquid
+            assign subscription_savings = 0
+            for item in cart.items
+              if item.selling_plan_allocation != null and item.selling_plan_allocation.compare_at_price > item.selling_plan_allocation.price
+                assign item_savings = item.selling_plan_allocation.compare_at_price | minus: item.selling_plan_allocation.price | times: item.quantity
+                assign subscription_savings = subscription_savings | plus: item_savings
+              endif
+            endfor
+          -%}
+
           {%- if settings.show_add_discount_code -%}
             <div class="ocf-discount-{{ section.id }}">
               <label for="CartDiscountForm-{{ section.id }}">{{ 'general.cart.discount.title' | t | default: 'Discount code' }}</label>
@@ -374,6 +395,13 @@
                 {%- assign any_zero_amount_code = true -%}
               {%- endif -%}
             {%- endfor -%}
+
+            {%- if subscription_savings > 0 -%}
+              <div class="ocf-totals-row-{{ section.id }}">
+                <span>{{ section.settings.subscription_savings_label }}</span>
+                <span class="ocf-totals-discount-{{ section.id }}">&minus;{% render 'ow-money', amount: subscription_savings %}</span>
+              </div>
+            {%- endif -%}
 
             <div class="ocf-totals-row-{{ section.id }}">
               <span>{{ section.settings.shipping_label }}</span>
@@ -534,6 +562,7 @@
     { "type": "checkbox", "id": "show_payment_icons", "label": "Show accepted payment icons", "default": true },
     { "type": "checkbox", "id": "show_shipping_estimator", "label": "Show shipping estimator", "default": true },
     { "type": "header", "content": "Order summary text" },
+    { "type": "text", "id": "subscription_savings_label", "label": "Subscription savings row label", "default": "Subscription savings", "info": "Shown as its own row when the cart has at least one subscribed item saving money vs. one-time price. Separate from any discount code applied." },
     { "type": "text", "id": "shipping_label", "label": "Shipping row label", "default": "Shipping" },
     { "type": "text", "id": "shipping_value", "label": "Shipping row value", "default": "Calculated at checkout" },
     { "type": "text", "id": "checkout_note", "label": "Checkout note", "default": "Taxes, discounts and shipping calculated at checkout.", "info": "Shown under the subtotal. Leave blank to hide." },
