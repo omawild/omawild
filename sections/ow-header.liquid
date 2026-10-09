@@ -260,7 +260,12 @@
 </div>
 
 <script src="{{ 'ow-chrome.js' | asset_url }}" defer></script>
-{%- comment -%} Shared price formatter for every custom section's JS; see assets/ow-money.js. {%- endcomment -%}
+{%- comment -%}
+  Shared price formatter (window.owMoney) for every custom section's JS —
+  see assets/ow-money.js. Drives, among others, the Subscription Spot's
+  price display (sections/owv2-subscribe.liquid) — without this tag loaded,
+  window.owMoney never exists and every price on that section renders blank.
+{%- endcomment -%}
 <script src="{{ 'ow-money.js' | asset_url }}" defer></script>
 <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
 
