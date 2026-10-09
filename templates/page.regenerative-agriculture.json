@@ -64,10 +64,11 @@
         "image": "shopify://shop_images/jatiluwih-rice-fields.png",
         "caption": "How nature works 101 — for the distracted modern human.",
         "location": "Bali, Indonesia",
-        "background_color": "#F7F5F1",
-        "accent_color": "#FF3F00",
-        "text_color": "#00180C",
-        "hover_background": "#FFE4E7"
+        "background_color": "#f7f5f1",
+        "accent_color": "#ff3f00",
+        "text_color": "#00180c",
+        "link_color": "#ff3f00",
+        "hover_background": "#ffe4e7"
       }
     },
     "oma_regen_principle_nVVMU4": {
@@ -104,11 +105,12 @@
         "intro": "<p>Regenerative agriculture. Permaculture. Agroecology. Syntropic Agroforestry. The names are many. Every system carries its own subtle nuance. But beneath every label is the same fundamental principle:</p>",
         "quote": "<p>Nature has its own intelligence and the role of the farmer is to learn and work with it.</p>",
         "body": "<p>Solutions designed for the volcanic fields of Bali look nothing like those designed for the deserts of the Sahel or the colder climates of <a href=\"https://www.novia.fi/en/lill-nagels/field-information/lillnap-site-design\" target=\"_blank\" title=\"https://www.novia.fi/en/lill-nagels/field-information/lillnap-site-design\">Finnish fields</a>. There is no universal blueprint. Practices follow the local climate and ecology, and is precisely why these “systems” resist industrial scale. They are living ecosystems that cannot be replicated, as each one has their own unique relationships that need nurturing.</p>",
-        "background_color": "#F7F5F1",
-        "accent_color": "#FF3F00",
-        "text_color": "#00180C",
-        "quote_text_color": "#FFFFFF",
-        "hover_background": "#FFE4E7"
+        "background_color": "#f7f5f1",
+        "accent_color": "#ff3f00",
+        "text_color": "#00180c",
+        "quote_text_color": "#ffffff",
+        "link_color": "#ff3f00",
+        "hover_background": "#ffe4e7"
       }
     },
     "oma_regen_consequences_K88DKw": {
@@ -159,9 +161,10 @@
         "heading": "Unintended consequences",
         "body_left": "<p>For most of human history, farming was an act of observation. You observe the seasons and its rhythms. You work within the system based on knowledge accumulated over many generations. Your practices are localised and deeply unique to each origin.</p><p>After World War II, things changed. Widespread expansion of <a href=\"https://earth.org/data_visualization/food-production-recent-history-and-where-we-are-heading/\" target=\"_blank\" title=\"https://earth.org/data_visualization/food-production-recent-history-and-where-we-are-heading/\">The Green Revolution</a> introduced monoculture farming, heavy mechanisation, synthetic fertilisers, and chemical pest control. The goal was to combat world hunger in a booming population by maximising yield output. In many ways, the movement was a success. It's estimated to have saved one billion lives, with much of the credit due to agronomist and Nobel Prize winner Norman Borlaug.</p>",
         "body_right": "<p>Wheat became cheap and abundant. But productivity came at a price. Farming had shifted from interdependence to reliance on external inputs, which deepened in the 1990s. The rise of high-yield, genetically modified crops were engineered to work with chemical fertilisers and pesticides sold by the same corporations that supplied them. Industrial farming stripped the land of crop diversity with monocrop cultures drenching in chemicals year after year, depleting the microbial diversity of the soil beneath — a living web of fungi, bacteria and root systems that cycle water and nutrients naturally.</p><p>Today, a third of our world's topsoil is degraded.</p>",
-        "background_color": "#FCD0FD",
-        "accent_color": "#FF3F00",
-        "text_color": "#00180C"
+        "background_color": "#fcd0fd",
+        "accent_color": "#ff3f00",
+        "text_color": "#00180c",
+        "link_color": "#ff3f00"
       }
     },
     "oma_regen_practices_hEJGgF": {
@@ -235,11 +238,12 @@
         "toc_label": "SEVEN PRACTICES",
         "expand_label": "Expand all",
         "collapse_label": "Collapse all",
-        "background_color": "#F7F5F1",
-        "accent_color": "#FF3F00",
-        "text_color": "#00180C",
-        "toc_rule_color": "#FFE4E7",
-        "hover_background": "#FFE4E7"
+        "background_color": "#f7f5f1",
+        "accent_color": "#ff3f00",
+        "text_color": "#00180c",
+        "link_color": "#ff3f00",
+        "toc_rule_color": "#ffe4e7",
+        "hover_background": "#ffe4e7"
       }
     },
     "oma_regen_economics_mjaiw3": {
@@ -277,18 +281,30 @@
         "statement_line": "Conventional farming has a debt problem that is far worse than financial debt.",
         "body_left": "<p>Degraded soil needs more external inputs to stay productive. More inputs cost more money. Higher costs squeeze farmers' margins. Farmers push the land harder to recover lost margins. Intensive farming further degrades the soil. It's a spiral that deepens every season.</p><p>The assumption that regenerative farming is a financial sacrifice misses the longer arc entirely. Healthy soil needs fewer inputs. Fewer inputs mean lower costs. Lower costs improve margins, even before crop yields increase. The economics of regenerative farming compound.</p>",
         "body_right": "<p>Even the choice of what gets planted reflects this logic. Take cover crops as an example: oats and barley rebuild soil fertility while generating income at the same time. In a well-designed regenerative system, the line between cover crop and cash crop begins to blur.</p><p>While this doesn't happen overnight, farms committed to regenerative agriculture consistently outperform their conventional neighbours in resilience, soil health, and long-term productivity. The transition takes years, sometimes decades — but it ends the financial and ecological debt spiral for good.</p>",
+        "background_color": "#ffe4e7",
+        "accent_color": "#ff3f00",
+        "text_color": "#00180c",
+        "link_color": "#ff3f00",
+        "loop_rule_color": "#ffe4e7"
+      }
+    },
+    "oma_cta_banner_TF6b9W": {
+      "type": "oma-cta-banner",
+      "name": "OMA CTA banner",
+      "settings": {
+        "eyebrow": "FUEL FOR ADVENTURES THAT IGNITE THE SOUL",
+        "heading": "What begins with coffee is part of a larger vision at Omawild: to build an outdoor pantry that fuels our adventures while helping protect our home planet for generations to come.",
+        "support_text": "",
+        "cta_primary_label": "Shop the coffee →",
+        "cta_primary_link": "",
+        "cta_secondary_label": "Meet our origins",
+        "cta_secondary_link": "",
         "background_color": "#FFE4E7",
-        "accent_color": "#FF3F00",
-        "text_color": "#00180C",
-        "loop_rule_color": "#FFE4E7",
-        "statement_heading": "<p>The regenerative investment compounds for generations.</p>",
-        "statement_support": "Our coffee is grown using regenerative practices inside agroforestry systems, so each harvest improves soil health while our forest stays standing.",
-        "cta_1_label": "Shop the coffee →",
-        "cta_1_link": "",
-        "cta_2_label": "Meet our origins",
-        "cta_2_link": "",
-        "statement_background": "#FF3F00",
-        "statement_text_color": "#FFFFFF"
+        "text_color": "#FF3F00",
+        "button_label_color": "#FFFFFF",
+        "link_color": "#FF3F00",
+        "padding_top": 72,
+        "padding_bottom": 72
       }
     }
   },
@@ -298,6 +314,7 @@
     "oma_regen_principle_nVVMU4",
     "oma_regen_consequences_K88DKw",
     "oma_regen_practices_hEJGgF",
-    "oma_regen_economics_mjaiw3"
+    "oma_regen_economics_mjaiw3",
+    "oma_cta_banner_TF6b9W"
   ]
 }
