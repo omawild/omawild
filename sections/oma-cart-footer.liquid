@@ -345,7 +345,7 @@
           <div class="ocf-totals-{{ section.id }}">
             <div class="ocf-totals-row-{{ section.id }}">
               <span>{{ cart.item_count }} {% if cart.item_count == 1 %}item{% else %}items{% endif %}</span>
-              <span>{{ cart.original_total_price | money }}</span>
+              <span>{% render 'ow-money', amount: cart.original_total_price %}</span>
             </div>
 
             {%- assign any_zero_amount_code = false -%}
@@ -368,7 +368,7 @@
               {%- if row_amount > 0 -%}
                 <div class="ocf-totals-row-{{ section.id }}">
                   <span>{{ 'general.cart.discount.line_item_html' | t: code: title }}</span>
-                  <span class="ocf-totals-discount-{{ section.id }}">&minus;{{ row_amount | money }}</span>
+                  <span class="ocf-totals-discount-{{ section.id }}">&minus;{% render 'ow-money', amount: row_amount %}</span>
                 </div>
               {%- else -%}
                 {%- assign any_zero_amount_code = true -%}
@@ -376,28 +376,31 @@
             {%- endfor -%}
 
             <div class="ocf-totals-row-{{ section.id }}">
-              <span>Shipping</span>
-              <span>Calculated at checkout</span>
+              <span>{{ section.settings.shipping_label }}</span>
+              <span>{{ section.settings.shipping_value }}</span>
             </div>
             <div class="ocf-totals-final-{{ section.id }}">
               <span>{{ 'sections.cart.subtotal' | t | default: 'Subtotal' }}</span>
               <span class="ocf-totals-final-value-{{ section.id }}">
                 {%- if discount_codes.size > 0 and cart.original_total_price != cart.total_price -%}
-                  <s class="ocf-totals-was-{{ section.id }}">{{ cart.original_total_price | money }}</s>
+                  <s class="ocf-totals-was-{{ section.id }}">{% render 'ow-money', amount: cart.original_total_price %}</s>
                 {%- endif -%}
-                <span>{{ cart.total_price | money }}</span>
+                <span>{% render 'ow-money', amount: cart.total_price %}</span>
               </span>
             </div>
-            {%- if any_zero_amount_code -%}
-              <p class="ocf-tax-note-{{ section.id }}">Some discounts are calculated at checkout.</p>
+            {%- if any_zero_amount_code and section.settings.deferred_discount_note != blank -%}
+              <p class="ocf-tax-note-{{ section.id }}">{{ section.settings.deferred_discount_note }}</p>
             {%- endif -%}
-            <p class="ocf-tax-note-{{ section.id }}">
-              {%- if discount_codes.size > 0 -%}
-                Taxes and shipping calculated at checkout.
-              {%- else -%}
-                Taxes, discounts and shipping calculated at checkout.
-              {%- endif -%}
-            </p>
+            {%- liquid
+              if discount_codes.size > 0
+                assign checkout_note = section.settings.checkout_note_with_code
+              else
+                assign checkout_note = section.settings.checkout_note
+              endif
+            -%}
+            {%- if checkout_note != blank -%}
+              <p class="ocf-tax-note-{{ section.id }}">{{ checkout_note }}</p>
+            {%- endif -%}
           </div>
 
           <button type="submit" name="checkout" form="cart" class="ocf-checkout-{{ section.id }}">
@@ -529,7 +532,13 @@
   "settings": [
     { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout buttons", "default": true },
     { "type": "checkbox", "id": "show_payment_icons", "label": "Show accepted payment icons", "default": true },
-    { "type": "checkbox", "id": "show_shipping_estimator", "label": "Show shipping estimator", "default": true }
+    { "type": "checkbox", "id": "show_shipping_estimator", "label": "Show shipping estimator", "default": true },
+    { "type": "header", "content": "Order summary text" },
+    { "type": "text", "id": "shipping_label", "label": "Shipping row label", "default": "Shipping" },
+    { "type": "text", "id": "shipping_value", "label": "Shipping row value", "default": "Calculated at checkout" },
+    { "type": "text", "id": "checkout_note", "label": "Checkout note", "default": "Taxes, discounts and shipping calculated at checkout.", "info": "Shown under the subtotal. Leave blank to hide." },
+    { "type": "text", "id": "checkout_note_with_code", "label": "Checkout note — code applied", "default": "Taxes and shipping calculated at checkout.", "info": "Replaces the note above once a discount code is applied." },
+    { "type": "text", "id": "deferred_discount_note", "label": "Deferred discount note", "default": "Some discounts are calculated at checkout.", "info": "Shown when an applied code has no amount in the cart yet, e.g. a free-shipping code." }
   ],
   "presets": [{ "name": "OMA Cart Footer" }]
 }

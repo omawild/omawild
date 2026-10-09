@@ -385,8 +385,22 @@ function buildMobileMenu() {
       btn.type = 'button';
       btn.className = 'menu-nav-item menu-nav-item--discover';
       btn.setAttribute('aria-expanded', 'false');
-      btn.innerHTML = label +
-        ' <span class="menu-discover-arrow"><img src="https://www.figma.com/api/mcp/asset/efb98fbc-5c69-4a0c-bdfd-233a714781d5.svg" alt=""></span>';
+      // Built with text nodes, not innerHTML, so a menu title is never parsed
+      // as markup. The arrow reuses the desktop toggle's own chevron image
+      // (ow-chevron-link.svg via asset_url in ow-header.liquid) — a JS asset
+      // can't call asset_url, and the previous hardcoded Figma handoff URL
+      // had expired, leaving a broken image here.
+      btn.appendChild(document.createTextNode(label + ' '));
+      const arrow = document.createElement('span');
+      arrow.className = 'menu-discover-arrow';
+      const chevron = li.querySelector('.navbar-link-chevron');
+      if (chevron) {
+        const img = document.createElement('img');
+        img.src = chevron.getAttribute('src');
+        img.alt = '';
+        arrow.appendChild(img);
+      }
+      btn.appendChild(arrow);
 
       const sublist = document.createElement('div');
       sublist.className = 'menu-discover-sublist';

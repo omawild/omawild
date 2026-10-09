@@ -21,37 +21,6 @@
 (function () {
   'use strict';
 
-  function formatMoney(cents, format) {
-    if (typeof cents === 'string') cents = cents.replace('.', '');
-    var value = '';
-    var placeholder = /\{\{\s*(\w+)\s*\}\}/;
-    format = format || '${{amount}}';
-
-    function delimit(number, precision, thousands, decimal) {
-      precision = precision == null ? 2 : precision;
-      thousands = thousands || ',';
-      decimal = decimal || '.';
-      if (isNaN(number) || number == null) return '0';
-      number = (number / 100.0).toFixed(precision);
-      var parts = number.split('.');
-      var dollars = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + thousands);
-      var centsPart = parts[1] ? decimal + parts[1] : '';
-      return dollars + centsPart;
-    }
-
-    var match = format.match(placeholder);
-    switch (match ? match[1] : 'amount') {
-      case 'amount': value = delimit(cents, 2); break;
-      case 'amount_no_decimals': value = delimit(cents, 0); break;
-      case 'amount_with_comma_separator': value = delimit(cents, 2, '.', ','); break;
-      case 'amount_no_decimals_with_comma_separator': value = delimit(cents, 0, '.', ','); break;
-      case 'amount_with_apostrophe_separator': value = delimit(cents, 2, "'", '.'); break;
-      case 'amount_with_space_separator': value = delimit(cents, 2, ' ', ','); break;
-      default: value = delimit(cents, 2);
-    }
-    return format.replace(placeholder, value);
-  }
-
   function escapeHtml(s) {
     return String(s).replace(/[&<>"']/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
@@ -120,14 +89,6 @@
           original: this.querySelector('[data-original]'),
           saving: this.querySelector('[data-saving]')
         };
-
-        try {
-          this.formatter = new Intl.NumberFormat(this.dataset.locale || 'en', {
-            style: 'currency', currency: this.dataset.currency || 'USD'
-          });
-        } catch (e) {
-          this.formatter = null;
-        }
 
         this.onChange = this.onChange.bind(this);
         this.addEventListener('change', this.onChange);
@@ -247,9 +208,8 @@
         var plans = product.sellingPlans || [];
         var plan = plans.filter(function (p) { return String(p.id) === String(this.state.planId); }, this)[0];
 
-        var money = function (cents) {
-          return this.formatter ? this.formatter.format(cents / 100) : formatMoney(cents, this.data.moneyFormat);
-        }.bind(this);
+        // Shared with every other custom price display — see assets/ow-money.js.
+        var money = window.owMoney;
 
         var original = variant.price;
         var subPrice = (plan && variant.plans[plan.id] != null) ? variant.plans[plan.id] : original;

@@ -32,14 +32,6 @@
   if (window.__variantPriceSyncInit) return;
   window.__variantPriceSyncInit = true;
 
-  function formatMoney(cents) {
-    var theme = window.theme;
-    if (theme && theme.Currency && typeof theme.Currency.formatMoney === 'function') {
-      return theme.Currency.formatMoney(cents, theme.shopSettings && theme.shopSettings.moneyFormat);
-    }
-    return '$' + (cents / 100).toFixed(2);
-  }
-
   function apply(select) {
     var option = select.options[select.selectedIndex];
     if (!option || option.dataset.price == null) return;
@@ -49,7 +41,8 @@
     var price = parseInt(option.dataset.price, 10) || 0;
 
     var priceEl = card.querySelector('[data-price-display]');
-    if (priceEl) priceEl.textContent = formatMoney(price);
+    // Same format as the Liquid that rendered the card (snippets/ow-money.liquid).
+    if (priceEl) priceEl.textContent = window.owMoney(price);
 
     var prefixEl = card.querySelector('[data-price-prefix]');
     if (prefixEl) prefixEl.hidden = true;

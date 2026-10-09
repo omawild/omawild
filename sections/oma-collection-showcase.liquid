@@ -358,9 +358,9 @@
 
                   <div class="price-row-{{ section.id }}">
                     {%- if product.price_varies -%}
-                      <span class="price-{{ section.id }}" data-price-display>From {{ product.price_min | money_with_currency }}</span>
+                      <span class="price-{{ section.id }}" data-price-display>From {% render 'ow-money', amount: product.price_min %}</span>
                     {%- else -%}
-                      <span class="price-{{ section.id }}" data-price-display>{{ product.price | money_with_currency }}</span>
+                      <span class="price-{{ section.id }}" data-price-display>{% render 'ow-money', amount: product.price %}</span>
                     {%- endif -%}
                     {%- liquid
                       assign has_discount = false

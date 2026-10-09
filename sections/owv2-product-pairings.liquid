@@ -47,7 +47,7 @@
               <span class="odp-card__name">{{ p.title }}</span>
               <span class="odp-card__price">
                 {%- if p.price_varies -%}{{ section.settings.from_label }} {% endif -%}
-                {{- p.price_min | money -}}
+                {%- render 'ow-money', amount: p.price_min -%}
               </span>
             </span>
             {%- assign note = p.metafields.custom.card_note.value | default: p.type -%}

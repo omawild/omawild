@@ -109,7 +109,7 @@
           Format the money value first: `t: price: prod.price | money` would
           apply money to the translated string rather than to the price.
         {%- endcomment -%}
-        {%- assign price_str = prod.price | money -%}
+        {%- capture price_str -%}{% render 'ow-money', amount: prod.price %}{%- endcapture -%}
         <p class="product-price" data-price-display>
           {%- if prod.price_varies -%}
             {{ 'products.product.price.from_price_html' | t: price: price_str }}

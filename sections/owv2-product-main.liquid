@@ -175,7 +175,7 @@
                 data-src="{{ media.preview_image | image_url: width: 1400 }}"
                 data-srcset="{{ media.preview_image | image_url: width: 600 }} 600w, {{ media.preview_image | image_url: width: 1000 }} 1000w, {{ media.preview_image | image_url: width: 1400 }} 1400w"
                 data-alt="{{ media.alt | escape }}"
-                aria-label="{{ 'Show image' }} {{ forloop.index }}"
+                aria-label="{{ 'products.product.media.load_image' | t: index: forloop.index | escape }}"
                 {% if media.id == featured.id %}aria-current="true"{% endif %}
               >
                 {{ media.preview_image | image_url: width: 300 | image_tag: loading: 'lazy', alt: media.alt, sizes: '(min-width: 750px) 15vw, 25vw', widths: '150, 300' }}
@@ -253,11 +253,10 @@
 
         {%- unless product.requires_selling_plan -%}
           <div class="odp-nudge" data-odp-nudge {% if mode == 'sub' %}hidden{% endif %}>
-            {%- liquid
-              assign saving_money = current.price | minus: sub_price | money
-              assign nudge_price = sub_price | money | prepend: '<strong>' | append: '</strong>'
-              assign nudge_text = section.settings.nudge_copy | escape | replace: '[price]', nudge_price | replace: '[saving]', saving_money
-            -%}
+            {%- assign saving_cents = current.price | minus: sub_price -%}
+            {%- capture saving_money -%}{% render 'ow-money', amount: saving_cents %}{%- endcapture -%}
+            {%- capture nudge_price -%}<strong>{% render 'ow-money', amount: sub_price %}</strong>{%- endcapture -%}
+            {%- assign nudge_text = section.settings.nudge_copy | escape | replace: '[price]', nudge_price | replace: '[saving]', saving_money -%}
             <span data-odp-nudge-text>{{ nudge_text }}</span>
             <button type="button" class="odp-btn odp-btn--sm" data-odp-mode="sub">{{ section.settings.nudge_button }}</button>
           </div>
@@ -287,7 +286,7 @@
           <label class="odp-label" for="odp-nojs-{{ section.id }}">{{ product.title }}</label>
           <select id="odp-nojs-{{ section.id }}" name="id">
             {%- for v in product.variants -%}
-              <option value="{{ v.id }}" {% if v.id == current.id %}selected{% endif %} {% unless v.available %}disabled{% endunless %}>{{ v.title }} — {{ v.price | money }}</option>
+              <option value="{{ v.id }}" {% if v.id == current.id %}selected{% endif %} {% unless v.available %}disabled{% endunless %}>{{ v.title }} — {% render 'ow-money', amount: v.price %}</option>
             {%- endfor -%}
           </select>
         </noscript>
@@ -300,8 +299,8 @@
           </div>
           <div class="odp-price">
             <div class="odp-price__row">
-              <span class="odp-price__now" data-odp-price>{{ shown_price | money }}</span>
-              <span class="odp-price__was" data-odp-was>{% if shown_was > shown_price %}{{ shown_was | money }}{% endif %}</span>
+              <span class="odp-price__now" data-odp-price>{% render 'ow-money', amount: shown_price %}</span>
+              <span class="odp-price__was" data-odp-was>{% if shown_was > shown_price %}{% render 'ow-money', amount: shown_was %}{% endif %}</span>
             </div>
             <div class="odp-price__line" data-odp-line>
               {{- line_parts -}}
@@ -375,7 +374,7 @@
       <span class="odp-bar__badge" data-odp-badge></span>
       <div class="odp-bar__end">
         <div class="odp-bar__prices">
-          <span class="odp-bar__price" data-odp-price>{{ shown_price | money }}</span>
+          <span class="odp-bar__price" data-odp-price>{% render 'ow-money', amount: shown_price %}</span>
           <span class="odp-price__was" data-odp-was></span>
         </div>
         <button type="submit" form="{{ form_id }}" name="add" class="odp-btn" data-odp-cta tabindex="-1">{{ cta }}</button>
@@ -385,7 +384,6 @@
 
   <script type="application/json" data-odp-json>
     {
-      "moneyFormat": {{ shop.money_format | json }},
       "mode": {{ mode | json }},
       "planId": {% if has_plans %}{{ first_plan.id | json }}{% else %}null{% endif %},
       "planName": {% if has_plans %}{{ first_plan.name | json }}{% else %}null{% endif %},
@@ -420,6 +418,16 @@
       ]
     }
   </script>
+
+  {%- comment -%}
+    Product JSON-LD (name, price, availability per variant) for search rich
+    results. The vendor emits this from sections/main-product.liquid, which is
+    disabled on the coffee template this section replaces it on — so without
+    this line the coffee PDPs carried no Product structured data at all.
+    Shopify's own structured_data filter, not a hand-built schema. If
+    main-product is ever re-enabled on the same template, drop one of the two.
+  {%- endcomment -%}
+  {{ product | structured_data }}
 
   {%- comment -%}
     Shopify Subscriptions app embed (config/settings_data.json — theme-editor

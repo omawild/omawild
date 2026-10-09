@@ -260,6 +260,8 @@
 </div>
 
 <script src="{{ 'ow-chrome.js' | asset_url }}" defer></script>
+{%- comment -%} Shared price formatter for every custom section's JS; see assets/ow-money.js. {%- endcomment -%}
+<script src="{{ 'ow-money.js' | asset_url }}" defer></script>
 <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
 
 {% schema %}

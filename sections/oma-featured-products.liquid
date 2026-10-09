@@ -687,7 +687,7 @@
                         <span class="price-prefix-{{ section.id }}" data-price-prefix>From</span>
                       {%- endif -%}
                       <span class="price-{{ section.id }}" data-price-display>
-                        {{ product.price_min | money_with_currency }}
+                        {% render 'ow-money', amount: product.price_min %}
                       </span>
                       {%- liquid
                         assign has_discount = false

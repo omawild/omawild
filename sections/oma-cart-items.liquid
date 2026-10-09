@@ -474,7 +474,7 @@
       <div class="oci-empty-{{ section.id }}">
         <div class="oci-empty-inner-{{ section.id }}">
           <h2 class="oci-empty-title-{{ section.id }}">{{ 'sections.cart.empty' | t | default: 'Your cart is empty.' }}</h2>
-          <p class="oci-empty-body-{{ section.id }}">Every bag ships with its roast date printed on it.</p>
+          {%- if section.settings.empty_body != blank -%}<p class="oci-empty-body-{{ section.id }}">{{ section.settings.empty_body }}</p>{%- endif -%}
           <a href="{{ routes.all_products_collection_url }}" class="oci-empty-cta-{{ section.id }}">{{ 'general.continue_shopping' | t }}</a>
         </div>
       </div>
@@ -506,7 +506,10 @@
                 if item.selling_plan_allocation != null and item.selling_plan_allocation.compare_at_price > item.selling_plan_allocation.price
                   assign display_original_line_price = item.selling_plan_allocation.compare_at_price | times: item.quantity
                 endif
+                assign saved_amount = display_original_line_price | minus: item.final_line_price
               -%}
+              {%- capture unit_price -%}{% render 'ow-money', amount: item.final_price %}{%- endcapture -%}
+              {%- capture saved_price -%}{% render 'ow-money', amount: saved_amount %}{%- endcapture -%}
               <article class="oci-item-{{ section.id }}" id="CartItem-{{ index }}">
                 <div class="oci-loading-{{ section.id }} hidden">
                   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="#FF3F00" stroke-width="2" stroke-dasharray="42" stroke-dashoffset="14" stroke-linecap="round"/></svg>
@@ -532,13 +535,13 @@
                     <div class="oci-item__optline-{{ section.id }}">{{ item.options_with_values | map: 'value' | join: ' · ' }}</div>
                   {%- endif -%}
                   <div class="oci-item__price-row-{{ section.id }}">
-                    <span class="oci-item__price-{{ section.id }}">{{ item.final_line_price | money }}</span>
+                    <span class="oci-item__price-{{ section.id }}">{% render 'ow-money', amount: item.final_line_price %}</span>
                     {%- if item.quantity > 1 -%}
-                      <span class="oci-item__unit-{{ section.id }}">{{ item.final_price | money }} each</span>
+                      <span class="oci-item__unit-{{ section.id }}">{{ section.settings.unit_price_label | replace: '[price]', unit_price }}</span>
                     {%- endif -%}
                   </div>
                   {%- if display_original_line_price != item.final_line_price -%}
-                    <span class="oci-item__saved-{{ section.id }}">Saved {{ display_original_line_price | minus: item.final_line_price | money }}</span>
+                    <span class="oci-item__saved-{{ section.id }}">{{ section.settings.saved_label | replace: '[amount]', saved_price }}</span>
                   {%- endif -%}
                 </div>
 
@@ -570,14 +573,14 @@
 
                 <div class="oci-qtyrow-{{ section.id }}">
                   <div class="oci-qtyrow__price-{{ section.id }}">
-                    <span class="oci-item__price-{{ section.id }}">{{ item.final_line_price | money }}</span>
+                    <span class="oci-item__price-{{ section.id }}">{% render 'ow-money', amount: item.final_line_price %}</span>
                     {%- if display_original_line_price != item.final_line_price -%}
-                      <span class="oci-item__was-{{ section.id }}">{{ display_original_line_price | money }}</span>
+                      <span class="oci-item__was-{{ section.id }}">{% render 'ow-money', amount: display_original_line_price %}</span>
                     {%- elsif item.quantity > 1 -%}
-                      <span class="oci-item__unit-{{ section.id }}">{{ item.final_price | money }} each</span>
+                      <span class="oci-item__unit-{{ section.id }}">{{ section.settings.unit_price_label | replace: '[price]', unit_price }}</span>
                     {%- endif -%}
                     {%- if display_original_line_price != item.final_line_price -%}
-                      <span class="oci-item__saved-{{ section.id }}">Saved {{ display_original_line_price | minus: item.final_line_price | money }}</span>
+                      <span class="oci-item__saved-{{ section.id }}">{{ section.settings.saved_label | replace: '[amount]', saved_price }}</span>
                     {%- endif -%}
                   </div>
 
@@ -624,7 +627,9 @@
                   value="yes"
                   {% if cart.attributes.gift-wrapping %}checked="checked"{% endif %}
                 >
-                {{ 'sections.cart.gift_wrapping_html' | t: price: gift_wrapping.object.price | money }}
+                {%- comment -%} Price formatted first: `t: price: x | money` would apply money to the translated string, not the price. {%- endcomment -%}
+                {%- capture gift_wrap_price -%}{% render 'ow-money', amount: gift_wrapping.object.price %}{%- endcapture -%}
+                {{ 'sections.cart.gift_wrapping_html' | t: price: gift_wrap_price }}
               </label>
               {%- if cart.attributes.gift-wrapping -%}
                 <textarea name="attributes[gift-note]" id="gift-note" placeholder="{{ 'sections.cart.gift_note_placeholder' | t }}" rows="2">{{ cart.attributes.gift-note }}</textarea>
@@ -739,7 +744,11 @@
   "name": "OMA Cart Items",
   "tag": "section",
   "class": "section",
-  "settings": [],
+  "settings": [
+    { "type": "text", "id": "empty_body", "label": "Empty cart text", "default": "Every bag ships with its roast date printed on it.", "info": "Shown under the empty-cart heading. Leave blank to hide." },
+    { "type": "text", "id": "unit_price_label", "label": "Unit price", "default": "[price] each", "info": "Shown when a line has more than one bag. [price] is filled in." },
+    { "type": "text", "id": "saved_label", "label": "Saving", "default": "Saved [amount]", "info": "Shown on discounted and subscription lines. [amount] is filled in." }
+  ],
   "presets": [{ "name": "OMA Cart Items" }]
 }
 {% endschema %}

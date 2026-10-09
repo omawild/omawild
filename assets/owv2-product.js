@@ -5,37 +5,6 @@
 (function () {
   'use strict';
 
-  function formatMoney(cents, format) {
-    if (typeof cents === 'string') cents = cents.replace('.', '');
-    var value = '';
-    var placeholder = /\{\{\s*(\w+)\s*\}\}/;
-    format = format || '${{amount}}';
-
-    function delimit(number, precision, thousands, decimal) {
-      precision = precision == null ? 2 : precision;
-      thousands = thousands || ',';
-      decimal = decimal || '.';
-      if (isNaN(number) || number == null) return '0';
-      number = (number / 100.0).toFixed(precision);
-      var parts = number.split('.');
-      var dollars = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + thousands);
-      var centsPart = parts[1] ? decimal + parts[1] : '';
-      return dollars + centsPart;
-    }
-
-    var match = format.match(placeholder);
-    switch (match ? match[1] : 'amount') {
-      case 'amount': value = delimit(cents, 2); break;
-      case 'amount_no_decimals': value = delimit(cents, 0); break;
-      case 'amount_with_comma_separator': value = delimit(cents, 2, '.', ','); break;
-      case 'amount_no_decimals_with_comma_separator': value = delimit(cents, 0, '.', ','); break;
-      case 'amount_with_apostrophe_separator': value = delimit(cents, 2, "'", '.'); break;
-      case 'amount_with_space_separator': value = delimit(cents, 2, ' ', ','); break;
-      default: value = delimit(cents, 2);
-    }
-    return format.replace(placeholder, value);
-  }
-
   function init(root) {
     if (root.__odp) return;
     root.__odp = true;
@@ -94,7 +63,8 @@
       return Math.round(((v.price - subPrice(v)) / v.price) * 100);
     }
 
-    function money(c) { return formatMoney(c, data.moneyFormat); }
+    // Shared with every other custom price display — see assets/ow-money.js.
+    function money(c) { return window.owMoney(c); }
 
     function each(sel, fn) {
       Array.prototype.forEach.call(root.querySelectorAll(sel), fn);

@@ -1,0 +1,19 @@
+{%- comment -%}
+  ow-money — prints one price the way the rest of Be Yours does: with the
+  currency code ("$24.00 AUD") when Theme settings > Currency format > "Show
+  currency codes" (settings.currency_code_enabled) is on, without it ("$24.00")
+  when off. Same rule as the vendor's snippets/price.liquid.
+
+  Every custom section prints prices through this, so the merchant's one
+  setting decides the format site-wide. assets/ow-money.js is the JS twin
+  that re-renders prices after a variant/plan change — keep the two in step.
+
+  Accepts:
+  - amount: {Number} price in cents
+
+  Usage:
+  {% render 'ow-money', amount: product.price %}
+  To use the result inside other text, capture it first:
+  {%- capture price_str -%}{% render 'ow-money', amount: product.price %}{%- endcapture -%}
+{%- endcomment -%}
+{%- if settings.currency_code_enabled -%}{{ amount | money_with_currency }}{%- else -%}{{ amount | money }}{%- endif -%}

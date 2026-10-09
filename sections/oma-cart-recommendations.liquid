@@ -186,9 +186,9 @@
               <p class="ocr-card__blurb-{{ section.id }}">{{ product.description | strip_html | truncatewords: 18 }}</p>
               <div class="ocr-card__price-row-{{ section.id }}">
                 {%- if product.price_varies -%}
-                  <span class="ocr-card__price-{{ section.id }}">From {{ product.price_min | money }}</span>
+                  <span class="ocr-card__price-{{ section.id }}">From {% render 'ow-money', amount: product.price_min %}</span>
                 {%- else -%}
-                  <span class="ocr-card__price-{{ section.id }}">{{ product.price | money }}</span>
+                  <span class="ocr-card__price-{{ section.id }}">{% render 'ow-money', amount: product.price %}</span>
                 {%- endif -%}
               </div>
 

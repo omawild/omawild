@@ -477,8 +477,6 @@
 {%- if has_roasts -%}
 <owv2-subscribe
   data-owv2-id="{{ section.id }}"
-  data-currency="{{ cart.currency.iso_code | default: shop.currency | escape }}"
-  data-locale="{{ request.locale.iso_code | escape }}"
   data-savings="{{ section.settings.savings_template | escape }}"
   data-cta="{{ section.settings.cta_label | escape }}"
   data-sold-out="{{ section.settings.cta_sold_out_label | escape }}"
@@ -570,7 +568,6 @@
 
 <script type="application/json" data-owv2-subscribe-json>
 {
-  "moneyFormat": {{ shop.money_format | json }},
   "products": [
     {%- assign json_index = 0 -%}
     {%- for roast in section.settings.collection.products -%}
