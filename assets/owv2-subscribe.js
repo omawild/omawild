@@ -93,12 +93,32 @@
         this.onChange = this.onChange.bind(this);
         this.addEventListener('change', this.onChange);
 
+        this.start();
+      }
+
+      // window.owMoney (assets/ow-money.js) is a separate deferred script,
+      // earlier in the document, so it's normally ready by now -- but unlike
+      // every other price display here, this is a native custom element:
+      // connectedCallback can fire at points (e.g. the theme editor's
+      // section-reload AJAX swap) that don't line up with a normal page
+      // load's script order. render() calls money() right after setting the
+      // description, so if owMoney isn't a function yet, render() throws
+      // there and everything after it in the function -- prices, the saving
+      // pill, enabling the CTA -- silently never runs. Wait rather than
+      // assume, same as the wait-for-global pattern used elsewhere (e.g.
+      // origins-data.js).
+      start() {
+        if (typeof window.owMoney !== 'function') {
+          this.__retry = setTimeout(this.start.bind(this), 40);
+          return;
+        }
         var firstRoast = this.querySelector('[data-owv2-roast]:checked') || this.querySelector('[data-owv2-roast]');
         if (firstRoast) this.selectRoast(firstRoast.value);
       }
 
       disconnectedCallback() {
         this.removeEventListener('change', this.onChange);
+        clearTimeout(this.__retry);
       }
 
       findProduct(id) {
