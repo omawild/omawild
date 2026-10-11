@@ -102,14 +102,14 @@
       "settings": {
         "eyebrow": "01 · THE PRINCIPLE",
         "heading": "Different names, same principle",
-        "intro": "<p>Regenerative agriculture. Permaculture. Agroecology. Syntropic Agroforestry. The names are many. Every system carries its own subtle nuance. But beneath every label is the same fundamental principle:</p>",
-        "quote": "<p>Nature has its own intelligence and the role of the farmer is to learn and work with it.</p>",
-        "body": "<p>Solutions designed for the volcanic fields of Bali look nothing like those designed for the deserts of the Sahel or the colder climates of <a href=\"https://www.novia.fi/en/lill-nagels/field-information/lillnap-site-design\" target=\"_blank\" title=\"https://www.novia.fi/en/lill-nagels/field-information/lillnap-site-design\">Finnish fields</a>. There is no universal blueprint. Practices follow the local climate and ecology, and is precisely why these “systems” resist industrial scale. They are living ecosystems that cannot be replicated, as each one has their own unique relationships that need nurturing.</p>",
+        "intro": "<p>Regenerative agriculture. Permaculture. Agroecology. Syntropic Agroforestry. The names are many, and every system carries its own subtle nuance. But beneath every label is the same fundamental principle:</p>",
+        "quote": "<p>Nature has its own intelligence and the role of the farmer is to learn how to work with it.</p>",
+        "body": "<p>Regenerative solutions designed for the volcanic fields of Bali look nothing like those made for the <a href=\"https://www.landscapealliance.org/regreening-africa/\" target=\"_blank\" title=\"https://www.landscapealliance.org/regreening-africa/\">deserts of the Sahel</a> or for the cold climates of <a href=\"https://www.novia.fi/en/lill-nagels/field-information/lillnap-site-design\" target=\"_blank\" title=\"https://www.novia.fi/en/lill-nagels/field-information/lillnap-site-design\">Finnish fields</a>. There is no universal blueprint because nature varies from one region to the next. Practices adapt to local climates and ecology, which is why these “systems” resist industrial scale. Like how every human on this planet has a unique biology, each living ecosystem is one of a kind and how we work within that system may share a common ground but the details vary.</p>",
         "background_color": "#f7f5f1",
         "accent_color": "#ff3f00",
         "text_color": "#00180c",
         "quote_text_color": "#ffffff",
-        "link_color": "#ff3f00",
+        "link_color": "#9234DA",
         "hover_background": "#ffe4e7"
       }
     },
@@ -162,7 +162,7 @@
         "body_left": "<p>For most of human history, farming was an act of observation. You observe the seasons and its rhythms. You work within the system based on knowledge accumulated over many generations. Your practices are localised and deeply unique to each origin.</p><p>After World War II, things changed. Widespread expansion of <a href=\"https://earth.org/data_visualization/food-production-recent-history-and-where-we-are-heading/\" target=\"_blank\" title=\"https://earth.org/data_visualization/food-production-recent-history-and-where-we-are-heading/\">The Green Revolution</a> introduced monoculture farming, heavy mechanisation, synthetic fertilisers, and chemical pest control. The goal was to combat world hunger in a booming population by maximising yield output. In many ways, the movement was a success. It's estimated to have saved one billion lives, with much of the credit due to agronomist and Nobel Prize winner Norman Borlaug.</p>",
         "body_right": "<p>Wheat became cheap and abundant. But productivity came at a price. Farming had shifted from interdependence to reliance on external inputs, which deepened in the 1990s. The rise of high-yield, genetically modified crops were engineered to work with chemical fertilisers and pesticides sold by the same corporations that supplied them. Industrial farming stripped the land of crop diversity with monocrop cultures drenching in chemicals year after year, depleting the microbial diversity of the soil beneath — a living web of fungi, bacteria and root systems that cycle water and nutrients naturally.</p><p>Today, a third of our world's topsoil is degraded.</p>",
         "background_color": "#fcd0fd",
-        "accent_color": "#ff3f00",
+        "accent_color": "#FF3F00",
         "text_color": "#00180c",
         "link_color": "#ff3f00"
       }
@@ -299,10 +299,10 @@
         "cta_primary_link": "",
         "cta_secondary_label": "Meet our origins",
         "cta_secondary_link": "",
-        "background_color": "#FFE4E7",
-        "text_color": "#FF3F00",
-        "button_label_color": "#FFFFFF",
-        "link_color": "#FF3F00",
+        "background_color": "#ffe4e7",
+        "text_color": "#ff3f00",
+        "button_label_color": "#ffffff",
+        "link_color": "#ff3f00",
         "padding_top": 72,
         "padding_bottom": 72
       }
