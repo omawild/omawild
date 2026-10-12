@@ -4,36 +4,25 @@
   origin-facts.liquid) plus Certifications/Harvest period (straight off the
   origin metaobject), and an optional jump link down to the coffees list.
 
-  NOT sticky-beside-the-story the way the design file mocks it up. That
-  layout pins the facts column next to flowing body copy within ONE shared
-  grid container -- but per the Origin Intro architecture (a merchant-built
-  Shopify Page: this section, then however many oma-image-text instances the
-  story needs, stacked as independent sections), the story isn't inside this
-  section's markup at all, so there's no shared scroll container to stick
-  against. Faking it would mean a cross-section JS scroll-watcher pinning a
-  fixed-position rail in and out as other sections scroll past -- fragile,
-  and more machinery than this is worth. This renders as a plain facts band
-  instead; worth a second look if the sticky behavior turns out to matter in
-  practice.
+  Responsive, not sticky. An earlier version tried to float this band
+  beside the story column (position: fixed, stopping just above Coffees,
+  with oma-image-text reserving matching gutter space) -- in practice that
+  left a long dead gap between the band and the story on the way down the
+  page, because the two live in independent sections with nothing actually
+  tying their vertical rhythm together. Dropped in favor of this: a plain
+  3-per-row grid on desktop, and on mobile -- where there's no second
+  column for it to float beside in the first place -- a <details> accordion
+  instead of a wall of facts up front, same pattern as
+  oma-regen-practices.liquid's practice cards. The facts markup itself is
+  rendered once and reused in both the desktop grid and the mobile
+  accordion's answer, not duplicated by hand.
 {%- endcomment -%}
 {% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
 {%- liquid
   assign origin = section.settings.origin_reference
+  assign stop_anchor = section.settings.jump_anchor | default: 'coffees'
 -%}
 {% style %}
-{%- comment -%}
-  --origin-rail-width/--origin-rail-gap are deliberately global (:root, not
-  scoped under .oma-origin-facts-{{ owid }}) -- oma-image-text.liquid reads
-  them too, to reserve matching left margin for the story column on this
-  same template. Keeping both in sync through one shared token is the whole
-  reason this section's rail width isn't exposed as a merchant setting the
-  way other oma-* widths are: a setting here with no way to read it from
-  oma-image-text would just let the two drift apart.
-{%- endcomment -%}
-:root {
-  --origin-rail-width: 280px;
-  --origin-rail-gap: 64px;
-  }
 .oma-origin-facts-{{ owid }} {
   box-sizing: border-box;
   background: {{ section.settings.background_color }};
@@ -44,24 +33,27 @@
   box-sizing: border-box;
   }
 .oma-origin-facts-{{ owid }} .inner {
-  position: relative;
-  max-width: var(--origin-rail-width, 280px);
-  margin: 0;
+  max-width: 1440px;
+  margin: 0 auto;
   }
 .oma-origin-facts-{{ owid }} .eyebrow {
   font: 800 10.5px/1 var(--font-heading-family);
   letter-spacing: .14em;
   color: {{ section.settings.accent_color }};
   }
+.oma-origin-facts-{{ owid }} .subtitle {
+  {%- comment -%} oma-page-header-origin.liquid's kicker already shows this. {%- endcomment -%}
+  display: none;
+  }
 .oma-origin-facts-{{ owid }} .facts {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
   margin-top: 14px;
-  border-top: 1.5px solid {{ section.settings.accent_color }};
   }
 .oma-origin-facts-{{ owid }} .fact {
   padding: 12px 0;
-  border-bottom: 1px solid color-mix(in srgb, {{ section.settings.accent_color }} 22%, transparent);
+  border-top: 1.5px solid {{ section.settings.accent_color }};
   }
 .oma-origin-facts-{{ owid }} .fact-label {
   font: 700 10px/1.3 var(--font-heading-family);
@@ -78,9 +70,6 @@
   font-style: italic;
   color: color-mix(in srgb, {{ section.settings.text_color }} 60%, transparent);
   }
-.oma-origin-facts-{{ owid }} .subtitle {
-  display: none;
-  }
 .oma-origin-facts-{{ owid }} .jump {
   display: inline-block;
   margin-top: 18px;
@@ -96,27 +85,73 @@
   font: 700 15px/1.5 var(--font-body-family);
   color: {{ section.settings.text_color }};
   }
+
+{%- comment -%} Mobile: collapsible, same <details>/<summary> pattern as oma-regen-practices.liquid {%- endcomment -%}
+.oma-origin-facts-{{ owid }} .mobile-accordion {
+  border-top: 1.5px solid {{ section.settings.accent_color }};
+  }
+.oma-origin-facts-{{ owid }} .mobile-accordion summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 24px;
+  gap: 16px;
+  align-items: center;
+  padding: 16px 0;
+  cursor: pointer;
+  list-style: none;
+  }
+.oma-origin-facts-{{ owid }} .mobile-accordion summary::-webkit-details-marker {
+  display: none;
+  }
+.oma-origin-facts-{{ owid }} .mobile-accordion summary .eyebrow {
+  margin: 0;
+  }
+.oma-origin-facts-{{ owid }} .mobile-accordion summary .sign {
+  justify-self: end;
+  font: 800 20px/1 var(--font-heading-family);
+  color: {{ section.settings.accent_color }};
+  }
+.oma-origin-facts-{{ owid }} .mobile-accordion summary .sign::after {
+  content: '+';
+  }
+.oma-origin-facts-{{ owid }} .mobile-accordion[open] summary .sign::after {
+  content: '\2212';
+  }
+.oma-origin-facts-{{ owid }} .mobile-accordion .accordion-body {
+  padding-bottom: 8px;
+  }
+.oma-origin-facts-{{ owid }} .mobile-accordion .facts {
+  margin-top: 0;
+  }
+.oma-origin-facts-{{ owid }} .mobile-accordion .fact:first-child {
+  border-top: none;
+  padding-top: 0;
+  }
+
+{%- comment -%} Desktop: static 3-per-row grid, always expanded, no accordion chrome {%- endcomment -%}
+.oma-origin-facts-{{ owid }} .desktop-band {
+  display: none;
+  }
+@media (min-width: 750px) {
+  .oma-origin-facts-{{ owid }} .mobile-accordion {
+    display: none;
+  }
+  .oma-origin-facts-{{ owid }} .desktop-band {
+    display: block;
+  }
+  .oma-origin-facts-{{ owid }} .desktop-band .facts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px 32px;
+  }
+}
 {% endstyle %}
-{%- liquid
-  assign stop_anchor = section.settings.jump_anchor | default: 'coffees'
--%}
 <div class="oma-origin-facts-{{ owid }}">
-  <div
-    class="inner"
-    {% if section.settings.enable_sticky and origin != blank %}
-      data-origin-rail-root
-      data-sticky-top="112"
-      data-sticky-gap="40"
-      data-sticky-stop="#{{ stop_anchor }}"
-    {% endif %}
-  >
+  <div class="inner">
     {%- if origin == blank -%}
       {%- if request.design_mode -%}
         <p class="missing-origin">Select an origin to fill in this facts band.</p>
       {%- endif -%}
     {%- else -%}
-      <div data-origin-rail>
-        {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
+      {%- capture facts_markup -%}
         {%- render 'origin-facts',
           origin: origin,
           producer_label: section.settings.producer_label,
@@ -128,16 +163,32 @@
           show_harvest: true,
           harvest_label: section.settings.harvest_label
         -%}
+      {%- endcapture -%}
+      {%- capture jump_markup -%}
         {%- if section.settings.jump_label != blank -%}
           <a class="jump" href="#{{ stop_anchor }}">{{ section.settings.jump_label | escape }} ↓</a>
         {%- endif -%}
+      {%- endcapture -%}
+
+      <details class="mobile-accordion">
+        <summary>
+          <div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>
+          <span class="sign" aria-hidden="true"></span>
+        </summary>
+        <div class="accordion-body">
+          {{ facts_markup }}
+          {{ jump_markup }}
+        </div>
+      </details>
+
+      <div class="desktop-band">
+        {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
+        {{ facts_markup }}
+        {{ jump_markup }}
       </div>
     {%- endif -%}
   </div>
 </div>
-{%- if section.settings.enable_sticky -%}
-  <script src="{{ 'oma-origin-rail.js' | asset_url }}" defer></script>
-{%- endif -%}
 {% schema %}
 {
   "name": "OMA Origin Facts",
@@ -147,7 +198,7 @@
   },
   "settings": [
     { "type": "metaobject", "id": "origin_reference", "metaobject_type": "origin", "label": "Origin" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "ABOUT THIS FARM" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow / mobile accordion label", "default": "ABOUT THIS FARM" },
     { "type": "header", "content": "Fact labels" },
     { "type": "text", "id": "producer_label", "label": "Producer fact label", "default": "PRODUCER" },
     { "type": "text", "id": "elevation_label", "label": "Elevation fact label", "default": "ELEVATION" },
@@ -157,9 +208,7 @@
     { "type": "text", "id": "coming_soon_label", "label": "Placeholder for a fact with no linked product data yet", "default": "Coming soon" },
     { "type": "header", "content": "Jump link" },
     { "type": "text", "id": "jump_label", "label": "Jump link label", "default": "The coffee from this farm" },
-    { "type": "text", "id": "jump_anchor", "label": "Jump link target anchor ID", "info": "Must match the Anchor ID setting on the OMA Origin Coffees section further down the page. Also used as the stop point for the sticky rail below.", "default": "coffees" },
-    { "type": "header", "content": "Sticky behavior" },
-    { "type": "checkbox", "id": "enable_sticky", "label": "Stick this band beside the story on desktop", "default": true, "info": "Follows the page down from 1024px wide, stopping just above the Origin Coffees section (matched by the anchor ID above). Turn off to render as a plain static band instead." },
+    { "type": "text", "id": "jump_anchor", "label": "Jump link target anchor ID", "info": "Must match the Anchor ID setting on the OMA Origin Coffees section further down the page.", "default": "coffees" },
     { "type": "header", "content": "Colors" },
     { "type": "color", "id": "background_color", "label": "Background", "default": "#F7F5F1" },
     { "type": "color", "id": "accent_color", "label": "Accent (eyebrow, labels, borders)", "default": "#FF3F00" },
