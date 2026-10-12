@@ -21,6 +21,19 @@
   assign origin = section.settings.origin_reference
 -%}
 {% style %}
+{%- comment -%}
+  --origin-rail-width/--origin-rail-gap are deliberately global (:root, not
+  scoped under .oma-origin-facts-{{ owid }}) -- oma-image-text.liquid reads
+  them too, to reserve matching left margin for the story column on this
+  same template. Keeping both in sync through one shared token is the whole
+  reason this section's rail width isn't exposed as a merchant setting the
+  way other oma-* widths are: a setting here with no way to read it from
+  oma-image-text would just let the two drift apart.
+{%- endcomment -%}
+:root {
+  --origin-rail-width: 280px;
+  --origin-rail-gap: 64px;
+  }
 .oma-origin-facts-{{ owid }} {
   box-sizing: border-box;
   background: {{ section.settings.background_color }};
@@ -31,14 +44,10 @@
   box-sizing: border-box;
   }
 .oma-origin-facts-{{ owid }} .inner {
-  max-width: 280px;
-  margin: 0 auto 0 0;
+  position: relative;
+  max-width: var(--origin-rail-width, 280px);
+  margin: 0;
   }
-@media (min-width: 1024px) {
-  .oma-origin-facts-{{ owid }} .inner {
-    margin: 0 auto 0 clamp(20px, 10vw, 180px);
-  }
-}
 .oma-origin-facts-{{ owid }} .eyebrow {
   font: 800 10.5px/1 var(--font-heading-family);
   letter-spacing: .14em;
@@ -88,31 +97,47 @@
   color: {{ section.settings.text_color }};
   }
 {% endstyle %}
+{%- liquid
+  assign stop_anchor = section.settings.jump_anchor | default: 'coffees'
+-%}
 <div class="oma-origin-facts-{{ owid }}">
-  <div class="inner">
+  <div
+    class="inner"
+    {% if section.settings.enable_sticky and origin != blank %}
+      data-origin-rail-root
+      data-sticky-top="112"
+      data-sticky-gap="40"
+      data-sticky-stop="#{{ stop_anchor }}"
+    {% endif %}
+  >
     {%- if origin == blank -%}
       {%- if request.design_mode -%}
         <p class="missing-origin">Select an origin to fill in this facts band.</p>
       {%- endif -%}
     {%- else -%}
-      {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
-      {%- render 'origin-facts',
-        origin: origin,
-        producer_label: section.settings.producer_label,
-        elevation_label: section.settings.elevation_label,
-        process_label: section.settings.process_label,
-        coming_soon_label: section.settings.coming_soon_label,
-        show_certifications: true,
-        certifications_label: section.settings.certifications_label,
-        show_harvest: true,
-        harvest_label: section.settings.harvest_label
-      -%}
-      {%- if section.settings.jump_label != blank -%}
-        <a class="jump" href="#{{ section.settings.jump_anchor }}">{{ section.settings.jump_label | escape }} ↓</a>
-      {%- endif -%}
+      <div data-origin-rail>
+        {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
+        {%- render 'origin-facts',
+          origin: origin,
+          producer_label: section.settings.producer_label,
+          elevation_label: section.settings.elevation_label,
+          process_label: section.settings.process_label,
+          coming_soon_label: section.settings.coming_soon_label,
+          show_certifications: true,
+          certifications_label: section.settings.certifications_label,
+          show_harvest: true,
+          harvest_label: section.settings.harvest_label
+        -%}
+        {%- if section.settings.jump_label != blank -%}
+          <a class="jump" href="#{{ stop_anchor }}">{{ section.settings.jump_label | escape }} ↓</a>
+        {%- endif -%}
+      </div>
     {%- endif -%}
   </div>
 </div>
+{%- if section.settings.enable_sticky -%}
+  <script src="{{ 'oma-origin-rail.js' | asset_url }}" defer></script>
+{%- endif -%}
 {% schema %}
 {
   "name": "OMA Origin Facts",
@@ -132,7 +157,9 @@
     { "type": "text", "id": "coming_soon_label", "label": "Placeholder for a fact with no linked product data yet", "default": "Coming soon" },
     { "type": "header", "content": "Jump link" },
     { "type": "text", "id": "jump_label", "label": "Jump link label", "default": "The coffee from this farm" },
-    { "type": "text", "id": "jump_anchor", "label": "Jump link target anchor ID", "info": "Must match the Anchor ID setting on the OMA Origin Coffees section further down the page.", "default": "coffees" },
+    { "type": "text", "id": "jump_anchor", "label": "Jump link target anchor ID", "info": "Must match the Anchor ID setting on the OMA Origin Coffees section further down the page. Also used as the stop point for the sticky rail below.", "default": "coffees" },
+    { "type": "header", "content": "Sticky behavior" },
+    { "type": "checkbox", "id": "enable_sticky", "label": "Stick this band beside the story on desktop", "default": true, "info": "Follows the page down from 1024px wide, stopping just above the Origin Coffees section (matched by the anchor ID above). Turn off to render as a plain static band instead." },
     { "type": "header", "content": "Colors" },
     { "type": "color", "id": "background_color", "label": "Background", "default": "#F7F5F1" },
     { "type": "color", "id": "accent_color", "label": "Accent (eyebrow, labels, borders)", "default": "#FF3F00" },

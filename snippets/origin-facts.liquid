@@ -24,6 +24,12 @@
     show_certifications, certifications_label
     show_harvest, harvest_label
 
+  Pass subtitle_only: true to render JUST the bare region/country text (no
+  wrapping <div>, no facts list) -- oma-page-header-origin.liquid's kicker
+  row uses this to show the same region/country text as the facts band
+  below, without pulling in the whole facts block or running the
+  linked-product derivation loop twice with two different output shapes.
+
   Caller owns everything before this call (heading/place/tagline) and after
   it (CTA/visit link) -- this renders exactly the subtitle line through the
   closing </div> of .facts, reusing whatever .subtitle/.facts/.fact/
@@ -83,6 +89,9 @@
     assign subtitle = country
   endif
 -%}
+{%- if subtitle_only -%}
+  {{- subtitle -}}
+{%- else -%}
 {%- if subtitle != blank -%}<div class="subtitle">{{ subtitle }}</div>{%- endif -%}
 <div class="facts">
   <div class="fact">
@@ -140,3 +149,4 @@
     </div>
   {%- endif -%}
 </div>
+{%- endif -%}

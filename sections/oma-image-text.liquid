@@ -27,6 +27,11 @@
     back, e.g. a portrait + the harvest) and nothing else in the theme
     renders a plain two-up photo row.
 
+  On templates/page.origin-intro.json specifically, every instance of this
+  section also picks up a left margin reserving room for oma-origin-facts'
+  sticky rail -- see the --origin-rail-width/--origin-rail-gap comment
+  further down.
+
   Add via the theme editor's section picker by searching "Image + text" —
   its schema name is "OMA Image + text block" (with spaces), which won't
   match a search for the filename.
@@ -278,8 +283,26 @@
   font: 500 12.5px/1.55 var(--font-body-family);
   color: #00180C;
   }
+
+{%- comment -%}
+  On the Origin Intro page, every instance of this section IS the story
+  column beside oma-origin-facts.liquid's sticky rail (that's this
+  template's whole content model -- see oma-origin-facts.liquid's comment).
+  --origin-rail-width/--origin-rail-gap are declared there as global :root
+  tokens for exactly this: reserving the same width here that the rail
+  actually occupies, from one shared source instead of two files guessing
+  the same pixel number independently. Below 1024px the rail isn't sticky
+  either (see oma-origin-rail.js's BREAKPOINT), so no reserved margin there.
+{%- endcomment -%}
+@media (min-width: 1024px) {
+  .oma-imgtext-{{ owid }}.has-origin-rail .stacked-row,
+  .oma-imgtext-{{ owid }}.has-origin-rail .split-inner,
+  .oma-imgtext-{{ owid }}.has-origin-rail .pair-inner {
+    margin-left: calc(var(--origin-rail-width, 280px) + var(--origin-rail-gap, 64px));
+  }
+}
 {% endstyle %}
-<div class="oma-imgtext-{{ owid }} tone-{{ section.settings.tone }}{% if section.settings.reverse %} is-reverse{% endif %}">
+<div class="oma-imgtext-{{ owid }} tone-{{ section.settings.tone }}{% if section.settings.reverse %} is-reverse{% endif %}{% if template.suffix == 'origin-intro' %} has-origin-rail{% endif %}">
 {%- if section.settings.layout == 'stacked' -%}
 <section class="stacked-inner">
   <div class="stacked-photo">
