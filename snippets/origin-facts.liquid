@@ -17,9 +17,13 @@
 
   Required params:
     origin                — the origin metaobject
-    producer_label, elevation_label, process_label, coming_soon_label
+    coming_soon_label
 
-  Optional params (each fact is only rendered if its show_* flag is true):
+  Every fact is opt-in via its own show_* flag -- nothing renders unless
+  asked for, so a caller lists exactly the facts it wants:
+    show_producer, producer_label
+    show_elevation, elevation_label
+    show_process, process_label
     show_coffees, coffees_label_singular, coffees_label_plural
     show_certifications, certifications_label
     show_harvest, harvest_label
@@ -94,6 +98,7 @@
 {%- else -%}
 {%- if subtitle != blank -%}<div class="subtitle">{{ subtitle }}</div>{%- endif -%}
 <div class="facts">
+  {%- if show_producer -%}
   <div class="fact">
     <div class="fact-label">{{ producer_label | escape }}</div>
     {%- if producer_list.size > 0 -%}
@@ -102,6 +107,8 @@
       <div class="fact-value is-pending">{{ coming_soon_label | escape }}</div>
     {%- endif -%}
   </div>
+  {%- endif -%}
+  {%- if show_elevation -%}
   <div class="fact">
     <div class="fact-label">{{ elevation_label | escape }}</div>
     {%- if elev_display != blank -%}
@@ -110,6 +117,8 @@
       <div class="fact-value is-pending">{{ coming_soon_label | escape }}</div>
     {%- endif -%}
   </div>
+  {%- endif -%}
+  {%- if show_process -%}
   <div class="fact">
     <div class="fact-label">{{ process_label | escape }}</div>
     {%- if process_list.size > 0 -%}
@@ -118,6 +127,7 @@
       <div class="fact-value is-pending">{{ coming_soon_label | escape }}</div>
     {%- endif -%}
   </div>
+  {%- endif -%}
   {%- if show_coffees -%}
     <div class="fact">
       <div class="fact-label">{% if coffee_list.size > 1 %}{{ coffees_label_plural | escape }}{% else %}{{ coffees_label_singular | escape }}{% endif %}</div>

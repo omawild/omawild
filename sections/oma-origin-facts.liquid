@@ -4,6 +4,24 @@
   origin-facts.liquid) plus Certifications/Harvest period (straight off the
   origin metaobject), and an optional jump link down to the coffees list.
 
+  Each fact is its own block (type "fact", picking which of the five known
+  facts it is via fact_type) rather than five fixed show/hide settings. The
+  five ship by default via this section's preset, in the usual order, so a
+  merchant adding this section gets everything -- but a specific origin
+  missing one fact for good (not "coming soon", just doesn't apply to that
+  farm) can delete that one block instead of having coming_soon_label sit
+  there implying data that's never coming. The VALUE behind each fact is
+  still always derived centrally in origin-facts.liquid -- blocks only
+  control which facts this instance shows and their label text, never the
+  values themselves, so "one place to edit each fact" still holds.
+
+  Display order is fixed (Producer, Elevation, Process, Certifications,
+  Harvest), independent of block order -- only which blocks exist matters,
+  not the order they're arranged in the editor's block list. Reordering
+  support would mean restructuring origin-facts.liquid's snippet around a
+  merchant-ordered list instead of a fixed sequence; nobody's asked for that
+  yet, so it's not built.
+
   Responsive, not sticky. An earlier version tried to float this band
   beside the story column (position: fixed, stopping just above Coffees,
   with oma-image-text reserving matching gutter space) -- in practice that
@@ -21,6 +39,37 @@
 {%- liquid
   assign origin = section.settings.origin_reference
   assign stop_anchor = section.settings.jump_anchor | default: 'coffees'
+
+  assign show_producer = false
+  assign show_elevation = false
+  assign show_process = false
+  assign show_certifications = false
+  assign show_harvest = false
+  assign producer_label = ''
+  assign elevation_label = ''
+  assign process_label = ''
+  assign certifications_label = ''
+  assign harvest_label = ''
+
+  for block in section.blocks
+    case block.settings.fact_type
+      when 'producer'
+        assign show_producer = true
+        assign producer_label = block.settings.label
+      when 'elevation'
+        assign show_elevation = true
+        assign elevation_label = block.settings.label
+      when 'process'
+        assign show_process = true
+        assign process_label = block.settings.label
+      when 'certifications'
+        assign show_certifications = true
+        assign certifications_label = block.settings.label
+      when 'harvest'
+        assign show_harvest = true
+        assign harvest_label = block.settings.label
+    endcase
+  endfor
 -%}
 {% style %}
 .oma-origin-facts-{{ owid }} {
@@ -154,14 +203,17 @@
       {%- capture facts_markup -%}
         {%- render 'origin-facts',
           origin: origin,
-          producer_label: section.settings.producer_label,
-          elevation_label: section.settings.elevation_label,
-          process_label: section.settings.process_label,
+          show_producer: show_producer,
+          producer_label: producer_label,
+          show_elevation: show_elevation,
+          elevation_label: elevation_label,
+          show_process: show_process,
+          process_label: process_label,
           coming_soon_label: section.settings.coming_soon_label,
-          show_certifications: true,
-          certifications_label: section.settings.certifications_label,
-          show_harvest: true,
-          harvest_label: section.settings.harvest_label
+          show_certifications: show_certifications,
+          certifications_label: certifications_label,
+          show_harvest: show_harvest,
+          harvest_label: harvest_label
         -%}
       {%- endcapture -%}
       {%- capture jump_markup -%}
@@ -199,13 +251,7 @@
   "settings": [
     { "type": "metaobject", "id": "origin_reference", "metaobject_type": "origin", "label": "Origin" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow / mobile accordion label", "default": "ABOUT THIS FARM" },
-    { "type": "header", "content": "Fact labels" },
-    { "type": "text", "id": "producer_label", "label": "Producer fact label", "default": "PRODUCER" },
-    { "type": "text", "id": "elevation_label", "label": "Elevation fact label", "default": "ELEVATION" },
-    { "type": "text", "id": "process_label", "label": "Process fact label", "default": "PROCESS" },
-    { "type": "text", "id": "certifications_label", "label": "Certifications fact label", "default": "CERTIFICATIONS" },
-    { "type": "text", "id": "harvest_label", "label": "Harvest period fact label", "default": "HARVEST" },
-    { "type": "text", "id": "coming_soon_label", "label": "Placeholder for a fact with no linked product data yet", "default": "Coming soon" },
+    { "type": "text", "id": "coming_soon_label", "label": "Placeholder for a shown fact with no linked product data yet", "info": "Only shown for a fact block that's present but whose value isn't filled in yet. An origin missing a fact for good -- not \"coming soon\", just doesn't apply -- should have that fact's block removed below instead.", "default": "Coming soon" },
     { "type": "header", "content": "Jump link" },
     { "type": "text", "id": "jump_label", "label": "Jump link label", "default": "The coffee from this farm" },
     { "type": "text", "id": "jump_anchor", "label": "Jump link target anchor ID", "info": "Must match the Anchor ID setting on the OMA Origin Coffees section further down the page.", "default": "coffees" },
@@ -217,8 +263,40 @@
     { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
     { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 24 }
   ],
+  "blocks": [
+    {
+      "type": "fact",
+      "name": "Fact",
+      "settings": [
+        {
+          "type": "select",
+          "id": "fact_type",
+          "label": "Fact",
+          "options": [
+            { "value": "producer", "label": "Producer" },
+            { "value": "elevation", "label": "Elevation" },
+            { "value": "process", "label": "Process" },
+            { "value": "certifications", "label": "Certifications" },
+            { "value": "harvest", "label": "Harvest period" }
+          ],
+          "default": "producer",
+          "info": "Producer/Elevation/Process come from the linked products' own metafields; Certifications/Harvest period come from this origin entry directly. Either way, the value isn't set here -- only whether this fact shows at all, and its label."
+        },
+        { "type": "text", "id": "label", "label": "Label", "default": "PRODUCER" }
+      ]
+    }
+  ],
   "presets": [
-    { "name": "OMA Origin Facts" }
+    {
+      "name": "OMA Origin Facts",
+      "blocks": [
+        { "type": "fact", "settings": { "fact_type": "producer", "label": "PRODUCER" } },
+        { "type": "fact", "settings": { "fact_type": "elevation", "label": "ELEVATION" } },
+        { "type": "fact", "settings": { "fact_type": "process", "label": "PROCESS" } },
+        { "type": "fact", "settings": { "fact_type": "certifications", "label": "CERTIFICATIONS" } },
+        { "type": "fact", "settings": { "fact_type": "harvest", "label": "HARVEST" } }
+      ]
+    }
   ]
 }
 {% endschema %}

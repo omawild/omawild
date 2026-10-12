@@ -330,8 +330,11 @@
               {%- if origin.tagline != blank -%}<p class="lead">{{ origin.tagline }}</p>{%- endif -%}
               {%- render 'origin-facts',
                 origin: origin,
+                show_producer: true,
                 producer_label: section.settings.producer_label,
+                show_elevation: true,
                 elevation_label: section.settings.elevation_label,
+                show_process: true,
                 process_label: section.settings.process_label,
                 coming_soon_label: section.settings.coming_soon_label,
                 show_coffees: true,
@@ -344,8 +347,11 @@
               <h3 class="place">{{ origin.place }}</h3>
               {%- render 'origin-facts',
                 origin: origin,
+                show_producer: true,
                 producer_label: section.settings.producer_label,
+                show_elevation: true,
                 elevation_label: section.settings.elevation_label,
+                show_process: true,
                 process_label: section.settings.process_label,
                 coming_soon_label: section.settings.coming_soon_label
               -%}
