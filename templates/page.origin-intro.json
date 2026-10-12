@@ -23,37 +23,71 @@
       "name": "OMA Page Header — Origin",
       "settings": {
         "origin_reference": "garut-west-java",
+        "kicker_prefix": "COFFEE ORIGIN",
         "show_breadcrumb": true,
         "origins_label": "Origins",
         "origins_url": "",
         "photo_ratio_desktop": "16 / 9",
         "photo_ratio_mobile": "4 / 5",
-        "gradient_color": "#FF3F00",
-        "background_color": "#F7F5F1",
-        "text_color": "#FFFFFF",
-        "placeholder_background": "#FFE4E7",
+        "gradient_color": "#ff3f00",
+        "background_color": "#f7f5f1",
+        "text_color": "#ffffff",
+        "placeholder_background": "#ffe4e7",
         "gradient_stop": 64
       }
     },
     "oma_origin_facts_nb6Ud9": {
       "type": "oma-origin-facts",
+      "blocks": {
+        "fact_amBkjj": {
+          "type": "fact",
+          "settings": {
+            "fact_type": "producer",
+            "label": "PRODUCER"
+          }
+        },
+        "fact_RxrGn4": {
+          "type": "fact",
+          "settings": {
+            "fact_type": "elevation",
+            "label": "PRODUCER"
+          }
+        }
+      },
+      "block_order": [
+        "fact_amBkjj",
+        "fact_RxrGn4"
+      ],
       "name": "OMA Origin Facts",
       "settings": {
         "origin_reference": "garut-west-java",
         "eyebrow": "ABOUT THIS FARM",
-        "producer_label": "PRODUCER",
-        "elevation_label": "ELEVATION",
-        "process_label": "PROCESS",
-        "certifications_label": "CERTIFICATIONS",
-        "harvest_label": "HARVEST",
         "coming_soon_label": "Coming soon",
         "jump_label": "The coffee from this farm",
         "jump_anchor": "coffees",
-        "background_color": "#F7F5F1",
-        "accent_color": "#FF3F00",
-        "text_color": "#00180C",
+        "background_color": "#f7f5f1",
+        "accent_color": "#ff3f00",
+        "text_color": "#00180c",
         "padding_top": 56,
         "padding_bottom": 24
+      }
+    },
+    "oma_image_text_eJPaqd": {
+      "type": "oma-image-text",
+      "name": "OMA Image Text (Split)",
+      "settings": {
+        "layout": "split",
+        "stacked_image_ratio": "21 / 9",
+        "label": "Our story began in Bali.",
+        "show_divider": true,
+        "tone": "electric",
+        "reverse": false,
+        "eyebrow": "THE MAGIC OF BEING ALIVE",
+        "title": "A different way of being",
+        "pull": "Our wellbeing has never been separate from the planet, because we are nature.",
+        "body": "<p>Our adventures across Indonesia changed the way we saw the world. While we had spent a decade improving people's lives, it was there that we were reminded our wellbeing has always depended on the health of our planet. Healthy soil grows nourishing food. Biodiversity creates resilient and thriving ecosystems.</p>",
+        "caption_a": "",
+        "caption_b": ""
       }
     },
     "oma_origin_coffees_EenJB7": {
@@ -63,12 +97,12 @@
         "origin_reference": "garut-west-java",
         "eyebrow_prefix": "GROWN IN",
         "anchor_id": "coffees",
-        "background_color": "#F7F5F1",
-        "accent_color": "#FF3F00",
-        "text_color": "#00180C",
-        "placeholder_background": "#FBB925",
-        "button_bg_color": "#FF3F00",
-        "button_text_color": "#FFFFFF"
+        "background_color": "#f7f5f1",
+        "accent_color": "#ff3f00",
+        "text_color": "#00180c",
+        "placeholder_background": "#fbb925",
+        "button_bg_color": "#ff3f00",
+        "button_text_color": "#ffffff"
       }
     },
     "owv2_value_grid_JkRRTe": {
@@ -113,34 +147,16 @@
       "settings": {
         "heading": "",
         "mobile_hint_text": "← SWIPE →",
-        "card_heading_color": "#FF3F00",
+        "card_heading_color": "#ff3f00",
         "card_heading_size": 19,
-        "card_body_color": "#00180C",
+        "card_body_color": "#00180c",
         "card_body_size": 12.5,
-        "background_color": "#FF3F00",
-        "text_color": "#FFFFFF",
-        "card_background": "#FFFFFF",
+        "background_color": "#ff3f00",
+        "text_color": "#ffffff",
+        "card_background": "#ffffff",
         "show_top_line": true,
         "padding_top": 52,
         "padding_bottom": 52
-      }
-    },
-    "oma_image_text_eJPaqd": {
-      "type": "oma-image-text",
-      "name": "OMA Image Text (Split)",
-      "settings": {
-        "layout": "split",
-        "stacked_image_ratio": "21 / 9",
-        "label": "Our story began in Bali.",
-        "show_divider": true,
-        "tone": "electric",
-        "reverse": false,
-        "eyebrow": "THE MAGIC OF BEING ALIVE",
-        "title": "A different way of being",
-        "pull": "Our wellbeing has never been separate from the planet, because we are nature.",
-        "body": "<p>Our adventures across Indonesia changed the way we saw the world. While we had spent a decade improving people's lives, it was there that we were reminded our wellbeing has always depended on the health of our planet. Healthy soil grows nourishing food. Biodiversity creates resilient and thriving ecosystems.</p>",
-        "caption_a": "",
-        "caption_b": ""
       }
     }
   },
