@@ -1,0 +1,209 @@
+{%- comment -%}
+  oma-page-header-origin — the Origin Intro page's own hero, distinct from
+  the shared oma-page-header.liquid (Shop/Subscriptions/About/Origins/
+  Dispatch). Centered breadcrumb + giant place name + lead over a hard-stop
+  color band, large photo straddling the color change underneath -- matches
+  "Origin Detail Page" in the Omawild Web Redesign handoff. Kept as its own
+  file rather than an edit to oma-page-header.liquid for the same reason as
+  oma-page-header-office.liquid: the needs (metaobject-driven content, the
+  gradient band, centered layout) don't fit that shared section's settings
+  at all, and that section is used on five other pages today.
+
+  Reads place/tagline/cover straight off the linked `origin` metaobject --
+  same one origin-facts.liquid and oma-origin-cards.liquid read -- rather
+  than re-typed text settings, so there's exactly one place to edit those
+  facts (see origin-facts.liquid's own comment). The merchant creating a new
+  Origin Intro page just picks the origin; everything else here follows.
+
+  No "ORIGIN 01 · region" eyebrow line from the design file: that number is
+  only meaningful relative to the other origins in a list (oma-origin-cards
+  already shows it there), and the region/country is already surfaced a
+  moment later in the facts rail -- repeating it here added a settings field
+  (a per-page manual index) for no information a visitor doesn't already get.
+{%- endcomment -%}
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{%- liquid
+  assign origin = section.settings.origin_reference
+-%}
+{% style %}
+.oma-page-header-origin-{{ owid }} {
+  box-sizing: border-box;
+  background: linear-gradient(
+    to bottom,
+    {{ section.settings.gradient_color }} 0%,
+    {{ section.settings.gradient_color }} {{ section.settings.gradient_stop }}%,
+    {{ section.settings.background_color }} {{ section.settings.gradient_stop }}%,
+    {{ section.settings.background_color }} 100%
+  );
+  font-family: var(--font-body-family);
+  }
+.oma-page-header-origin-{{ owid }} *, .oma-page-header-origin-{{ owid }} *::before, .oma-page-header-origin-{{ owid }} *::after {
+  box-sizing: border-box;
+  }
+.oma-page-header-origin-{{ owid }} .inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 32px clamp(20px, 4vw, 48px) 0;
+  }
+.oma-page-header-origin-{{ owid }} .crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font: 700 11px/1.4 var(--font-heading-family);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: {{ section.settings.text_color }};
+  }
+.oma-page-header-origin-{{ owid }} .crumbs li { display: flex; gap: 6px; }
+.oma-page-header-origin-{{ owid }} .crumbs a { color: inherit; text-decoration: none; }
+.oma-page-header-origin-{{ owid }} .crumbs a:hover { opacity: .75; }
+.oma-page-header-origin-{{ owid }} .text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 48px 0 52px;
+  }
+.oma-page-header-origin-{{ owid }} h1 {
+  margin: 0;
+  font-family: var(--font-heading-family);
+  font-weight: 900;
+  font-size: clamp(64px, 11vw, 176px);
+  line-height: .86;
+  letter-spacing: -.05em;
+  color: {{ section.settings.text_color }};
+  overflow-wrap: anywhere;
+  }
+.oma-page-header-origin-{{ owid }} .lead {
+  margin: 24px 0 0;
+  max-width: 34ch;
+  font-family: var(--font-body-family);
+  font-weight: 600;
+  font-size: clamp(17px, 1.5vw, 21px);
+  line-height: 1.45;
+  color: {{ section.settings.text_color }};
+  text-wrap: pretty;
+  }
+.oma-page-header-origin-{{ owid }} .photo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: {{ section.settings.photo_ratio_desktop }};
+  border-radius: 12px;
+  overflow: hidden;
+  background: {{ section.settings.placeholder_background }};
+  }
+.oma-page-header-origin-{{ owid }} .photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  }
+.oma-page-header-origin-{{ owid }} .oma-placeholder {
+  width: 100%;
+  height: 100%;
+  background: {{ section.settings.placeholder_background }};
+  fill: {{ section.settings.gradient_color }};
+  }
+.oma-page-header-origin-{{ owid }} .missing-origin {
+  margin: 0;
+  padding: 48px 0;
+  text-align: center;
+  font: 700 15px/1.5 var(--font-body-family);
+  color: {{ section.settings.text_color }};
+  }
+@media (max-width: 749px) {
+  .oma-page-header-origin-{{ owid }} .photo {
+    aspect-ratio: {{ section.settings.photo_ratio_mobile }};
+  }
+}
+{% endstyle %}
+<div class="oma-page-header-origin-{{ owid }}">
+  <div class="inner">
+    {%- if origin == blank -%}
+      {%- if request.design_mode -%}
+        <p class="missing-origin">Select an origin to fill in this header.</p>
+      {%- endif -%}
+    {%- else -%}
+      {%- if section.settings.show_breadcrumb -%}
+        <ul class="crumbs">
+          <li><a href="{{ routes.root_url }}">{{ 'general.breadcrumbs.home' | t | default: 'Home' }}</a></li>
+          <li aria-hidden="true">/</li>
+          <li><a href="{{ section.settings.origins_url | default: '#' }}">{{ section.settings.origins_label | escape }}</a></li>
+          <li aria-hidden="true">/</li>
+          <li>{{ origin.place }}</li>
+        </ul>
+      {%- endif -%}
+      <div class="text">
+        <h1>{{ origin.place }}</h1>
+        {%- if origin.tagline != blank -%}<p class="lead">{{ origin.tagline }}</p>{%- endif -%}
+      </div>
+      <div class="photo">
+        {%- if origin.cover.value != blank -%}
+          <img
+            src="{{ origin.cover.value | image_url: width: 2000 }}"
+            alt="{{ origin.place | escape }}"
+            loading="lazy"
+            width="{{ origin.cover.value.width }}"
+            height="{{ origin.cover.value.height }}"
+          >
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'oma-placeholder' }}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+{% schema %}
+{
+  "name": "OMA Page Header — Origin",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    { "type": "metaobject", "id": "origin_reference", "metaobject_type": "origin", "label": "Origin", "info": "Place, tagline and cover photo all come from here." },
+    { "type": "header", "content": "Breadcrumb" },
+    { "type": "checkbox", "id": "show_breadcrumb", "label": "Show breadcrumb", "default": true },
+    { "type": "text", "id": "origins_label", "label": "Origins crumb label", "default": "Origins" },
+    { "type": "url", "id": "origins_url", "label": "Origins page link" },
+    { "type": "header", "content": "Photo" },
+    {
+      "type": "select",
+      "id": "photo_ratio_desktop",
+      "label": "Photo ratio (desktop)",
+      "options": [
+        { "value": "21 / 9", "label": "Wide banner (21:9)" },
+        { "value": "16 / 9", "label": "Widescreen (16:9)" },
+        { "value": "3 / 2", "label": "Landscape (3:2)" }
+      ],
+      "default": "16 / 9"
+    },
+    {
+      "type": "select",
+      "id": "photo_ratio_mobile",
+      "label": "Photo ratio (mobile)",
+      "options": [
+        { "value": "3 / 2", "label": "Landscape (3:2)" },
+        { "value": "4 / 3", "label": "Standard (4:3)" },
+        { "value": "4 / 5", "label": "Portrait (4:5)" }
+      ],
+      "default": "4 / 5"
+    },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "gradient_color", "label": "Band color (top)", "default": "#FF3F00" },
+    { "type": "color", "id": "background_color", "label": "Background (below the band)", "default": "#F7F5F1" },
+    { "type": "color", "id": "text_color", "label": "Breadcrumb/heading/lead color", "default": "#FFFFFF" },
+    { "type": "color", "id": "placeholder_background", "label": "Photo placeholder background", "default": "#FFE4E7" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "gradient_stop", "label": "Band height", "min": 40, "max": 90, "step": 2, "unit": "%", "default": 64, "info": "Where the color band changes to the background color, as a percentage of the section's own height." }
+  ],
+  "presets": [
+    { "name": "OMA Page Header — Origin" }
+  ]
+}
+{% endschema %}

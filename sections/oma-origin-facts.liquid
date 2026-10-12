@@ -1,0 +1,148 @@
+{%- comment -%}
+  oma-origin-facts — "ABOUT THIS FARM" facts band for the Origin Intro page:
+  Producer/Elevation/Process (derived from the linked products, via
+  origin-facts.liquid) plus Certifications/Harvest period (straight off the
+  origin metaobject), and an optional jump link down to the coffees list.
+
+  NOT sticky-beside-the-story the way the design file mocks it up. That
+  layout pins the facts column next to flowing body copy within ONE shared
+  grid container -- but per the Origin Intro architecture (a merchant-built
+  Shopify Page: this section, then however many oma-image-text instances the
+  story needs, stacked as independent sections), the story isn't inside this
+  section's markup at all, so there's no shared scroll container to stick
+  against. Faking it would mean a cross-section JS scroll-watcher pinning a
+  fixed-position rail in and out as other sections scroll past -- fragile,
+  and more machinery than this is worth. This renders as a plain facts band
+  instead; worth a second look if the sticky behavior turns out to matter in
+  practice.
+{%- endcomment -%}
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{%- liquid
+  assign origin = section.settings.origin_reference
+-%}
+{% style %}
+.oma-origin-facts-{{ owid }} {
+  box-sizing: border-box;
+  background: {{ section.settings.background_color }};
+  padding: {{ section.settings.padding_top }}px clamp(20px, 4vw, 48px) {{ section.settings.padding_bottom }}px;
+  font-family: var(--font-body-family);
+  }
+.oma-origin-facts-{{ owid }} *, .oma-origin-facts-{{ owid }} *::before, .oma-origin-facts-{{ owid }} *::after {
+  box-sizing: border-box;
+  }
+.oma-origin-facts-{{ owid }} .inner {
+  max-width: 280px;
+  margin: 0 auto 0 0;
+  }
+@media (min-width: 1024px) {
+  .oma-origin-facts-{{ owid }} .inner {
+    margin: 0 auto 0 clamp(20px, 10vw, 180px);
+  }
+}
+.oma-origin-facts-{{ owid }} .eyebrow {
+  font: 800 10.5px/1 var(--font-heading-family);
+  letter-spacing: .14em;
+  color: {{ section.settings.accent_color }};
+  }
+.oma-origin-facts-{{ owid }} .facts {
+  display: flex;
+  flex-direction: column;
+  margin-top: 14px;
+  border-top: 1.5px solid {{ section.settings.accent_color }};
+  }
+.oma-origin-facts-{{ owid }} .fact {
+  padding: 12px 0;
+  border-bottom: 1px solid color-mix(in srgb, {{ section.settings.accent_color }} 22%, transparent);
+  }
+.oma-origin-facts-{{ owid }} .fact-label {
+  font: 700 10px/1.3 var(--font-heading-family);
+  letter-spacing: .1em;
+  color: {{ section.settings.accent_color }};
+  }
+.oma-origin-facts-{{ owid }} .fact-value {
+  margin-top: 6px;
+  font: 700 15px/1.35 var(--font-heading-family);
+  color: {{ section.settings.text_color }};
+  }
+.oma-origin-facts-{{ owid }} .fact-value.is-pending {
+  font-weight: 500;
+  font-style: italic;
+  color: color-mix(in srgb, {{ section.settings.text_color }} 60%, transparent);
+  }
+.oma-origin-facts-{{ owid }} .subtitle {
+  display: none;
+  }
+.oma-origin-facts-{{ owid }} .jump {
+  display: inline-block;
+  margin-top: 18px;
+  text-decoration: none;
+  font: 800 13px/1 var(--font-heading-family);
+  color: {{ section.settings.accent_color }};
+  }
+.oma-origin-facts-{{ owid }} .jump:hover {
+  opacity: .75;
+  }
+.oma-origin-facts-{{ owid }} .missing-origin {
+  margin: 0;
+  font: 700 15px/1.5 var(--font-body-family);
+  color: {{ section.settings.text_color }};
+  }
+{% endstyle %}
+<div class="oma-origin-facts-{{ owid }}">
+  <div class="inner">
+    {%- if origin == blank -%}
+      {%- if request.design_mode -%}
+        <p class="missing-origin">Select an origin to fill in this facts band.</p>
+      {%- endif -%}
+    {%- else -%}
+      {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
+      {%- render 'origin-facts',
+        origin: origin,
+        producer_label: section.settings.producer_label,
+        elevation_label: section.settings.elevation_label,
+        process_label: section.settings.process_label,
+        coming_soon_label: section.settings.coming_soon_label,
+        show_certifications: true,
+        certifications_label: section.settings.certifications_label,
+        show_harvest: true,
+        harvest_label: section.settings.harvest_label
+      -%}
+      {%- if section.settings.jump_label != blank -%}
+        <a class="jump" href="#{{ section.settings.jump_anchor }}">{{ section.settings.jump_label | escape }} ↓</a>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</div>
+{% schema %}
+{
+  "name": "OMA Origin Facts",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    { "type": "metaobject", "id": "origin_reference", "metaobject_type": "origin", "label": "Origin" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "ABOUT THIS FARM" },
+    { "type": "header", "content": "Fact labels" },
+    { "type": "text", "id": "producer_label", "label": "Producer fact label", "default": "PRODUCER" },
+    { "type": "text", "id": "elevation_label", "label": "Elevation fact label", "default": "ELEVATION" },
+    { "type": "text", "id": "process_label", "label": "Process fact label", "default": "PROCESS" },
+    { "type": "text", "id": "certifications_label", "label": "Certifications fact label", "default": "CERTIFICATIONS" },
+    { "type": "text", "id": "harvest_label", "label": "Harvest period fact label", "default": "HARVEST" },
+    { "type": "text", "id": "coming_soon_label", "label": "Placeholder for a fact with no linked product data yet", "default": "Coming soon" },
+    { "type": "header", "content": "Jump link" },
+    { "type": "text", "id": "jump_label", "label": "Jump link label", "default": "The coffee from this farm" },
+    { "type": "text", "id": "jump_anchor", "label": "Jump link target anchor ID", "info": "Must match the Anchor ID setting on the OMA Origin Coffees section further down the page.", "default": "coffees" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#F7F5F1" },
+    { "type": "color", "id": "accent_color", "label": "Accent (eyebrow, labels, borders)", "default": "#FF3F00" },
+    { "type": "color", "id": "text_color", "label": "Fact value color", "default": "#00180C" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 24 }
+  ],
+  "presets": [
+    { "name": "OMA Origin Facts" }
+  ]
+}
+{% endschema %}

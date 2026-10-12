@@ -1,0 +1,182 @@
+{%- comment -%}
+  oma-origin-coffees — "Grown in <Place>" compact list for the Origin Intro
+  page: the origin metaobject's linked products as a flat row (thumb, name +
+  descriptor + price, Add), not a card grid -- oma-collection-showcase and
+  oma-featured-products are both the wrong shape for this (full cards), so
+  this is its own section. No variant picker, unlike oma-featured-products'
+  cards -- the design shows a single Add button per row, adding the
+  product's first available variant directly; a shopper who wants a
+  different grind/weight follows through to the product page.
+
+  Add-to-cart is a real /cart/add form (id + variant id), same contract as
+  everywhere else in the theme, so it opens the existing cart-drawer custom
+  element -- no new drawer, no custom JS.
+{%- endcomment -%}
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{%- liquid
+  assign origin = section.settings.origin_reference
+  assign anchor_id = section.settings.anchor_id | default: 'coffees'
+-%}
+{% style %}
+.oma-origin-coffees-{{ owid }} {
+  box-sizing: border-box;
+  background: {{ section.settings.background_color }};
+  border-top: 1.5px solid {{ section.settings.accent_color }};
+  scroll-margin-top: 100px;
+  font-family: var(--font-body-family);
+  }
+.oma-origin-coffees-{{ owid }} *, .oma-origin-coffees-{{ owid }} *::before, .oma-origin-coffees-{{ owid }} *::after {
+  box-sizing: border-box;
+  }
+.oma-origin-coffees-{{ owid }} .inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 56px clamp(20px, 4vw, 48px) 60px;
+  }
+.oma-origin-coffees-{{ owid }} .eyebrow {
+  font: 800 11px/1 var(--font-heading-family);
+  letter-spacing: .16em;
+  color: {{ section.settings.accent_color }};
+  }
+.oma-origin-coffees-{{ owid }} .list {
+  margin-top: 14px;
+  border-top: 1px solid color-mix(in srgb, {{ section.settings.accent_color }} 22%, transparent);
+  }
+.oma-origin-coffees-{{ owid }} .row {
+  display: flex;
+  align-items: center;
+  gap: 16px 28px;
+  padding: 20px 0;
+  border-bottom: 1px solid color-mix(in srgb, {{ section.settings.accent_color }} 22%, transparent);
+  }
+.oma-origin-coffees-{{ owid }} .thumb {
+  flex: none;
+  position: relative;
+  width: clamp(88px, 10vw, 128px);
+  aspect-ratio: 1 / 1;
+  border: 1.5px solid {{ section.settings.accent_color }};
+  border-radius: 10px;
+  overflow: hidden;
+  background: {{ section.settings.placeholder_background }};
+  display: block;
+  }
+.oma-origin-coffees-{{ owid }} .thumb img,
+.oma-origin-coffees-{{ owid }} .thumb svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  }
+.oma-origin-coffees-{{ owid }} .info {
+  flex: 1;
+  min-width: 0;
+  text-decoration: none;
+  }
+.oma-origin-coffees-{{ owid }} .info:hover {
+  opacity: .8;
+  }
+.oma-origin-coffees-{{ owid }} .name {
+  font: 800 clamp(22px, 2.6vw, 32px)/1 var(--font-heading-family);
+  letter-spacing: -.03em;
+  color: {{ section.settings.accent_color }};
+  overflow-wrap: anywhere;
+  }
+.oma-origin-coffees-{{ owid }} .meta {
+  margin-top: 10px;
+  font: 800 11.5px/1.4 var(--font-heading-family);
+  letter-spacing: .08em;
+  color: {{ section.settings.accent_color }};
+  }
+.oma-origin-coffees-{{ owid }} .add-btn {
+  flex: none;
+  border: 0;
+  cursor: pointer;
+  background: {{ section.settings.button_bg_color }};
+  color: {{ section.settings.button_text_color }};
+  padding: 15px 26px;
+  border-radius: 100px;
+  font: 800 13px/1 var(--font-heading-family);
+  transition: opacity .15s ease;
+  }
+.oma-origin-coffees-{{ owid }} .add-btn:hover {
+  opacity: .9;
+  }
+.oma-origin-coffees-{{ owid }} .add-btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+  }
+.oma-origin-coffees-{{ owid }} .missing-origin {
+  margin: 0;
+  font: 700 15px/1.5 var(--font-body-family);
+  color: {{ section.settings.text_color }};
+  }
+{% endstyle %}
+<section id="{{ anchor_id }}" class="oma-origin-coffees-{{ owid }}">
+  <div class="inner">
+    {%- if origin == blank -%}
+      {%- if request.design_mode -%}
+        <p class="missing-origin">Select an origin to list its coffees here.</p>
+      {%- endif -%}
+    {%- else -%}
+      <div class="eyebrow">{{ section.settings.eyebrow_prefix | escape }} {{ origin.place | upcase }}</div>
+      <div class="list">
+        {%- for product in origin.products.value -%}
+          {%- liquid
+            assign note = product.metafields.custom.product_eyebrow.value
+            assign coffee_form_id = 'oma-origin-coffee-' | append: section.id | append: '-' | append: forloop.index
+          -%}
+          <div class="row">
+            <a class="thumb" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+              {%- if product.featured_image != blank -%}
+                <img src="{{ product.featured_image | image_url: width: 256 }}" width="128" height="128" alt="" loading="lazy">
+              {%- else -%}
+                {{ 'product-1' | placeholder_svg_tag }}
+              {%- endif -%}
+            </a>
+            <a class="info" href="{{ product.url }}">
+              <div class="name">{{ product.title }}</div>
+              <div class="meta">{% if note != blank %}{{ note | escape }} · {% endif %}{% render 'ow-money', amount: product.price_min %}</div>
+            </a>
+            {%- if product.available -%}
+              <product-form data-section="{{ section.id }}">
+                {%- form 'product', product, id: coffee_form_id, data-type: 'add-to-cart-form' -%}
+                  <div class="product-form__error-message-wrapper" role="alert" hidden><span class="product-form__error-message"></span></div>
+                  <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                  <button type="submit" name="add" class="add-btn">{{ 'products.product.add_to_cart' | t | default: 'Add' }}</button>
+                {%- endform -%}
+              </product-form>
+            {%- else -%}
+              <button type="button" class="add-btn" disabled>{{ 'products.product.sold_out' | t | default: 'Sold out' }}</button>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "OMA Origin Coffees",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    { "type": "metaobject", "id": "origin_reference", "metaobject_type": "origin", "label": "Origin" },
+    { "type": "text", "id": "eyebrow_prefix", "label": "Eyebrow prefix", "default": "GROWN IN" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Must match the jump link target on the OMA Origin Facts section above.", "default": "coffees" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#F7F5F1" },
+    { "type": "color", "id": "accent_color", "label": "Accent (eyebrow, name, price, thumb border)", "default": "#FF3F00" },
+    { "type": "color", "id": "text_color", "label": "Editor placeholder text color", "default": "#00180C" },
+    { "type": "color", "id": "placeholder_background", "label": "Thumb placeholder background", "default": "#FBB925" },
+    { "type": "color", "id": "button_bg_color", "label": "Add button background", "default": "#FF3F00" },
+    { "type": "color", "id": "button_text_color", "label": "Add button text", "default": "#FFFFFF" }
+  ],
+  "presets": [
+    { "name": "OMA Origin Coffees" }
+  ]
+}
+{% endschema %}

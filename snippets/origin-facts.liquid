@@ -1,0 +1,142 @@
+{%- comment -%}
+  origin-facts — shared "subtitle + facts list" markup for an `origin`
+  metaobject entry. Used by oma-origin-cards.liquid (grid + single-feature
+  cards) and oma-page-header-origin.liquid / the origin facts rail, so the
+  derivation only lives in one place.
+
+  Region, country, elevation, producers and process are deliberately NOT
+  fields on the origin metaobject itself -- they're derived here from the
+  linked products' existing metafields (custom.region,
+  custom.origin-of-country, custom.elevation_masl, custom.farm_producer,
+  custom.process) so there is exactly one place to edit each of those facts.
+  An origin with no product linked yet renders coming_soon_label for
+  whatever it can't derive, rather than hiding the row or showing a blank
+  dash. Certifications and harvest period, by contrast, ARE fields on the
+  origin metaobject itself (no per-product equivalent exists), so those two
+  read straight off `origin` with no derivation.
+
+  Required params:
+    origin                — the origin metaobject
+    producer_label, elevation_label, process_label, coming_soon_label
+
+  Optional params (each fact is only rendered if its show_* flag is true):
+    show_coffees, coffees_label_singular, coffees_label_plural
+    show_certifications, certifications_label
+    show_harvest, harvest_label
+
+  Caller owns everything before this call (heading/place/tagline) and after
+  it (CTA/visit link) -- this renders exactly the subtitle line through the
+  closing </div> of .facts, reusing whatever .subtitle/.facts/.fact/
+  .fact-label/.fact-value/.is-pending styling the calling section already
+  scopes under its own wrapper class.
+{%- endcomment -%}
+{%- liquid
+  assign linked_products = origin.products.value
+  assign region = blank
+  assign country = blank
+  assign elev_values = ''
+  assign producer_values = ''
+  assign process_values = ''
+  assign coffee_names = ''
+
+  for p in linked_products
+    if region == blank and p.metafields.custom.region.value != blank
+      assign region = p.metafields.custom.region.value
+    endif
+    if country == blank and p.metafields.custom.origin-of-country.value != blank
+      assign country = p.metafields.custom.origin-of-country.value
+    endif
+    if p.metafields.custom.elevation_masl.value != blank
+      assign elev_values = elev_values | append: p.metafields.custom.elevation_masl.value | append: '|'
+    endif
+    if p.metafields.custom.farm_producer.value != blank
+      for name in p.metafields.custom.farm_producer.value
+        assign producer_values = producer_values | append: name | append: '|'
+      endfor
+    endif
+    if p.metafields.custom.process.value != blank
+      for name in p.metafields.custom.process.value
+        assign process_values = process_values | append: name | append: '|'
+      endfor
+    endif
+    assign coffee_names = coffee_names | append: p.title | append: '|'
+  endfor
+
+  assign elev_list = elev_values | split: '|' | uniq | sort
+  assign producer_list = producer_values | split: '|' | uniq
+  assign process_list = process_values | split: '|' | uniq
+  assign coffee_list = coffee_names | split: '|' | uniq
+
+  assign elev_display = blank
+  if elev_list.size == 1
+    assign elev_display = elev_list.first | append: ' m'
+  elsif elev_list.size > 1
+    assign elev_display = elev_list.first | append: '–' | append: elev_list.last | append: ' m'
+  endif
+
+  assign subtitle = blank
+  if region != blank and country != blank
+    assign subtitle = region | append: ', ' | append: country
+  elsif region != blank
+    assign subtitle = region
+  elsif country != blank
+    assign subtitle = country
+  endif
+-%}
+{%- if subtitle != blank -%}<div class="subtitle">{{ subtitle }}</div>{%- endif -%}
+<div class="facts">
+  <div class="fact">
+    <div class="fact-label">{{ producer_label | escape }}</div>
+    {%- if producer_list.size > 0 -%}
+      <div class="fact-value">{{ producer_list | join: ', ' }}</div>
+    {%- else -%}
+      <div class="fact-value is-pending">{{ coming_soon_label | escape }}</div>
+    {%- endif -%}
+  </div>
+  <div class="fact">
+    <div class="fact-label">{{ elevation_label | escape }}</div>
+    {%- if elev_display != blank -%}
+      <div class="fact-value">{{ elev_display }}</div>
+    {%- else -%}
+      <div class="fact-value is-pending">{{ coming_soon_label | escape }}</div>
+    {%- endif -%}
+  </div>
+  <div class="fact">
+    <div class="fact-label">{{ process_label | escape }}</div>
+    {%- if process_list.size > 0 -%}
+      <div class="fact-value">{{ process_list | join: ', ' }}</div>
+    {%- else -%}
+      <div class="fact-value is-pending">{{ coming_soon_label | escape }}</div>
+    {%- endif -%}
+  </div>
+  {%- if show_coffees -%}
+    <div class="fact">
+      <div class="fact-label">{% if coffee_list.size > 1 %}{{ coffees_label_plural | escape }}{% else %}{{ coffees_label_singular | escape }}{% endif %}</div>
+      {%- if coffee_list.size > 0 -%}
+        <div class="fact-value">{{ coffee_list | join: ', ' }}</div>
+      {%- else -%}
+        <div class="fact-value is-pending">{{ coming_soon_label | escape }}</div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+  {%- if show_certifications -%}
+    <div class="fact">
+      <div class="fact-label">{{ certifications_label | escape }}</div>
+      {%- if origin.certifications.value.size > 0 -%}
+        <div class="fact-value">{{ origin.certifications.value | join: ', ' }}</div>
+      {%- else -%}
+        <div class="fact-value is-pending">{{ coming_soon_label | escape }}</div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+  {%- if show_harvest -%}
+    <div class="fact">
+      <div class="fact-label">{{ harvest_label | escape }}</div>
+      {%- if origin.harvest_period.value.size > 0 -%}
+        <div class="fact-value">{{ origin.harvest_period.value | join: ', ' }}</div>
+      {%- else -%}
+        <div class="fact-value is-pending">{{ coming_soon_label | escape }}</div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</div>

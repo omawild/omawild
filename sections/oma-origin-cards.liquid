@@ -101,7 +101,8 @@
   background: {{ section.settings.hover_background }};
   overflow: hidden;
   }
-.oma-origin-cards-{{ owid }} .cover img {
+.oma-origin-cards-{{ owid }} .cover img,
+.oma-origin-cards-{{ owid }} .cover svg {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -147,7 +148,7 @@
   border-top: 1.5px solid {{ section.settings.accent_color }};
   }
 .oma-origin-cards-{{ owid }} .fact-label {
-  font: 900 10.5px/1.4 var(--font-heading-family);
+  font: 400 10.5px/1.4 var(--font-heading-family);
   letter-spacing: .12em;
   color: {{ section.settings.accent_color }};
   }
@@ -173,12 +174,6 @@
 .oma-origin-cards-{{ owid }} .cards.is-single .card {
   flex-direction: row;
   flex-wrap: wrap;
-  /* Default (stretch) forced .cover to match .card-body's full height --
-     with a 4-fact column that wraps to several lines, that height is tall,
-     and the photo (plus the placeholder before one's uploaded) stretched
-     well past its own 4:3 aspect-ratio to match it. flex-start lets the
-     cover size itself from its own aspect-ratio instead. */
-  align-items: flex-start;
   }
 .oma-origin-cards-{{ owid }} .cards.is-single .cover {
   flex: 1.3 1 420px;
@@ -309,58 +304,6 @@
             continue
           endif
 
-          assign linked_products = origin.products.value
-          assign region = blank
-          assign country = blank
-          assign elev_values = ''
-          assign producer_values = ''
-          assign process_values = ''
-          assign coffee_names = ''
-
-          for p in linked_products
-            if region == blank and p.metafields.custom.region.value != blank
-              assign region = p.metafields.custom.region.value
-            endif
-            if country == blank and p.metafields.custom.origin-of-country.value != blank
-              assign country = p.metafields.custom.origin-of-country.value
-            endif
-            if p.metafields.custom.elevation_masl.value != blank
-              assign elev_values = elev_values | append: p.metafields.custom.elevation_masl.value | append: '|'
-            endif
-            if p.metafields.custom.farm_producer.value != blank
-              for name in p.metafields.custom.farm_producer.value
-                assign producer_values = producer_values | append: name | append: '|'
-              endfor
-            endif
-            if p.metafields.custom.process.value != blank
-              for name in p.metafields.custom.process.value
-                assign process_values = process_values | append: name | append: '|'
-              endfor
-            endif
-            assign coffee_names = coffee_names | append: p.title | append: '|'
-          endfor
-
-          assign elev_list = elev_values | split: '|' | uniq | sort
-          assign producer_list = producer_values | split: '|' | uniq
-          assign process_list = process_values | split: '|' | uniq
-          assign coffee_list = coffee_names | split: '|' | uniq
-
-          assign elev_display = blank
-          if elev_list.size == 1
-            assign elev_display = elev_list.first | append: ' m'
-          elsif elev_list.size > 1
-            assign elev_display = elev_list.first | append: '–' | append: elev_list.last | append: ' m'
-          endif
-
-          assign subtitle = blank
-          if region != blank and country != blank
-            assign subtitle = region | append: ', ' | append: country
-          elsif region != blank
-            assign subtitle = region
-          elsif country != blank
-            assign subtitle = country
-          endif
-
           assign card_tag = 'div'
           if origin.link != blank
             assign card_tag = 'a'
@@ -384,73 +327,28 @@
             {%- if origin_count == 1 -%}
               <div class="num-row"><span class="num">{{ section.settings.origin_number_prefix | escape }}01</span></div>
               <h3 class="place">{{ origin.place }}</h3>
-              {%- if subtitle != blank -%}<div class="subtitle">{{ subtitle }}</div>{%- endif -%}
               {%- if origin.tagline != blank -%}<p class="lead">{{ origin.tagline }}</p>{%- endif -%}
-              <div class="facts">
-                <div class="fact">
-                  <div class="fact-label">{{ section.settings.producer_label | escape }}</div>
-                  {%- if producer_list.size > 0 -%}
-                    <div class="fact-value">{{ producer_list | join: ', ' }}</div>
-                  {%- else -%}
-                    <div class="fact-value is-pending">{{ section.settings.coming_soon_label | escape }}</div>
-                  {%- endif -%}
-                </div>
-                <div class="fact">
-                  <div class="fact-label">{{ section.settings.elevation_label | escape }}</div>
-                  {%- if elev_display != blank -%}
-                    <div class="fact-value">{{ elev_display }}</div>
-                  {%- else -%}
-                    <div class="fact-value is-pending">{{ section.settings.coming_soon_label | escape }}</div>
-                  {%- endif -%}
-                </div>
-                <div class="fact">
-                  <div class="fact-label">{{ section.settings.process_label | escape }}</div>
-                  {%- if process_list.size > 0 -%}
-                    <div class="fact-value">{{ process_list | join: ', ' }}</div>
-                  {%- else -%}
-                    <div class="fact-value is-pending">{{ section.settings.coming_soon_label | escape }}</div>
-                  {%- endif -%}
-                </div>
-                <div class="fact">
-                  <div class="fact-label">{% if coffee_list.size > 1 %}{{ section.settings.coffees_label_plural | escape }}{% else %}{{ section.settings.coffees_label_singular | escape }}{% endif %}</div>
-                  {%- if coffee_list.size > 0 -%}
-                    <div class="fact-value">{{ coffee_list | join: ', ' }}</div>
-                  {%- else -%}
-                    <div class="fact-value is-pending">{{ section.settings.coming_soon_label | escape }}</div>
-                  {%- endif -%}
-                </div>
-              </div>
+              {%- render 'origin-facts',
+                origin: origin,
+                producer_label: section.settings.producer_label,
+                elevation_label: section.settings.elevation_label,
+                process_label: section.settings.process_label,
+                coming_soon_label: section.settings.coming_soon_label,
+                show_coffees: true,
+                coffees_label_singular: section.settings.coffees_label_singular,
+                coffees_label_plural: section.settings.coffees_label_plural
+              -%}
               {%- if card_tag == 'a' -%}<span class="visit">{{ section.settings.visit_label | escape }} {{ origin.place }} →</span>{%- endif -%}
             {%- else -%}
               <div class="num-row"><span class="num">{{ section.settings.origin_number_prefix | escape }}{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span></div>
               <h3 class="place">{{ origin.place }}</h3>
-              {%- if subtitle != blank -%}<div class="subtitle">{{ subtitle }}</div>{%- endif -%}
-              <div class="facts">
-                <div class="fact">
-                  <span class="fact-label">{{ section.settings.producer_label | escape }}</span>
-                  {%- if producer_list.size > 0 -%}
-                    <span class="fact-value">{{ producer_list | join: ', ' }}</span>
-                  {%- else -%}
-                    <span class="fact-value is-pending">{{ section.settings.coming_soon_label | escape }}</span>
-                  {%- endif -%}
-                </div>
-                <div class="fact">
-                  <span class="fact-label">{{ section.settings.elevation_label | escape }}</span>
-                  {%- if elev_display != blank -%}
-                    <span class="fact-value">{{ elev_display }}</span>
-                  {%- else -%}
-                    <span class="fact-value is-pending">{{ section.settings.coming_soon_label | escape }}</span>
-                  {%- endif -%}
-                </div>
-                <div class="fact">
-                  <span class="fact-label">{{ section.settings.process_label | escape }}</span>
-                  {%- if process_list.size > 0 -%}
-                    <span class="fact-value">{{ process_list | join: ', ' }}</span>
-                  {%- else -%}
-                    <span class="fact-value is-pending">{{ section.settings.coming_soon_label | escape }}</span>
-                  {%- endif -%}
-                </div>
-              </div>
+              {%- render 'origin-facts',
+                origin: origin,
+                producer_label: section.settings.producer_label,
+                elevation_label: section.settings.elevation_label,
+                process_label: section.settings.process_label,
+                coming_soon_label: section.settings.coming_soon_label
+              -%}
               {%- if card_tag == 'a' -%}<span class="read-link">{{ section.settings.read_label | escape }} →</span>{%- endif -%}
             {%- endif -%}
           </div>

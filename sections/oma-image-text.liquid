@@ -11,7 +11,7 @@
   case something in the sync pipeline was stuck specifically on that
   filename.
 
-  Two layouts:
+  Three layouts:
   - stacked: full-width photo, then a bordered row below it with a short
     label on the left and body paragraphs on the right. No heading. The
     divider along that row's bottom edge is a merchant toggle
@@ -21,6 +21,11 @@
     1024px the text always renders above the image regardless of the
     "Image left" setting, matching the design file's own flip-only-if-wide
     rule.
+  - pair: two captioned photos side by side (stacking below ~640px), no
+    text at all. Added for the Origin Intro story -- the design file's
+    "Origin Detail Page" story column needs this (two farm photos back to
+    back, e.g. a portrait + the harvest) and nothing else in the theme
+    renders a plain two-up photo row.
 
   Add via the theme editor's section picker by searching "Image + text" —
   its schema name is "OMA Image + text block" (with spaces), which won't
@@ -238,6 +243,41 @@
   max-height: 640px;
   }
 }
+
+{%- comment -%} Pair {%- endcomment -%}
+.oma-imgtext-{{ owid }} .pair-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: clamp(40px, 5vw, 64px) clamp(20px, 4vw, 48px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 20px;
+  }
+.oma-imgtext-{{ owid }} .pair-figure {
+  margin: 0;
+  min-width: 0;
+  }
+.oma-imgtext-{{ owid }} .pair-photo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #FFE4E7;
+  border: 1.5px solid #FF3F00;
+  }
+.oma-imgtext-{{ owid }} .pair-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  }
+.oma-imgtext-{{ owid }} .pair-caption {
+  margin-top: 10px;
+  font: 500 12.5px/1.55 var(--font-body-family);
+  color: #00180C;
+  }
 {% endstyle %}
 <div class="oma-imgtext-{{ owid }} tone-{{ section.settings.tone }}{% if section.settings.reverse %} is-reverse{% endif %}">
 {%- if section.settings.layout == 'stacked' -%}
@@ -254,7 +294,7 @@
     <div class="stacked-body">{{ section.settings.body }}</div>
   </div>
 </section>
-{%- else -%}
+{%- elsif section.settings.layout == 'split' -%}
 <section class="split-section">
   <div class="split-inner">
     <div class="split-text">
@@ -272,6 +312,29 @@
     </div>
   </div>
 </section>
+{%- else -%}
+<section class="pair-inner">
+  <figure class="pair-figure">
+    <div class="pair-photo">
+      {%- if section.settings.image_a != blank -%}
+        {{ section.settings.image_a | image_url: width: 900 | image_tag: loading: 'lazy', widths: '390, 600, 900', sizes: '(min-width: 750px) 50vw, 100vw' }}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'oma-placeholder' }}
+      {%- endif -%}
+    </div>
+    {%- if section.settings.caption_a != blank -%}<figcaption class="pair-caption">{{ section.settings.caption_a | escape }}</figcaption>{%- endif -%}
+  </figure>
+  <figure class="pair-figure">
+    <div class="pair-photo">
+      {%- if section.settings.image_b != blank -%}
+        {{ section.settings.image_b | image_url: width: 900 | image_tag: loading: 'lazy', widths: '390, 600, 900', sizes: '(min-width: 750px) 50vw, 100vw' }}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'oma-placeholder' }}
+      {%- endif -%}
+    </div>
+    {%- if section.settings.caption_b != blank -%}<figcaption class="pair-caption">{{ section.settings.caption_b | escape }}</figcaption>{%- endif -%}
+  </figure>
+</section>
 {%- endif -%}
 </div>
 {% schema %}
@@ -288,12 +351,13 @@
       "label": "Layout",
       "options": [
         { "value": "stacked", "label": "Stacked" },
-        { "value": "split", "label": "Split" }
+        { "value": "split", "label": "Split" },
+        { "value": "pair", "label": "Photo pair" }
       ],
       "default": "stacked",
-      "info": "Stacked: full-width photo, then a label + body row below. Split: side-by-side eyebrow/title/body/pull-quote and photo."
+      "info": "Stacked: full-width photo, then a label + body row below. Split: side-by-side eyebrow/title/body/pull-quote and photo. Photo pair: two captioned photos side by side, no text."
     },
-    { "type": "image_picker", "id": "image", "label": "Photo", "info": "Edit alternative text in the image picker for accessibility." },
+    { "type": "image_picker", "id": "image", "label": "Photo (stacked/split layouts)", "info": "Edit alternative text in the image picker for accessibility." },
     { "type": "header", "content": "Stacked layout only" },
     {
       "type": "select",
@@ -326,8 +390,13 @@
     { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
     { "type": "inline_richtext", "id": "title", "label": "Title" },
     { "type": "text", "id": "pull", "label": "Pull quote", "info": "Optional. Shown below the body, with a rule above it." },
-    { "type": "header", "content": "Body (both layouts)" },
-    { "type": "richtext", "id": "body", "label": "Body" }
+    { "type": "header", "content": "Stacked/split body" },
+    { "type": "richtext", "id": "body", "label": "Body" },
+    { "type": "header", "content": "Photo pair layout only" },
+    { "type": "image_picker", "id": "image_a", "label": "Photo (left)" },
+    { "type": "text", "id": "caption_a", "label": "Caption (left)" },
+    { "type": "image_picker", "id": "image_b", "label": "Photo (right)" },
+    { "type": "text", "id": "caption_b", "label": "Caption (right)" }
   ],
   "presets": [
     {
@@ -347,6 +416,14 @@
         "title": "A different way of being",
         "body": "<p>Our adventures across Indonesia changed the way we saw the world. While we had spent a decade improving people's lives, it was there that we were reminded our wellbeing has always depended on the health of our planet. Healthy soil grows nourishing food. Biodiversity creates resilient and thriving ecosystems.</p>",
         "pull": "Our wellbeing has never been separate from the planet, because we are nature."
+      }
+    },
+    {
+      "name": "OMA Image Text (Photo pair)",
+      "settings": {
+        "layout": "pair",
+        "caption_a": "Picking ripe cherry by hand.",
+        "caption_b": "Whole cherries drying in the sun."
       }
     }
   ]
