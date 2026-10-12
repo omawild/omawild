@@ -15,13 +15,13 @@
   facts (see origin-facts.liquid's own comment). The merchant creating a new
   Origin Intro page just picks the origin; everything else here follows.
 
-  The "ORIGIN NN · region" kicker row keeps the region/country half of the
-  design's eyebrow (via origin-facts.liquid's subtitle_only mode, so it's
-  the same derivation the facts band below uses, not a second copy) but
-  drops the "NN" index: that number is only meaningful relative to the other
-  origins in a list (oma-origin-cards already shows it there), and a
-  standalone Page has no natural index without a merchant-typed field for
-  it, which isn't worth adding for a single digit.
+  The kicker row is a plain merchant-typed label (e.g. "ORIGIN"), not the
+  design file's "ORIGIN NN · region, country" -- region/country already
+  shows in the breadcrumb and again moments later in the facts band below,
+  and the NN index is only meaningful relative to other origins in a list
+  (oma-origin-cards already shows it there). Repeating the place name a
+  third time right above the heading that already says it read as noise
+  more than information, so this stays a short static tag instead.
 {%- endcomment -%}
 {% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
 {%- liquid
@@ -67,7 +67,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 48px 0 52px;
+  padding: 56px 0 80px;
   }
 .oma-page-header-origin-{{ owid }} .kicker {
   font: 800 11px/1.3 var(--font-heading-family);
@@ -146,8 +146,7 @@
         </ul>
       {%- endif -%}
       <div class="text">
-        {%- capture kicker -%}{%- render 'origin-facts', origin: origin, subtitle_only: true -%}{%- endcapture -%}
-        {%- if kicker != blank -%}<div class="kicker">{{ section.settings.kicker_prefix | escape }} {{ kicker }}</div>{%- endif -%}
+        {%- if section.settings.kicker_label != blank -%}<div class="kicker">{{ section.settings.kicker_label | escape }}</div>{%- endif -%}
         <h1>{{ origin.place }}</h1>
         {%- if origin.tagline != blank -%}<p class="lead">{{ origin.tagline }}</p>{%- endif -%}
       </div>
@@ -176,7 +175,7 @@
   },
   "settings": [
     { "type": "metaobject", "id": "origin_reference", "metaobject_type": "origin", "label": "Origin", "info": "Place, tagline and cover photo all come from here." },
-    { "type": "text", "id": "kicker_prefix", "label": "Kicker prefix", "default": "ORIGIN ·", "info": "Shown above the heading as \"<prefix> <region, country>\" -- hidden entirely if the linked products have no region/country metafield set yet." },
+    { "type": "text", "id": "kicker_label", "label": "Kicker label", "default": "ORIGIN", "info": "Short static tag shown above the heading. Leave blank to hide it." },
     { "type": "header", "content": "Breadcrumb" },
     { "type": "checkbox", "id": "show_breadcrumb", "label": "Show breadcrumb", "default": true },
     { "type": "text", "id": "origins_label", "label": "Origins crumb label", "default": "Origins" },

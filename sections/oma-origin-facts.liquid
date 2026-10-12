@@ -111,7 +111,7 @@
   }
 .oma-origin-facts-{{ owid }} .fact-value {
   margin-top: 6px;
-  font: 700 15px/1.35 var(--font-heading-family);
+  font: 400 15px/1.35 var(--font-heading-family);
   color: {{ section.settings.text_color }};
   }
 .oma-origin-facts-{{ owid }} .fact-value.is-pending {
@@ -251,6 +251,8 @@
   "settings": [
     { "type": "metaobject", "id": "origin_reference", "metaobject_type": "origin", "label": "Origin" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow / mobile accordion label", "default": "ABOUT THIS FARM" },
+    { "type": "header", "content": "Facts" },
+    { "type": "paragraph", "content": "All five facts (Producer, Elevation, Process, Certifications, Harvest period) are added as blocks below by default. If one genuinely doesn't apply to this origin, delete its block rather than leaving it to show the \"Coming soon\" placeholder forever." },
     { "type": "text", "id": "coming_soon_label", "label": "Placeholder for a shown fact with no linked product data yet", "info": "Only shown for a fact block that's present but whose value isn't filled in yet. An origin missing a fact for good -- not \"coming soon\", just doesn't apply -- should have that fact's block removed below instead.", "default": "Coming soon" },
     { "type": "header", "content": "Jump link" },
     { "type": "text", "id": "jump_label", "label": "Jump link label", "default": "The coffee from this farm" },
@@ -260,7 +262,7 @@
     { "type": "color", "id": "accent_color", "label": "Accent (eyebrow, labels, borders)", "default": "#FF3F00" },
     { "type": "color", "id": "text_color", "label": "Fact value color", "default": "#00180C" },
     { "type": "header", "content": "Layout" },
-    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 32 },
     { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 24 }
   ],
   "blocks": [

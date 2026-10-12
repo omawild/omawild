@@ -1,8 +1,8 @@
 {%- comment -%}
   origin-facts — shared "subtitle + facts list" markup for an `origin`
   metaobject entry. Used by oma-origin-cards.liquid (grid + single-feature
-  cards) and oma-page-header-origin.liquid / the origin facts rail, so the
-  derivation only lives in one place.
+  cards) and oma-origin-facts.liquid (the Origin Intro page's facts band),
+  so the derivation only lives in one place.
 
   Region, country, elevation, producers and process are deliberately NOT
   fields on the origin metaobject itself -- they're derived here from the
@@ -27,12 +27,6 @@
     show_coffees, coffees_label_singular, coffees_label_plural
     show_certifications, certifications_label
     show_harvest, harvest_label
-
-  Pass subtitle_only: true to render JUST the bare region/country text (no
-  wrapping <div>, no facts list) -- oma-page-header-origin.liquid's kicker
-  row uses this to show the same region/country text as the facts band
-  below, without pulling in the whole facts block or running the
-  linked-product derivation loop twice with two different output shapes.
 
   Caller owns everything before this call (heading/place/tagline) and after
   it (CTA/visit link) -- this renders exactly the subtitle line through the
@@ -93,9 +87,6 @@
     assign subtitle = country
   endif
 -%}
-{%- if subtitle_only -%}
-  {{- subtitle -}}
-{%- else -%}
 {%- if subtitle != blank -%}<div class="subtitle">{{ subtitle }}</div>{%- endif -%}
 <div class="facts">
   {%- if show_producer -%}
@@ -159,4 +150,3 @@
     </div>
   {%- endif -%}
 </div>
-{%- endif -%}
