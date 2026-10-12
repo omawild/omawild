@@ -18,56 +18,138 @@
         "padding_bottom": 72
       }
     },
-    "oma_page_header_fa7q6t": {
-      "type": "oma-page-header",
+    "oma_page_header_origin_w3EaGf": {
+      "type": "oma-page-header-origin",
+      "name": "OMA Page Header — Origin",
+      "settings": {
+        "origin_reference": "garut-west-java",
+        "show_breadcrumb": true,
+        "origins_label": "Origins",
+        "origins_url": "",
+        "photo_ratio_desktop": "16 / 9",
+        "photo_ratio_mobile": "4 / 5",
+        "gradient_color": "#FF3F00",
+        "background_color": "#F7F5F1",
+        "text_color": "#FFFFFF",
+        "placeholder_background": "#FFE4E7",
+        "gradient_stop": 64
+      }
+    },
+    "oma_origin_facts_nb6Ud9": {
+      "type": "oma-origin-facts",
+      "name": "OMA Origin Facts",
+      "settings": {
+        "origin_reference": "garut-west-java",
+        "eyebrow": "ABOUT THIS FARM",
+        "producer_label": "PRODUCER",
+        "elevation_label": "ELEVATION",
+        "process_label": "PROCESS",
+        "certifications_label": "CERTIFICATIONS",
+        "harvest_label": "HARVEST",
+        "coming_soon_label": "Coming soon",
+        "jump_label": "The coffee from this farm",
+        "jump_anchor": "coffees",
+        "background_color": "#F7F5F1",
+        "accent_color": "#FF3F00",
+        "text_color": "#00180C",
+        "padding_top": 56,
+        "padding_bottom": 24
+      }
+    },
+    "oma_origin_coffees_EenJB7": {
+      "type": "oma-origin-coffees",
+      "name": "OMA Origin Coffees",
+      "settings": {
+        "origin_reference": "garut-west-java",
+        "eyebrow_prefix": "GROWN IN",
+        "anchor_id": "coffees",
+        "background_color": "#F7F5F1",
+        "accent_color": "#FF3F00",
+        "text_color": "#00180C",
+        "placeholder_background": "#FBB925",
+        "button_bg_color": "#FF3F00",
+        "button_text_color": "#FFFFFF"
+      }
+    },
+    "owv2_value_grid_JkRRTe": {
+      "type": "owv2-value-grid",
       "blocks": {
-        "collection_row_aXC3rL": {
-          "type": "collection_row",
+        "card_qdHNPQ": {
+          "type": "card",
           "settings": {
-            "collection": "",
-            "title_override": "",
-            "anchor_override": "",
-            "thumbnail_count": 3,
-            "count_label_override": ""
+            "heading": "Agroforestry coffee",
+            "body": "<p>Grown using regenerative practices inside agroforestry systems, so each harvest improves soil health while our forest stays standing.</p>"
           }
         },
-        "collection_row_4DjLkE": {
-          "type": "collection_row",
+        "card_pjbnWR": {
+          "type": "card",
           "settings": {
-            "collection": "",
-            "title_override": "",
-            "anchor_override": "",
-            "thumbnail_count": 3,
-            "count_label_override": ""
+            "heading": "Funding nature",
+            "body": "<p>At least 1% of our revenue goes to environmental causes.</p>"
+          }
+        },
+        "card_zwA9wR": {
+          "type": "card",
+          "settings": {
+            "heading": "Direct relationships",
+            "body": "<p>Good coffee starts with the people who grow it.</p>"
+          }
+        },
+        "card_ehMmhq": {
+          "type": "card",
+          "settings": {
+            "heading": "Made for your ritual",
+            "body": "<p>Specialty coffee, roasted fresh each month.</p>"
           }
         }
       },
       "block_order": [
-        "collection_row_aXC3rL",
-        "collection_row_4DjLkE"
+        "card_qdHNPQ",
+        "card_pjbnWR",
+        "card_zwA9wR",
+        "card_ehMmhq"
       ],
-      "name": "OMA Page Header",
+      "name": "OWV2 Value grid",
       "settings": {
-        "heading": "Shop",
-        "title_size": "display",
-        "show_breadcrumb": false,
-        "breadcrumb_label": "",
-        "body": "",
-        "show_collection_list": true,
-        "background_color": "#FFE4E7",
-        "heading_color": "#FF3F00",
-        "text_color": "#00180C",
-        "divider_color": "#FF3F00",
-        "thumb_background": "#FBB925",
-        "padding_top": 36,
-        "padding_bottom": 44,
-        "mobile_padding_horizontal": 20,
-        "desktop_padding_horizontal": 48
+        "heading": "",
+        "mobile_hint_text": "← SWIPE →",
+        "card_heading_color": "#FF3F00",
+        "card_heading_size": 19,
+        "card_body_color": "#00180C",
+        "card_body_size": 12.5,
+        "background_color": "#FF3F00",
+        "text_color": "#FFFFFF",
+        "card_background": "#FFFFFF",
+        "show_top_line": true,
+        "padding_top": 52,
+        "padding_bottom": 52
+      }
+    },
+    "oma_image_text_eJPaqd": {
+      "type": "oma-image-text",
+      "name": "OMA Image Text (Split)",
+      "settings": {
+        "layout": "split",
+        "stacked_image_ratio": "21 / 9",
+        "label": "Our story began in Bali.",
+        "show_divider": true,
+        "tone": "electric",
+        "reverse": false,
+        "eyebrow": "THE MAGIC OF BEING ALIVE",
+        "title": "A different way of being",
+        "pull": "Our wellbeing has never been separate from the planet, because we are nature.",
+        "body": "<p>Our adventures across Indonesia changed the way we saw the world. While we had spent a decade improving people's lives, it was there that we were reminded our wellbeing has always depended on the health of our planet. Healthy soil grows nourishing food. Biodiversity creates resilient and thriving ecosystems.</p>",
+        "caption_a": "",
+        "caption_b": ""
       }
     }
   },
   "order": [
     "main",
-    "oma_page_header_fa7q6t"
+    "oma_page_header_origin_w3EaGf",
+    "oma_origin_facts_nb6Ud9",
+    "oma_image_text_eJPaqd",
+    "oma_origin_coffees_EenJB7",
+    "owv2_value_grid_JkRRTe"
   ]
 }
