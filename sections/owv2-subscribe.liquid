@@ -64,6 +64,7 @@
 {%- endcomment -%}
 
 {% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{% assign anchor_id = section.settings.anchor_id | default: section.settings.collection.handle %}
 {% style %}
 .owv2-subscribe-{{ owid }} {
   box-sizing: border-box;
@@ -80,6 +81,7 @@
   font-family: var(--font-body-family);
   font-size: 16px;
   line-height: 1.5;
+  scroll-margin-top: 92px;
   }
 .owv2-subscribe-{{ owid }} *, .owv2-subscribe-{{ owid }} *::before, .owv2-subscribe-{{ owid }} *::after {
   box-sizing: border-box;
@@ -481,7 +483,7 @@
   endif
 -%}
 
-<div class="owv2-subscribe-{{ owid }}">
+<div class="owv2-subscribe-{{ owid }}" id="{{ anchor_id }}">
 {%- if has_roasts -%}
 <owv2-subscribe
   data-owv2-id="{{ section.id }}"
@@ -704,6 +706,12 @@
       "id": "collection",
       "label": "Subscribable coffees",
       "info": "Every product in this collection that offers a subscription (has a selling plan from the Subscriptions app) appears automatically. Add or remove a product from the collection to change what's shown here — no other edit needed."
+    },
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor ID",
+      "info": "Blank uses the collection's handle. Must match the \"Anchor ID override\" on the matching row in the page header section above."
     },
     {
       "type": "range",
