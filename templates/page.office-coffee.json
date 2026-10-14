@@ -121,6 +121,7 @@
         "logo_yFa3Dp",
         "logo_tVG9zB"
       ],
+      "disabled": true,
       "name": "OMA Brewing At",
       "settings": {
         "label": "CURRENTLY BREWING AT",
@@ -135,111 +136,124 @@
         "padding_bottom": 44
       }
     },
-    "scrolling_promotion_pFUrhR": {
+    "scrolling_promotion_GQUhwc": {
       "type": "scrolling-promotion",
       "blocks": {
-        "announcement_HBTUnB": {
+        "announcement_r9PrUx": {
           "type": "announcement",
           "settings": {
             "icon": "none",
             "icon_size": "medium",
             "custom_icon": "",
-            "text": "Welcome to our store",
+            "text": "CUSTOM OFFICE BLENDS",
+            "text_size": 13,
+            "link": ""
+          }
+        },
+        "announcement_UhV63L": {
+          "type": "announcement",
+          "name": "*",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "✷",
             "text_size": 15,
             "link": ""
           }
         },
-        "announcement_X8wrYd": {
+        "announcement_MAfDJE": {
           "type": "announcement",
           "settings": {
             "icon": "none",
             "icon_size": "medium",
             "custom_icon": "",
-            "text": "Welcome to our store",
+            "text": "NO LOCK-IN",
+            "text_size": 13,
+            "link": ""
+          }
+        },
+        "announcement_Qg7kDe": {
+          "type": "announcement",
+          "name": "*",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "✷",
             "text_size": 15,
             "link": ""
           }
         },
-        "announcement_W3x3LH": {
+        "announcement_AAGzrT": {
           "type": "announcement",
           "settings": {
             "icon": "none",
             "icon_size": "medium",
             "custom_icon": "",
-            "text": "Welcome to our store",
+            "text": "SWITCH YOUR FLAVOURS ANY MONTH",
+            "text_size": 13,
+            "link": ""
+          }
+        },
+        "announcement_tDhgVP": {
+          "type": "announcement",
+          "name": "*",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "✷",
             "text_size": 15,
             "link": ""
           }
         },
-        "announcement_B8PQFL": {
+        "announcement_PpkQyX": {
           "type": "announcement",
           "settings": {
             "icon": "none",
             "icon_size": "medium",
             "custom_icon": "",
-            "text": "Welcome to our store",
+            "text": "SUPPORT OUR FORESTS",
+            "text_size": 13,
+            "link": ""
+          }
+        },
+        "announcement_xQqJFg": {
+          "type": "announcement",
+          "name": "*",
+          "settings": {
+            "icon": "none",
+            "icon_size": "medium",
+            "custom_icon": "",
+            "text": "✷",
             "text_size": 15,
             "link": ""
           }
         }
       },
       "block_order": [
-        "announcement_HBTUnB",
-        "announcement_X8wrYd",
-        "announcement_W3x3LH",
-        "announcement_B8PQFL"
+        "announcement_r9PrUx",
+        "announcement_UhV63L",
+        "announcement_MAfDJE",
+        "announcement_Qg7kDe",
+        "announcement_AAGzrT",
+        "announcement_tDhgVP",
+        "announcement_PpkQyX",
+        "announcement_xQqJFg"
       ],
       "name": "t:sections.scrolling-promotion.presets.name",
       "settings": {
         "direction": "left",
         "speed": 6,
         "show_divider": false,
-        "use_custom_colors": false,
+        "use_custom_colors": true,
         "colors_icon": "#ffffff",
-        "colors_text": "#1a1b18",
-        "colors_background": "#ffffff",
+        "colors_text": "#F7F5F1",
+        "colors_background": "#FF3F00",
         "gradient_background": "",
         "padding_top": 12,
         "padding_bottom": 12
-      }
-    },
-    "owv2_marquee_wEQyBN": {
-      "type": "oma-marquee",
-      "blocks": {
-        "item_qKMgaz": {
-          "type": "item",
-          "settings": {
-            "text": "100% RECYCLABLE PACKAGING"
-          }
-        },
-        "item_WB6qNq": {
-          "type": "item",
-          "settings": {
-            "text": "DIRECT FARM RELATIONSHIPS"
-          }
-        },
-        "item_NFxNgT": {
-          "type": "item",
-          "settings": {
-            "text": "REGENERATIVE INGREDIENTS"
-          }
-        }
-      },
-      "block_order": [
-        "item_qKMgaz",
-        "item_WB6qNq",
-        "item_NFxNgT"
-      ],
-      "name": "OWV2 Trust marquee",
-      "settings": {
-        "speed": 30,
-        "direction": "left",
-        "separator": "✷",
-        "background_color": "#f5450d",
-        "text_color": "#ffffff",
-        "card_background": "#ffffff",
-        "padding_top": 16,
-        "padding_bottom": 16
       }
     },
     "oma_range_cards_FzUJ36": {
@@ -479,8 +493,7 @@
     "main",
     "oma_page_header_office_qNJTwn",
     "oma_brewing_at_dWh4UW",
-    "scrolling_promotion_pFUrhR",
-    "owv2_marquee_wEQyBN",
+    "scrolling_promotion_GQUhwc",
     "oma_range_cards_FzUJ36",
     "oma_sampler_form_CFDgAq",
     "oma_impact_callout_wqrwfx",
