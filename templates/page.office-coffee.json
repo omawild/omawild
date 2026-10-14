@@ -285,6 +285,7 @@
           "settings": {
             "tag": "FRUITY & FLORAL",
             "coming_soon": false,
+            "image": "shopify://shop_images/Omawild-Wild-Bloom-001.png",
             "title": "Wild Bloom",
             "blurb": "Bright, floral, a little unhinged.",
             "size_chips": "500g, 1kg"
@@ -295,6 +296,7 @@
           "settings": {
             "tag": "RARE MICRO-LOT",
             "coming_soon": false,
+            "image": "shopify://shop_images/Omawild-Limited-Reserve-001.png",
             "title": "Limited Reserve",
             "blurb": "For gifting and occasions worth celebrating.",
             "size_chips": "100g"
@@ -367,7 +369,7 @@
           "type": "reason",
           "settings": {
             "heading": "Fully traceable, back to the source",
-            "body": "<p>Every bag traces to a named origin: grown at 1,500m+ in Garut, West Java, by producers like Faizal Hazbi Assidi.</p>"
+            "body": "<p>Every bag traces back to origin with an understanding of the systems, crops, and wildlife it supports.</p>"
           }
         },
         "reason_bFtXE3": {
