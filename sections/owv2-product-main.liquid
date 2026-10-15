@@ -427,7 +427,9 @@
     Shopify's own structured_data filter, not a hand-built schema. If
     main-product is ever re-enabled on the same template, drop one of the two.
   {%- endcomment -%}
-  {{ product | structured_data }}
+  <script type="application/ld+json">
+    {{ product | structured_data }}
+  </script>
 
   {%- comment -%}
     Shopify Subscriptions app embed (config/settings_data.json — theme-editor
