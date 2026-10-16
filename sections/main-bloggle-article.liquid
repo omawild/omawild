@@ -356,7 +356,6 @@
       line-height: inherit;
     }
   </style>
-  <script async src="https://d2xvgzwm836rzd.cloudfront.net/lazysizes-bloggle.min.js"></script>
   <link href="https://d2xvgzwm836rzd.cloudfront.net/article-layout.min.css" type="text/css" rel="stylesheet">
   <div id="bloggle_article-layout" class="sideBar__right{%if localization.language.iso_code == "ar" or localization.language.iso_code == "he" %} blggle-rtl{%endif%}">
   <div id="bloggle_article" >
@@ -369,17 +368,11 @@
        
       <h1 id="bloggle--article-title" class="">{{article.title }}</h1>
       <div class="info_header">
-        <p id="bloggle--blog-item-author" >{{author}}<span id="author"> {{ article.author }}</span></p>
-        <p id="separator">|</p>
-         <p id="bloggle--blog-item-author" >{{datePublished}} <span>{{ article.published_at | time_tag: format: 'date'}}</span></p>
-          
-           
-        <p id="separator">|</p>
-        {% assign wordCount = article.content | strip_html | split: ' ' | size %}
-               {% if wordCount %}
-                 {% assign timeToReadMin = wordCount | divided_by: 225 %}
-                 <p id="bloggle--blog-item-ttread" >{{ timeToRead }} <span id='time'>{{ timeToReadMin }}</span> min</p>
-               {% endif %}
+        <p id="bloggle--blog-item-author" >{{author}}<span id="author"> {{ article.author }}</span></p><p class="separator">|</p><p id="bloggle--blog-item-author" >{{datePublished}} <span>{{ article.published_at | time_tag: format: 'date'}}</span></p><p class="separator">|</p>{% assign wordCount = article.content | strip_html | split: ' ' | size %}
+       {% if wordCount %}
+         {% assign timeToReadMin = wordCount | divided_by: 225 %}
+         <p id="bloggle--blog-item-ttread" >{{ timeToRead }} <span id='time'>{{ timeToReadMin }}</span> min</p>
+       {% endif %}
       </div>
     </div>
   </div>
@@ -501,7 +494,21 @@
         padding: 0 !important;
       }
       .bloggle_sideBar-V2 .bggle--sideBar-block--product {
-        display: block !important;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+      }
+      .bloggle_sideBar-V2 .bggle--sideBar-block--product #bggle--product-related {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+      }
+      #bloggle_sideBar.bloggle_sideBar-V2 .bggle_button-link {
+        justify-content: center !important;
+        gap: 15px;
       }
       .bloggle_sideBar-V2 .bggle_button-link > div {
         flex-direction: row !important;
@@ -528,7 +535,6 @@
         margin: 0px !important;
       }
       }
-       
 
       @media screen and (min-width: 769px) {
         .bloggle_sideBar-V2 .bggle--info-siderBar-product img {
@@ -551,7 +557,10 @@
       }
 
   </style>
-<script>
+  <style>
+   
+  </style>
+  <script>
   function handleScroll() {
     const sidebar = document.querySelector('#bloggle_sideBar');
     const product = document.querySelector('#bggle--product-related');
