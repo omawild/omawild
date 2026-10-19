@@ -8,14 +8,33 @@
  * ------------------------------------------------------------
  */
 {
-              "sections": {
-                "blog": {
-                  "type": "main-bloggle-article",
-                  "settings": {
-                  }
-                }
-              },
-              "order": [
-                "blog"
-              ]
-            }
+  "sections": {
+    "blog": {
+      "type": "main-bloggle-article",
+      "settings": {}
+    },
+    "oma_bloggle_skin_cGYPQB": {
+      "type": "oma-bloggle-skin",
+      "name": "OMA Bloggle Skin",
+      "settings": {
+        "card_background": "#FFFFFF",
+        "accent_color": "#FBB925",
+        "card_max_width": 800,
+        "card_padding_top": 40,
+        "card_padding_bottom": 72,
+        "card_margin_top": 48,
+        "card_margin_bottom": 56,
+        "heading_color": "#00180C",
+        "text_color": "#00180C",
+        "link_color": "#FF3F00",
+        "text_max_width": 720,
+        "text_line_height": 1.5,
+        "paragraph_spacing": 22
+      }
+    }
+  },
+  "order": [
+    "blog",
+    "oma_bloggle_skin_cGYPQB"
+  ]
+}
