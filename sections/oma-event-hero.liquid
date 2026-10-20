@@ -148,6 +148,16 @@
   width: 100%;
   height: auto;
   }
+{%- if section.settings.hide_image_mobile %}
+@media (max-width: 749px) {
+  .oma-event-hero-{{ owid }} .art {
+    display: none;
+  }
+  .oma-event-hero-{{ owid }}.is-centered .inner {
+    padding-bottom: clamp(40px, 5vw, 64px);
+  }
+}
+{%- endif %}
 {% endstyle %}
 <header class="oma-event-hero-{{ owid }}{% if centered %} is-centered{% endif %}" id="{{ section.settings.anchor_id | default: 'top' | handleize }}">
   <div class="inner">
@@ -215,6 +225,7 @@
     { "type": "url", "id": "secondary_link", "label": "Secondary button link", "info": "e.g. #reserve" },
     { "type": "header", "content": "Illustration" },
     { "type": "image_picker", "id": "image", "label": "Illustration", "info": "Set its alt text in Files." },
+    { "type": "checkbox", "id": "hide_image_mobile", "label": "Hide illustration on mobile", "info": "Below 750px wide, so the buttons sit higher on the screen.", "default": false },
     { "type": "header", "content": "Colors" },
     { "type": "color", "id": "background_color", "label": "Background", "default": "#FF3F00" },
     { "type": "color", "id": "text_color", "label": "Heading, text and buttons", "default": "#FFFFFF" },

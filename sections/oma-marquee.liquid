@@ -120,8 +120,12 @@
   letter-spacing:.09em;
   white-space:nowrap;
   }
-.owv2-marquee-{{ owid }} li span {
-  margin-left:32px;
+/* The separator is its own <li> between items (not a span trailing each
+   item's text), so it gets the same padding on both sides and sits centred
+   in the gap. Every item is followed by one, which keeps the gap between
+   the last item and the first item of the repeated list the same too. */
+.owv2-marquee-{{ owid }} li.sep {
+  padding-inline:0;
   }
 .owv2-marquee-{{ owid }} :hover .track {
   animation-play-state:paused;
@@ -153,8 +157,8 @@
 {% for repetition in (1..2) %}
 <ul {% if repetition == 2 %}aria-hidden="true"{% endif %}>
 {% for block in section.blocks %}
-<li {% if repetition == 1 %}{{ block.shopify_attributes }}{% endif %}>{{ block.settings.text | escape }} <span aria-hidden="true">{{ section.settings.separator | escape }}</span>
-</li>
+<li {% if repetition == 1 %}{{ block.shopify_attributes }}{% endif %}>{{ block.settings.text | escape }}</li>
+{% if section.settings.separator != blank %}<li class="sep" aria-hidden="true">{{ section.settings.separator | escape }}</li>{% endif %}
 {% endfor %}
 </ul>
 {% endfor %}
