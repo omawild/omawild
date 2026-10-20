@@ -58,6 +58,7 @@
         "fact_amBkjj",
         "fact_RxrGn4"
       ],
+      "disabled": true,
       "name": "OMA Origin Facts",
       "settings": {
         "origin_reference": "garut-west-java",
@@ -70,6 +71,123 @@
         "text_color": "#00180c",
         "padding_top": 56,
         "padding_bottom": 24
+      }
+    },
+    "oma_origin_story_V43t4T": {
+      "type": "oma-origin-story",
+      "blocks": {
+        "fact_yxPFAt": {
+          "type": "fact",
+          "settings": {
+            "fact_type": "producer",
+            "label": "PRODUCER"
+          }
+        },
+        "fact_RdAmLa": {
+          "type": "fact",
+          "settings": {
+            "fact_type": "elevation",
+            "label": "ELEVATION"
+          }
+        },
+        "fact_eELCEW": {
+          "type": "fact",
+          "settings": {
+            "fact_type": "process",
+            "label": "PROCESS"
+          }
+        },
+        "fact_HCDeGG": {
+          "type": "fact",
+          "settings": {
+            "fact_type": "certifications",
+            "label": "CERTIFICATIONS"
+          }
+        },
+        "fact_iTrzey": {
+          "type": "fact",
+          "settings": {
+            "fact_type": "harvest",
+            "label": "HARVEST"
+          }
+        },
+        "paragraph_BrzVcc": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>The streets of Jakarta were already alive with scooters weaving between trucks when we had set out just after six in the morning. Exhaust fumes lingered in the humid air. Rain clouds painted the pale sky that followed us for much of the 200-kilometre drive to Garut, a highland regency surrounded by mountains and volcanoes where one of our partner farms nestled deep within a protected forest reserve.</p><p>Somewhere along the endless highway, the blurred concrete and monotonous traffic pulled me under a slow daze. When I resurfaced, the city had faded into the background with rolling hills stretched out ahead that softened by a veil of mist. It was then Java revealed itself as an island carved by fire over centuries of restless geologic history. Forty-five active volcanoes still pulse beneath the surface. Ahead, Mount Papandayan and Mount Kendang rise as silent giants, as both guardians and destroyers. Their volcanic activity, still feeding the soil today, gives Garut its extraordinary fertility and make this region one of West Java’s agricultural heartlands.</p>"
+          }
+        },
+        "paragraph_hQBiNk": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>How the forest works: which trees stand over the coffee.</p>"
+          }
+        },
+        "photo_bMzjU3": {
+          "type": "photo",
+          "settings": {
+            "caption": "Caption"
+          }
+        },
+        "heading_mgnjjL": {
+          "type": "heading",
+          "settings": {
+            "text": "The harvest"
+          }
+        },
+        "paragraph_M7qitC": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>How the cherries are picked, sorted and dried.</p>"
+          }
+        },
+        "photo_pair_dLE7kW": {
+          "type": "photo_pair",
+          "settings": {
+            "caption_a": "Caption",
+            "caption_b": "Caption"
+          }
+        },
+        "quote_bdwGnn": {
+          "type": "quote",
+          "settings": {
+            "text": "The producer in their own words.",
+            "cite": "— Producer name"
+          }
+        }
+      },
+      "block_order": [
+        "fact_yxPFAt",
+        "fact_RdAmLa",
+        "fact_eELCEW",
+        "fact_HCDeGG",
+        "fact_iTrzey",
+        "paragraph_BrzVcc",
+        "paragraph_hQBiNk",
+        "photo_bMzjU3",
+        "heading_mgnjjL",
+        "paragraph_M7qitC",
+        "photo_pair_dLE7kW",
+        "quote_bdwGnn"
+      ],
+      "name": "OMA Origin Story",
+      "settings": {
+        "origin_reference": "garut-west-java",
+        "drop_cap": true,
+        "eyebrow": "ABOUT THIS FARM",
+        "coming_soon_label": "Coming soon",
+        "jump_label": "The coffee from this farm",
+        "jump_anchor": "coffees",
+        "rail_top": 120,
+        "visits_heading": "VISITS TO",
+        "visits_append_place": true,
+        "visit_label_prefix": "VISIT",
+        "background_color": "#F7F5F1",
+        "accent_color": "#FF3F00",
+        "text_color": "#00180C",
+        "photo_background": "#FFE4E7",
+        "padding_top": 80,
+        "padding_bottom": 88
       }
     },
     "oma_image_text_eJPaqd": {
@@ -165,6 +283,7 @@
     "main",
     "oma_page_header_origin_w3EaGf",
     "oma_origin_facts_nb6Ud9",
+    "oma_origin_story_V43t4T",
     "oma_image_text_eJPaqd",
     "oma_origin_coffees_EenJB7",
     "owv2_value_grid_JkRRTe"
