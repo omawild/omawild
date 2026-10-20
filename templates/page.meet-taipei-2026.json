@@ -205,7 +205,7 @@
       }
     },
     "od_value_grid_aAMKWj": {
-      "type": "od-value-grid",
+      "type": "oma-how-it-works",
       "blocks": {
         "usp_step01": {
           "type": "usp",
@@ -243,7 +243,7 @@
         "usp_step02",
         "usp_step03"
       ],
-      "name": "How it works",
+      "name": "OMA How It Works",
       "settings": {
         "eyebrow": "HOW IT WORKS",
         "heading": "Redeem your Exhibitor Coffee Pass",
