@@ -37,7 +37,7 @@
         "image": "shopify://shop_images/IMG_1250.jpg",
         "image_fill": true,
         "image_ratio": "3 / 4",
-        "image_width": 40,
+        "image_width": 45,
         "image_max_height": 70,
         "hide_image_mobile": true,
         "background_color": "#ff3f00",
