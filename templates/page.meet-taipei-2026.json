@@ -206,61 +206,31 @@
     "od_value_grid_aAMKWj": {
       "type": "od-value-grid",
       "blocks": {
-        "usp_DDgayw": {
+        "usp_step01": {
           "type": "usp",
           "settings": {
-            "title": "Our Value",
-            "link_label": "Learn more",
+            "title": "Buy your pass here before or during the show.",
+            "link_label": "",
             "link_url": "",
             "tag": "",
             "body": ""
           }
         },
-        "usp_n78tVW": {
+        "usp_step02": {
           "type": "usp",
           "settings": {
-            "title": "Our Value",
-            "link_label": "Learn more",
+            "title": "Show your order confirmation at our booth to collect your printed card.",
+            "link_label": "",
             "link_url": "",
             "tag": "",
             "body": ""
           }
         },
-        "usp_JBAM4m": {
+        "usp_step03": {
           "type": "usp",
           "settings": {
-            "title": "Our Value",
-            "link_label": "Learn more",
-            "link_url": "",
-            "tag": "",
-            "body": ""
-          }
-        },
-        "usp_wnL4aa": {
-          "type": "usp",
-          "settings": {
-            "title": "Our Value",
-            "link_label": "Learn more",
-            "link_url": "",
-            "tag": "",
-            "body": ""
-          }
-        },
-        "usp_gnmHG4": {
-          "type": "usp",
-          "settings": {
-            "title": "Our Value",
-            "link_label": "Learn more",
-            "link_url": "",
-            "tag": "",
-            "body": ""
-          }
-        },
-        "usp_m4BR9w": {
-          "type": "usp",
-          "settings": {
-            "title": "Our Value",
-            "link_label": "Learn more",
+            "title": "Come back each day. We stamp one circle per cup.",
+            "link_label": "",
             "link_url": "",
             "tag": "",
             "body": ""
@@ -268,39 +238,36 @@
         }
       },
       "block_order": [
-        "usp_DDgayw",
-        "usp_n78tVW",
-        "usp_JBAM4m",
-        "usp_wnL4aa",
-        "usp_gnmHG4",
-        "usp_m4BR9w"
+        "usp_step01",
+        "usp_step02",
+        "usp_step03"
       ],
-      "name": "OD Value Grid",
+      "name": "How it works",
       "settings": {
-        "eyebrow": "",
-        "heading": "",
+        "eyebrow": "HOW IT WORKS",
+        "heading": "Buy online. Stamp at the booth.",
         "intro": "",
         "header_alignment": "left",
         "content_alignment": "flex-start",
         "global_icon_width": 50,
-        "global_title_size": 20,
-        "mobile_title_size": 18,
-        "card_min_width": 250,
-        "padding_top": 56,
-        "padding_bottom": 56,
-        "card_style": "plain",
-        "show_numbers": false,
-        "card_background": "#ffffff",
-        "accent_color": "#1a1b18",
-        "card_border_color": "#1a1b18",
+        "global_title_size": 16,
+        "mobile_title_size": 16,
+        "card_min_width": 260,
+        "padding_top": 88,
+        "padding_bottom": 88,
+        "card_style": "bordered",
+        "show_numbers": true,
+        "card_background": "#FFFFFF",
+        "accent_color": "#FF3F00",
+        "card_border_color": "#FF3F00",
         "card_border_width": 1.5,
         "card_radius": 12,
         "card_shadow_offset": 0,
         "card_padding": 24,
-        "background_color": "#ffffff",
-        "eyebrow_color": "#1a1b18",
-        "heading_color": "#000000",
-        "text_color": "#000000"
+        "background_color": "#F7F5F1",
+        "eyebrow_color": "#FF3F00",
+        "heading_color": "#FF3F00",
+        "text_color": "#00180C"
       }
     }
   },
