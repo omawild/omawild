@@ -115,19 +115,19 @@
         "paragraph_BrzVcc": {
           "type": "paragraph",
           "settings": {
-            "text": "<p>The streets of Jakarta were already alive with scooters weaving between trucks when we had set out just after six in the morning. Exhaust fumes lingered in the humid air. Rain clouds painted the pale sky that followed us for much of the 200-kilometre drive to Garut, a highland regency surrounded by mountains and volcanoes where one of our partner farms nestled deep within a protected forest reserve.</p><p>Somewhere along the endless highway, the blurred concrete and monotonous traffic pulled me under a slow daze. When I resurfaced, the city had faded into the background with rolling hills stretched out ahead that softened by a veil of mist. It was then Java revealed itself as an island carved by fire over centuries of restless geologic history. Forty-five active volcanoes still pulse beneath the surface. Ahead, Mount Papandayan and Mount Kendang rise as silent giants, as both guardians and destroyers. Their volcanic activity, still feeding the soil today, gives Garut its extraordinary fertility and make this region one of West Java’s agricultural heartlands.</p>"
-          }
-        },
-        "paragraph_hQBiNk": {
-          "type": "paragraph",
-          "settings": {
-            "text": "<p>How the forest works: which trees stand over the coffee.</p>"
+            "text": "<p>The streets of Jakarta were already alive with scooters weaving between trucks when we had set out just after six in the morning. Exhaust fumes lingered in the humid air. Rain clouds painted the pale sky that followed us for much of the 200-kilometre drive to Garut, a highland regency surrounded by mountains and volcanoes where one of our partner farms nestled deep within a protected forest reserve.</p>"
           }
         },
         "photo_bMzjU3": {
           "type": "photo",
           "settings": {
             "caption": "Caption"
+          }
+        },
+        "paragraph_hQBiNk": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Somewhere along the endless highway, the blurred concrete and monotonous traffic pulled me under a slow daze. When I resurfaced, the city had faded into the background with rolling hills stretched out ahead that softened by a veil of mist. It was then Java revealed itself as an island carved by fire over centuries of restless geologic history. Forty-five active volcanoes still pulse beneath the surface. Ahead, Mount Papandayan and Mount Kendang rise as silent giants, as both guardians and destroyers. Their volcanic activity, still feeding the soil today, gives Garut its extraordinary fertility and make this region one of West Java’s agricultural heartlands.</p>"
           }
         },
         "heading_mgnjjL": {
@@ -165,8 +165,8 @@
         "fact_HCDeGG",
         "fact_iTrzey",
         "paragraph_BrzVcc",
-        "paragraph_hQBiNk",
         "photo_bMzjU3",
+        "paragraph_hQBiNk",
         "heading_mgnjjL",
         "paragraph_M7qitC",
         "photo_pair_dLE7kW",
