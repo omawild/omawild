@@ -54,6 +54,9 @@
   flex: 1 1 440px;
   min-width: 0;
   }
+.oma-event-hero-{{ owid }}:not(.is-centered) .copy {
+  container-type: inline-size;
+  }
 .oma-event-hero-{{ owid }} .art {
   flex: 1.3 1 520px;
   min-width: 0;
@@ -87,12 +90,20 @@
   letter-spacing: .12em;
   transform: rotate(-2deg);
   }
+{%- comment -%}
+  Split title is sized from the copy column's own width (cqi), not the
+  window's, so narrowing the illustration grows the title into the space
+  it frees. Lines fill naturally (pretty, not balance) so the title
+  actually uses that width. The vw value is only a fallback for browsers
+  without container queries.
+{%- endcomment -%}
 .oma-event-hero-{{ owid }} h1 {
   margin: 24px 0 0;
-  font: 900 clamp(44px, 6.2vw, 96px)/.92 var(--font-heading-family);
+  font: 900 clamp(40px, 6.2vw, {{ section.settings.title_max_size }}px)/.92 var(--font-heading-family);
+  font-size: clamp(40px, 13.5cqi, {{ section.settings.title_max_size }}px);
   letter-spacing: -.05em;
   color: inherit;
-  text-wrap: balance;
+  text-wrap: pretty;
   }
 .oma-event-hero-{{ owid }}.is-centered h1 {
   max-width: 10ch;
@@ -163,6 +174,11 @@
   aspect-ratio: {{ section.settings.image_ratio }};
   overflow: hidden;
   }
+@media (min-width: 990px) {
+  .oma-event-hero-{{ owid }}:not(.is-centered) .art.has-ratio {
+    max-height: {{ section.settings.image_max_height }}vh;
+  }
+}
 .oma-event-hero-{{ owid }} .art.has-ratio img,
 .oma-event-hero-{{ owid }} .art.has-ratio svg {
   position: absolute;
@@ -253,6 +269,7 @@
     { "type": "text", "id": "breadcrumb_label", "label": "Breadcrumb label", "info": "Defaults to the page title." },
     { "type": "text", "id": "sticker", "label": "Sticker", "default": "BACK BY POPULAR DEMAND · NOV 19–21" },
     { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Exhibitor Coffee Pass" },
+    { "type": "range", "id": "title_max_size", "label": "Heading max size (split layout)", "min": 48, "max": 128, "step": 4, "unit": "px", "default": 104, "info": "The heading grows to fill its column up to this size." },
     { "type": "inline_richtext", "id": "lead", "label": "Lead", "default": "Cold brew at Booth [__], every day of Meet Taipei." },
     { "type": "header", "content": "Buttons" },
     { "type": "text", "id": "primary_label", "label": "Primary button label", "default": "Choose your pass ↓" },
@@ -287,6 +304,17 @@
       "unit": "%",
       "default": 55,
       "info": "A narrower illustration gives the heading more room. Around 40% suits a portrait ratio."
+    },
+    {
+      "type": "range",
+      "id": "image_max_height",
+      "label": "Illustration max height (desktop, split layout)",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "default": 70,
+      "info": "Share of the screen height. A taller ratio is cropped to fit. Doesn't apply to Original."
     },
     { "type": "checkbox", "id": "hide_image_mobile", "label": "Hide illustration on mobile", "info": "Below 750px wide, so the buttons sit higher on the screen.", "default": false },
     { "type": "header", "content": "Colors" },
