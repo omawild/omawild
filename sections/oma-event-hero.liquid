@@ -89,7 +89,7 @@
   }
 .oma-event-hero-{{ owid }} h1 {
   margin: 24px 0 0;
-  font: 900 clamp(52px, 7.4vw, 112px)/.9 var(--font-heading-family);
+  font: 900 clamp(44px, 6.2vw, 96px)/.92 var(--font-heading-family);
   letter-spacing: -.05em;
   color: inherit;
   text-wrap: balance;
@@ -142,6 +142,34 @@
   background: {{ section.settings.text_color }};
   color: {{ section.settings.background_color }};
   }
+{%- comment -%}
+  Desktop split: the illustration takes a merchant-set share of the row and
+  the copy takes the rest, so a narrower (e.g. portrait) illustration hands
+  that width to the title. Below 990px the two stack as before.
+{%- endcomment -%}
+@media (min-width: 990px) {
+  .oma-event-hero-{{ owid }}:not(.is-centered) .row {
+    flex-wrap: nowrap;
+  }
+  .oma-event-hero-{{ owid }}:not(.is-centered) .copy {
+    flex: 1 1 0;
+  }
+  .oma-event-hero-{{ owid }}:not(.is-centered) .art {
+    flex: 0 0 {{ section.settings.image_width }}%;
+  }
+}
+.oma-event-hero-{{ owid }} .art.has-ratio {
+  position: relative;
+  aspect-ratio: {{ section.settings.image_ratio }};
+  overflow: hidden;
+  }
+.oma-event-hero-{{ owid }} .art.has-ratio img,
+.oma-event-hero-{{ owid }} .art.has-ratio svg {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  object-fit: cover;
+  }
 .oma-event-hero-{{ owid }} .art img,
 .oma-event-hero-{{ owid }} .art svg {
   display: block;
@@ -184,9 +212,17 @@
           </div>
         {%- endif -%}
       </div>
-      <div class="art">
+      {%- liquid
+        assign art_sizes = '(min-width: 990px) ' | append: section.settings.image_width | append: 'vw, 100vw'
+        if centered
+          assign art_sizes = '(min-width: 990px) 980px, 100vw'
+        endif
+        assign focal = section.settings.image.presentation.focal_point | default: 'center'
+        assign art_style = 'object-position: ' | append: focal
+      -%}
+      <div class="art{% if section.settings.image_ratio != 'original' %} has-ratio{% endif %}">
         {%- if section.settings.image != blank -%}
-          {{ section.settings.image | image_url: width: 2000 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '600, 900, 1200, 1600, 2000', sizes: '(min-width: 1024px) 60vw, 100vw' }}
+          {{ section.settings.image | image_url: width: 2000 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '600, 900, 1200, 1600, 2000', sizes: art_sizes, style: art_style }}
         {%- else -%}
           {{ 'lifestyle-1' | placeholder_svg_tag }}
         {%- endif -%}
@@ -225,6 +261,33 @@
     { "type": "url", "id": "secondary_link", "label": "Secondary button link", "info": "e.g. #reserve" },
     { "type": "header", "content": "Illustration" },
     { "type": "image_picker", "id": "image", "label": "Illustration", "info": "Set its alt text in Files." },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Illustration ratio",
+      "options": [
+        { "value": "original", "label": "Original" },
+        { "value": "16 / 9", "label": "Widescreen (16:9)" },
+        { "value": "4 / 3", "label": "Landscape (4:3)" },
+        { "value": "1 / 1", "label": "Square (1:1)" },
+        { "value": "4 / 5", "label": "Portrait (4:5)" },
+        { "value": "3 / 4", "label": "Portrait (3:4)" },
+        { "value": "2 / 3", "label": "Tall portrait (2:3)" }
+      ],
+      "default": "original",
+      "info": "Anything but Original crops the image to fit. Set the focal point in Files to choose what stays in view."
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "label": "Illustration width (desktop, split layout)",
+      "min": 30,
+      "max": 60,
+      "step": 5,
+      "unit": "%",
+      "default": 55,
+      "info": "A narrower illustration gives the heading more room. Around 40% suits a portrait ratio."
+    },
     { "type": "checkbox", "id": "hide_image_mobile", "label": "Hide illustration on mobile", "info": "Below 750px wide, so the buttons sit higher on the screen.", "default": false },
     { "type": "header", "content": "Colors" },
     { "type": "color", "id": "background_color", "label": "Background", "default": "#FF3F00" },
