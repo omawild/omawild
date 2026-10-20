@@ -203,16 +203,21 @@
   transition: opacity 0.2s ease;
 }
 
+/* --- Tablet + desktop (750px+): never fewer than three cards per row;
+   more fit side by side once each can reach the card minimum width --- */
+@media screen and (min-width: 750px)
+{
+  .usp-grid-{{ section.id }}
+  {
+    grid-template-columns: repeat(auto-fit, minmax(min({{ section.settings.card_min_width }}px, calc((100% - 36px) / 3)), 1fr));
+  }
+}
+
 /* --- Desktop Logic (900px+) --- */
 @media screen and (min-width: 900px)
 {
   .usp-title-{{ section.id }} {
     font-size: {{ section.settings.global_title_size }}px;
-  }
-
-  .usp-grid-{{ section.id }}
-  {
-    grid-template-columns: repeat(auto-fit, minmax({{ section.settings.card_min_width }}px, 1fr));
   }
 
   .usp-item-{{ section.id }}
