@@ -160,12 +160,100 @@
   margin-top:10px;
   }
 }
+{%- comment -%}
+  "Ruled columns" style: the "The same standard at every farm" band from the
+  Origin Detail Page mockup -- heading with an outline button beside it,
+  then plain text columns under a single rule, no cards and no swipe row.
+  Additive: the default "Cards" style (homepage) renders exactly as before.
+{%- endcomment -%}
+.owv2-value-grid-{{ owid }} .head-row {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:20px 40px;
+  margin-bottom:32px;
+  }
+.owv2-value-grid-{{ owid }} .head-row .intro {
+  flex:1 1 auto;
+  margin-bottom:0;
+  }
+.owv2-value-grid-{{ owid }} .head-btn {
+  flex:none;
+  text-decoration:none;
+  border:1.5px solid var(--ink);
+  color:var(--ink);
+  padding:13px 20px;
+  border-radius:100px;
+  font:900 12px/1 var(--font-heading-family);
+  white-space:nowrap;
+  transition:background .15s ease, color .15s ease;
+  }
+.owv2-value-grid-{{ owid }} .head-btn:hover {
+  background:var(--ink);
+  color:var(--bg);
+  }
+.owv2-value-grid-{{ owid }}.is-columns .intro {
+  flex:0 1 auto;
+  }
+.owv2-value-grid-{{ owid }}.is-columns h2 {
+  max-width:16ch;
+  overflow-wrap:normal;
+  font-size:clamp(34px, 4.4vw, 60px);
+  line-height:.95;
+  letter-spacing:-.04em;
+  }
+.owv2-value-grid-{{ owid }}.is-columns .head-row {
+  margin-bottom:40px;
+  }
+.owv2-value-grid-{{ owid }}.is-columns .cards {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap:0 32px;
+  margin:0;
+  padding:0;
+  overflow:visible;
+  border-top:1.5px solid {{ section.settings.rule_color }};
+  }
+.owv2-value-grid-{{ owid }}.is-columns article {
+  background:none;
+  border-radius:0;
+  padding:22px 0 0;
+  color:var(--ink);
+  }
+.owv2-value-grid-{{ owid }}.is-columns h3 {
+  margin-bottom:10px;
+  line-height:1.1;
+  }
+.owv2-value-grid-{{ owid }}.is-columns .cards p {
+  max-width:34ch;
+  line-height:1.6;
+  font-weight:400;
+  }
+@media(max-width:749px) {
+  .owv2-value-grid-{{ owid }}.is-columns .cards {
+  gap:0;
+  }
+  .owv2-value-grid-{{ owid }}.is-columns article + article {
+  margin-top:24px;
+  }
+  .owv2-value-grid-{{ owid }}.is-columns .hint {
+  display:none;
+  }
+}
 {% endstyle %}
-<div class="owv2-value-grid-{{ owid }}">
+<div class="owv2-value-grid-{{ owid }}{% if section.settings.style == 'columns' %} is-columns{% endif %}">
 <div class="inner">
+{% if section.settings.heading != blank or section.settings.button_label != blank %}
+<div class="head-row">
 {% if section.settings.heading != blank %}
 <div class="intro">
 <h2>{{ section.settings.heading }}</h2>
+</div>
+{% endif %}
+{% if section.settings.button_label != blank %}
+<a class="head-btn" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label | escape }}</a>
+{% endif %}
 </div>
 {% endif %}
 <div class="cards">
@@ -191,9 +279,36 @@
   },
   "settings": [
     {
+      "type": "select",
+      "id": "style",
+      "label": "Style",
+      "options": [
+        { "value": "cards", "label": "Cards (swipe row on mobile)" },
+        { "value": "columns", "label": "Ruled columns (no cards)" }
+      ],
+      "default": "cards"
+    },
+    {
       "type": "inline_richtext",
       "id": "heading",
       "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "info": "Shown beside the heading. Leave empty for no button."
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "color",
+      "id": "rule_color",
+      "label": "Column rule color (ruled columns style)",
+      "default": "#FCD0FD"
     },
     {
       "type": "text",
