@@ -236,55 +236,59 @@
     "owv2_value_grid_JkRRTe": {
       "type": "owv2-value-grid",
       "blocks": {
-        "card_qdHNPQ": {
+        "std_forests": {
           "type": "card",
           "settings": {
-            "heading": "Agroforestry coffee",
-            "body": "<p>Grown using regenerative practices inside agroforestry systems, so each harvest improves soil health while our forest stays standing.</p>"
+            "heading": "Grown in forests",
+            "body": "<p>Timber, fruit and shade trees stand over every coffee plant. Tree canopies cool soil temperature by up to 10°C and shelter wildlife.</p>"
           }
         },
-        "card_pjbnWR": {
+        "std_direct": {
           "type": "card",
           "settings": {
-            "heading": "Funding nature",
-            "body": "<p>At least 1% of our revenue goes to environmental causes.</p>"
+            "heading": "Direct from our producers",
+            "body": "<p>We partner directly with farmers who lead the way in sustainable practice and are willing to cross-exchange knowledge and ideas for building a regenerative future.</p>"
           }
         },
-        "card_zwA9wR": {
+        "std_grade1": {
           "type": "card",
           "settings": {
-            "heading": "Direct relationships",
-            "body": "<p>Good coffee starts with the people who grow it.</p>"
+            "heading": "Grade 1 specialty",
+            "body": "<p>We pick only Grade 1 beans to ensure the highest quality coffee goes into your cup. No primary defects, no mould, no bugs. Keeping you and our planet healthy.</p>"
           }
         },
-        "card_ehMmhq": {
+        "std_1pct": {
           "type": "card",
           "settings": {
-            "heading": "Made for your ritual",
-            "body": "<p>Specialty coffee, roasted fresh each month.</p>"
+            "heading": "1% for the Planet",
+            "body": "<p>At the end of the year, 1% of annual sales funds independent environmental organisations preserving our planet.</p>"
           }
         }
       },
       "block_order": [
-        "card_qdHNPQ",
-        "card_pjbnWR",
-        "card_zwA9wR",
-        "card_ehMmhq"
+        "std_forests",
+        "std_direct",
+        "std_grade1",
+        "std_1pct"
       ],
-      "name": "OWV2 Value grid",
+      "name": "The same standard",
       "settings": {
-        "heading": "",
+        "heading": "The same standard at every farm",
         "mobile_hint_text": "← SWIPE →",
-        "card_heading_color": "#ff3f00",
-        "card_heading_size": 19,
-        "card_body_color": "#00180c",
-        "card_body_size": 12.5,
-        "background_color": "#ff3f00",
-        "text_color": "#ffffff",
+        "card_heading_color": "#FCD0FD",
+        "card_heading_size": 21,
+        "card_body_color": "#FFFFFF",
+        "card_body_size": 14.5,
+        "background_color": "#FF3F00",
+        "text_color": "#FFFFFF",
         "card_background": "#ffffff",
-        "show_top_line": true,
-        "padding_top": 52,
-        "padding_bottom": 52
+        "show_top_line": false,
+        "padding_top": 64,
+        "padding_bottom": 68,
+        "style": "columns",
+        "button_label": "How regen works →",
+        "button_link": "shopify://pages/regenerative-agriculture",
+        "rule_color": "#FCD0FD"
       }
     }
   },
