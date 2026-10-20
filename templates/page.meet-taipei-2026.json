@@ -32,11 +32,11 @@
         "primary_link": "",
         "secondary_label": "What's in the cup",
         "secondary_link": "",
-        "background_color": "#FF3F00",
-        "text_color": "#FFFFFF",
-        "crumb_color": "#FCD0FD",
-        "sticker_background": "#FCD0FD",
-        "sticker_text_color": "#FF3F00",
+        "background_color": "#ff3f00",
+        "text_color": "#ffffff",
+        "crumb_color": "#fcd0fd",
+        "sticker_background": "#fcd0fd",
+        "sticker_text_color": "#ff3f00",
         "anchor_id": "top",
         "padding_top": 36
       }
@@ -73,9 +73,9 @@
         "speed": 59,
         "direction": "left",
         "separator": "✷",
-        "background_color": "#F5450D",
-        "text_color": "#FFFFFF",
-        "card_background": "#FFFFFF",
+        "background_color": "#f5450d",
+        "text_color": "#ffffff",
+        "card_background": "#ffffff",
         "padding_top": 16,
         "padding_bottom": 16
       }
@@ -86,7 +86,7 @@
         "pass_M8WKi3": {
           "type": "pass",
           "settings": {
-            "product": "",
+            "product": "meet-taipei-2026-kaohsiung-crew",
             "style": "salmon",
             "badge": "THANK YOU",
             "count_label": "",
@@ -109,7 +109,7 @@
         "pass_CqxjJj": {
           "type": "pass",
           "settings": {
-            "product": "",
+            "product": "meet-taipei-2026-daily-fuel",
             "style": "featured",
             "badge": "EXHIBITOR PASS",
             "count_label": "40 PASSES",
@@ -132,7 +132,7 @@
         "pass_MKXqmr": {
           "type": "pass",
           "settings": {
-            "product": "",
+            "product": "meet-taipei-2026-run-wild",
             "style": "electric",
             "badge": "YOU WILD ONE",
             "count_label": "20 PASSES",
@@ -164,13 +164,13 @@
         "heading": "Choose your adventure",
         "intro": "<p>Three days of Meet Taipei, NOV 19–21. Collect your card at Booth [__].</p>",
         "anchor_id": "passes",
-        "background_color": "#F7F5F1",
-        "accent_color": "#FF3F00",
-        "text_color": "#00180C",
-        "salmon_color": "#FFE4E7",
-        "wonderland_color": "#FCD0FD",
-        "sunbrella_color": "#FBB925",
-        "button_hover_color": "#D63200",
+        "background_color": "#f7f5f1",
+        "accent_color": "#ff3f00",
+        "text_color": "#00180c",
+        "salmon_color": "#ffe4e7",
+        "wonderland_color": "#fcd0fd",
+        "sunbrella_color": "#fbb925",
+        "button_hover_color": "#d63200",
         "show_bottom_rule": true,
         "padding_y": 88
       }
@@ -194,12 +194,12 @@
         "days_per_row": 21,
         "button_label": "Browse the full collection",
         "button_link": "",
-        "background_color": "#FF3F00",
-        "accent_color": "#FF3F00",
-        "soft_color": "#FCD0FD",
-        "ink_color": "#00180C",
-        "sticker_color": "#FBB925",
-        "photo_background": "#FFE4E7",
+        "background_color": "#ff3f00",
+        "accent_color": "#ff3f00",
+        "soft_color": "#fcd0fd",
+        "ink_color": "#00180c",
+        "sticker_color": "#fbb925",
+        "photo_background": "#ffe4e7",
         "padding_y": 88
       }
     },
@@ -257,17 +257,17 @@
         "padding_bottom": 88,
         "card_style": "bordered",
         "show_numbers": true,
-        "card_background": "#FFFFFF",
-        "accent_color": "#FF3F00",
-        "card_border_color": "#FF3F00",
+        "card_background": "#ffffff",
+        "accent_color": "#ff3f00",
+        "card_border_color": "#ff3f00",
         "card_border_width": 1.5,
         "card_radius": 12,
         "card_shadow_offset": 0,
         "card_padding": 24,
-        "background_color": "#F7F5F1",
-        "eyebrow_color": "#FF3F00",
-        "heading_color": "#FF3F00",
-        "text_color": "#00180C"
+        "background_color": "#f7f5f1",
+        "eyebrow_color": "#ff3f00",
+        "heading_color": "#ff3f00",
+        "text_color": "#00180c"
       }
     }
   },
