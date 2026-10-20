@@ -32,6 +32,7 @@
         "primary_link": "",
         "secondary_label": "What's in the cup",
         "secondary_link": "",
+        "image": "shopify://shop_images/IMG_1250.jpg",
         "hide_image_mobile": false,
         "background_color": "#ff3f00",
         "text_color": "#ffffff",
