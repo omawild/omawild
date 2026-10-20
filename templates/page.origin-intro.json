@@ -23,7 +23,7 @@
       "name": "OMA Page Header — Origin",
       "settings": {
         "origin_reference": "garut-west-java",
-        "kicker_prefix": "COFFEE ORIGIN",
+        "kicker_label": "ORIGIN",
         "show_breadcrumb": true,
         "origins_label": "Origins",
         "origins_url": "",
@@ -77,6 +77,7 @@
       "name": "OMA Image Text (Split)",
       "settings": {
         "layout": "split",
+        "image": "shopify://shop_images/Origin-007.jpg",
         "stacked_image_ratio": "21 / 9",
         "label": "Our story began in Bali.",
         "show_divider": true,
