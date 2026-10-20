@@ -304,12 +304,24 @@
             continue
           endif
 
+          # The metaobject's own `link` wins. Otherwise fall back to the Page
+          # whose handle matches the origin's handle (e.g. the Origin Intro
+          # page at /pages/garut-west-java), so a new origin becomes clickable
+          # as soon as its page exists, without anyone pasting a URL.
+          assign card_url = origin.link.value
+          if card_url == blank
+            assign intro_page = pages[origin.system.handle]
+            if intro_page != blank and intro_page.url != blank
+              assign card_url = intro_page.url
+            endif
+          endif
+
           assign card_tag = 'div'
-          if origin.link != blank
+          if card_url != blank
             assign card_tag = 'a'
           endif
         -%}
-        <{{ card_tag }} class="card" {% if card_tag == 'a' %}href="{{ origin.link }}"{% endif %}>
+        <{{ card_tag }} class="card" {% if card_tag == 'a' %}href="{{ card_url }}"{% endif %}>
           <div class="cover">
             {%- if origin.cover.value != blank -%}
               <img
