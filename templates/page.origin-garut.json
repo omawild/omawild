@@ -142,17 +142,17 @@
             "text": "<p>Seven hours in, we reached the end of the paved road at 1,500 metres above sea level. The only way through was to leave the car behind and continue uphill by foot. The air thinned as we ascended higher in the drizzle of October rain, marking the start of wet season in most parts of Indonesia. The scent of wet earth (and something else I couldn’t name) filled every breath. From the outside, you wouldn’t suspect a coffee farm existed here. And in truth, this wasn’t a conventional plantation, not in the industrial sense.</p><p>The forest looked just like a forest. But a walk into the woods tells a different story. Here, coffee took roots in 2014 under the shade of eucalyptus, Arenga pinnata, and Pinus merkusii — the Sumatran pine planted across Java as part of a government reforestation programme. Sixty men and women tend to the forest, stretching this plantation across 362 hectares, with another 400 tucked deep into the mountains, about an hour’s walk away, and accessible only by foot. Everything is done by hand, and no chemicals touch the forest. The compost comes from the land: sheep manure, chicken droppings, fallen leaves, and tree cuttings. Everything goes back into the same soil that gives them life.</p>"
           }
         },
-        "paragraph_ehpQkw": {
-          "type": "paragraph",
-          "settings": {
-            "text": ""
-          }
-        },
         "photo_pair_dLE7kW": {
           "type": "photo_pair",
           "settings": {
             "caption_a": "Caption",
             "caption_b": "Caption"
+          }
+        },
+        "paragraph_ehpQkw": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Among the varieties they grow is one called Sigarar Utang — an Indonesian hybrid of Catimor and Caturra. It earned its name as “the debt payer” when it was developed in the 1990s because of its resistance to leaf rust and ability to bear fruit quickly, quick enough for farmers to grow, harvest and repay loans taken for each planting season. But as climate pressures grow, the Siagara Utang has struggled to adapt. Today, this farm harvests a range of varieties from the Arabica plant, including Yellow Bourbon, Catimor, Caturra, TimTim, and Typica, selected for their resilience, flavour, and quality.</p><p>No matter how many varieties grow, coffee shrubs exist as part of the forest itself, blending itself with its surroundings. Cabbages, potatoes, and chillies are planted together so there’s still food to harvest, even if the coffee fails. Here, nothing dominates the forest. They work to support each other. And everything weaves through timber and pine, with their roots entwined in a system that anchors them in the soil. In storms, the roots hold steady and the earth drinks in rain. Under the blazing sun, the canopy keeps the ground cool and moist, helping life endure, even through droughts.</p><p>As we walked through the forest, raindrops trickled through the canopy above us, crackling like popcorn. Birds chimed in from somewhere deeper in the trees. Even in the rainy, grey sky, the forest pulses with life. Each step through the mud was a reminder of the care that keeps the world thriving. Could this be the future for coffee — and everything else that we love?</p>"
           }
         },
         "quote_bdwGnn": {
@@ -175,8 +175,8 @@
         "paragraph_hQBiNk",
         "heading_mgnjjL",
         "paragraph_M7qitC",
-        "paragraph_ehpQkw",
         "photo_pair_dLE7kW",
+        "paragraph_ehpQkw",
         "quote_bdwGnn"
       ],
       "name": "OMA Origin Story",
@@ -191,10 +191,10 @@
         "visits_heading": "VISITS TO",
         "visits_append_place": true,
         "visit_label_prefix": "VISIT",
-        "background_color": "#F7F5F1",
-        "accent_color": "#FF3F00",
-        "text_color": "#00180C",
-        "photo_background": "#FFE4E7",
+        "background_color": "#f7f5f1",
+        "accent_color": "#ff3f00",
+        "text_color": "#00180c",
+        "photo_background": "#ffe4e7",
         "padding_top": 80,
         "padding_bottom": 88
       }
