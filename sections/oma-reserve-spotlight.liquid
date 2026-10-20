@@ -1,0 +1,289 @@
+{%- comment -%}
+  oma-reserve-spotlight — "What's in the cup" band for event landing pages
+  (first used on Meet Taipei 2026), matching the Limited Reserve band of
+  the Meet Taipei Page in the Omawild Web Redesign handoff: a tall photo
+  with a sticker, eyebrow + heading + lead, a tasting-notes card, a
+  fermentation-days card whose squares fill in once it scrolls into view,
+  and an outline button.
+
+  Desktop is photo left (4fr) spanning both rows, copy right (6fr). Below
+  760px it stacks heading, photo, then the cards, as in the design.
+  assets/oma-reserve-spotlight.js only runs the day counter; without it
+  (or with reduced motion) every square shows filled.
+{%- endcomment -%}
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{%- liquid
+  assign accent = section.settings.accent_color
+  assign soft = section.settings.soft_color
+  assign days = section.settings.days
+  assign note_words = section.settings.notes | split: ','
+-%}
+{% style %}
+.oma-reserve-spotlight-{{ owid }} {
+  box-sizing: border-box;
+  background: {{ section.settings.background_color }};
+  color: #FFFFFF;
+  padding: clamp(48px, 6vw, {{ section.settings.padding_y }}px) clamp(20px, 4vw, 48px);
+  border-bottom: 1.5px solid {{ section.settings.background_color }};
+  font-family: var(--font-body-family);
+  scroll-margin-top: 80px;
+  }
+.oma-reserve-spotlight-{{ owid }} *, .oma-reserve-spotlight-{{ owid }} *::before, .oma-reserve-spotlight-{{ owid }} *::after {
+  box-sizing: border-box;
+  }
+.oma-reserve-spotlight-{{ owid }} .inner {
+  max-width: 1344px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: 'head' 'photo' 'rest';
+  gap: 28px clamp(28px, 4vw, 64px);
+  }
+@media (min-width: 760px) {
+  .oma-reserve-spotlight-{{ owid }} .inner {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 6fr);
+    grid-template-rows: auto 1fr;
+    grid-template-areas: 'photo head' 'photo rest';
+  }
+}
+.oma-reserve-spotlight-{{ owid }} .photo {
+  grid-area: photo;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  }
+.oma-reserve-spotlight-{{ owid }} .frame {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  border: 2px solid #FFFFFF;
+  border-radius: 14px;
+  box-shadow: 8px 8px 0 {{ soft }};
+  overflow: hidden;
+  background: {{ section.settings.photo_background }};
+  }
+.oma-reserve-spotlight-{{ owid }} .frame::before {
+  content: '';
+  display: block;
+  aspect-ratio: 4 / 5;
+  }
+.oma-reserve-spotlight-{{ owid }} .frame img,
+.oma-reserve-spotlight-{{ owid }} .frame svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  }
+.oma-reserve-spotlight-{{ owid }} .photo-sticker {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  background: {{ section.settings.sticker_color }};
+  color: {{ section.settings.ink_color }};
+  padding: 9px 13px;
+  border-radius: 100px;
+  font: 900 10px/1 var(--font-heading-family);
+  letter-spacing: .12em;
+  transform: rotate(-3deg);
+  }
+.oma-reserve-spotlight-{{ owid }} .head {
+  grid-area: head;
+  min-width: 0;
+  }
+.oma-reserve-spotlight-{{ owid }} .eyebrow {
+  font: 900 10.5px/1 var(--font-heading-family);
+  letter-spacing: .18em;
+  color: {{ soft }};
+  }
+.oma-reserve-spotlight-{{ owid }} .heading {
+  margin: 16px 0 0;
+  font: 900 clamp(30px, 3.8vw, 52px)/1 var(--font-heading-family);
+  letter-spacing: -.035em;
+  color: {{ soft }};
+  }
+.oma-reserve-spotlight-{{ owid }} .lead {
+  max-width: 52ch;
+  margin: 18px 0 0;
+  font: 400 16.5px/1.6 var(--font-body-family);
+  text-wrap: pretty;
+  }
+.oma-reserve-spotlight-{{ owid }} .lead p {
+  margin: 0;
+  }
+.oma-reserve-spotlight-{{ owid }} .lead strong {
+  font-weight: 900;
+  }
+.oma-reserve-spotlight-{{ owid }} .rest {
+  grid-area: rest;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 28px;
+  }
+.oma-reserve-spotlight-{{ owid }} .card {
+  background: #FFFFFF;
+  color: {{ section.settings.ink_color }};
+  border-radius: 14px;
+  padding: clamp(20px, 2.4vw, 28px);
+  }
+.oma-reserve-spotlight-{{ owid }} .card + .card {
+  margin-top: 16px;
+  }
+.oma-reserve-spotlight-{{ owid }} .card-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font: 900 10px/1 var(--font-heading-family);
+  letter-spacing: .14em;
+  color: {{ accent }};
+  }
+.oma-reserve-spotlight-{{ owid }} .notes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 14px;
+  margin-top: 14px;
+  }
+.oma-reserve-spotlight-{{ owid }} .note {
+  font: 900 clamp(24px, 2.4vw, 32px)/1.1 var(--font-heading-family);
+  letter-spacing: -.03em;
+  color: {{ accent }};
+  }
+.oma-reserve-spotlight-{{ owid }} .notes-footer {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1.5px dashed {{ accent }};
+  font: 400 14.5px/1.6 var(--font-body-family);
+  }
+.oma-reserve-spotlight-{{ owid }} .days {
+  display: grid;
+  grid-template-columns: repeat({{ section.settings.days_per_row }}, minmax(0, 1fr));
+  gap: 4px;
+  margin-top: 16px;
+  }
+.oma-reserve-spotlight-{{ owid }} .day {
+  aspect-ratio: 1 / 1;
+  border-radius: 3px;
+  background: {{ accent }};
+  transition: background .25s ease;
+  }
+.oma-reserve-spotlight-{{ owid }} [data-oma-ferment].is-ready .day {
+  background: {{ section.settings.photo_background }};
+  }
+.oma-reserve-spotlight-{{ owid }} [data-oma-ferment].is-ready .day.is-on {
+  background: {{ accent }};
+  }
+.oma-reserve-spotlight-{{ owid }} .btn {
+  align-self: flex-start;
+  text-decoration: none;
+  border: 1.5px solid #FFFFFF;
+  color: #FFFFFF;
+  padding: 15px 26px;
+  border-radius: 100px;
+  font: 900 13px/1 var(--font-heading-family);
+  transition: background .15s ease, color .15s ease;
+  }
+.oma-reserve-spotlight-{{ owid }} .btn:hover {
+  background: #FFFFFF;
+  color: {{ accent }};
+  }
+{% endstyle %}
+<section class="oma-reserve-spotlight-{{ owid }}" id="{{ section.settings.anchor_id | default: 'reserve' | handleize }}">
+  <div class="inner">
+    <div class="photo">
+      <div class="frame">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '390, 600, 900, 1200', sizes: '(min-width: 760px) 40vw, 100vw' }}
+        {%- else -%}
+          {{ 'product-1' | placeholder_svg_tag }}
+        {%- endif -%}
+        {%- if section.settings.photo_sticker != blank -%}<span class="photo-sticker">{{ section.settings.photo_sticker | escape }}</span>{%- endif -%}
+      </div>
+    </div>
+
+    <div class="head">
+      {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
+      <h2 class="heading">{{ section.settings.heading }}</h2>
+      {%- if section.settings.lead != blank -%}<div class="lead">{{ section.settings.lead }}</div>{%- endif -%}
+    </div>
+
+    <div class="rest">
+      <div>
+        {%- if note_words.size > 0 -%}
+          <div class="card">
+            <div class="card-label"><span>{{ section.settings.notes_label | escape }}</span></div>
+            <div class="notes">
+              {%- for word in note_words -%}
+                {%- assign w = word | strip -%}
+                {%- if w != blank -%}<span class="note">{{ w | escape }}</span>{%- endif -%}
+              {%- endfor -%}
+            </div>
+            {%- if section.settings.notes_footer != blank -%}<div class="notes-footer">{{ section.settings.notes_footer | escape }}</div>{%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.show_days -%}
+          <div class="card" data-oma-ferment data-days="{{ days }}">
+            <div class="card-label">
+              <span>{{ section.settings.days_label | escape }}</span>
+              <span>{{ section.settings.day_prefix | escape }} <span data-oma-ferment-count>{{ days }}</span></span>
+            </div>
+            <div class="days" role="img" aria-label="{{ section.settings.days_label | escape }}">
+              {%- for i in (1..days) -%}<span class="day"></span>{%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.button_label != blank -%}
+        <a class="btn" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">{{ section.settings.button_label | escape }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{%- if section.settings.show_days -%}<script src="{{ 'oma-reserve-spotlight.js' | asset_url }}" defer></script>{%- endif -%}
+{% schema %}
+{
+  "name": "OMA Reserve Spotlight",
+  "tag": "div",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Buttons elsewhere on the page can link to #reserve.", "default": "reserve" },
+    { "type": "image_picker", "id": "image", "label": "Photo", "info": "Shown 4:5." },
+    { "type": "text", "id": "photo_sticker", "label": "Photo sticker", "default": "SERVED AS COLD BREW" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "BACK BY POPULAR DEMAND" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Limited Reserve" },
+    { "type": "richtext", "id": "lead", "label": "Lead", "default": "<p><strong>Every cup is our Limited Reserve,</strong> a rare micro-lot anaerobically fermented for 42 days. Served as cold brew, it drinks like red wine and whisky.</p>" },
+    { "type": "header", "content": "Tasting notes" },
+    { "type": "text", "id": "notes_label", "label": "Label", "default": "TASTING NOTES" },
+    { "type": "text", "id": "notes", "label": "Notes", "info": "Separate with commas.", "default": "Wine, Passion fruit, Hibiscus, Lychee" },
+    { "type": "text", "id": "notes_footer", "label": "Line under the notes", "default": "Drinks like subtle red wine and whisky" },
+    { "type": "header", "content": "Fermentation days" },
+    { "type": "checkbox", "id": "show_days", "label": "Show fermentation days", "default": true },
+    { "type": "text", "id": "days_label", "label": "Label", "default": "42 DAYS ANAEROBIC FERMENTATION" },
+    { "type": "text", "id": "day_prefix", "label": "Counter prefix", "default": "DAY" },
+    { "type": "range", "id": "days", "label": "Days", "min": 1, "max": 90, "step": 1, "default": 42 },
+    { "type": "range", "id": "days_per_row", "label": "Squares per row", "min": 7, "max": 30, "step": 1, "default": 21 },
+    { "type": "header", "content": "Button" },
+    { "type": "text", "id": "button_label", "label": "Label", "default": "Browse the full collection" },
+    { "type": "url", "id": "button_link", "label": "Link" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#FF3F00" },
+    { "type": "color", "id": "accent_color", "label": "Accent on the white cards", "default": "#FF3F00" },
+    { "type": "color", "id": "soft_color", "label": "Eyebrow, heading and photo shadow", "default": "#FCD0FD" },
+    { "type": "color", "id": "ink_color", "label": "Card body text", "default": "#00180C" },
+    { "type": "color", "id": "sticker_color", "label": "Photo sticker", "default": "#FBB925" },
+    { "type": "color", "id": "photo_background", "label": "Photo placeholder and empty day squares", "default": "#FFE4E7" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "padding_y", "label": "Padding top and bottom (desktop)", "min": 48, "max": 120, "step": 4, "unit": "px", "default": 88 }
+  ],
+  "presets": [
+    { "name": "OMA Reserve Spotlight" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,382 @@
+{%- comment -%}
+  oma-event-hero — opener for event landing pages (first used on Meet
+  Taipei 2026): breadcrumb, a tilted sticker pill, display title, lead,
+  one or two pill buttons and a large illustration. Matches "Hero (split)"
+  and "Hero (centered)" in the Meet Taipei Page of the Omawild Web Redesign
+  handoff -- the layout setting switches between the two.
+
+  Kept separate from oma-page-header.liquid (shared by five pages, no
+  illustration or buttons) and oma-hero.liquid (the homepage's planet
+  hero) for the same reason as oma-page-header-origin.liquid: the needs
+  don't fit either one's settings.
+{%- endcomment -%}
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{%- assign centered = false -%}
+{%- if section.settings.layout == 'centered' -%}{%- assign centered = true -%}{%- endif -%}
+{%- assign fill = false -%}
+{%- if section.settings.show_image and section.settings.image_fill and centered == false -%}{%- assign fill = true -%}{%- endif -%}
+{% style %}
+.oma-event-hero-{{ owid }} {
+  box-sizing: border-box;
+  background: {{ section.settings.background_color }};
+  color: {{ section.settings.text_color }};
+  overflow: hidden;
+  font-family: var(--font-body-family);
+  }
+.oma-event-hero-{{ owid }} *, .oma-event-hero-{{ owid }} *::before, .oma-event-hero-{{ owid }} *::after {
+  box-sizing: border-box;
+  }
+.oma-event-hero-{{ owid }} .inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: {{ section.settings.padding_top }}px clamp(20px, 4vw, 48px) {% if centered %}0{% else %}clamp(40px, 5vw, 64px){% endif %};
+  }
+.oma-event-hero-{{ owid }} .crumbs {
+  display: flex;
+  gap: 6px;
+  font: 700 11px/1.4 var(--font-heading-family);
+  letter-spacing: .06em;
+  color: {{ section.settings.crumb_color }};
+  }
+.oma-event-hero-{{ owid }} .crumbs a {
+  color: inherit;
+  text-decoration: none;
+  }
+.oma-event-hero-{{ owid }} .crumbs a:hover {
+  text-decoration: underline;
+  }
+.oma-event-hero-{{ owid }} .row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(24px, 4vw, 56px);
+  margin-top: clamp(20px, 3vw, 36px);
+  }
+.oma-event-hero-{{ owid }} .copy {
+  flex: 1 1 440px;
+  min-width: 0;
+  }
+.oma-event-hero-{{ owid }}:not(.is-centered) .copy {
+  container-type: inline-size;
+  }
+.oma-event-hero-{{ owid }} .art {
+  flex: 1.3 1 520px;
+  min-width: 0;
+  margin-right: clamp(-48px, -2vw, 0px);
+  }
+.oma-event-hero-{{ owid }}.is-centered .row {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0;
+  margin-top: clamp(24px, 3vw, 40px);
+  }
+.oma-event-hero-{{ owid }}.is-centered .copy {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  }
+.oma-event-hero-{{ owid }}.is-centered .art {
+  flex: none;
+  width: min(100%, 980px);
+  margin: clamp(24px, 3vw, 40px) 0 0;
+  }
+.oma-event-hero-{{ owid }} .sticker {
+  display: inline-block;
+  background: {{ section.settings.sticker_background }};
+  color: {{ section.settings.sticker_text_color }};
+  padding: 8px 14px;
+  border-radius: 100px;
+  font: 900 10.5px/1 var(--font-heading-family);
+  letter-spacing: .12em;
+  transform: rotate(-2deg);
+  }
+{%- comment -%}
+  Split title is sized from the copy column's own width (cqi), not the
+  window's, so narrowing the illustration grows the title into the space
+  it frees. Lines fill naturally (pretty, not balance) so the title
+  actually uses that width. The vw value is only a fallback for browsers
+  without container queries.
+{%- endcomment -%}
+.oma-event-hero-{{ owid }} h1 {
+  margin: 24px 0 0;
+  font: 900 clamp(40px, 6.2vw, {{ section.settings.title_max_size }}px)/.92 var(--font-heading-family);
+  font-size: clamp(40px, 13.5cqi, {{ section.settings.title_max_size }}px);
+  letter-spacing: -.05em;
+  color: inherit;
+  text-wrap: pretty;
+  }
+.oma-event-hero-{{ owid }}.is-centered h1 {
+  max-width: 10ch;
+  font-size: clamp(56px, 8.4vw, 128px);
+  line-height: .88;
+  }
+.oma-event-hero-{{ owid }} .lead {
+  margin: 22px 0 0;
+  max-width: 40ch;
+  font: 400 16.5px/1.6 var(--font-body-family);
+  }
+.oma-event-hero-{{ owid }}.is-centered .lead {
+  max-width: 52ch;
+  }
+.oma-event-hero-{{ owid }} .buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 30px;
+  }
+.oma-event-hero-{{ owid }}.is-centered .buttons {
+  justify-content: center;
+  margin-top: 28px;
+  }
+.oma-event-hero-{{ owid }} .btn {
+  display: inline-block;
+  text-decoration: none;
+  padding: 15.5px 28px;
+  border: 1.5px solid {{ section.settings.text_color }};
+  border-radius: 100px;
+  font: 900 13px/1 var(--font-heading-family);
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
+  }
+.oma-event-hero-{{ owid }} .btn-primary {
+  background: {{ section.settings.text_color }};
+  color: {{ section.settings.background_color }};
+  }
+.oma-event-hero-{{ owid }} .btn-primary:hover {
+  background: {{ section.settings.sticker_background }};
+  border-color: {{ section.settings.sticker_background }};
+  }
+.oma-event-hero-{{ owid }} .btn-secondary {
+  color: {{ section.settings.text_color }};
+  }
+.oma-event-hero-{{ owid }} .btn-secondary:hover {
+  background: {{ section.settings.text_color }};
+  color: {{ section.settings.background_color }};
+  }
+{%- comment -%}
+  Desktop split: the illustration takes a merchant-set share of the row and
+  the copy takes the rest, so a narrower (e.g. portrait) illustration hands
+  that width to the title. Below 990px the two stack as before.
+{%- endcomment -%}
+@media (min-width: 990px) {
+  .oma-event-hero-{{ owid }}:not(.is-centered) .row {
+    flex-wrap: nowrap;
+  }
+  .oma-event-hero-{{ owid }}:not(.is-centered) .copy {
+    flex: 1 1 0;
+  }
+  .oma-event-hero-{{ owid }}:not(.is-centered) .art {
+    flex: 0 0 {{ section.settings.image_width }}%;
+  }
+}
+.oma-event-hero-{{ owid }} .art.has-ratio {
+  position: relative;
+  aspect-ratio: {{ section.settings.image_ratio }};
+  overflow: hidden;
+  }
+@media (min-width: 990px) {
+  .oma-event-hero-{{ owid }}:not(.is-centered) .art.has-ratio {
+    max-height: {{ section.settings.image_max_height }}vh;
+  }
+}
+.oma-event-hero-{{ owid }} .art.has-ratio img,
+.oma-event-hero-{{ owid }} .art.has-ratio svg {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  object-fit: cover;
+  }
+.oma-event-hero-{{ owid }} .art img,
+.oma-event-hero-{{ owid }} .art svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  }
+{%- comment -%}
+  Fill: on desktop split the illustration leaves the row and covers the
+  whole right side of the section, top to bottom and out to the screen
+  edge; the row keeps that width (plus the gap) clear for the copy.
+  image_max_height becomes the hero's minimum height. Below 990px it
+  stacks like any other illustration.
+{%- endcomment -%}
+{%- if fill %}
+@media (min-width: 990px) {
+  .oma-event-hero-{{ owid }}.is-fill {
+    position: relative;
+  }
+  .oma-event-hero-{{ owid }}.is-fill .inner {
+    display: flex;
+    flex-direction: column;
+    min-height: {{ section.settings.image_max_height }}vh;
+  }
+  .oma-event-hero-{{ owid }}.is-fill .row {
+    flex: 1 1 auto;
+    padding-right: calc({{ section.settings.image_width }}% + 56px);
+  }
+  .oma-event-hero-{{ owid }}.is-fill .art,
+  .oma-event-hero-{{ owid }}.is-fill .art.has-ratio {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: {{ section.settings.image_width }}%;
+    margin: 0;
+    aspect-ratio: auto;
+    max-height: none;
+    overflow: hidden;
+  }
+  .oma-event-hero-{{ owid }}.is-fill .art img,
+  .oma-event-hero-{{ owid }}.is-fill .art svg {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+{%- endif %}
+{%- if section.settings.hide_image_mobile %}
+@media (max-width: 749px) {
+  .oma-event-hero-{{ owid }} .art {
+    display: none;
+  }
+  .oma-event-hero-{{ owid }}.is-centered .inner {
+    padding-bottom: clamp(40px, 5vw, 64px);
+  }
+}
+{%- endif %}
+{% endstyle %}
+<header class="oma-event-hero-{{ owid }}{% if centered %} is-centered{% endif %}{% if fill %} is-fill{% endif %}" id="{{ section.settings.anchor_id | default: 'top' | handleize }}">
+  <div class="inner">
+    {%- if section.settings.show_breadcrumb -%}
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="{{ routes.root_url }}">{{ 'general.breadcrumbs.home' | t | default: 'Home' }}</a>
+        <span aria-hidden="true">/</span>
+        <span>{{ section.settings.breadcrumb_label | default: page.title | escape }}</span>
+      </nav>
+    {%- endif -%}
+    <div class="row">
+      <div class="copy">
+        {%- if section.settings.sticker != blank -%}<span class="sticker">{{ section.settings.sticker | escape }}</span>{%- endif -%}
+        <h1>{{ section.settings.heading }}</h1>
+        {%- if section.settings.lead != blank -%}<p class="lead">{{ section.settings.lead }}</p>{%- endif -%}
+        {%- if section.settings.primary_label != blank or section.settings.secondary_label != blank -%}
+          <div class="buttons">
+            {%- if section.settings.primary_label != blank -%}
+              <a class="btn btn-primary" href="{{ section.settings.primary_link | default: '#' }}">{{ section.settings.primary_label | escape }}</a>
+            {%- endif -%}
+            {%- if section.settings.secondary_label != blank and centered == false -%}
+              <a class="btn btn-secondary" href="{{ section.settings.secondary_link | default: '#' }}">{{ section.settings.secondary_label | escape }}</a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+      {%- liquid
+        assign art_sizes = '(min-width: 990px) ' | append: section.settings.image_width | append: 'vw, 100vw'
+        if centered
+          assign art_sizes = '(min-width: 990px) 980px, 100vw'
+        endif
+        assign focal = section.settings.image.presentation.focal_point | default: 'center'
+        assign art_style = 'object-position: ' | append: focal
+      -%}
+      {%- if section.settings.show_image -%}
+        <div class="art{% if section.settings.image_ratio != 'original' %} has-ratio{% endif %}">
+          {%- if section.settings.image != blank -%}
+            {{ section.settings.image | image_url: width: 2000 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '600, 900, 1200, 1600, 2000', sizes: art_sizes, style: art_style }}
+          {%- else -%}
+            {{ 'lifestyle-1' | placeholder_svg_tag }}
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</header>
+{% schema %}
+{
+  "name": "OMA Event Hero",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "split", "label": "Split (text left, illustration right)" },
+        { "value": "centered", "label": "Centered (illustration below)" }
+      ],
+      "default": "split",
+      "info": "Centered shows the primary button only."
+    },
+    { "type": "checkbox", "id": "show_breadcrumb", "label": "Show breadcrumb", "default": true },
+    { "type": "text", "id": "breadcrumb_label", "label": "Breadcrumb label", "info": "Defaults to the page title." },
+    { "type": "text", "id": "sticker", "label": "Sticker", "default": "BACK BY POPULAR DEMAND · NOV 19–21" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Exhibitor Coffee Pass" },
+    { "type": "range", "id": "title_max_size", "label": "Heading max size (split layout)", "min": 48, "max": 128, "step": 4, "unit": "px", "default": 104, "info": "The heading grows to fill its column up to this size." },
+    { "type": "inline_richtext", "id": "lead", "label": "Lead", "default": "Cold brew at Booth [__], every day of Meet Taipei." },
+    { "type": "header", "content": "Buttons" },
+    { "type": "text", "id": "primary_label", "label": "Primary button label", "default": "Choose your pass ↓" },
+    { "type": "url", "id": "primary_link", "label": "Primary button link", "info": "e.g. #passes to jump to the pass cards." },
+    { "type": "text", "id": "secondary_label", "label": "Secondary button label", "default": "What's in the cup" },
+    { "type": "url", "id": "secondary_link", "label": "Secondary button link", "info": "e.g. #reserve" },
+    { "type": "header", "content": "Illustration" },
+    { "type": "checkbox", "id": "show_image", "label": "Show illustration", "default": true, "info": "Off gives the heading the full width." },
+    { "type": "image_picker", "id": "image", "label": "Illustration", "info": "Set its alt text in Files." },
+    { "type": "checkbox", "id": "image_fill", "label": "Fill the right side, full height (desktop, split layout)", "default": false, "info": "Runs the illustration from the top to the bottom of the hero and out to the screen edge, cropped to fit. Ratio then only applies on tablet and mobile." },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Illustration ratio",
+      "options": [
+        { "value": "original", "label": "Original" },
+        { "value": "16 / 9", "label": "Widescreen (16:9)" },
+        { "value": "4 / 3", "label": "Landscape (4:3)" },
+        { "value": "1 / 1", "label": "Square (1:1)" },
+        { "value": "4 / 5", "label": "Portrait (4:5)" },
+        { "value": "3 / 4", "label": "Portrait (3:4)" },
+        { "value": "2 / 3", "label": "Tall portrait (2:3)" }
+      ],
+      "default": "original",
+      "info": "Anything but Original crops the image to fit. Set the focal point in Files to choose what stays in view."
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "label": "Illustration width (desktop, split layout)",
+      "min": 30,
+      "max": 60,
+      "step": 5,
+      "unit": "%",
+      "default": 55,
+      "info": "A narrower illustration gives the heading more room. Around 40% suits a portrait ratio."
+    },
+    {
+      "type": "range",
+      "id": "image_max_height",
+      "label": "Illustration max height (desktop, split layout)",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "default": 70,
+      "info": "Share of the screen height. A taller ratio is cropped to fit. Doesn't apply to Original. With Fill on, this is the hero's minimum height instead."
+    },
+    { "type": "checkbox", "id": "hide_image_mobile", "label": "Hide illustration on mobile", "info": "Below 750px wide, so the buttons sit higher on the screen.", "default": false },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#FF3F00" },
+    { "type": "color", "id": "text_color", "label": "Heading, text and buttons", "default": "#FFFFFF" },
+    { "type": "color", "id": "crumb_color", "label": "Breadcrumb", "default": "#FCD0FD" },
+    { "type": "color", "id": "sticker_background", "label": "Sticker and button hover", "default": "#FCD0FD" },
+    { "type": "color", "id": "sticker_text_color", "label": "Sticker text", "default": "#FF3F00" },
+    { "type": "header", "content": "Layout" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "default": "top" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 36 }
+  ],
+  "presets": [
+    { "name": "OMA Event Hero" }
+  ]
+}
+{% endschema %}

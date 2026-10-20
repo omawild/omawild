@@ -204,6 +204,16 @@ Three traps that were live before this landed, worth not reintroducing:
   `templates/index.json`), and `owv2-product-detail`/`-main`/`-origin`/`-pairings`
   (all placed on `templates/product.product-coffee.json`).
 
+  **`od-value-grid` → `oma-how-it-works` is half done (20 Oct 2026).** The
+  Meet Taipei page now uses `oma-how-it-works.liquid`, a copy of
+  `od-value-grid.liquid` under the new name. The old file stays only
+  because `templates/search.json` still places it (the black "Coming soon"
+  band on the search page). Once that page uses `oma-how-it-works` instead,
+  delete `od-value-grid.liquid` so there aren't two copies to keep in step.
+  Until then, mirror any change to one file in the other. Note that
+  `search.json` is written on one line, so check placements with
+  `grep -E '"type": ?"<name>"'`; a pattern with a fixed space misses it.
+
 ## Upgrading the theme
 
 1. Export/download the new RoarTheme version.

@@ -1,0 +1,444 @@
+{%- comment -%}
+  oma-pass-cards — "Choose your adventure" pass cards for event landing
+  pages (first used on Meet Taipei 2026), matching the Passes band of the
+  Meet Taipei Page in the Omawild Web Redesign handoff.
+
+  Each card is a block tied to a real product: price, stock and checkout
+  come from Shopify, so "40 passes" / "only 20 made" are enforced by the
+  product's inventory rather than by copy. Sold out swaps the stepper and
+  button for the card's sold-out line. The add-to-cart is the same
+  <product-form> + /cart/add contract as oma-origin-coffees.liquid, and the
+  stepper is the vendor's <quantity-input>, so the cart drawer opens as it
+  does everywhere else. assets/oma-pass-cards.js only re-totals the button
+  label ("Buy · NT$798") as the quantity changes.
+
+  Card styles follow the design: salmon (thank-you pass), featured (white,
+  hard shadow, sticker) and electric.
+{%- endcomment -%}
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{%- assign accent = section.settings.accent_color -%}
+{% style %}
+.oma-pass-cards-{{ owid }} {
+  box-sizing: border-box;
+  background: {{ section.settings.background_color }};
+  padding: clamp(48px, 6vw, {{ section.settings.padding_y }}px) clamp(20px, 4vw, 48px);
+  {%- if section.settings.show_bottom_rule %}
+  border-bottom: 1.5px solid {{ accent }};
+  {%- endif %}
+  font-family: var(--font-body-family);
+  color: {{ section.settings.text_color }};
+  scroll-margin-top: 80px;
+  }
+.oma-pass-cards-{{ owid }} *, .oma-pass-cards-{{ owid }} *::before, .oma-pass-cards-{{ owid }} *::after {
+  box-sizing: border-box;
+  }
+.oma-pass-cards-{{ owid }} .inner {
+  max-width: 1344px;
+  margin: 0 auto;
+  }
+.oma-pass-cards-{{ owid }} .eyebrow {
+  font: 900 10.5px/1 var(--font-heading-family);
+  letter-spacing: .18em;
+  color: {{ accent }};
+  }
+.oma-pass-cards-{{ owid }} .heading {
+  margin: 16px 0 0;
+  font: 900 clamp(30px, 3.8vw, 52px)/1 var(--font-heading-family);
+  letter-spacing: -.035em;
+  color: {{ accent }};
+  text-wrap: balance;
+  }
+.oma-pass-cards-{{ owid }} .intro {
+  margin: 18px 0 0;
+  max-width: 80ch;
+  font: 400 14.5px/1.6 var(--font-body-family);
+  }
+.oma-pass-cards-{{ owid }} .intro p {
+  margin: 0;
+  }
+.oma-pass-cards-{{ owid }} .grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 20px;
+  align-items: stretch;
+  margin-top: clamp(28px, 3.4vw, 44px);
+  }
+
+{%- comment -%} Card, with per-style colors set as custom properties {%- endcomment -%}
+.oma-pass-cards-{{ owid }} .pass {
+  --card-bg: {{ section.settings.salmon_color }};
+  --card-ink: {{ accent }};
+  --card-body: {{ section.settings.text_color }};
+  --card-soft: {{ accent }};
+  --badge-bg: {{ accent }};
+  --badge-ink: #FFFFFF;
+  --btn-bg: {{ accent }};
+  --btn-ink: #FFFFFF;
+  --btn-hover: {{ section.settings.button_hover_color }};
+  --stepper-bg: {{ section.settings.background_color }};
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--card-bg);
+  border: 1.5px solid {{ accent }};
+  border-radius: 14px;
+  padding: 26px;
+  color: var(--card-ink);
+  }
+.oma-pass-cards-{{ owid }} .pass.is-featured {
+  --card-bg: #FFFFFF;
+  --badge-bg: transparent;
+  --badge-ink: {{ accent }};
+  border-width: 2px;
+  box-shadow: 8px 8px 0 {{ accent }};
+  }
+.oma-pass-cards-{{ owid }} .pass.is-electric {
+  --card-bg: {{ accent }};
+  --card-ink: #FFFFFF;
+  --card-body: #FFFFFF;
+  --card-soft: {{ section.settings.wonderland_color }};
+  --badge-bg: #FFFFFF;
+  --badge-ink: {{ accent }};
+  --btn-bg: #FFFFFF;
+  --btn-ink: {{ accent }};
+  --btn-hover: {{ section.settings.wonderland_color }};
+  --stepper-bg: #FFFFFF;
+  }
+.oma-pass-cards-{{ owid }} .top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  min-height: 24px;
+  }
+.oma-pass-cards-{{ owid }} .badge {
+  background: var(--badge-bg);
+  color: var(--badge-ink);
+  padding: 7px 11px;
+  border-radius: 100px;
+  font: 900 9.5px/1 var(--font-heading-family);
+  letter-spacing: .1em;
+  }
+.oma-pass-cards-{{ owid }} .pass.is-featured .badge {
+  padding: 5.5px 10px;
+  border: 1.5px solid {{ accent }};
+  }
+.oma-pass-cards-{{ owid }} .count,
+.oma-pass-cards-{{ owid }} .price-note,
+.oma-pass-cards-{{ owid }} .footnote {
+  font: 900 10px/1 var(--font-heading-family);
+  letter-spacing: .14em;
+  color: var(--card-soft);
+  }
+.oma-pass-cards-{{ owid }} .sticker {
+  position: absolute;
+  top: -14px;
+  right: 22px;
+  background: {{ section.settings.sunbrella_color }};
+  color: {{ section.settings.text_color }};
+  padding: 8px 12px;
+  border-radius: 100px;
+  font: 900 9.5px/1 var(--font-heading-family);
+  letter-spacing: .1em;
+  transform: rotate(3deg);
+  }
+.oma-pass-cards-{{ owid }} .name {
+  margin: 22px 0 0;
+  font: 900 24px/1.05 var(--font-heading-family);
+  letter-spacing: -.025em;
+  }
+.oma-pass-cards-{{ owid }} .price {
+  margin-top: 14px;
+  font: 900 64px/.9 var(--font-heading-family);
+  letter-spacing: -.045em;
+  }
+.oma-pass-cards-{{ owid }} .price-note {
+  margin-top: 10px;
+  }
+.oma-pass-cards-{{ owid }} .details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1.5px dashed var(--card-soft);
+  color: var(--card-body);
+  }
+.oma-pass-cards-{{ owid }} .headline {
+  font: 700 16px/1.4 var(--font-body-family);
+  }
+.oma-pass-cards-{{ owid }} .extra {
+  font: 700 14.5px/1.5 var(--font-body-family);
+  }
+.oma-pass-cards-{{ owid }} .body {
+  margin: 0;
+  font: 400 14.5px/1.6 var(--font-body-family);
+  }
+.oma-pass-cards-{{ owid }} .buy {
+  margin-top: 24px;
+  }
+.oma-pass-cards-{{ owid }} .stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 5px;
+  background: var(--stepper-bg);
+  border: 1.5px solid {{ accent }};
+  border-radius: 100px;
+  }
+.oma-pass-cards-{{ owid }} .pass.is-electric .stepper {
+  border-color: #FFFFFF;
+  }
+.oma-pass-cards-{{ owid }} .stepper .quantity__button {
+  flex: none;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: none;
+  border-radius: 100px;
+  background: {{ section.settings.salmon_color }};
+  color: {{ accent }};
+  cursor: pointer;
+  font: 900 18px/1 var(--font-heading-family);
+  }
+.oma-pass-cards-{{ owid }} .stepper .quantity__button:hover {
+  background: {{ section.settings.wonderland_color }};
+  }
+.oma-pass-cards-{{ owid }} .stepper .quantity__button.disabled {
+  opacity: .4;
+  }
+.oma-pass-cards-{{ owid }} .stepper .quantity__input {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font: 900 18px/1 var(--font-heading-family);
+  color: {{ accent }};
+  -moz-appearance: textfield;
+  }
+.oma-pass-cards-{{ owid }} .stepper .quantity__input::-webkit-outer-spin-button,
+.oma-pass-cards-{{ owid }} .stepper .quantity__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  }
+.oma-pass-cards-{{ owid }} .btn {
+  width: 100%;
+  min-height: 52px;
+  border: none;
+  border-radius: 100px;
+  background: var(--btn-bg);
+  color: var(--btn-ink);
+  cursor: pointer;
+  font: 900 13px/1 var(--font-heading-family);
+  transition: background .15s ease;
+  }
+.oma-pass-cards-{{ owid }} .btn:hover {
+  background: var(--btn-hover);
+  }
+.oma-pass-cards-{{ owid }} .btn[disabled] {
+  cursor: default;
+  opacity: .5;
+  }
+.oma-pass-cards-{{ owid }} .sold-out {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  margin-top: 24px;
+  border: 1.5px dashed var(--card-soft);
+  border-radius: 100px;
+  font: 900 13px/1 var(--font-heading-family);
+  color: var(--card-soft);
+  }
+.oma-pass-cards-{{ owid }} .footnote {
+  margin-top: 12px;
+  text-align: center;
+  }
+.oma-pass-cards-{{ owid }} .product-form__error-message-wrapper {
+  margin-bottom: 8px;
+  font: 700 12.5px/1.4 var(--font-body-family);
+  color: var(--card-body);
+  }
+.oma-pass-cards-{{ owid }} .setup-note {
+  margin: 24px 0 0;
+  font: 700 12.5px/1.4 var(--font-body-family);
+  color: var(--card-body);
+  }
+{% endstyle %}
+<section class="oma-pass-cards-{{ owid }}" id="{{ section.settings.anchor_id | default: 'passes' | handleize }}">
+  <div class="inner">
+    {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
+    {%- if section.settings.heading != blank -%}<h2 class="heading">{{ section.settings.heading }}</h2>{%- endif -%}
+    {%- if section.settings.intro != blank -%}<div class="intro">{{ section.settings.intro }}</div>{%- endif -%}
+
+    <div class="grid">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign product = block.settings.product
+          assign variant = product.selected_or_first_available_variant
+          assign sold_out = false
+          if product != blank and product.available == false
+            assign sold_out = true
+          endif
+          assign max_qty = block.settings.max_quantity
+          if variant.inventory_management == 'shopify' and variant.inventory_policy == 'deny' and variant.inventory_quantity < max_qty
+            assign max_qty = variant.inventory_quantity
+          endif
+          assign form_id = 'oma-pass-' | append: section.id | append: '-' | append: forloop.index
+        -%}
+        <div class="pass is-{{ block.settings.style }}" {{ block.shopify_attributes }}>
+          {%- if block.settings.sticker != blank and sold_out == false -%}<span class="sticker">{{ block.settings.sticker | escape }}</span>{%- endif -%}
+          <div class="top">
+            {%- if block.settings.badge != blank -%}<span class="badge">{{ block.settings.badge | escape }}</span>{%- else -%}<span></span>{%- endif -%}
+            {%- if sold_out and block.settings.sold_out_count_label != blank -%}
+              <span class="count">{{ block.settings.sold_out_count_label | escape }}</span>
+            {%- elsif block.settings.count_label != blank -%}
+              <span class="count">{{ block.settings.count_label | escape }}</span>
+            {%- endif -%}
+          </div>
+          <div class="name">{{ block.settings.name | escape }}</div>
+          <div class="price">
+            {%- if block.settings.price_text != blank -%}
+              {{ block.settings.price_text | escape }}
+            {%- elsif product != blank -%}
+              {%- render 'ow-money', amount: variant.price -%}
+            {%- endif -%}
+          </div>
+          {%- if block.settings.price_note != blank -%}<div class="price-note">{{ block.settings.price_note | escape }}</div>{%- endif -%}
+          <div class="details">
+            {%- if block.settings.headline != blank -%}<div class="headline">{{ block.settings.headline | escape }}</div>{%- endif -%}
+            {%- if block.settings.extra != blank -%}<div class="extra">{{ block.settings.extra | escape }}</div>{%- endif -%}
+            {%- if block.settings.body != blank -%}<p class="body">{{ block.settings.body | escape }}</p>{%- endif -%}
+          </div>
+
+          {%- if product == blank -%}
+            {%- if request.design_mode -%}<p class="setup-note">Pick this pass's product to turn on the button.</p>{%- endif -%}
+          {%- elsif sold_out -%}
+            <div class="sold-out">{{ block.settings.sold_out_label | default: 'Sold out' | escape }}</div>
+          {%- else -%}
+            <div class="buy">
+              <product-form data-section="{{ section.id }}">
+                {%- form 'product', product, id: form_id, data-type: 'add-to-cart-form' -%}
+                  <div class="product-form__error-message-wrapper" role="alert" hidden><span class="product-form__error-message"></span></div>
+                  <input type="hidden" name="id" value="{{ variant.id }}">
+                  {%- if block.settings.show_quantity and max_qty > 1 -%}
+                    <quantity-input class="stepper">
+                      <button class="quantity__button" name="minus" type="button" aria-label="{{ 'products.product.quantity.decrease' | t: product: block.settings.name | escape }}">−</button>
+                      <input class="quantity__input" type="number" name="quantity" value="1" min="1" max="{{ max_qty }}" step="1" aria-label="{{ 'products.product.quantity.label' | t | escape }}" form="{{ form_id }}">
+                      <button class="quantity__button" name="plus" type="button" aria-label="{{ 'products.product.quantity.increase' | t: product: block.settings.name | escape }}">+</button>
+                    </quantity-input>
+                  {%- else -%}
+                    <input type="hidden" name="quantity" value="1">
+                  {%- endif -%}
+                  <button type="submit" name="add" class="btn" data-oma-pass-total data-unit-price="{{ variant.price }}" data-label="{{ block.settings.button_label | escape }}" data-show-total="{{ block.settings.show_total }}">
+                    <span>
+                      {{- block.settings.button_label | escape -}}
+                      {%- if block.settings.show_total %} · {% render 'ow-money', amount: variant.price %}{%- endif -%}
+                    </span>
+                  </button>
+                {%- endform -%}
+              </product-form>
+            </div>
+          {%- endif -%}
+
+          {%- if block.settings.footnote != blank -%}<div class="footnote">{{ block.settings.footnote | escape }}</div>{%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+<script src="{{ 'oma-pass-cards.js' | asset_url }}" defer></script>
+{% schema %}
+{
+  "name": "OMA Pass Cards",
+  "tag": "div",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THREE PASSES" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Choose your adventure" },
+    { "type": "richtext", "id": "intro", "label": "Intro", "default": "<p>Three days of Meet Taipei, NOV 19–21. Collect your card at Booth [__].</p>" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Buttons elsewhere on the page can link to #passes.", "default": "passes" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#F7F5F1" },
+    { "type": "color", "id": "accent_color", "label": "Electric (headings, borders, buttons)", "default": "#FF3F00" },
+    { "type": "color", "id": "text_color", "label": "Body text", "default": "#00180C" },
+    { "type": "color", "id": "salmon_color", "label": "Salmon (card and stepper buttons)", "default": "#FFE4E7" },
+    { "type": "color", "id": "wonderland_color", "label": "Wonderland (soft text on Electric cards, hovers)", "default": "#FCD0FD" },
+    { "type": "color", "id": "sunbrella_color", "label": "Sunbrella (sticker)", "default": "#FBB925" },
+    { "type": "color", "id": "button_hover_color", "label": "Button hover", "default": "#D63200" },
+    { "type": "header", "content": "Layout" },
+    { "type": "checkbox", "id": "show_bottom_rule", "label": "Rule under the section", "default": true },
+    { "type": "range", "id": "padding_y", "label": "Padding top and bottom (desktop)", "min": 48, "max": 120, "step": 4, "unit": "px", "default": 88 }
+  ],
+  "blocks": [
+    {
+      "type": "pass",
+      "name": "Pass",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product", "info": "Price, stock and checkout come from this product. Set its inventory to the number of passes and it sells out by itself." },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Card style",
+          "options": [
+            { "value": "salmon", "label": "Salmon" },
+            { "value": "featured", "label": "Featured (white, shadow)" },
+            { "value": "electric", "label": "Electric" }
+          ],
+          "default": "featured"
+        },
+        { "type": "text", "id": "badge", "label": "Badge", "default": "EXHIBITOR PASS" },
+        { "type": "text", "id": "count_label", "label": "Count label", "default": "40 PASSES" },
+        { "type": "text", "id": "sticker", "label": "Sticker", "info": "e.g. MOST PICKED. Hidden once sold out." },
+        { "type": "text", "id": "name", "label": "Pass name", "default": "Daily Fuel" },
+        { "type": "text", "id": "price_text", "label": "Price text override", "info": "e.g. FREE. Leave empty to show the product's price." },
+        { "type": "text", "id": "price_note", "label": "Price note", "default": "≈ NT$66 / CUP" },
+        { "type": "text", "id": "headline", "label": "What you get", "default": "2 cups a day, all 3 days" },
+        { "type": "text", "id": "extra", "label": "Extra", "default": "+ Sample pack of our three profiles" },
+        { "type": "textarea", "id": "body", "label": "Note", "default": "Whole beans, so everything stays fresh" },
+        { "type": "header", "content": "Button" },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "Buy" },
+        { "type": "checkbox", "id": "show_total", "label": "Add the total to the button", "info": "e.g. Buy · NT$798 for two.", "default": true },
+        { "type": "checkbox", "id": "show_quantity", "label": "Show quantity stepper", "default": true },
+        { "type": "range", "id": "max_quantity", "label": "Most per order", "min": 1, "max": 40, "step": 1, "default": 10, "info": "Never more than what's left in stock." },
+        { "type": "text", "id": "footnote", "label": "Footnote", "default": "BUYING FOR YOUR TEAM? ADD MORE" },
+        { "type": "header", "content": "Sold out" },
+        { "type": "text", "id": "sold_out_label", "label": "Sold-out line", "default": "Sold out" },
+        { "type": "text", "id": "sold_out_count_label", "label": "Count label when sold out", "default": "SOLD OUT" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "OMA Pass Cards",
+      "blocks": [
+        {
+          "type": "pass",
+          "settings": {
+            "style": "salmon", "badge": "THANK YOU", "count_label": "", "name": "Kaohsiung Crew", "price_text": "FREE", "price_note": "",
+            "headline": "1 cup a day, all 3 days", "extra": "", "body": "For friends who joined us in Kaohsiung. Use the code we sent you at checkout.",
+            "button_label": "Claim free pass", "show_total": false, "show_quantity": false, "max_quantity": 1, "footnote": "1 PER EXHIBITOR"
+          }
+        },
+        { "type": "pass", "settings": { "style": "featured", "sticker": "MOST PICKED" } },
+        {
+          "type": "pass",
+          "settings": {
+            "style": "electric", "badge": "YOU WILD ONE", "count_label": "20 PASSES", "name": "Run Wild", "price_note": "+ 200G WILD BLOOM",
+            "headline": "2 cups a day, all 3 days", "extra": "+ 200g Wild Bloom to take home", "body": "",
+            "footnote": "ONLY 20 MADE", "sold_out_label": "All 20 claimed"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

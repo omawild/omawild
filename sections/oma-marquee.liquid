@@ -1,4 +1,14 @@
 {% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{%- liquid
+  # Each list repeats the items until it holds at least 16, so it stays
+  # wider than the screen without spreading them apart. The duration scales
+  # with that count to keep the same scroll pace as before (speed was tuned
+  # for one screen-wide list of about six items).
+  assign block_count = section.blocks.size | at_least: 1
+  assign sets = 15 | plus: block_count | divided_by: block_count
+  assign item_total = block_count | times: sets
+  assign duration = section.settings.speed | times: item_total | divided_by: 6.0 | round: 1
+-%}
 {% style %}
 .owv2-marquee-{{ owid }} {
   box-sizing: border-box;
@@ -102,27 +112,27 @@
 .owv2-marquee-{{ owid }} .track {
   display:flex;
   width:max-content;
-  animation:owv2-marquee-{{ owid }} {{ section.settings.speed }}s linear infinite;
+  animation:owv2-marquee-{{ owid }} {{ duration }}s linear infinite;
   {% if section.settings.direction == 'right' %}animation-direction:reverse;{% endif %} }
 .owv2-marquee-{{ owid }} ul {
   display:flex;
   list-style:none;
-  min-width:100vw;
-  justify-content:space-around;
-  padding:0;
+  gap:{{ section.settings.item_spacing }}px;
+  padding:0 {{ section.settings.item_spacing }}px 0 0;
   margin:0;
   flex-shrink:0;
   }
 .owv2-marquee-{{ owid }} li {
-  padding-inline:20px;
+  padding:0;
   font-size:12px;
   font-weight:700;
   letter-spacing:.09em;
   white-space:nowrap;
   }
-.owv2-marquee-{{ owid }} li span {
-  margin-left:32px;
-  }
+/* The separator is its own <li> between items (not a span trailing each
+   item's text), so the list gap sits evenly on both sides of it. Every
+   item is followed by one, and the list's right padding matches the gap,
+   so the seam between the two lists looks the same as any other gap. */
 .owv2-marquee-{{ owid }} :hover .track {
   animation-play-state:paused;
   }
@@ -143,7 +153,8 @@
 .owv2-marquee-{{ owid }} li {
   white-space:normal;
   }
-.owv2-marquee-{{ owid }} ul[aria-hidden] {
+.owv2-marquee-{{ owid }} ul[aria-hidden],
+.owv2-marquee-{{ owid }} li.rep {
   display:none;
   }
 }
@@ -152,9 +163,11 @@
 <div class="track">
 {% for repetition in (1..2) %}
 <ul {% if repetition == 2 %}aria-hidden="true"{% endif %}>
+{% for set in (1..sets) %}
 {% for block in section.blocks %}
-<li {% if repetition == 1 %}{{ block.shopify_attributes }}{% endif %}>{{ block.settings.text | escape }} <span aria-hidden="true">{{ section.settings.separator | escape }}</span>
-</li>
+<li{% if set > 1 %} class="rep" aria-hidden="true"{% endif %} {% if repetition == 1 and set == 1 %}{{ block.shopify_attributes }}{% endif %}>{{ block.settings.text | escape }}</li>
+{% if section.settings.separator != blank %}<li class="sep{% if set > 1 %} rep{% endif %}" aria-hidden="true">{{ section.settings.separator | escape }}</li>{% endif %}
+{% endfor %}
 {% endfor %}
 </ul>
 {% endfor %}
@@ -202,6 +215,16 @@
       "id": "separator",
       "label": "Separator",
       "default": "\u2737"
+    },
+    {
+      "type": "range",
+      "id": "item_spacing",
+      "label": "Space around separator",
+      "min": 8,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "default": 20
     },
     {
       "type": "color",

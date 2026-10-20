@@ -39,16 +39,29 @@
   color: {{ section.settings.heading_color }};
   font-size: 32px;
   font-weight: 700;
+  line-height: 1.1;
 }
 
+/* Intro sits close under the heading: the heading's line box plus a 20px
+   margin read as a ~35px gap, which split the two apart. */
 .intro-{{ section.id }}
 {
-  margin: 20px 0 0;
+  margin: 8px 0 0;
   max-width: 80ch;
   font-family: var(--font-body-family);
   font-size: 16.5px;
   line-height: 1.5;
   color: {{ section.settings.text_color }};
+}
+
+.intro-{{ section.id }} p
+{
+  margin: 0;
+}
+
+.intro-{{ section.id }} p + p
+{
+  margin-top: 12px;
 }
 
 /* --- The USP Grid --- */
@@ -191,16 +204,21 @@
   transition: opacity 0.2s ease;
 }
 
+/* --- Tablet + desktop (750px+): never fewer than three cards per row;
+   more fit side by side once each can reach the card minimum width --- */
+@media screen and (min-width: 750px)
+{
+  .usp-grid-{{ section.id }}
+  {
+    grid-template-columns: repeat(auto-fit, minmax(min({{ section.settings.card_min_width }}px, calc((100% - 36px) / 3)), 1fr));
+  }
+}
+
 /* --- Desktop Logic (900px+) --- */
 @media screen and (min-width: 900px)
 {
   .usp-title-{{ section.id }} {
     font-size: {{ section.settings.global_title_size }}px;
-  }
-
-  .usp-grid-{{ section.id }}
-  {
-    grid-template-columns: repeat(auto-fit, minmax({{ section.settings.card_min_width }}px, 1fr));
   }
 
   .usp-item-{{ section.id }}
