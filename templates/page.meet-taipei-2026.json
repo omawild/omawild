@@ -245,8 +245,8 @@
       "name": "How it works",
       "settings": {
         "eyebrow": "HOW IT WORKS",
-        "heading": "Redeem online and collect your pass at Meet Taipei.",
-        "intro": "",
+        "heading": "Redeem your Exhibitor Coffee Pass",
+        "intro": "<p>Claim your spot and collect it and collect your pass at Meet Taipei.</p>",
         "header_alignment": "left",
         "content_alignment": "flex-start",
         "global_icon_width": 50,
