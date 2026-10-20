@@ -13,6 +13,8 @@
 {% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
 {%- assign centered = false -%}
 {%- if section.settings.layout == 'centered' -%}{%- assign centered = true -%}{%- endif -%}
+{%- assign fill = false -%}
+{%- if section.settings.show_image and section.settings.image_fill and centered == false -%}{%- assign fill = true -%}{%- endif -%}
 {% style %}
 .oma-event-hero-{{ owid }} {
   box-sizing: border-box;
@@ -192,6 +194,48 @@
   width: 100%;
   height: auto;
   }
+{%- comment -%}
+  Fill: on desktop split the illustration leaves the row and covers the
+  whole right side of the section, top to bottom and out to the screen
+  edge; the row keeps that width (plus the gap) clear for the copy.
+  image_max_height becomes the hero's minimum height. Below 990px it
+  stacks like any other illustration.
+{%- endcomment -%}
+{%- if fill %}
+@media (min-width: 990px) {
+  .oma-event-hero-{{ owid }}.is-fill {
+    position: relative;
+  }
+  .oma-event-hero-{{ owid }}.is-fill .inner {
+    display: flex;
+    flex-direction: column;
+    min-height: {{ section.settings.image_max_height }}vh;
+  }
+  .oma-event-hero-{{ owid }}.is-fill .row {
+    flex: 1 1 auto;
+    padding-right: calc({{ section.settings.image_width }}% + 56px);
+  }
+  .oma-event-hero-{{ owid }}.is-fill .art,
+  .oma-event-hero-{{ owid }}.is-fill .art.has-ratio {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: {{ section.settings.image_width }}%;
+    margin: 0;
+    aspect-ratio: auto;
+    max-height: none;
+    overflow: hidden;
+  }
+  .oma-event-hero-{{ owid }}.is-fill .art img,
+  .oma-event-hero-{{ owid }}.is-fill .art svg {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+{%- endif %}
 {%- if section.settings.hide_image_mobile %}
 @media (max-width: 749px) {
   .oma-event-hero-{{ owid }} .art {
@@ -203,7 +247,7 @@
 }
 {%- endif %}
 {% endstyle %}
-<header class="oma-event-hero-{{ owid }}{% if centered %} is-centered{% endif %}" id="{{ section.settings.anchor_id | default: 'top' | handleize }}">
+<header class="oma-event-hero-{{ owid }}{% if centered %} is-centered{% endif %}{% if fill %} is-fill{% endif %}" id="{{ section.settings.anchor_id | default: 'top' | handleize }}">
   <div class="inner">
     {%- if section.settings.show_breadcrumb -%}
       <nav class="crumbs" aria-label="Breadcrumb">
@@ -236,13 +280,15 @@
         assign focal = section.settings.image.presentation.focal_point | default: 'center'
         assign art_style = 'object-position: ' | append: focal
       -%}
-      <div class="art{% if section.settings.image_ratio != 'original' %} has-ratio{% endif %}">
-        {%- if section.settings.image != blank -%}
-          {{ section.settings.image | image_url: width: 2000 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '600, 900, 1200, 1600, 2000', sizes: art_sizes, style: art_style }}
-        {%- else -%}
-          {{ 'lifestyle-1' | placeholder_svg_tag }}
-        {%- endif -%}
-      </div>
+      {%- if section.settings.show_image -%}
+        <div class="art{% if section.settings.image_ratio != 'original' %} has-ratio{% endif %}">
+          {%- if section.settings.image != blank -%}
+            {{ section.settings.image | image_url: width: 2000 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '600, 900, 1200, 1600, 2000', sizes: art_sizes, style: art_style }}
+          {%- else -%}
+            {{ 'lifestyle-1' | placeholder_svg_tag }}
+          {%- endif -%}
+        </div>
+      {%- endif -%}
     </div>
   </div>
 </header>
@@ -277,7 +323,9 @@
     { "type": "text", "id": "secondary_label", "label": "Secondary button label", "default": "What's in the cup" },
     { "type": "url", "id": "secondary_link", "label": "Secondary button link", "info": "e.g. #reserve" },
     { "type": "header", "content": "Illustration" },
+    { "type": "checkbox", "id": "show_image", "label": "Show illustration", "default": true, "info": "Off gives the heading the full width." },
     { "type": "image_picker", "id": "image", "label": "Illustration", "info": "Set its alt text in Files." },
+    { "type": "checkbox", "id": "image_fill", "label": "Fill the right side, full height (desktop, split layout)", "default": false, "info": "Runs the illustration from the top to the bottom of the hero and out to the screen edge, cropped to fit. Ratio then only applies on tablet and mobile." },
     {
       "type": "select",
       "id": "image_ratio",
@@ -314,7 +362,7 @@
       "step": 5,
       "unit": "vh",
       "default": 70,
-      "info": "Share of the screen height. A taller ratio is cropped to fit. Doesn't apply to Original."
+      "info": "Share of the screen height. A taller ratio is cropped to fit. Doesn't apply to Original. With Fill on, this is the hero's minimum height instead."
     },
     { "type": "checkbox", "id": "hide_image_mobile", "label": "Hide illustration on mobile", "info": "Below 750px wide, so the buttons sit higher on the screen.", "default": false },
     { "type": "header", "content": "Colors" },
