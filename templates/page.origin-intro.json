@@ -23,7 +23,7 @@
       "name": "OMA Page Header — Origin",
       "settings": {
         "origin_reference": "garut-west-java",
-        "kicker_label": "ORIGIN",
+        "kicker_label": "ORIGIN FIELD GUIDE",
         "show_breadcrumb": true,
         "origins_label": "Origins",
         "origins_url": "",
