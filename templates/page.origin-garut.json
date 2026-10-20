@@ -99,6 +99,7 @@
         },
         "fact_HCDeGG": {
           "type": "fact",
+          "disabled": true,
           "settings": {
             "fact_type": "certifications",
             "label": "CERTIFICATIONS"
