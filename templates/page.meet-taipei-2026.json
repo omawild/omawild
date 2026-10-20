@@ -180,6 +180,7 @@
       "name": "OMA Reserve Spotlight",
       "settings": {
         "anchor_id": "reserve",
+        "image": "shopify://shop_images/Omawild-Limited-Reserve-002.png",
         "photo_sticker": "SERVED AS COLD BREW",
         "eyebrow": "BACK BY POPULAR DEMAND",
         "heading": "Limited Reserve",
