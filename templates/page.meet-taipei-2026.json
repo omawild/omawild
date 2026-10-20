@@ -209,7 +209,7 @@
         "usp_step01": {
           "type": "usp",
           "settings": {
-            "title": "Buy your pass here before or during the show.",
+            "title": "Claim your pass now before Oct 31st to reserve your daily cup of coffee at Meet Taipei. We're bringing you the best coffee to ensure you stay high without the crash or jitters. Omawild is here to keep you in flow state throughout Nov 19-21st.",
             "link_label": "",
             "link_url": "",
             "tag": "",
@@ -219,7 +219,7 @@
         "usp_step02": {
           "type": "usp",
           "settings": {
-            "title": "Show your order confirmation at our booth to collect your printed card.",
+            "title": "Show your order confirmation at our booth to collect your stamp card and daily coffee. Coffee must be redeemed on its designated day. Missed redemptions cannot be claimed at a later day due to inventory limits.",
             "link_label": "",
             "link_url": "",
             "tag": "",
@@ -229,7 +229,7 @@
         "usp_step03": {
           "type": "usp",
           "settings": {
-            "title": "Come back each day. We stamp one circle per cup.",
+            "title": "Come back each day to collect a fresh cup of cold brew. We'll be serving our Limited Reserve coffee as requested by popular demand.",
             "link_label": "",
             "link_url": "",
             "tag": "",
@@ -245,7 +245,7 @@
       "name": "How it works",
       "settings": {
         "eyebrow": "HOW IT WORKS",
-        "heading": "Buy online. Stamp at the booth.",
+        "heading": "Redeem online and collect your pass at Meet Taipei.",
         "intro": "",
         "header_alignment": "left",
         "content_alignment": "flex-start",
