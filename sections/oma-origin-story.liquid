@@ -1,0 +1,556 @@
+{%- comment -%}
+  oma-origin-story — the Origin Intro page's long-form story: a sticky
+  "ABOUT THIS FARM" facts rail beside a single editorial column, matching
+  the Story band of "Origin Detail Page" in the Omawild Web Redesign handoff.
+
+  The rail lives inside this section on purpose. oma-origin-facts.liquid
+  once tried to float beside oma-image-text as two separate sections and
+  had to fake stickiness with JS (see the comment there); with both columns
+  in one flex row, plain `position: sticky` works and the rail stops at the
+  end of the story by itself. oma-origin-facts.liquid stays the standalone
+  band for pages that don't carry a story.
+
+  The story is built from blocks, in order: paragraph, heading, photo,
+  photo pair, quote, visit. The first paragraph gets the drop cap. Visit
+  blocks are collected into the "Visits to <place>" list at the end of the
+  column regardless of where they sit in the block list. Fact blocks feed
+  the rail through origin-facts.liquid -- same fixed display order and same
+  derivation as the facts band and the origin cards, so the values still
+  live in exactly one place.
+
+  Story copy belongs to the template, not the origin metaobject: each
+  origin gets its own template based on page.origin-intro.
+{%- endcomment -%}
+{% assign owid = section.id | replace: '-', '' | replace: '_', '' %}
+{%- liquid
+  assign origin = section.settings.origin_reference
+  assign accent = section.settings.accent_color
+  assign text = section.settings.text_color
+
+  assign show_producer = false
+  assign show_elevation = false
+  assign show_process = false
+  assign show_certifications = false
+  assign show_harvest = false
+  assign producer_label = ''
+  assign elevation_label = ''
+  assign process_label = ''
+  assign certifications_label = ''
+  assign harvest_label = ''
+  assign fact_count = 0
+  assign visit_count = 0
+  assign first_paragraph_index = 0
+
+  for block in section.blocks
+    case block.type
+      when 'fact'
+        assign fact_count = fact_count | plus: 1
+        case block.settings.fact_type
+          when 'producer'
+            assign show_producer = true
+            assign producer_label = block.settings.label
+          when 'elevation'
+            assign show_elevation = true
+            assign elevation_label = block.settings.label
+          when 'process'
+            assign show_process = true
+            assign process_label = block.settings.label
+          when 'certifications'
+            assign show_certifications = true
+            assign certifications_label = block.settings.label
+          when 'harvest'
+            assign show_harvest = true
+            assign harvest_label = block.settings.label
+        endcase
+      when 'visit'
+        assign visit_count = visit_count | plus: 1
+      when 'paragraph'
+        if first_paragraph_index == 0 and section.settings.drop_cap
+          assign first_paragraph_index = forloop.index
+        endif
+    endcase
+  endfor
+
+  assign show_rail = false
+  if origin != blank and fact_count > 0
+    assign show_rail = true
+  endif
+-%}
+{% style %}
+.oma-origin-story-{{ owid }} {
+  box-sizing: border-box;
+  background: {{ section.settings.background_color }};
+  padding: {{ section.settings.padding_top }}px clamp(20px, 4vw, 48px) {{ section.settings.padding_bottom }}px;
+  font-family: var(--font-body-family);
+  color: {{ text }};
+  }
+.oma-origin-story-{{ owid }} *, .oma-origin-story-{{ owid }} *::before, .oma-origin-story-{{ owid }} *::after {
+  box-sizing: border-box;
+  }
+.oma-origin-story-{{ owid }} .inner {
+  max-width: 1344px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 48px clamp(40px, 6vw, 96px);
+  }
+
+{%- comment -%} Rail {%- endcomment -%}
+.oma-origin-story-{{ owid }} .rail {
+  flex: 1 1 100%;
+  min-width: 0;
+  }
+.oma-origin-story-{{ owid }} .eyebrow {
+  font: 900 10.5px/1 var(--font-heading-family);
+  letter-spacing: .14em;
+  color: {{ accent }};
+  }
+.oma-origin-story-{{ owid }} .rail .subtitle {
+  {%- comment -%} oma-page-header-origin.liquid's kicker already shows this. {%- endcomment -%}
+  display: none;
+  }
+.oma-origin-story-{{ owid }} .rail .facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 24px;
+  margin-top: 14px;
+  border-top: 1.5px solid {{ accent }};
+  }
+.oma-origin-story-{{ owid }} .rail .fact {
+  min-width: 0;
+  padding: 12px 0;
+  border-bottom: 1px solid color-mix(in srgb, {{ accent }} 22%, transparent);
+  }
+.oma-origin-story-{{ owid }} .rail .fact-label {
+  font: 700 10px/1.3 var(--font-heading-family);
+  letter-spacing: .1em;
+  color: {{ accent }};
+  }
+.oma-origin-story-{{ owid }} .rail .fact-value {
+  margin-top: 6px;
+  font: 700 15px/1.35 var(--font-heading-family);
+  color: {{ text }};
+  }
+.oma-origin-story-{{ owid }} .rail .fact-value.is-pending {
+  font-weight: 400;
+  font-style: italic;
+  color: color-mix(in srgb, {{ text }} 60%, transparent);
+  }
+.oma-origin-story-{{ owid }} .jump {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 8px;
+  text-decoration: none;
+  font: 900 13px/1 var(--font-heading-family);
+  color: {{ accent }};
+  }
+.oma-origin-story-{{ owid }} .jump:hover {
+  opacity: .75;
+  }
+@media (min-width: 600px) {
+  .oma-origin-story-{{ owid }} .rail .facts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .oma-origin-story-{{ owid }} .rail {
+    flex: 1 1 240px;
+    max-width: 280px;
+    position: sticky;
+    top: {{ section.settings.rail_top }}px;
+  }
+  .oma-origin-story-{{ owid }} .rail .facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+{%- comment -%} Story column {%- endcomment -%}
+.oma-origin-story-{{ owid }} .story {
+  flex: 999 1 560px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  }
+.oma-origin-story-{{ owid }} .story-p,
+.oma-origin-story-{{ owid }} .story-h,
+.oma-origin-story-{{ owid }} .visits {
+  max-width: 640px;
+  }
+.oma-origin-story-{{ owid }} .story-p {
+  font: 400 18px/1.7 var(--font-body-family);
+  text-wrap: pretty;
+  }
+.oma-origin-story-{{ owid }} .story-p p {
+  margin: 0;
+  }
+.oma-origin-story-{{ owid }} .story-p p + p {
+  margin-top: 24px;
+  }
+.oma-origin-story-{{ owid }} .story-p a {
+  color: {{ accent }};
+  }
+.oma-origin-story-{{ owid }} .story-p.is-drop {
+  font-size: 21px;
+  line-height: 1.6;
+  }
+.oma-origin-story-{{ owid }} .story-p.is-drop > p:first-child::first-letter {
+  float: left;
+  margin: 6px 12px 0 0;
+  font: 900 92px/.78 var(--font-heading-family);
+  letter-spacing: -.04em;
+  color: {{ accent }};
+  }
+.oma-origin-story-{{ owid }} .story-h {
+  margin: 32px 0 0;
+  font: 900 clamp(28px, 3vw, 38px)/1.05 var(--font-heading-family);
+  letter-spacing: -.03em;
+  color: {{ accent }};
+  }
+.oma-origin-story-{{ owid }} figure {
+  margin: 0;
+  min-width: 0;
+  }
+.oma-origin-story-{{ owid }} .frame {
+  position: relative;
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  background: {{ section.settings.photo_background }};
+  }
+.oma-origin-story-{{ owid }} .frame img,
+.oma-origin-story-{{ owid }} .frame svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  }
+.oma-origin-story-{{ owid }} figcaption {
+  margin-top: 10px;
+  font: 400 12.5px/1.55 var(--font-body-family);
+  color: {{ text }};
+  }
+.oma-origin-story-{{ owid }} .story-photo {
+  margin: 24px 0;
+  }
+.oma-origin-story-{{ owid }} .story-photo .frame {
+  aspect-ratio: 4 / 5;
+  }
+.oma-origin-story-{{ owid }} .story-pair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 16px;
+  margin: 24px 0;
+  }
+.oma-origin-story-{{ owid }} .story-pair .frame {
+  aspect-ratio: 4 / 5;
+  }
+@media (min-width: 700px) {
+  .oma-origin-story-{{ owid }} .story-photo .frame {
+    aspect-ratio: 3 / 2;
+  }
+}
+.oma-origin-story-{{ owid }} .story-quote {
+  margin: 32px 0;
+  padding: 32px 0;
+  border-top: 1.5px solid {{ accent }};
+  border-bottom: 1.5px solid {{ accent }};
+  }
+.oma-origin-story-{{ owid }} .story-quote blockquote {
+  margin: 0;
+  font: 900 clamp(28px, 3.2vw, 44px)/1.12 var(--font-heading-family);
+  letter-spacing: -.03em;
+  color: {{ accent }};
+  text-wrap: pretty;
+  }
+.oma-origin-story-{{ owid }} .story-quote figcaption {
+  margin-top: 18px;
+  font: 900 11px/1 var(--font-heading-family);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: {{ accent }};
+  }
+
+{%- comment -%} Visits {%- endcomment -%}
+.oma-origin-story-{{ owid }} .visits {
+  margin-top: 40px;
+  }
+.oma-origin-story-{{ owid }} .visit-list {
+  margin-top: 14px;
+  border-top: 1.5px solid {{ accent }};
+  }
+.oma-origin-story-{{ owid }} .visit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 20px;
+  min-height: 44px;
+  padding: 14px 0;
+  border-bottom: 1px solid color-mix(in srgb, {{ accent }} 22%, transparent);
+  text-decoration: none;
+  color: {{ text }};
+  }
+.oma-origin-story-{{ owid }} a.visit:hover {
+  opacity: .75;
+  }
+.oma-origin-story-{{ owid }} .visit-label {
+  flex: none;
+  width: 72px;
+  font: 900 10.5px/1.4 var(--font-heading-family);
+  letter-spacing: .12em;
+  color: {{ accent }};
+  }
+.oma-origin-story-{{ owid }} .visit-title {
+  flex: 1 1 240px;
+  min-width: 0;
+  font: 900 18px/1.25 var(--font-heading-family);
+  letter-spacing: -.015em;
+  }
+.oma-origin-story-{{ owid }} .visit-meta {
+  flex: none;
+  font: 400 12.5px/1.55 var(--font-body-family);
+  }
+.oma-origin-story-{{ owid }} .missing-origin {
+  margin: 0;
+  font: 700 15px/1.5 var(--font-body-family);
+  }
+{% endstyle %}
+<div class="oma-origin-story-{{ owid }}">
+  <div class="inner">
+    {%- if show_rail -%}
+      <aside class="rail">
+        {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
+        {%- render 'origin-facts',
+          origin: origin,
+          show_producer: show_producer,
+          producer_label: producer_label,
+          show_elevation: show_elevation,
+          elevation_label: elevation_label,
+          show_process: show_process,
+          process_label: process_label,
+          coming_soon_label: section.settings.coming_soon_label,
+          show_certifications: show_certifications,
+          certifications_label: certifications_label,
+          show_harvest: show_harvest,
+          harvest_label: harvest_label
+        -%}
+        {%- if section.settings.jump_label != blank -%}
+          <a class="jump" href="#{{ section.settings.jump_anchor | default: 'coffees' }}">{{ section.settings.jump_label | escape }} ↓</a>
+        {%- endif -%}
+      </aside>
+    {%- elsif origin == blank and request.design_mode -%}
+      <p class="missing-origin">Select an origin to show the "About this farm" facts beside the story.</p>
+    {%- endif -%}
+
+    <div class="story">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'paragraph' -%}
+            {%- if block.settings.text != blank -%}
+              <div class="story-p{% if forloop.index == first_paragraph_index %} is-drop{% endif %}" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+            {%- endif -%}
+          {%- when 'heading' -%}
+            {%- if block.settings.text != blank -%}
+              <h2 class="story-h" {{ block.shopify_attributes }}>{{ block.settings.text }}</h2>
+            {%- endif -%}
+          {%- when 'photo' -%}
+            {%- assign photo_alt = block.settings.image.alt | default: block.settings.caption -%}
+            <figure class="story-photo" {{ block.shopify_attributes }}>
+              <div class="frame">
+                {%- if block.settings.image != blank -%}
+                  {{ block.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '390, 600, 900, 1200, 1400', sizes: '(min-width: 1024px) 900px, 100vw', alt: photo_alt }}
+                {%- else -%}
+                  {{ 'lifestyle-1' | placeholder_svg_tag }}
+                {%- endif -%}
+              </div>
+              {%- if block.settings.caption != blank -%}<figcaption>{{ block.settings.caption | escape }}</figcaption>{%- endif -%}
+            </figure>
+          {%- when 'photo_pair' -%}
+            {%- assign alt_a = block.settings.image_a.alt | default: block.settings.caption_a -%}
+            {%- assign alt_b = block.settings.image_b.alt | default: block.settings.caption_b -%}
+            <div class="story-pair" {{ block.shopify_attributes }}>
+              <figure>
+                <div class="frame">
+                  {%- if block.settings.image_a != blank -%}
+                    {{ block.settings.image_a | image_url: width: 900 | image_tag: loading: 'lazy', widths: '390, 600, 900', sizes: '(min-width: 1024px) 450px, (min-width: 600px) 50vw, 100vw', alt: alt_a }}
+                  {%- else -%}
+                    {{ 'lifestyle-2' | placeholder_svg_tag }}
+                  {%- endif -%}
+                </div>
+                {%- if block.settings.caption_a != blank -%}<figcaption>{{ block.settings.caption_a | escape }}</figcaption>{%- endif -%}
+              </figure>
+              <figure>
+                <div class="frame">
+                  {%- if block.settings.image_b != blank -%}
+                    {{ block.settings.image_b | image_url: width: 900 | image_tag: loading: 'lazy', widths: '390, 600, 900', sizes: '(min-width: 1024px) 450px, (min-width: 600px) 50vw, 100vw', alt: alt_b }}
+                  {%- else -%}
+                    {{ 'lifestyle-1' | placeholder_svg_tag }}
+                  {%- endif -%}
+                </div>
+                {%- if block.settings.caption_b != blank -%}<figcaption>{{ block.settings.caption_b | escape }}</figcaption>{%- endif -%}
+              </figure>
+            </div>
+          {%- when 'quote' -%}
+            {%- if block.settings.text != blank -%}
+              <figure class="story-quote" {{ block.shopify_attributes }}>
+                <blockquote>“{{ block.settings.text | escape }}”</blockquote>
+                {%- if block.settings.cite != blank -%}<figcaption>{{ block.settings.cite | escape }}</figcaption>{%- endif -%}
+              </figure>
+            {%- endif -%}
+        {%- endcase -%}
+      {%- endfor -%}
+
+      {%- if visit_count > 0 -%}
+        <nav class="visits" aria-label="{{ section.settings.visits_heading | escape }}">
+          <div class="eyebrow">{{ section.settings.visits_heading | escape }}{% if section.settings.visits_append_place and origin != blank %} {{ origin.place | upcase }}{% endif %}</div>
+          <div class="visit-list">
+            {%- assign visit_index = 0 -%}
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'visit' -%}
+                {%- assign visit_index = visit_index | plus: 1 -%}
+                {%- capture visit_inner -%}
+                  <span class="visit-label">{{ section.settings.visit_label_prefix | escape }} {{ visit_index }}</span>
+                  <span class="visit-title">{{ block.settings.title | escape }}</span>
+                  {%- if block.settings.meta != blank -%}<span class="visit-meta">{{ block.settings.meta | escape }}</span>{%- endif -%}
+                {%- endcapture -%}
+                {%- if block.settings.link != blank -%}
+                  <a class="visit" href="{{ block.settings.link }}" {{ block.shopify_attributes }}>{{ visit_inner }}</a>
+                {%- else -%}
+                  <div class="visit" {{ block.shopify_attributes }}>{{ visit_inner }}</div>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </nav>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "OMA Origin Story",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    { "type": "metaobject", "id": "origin_reference", "metaobject_type": "origin", "label": "Origin", "info": "Feeds the \"About this farm\" facts beside the story." },
+    { "type": "checkbox", "id": "drop_cap", "label": "Drop cap on the first paragraph", "default": true },
+    { "type": "header", "content": "About this farm" },
+    { "type": "paragraph", "content": "Add Fact blocks to choose which facts show beside the story. With no Fact blocks, the story runs on its own." },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "ABOUT THIS FARM" },
+    { "type": "text", "id": "coming_soon_label", "label": "Placeholder for a shown fact with no linked product data yet", "default": "Coming soon" },
+    { "type": "text", "id": "jump_label", "label": "Jump link label", "default": "The coffee from this farm" },
+    { "type": "text", "id": "jump_anchor", "label": "Jump link target anchor ID", "info": "Must match the Anchor ID setting on the OMA Origin Coffees section further down the page.", "default": "coffees" },
+    { "type": "range", "id": "rail_top", "label": "Sticky offset from the top of the screen", "info": "Desktop only. Leaves room for the sticky header.", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 120 },
+    { "type": "header", "content": "Visits" },
+    { "type": "text", "id": "visits_heading", "label": "Visits heading", "default": "VISITS TO" },
+    { "type": "checkbox", "id": "visits_append_place", "label": "Add the origin's place name after the heading", "default": true },
+    { "type": "text", "id": "visit_label_prefix", "label": "Visit row label", "info": "Numbered automatically, e.g. VISIT 1.", "default": "VISIT" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#F7F5F1" },
+    { "type": "color", "id": "accent_color", "label": "Accent (headings, labels, rules)", "default": "#FF3F00" },
+    { "type": "color", "id": "text_color", "label": "Body text", "default": "#00180C" },
+    { "type": "color", "id": "photo_background", "label": "Photo placeholder background", "default": "#FFE4E7" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 88 }
+  ],
+  "blocks": [
+    {
+      "type": "paragraph",
+      "name": "Paragraph",
+      "settings": [
+        { "type": "richtext", "id": "text", "label": "Text" }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        { "type": "inline_richtext", "id": "text", "label": "Heading" }
+      ]
+    },
+    {
+      "type": "photo",
+      "name": "Photo",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo", "info": "Shown 3:2 on desktop and tablet, 4:5 on phones." },
+        { "type": "text", "id": "caption", "label": "Caption" }
+      ]
+    },
+    {
+      "type": "photo_pair",
+      "name": "Photo pair",
+      "settings": [
+        { "type": "image_picker", "id": "image_a", "label": "Photo (left)", "info": "Both photos are shown 4:5." },
+        { "type": "text", "id": "caption_a", "label": "Caption (left)" },
+        { "type": "image_picker", "id": "image_b", "label": "Photo (right)" },
+        { "type": "text", "id": "caption_b", "label": "Caption (right)" }
+      ]
+    },
+    {
+      "type": "quote",
+      "name": "Pull quote",
+      "settings": [
+        { "type": "textarea", "id": "text", "label": "Quote", "info": "Quotation marks are added for you." },
+        { "type": "text", "id": "cite", "label": "Attribution", "info": "e.g. — Faizal Hazbi Assidi" }
+      ]
+    },
+    {
+      "type": "visit",
+      "name": "Visit",
+      "settings": [
+        { "type": "paragraph", "content": "Visits are listed together at the end of the story, wherever they sit in this list." },
+        { "type": "text", "id": "title", "label": "Title", "default": "Our first visit" },
+        { "type": "text", "id": "meta", "label": "Date and note", "default": "Month Year" },
+        { "type": "url", "id": "link", "label": "Link", "info": "e.g. the Dispatch article about this visit. Leave empty if this page tells that visit's story." }
+      ]
+    },
+    {
+      "type": "fact",
+      "name": "Fact",
+      "settings": [
+        {
+          "type": "select",
+          "id": "fact_type",
+          "label": "Fact",
+          "options": [
+            { "value": "producer", "label": "Producer" },
+            { "value": "elevation", "label": "Elevation" },
+            { "value": "process", "label": "Process" },
+            { "value": "certifications", "label": "Certifications" },
+            { "value": "harvest", "label": "Harvest period" }
+          ],
+          "default": "producer",
+          "info": "Shown beside the story in a fixed order. Values come from the origin and its linked products, never from here."
+        },
+        { "type": "text", "id": "label", "label": "Label", "default": "PRODUCER" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "OMA Origin Story",
+      "blocks": [
+        { "type": "fact", "settings": { "fact_type": "producer", "label": "PRODUCER" } },
+        { "type": "fact", "settings": { "fact_type": "elevation", "label": "ELEVATION" } },
+        { "type": "fact", "settings": { "fact_type": "process", "label": "PROCESS" } },
+        { "type": "fact", "settings": { "fact_type": "certifications", "label": "CERTIFICATIONS" } },
+        { "type": "fact", "settings": { "fact_type": "harvest", "label": "HARVEST" } },
+        { "type": "paragraph", "settings": { "text": "<p>Open with where the farm is and who runs it.</p>" } },
+        { "type": "paragraph", "settings": { "text": "<p>How the forest works: which trees stand over the coffee.</p>" } },
+        { "type": "photo", "settings": { "caption": "Caption" } },
+        { "type": "heading", "settings": { "text": "The harvest" } },
+        { "type": "paragraph", "settings": { "text": "<p>How the cherries are picked, sorted and dried.</p>" } },
+        { "type": "photo_pair", "settings": { "caption_a": "Caption", "caption_b": "Caption" } },
+        { "type": "quote", "settings": { "text": "The producer in their own words.", "cite": "— Producer name" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
