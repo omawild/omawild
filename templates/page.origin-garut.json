@@ -142,6 +142,12 @@
             "text": "<p>Seven hours in, we reached the end of the paved road at 1,500 metres above sea level. The only way through was to leave the car behind and continue uphill by foot. The air thinned as we ascended higher in the drizzle of October rain, marking the start of wet season in most parts of Indonesia. The scent of wet earth (and something else I couldn’t name) filled every breath. From the outside, you wouldn’t suspect a coffee farm existed here. And in truth, this wasn’t a conventional plantation, not in the industrial sense.</p><p>The forest looked just like a forest. But a walk into the woods tells a different story. Here, coffee took roots in 2014 under the shade of eucalyptus, Arenga pinnata, and Pinus merkusii — the Sumatran pine planted across Java as part of a government reforestation programme. Sixty men and women tend to the forest, stretching this plantation across 362 hectares, with another 400 tucked deep into the mountains, about an hour’s walk away, and accessible only by foot. Everything is done by hand, and no chemicals touch the forest. The compost comes from the land: sheep manure, chicken droppings, fallen leaves, and tree cuttings. Everything goes back into the same soil that gives them life.</p>"
           }
         },
+        "paragraph_ehpQkw": {
+          "type": "paragraph",
+          "settings": {
+            "text": ""
+          }
+        },
         "photo_pair_dLE7kW": {
           "type": "photo_pair",
           "settings": {
@@ -169,6 +175,7 @@
         "paragraph_hQBiNk",
         "heading_mgnjjL",
         "paragraph_M7qitC",
+        "paragraph_ehpQkw",
         "photo_pair_dLE7kW",
         "quote_bdwGnn"
       ],
