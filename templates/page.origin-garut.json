@@ -151,6 +151,7 @@
         },
         "quote_bdwGnn": {
           "type": "quote",
+          "disabled": true,
           "settings": {
             "text": "The producer in their own words.",
             "cite": "— Producer name"
@@ -179,7 +180,7 @@
         "coming_soon_label": "Coming soon",
         "jump_label": "The coffee from this farm",
         "jump_anchor": "coffees",
-        "rail_top": 120,
+        "rail_top": 100,
         "visits_heading": "VISITS TO",
         "visits_append_place": true,
         "visit_label_prefix": "VISIT",
