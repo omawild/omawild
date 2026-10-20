@@ -18,56 +18,298 @@
         "padding_bottom": 72
       }
     },
-    "oma_page_header_fa7q6t": {
-      "type": "oma-page-header",
+    "oma_event_hero_fUyxfF": {
+      "type": "oma-event-hero",
+      "name": "OMA Event Hero",
+      "settings": {
+        "layout": "split",
+        "show_breadcrumb": true,
+        "breadcrumb_label": "",
+        "sticker": "BACK BY POPULAR DEMAND · NOV 19–21",
+        "heading": "Exhibitor Coffee Pass",
+        "lead": "Cold brew at Booth [__], every day of Meet Taipei.",
+        "primary_label": "Choose your pass ↓",
+        "primary_link": "",
+        "secondary_label": "What's in the cup",
+        "secondary_link": "",
+        "background_color": "#FF3F00",
+        "text_color": "#FFFFFF",
+        "crumb_color": "#FCD0FD",
+        "sticker_background": "#FCD0FD",
+        "sticker_text_color": "#FF3F00",
+        "anchor_id": "top",
+        "padding_top": 36
+      }
+    },
+    "oma_marquee_z8PTnq": {
+      "type": "oma-marquee",
       "blocks": {
-        "collection_row_aXC3rL": {
-          "type": "collection_row",
+        "item_FhQUP3": {
+          "type": "item",
           "settings": {
-            "collection": "",
-            "title_override": "",
-            "anchor_override": "",
-            "thumbnail_count": 3,
-            "count_label_override": ""
+            "text": "100% RECYCLABLE PACKAGING"
           }
         },
-        "collection_row_4DjLkE": {
-          "type": "collection_row",
+        "item_dHETeA": {
+          "type": "item",
           "settings": {
-            "collection": "",
-            "title_override": "",
-            "anchor_override": "",
-            "thumbnail_count": 3,
-            "count_label_override": ""
+            "text": "DIRECT FARM RELATIONSHIPS"
+          }
+        },
+        "item_xmHCCE": {
+          "type": "item",
+          "settings": {
+            "text": "REGENERATIVE INGREDIENTS"
           }
         }
       },
       "block_order": [
-        "collection_row_aXC3rL",
-        "collection_row_4DjLkE"
+        "item_FhQUP3",
+        "item_dHETeA",
+        "item_xmHCCE"
       ],
-      "name": "OMA Page Header",
+      "name": "OMA Scroll Marquee",
       "settings": {
-        "heading": "Shop",
-        "title_size": "display",
-        "show_breadcrumb": false,
-        "breadcrumb_label": "",
-        "body": "",
-        "show_collection_list": true,
-        "background_color": "#FFE4E7",
-        "heading_color": "#FF3F00",
+        "speed": 59,
+        "direction": "left",
+        "separator": "✷",
+        "background_color": "#F5450D",
+        "text_color": "#FFFFFF",
+        "card_background": "#FFFFFF",
+        "padding_top": 16,
+        "padding_bottom": 16
+      }
+    },
+    "oma_pass_cards_7Rki7x": {
+      "type": "oma-pass-cards",
+      "blocks": {
+        "pass_M8WKi3": {
+          "type": "pass",
+          "settings": {
+            "product": "",
+            "style": "salmon",
+            "badge": "THANK YOU",
+            "count_label": "",
+            "sticker": "",
+            "name": "Kaohsiung Crew",
+            "price_text": "FREE",
+            "price_note": "",
+            "headline": "1 cup a day, all 3 days",
+            "extra": "",
+            "body": "For friends who joined us in Kaohsiung. Use the code we sent you at checkout.",
+            "button_label": "Claim free pass",
+            "show_total": false,
+            "show_quantity": false,
+            "max_quantity": 1,
+            "footnote": "1 PER EXHIBITOR",
+            "sold_out_label": "Sold out",
+            "sold_out_count_label": "SOLD OUT"
+          }
+        },
+        "pass_CqxjJj": {
+          "type": "pass",
+          "settings": {
+            "product": "",
+            "style": "featured",
+            "badge": "EXHIBITOR PASS",
+            "count_label": "40 PASSES",
+            "sticker": "MOST PICKED",
+            "name": "Daily Fuel",
+            "price_text": "",
+            "price_note": "≈ NT$66 / CUP",
+            "headline": "2 cups a day, all 3 days",
+            "extra": "+ Sample pack of our three profiles",
+            "body": "Whole beans, so everything stays fresh",
+            "button_label": "Buy",
+            "show_total": true,
+            "show_quantity": true,
+            "max_quantity": 10,
+            "footnote": "BUYING FOR YOUR TEAM? ADD MORE",
+            "sold_out_label": "Sold out",
+            "sold_out_count_label": "SOLD OUT"
+          }
+        },
+        "pass_MKXqmr": {
+          "type": "pass",
+          "settings": {
+            "product": "",
+            "style": "electric",
+            "badge": "YOU WILD ONE",
+            "count_label": "20 PASSES",
+            "sticker": "",
+            "name": "Run Wild",
+            "price_text": "",
+            "price_note": "+ 200G WILD BLOOM",
+            "headline": "2 cups a day, all 3 days",
+            "extra": "+ 200g Wild Bloom to take home",
+            "body": "",
+            "button_label": "Buy",
+            "show_total": true,
+            "show_quantity": true,
+            "max_quantity": 10,
+            "footnote": "ONLY 20 MADE",
+            "sold_out_label": "All 20 claimed",
+            "sold_out_count_label": "SOLD OUT"
+          }
+        }
+      },
+      "block_order": [
+        "pass_M8WKi3",
+        "pass_CqxjJj",
+        "pass_MKXqmr"
+      ],
+      "name": "OMA Pass Cards",
+      "settings": {
+        "eyebrow": "THREE PASSES",
+        "heading": "Choose your adventure",
+        "intro": "<p>Three days of Meet Taipei, NOV 19–21. Collect your card at Booth [__].</p>",
+        "anchor_id": "passes",
+        "background_color": "#F7F5F1",
+        "accent_color": "#FF3F00",
         "text_color": "#00180C",
-        "divider_color": "#FF3F00",
-        "thumb_background": "#FBB925",
-        "padding_top": 36,
-        "padding_bottom": 44,
-        "mobile_padding_horizontal": 20,
-        "desktop_padding_horizontal": 48
+        "salmon_color": "#FFE4E7",
+        "wonderland_color": "#FCD0FD",
+        "sunbrella_color": "#FBB925",
+        "button_hover_color": "#D63200",
+        "show_bottom_rule": true,
+        "padding_y": 88
+      }
+    },
+    "oma_reserve_spotlight_tjGcE9": {
+      "type": "oma-reserve-spotlight",
+      "name": "OMA Reserve Spotlight",
+      "settings": {
+        "anchor_id": "reserve",
+        "photo_sticker": "SERVED AS COLD BREW",
+        "eyebrow": "BACK BY POPULAR DEMAND",
+        "heading": "Limited Reserve",
+        "lead": "<p><strong>Every cup is our Limited Reserve,</strong> a rare micro-lot anaerobically fermented for 42 days. Served as cold brew, it drinks like red wine and whisky.</p>",
+        "notes_label": "TASTING NOTES",
+        "notes": "Wine, Passion fruit, Hibiscus, Lychee",
+        "notes_footer": "Drinks like subtle red wine and whisky",
+        "show_days": true,
+        "days_label": "42 DAYS ANAEROBIC FERMENTATION",
+        "day_prefix": "DAY",
+        "days": 42,
+        "days_per_row": 21,
+        "button_label": "Browse the full collection",
+        "button_link": "",
+        "background_color": "#FF3F00",
+        "accent_color": "#FF3F00",
+        "soft_color": "#FCD0FD",
+        "ink_color": "#00180C",
+        "sticker_color": "#FBB925",
+        "photo_background": "#FFE4E7",
+        "padding_y": 88
+      }
+    },
+    "od_value_grid_aAMKWj": {
+      "type": "od-value-grid",
+      "blocks": {
+        "usp_DDgayw": {
+          "type": "usp",
+          "settings": {
+            "title": "Our Value",
+            "link_label": "Learn more",
+            "link_url": "",
+            "tag": "",
+            "body": ""
+          }
+        },
+        "usp_n78tVW": {
+          "type": "usp",
+          "settings": {
+            "title": "Our Value",
+            "link_label": "Learn more",
+            "link_url": "",
+            "tag": "",
+            "body": ""
+          }
+        },
+        "usp_JBAM4m": {
+          "type": "usp",
+          "settings": {
+            "title": "Our Value",
+            "link_label": "Learn more",
+            "link_url": "",
+            "tag": "",
+            "body": ""
+          }
+        },
+        "usp_wnL4aa": {
+          "type": "usp",
+          "settings": {
+            "title": "Our Value",
+            "link_label": "Learn more",
+            "link_url": "",
+            "tag": "",
+            "body": ""
+          }
+        },
+        "usp_gnmHG4": {
+          "type": "usp",
+          "settings": {
+            "title": "Our Value",
+            "link_label": "Learn more",
+            "link_url": "",
+            "tag": "",
+            "body": ""
+          }
+        },
+        "usp_m4BR9w": {
+          "type": "usp",
+          "settings": {
+            "title": "Our Value",
+            "link_label": "Learn more",
+            "link_url": "",
+            "tag": "",
+            "body": ""
+          }
+        }
+      },
+      "block_order": [
+        "usp_DDgayw",
+        "usp_n78tVW",
+        "usp_JBAM4m",
+        "usp_wnL4aa",
+        "usp_gnmHG4",
+        "usp_m4BR9w"
+      ],
+      "name": "OD Value Grid",
+      "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "intro": "",
+        "header_alignment": "left",
+        "content_alignment": "flex-start",
+        "global_icon_width": 50,
+        "global_title_size": 20,
+        "mobile_title_size": 18,
+        "card_min_width": 250,
+        "padding_top": 56,
+        "padding_bottom": 56,
+        "card_style": "plain",
+        "show_numbers": false,
+        "card_background": "#ffffff",
+        "accent_color": "#1a1b18",
+        "card_border_color": "#1a1b18",
+        "card_border_width": 1.5,
+        "card_radius": 12,
+        "card_shadow_offset": 0,
+        "card_padding": 24,
+        "background_color": "#ffffff",
+        "eyebrow_color": "#1a1b18",
+        "heading_color": "#000000",
+        "text_color": "#000000"
       }
     }
   },
   "order": [
     "main",
-    "oma_page_header_fa7q6t"
+    "oma_event_hero_fUyxfF",
+    "oma_marquee_z8PTnq",
+    "oma_pass_cards_7Rki7x",
+    "oma_reserve_spotlight_tjGcE9",
+    "od_value_grid_aAMKWj"
   ]
 }
