@@ -101,18 +101,19 @@
             "count_label": "",
             "sticker": "",
             "name": "Kaohsiung Crew",
-            "price_text": "FREE",
-            "price_note": "",
+            "price_text": "",
+            "price_note": "≈ [per_cup] / CUP",
             "headline": "1 cup a day, all 3 days",
             "extra": "",
             "body": "For friends who joined us in Kaohsiung. Use the code we sent you at checkout.",
-            "button_label": "Claim free pass",
-            "show_total": false,
+            "button_label": "Buy",
+            "show_total": true,
             "show_quantity": false,
             "max_quantity": 1,
             "footnote": "1 PER EXHIBITOR",
             "sold_out_label": "Sold out",
-            "sold_out_count_label": "SOLD OUT"
+            "sold_out_count_label": "SOLD OUT",
+            "cups": 3
           }
         },
         "pass_CqxjJj": {
@@ -125,7 +126,7 @@
             "sticker": "MOST PICKED",
             "name": "Daily Fuel",
             "price_text": "",
-            "price_note": "≈ NT$66 / CUP",
+            "price_note": "≈ [per_cup] / CUP",
             "headline": "2 cups a day, all 3 days",
             "extra": "+ 100g Wild Bloom",
             "body": "Fresh roasted whole beans to take home",
@@ -135,7 +136,8 @@
             "max_quantity": 10,
             "footnote": "BUYING FOR YOUR TEAM? ADD MORE",
             "sold_out_label": "Sold out",
-            "sold_out_count_label": "SOLD OUT"
+            "sold_out_count_label": "SOLD OUT",
+            "cups": 6
           }
         },
         "pass_MKXqmr": {
@@ -158,7 +160,8 @@
             "max_quantity": 10,
             "footnote": "ONLY 20 MADE",
             "sold_out_label": "All 20 claimed",
-            "sold_out_count_label": "SOLD OUT"
+            "sold_out_count_label": "SOLD OUT",
+            "cups": 6
           }
         }
       },
