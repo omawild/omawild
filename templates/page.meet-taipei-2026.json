@@ -186,7 +186,7 @@
         "usp_step01": {
           "type": "usp",
           "settings": {
-            "title": "Claim your pass now before Oct 31st to reserve your daily cup of coffee at Meet Taipei. We're bringing you the best coffee to ensure you stay high without the crash or jitters. Omawild is here to keep you in flow state throughout Nov 19-21st.",
+            "title": "Claim your pass now before Oct 31st to reserve your daily cup. We're bringing you our finest coffee to help you stay high without the crash or jitters, cuz we got your back. Seriously.",
             "link_label": "",
             "link_url": "",
             "tag": "",
@@ -222,8 +222,8 @@
       "name": "OMA How It Works",
       "settings": {
         "eyebrow": "HOW IT WORKS",
-        "heading": "Redeem your Exhibitor Coffee Pass",
-        "intro": "<p>Claim your spot and collect it and collect your pass at Meet Taipei.</p>",
+        "heading": "Claim now, redeem later",
+        "intro": "<p>Reserve your daily cup of coffee before supplies run out. Collect your pass at the expo and embark on a wild three day adventure. See you at Meet Taipei.</p>",
         "header_alignment": "left",
         "content_alignment": "flex-start",
         "global_icon_width": 50,
