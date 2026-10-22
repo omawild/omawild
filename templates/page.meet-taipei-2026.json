@@ -49,46 +49,6 @@
         "padding_top": 36
       }
     },
-    "oma_marquee_z8PTnq": {
-      "type": "oma-marquee",
-      "blocks": {
-        "item_FhQUP3": {
-          "type": "item",
-          "settings": {
-            "text": "100% RECYCLABLE PACKAGING"
-          }
-        },
-        "item_dHETeA": {
-          "type": "item",
-          "settings": {
-            "text": "DIRECT FARM RELATIONSHIPS"
-          }
-        },
-        "item_xmHCCE": {
-          "type": "item",
-          "settings": {
-            "text": "REGENERATIVE INGREDIENTS"
-          }
-        }
-      },
-      "block_order": [
-        "item_FhQUP3",
-        "item_dHETeA",
-        "item_xmHCCE"
-      ],
-      "name": "OMA Scroll Marquee",
-      "settings": {
-        "speed": 59,
-        "direction": "left",
-        "separator": "✷",
-        "item_spacing": 20,
-        "background_color": "#f5450d",
-        "text_color": "#ffffff",
-        "card_background": "#ffffff",
-        "padding_top": 16,
-        "padding_bottom": 16
-      }
-    },
     "oma_pass_cards_7Rki7x": {
       "type": "oma-pass-cards",
       "blocks": {
@@ -197,9 +157,9 @@
         "anchor_id": "reserve",
         "image": "shopify://shop_images/Omawild-Limited-Reserve-002.png",
         "photo_sticker": "SERVED AS COLD BREW",
-        "eyebrow": "BACK BY POPULAR DEMAND",
+        "eyebrow": "SERVING A RARE PRODUCTION",
         "heading": "Limited Reserve",
-        "lead": "<p><strong>Every cup is our Limited Reserve,</strong> a rare micro-lot anaerobically fermented for 42 days. Served as cold brew, it drinks like red wine and whisky.</p>",
+        "lead": "<p><strong>Back by popular demand: Omawild's Limited Reserve.</strong> A rare micro-lot, fermented for 42 days and served as cold brew coffee. Hints of red wine and whisky, without getting drunk or crashing hard.</p>",
         "notes_label": "TASTING NOTES",
         "notes": "Hibiscus, Red Wine, Whisky",
         "notes_footer": "Subtle notes of red wine and whisky without getting you drunk. Yes, it's alcohol free.",
@@ -290,7 +250,6 @@
   "order": [
     "main",
     "oma_event_hero_fUyxfF",
-    "oma_marquee_z8PTnq",
     "oma_pass_cards_7Rki7x",
     "oma_reserve_spotlight_tjGcE9",
     "od_value_grid_aAMKWj"
