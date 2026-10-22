@@ -318,6 +318,9 @@
           assign count_label = block.settings.count_label | escape | replace: '[per_cup]', per_cup | replace: '[left]', left
           assign sold_out_count_label = block.settings.sold_out_count_label | escape | replace: '[per_cup]', per_cup | replace: '[left]', left
           assign price_note = block.settings.price_note | escape | replace: '[per_cup]', per_cup | replace: '[left]', left
+          if per_cup == '' and block.settings.price_note contains '[per_cup]'
+            assign price_note = ''
+          endif
           assign footnote = block.settings.footnote | escape | replace: '[per_cup]', per_cup | replace: '[left]', left
           assign sold_out_label = block.settings.sold_out_label | default: 'Sold out' | escape | replace: '[per_cup]', per_cup | replace: '[left]', left
         -%}
@@ -350,7 +353,11 @@
           </div>
 
           {%- if product == blank -%}
-            {%- if request.design_mode -%}<p class="setup-note">Pick this pass's product to turn on the button.</p>{%- endif -%}
+            {%- if request.design_mode -%}
+              <p class="setup-note">Pick this pass's product to turn on the button. If one is picked, it isn't sold in the market you're previewing.</p>
+            {%- elsif block.settings.unavailable_label != blank -%}
+              <div class="sold-out">{{ block.settings.unavailable_label | escape }}</div>
+            {%- endif -%}
           {%- elsif sold_out -%}
             <div class="sold-out">{{ sold_out_label }}</div>
           {%- else -%}
@@ -445,7 +452,8 @@
         { "type": "text", "id": "footnote", "label": "Footnote", "default": "BUYING FOR YOUR TEAM? ADD MORE", "info": "Accepts [left] and [per_cup]." },
         { "type": "header", "content": "Sold out" },
         { "type": "text", "id": "sold_out_label", "label": "Sold-out line", "default": "Sold out" },
-        { "type": "text", "id": "sold_out_count_label", "label": "Count label when sold out", "default": "SOLD OUT" }
+        { "type": "text", "id": "sold_out_count_label", "label": "Count label when sold out", "default": "SOLD OUT" },
+        { "type": "text", "id": "unavailable_label", "label": "Line when not sold in the visitor's market", "default": "Not available in your region", "info": "Shown when the product isn't in the catalog of the visitor's market." }
       ]
     }
   ],
