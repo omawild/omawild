@@ -649,7 +649,7 @@ function bindRegionSelectors(scope) {
     if (!currentEl) return;
     if (section === countrySection) {
       const picked = regionEl.querySelector('.navbar-region-option[data-country][aria-selected="true"]');
-      if (picked) currentEl.innerHTML = '<span class="fi ' + picked.dataset.flag + '"></span>' + picked.dataset.countryName;
+      if (picked) currentEl.innerHTML = '<span class="ow-flag" aria-hidden="true">' + picked.dataset.flag + '</span>' + picked.dataset.countryName;
     } else if (section === langSection) {
       const picked = regionEl.querySelector('.navbar-region-option[data-locale][aria-selected="true"]');
       if (picked) currentEl.textContent = picked.dataset.langName;
@@ -729,7 +729,7 @@ function bindRegionSelectors(scope) {
     if (countryOpt && countryInput) {
       countryInput.value = countryOpt.dataset.country;
       if (flagEl && countryOpt.dataset.flag) {
-        flagEl.className = 'fi ' + countryOpt.dataset.flag + ' navbar-region-flag';
+        flagEl.textContent = countryOpt.dataset.flag;
       }
       if (labelEl && countryOpt.dataset.label) {
         let label = countryOpt.dataset.label;

@@ -76,7 +76,7 @@
 
   <div class="navbar-region{% if inline %} navbar-region--inline{% endif %}">
     <button type="button" class="navbar-lang" aria-haspopup="true" aria-expanded="false">
-      <span class="fi fi-{{ current.iso_code | downcase }} navbar-region-flag"></span>
+      <span class="ow-flag navbar-region-flag" aria-hidden="true">{% render 'ow-flag', code: current.iso_code %}</span>
       <span class="navbar-region-label">{{ current.iso_code }} ({{ current.currency.symbol }}){% if multi_lang %} &middot; {{ current_lang_short }}{% endif %}</span>
       <img class="navbar-lang-chevron" src="{{ 'ow-chevron-lang.svg' | asset_url }}" alt="" width="16" height="16">
     </button>
@@ -105,7 +105,7 @@
                 {%- endcomment -%}
                 <span class="navbar-region-section-label">Country</span>
                 <span class="navbar-region-section-current" data-region-current>
-                  <span class="fi fi-{{ current.iso_code | downcase }}"></span>
+                  <span class="ow-flag" aria-hidden="true">{% render 'ow-flag', code: current.iso_code %}</span>
                   {{ current.name }} ({{ current.currency.iso_code }} {{ current.currency.symbol }})
                 </span>
               </span>
@@ -134,16 +134,17 @@
                 {%- capture option_label -%}
                   {{- country.iso_code }} ({{ country.currency.symbol }})
                 {%- endcapture -%}
+                {%- capture flag -%}{% render 'ow-flag', code: country.iso_code %}{%- endcapture -%}
                 {%- assign country_count = country_count | plus: 1 -%}
                 <li class="navbar-region-option{% if country.iso_code == current.iso_code %} navbar-region-option--selected{% endif %}"
                     role="option"
-                    data-flag="fi-{{ country.iso_code | downcase }}"
+                    data-flag="{{ flag }}"
                     data-label="{{ option_label | escape }}"
                     data-country="{{ country.iso_code }}"
                     data-country-name="{{ country.name | escape }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})"
                     data-langs="{{ country.available_languages | map: 'iso_code' | join: ',' }}"
                     aria-selected="{% if country.iso_code == current.iso_code %}true{% else %}false{% endif %}">
-                  <span class="fi fi-{{ country.iso_code | downcase }}"></span>
+                  <span class="ow-flag" aria-hidden="true">{{ flag }}</span>
                   {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
                 </li>
               {%- endfor -%}

@@ -43,9 +43,6 @@
 
 {{ 'ow-base.css' | asset_url | stylesheet_tag }}
 {{ 'ow-chrome.css' | asset_url | stylesheet_tag }}
-{%- if section.settings.show_region_selector -%}
-  {{ 'ow-flags.css' | asset_url | stylesheet_tag }}
-{%- endif -%}
 
 {%- comment -%} Organization + WebSite JSON-LD — see snippet header. Restores the
   structured data the vendor header carried before ow-header replaced it. {%- endcomment -%}

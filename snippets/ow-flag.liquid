@@ -1,0 +1,36 @@
+{%- comment -%}
+  ow-flag — a country's flag as an emoji (🇩🇪), for any ISO code.
+
+  Emoji, not images, so every country has a flag with nothing to vendor per
+  country, and Apple devices show their own (iOS) flags. Windows has no flag
+  emoji -- it would print the two letters -- so assets/ow-chrome.css gives
+  .ow-flag a fallback webfont (assets/ow-flag-emoji.woff2, Twemoji Country
+  Flags) listed after the system emoji fonts. Browsers only fetch it when no
+  earlier font has the glyph, i.e. on Windows.
+
+  A flag emoji is two "regional indicator" characters, U+1F1E6 (🇦) + the
+  letter's place in the alphabet. `alphabet | split: letter | first | size`
+  is that place: the length of everything before the letter.
+
+  Accepts:
+  - code: {String} two-letter ISO country code, e.g. 'DE'
+
+  Usage:
+  {% render 'ow-flag', code: country.iso_code %}
+  To use it inside an attribute, capture it first.
+{%- endcomment -%}
+{%- liquid
+  assign alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  assign c = code | upcase
+  assign l1 = c | slice: 0
+  assign l2 = c | slice: 1
+  assign i1 = alphabet | split: l1 | first | size | plus: 127462
+  assign i2 = alphabet | split: l2 | first | size | plus: 127462
+  if l1 == 'A'
+    assign i1 = 127462
+  endif
+  if l2 == 'A'
+    assign i2 = 127462
+  endif
+-%}
+&#{{ i1 }};&#{{ i2 }};

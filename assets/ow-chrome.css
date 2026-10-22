@@ -247,7 +247,23 @@
 .navbar-region{position:relative;}
 .navbar-right .navbar-region{display:none;}
 .navbar-lang{display:flex;align-items:center;gap:8px;background:none;border:none;padding:0;cursor:pointer;white-space:nowrap;}
-.navbar-lang .fi{width:24px;height:18px;border-radius:2px;background-size:cover;flex-shrink:0;}
+/* Flags are emoji (snippets/ow-flag.liquid). Apple and Android draw them with
+   their own emoji fonts; Windows has no flag emoji, so the last named font is
+   Twemoji Country Flags (assets/ow-flag-emoji.woff2, from
+   country-flag-emoji-polyfill 0.1.8 -- code MIT (c) TalkJS, flag art from
+   Twemoji (c) Twitter, CC-BY 4.0). unicode-range keeps it to flag characters,
+   and a browser only downloads it when no earlier font has the glyph. */
+@font-face{
+  font-family:"Twemoji Country Flags";
+  src:url("ow-flag-emoji.woff2") format("woff2");
+  unicode-range:U+1F1E6-1F1FF,U+1F3F4,U+E0062-E0063,U+E0065,U+E0067,U+E006C,U+E006E,U+E0073-E0074,U+E0077,U+E007F;
+  font-display:swap;
+}
+.ow-flag{
+  display:inline-block;flex-shrink:0;
+  font-family:"Apple Color Emoji","Noto Color Emoji","Twemoji Country Flags",sans-serif;
+  font-size:20px;line-height:1;font-style:normal;font-weight:400;
+}
 .navbar-lang-chevron{width:16px;height:16px;transition:transform .15s;}
 .navbar-region.expanded .navbar-lang-chevron{transform:rotate(180deg);}
 .navbar-lang span{
@@ -301,10 +317,6 @@
   font-size:14.5px;font-weight:500;color:var(--electric);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
-.navbar-region-section-current .fi{
-  width:24px;height:18px;border-radius:2px;flex-shrink:0;
-  background-size:cover;background-repeat:no-repeat;background-position:center;
-}
 .navbar-region-section-chevron{
   width:12px;height:8px;flex-shrink:0;transition:transform .2s;
 }
@@ -346,10 +358,6 @@
   display:flex;align-items:center;gap:10px;
   padding:8px 14px;cursor:pointer;
   font-size:14px;font-weight:500;color:var(--electric);white-space:nowrap;
-}
-.navbar-region-option .fi{
-  width:24px;height:18px;border-radius:2px;flex-shrink:0;
-  background-size:cover;background-repeat:no-repeat;background-position:center;
 }
 .navbar-region-option:hover{background:rgba(255,63,0,.1);}
 .navbar-region-option--selected,
