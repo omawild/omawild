@@ -49,6 +49,19 @@
 {%- endcomment -%}
 
 {%- assign current = localization.country -%}
+{%- comment -%}
+  Flags: the markets' flags are inlined in assets/ow-flags.css. Any other
+  country -- e.g. a Rest of World visitor's own, which always shows -- loads
+  the same flag-icons SVG from jsDelivr as an inline background, so every
+  country has a flag without vendoring all 250. Add a market's flag to
+  ow-flags.css and to vendored_flags when it goes live.
+{%- endcomment -%}
+{%- assign vendored_flags = ',tw,hk,us,ca,gb,' -%}
+{%- assign flag_cdn = 'https://cdn.jsdelivr.net/npm/flag-icons@7.5.0/flags/4x3/' -%}
+{%- assign current_fc = current.iso_code | downcase -%}
+{%- assign current_flag_src = '' -%}
+{%- assign fdelim = current_fc | prepend: ',' | append: ',' -%}
+{%- unless vendored_flags contains fdelim -%}{%- assign current_flag_src = flag_cdn | append: current_fc | append: '.svg' -%}{%- endunless -%}
 {%- assign current_lang = localization.language -%}
 {%- assign multi_country = false -%}
 {%- if localization.available_countries.size > 1 -%}{%- assign multi_country = true -%}{%- endif -%}
@@ -76,7 +89,7 @@
 
   <div class="navbar-region{% if inline %} navbar-region--inline{% endif %}">
     <button type="button" class="navbar-lang" aria-haspopup="true" aria-expanded="false">
-      <span class="ow-flag navbar-region-flag" aria-hidden="true">{% render 'ow-flag', code: current.iso_code %}</span>
+      <span class="fi fi-{{ current_fc }} navbar-region-flag"{% if current_flag_src != blank %} style="background-image:url({{ current_flag_src }})"{% endif %}></span>
       <span class="navbar-region-label">{{ current.iso_code }} ({{ current.currency.symbol }}){% if multi_lang %} &middot; {{ current_lang_short }}{% endif %}</span>
       <img class="navbar-lang-chevron" src="{{ 'ow-chevron-lang.svg' | asset_url }}" alt="" width="16" height="16">
     </button>
@@ -105,7 +118,7 @@
                 {%- endcomment -%}
                 <span class="navbar-region-section-label">Country</span>
                 <span class="navbar-region-section-current" data-region-current>
-                  <span class="ow-flag" aria-hidden="true">{% render 'ow-flag', code: current.iso_code %}</span>
+                  <span class="fi fi-{{ current_fc }}"{% if current_flag_src != blank %} style="background-image:url({{ current_flag_src }})"{% endif %}></span>
                   {{ current.name }} ({{ current.currency.iso_code }} {{ current.currency.symbol }})
                 </span>
               </span>
@@ -134,17 +147,20 @@
                 {%- capture option_label -%}
                   {{- country.iso_code }} ({{ country.currency.symbol }})
                 {%- endcapture -%}
-                {%- capture flag -%}{% render 'ow-flag', code: country.iso_code %}{%- endcapture -%}
                 {%- assign country_count = country_count | plus: 1 -%}
+                {%- assign fc = country.iso_code | downcase -%}
+                {%- assign flag_src = '' -%}
+                {%- assign fdelim = fc | prepend: ',' | append: ',' -%}
+                {%- unless vendored_flags contains fdelim -%}{%- assign flag_src = flag_cdn | append: fc | append: '.svg' -%}{%- endunless -%}
                 <li class="navbar-region-option{% if country.iso_code == current.iso_code %} navbar-region-option--selected{% endif %}"
                     role="option"
-                    data-flag="{{ flag }}"
+                    data-flag="fi-{{ fc }}"{% if flag_src != blank %} data-flag-src="{{ flag_src }}"{% endif %}
                     data-label="{{ option_label | escape }}"
                     data-country="{{ country.iso_code }}"
                     data-country-name="{{ country.name | escape }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})"
                     data-langs="{{ country.available_languages | map: 'iso_code' | join: ',' }}"
                     aria-selected="{% if country.iso_code == current.iso_code %}true{% else %}false{% endif %}">
-                  <span class="ow-flag" aria-hidden="true">{{ flag }}</span>
+                  <span class="fi fi-{{ fc }}"{% if flag_src != blank %} style="background-image:url({{ flag_src }})"{% endif %}></span>
                   {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
                 </li>
               {%- endfor -%}
