@@ -82,13 +82,13 @@
         "text_box_position": "center",
         "image_position": "left",
         "colors_button_label": "#ffffff",
-        "colors_button_background": "#ed6222",
+        "colors_button_background": "#FF3F00",
         "colors_text": "#1a1b18",
         "colors_border": "#d2d5d9",
         "colors_background": "#ffffff",
         "gradient_background": "",
         "colors_shadow": "#a8e8e2",
-        "colors_highlight": "#0f66df"
+        "colors_highlight": "#9234DA"
       }
     },
     "cookie-banner": {
