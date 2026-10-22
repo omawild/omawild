@@ -14,6 +14,18 @@
     "announcement-bar": {
       "type": "announcement-bar",
       "blocks": {
+        "announcement_BxjNJN": {
+          "type": "announcement",
+          "settings": {
+            "text": "<strong>GOING TO MEET TAIPEI?</strong>",
+            "text_on_mobile": "",
+            "text_size": 11,
+            "link": "",
+            "color_link": "#ffffff",
+            "enable_highlight": false,
+            "highlight_style": "marker"
+          }
+        },
         "announcement_NcPLc9": {
           "type": "announcement",
           "settings": {
@@ -45,6 +57,7 @@
         }
       },
       "block_order": [
+        "announcement_BxjNJN",
         "announcement_NcPLc9",
         "countdown_MWDGiX"
       ],
