@@ -102,6 +102,7 @@
             "sticker": "",
             "name": "Kaohsiung Crew",
             "price_text": "",
+            "cups": 3,
             "price_note": "≈ [per_cup] / CUP",
             "headline": "1 cup a day, all 3 days",
             "extra": "",
@@ -113,7 +114,7 @@
             "footnote": "1 PER EXHIBITOR",
             "sold_out_label": "Sold out",
             "sold_out_count_label": "SOLD OUT",
-            "cups": 3
+            "unavailable_label": "Not available in your region"
           }
         },
         "pass_CqxjJj": {
@@ -126,6 +127,7 @@
             "sticker": "MOST PICKED",
             "name": "Daily Fuel",
             "price_text": "",
+            "cups": 6,
             "price_note": "≈ [per_cup] / CUP",
             "headline": "2 cups a day, all 3 days",
             "extra": "+ 100g Wild Bloom",
@@ -137,7 +139,7 @@
             "footnote": "BUYING FOR YOUR TEAM? ADD MORE",
             "sold_out_label": "Sold out",
             "sold_out_count_label": "SOLD OUT",
-            "cups": 6
+            "unavailable_label": "Not available in your region"
           }
         },
         "pass_MKXqmr": {
@@ -150,6 +152,7 @@
             "sticker": "",
             "name": "Run Wild",
             "price_text": "",
+            "cups": 6,
             "price_note": "+ 200G WILD BLOOM",
             "headline": "2 cups a day, all 3 days",
             "extra": "+ 200g Wild Bloom to take home",
@@ -161,7 +164,7 @@
             "footnote": "ONLY 20 MADE",
             "sold_out_label": "All 20 claimed",
             "sold_out_count_label": "SOLD OUT",
-            "cups": 6
+            "unavailable_label": "Not available in your region"
           }
         }
       },
@@ -198,8 +201,8 @@
         "heading": "Limited Reserve",
         "lead": "<p><strong>Every cup is our Limited Reserve,</strong> a rare micro-lot anaerobically fermented for 42 days. Served as cold brew, it drinks like red wine and whisky.</p>",
         "notes_label": "TASTING NOTES",
-        "notes": "Wine, Passion fruit, Hibiscus, Lychee",
-        "notes_footer": "Drinks like subtle red wine and whisky",
+        "notes": "Hibiscus, Red Wine, Whisky",
+        "notes_footer": "Subtle notes of red wine and whisky without getting you drunk. Yes, it's alcohol free.",
         "show_days": true,
         "days_label": "42 DAYS ANAEROBIC FERMENTATION",
         "day_prefix": "DAY",
