@@ -64,8 +64,8 @@
       "name": "Announcement Bar",
       "settings": {
         "only_homepage": false,
-        "layout": "default",
-        "mobile_layout": "marquee",
+        "layout": "carousel",
+        "mobile_layout": "carousel",
         "autorotate": true,
         "autorotate_speed": 3.4,
         "speed": 5,
