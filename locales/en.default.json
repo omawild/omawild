@@ -635,5 +635,12 @@
       "title": "Search results",
       "use_fewer_filters_html": "Use fewer filters or <a class=\"{{ class }}\" href=\"{{ link }}\">clear all</a>"
     }
+  },
+  "shopify": {
+    "checkout": {
+      "marketing": {
+        "accept_marketing_checkbox_label": "Stay for the adventures"
+      }
+    }
   }
 }
