@@ -548,8 +548,9 @@ function bindRegionSelectors(scope) {
     }
   }
 
-  // Type-to-filter for the country list. Matches anywhere in the name or
-  // the ISO code, ignoring case and accents ("aland" finds Åland Islands).
+  // Type-to-filter for the country list. Matches the start of any word in
+  // the name ("zea" finds New Zealand, "aland" doesn't) or the exact ISO
+  // code, ignoring case and accents ("aland" finds Åland Islands).
   const searchInput = regionEl.querySelector('[data-region-search]');
   const searchEmpty = regionEl.querySelector('.navbar-region-search-empty');
   const fold = (t) => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
@@ -557,7 +558,8 @@ function bindRegionSelectors(scope) {
     const q = fold(query.trim());
     let shown = 0;
     countryOptions.forEach(o => {
-      const match = !q || fold(o.dataset.countryName || '').includes(q) || o.dataset.country.toLowerCase() === q;
+      const name = ' ' + fold(o.dataset.countryName || '').replace(/[()]/g, ' ');
+      const match = !q || name.includes(' ' + q) || o.dataset.country.toLowerCase() === q;
       o.hidden = !match;
       if (match) shown++;
     });
