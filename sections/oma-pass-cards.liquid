@@ -12,6 +12,11 @@
   does everywhere else. assets/oma-pass-cards.js only re-totals the button
   label ("Buy · NT$798") as the quantity changes.
 
+  Price, compare-at price, the per-cup price and stock are all read from
+  the product: the count label, price note, footnote and sold-out line
+  accept [per_cup] (price ÷ the block's cups) and [left] (units in stock),
+  so "≈ [per_cup] / CUP" and "[left] LEFT" follow the product.
+
   Card styles follow the design: salmon (thank-you pass), featured (white,
   hard shadow, sticker) and electric.
 {%- endcomment -%}
@@ -153,6 +158,13 @@
   font: 900 64px/.9 var(--font-heading-family);
   letter-spacing: -.045em;
   }
+.oma-pass-cards-{{ owid }} .price .compare {
+  margin-left: 10px;
+  font-size: 24px;
+  letter-spacing: -.02em;
+  vertical-align: .9em;
+  color: var(--card-soft);
+  }
 .oma-pass-cards-{{ owid }} .price-note {
   margin-top: 10px;
   }
@@ -291,15 +303,32 @@
             assign max_qty = variant.inventory_quantity
           endif
           assign form_id = 'oma-pass-' | append: section.id | append: '-' | append: forloop.index
+
+          assign per_cup = ''
+          if product != blank and block.settings.cups > 0
+            assign per_cup_cents = variant.price | divided_by: block.settings.cups
+            capture per_cup
+              render 'ow-money', amount: per_cup_cents
+            endcapture
+          endif
+          assign left = ''
+          if variant.inventory_management == 'shopify'
+            assign left = variant.inventory_quantity | at_least: 0 | append: ''
+          endif
+          assign count_label = block.settings.count_label | escape | replace: '[per_cup]', per_cup | replace: '[left]', left
+          assign sold_out_count_label = block.settings.sold_out_count_label | escape | replace: '[per_cup]', per_cup | replace: '[left]', left
+          assign price_note = block.settings.price_note | escape | replace: '[per_cup]', per_cup | replace: '[left]', left
+          assign footnote = block.settings.footnote | escape | replace: '[per_cup]', per_cup | replace: '[left]', left
+          assign sold_out_label = block.settings.sold_out_label | default: 'Sold out' | escape | replace: '[per_cup]', per_cup | replace: '[left]', left
         -%}
         <div class="pass is-{{ block.settings.style }}" {{ block.shopify_attributes }}>
           {%- if block.settings.sticker != blank and sold_out == false -%}<span class="sticker">{{ block.settings.sticker | escape }}</span>{%- endif -%}
           <div class="top">
             {%- if block.settings.badge != blank -%}<span class="badge">{{ block.settings.badge | escape }}</span>{%- else -%}<span></span>{%- endif -%}
-            {%- if sold_out and block.settings.sold_out_count_label != blank -%}
-              <span class="count">{{ block.settings.sold_out_count_label | escape }}</span>
-            {%- elsif block.settings.count_label != blank -%}
-              <span class="count">{{ block.settings.count_label | escape }}</span>
+            {%- if sold_out and sold_out_count_label != blank -%}
+              <span class="count">{{ sold_out_count_label }}</span>
+            {%- elsif count_label != blank -%}
+              <span class="count">{{ count_label }}</span>
             {%- endif -%}
           </div>
           <div class="name">{{ block.settings.name | escape }}</div>
@@ -308,9 +337,12 @@
               {{ block.settings.price_text | escape }}
             {%- elsif product != blank -%}
               {%- render 'ow-money', amount: variant.price -%}
+              {%- if variant.compare_at_price > variant.price -%}
+                <s class="compare"><span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>{% render 'ow-money', amount: variant.compare_at_price %}</s>
+              {%- endif -%}
             {%- endif -%}
           </div>
-          {%- if block.settings.price_note != blank -%}<div class="price-note">{{ block.settings.price_note | escape }}</div>{%- endif -%}
+          {%- if price_note != blank -%}<div class="price-note">{{ price_note }}</div>{%- endif -%}
           <div class="details">
             {%- if block.settings.headline != blank -%}<div class="headline">{{ block.settings.headline | escape }}</div>{%- endif -%}
             {%- if block.settings.extra != blank -%}<div class="extra">{{ block.settings.extra | escape }}</div>{%- endif -%}
@@ -320,7 +352,7 @@
           {%- if product == blank -%}
             {%- if request.design_mode -%}<p class="setup-note">Pick this pass's product to turn on the button.</p>{%- endif -%}
           {%- elsif sold_out -%}
-            <div class="sold-out">{{ block.settings.sold_out_label | default: 'Sold out' | escape }}</div>
+            <div class="sold-out">{{ sold_out_label }}</div>
           {%- else -%}
             <div class="buy">
               <product-form data-section="{{ section.id }}">
@@ -347,7 +379,7 @@
             </div>
           {%- endif -%}
 
-          {%- if block.settings.footnote != blank -%}<div class="footnote">{{ block.settings.footnote | escape }}</div>{%- endif -%}
+          {%- if footnote != blank -%}<div class="footnote">{{ footnote }}</div>{%- endif -%}
         </div>
       {%- endfor -%}
     </div>
@@ -396,11 +428,12 @@
           "default": "featured"
         },
         { "type": "text", "id": "badge", "label": "Badge", "default": "EXHIBITOR PASS" },
-        { "type": "text", "id": "count_label", "label": "Count label", "default": "40 PASSES" },
+        { "type": "text", "id": "count_label", "label": "Count label", "default": "40 PASSES", "info": "[left] shows how many are in stock, e.g. [left] LEFT." },
         { "type": "text", "id": "sticker", "label": "Sticker", "info": "e.g. MOST PICKED. Hidden once sold out." },
         { "type": "text", "id": "name", "label": "Pass name", "default": "Daily Fuel" },
-        { "type": "text", "id": "price_text", "label": "Price text override", "info": "e.g. FREE. Leave empty to show the product's price." },
-        { "type": "text", "id": "price_note", "label": "Price note", "default": "≈ NT$66 / CUP" },
+        { "type": "text", "id": "price_text", "label": "Price text override", "info": "Leave empty to show the product's price (and its compare-at price, crossed out, when higher). Only fill in for something like FREE." },
+        { "type": "range", "id": "cups", "label": "Cups in this pass", "min": 0, "max": 20, "step": 1, "default": 6, "info": "Works out [per_cup]. 0 turns it off." },
+        { "type": "text", "id": "price_note", "label": "Price note", "default": "≈ [per_cup] / CUP", "info": "[per_cup] is the price ÷ cups; [left] is how many are in stock." },
         { "type": "text", "id": "headline", "label": "What you get", "default": "2 cups a day, all 3 days" },
         { "type": "text", "id": "extra", "label": "Extra", "default": "+ Sample pack of our three profiles" },
         { "type": "textarea", "id": "body", "label": "Note", "default": "Whole beans, so everything stays fresh" },
@@ -409,7 +442,7 @@
         { "type": "checkbox", "id": "show_total", "label": "Add the total to the button", "info": "e.g. Buy · NT$798 for two.", "default": true },
         { "type": "checkbox", "id": "show_quantity", "label": "Show quantity stepper", "default": true },
         { "type": "range", "id": "max_quantity", "label": "Most per order", "min": 1, "max": 40, "step": 1, "default": 10, "info": "Never more than what's left in stock." },
-        { "type": "text", "id": "footnote", "label": "Footnote", "default": "BUYING FOR YOUR TEAM? ADD MORE" },
+        { "type": "text", "id": "footnote", "label": "Footnote", "default": "BUYING FOR YOUR TEAM? ADD MORE", "info": "Accepts [left] and [per_cup]." },
         { "type": "header", "content": "Sold out" },
         { "type": "text", "id": "sold_out_label", "label": "Sold-out line", "default": "Sold out" },
         { "type": "text", "id": "sold_out_count_label", "label": "Count label when sold out", "default": "SOLD OUT" }
@@ -423,9 +456,9 @@
         {
           "type": "pass",
           "settings": {
-            "style": "salmon", "badge": "THANK YOU", "count_label": "", "name": "Kaohsiung Crew", "price_text": "FREE", "price_note": "",
-            "headline": "1 cup a day, all 3 days", "extra": "", "body": "For friends who joined us in Kaohsiung. Use the code we sent you at checkout.",
-            "button_label": "Claim free pass", "show_total": false, "show_quantity": false, "max_quantity": 1, "footnote": "1 PER EXHIBITOR"
+            "style": "salmon", "badge": "THANK YOU", "count_label": "", "name": "Kaohsiung Crew", "cups": 3,
+            "headline": "1 cup a day, all 3 days", "extra": "", "body": "For friends who joined us in Kaohsiung.",
+            "show_quantity": false, "max_quantity": 1, "footnote": "1 PER EXHIBITOR"
           }
         },
         { "type": "pass", "settings": { "style": "featured", "sticker": "MOST PICKED" } },
