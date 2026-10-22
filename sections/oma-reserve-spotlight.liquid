@@ -6,8 +6,10 @@
   fermentation-days card whose squares fill in once it scrolls into view,
   and an outline button.
 
-  Desktop is photo left (4fr) spanning both rows, copy right (6fr). Below
-  760px it stacks heading, photo, then the cards, as in the design.
+  Desktop is photo left (4fr) spanning both rows, copy right (6fr); the
+  photo crops to the height of the copy and cards instead of setting it.
+  Below 760px it stacks heading, photo, then the cards, as in the design,
+  with the photo at 4:5.
   assets/oma-reserve-spotlight.js only runs the day counter; without it
   (or with reduced motion) every square shows filled.
 {%- endcomment -%}
@@ -67,6 +69,14 @@
   display: block;
   aspect-ratio: 4 / 5;
   }
+@media (min-width: 760px) {
+  .oma-reserve-spotlight-{{ owid }} .frame {
+    min-height: 320px;
+  }
+  .oma-reserve-spotlight-{{ owid }} .frame::before {
+    display: none;
+  }
+}
 .oma-reserve-spotlight-{{ owid }} .frame img,
 .oma-reserve-spotlight-{{ owid }} .frame svg {
   position: absolute;
@@ -238,7 +248,7 @@
         {%- endif -%}
       </div>
 
-      {%- if section.settings.button_label != blank -%}
+      {%- if section.settings.show_button and section.settings.button_label != blank -%}
         <a class="btn" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">{{ section.settings.button_label | escape }}</a>
       {%- endif -%}
     </div>
@@ -254,7 +264,7 @@
   },
   "settings": [
     { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Buttons elsewhere on the page can link to #reserve.", "default": "reserve" },
-    { "type": "image_picker", "id": "image", "label": "Photo", "info": "Shown 4:5." },
+    { "type": "image_picker", "id": "image", "label": "Photo", "info": "4:5 on mobile. On desktop it crops to the height of the text and cards beside it." },
     { "type": "text", "id": "photo_sticker", "label": "Photo sticker", "default": "SERVED AS COLD BREW" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "BACK BY POPULAR DEMAND" },
     { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Limited Reserve" },
@@ -270,6 +280,7 @@
     { "type": "range", "id": "days", "label": "Days", "min": 1, "max": 90, "step": 1, "default": 42 },
     { "type": "range", "id": "days_per_row", "label": "Squares per row", "min": 7, "max": 30, "step": 1, "default": 21 },
     { "type": "header", "content": "Button" },
+    { "type": "checkbox", "id": "show_button", "label": "Show button", "info": "Turn off to keep visitors on the page.", "default": true },
     { "type": "text", "id": "button_label", "label": "Label", "default": "Browse the full collection" },
     { "type": "url", "id": "button_link", "label": "Link" },
     { "type": "header", "content": "Colors" },

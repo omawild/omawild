@@ -173,8 +173,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 20px;
-  padding-top: 20px;
+  margin-top: 12px;
+  padding-top: 14px;
   border-top: 1.5px dashed var(--card-soft);
   color: var(--card-body);
   }
@@ -349,6 +349,7 @@
           <div class="details">
             {%- if block.settings.headline != blank -%}<div class="headline">{{ block.settings.headline | escape }}</div>{%- endif -%}
             {%- if block.settings.extra != blank -%}<div class="extra">{{ block.settings.extra | escape }}</div>{%- endif -%}
+            {%- if block.settings.extra_2 != blank -%}<div class="extra">{{ block.settings.extra_2 | escape }}</div>{%- endif -%}
             {%- if block.settings.body != blank -%}<p class="body">{{ block.settings.body | escape }}</p>{%- endif -%}
           </div>
 
@@ -443,6 +444,7 @@
         { "type": "text", "id": "price_note", "label": "Price note", "default": "≈ [per_cup] / CUP", "info": "[per_cup] is the price ÷ cups; [left] is how many are in stock." },
         { "type": "text", "id": "headline", "label": "What you get", "default": "2 cups a day, all 3 days" },
         { "type": "text", "id": "extra", "label": "Extra", "default": "+ Sample pack of our three profiles" },
+        { "type": "text", "id": "extra_2", "label": "Second extra", "info": "Optional line under Extra, e.g. a second roast to take home." },
         { "type": "textarea", "id": "body", "label": "Note", "default": "Whole beans, so everything stays fresh" },
         { "type": "header", "content": "Button" },
         { "type": "text", "id": "button_label", "label": "Button label", "default": "Buy" },
