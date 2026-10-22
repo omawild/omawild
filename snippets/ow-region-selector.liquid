@@ -111,7 +111,14 @@
               </span>
               <img class="navbar-region-section-chevron" src="{{ 'ow-chevron-lang.svg' | asset_url }}" alt="" width="12" height="8">
             </button>
-            <ul class="navbar-region-options" id="{{ region_form_id }}-country-list" role="listbox" hidden>
+            {%- comment -%}
+              Options are captured first so the search box can be decided by
+              how many actually render (after country_filter): a long list
+              (e.g. a Rest of World market) gets type-to-filter, a short one
+              doesn't. Filtering is done by assets/ow-chrome.js.
+            {%- endcomment -%}
+            {%- assign country_count = 0 -%}
+            {%- capture country_options -%}
               {%- for country in localization.available_countries -%}
                 {%- comment -%}
                   `unless` rather than `if ... contains x == false` — Liquid has
@@ -127,6 +134,7 @@
                 {%- capture option_label -%}
                   {{- country.iso_code }} ({{ country.currency.symbol }})
                 {%- endcapture -%}
+                {%- assign country_count = country_count | plus: 1 -%}
                 <li class="navbar-region-option{% if country.iso_code == current.iso_code %} navbar-region-option--selected{% endif %}"
                     role="option"
                     data-flag="fi-{{ country.iso_code | downcase }}"
@@ -139,6 +147,16 @@
                   {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
                 </li>
               {%- endfor -%}
+            {%- endcapture -%}
+            {%- if country_count > 8 -%}
+              <div class="navbar-region-search" hidden>
+                <input type="search" class="navbar-region-search-input" placeholder="Search countries" aria-label="Search countries"
+                       aria-controls="{{ region_form_id }}-country-list" autocomplete="off" spellcheck="false" data-region-search>
+                <p class="navbar-region-search-empty" hidden>No matching country</p>
+              </div>
+            {%- endif -%}
+            <ul class="navbar-region-options" id="{{ region_form_id }}-country-list" role="listbox" hidden>
+              {{- country_options -}}
             </ul>
           </div>
         {%- endif -%}

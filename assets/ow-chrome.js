@@ -537,6 +537,41 @@ function bindRegionSelectors(scope) {
     const list = section.querySelector('.navbar-region-options');
     if (head) head.setAttribute('aria-expanded', String(open));
     if (list) list.hidden = !open;
+    // Long country lists carry a search box (ow-region-selector.liquid
+    // renders it past 8 countries). It shows and hides with the list and
+    // always reopens empty with every country visible.
+    const search = section.querySelector('.navbar-region-search');
+    if (search) {
+      search.hidden = !open;
+      if (searchInput) { searchInput.value = ''; filterCountries(''); }
+      if (open && searchInput && !regionEl.classList.contains('navbar-region--inline')) searchInput.focus();
+    }
+  }
+
+  // Type-to-filter for the country list. Matches anywhere in the name or
+  // the ISO code, ignoring case and accents ("aland" finds Åland Islands).
+  const searchInput = regionEl.querySelector('[data-region-search]');
+  const searchEmpty = regionEl.querySelector('.navbar-region-search-empty');
+  const fold = (t) => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  function filterCountries(query) {
+    const q = fold(query.trim());
+    let shown = 0;
+    countryOptions.forEach(o => {
+      const match = !q || fold(o.dataset.countryName || '').includes(q) || o.dataset.country.toLowerCase() === q;
+      o.hidden = !match;
+      if (match) shown++;
+    });
+    if (searchEmpty) searchEmpty.hidden = shown > 0;
+  }
+  if (searchInput) {
+    searchInput.addEventListener('input', () => filterCountries(searchInput.value));
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter') return;
+      // Enter picks the first match instead of submitting the form.
+      e.preventDefault();
+      const first = Array.from(countryOptions).find(o => !o.hidden);
+      if (first) first.click();
+    });
   }
 
   function toggleSection(section) {
