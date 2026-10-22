@@ -23,7 +23,7 @@
       "name": "OMA Event Hero",
       "settings": {
         "layout": "split",
-        "show_breadcrumb": true,
+        "show_breadcrumb": false,
         "breadcrumb_label": "",
         "sticker": "BACK BY POPULAR DEMAND · NOV 19–21",
         "heading": "Meet Taipei 2026 Exhibitor Coffee Pass",
