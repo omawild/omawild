@@ -227,7 +227,7 @@
         "show_search": true,
         "show_account": true,
         "show_region_selector": true,
-        "region_countries": "",
+        "region_countries": "TW, HK, US",
         "show_geo_redirect": true
       }
     }

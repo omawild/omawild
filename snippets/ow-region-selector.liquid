@@ -49,6 +49,19 @@
 {%- endcomment -%}
 
 {%- assign current = localization.country -%}
+{%- comment -%}
+  Flags: the markets' flags are inlined in assets/ow-flags.css. Any other
+  country -- e.g. a Rest of World visitor's own, which always shows -- loads
+  the same flag-icons SVG from jsDelivr as an inline background, so every
+  country has a flag without vendoring all 250. Add a market's flag to
+  ow-flags.css and to vendored_flags when it goes live.
+{%- endcomment -%}
+{%- assign vendored_flags = ',tw,hk,us,ca,gb,' -%}
+{%- assign flag_cdn = 'https://cdn.jsdelivr.net/npm/flag-icons@7.5.0/flags/4x3/' -%}
+{%- assign current_fc = current.iso_code | downcase -%}
+{%- assign current_flag_src = '' -%}
+{%- assign fdelim = current_fc | prepend: ',' | append: ',' -%}
+{%- unless vendored_flags contains fdelim -%}{%- assign current_flag_src = flag_cdn | append: current_fc | append: '.svg' -%}{%- endunless -%}
 {%- assign current_lang = localization.language -%}
 {%- assign multi_country = false -%}
 {%- if localization.available_countries.size > 1 -%}{%- assign multi_country = true -%}{%- endif -%}
@@ -76,7 +89,7 @@
 
   <div class="navbar-region{% if inline %} navbar-region--inline{% endif %}">
     <button type="button" class="navbar-lang" aria-haspopup="true" aria-expanded="false">
-      <span class="fi fi-{{ current.iso_code | downcase }} navbar-region-flag"></span>
+      <span class="fi fi-{{ current_fc }} navbar-region-flag"{% if current_flag_src != blank %} style="background-image:url({{ current_flag_src }})"{% endif %}></span>
       <span class="navbar-region-label">{{ current.iso_code }} ({{ current.currency.symbol }}){% if multi_lang %} &middot; {{ current_lang_short }}{% endif %}</span>
       <img class="navbar-lang-chevron" src="{{ 'ow-chevron-lang.svg' | asset_url }}" alt="" width="16" height="16">
     </button>
@@ -105,13 +118,20 @@
                 {%- endcomment -%}
                 <span class="navbar-region-section-label">Country</span>
                 <span class="navbar-region-section-current" data-region-current>
-                  <span class="fi fi-{{ current.iso_code | downcase }}"></span>
+                  <span class="fi fi-{{ current_fc }}"{% if current_flag_src != blank %} style="background-image:url({{ current_flag_src }})"{% endif %}></span>
                   {{ current.name }} ({{ current.currency.iso_code }} {{ current.currency.symbol }})
                 </span>
               </span>
               <img class="navbar-region-section-chevron" src="{{ 'ow-chevron-lang.svg' | asset_url }}" alt="" width="12" height="8">
             </button>
-            <ul class="navbar-region-options" id="{{ region_form_id }}-country-list" role="listbox" hidden>
+            {%- comment -%}
+              Options are captured first so the search box can be decided by
+              how many actually render (after country_filter): a long list
+              (e.g. a Rest of World market) gets type-to-filter, a short one
+              doesn't. Filtering is done by assets/ow-chrome.js.
+            {%- endcomment -%}
+            {%- assign country_count = 0 -%}
+            {%- capture country_options -%}
               {%- for country in localization.available_countries -%}
                 {%- comment -%}
                   `unless` rather than `if ... contains x == false` — Liquid has
@@ -127,18 +147,33 @@
                 {%- capture option_label -%}
                   {{- country.iso_code }} ({{ country.currency.symbol }})
                 {%- endcapture -%}
+                {%- assign country_count = country_count | plus: 1 -%}
+                {%- assign fc = country.iso_code | downcase -%}
+                {%- assign flag_src = '' -%}
+                {%- assign fdelim = fc | prepend: ',' | append: ',' -%}
+                {%- unless vendored_flags contains fdelim -%}{%- assign flag_src = flag_cdn | append: fc | append: '.svg' -%}{%- endunless -%}
                 <li class="navbar-region-option{% if country.iso_code == current.iso_code %} navbar-region-option--selected{% endif %}"
                     role="option"
-                    data-flag="fi-{{ country.iso_code | downcase }}"
+                    data-flag="fi-{{ fc }}"{% if flag_src != blank %} data-flag-src="{{ flag_src }}"{% endif %}
                     data-label="{{ option_label | escape }}"
                     data-country="{{ country.iso_code }}"
                     data-country-name="{{ country.name | escape }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})"
                     data-langs="{{ country.available_languages | map: 'iso_code' | join: ',' }}"
                     aria-selected="{% if country.iso_code == current.iso_code %}true{% else %}false{% endif %}">
-                  <span class="fi fi-{{ country.iso_code | downcase }}"></span>
+                  <span class="fi fi-{{ fc }}"{% if flag_src != blank %} style="background-image:url({{ flag_src }})"{% endif %}></span>
                   {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
                 </li>
               {%- endfor -%}
+            {%- endcapture -%}
+            {%- if country_count > 8 -%}
+              <div class="navbar-region-search" hidden>
+                <input type="search" class="navbar-region-search-input" placeholder="Search countries" aria-label="Search countries"
+                       aria-controls="{{ region_form_id }}-country-list" autocomplete="off" spellcheck="false" data-region-search>
+                <p class="navbar-region-search-empty" hidden>No matching country</p>
+              </div>
+            {%- endif -%}
+            <ul class="navbar-region-options" id="{{ region_form_id }}-country-list" role="listbox" hidden>
+              {{- country_options -}}
             </ul>
           </div>
         {%- endif -%}

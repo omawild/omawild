@@ -537,6 +537,43 @@ function bindRegionSelectors(scope) {
     const list = section.querySelector('.navbar-region-options');
     if (head) head.setAttribute('aria-expanded', String(open));
     if (list) list.hidden = !open;
+    // Long country lists carry a search box (ow-region-selector.liquid
+    // renders it past 8 countries). It shows and hides with the list and
+    // always reopens empty with every country visible.
+    const search = section.querySelector('.navbar-region-search');
+    if (search) {
+      search.hidden = !open;
+      if (searchInput) { searchInput.value = ''; filterCountries(''); }
+      if (open && searchInput && !regionEl.classList.contains('navbar-region--inline')) searchInput.focus();
+    }
+  }
+
+  // Type-to-filter for the country list. Matches the start of any word in
+  // the name ("zea" finds New Zealand, "aland" doesn't) or the exact ISO
+  // code, ignoring case and accents ("aland" finds Åland Islands).
+  const searchInput = regionEl.querySelector('[data-region-search]');
+  const searchEmpty = regionEl.querySelector('.navbar-region-search-empty');
+  const fold = (t) => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  function filterCountries(query) {
+    const q = fold(query.trim());
+    let shown = 0;
+    countryOptions.forEach(o => {
+      const name = ' ' + fold(o.dataset.countryName || '').replace(/[()]/g, ' ');
+      const match = !q || name.includes(' ' + q) || o.dataset.country.toLowerCase() === q;
+      o.hidden = !match;
+      if (match) shown++;
+    });
+    if (searchEmpty) searchEmpty.hidden = shown > 0;
+  }
+  if (searchInput) {
+    searchInput.addEventListener('input', () => filterCountries(searchInput.value));
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter') return;
+      // Enter picks the first match instead of submitting the form.
+      e.preventDefault();
+      const first = Array.from(countryOptions).find(o => !o.hidden);
+      if (first) first.click();
+    });
   }
 
   function toggleSection(section) {
@@ -612,7 +649,11 @@ function bindRegionSelectors(scope) {
     if (!currentEl) return;
     if (section === countrySection) {
       const picked = regionEl.querySelector('.navbar-region-option[data-country][aria-selected="true"]');
-      if (picked) currentEl.innerHTML = '<span class="fi ' + picked.dataset.flag + '"></span>' + picked.dataset.countryName;
+      if (picked) {
+        // data-flag-src is set for flags not inlined in ow-flags.css.
+        const src = picked.dataset.flagSrc;
+        currentEl.innerHTML = '<span class="fi ' + picked.dataset.flag + '"' + (src ? ' style="background-image:url(' + src + ')"' : '') + '></span>' + picked.dataset.countryName;
+      }
     } else if (section === langSection) {
       const picked = regionEl.querySelector('.navbar-region-option[data-locale][aria-selected="true"]');
       if (picked) currentEl.textContent = picked.dataset.langName;
@@ -693,6 +734,7 @@ function bindRegionSelectors(scope) {
       countryInput.value = countryOpt.dataset.country;
       if (flagEl && countryOpt.dataset.flag) {
         flagEl.className = 'fi ' + countryOpt.dataset.flag + ' navbar-region-flag';
+        flagEl.style.backgroundImage = countryOpt.dataset.flagSrc ? 'url(' + countryOpt.dataset.flagSrc + ')' : '';
       }
       if (labelEl && countryOpt.dataset.label) {
         let label = countryOpt.dataset.label;
