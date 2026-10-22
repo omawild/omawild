@@ -264,10 +264,10 @@
         {%- if section.settings.primary_label != blank or section.settings.secondary_label != blank -%}
           <div class="buttons">
             {%- if section.settings.primary_label != blank -%}
-              <a class="btn btn-primary" href="{{ section.settings.primary_link | default: '#' }}">{{ section.settings.primary_label | escape }}</a>
+              <a class="btn btn-primary" href="{{ section.settings.primary_link | default: '#passes' }}">{{ section.settings.primary_label | escape }}</a>
             {%- endif -%}
             {%- if section.settings.secondary_label != blank and centered == false -%}
-              <a class="btn btn-secondary" href="{{ section.settings.secondary_link | default: '#' }}">{{ section.settings.secondary_label | escape }}</a>
+              <a class="btn btn-secondary" href="{{ section.settings.secondary_link | default: '#reserve' }}">{{ section.settings.secondary_label | escape }}</a>
             {%- endif -%}
           </div>
         {%- endif -%}
@@ -319,9 +319,9 @@
     { "type": "inline_richtext", "id": "lead", "label": "Lead", "default": "Cold brew at Booth [__], every day of Meet Taipei." },
     { "type": "header", "content": "Buttons" },
     { "type": "text", "id": "primary_label", "label": "Primary button label", "default": "Choose your pass ↓" },
-    { "type": "url", "id": "primary_link", "label": "Primary button link", "info": "e.g. #passes to jump to the pass cards." },
-    { "type": "text", "id": "secondary_label", "label": "Secondary button label", "default": "What's in the cup" },
-    { "type": "url", "id": "secondary_link", "label": "Secondary button link", "info": "e.g. #reserve" },
+    { "type": "url", "id": "primary_link", "label": "Primary button link", "info": "Leave empty to jump to the OMA Pass Cards section (#passes)." },
+    { "type": "text", "id": "secondary_label", "label": "Secondary button label", "default": "What's brewing" },
+    { "type": "url", "id": "secondary_link", "label": "Secondary button link", "info": "Leave empty to jump to the OMA Reserve Spotlight section (#reserve)." },
     { "type": "header", "content": "Illustration" },
     { "type": "checkbox", "id": "show_image", "label": "Show illustration", "default": true, "info": "Off gives the heading the full width." },
     { "type": "image_picker", "id": "image", "label": "Illustration", "info": "Set its alt text in Files." },
