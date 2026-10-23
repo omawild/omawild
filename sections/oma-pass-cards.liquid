@@ -10,7 +10,10 @@
   <product-form> + /cart/add contract as oma-origin-coffees.liquid, and the
   stepper is the vendor's <quantity-input>, so the cart drawer opens as it
   does everywhere else. assets/oma-pass-cards.js only re-totals the button
-  label ("Buy · NT$798") as the quantity changes.
+  label ("Buy · NT$798") as the quantity changes, and handles the optional
+  unlock code: a block with one renders its buy form hidden behind a code
+  field. Only the code's SHA-256 is in the page; it is a UI mask, not access
+  control (no discount code is involved).
 
   Price, compare-at price, the per-cup price and stock are all read from
   the product: the count label, price note, footnote and sold-out line
@@ -282,6 +285,62 @@
   font: 700 12.5px/1.4 var(--font-body-family);
   color: var(--card-body);
   }
+
+{%- comment -%} Unlock code: a pill the same height as .btn, standing in for it until the code is entered {%- endcomment -%}
+.oma-pass-cards-{{ owid }} .unlock {
+  margin-top: 24px;
+  }
+.oma-pass-cards-{{ owid }} .unlock[hidden] {
+  display: none;
+  }
+.oma-pass-cards-{{ owid }} .unlock-field {
+  display: flex;
+  align-items: center;
+  min-height: 52px;
+  padding: 5px 5px 5px 22px;
+  background: var(--stepper-bg);
+  border: 1.5px solid {{ accent }};
+  border-radius: 100px;
+  }
+.oma-pass-cards-{{ owid }} .pass.is-electric .unlock-field {
+  border-color: #FFFFFF;
+  }
+.oma-pass-cards-{{ owid }} .unlock-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font: 900 13px/1 var(--font-heading-family);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: {{ accent }};
+  outline: none;
+  }
+.oma-pass-cards-{{ owid }} .unlock-input::placeholder {
+  color: {{ accent }};
+  opacity: .5;
+  }
+.oma-pass-cards-{{ owid }} .unlock-field:focus-within {
+  box-shadow: 0 0 0 3px {{ section.settings.wonderland_color }};
+  }
+.oma-pass-cards-{{ owid }} .unlock .btn {
+  width: auto;
+  min-height: 42px;
+  padding: 0 20px;
+  }
+.oma-pass-cards-{{ owid }} .pass.is-electric .unlock .btn {
+  background: {{ accent }};
+  color: #FFFFFF;
+  }
+.oma-pass-cards-{{ owid }} .unlock-error {
+  margin: 10px 0 0;
+  text-align: center;
+  font: 700 12.5px/1.4 var(--font-body-family);
+  color: var(--card-body);
+  }
+.oma-pass-cards-{{ owid }} .unlock-error:empty {
+  display: none;
+  }
 {% endstyle %}
 <section class="oma-pass-cards-{{ owid }}" id="{{ section.settings.anchor_id | default: 'passes' | handleize }}">
   <div class="inner">
@@ -362,7 +421,18 @@
           {%- elsif sold_out -%}
             <div class="sold-out">{{ sold_out_label }}</div>
           {%- else -%}
-            <div class="buy">
+            {%- assign unlock_code = block.settings.unlock_code | strip | upcase -%}
+            {%- if unlock_code != blank -%}
+              <form class="unlock" data-oma-pass-unlock="{{ unlock_code | sha256 }}" data-target="{{ form_id }}-buy" novalidate>
+                <label class="visually-hidden" for="{{ form_id }}-code">{{ block.settings.unlock_placeholder | default: 'Code' | escape }}</label>
+                <div class="unlock-field">
+                  <input class="unlock-input" id="{{ form_id }}-code" type="text" name="code" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="{{ block.settings.unlock_placeholder | default: 'Code' | escape }}">
+                  <button type="submit" class="btn">{{ block.settings.unlock_button_label | default: 'Unlock' | escape }}</button>
+                </div>
+                <p class="unlock-error" role="alert" data-message="{{ block.settings.unlock_error | default: "That code doesn't match" | escape }}"></p>
+              </form>
+            {%- endif -%}
+            <div class="buy" id="{{ form_id }}-buy"{% if unlock_code != blank %} hidden{% endif %}>
               <product-form data-section="{{ section.id }}">
                 {%- form 'product', product, id: form_id, data-type: 'add-to-cart-form' -%}
                   <div class="product-form__error-message-wrapper" role="alert" hidden><span class="product-form__error-message"></span></div>
@@ -452,6 +522,11 @@
         { "type": "checkbox", "id": "show_quantity", "label": "Show quantity stepper", "default": true },
         { "type": "range", "id": "max_quantity", "label": "Most per order", "min": 1, "max": 40, "step": 1, "default": 10, "info": "Never more than what's left in stock." },
         { "type": "text", "id": "footnote", "label": "Footnote", "default": "BUYING FOR YOUR TEAM? ADD MORE", "info": "Accepts [left] and [per_cup]." },
+        { "type": "header", "content": "Unlock code" },
+        { "type": "text", "id": "unlock_code", "label": "Unlock code", "info": "Leave empty for a normal Buy button. When set, buyers type this code to show the button. Not a discount code, and not case-sensitive. It only hides the button, so anyone determined could still get past it." },
+        { "type": "text", "id": "unlock_placeholder", "label": "Code field placeholder", "default": "CODE" },
+        { "type": "text", "id": "unlock_button_label", "label": "Unlock button label", "default": "Unlock" },
+        { "type": "text", "id": "unlock_error", "label": "Wrong code message", "default": "That code doesn't match" },
         { "type": "header", "content": "Sold out" },
         { "type": "text", "id": "sold_out_label", "label": "Sold-out line", "default": "Sold out" },
         { "type": "text", "id": "sold_out_count_label", "label": "Count label when sold out", "default": "SOLD OUT" },
