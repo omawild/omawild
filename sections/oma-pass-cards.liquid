@@ -9,11 +9,8 @@
   button for the card's sold-out line. The add-to-cart is the same
   <product-form> + /cart/add contract as oma-origin-coffees.liquid, and the
   stepper is the vendor's <quantity-input>, so the cart drawer opens as it
-  does everywhere else. assets/oma-pass-cards.js re-totals the button
-  label ("Buy · NT$798") as the quantity changes, and runs unlock codes:
-  a pass with a Code hides its form behind a code box until the visitor
-  types it. Only a SHA-256 of the code is printed. It is a soft gate (the
-  product page can still sell it), not a discount.
+  does everywhere else. assets/oma-pass-cards.js only re-totals the button
+  label ("Buy · NT$798") as the quantity changes.
 
   Price, compare-at price, the per-cup price and stock are all read from
   the product: the count label, price note, footnote and sold-out line
@@ -280,59 +277,6 @@
   font: 700 12.5px/1.4 var(--font-body-family);
   color: var(--card-body);
   }
-.oma-pass-cards-{{ owid }} .unlock-label {
-  display: block;
-  margin-bottom: 10px;
-  font: 700 12.5px/1.4 var(--font-body-family);
-  color: var(--card-body);
-  }
-.oma-pass-cards-{{ owid }} .unlock-row {
-  display: flex;
-  gap: 8px;
-  }
-.oma-pass-cards-{{ owid }} .unlock-input {
-  flex: 1;
-  min-width: 0;
-  min-height: 52px;
-  padding: 0 20px;
-  border: 1.5px solid {{ accent }};
-  border-radius: 100px;
-  background: var(--stepper-bg);
-  color: {{ accent }};
-  font: 900 14px/1 var(--font-heading-family);
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  }
-.oma-pass-cards-{{ owid }} .pass.is-electric .unlock-input {
-  border-color: #FFFFFF;
-  }
-.oma-pass-cards-{{ owid }} .unlock-input::placeholder {
-  color: {{ accent }};
-  opacity: .5;
-  letter-spacing: normal;
-  text-transform: none;
-  }
-.oma-pass-cards-{{ owid }} .unlock-row .btn {
-  width: auto;
-  flex: none;
-  padding: 0 24px;
-  }
-.oma-pass-cards-{{ owid }} .unlock-error {
-  margin: 8px 0 0;
-  font: 700 12.5px/1.4 var(--font-body-family);
-  color: var(--card-body);
-  }
-.oma-pass-cards-{{ owid }} .unlock.is-wrong .unlock-row {
-  animation: oma-unlock-shake-{{ owid }} .35s ease;
-  }
-@keyframes oma-unlock-shake-{{ owid }} {
-  25% { transform: translateX(-6px); }
-  50% { transform: translateX(6px); }
-  75% { transform: translateX(-3px); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .oma-pass-cards-{{ owid }} .unlock.is-wrong .unlock-row { animation: none; }
-}
 .oma-pass-cards-{{ owid }} .setup-note {
   margin: 24px 0 0;
   font: 700 12.5px/1.4 var(--font-body-family);
@@ -418,19 +362,8 @@
           {%- elsif sold_out -%}
             <div class="sold-out">{{ sold_out_label }}</div>
           {%- else -%}
-            {%- assign unlock_code = block.settings.unlock_code | remove: ' ' | upcase -%}
-            <div class="buy"{% if unlock_code != blank %} data-oma-unlock data-hash="{{ unlock_code | sha256 }}" data-key="oma-unlock-{{ section.id }}-{{ block.id }}"{% endif %}>
-              {%- if unlock_code != blank -%}
-                <form class="unlock" novalidate>
-                  <label class="unlock-label" for="{{ form_id }}-code">{{ block.settings.unlock_label | escape }}</label>
-                  <div class="unlock-row">
-                    <input class="unlock-input" id="{{ form_id }}-code" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="{{ block.settings.unlock_placeholder | escape }}">
-                    <button type="submit" class="btn">{{ block.settings.unlock_button | default: 'Unlock' | escape }}</button>
-                  </div>
-                  <p class="unlock-error" role="alert" hidden>{{ block.settings.unlock_error | escape }}</p>
-                </form>
-              {%- endif -%}
-              <product-form{% if unlock_code != blank %} hidden{% endif %} data-section="{{ section.id }}">
+            <div class="buy">
+              <product-form data-section="{{ section.id }}">
                 {%- form 'product', product, id: form_id, data-type: 'add-to-cart-form' -%}
                   <div class="product-form__error-message-wrapper" role="alert" hidden><span class="product-form__error-message"></span></div>
                   <input type="hidden" name="id" value="{{ variant.id }}">
@@ -519,12 +452,6 @@
         { "type": "checkbox", "id": "show_quantity", "label": "Show quantity stepper", "default": true },
         { "type": "range", "id": "max_quantity", "label": "Most per order", "min": 1, "max": 40, "step": 1, "default": 10, "info": "Never more than what's left in stock." },
         { "type": "text", "id": "footnote", "label": "Footnote", "default": "BUYING FOR YOUR TEAM? ADD MORE", "info": "Accepts [left] and [per_cup]." },
-        { "type": "header", "content": "Unlock code" },
-        { "type": "text", "id": "unlock_code", "label": "Code", "info": "Fill in to hide the Buy button until a visitor types this code, e.g. CRAZYCREW. Not a discount code. Capitals and spaces don't matter. Leave empty for a normal Buy button." },
-        { "type": "text", "id": "unlock_label", "label": "Line above the code box", "default": "Got a code? Enter it to unlock this pass." },
-        { "type": "text", "id": "unlock_placeholder", "label": "Placeholder", "default": "Enter code" },
-        { "type": "text", "id": "unlock_button", "label": "Unlock button", "default": "Unlock" },
-        { "type": "text", "id": "unlock_error", "label": "Wrong code message", "default": "Hmm, that's not it. Check the message we sent you." },
         { "type": "header", "content": "Sold out" },
         { "type": "text", "id": "sold_out_label", "label": "Sold-out line", "default": "Sold out" },
         { "type": "text", "id": "sold_out_count_label", "label": "Count label when sold out", "default": "SOLD OUT" },
