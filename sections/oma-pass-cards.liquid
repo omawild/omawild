@@ -314,14 +314,16 @@
   letter-spacing: .14em;
   text-transform: uppercase;
   color: {{ accent }};
+  }
+{%- comment -%} Beats base.css *:focus-visible, which text inputs match on click; the caret marks focus {%- endcomment -%}
+.oma-pass-cards-{{ owid }} .unlock-input:focus,
+.oma-pass-cards-{{ owid }} .unlock-input:focus-visible {
   outline: none;
+  box-shadow: none;
   }
 .oma-pass-cards-{{ owid }} .unlock-input::placeholder {
   color: {{ accent }};
   opacity: .5;
-  }
-.oma-pass-cards-{{ owid }} .unlock-field:focus-within {
-  box-shadow: 0 0 0 3px {{ section.settings.wonderland_color }};
   }
 .oma-pass-cards-{{ owid }} .unlock .btn {
   width: auto;
