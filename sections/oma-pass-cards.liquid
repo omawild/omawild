@@ -305,6 +305,13 @@
 .oma-pass-cards-{{ owid }} .pass.is-electric .unlock-field {
   border-color: #FFFFFF;
   }
+{%- comment -%} Focus cue: the border doubles in its own color, drawn inside so nothing shifts {%- endcomment -%}
+.oma-pass-cards-{{ owid }} .unlock-field:focus-within {
+  box-shadow: inset 0 0 0 1.5px {{ accent }};
+  }
+.oma-pass-cards-{{ owid }} .pass.is-electric .unlock-field:focus-within {
+  box-shadow: inset 0 0 0 1.5px #FFFFFF;
+  }
 .oma-pass-cards-{{ owid }} .unlock-input {
   flex: 1;
   min-width: 0;
