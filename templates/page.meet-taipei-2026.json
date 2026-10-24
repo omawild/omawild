@@ -73,6 +73,10 @@
             "show_quantity": false,
             "max_quantity": 1,
             "footnote": "1 PER EXHIBITOR",
+            "unlock_code": "MGS26",
+            "unlock_placeholder": "CODE",
+            "unlock_button_label": "Unlock",
+            "unlock_error": "That code doesn't match",
             "sold_out_label": "Sold out",
             "sold_out_count_label": "SOLD OUT",
             "unavailable_label": "Not available in your region"
@@ -99,6 +103,10 @@
             "show_quantity": true,
             "max_quantity": 10,
             "footnote": "BUYING FOR YOUR TEAM? ADD MORE",
+            "unlock_code": "",
+            "unlock_placeholder": "CODE",
+            "unlock_button_label": "Unlock",
+            "unlock_error": "That code doesn't match",
             "sold_out_label": "Sold out",
             "sold_out_count_label": "SOLD OUT",
             "unavailable_label": "Not available in your region"
@@ -125,6 +133,10 @@
             "show_quantity": true,
             "max_quantity": 10,
             "footnote": "LIMITED SPOTS",
+            "unlock_code": "",
+            "unlock_placeholder": "CODE",
+            "unlock_button_label": "Unlock",
+            "unlock_error": "That code doesn't match",
             "sold_out_label": "Fully Reserved",
             "sold_out_count_label": "SOLD OUT",
             "unavailable_label": "Not available in your region"
