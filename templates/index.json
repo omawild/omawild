@@ -40,14 +40,14 @@
       "settings": {
         "stamp_alt": "Welcome to the expedition",
         "heading": "Drink like you give a damn",
-        "body": "<p>Because we're building a nature fund, disguised as coffee from the forests of Indonesia.</p>",
+        "body": "<p>Because we are on a mission to preserve our beautiful planet, via specialty coffee grown from the forests.</p>",
         "cta_primary_label": "SHOP THE COLLECTION",
         "cta_primary_link": "#shop",
         "cta_secondary_label": "FINANCING NATURE",
         "cta_secondary_link": "#regen",
         "hero_image": "shopify://shop_images/Omawild-Forest-Trail-001_bf803a57-005a-401b-af23-cb5b659995b7.png",
         "image_badge_text": "COFFEE FOR PLANET EARTH",
-        "caption_text": "<p><strong>When your house is under threat, you'd defend it. Nature is home to all of us, and protecting it can start with what's in your cup.</strong></p>",
+        "caption_text": "<p><strong>Join the expedition when you drink a cup of Omawild coffee.</strong></p>",
         "caption_link_label": "See how it works ↓",
         "caption_link": "",
         "separator": "✷",
@@ -240,7 +240,7 @@
           "type": "card",
           "settings": {
             "heading": "Growing Inside Forests",
-            "body": "<p>Our coffee grows exclusively in regenerative agroforestry systems to support forests and wildlife conservation.</p>"
+            "body": "<p>Our coffee grows exclusively in regenerative agroforestry systems to support biodiversity and wildlife conservation.</p>"
           }
         },
         "card_kUQN6D": {

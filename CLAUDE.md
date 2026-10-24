@@ -12,12 +12,17 @@ rules of the codebase.
 dangerous. Never run any of them without the user asking for that specific
 outcome in that specific moment.**
 
-1. **`git push origin main` IS the production deploy.** `main` is wired to the
-   production store via Shopify's GitHub integration; pushing it changes the live
-   storefront with no preview and no confirmation. Work on a branch, push that
-   branch by name. Never `git push` while on `main`, and never `git push origin
-   HEAD:main`. Expect `origin/main` to move on its own — theme-editor saves sync
-   back into git as `shopify[bot]` commits — so fetch and rebase, never force-push.
+1. **`git push origin omawild-v2` IS the production deploy.** Since Oct 2026 the
+   live theme on the production store is `omawild/omawild-v2`, wired to the
+   `omawild-v2` branch via Shopify's GitHub integration; pushing it changes the
+   live storefront with no preview and no confirmation. (`main` is still connected,
+   to the now-unpublished `omawild/main` theme — treat it as production too, since
+   publishing that theme makes it live again.) Do new work on a separate branch.
+   Never `git push` while on `omawild-v2` or `main`, and never push `HEAD` onto
+   either. Expect both to move on their own — theme-editor saves sync back into
+   git as `shopify[bot]` commits — so fetch and rebase, never force-push. Any
+   `omawild/<branch>` theme in `shopify theme list` is git-connected: a CLI push
+   to it becomes a commit on that branch. Test on an admin **Duplicate** instead.
 2. **Never `shopify theme push --live` or `--allow-live`.** Going live is a human
    clicking Publish in the Shopify admin. Do not add either flag to any script,
    task, or alias, even one the user seems to want.

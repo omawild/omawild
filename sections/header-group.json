@@ -14,6 +14,18 @@
     "announcement-bar": {
       "type": "announcement-bar",
       "blocks": {
+        "announcement_BxjNJN": {
+          "type": "announcement",
+          "settings": {
+            "text": "<strong>GOING TO MEET TAIPEI? WE GOT SOMETHING </strong><a href=\"https://omawild.com/en-tw/pages/meet-taipei-2026\" title=\"https://omawild.com/en-tw/pages/meet-taipei-2026\"><strong>BRILLIANT</strong></a><strong>.</strong>",
+            "text_on_mobile": "",
+            "text_size": 11,
+            "link": "",
+            "color_link": "#FF3F00",
+            "enable_highlight": false,
+            "highlight_style": "marker"
+          }
+        },
         "announcement_NcPLc9": {
           "type": "announcement",
           "settings": {
@@ -45,14 +57,15 @@
         }
       },
       "block_order": [
+        "announcement_BxjNJN",
         "announcement_NcPLc9",
         "countdown_MWDGiX"
       ],
       "name": "Announcement Bar",
       "settings": {
         "only_homepage": false,
-        "layout": "default",
-        "mobile_layout": "marquee",
+        "layout": "carousel",
+        "mobile_layout": "carousel",
         "autorotate": true,
         "autorotate_speed": 3.4,
         "speed": 5,
