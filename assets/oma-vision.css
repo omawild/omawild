@@ -729,10 +729,26 @@ body.oma-vision-minimal .shopify-section-group-footer-group {
   min-width: 0;
   color: var(--ow-midnight);
 }
-.oma-vision__road--yes { background: var(--ow-electric); color: #fff; }
+.oma-vision__road--yes {
+  background: var(--ow-electric);
+  color: #fff;
+  border-color: var(--ow-electric);
+}
+/* YES card is Electric fill — force white ink (incl. number + pill).
+   Default .oma-vision__road-top / .oma-vision__tag stay Electric and
+   become invisible on this background. */
+.oma-vision__road--yes .oma-vision__road-top,
 .oma-vision__road--yes .oma-vision__card-title,
 .oma-vision__road--yes .oma-vision__tag,
-.oma-vision__road--yes .oma-vision__road-rule { color: #fff; border-color: #fff; }
+.oma-vision__road--yes .oma-vision__road-rule,
+.oma-vision__road--yes .oma-vision__road-rule-body,
+.oma-vision__road--yes p {
+  color: #fff;
+}
+.oma-vision__road--yes .oma-vision__tag {
+  background: transparent;
+  border-color: #fff;
+}
 .oma-vision__road-top {
   display: flex;
   justify-content: space-between;
