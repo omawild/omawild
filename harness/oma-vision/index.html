@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>oma-vision gate harness</title>
+  <link rel="stylesheet" href="../../assets/oma-vision.css">
+  <style>
+    :root {
+      --font-body-family: system-ui, sans-serif;
+      --font-heading-family: system-ui, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="oma-vision" data-oma-vision data-boarded="false" data-inner="false" data-chrome="store">
+    <div id="oma-vision-boarding" class="oma-vision__boarding">
+      <h1 class="oma-vision__boarding-title">Pack your bags.</h1>
+    </div>
+    <div id="oma-vision-main">
+      <p id="vision-main-marker">VISION MAIN</p>
+      <div id="oma-vision-basecamp">BASECAMP LOCK</div>
+      <div id="oma-vision-investor">INVESTOR</div>
+    </div>
+  </div>
+  <script type="module">
+    const root = document.querySelector('.oma-vision');
+    const main = document.querySelector('#oma-vision-main');
+    const inv = document.querySelector('#oma-vision-investor');
+    console.assert(root.getAttribute('data-boarded') === 'false', 'default boarded false');
+    console.assert(getComputedStyle(main).display === 'none', 'main hidden when locked');
+    console.assert(getComputedStyle(inv).display === 'none', 'investor hidden when inner false');
+    document.body.dataset.harnessOk = '1';
+  </script>
+</body>
+</html>

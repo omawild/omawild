@@ -1,0 +1,326 @@
+/* oma-vision — expedition vision page (gates + bands) */
+
+.oma-vision {
+  --ow-electric: #ff3f00;
+  --ow-electric-deep: #d63200;
+  --ow-wonderland: #fcd0fd;
+  --ow-salmon: #ffe4e7;
+  --ow-sand: #f7f5f1;
+  --ow-midnight: #00180c;
+  --ow-sunbrella: #fbb925;
+  box-sizing: border-box;
+  color: var(--ow-midnight);
+  font-family: var(--font-body-family);
+  font-size: 15px;
+  line-height: 21px;
+  background: var(--ow-sand);
+}
+
+.oma-vision *,
+.oma-vision *::before,
+.oma-vision *::after {
+  box-sizing: border-box;
+}
+
+.oma-vision h1,
+.oma-vision h2,
+.oma-vision h3 {
+  font-family: var(--font-heading-family);
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+  margin: 0;
+  color: var(--ow-electric);
+  text-wrap: balance;
+}
+
+.oma-vision p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.oma-vision a {
+  color: var(--ow-electric);
+}
+
+.oma-vision img,
+.oma-vision svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.oma-vision__inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding-inline: clamp(20px, 4vw, 48px);
+}
+
+/* ── Gates (FOUC-safe defaults) ── */
+.oma-vision[data-boarded="false"] #oma-vision-main {
+  display: none;
+}
+
+.oma-vision[data-boarded="true"] #oma-vision-boarding {
+  display: none;
+}
+
+.oma-vision[data-inner="false"] #oma-vision-investor {
+  display: none;
+}
+
+.oma-vision[data-inner="true"] #oma-vision-basecamp {
+  display: none;
+}
+
+/* ── Boarding ── */
+.oma-vision__boarding {
+  position: relative;
+  min-height: 100vh;
+  background: var(--ow-wonderland);
+  color: var(--ow-midnight);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px clamp(20px, 4vw, 48px);
+  text-align: center;
+}
+
+.oma-vision__badge {
+  width: clamp(120px, 13vw, 180px);
+  height: auto;
+  aspect-ratio: 1 / 1;
+  animation: oma-vision-spin 18s linear infinite;
+}
+
+@keyframes oma-vision-spin {
+  from { transform: rotate(0); }
+  to { transform: rotate(360deg); }
+}
+
+.oma-vision__boarding-title {
+  margin-top: clamp(28px, 4vw, 48px);
+  max-width: 1100px;
+  font-size: clamp(44px, 7vw, 112px);
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+}
+
+.oma-vision__pass {
+  margin-top: clamp(32px, 4vw, 48px);
+  width: 100%;
+  max-width: 760px;
+  background: #fff;
+  border: 2px solid var(--ow-electric);
+  border-radius: 14px;
+  box-shadow: 6px 6px 0 var(--ow-electric);
+  text-align: left;
+}
+
+.oma-vision__pass-head {
+  padding: 18px 22px;
+  border-bottom: 2px dashed var(--ow-electric);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.oma-vision__pass-label {
+  font-family: var(--font-heading-family);
+  font-weight: 900;
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  color: var(--ow-electric);
+}
+
+.oma-vision__pass-dest {
+  margin-top: 8px;
+  font-family: var(--font-heading-family);
+  font-weight: 900;
+  font-size: clamp(20px, 2vw, 26px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--ow-midnight);
+}
+
+.oma-vision__pass-body {
+  padding: 18px 22px 14px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  align-items: end;
+}
+
+@media (min-width: 720px) {
+  .oma-vision__pass-body {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+
+.oma-vision__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.oma-vision__field label {
+  font-family: var(--font-heading-family);
+  font-weight: 900;
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  color: var(--ow-electric);
+}
+
+.oma-vision__field input,
+.oma-vision__field textarea {
+  border: 1.5px solid rgba(0, 24, 12, 0.18);
+  border-radius: 100px;
+  background: var(--ow-sand);
+  font-family: var(--font-heading-family);
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1;
+  color: var(--ow-midnight);
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.oma-vision__field input {
+  height: 48px;
+  padding: 0 16px;
+}
+
+.oma-vision__field input::placeholder,
+.oma-vision__field textarea::placeholder {
+  font-family: var(--font-body-family);
+  font-weight: 600;
+  font-size: 12.5px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: rgba(0, 24, 12, 0.5);
+}
+
+.oma-vision__field--err input {
+  border-color: var(--ow-electric);
+}
+
+.oma-vision__btn {
+  height: 48px;
+  padding: 0 24px;
+  border: none;
+  border-radius: 100px;
+  background: var(--ow-electric);
+  color: #fff;
+  font-family: var(--font-heading-family);
+  font-weight: 900;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.oma-vision__btn:hover {
+  background: var(--ow-electric-deep);
+}
+
+.oma-vision__msg {
+  min-height: 16px;
+  padding: 0 22px 14px;
+  font-weight: 600;
+  font-size: 12.5px;
+  line-height: 1.3;
+  color: var(--ow-electric);
+}
+
+.oma-vision__boarding-home {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  font-weight: 700;
+  font-size: 12.5px;
+  line-height: 1;
+  color: var(--ow-electric);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Sticky logo — only when minimal chrome */
+.oma-vision__sticky-logo {
+  display: none;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--ow-wonderland);
+  border-bottom: 1.5px solid var(--ow-electric);
+  padding: 16px 30px;
+  align-items: center;
+}
+
+.oma-vision[data-chrome="minimal"] .oma-vision__sticky-logo {
+  display: flex;
+}
+
+.oma-vision__sticky-logo img {
+  height: 26px;
+  width: auto;
+}
+
+body.oma-vision-minimal .shopify-section-group-header-group,
+body.oma-vision-minimal .shopify-section-group-footer-group {
+  display: none !important;
+}
+
+/* Shared band chrome */
+.oma-vision__band {
+  border-bottom: 1.5px solid var(--ow-electric);
+}
+
+.oma-vision__band--pad {
+  padding-block: clamp(40px, 5vw, 64px);
+}
+
+.oma-vision__eyebrow {
+  font-family: var(--font-heading-family);
+  font-weight: 900;
+  font-size: 12px;
+  line-height: 1.3;
+  letter-spacing: 0.14em;
+  color: var(--ow-electric);
+}
+
+.oma-vision__title {
+  margin-top: 16px;
+  font-size: clamp(36px, 5vw, 72px);
+}
+
+.oma-vision__lead {
+  margin-top: 18px;
+  max-width: 1100px;
+}
+
+.oma-vision__ph {
+  background: var(--ow-salmon);
+  border: 2px solid var(--ow-electric);
+  box-shadow: 8px 8px 0 var(--ow-electric);
+  width: 100%;
+  height: 100%;
+  min-height: 120px;
+}
+
+.oma-vision__ph--fill {
+  position: absolute;
+  inset: 0;
+}
+
+.oma-vision__ph img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

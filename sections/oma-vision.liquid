@@ -1,0 +1,276 @@
+{%- comment -%}
+  oma-vision — gated expedition Vision page (boarding → vision → Base Camp).
+  Spec: docs/superpowers/specs/2026-11-02-vision-page-design.md
+  JS helpers + init: assets/oma-vision.js (type=module)
+{%- endcomment -%}
+{{ 'oma-vision.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign boarded_attr = 'false'
+  assign inner_attr = 'false'
+  if request.design_mode
+    assign boarded_attr = 'true'
+    assign inner_attr = 'true'
+  endif
+-%}
+
+<div
+  class="oma-vision"
+  data-oma-vision
+  data-boarded="{{ boarded_attr }}"
+  data-inner="{{ inner_attr }}"
+  data-chrome="{{ section.settings.chrome }}"
+  data-help-to="{{ section.settings.help_mailto | escape }}"
+  data-invest-to="{{ section.settings.invest_mailto | escape }}"
+>
+  <div class="oma-vision__sticky-logo">
+    <a href="{{ routes.root_url }}" aria-label="Omawild">
+      {%- if settings.logo != blank -%}
+        {{ settings.logo | image_url: height: 52 | image_tag: loading: 'eager', alt: shop.name }}
+      {%- else -%}
+        <span class="oma-vision__pass-dest">{{ shop.name }}</span>
+      {%- endif -%}
+    </a>
+  </div>
+
+  <div id="oma-vision-boarding" class="oma-vision__boarding">
+    <img
+      class="oma-vision__badge"
+      src="{{ 'oma-vision-badge.svg' | asset_url }}"
+      alt="{{ section.settings.boarding_badge_alt | escape }}"
+      width="180"
+      height="180"
+    >
+    <h1 class="oma-vision__boarding-title">{{ section.settings.boarding_heading | escape | newline_to_br }}</h1>
+    <form class="oma-vision__pass" data-vision-board novalidate>
+      <div class="oma-vision__pass-head">
+        <div>
+          <div class="oma-vision__pass-label">{{ section.settings.boarding_dest_label | escape }}</div>
+          <div class="oma-vision__pass-dest">{{ section.settings.boarding_dest | escape }}</div>
+        </div>
+      </div>
+      <div class="oma-vision__pass-body">
+        <div class="oma-vision__field" data-vision-name-field>
+          <label for="oma-vision-name-{{ section.id }}">{{ section.settings.boarding_name_label | escape }}</label>
+          <input
+            id="oma-vision-name-{{ section.id }}"
+            name="passenger"
+            autocomplete="name"
+            placeholder="{{ section.settings.boarding_name_placeholder | escape }}"
+            data-vision-name
+          >
+        </div>
+        <button type="submit" class="oma-vision__btn">{{ section.settings.boarding_cta | escape }}</button>
+      </div>
+      <div class="oma-vision__msg" data-vision-board-msg hidden></div>
+    </form>
+    {%- if section.settings.boarding_home_label != blank -%}
+      <a class="oma-vision__boarding-home" href="{{ routes.root_url }}">{{ section.settings.boarding_home_label | escape }}</a>
+    {%- endif -%}
+  </div>
+
+  <div id="oma-vision-main">
+    {%- comment -%} Bands filled in later tasks; stub keeps gate CSS testable. {%- endcomment -%}
+    <div class="oma-vision__band oma-vision__band--pad" data-vision-stub>
+      <div class="oma-vision__inner">
+        <div class="oma-vision__eyebrow">
+          {{ section.settings.hero_eyebrow | escape }}
+          <span data-guest-pill hidden> FOR <span data-guest-name></span></span>
+        </div>
+        <h2 class="oma-vision__title">{{ section.settings.hero_heading | escape }}</h2>
+        <p class="oma-vision__lead">{{ section.settings.hero_body | escape }}</p>
+      </div>
+    </div>
+
+    <div id="oma-vision-basecamp" class="oma-vision__band oma-vision__band--pad" style="background: var(--ow-wonderland); text-align: center;">
+      <div class="oma-vision__inner" style="display:flex;flex-direction:column;align-items:center;">
+        <div class="oma-vision__eyebrow">{{ section.settings.basecamp_eyebrow | escape }}</div>
+        <h2 class="oma-vision__title" style="max-width:900px;">{{ section.settings.basecamp_heading | escape }}</h2>
+        <p class="oma-vision__lead" style="max-width:640px;margin-inline:auto;">
+          {{ section.settings.basecamp_body }}
+        </p>
+        <form class="oma-vision__pass" style="max-width:520px;margin-top:36px;" data-vision-inner novalidate>
+          <div class="oma-vision__pass-body" style="padding-top:22px;">
+            <div class="oma-vision__field" data-vision-code-field>
+              <label for="oma-vision-code-{{ section.id }}">{{ section.settings.basecamp_code_label | escape }}</label>
+              <input
+                id="oma-vision-code-{{ section.id }}"
+                name="basecamp"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="{{ section.settings.basecamp_code_placeholder | escape }}"
+                data-vision-code
+                style="text-transform:uppercase;"
+              >
+            </div>
+            <button type="submit" class="oma-vision__btn">{{ section.settings.basecamp_cta | escape }}</button>
+          </div>
+          <div class="oma-vision__msg" data-vision-inner-msg hidden></div>
+        </form>
+      </div>
+    </div>
+
+    <div id="oma-vision-investor" class="oma-vision__band oma-vision__band--pad">
+      <div class="oma-vision__inner">
+        <div class="oma-vision__eyebrow">{{ section.settings.investor_stub_eyebrow | escape }}</div>
+        <h2 class="oma-vision__title">{{ section.settings.investor_stub_heading | escape }}</h2>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{{ 'oma-vision.js' | asset_url }}" type="module" defer></script>
+
+{% schema %}
+{
+  "name": "OMA Vision",
+  "tag": "section",
+  "class": "oma-vision-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "chrome",
+      "label": "Chrome",
+      "options": [
+        { "value": "store", "label": "Store header & footer" },
+        { "value": "minimal", "label": "Minimal (sticky logo)" }
+      ],
+      "default": "store"
+    },
+    { "type": "header", "content": "Boarding" },
+    {
+      "type": "text",
+      "id": "boarding_badge_alt",
+      "label": "Badge alt",
+      "default": "Welcome to the Expedition"
+    },
+    {
+      "type": "textarea",
+      "id": "boarding_heading",
+      "label": "Boarding heading",
+      "default": "Pack your bags.\nWe're going on a mission."
+    },
+    {
+      "type": "text",
+      "id": "boarding_dest_label",
+      "label": "Destination label",
+      "default": "DESTINATION"
+    },
+    {
+      "type": "text",
+      "id": "boarding_dest",
+      "label": "Destination",
+      "default": "Back to Nature"
+    },
+    {
+      "type": "text",
+      "id": "boarding_name_label",
+      "label": "Name label",
+      "default": "PASSENGER"
+    },
+    {
+      "type": "text",
+      "id": "boarding_name_placeholder",
+      "label": "Name placeholder",
+      "default": "Your name"
+    },
+    {
+      "type": "text",
+      "id": "boarding_cta",
+      "label": "Board CTA",
+      "default": "Board now"
+    },
+    {
+      "type": "text",
+      "id": "boarding_home_label",
+      "label": "Home link label",
+      "default": "omawild.com"
+    },
+    { "type": "header", "content": "Hero (stub — full bands next)" },
+    {
+      "type": "text",
+      "id": "hero_eyebrow",
+      "label": "Hero eyebrow",
+      "default": "THE EXPEDITION PLAN"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_heading",
+      "label": "Hero heading",
+      "default": "Stay 100% delusional until it works, because there is no Plan B for Planet Earth."
+    },
+    {
+      "type": "textarea",
+      "id": "hero_body",
+      "label": "Hero body",
+      "default": "Omawild is a conservation-led food brand, starting with specialty coffee. We're on a mission to turn everything we consume into a vehicle that funds ecological regeneration and conservation efforts across the world, because regenerative farming is the most direct way to protect natural ecosystems. Think of Omawild as the nature fund that everyone can easily invest in."
+    },
+    { "type": "header", "content": "Base Camp" },
+    {
+      "type": "text",
+      "id": "basecamp_eyebrow",
+      "label": "Base Camp eyebrow",
+      "default": "INVESTOR ACCESS ONLY"
+    },
+    {
+      "type": "textarea",
+      "id": "basecamp_heading",
+      "label": "Base Camp heading",
+      "default": "The rest of the map is reserved for those going to Base Camp with us."
+    },
+    {
+      "type": "html",
+      "id": "basecamp_body",
+      "label": "Base Camp body",
+      "default": "As much as we are crazy, delusional and try to have fun along the way, we are serious business about Omawild and our mission to preserve ecological systems through the food we eat. Enter your base camp code to unlock the map. Or if you are new here and interested in advising or investing, <a href=\"mailto:invest@omawild.com\">please let us know</a>."
+    },
+    {
+      "type": "text",
+      "id": "basecamp_code_label",
+      "label": "Code label",
+      "default": "BASE CAMP CODE"
+    },
+    {
+      "type": "text",
+      "id": "basecamp_code_placeholder",
+      "label": "Code placeholder",
+      "default": "Your base camp code"
+    },
+    {
+      "type": "text",
+      "id": "basecamp_cta",
+      "label": "Climb CTA",
+      "default": "Climb on"
+    },
+    {
+      "type": "text",
+      "id": "investor_stub_eyebrow",
+      "label": "Investor stub eyebrow",
+      "default": "PATHS EXPLORED"
+    },
+    {
+      "type": "text",
+      "id": "investor_stub_heading",
+      "label": "Investor stub heading",
+      "default": "What we ruled out"
+    },
+    {
+      "type": "text",
+      "id": "help_mailto",
+      "label": "Help form mailto",
+      "default": "hello@omawild.com"
+    },
+    {
+      "type": "text",
+      "id": "invest_mailto",
+      "label": "Invest mailto",
+      "default": "invest@omawild.com"
+    }
+  ],
+  "presets": [
+    {
+      "name": "OMA Vision"
+    }
+  ]
+}
+{% endschema %}
