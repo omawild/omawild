@@ -45,3 +45,28 @@ test('buildHelpMailto encodes name picks and email', () => {
   assert.match(url, /Jenny/);
   assert.match(url, /Funding/);
 });
+
+test('safeStorage returns null when sessionStorage throws', async () => {
+  const { safeStorage } = await import('../../assets/oma-vision.js');
+  const boom = {
+    get getItem() { throw new Error('blocked'); },
+    get setItem() { throw new Error('blocked'); }
+  };
+  // If implementation takes a factory, test the helper that wraps access
+  assert.equal(typeof safeStorage, 'function');
+  const s = safeStorage(() => { throw new Error('blocked'); });
+  assert.equal(s, null);
+  const ok = safeStorage(() => ({
+    getItem: () => null,
+    setItem: () => {}
+  }));
+  assert.ok(ok);
+});
+
+test('readGateState tolerates throwing storage', async () => {
+  const { readGateState } = await import('../../assets/oma-vision.js');
+  const boom = {
+    getItem() { throw new Error('blocked'); }
+  };
+  assert.deepEqual(readGateState(boom, { designMode: false }), { boarded: false, guest: '', inner: false });
+});

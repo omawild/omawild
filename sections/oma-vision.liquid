@@ -21,6 +21,18 @@
   data-chrome="{{ section.settings.chrome }}"
   data-help-to="{{ section.settings.help_mailto | escape }}"
 >
+  {%- unless request.design_mode -%}
+  <script>
+    (function () {
+      var root = document.currentScript && document.currentScript.parentElement;
+      if (!root || !root.hasAttribute('data-oma-vision')) return;
+      try {
+        if (sessionStorage.getItem('ow-vision2-boarded') === '1') root.setAttribute('data-boarded', 'true');
+        if (sessionStorage.getItem('ow-vision2-inner') === '1') root.setAttribute('data-inner', 'true');
+      } catch (e) {}
+    })();
+  </script>
+  {%- endunless -%}
   <div class="oma-vision__sticky-logo">
     <a href="{{ routes.root_url }}" aria-label="Omawild">
       <img src="{{ 'ow-logo.svg' | asset_url }}" alt="{{ shop.name | escape }}" height="26" width="120">
@@ -36,7 +48,7 @@
       height="180"
     >
     <h1 class="oma-vision__boarding-title">{{ section.settings.boarding_heading | escape | newline_to_br }}</h1>
-    <form class="oma-vision__pass" data-vision-board novalidate>
+    <form class="oma-vision__pass" data-vision-board method="post" action="#" novalidate>
       <div class="oma-vision__pass-head">
         <div>
           <div class="oma-vision__pass-label">{{ section.settings.boarding_dest_label | escape }}</div>
@@ -236,7 +248,7 @@
         <div class="oma-vision__eyebrow" data-ask-eyebrow>{{ section.settings.help_eyebrow | escape }}</div>
         <h2 class="oma-vision__title">{{ section.settings.help_heading | escape }}</h2>
         <p class="oma-vision__lead">{{ section.settings.help_lead | escape }}</p>
-        <form class="oma-vision__help" data-vision-ask novalidate>
+        <form class="oma-vision__help" data-vision-ask method="post" action="#" novalidate>
           <div class="oma-vision__help-head">
             <div class="oma-vision__pass-label">{{ section.settings.help_form_label | escape }}</div>
             <div class="oma-vision__help-hint">{{ section.settings.help_form_hint | escape }}</div>
@@ -306,7 +318,7 @@
         <div class="oma-vision__eyebrow">{{ section.settings.basecamp_eyebrow | escape }}</div>
         <h2 class="oma-vision__title" style="max-width:900px;">{{ section.settings.basecamp_heading | escape }}</h2>
         <div class="oma-vision__lead" style="max-width:640px;margin-inline:auto;">{{ section.settings.basecamp_body }}</div>
-        <form class="oma-vision__pass oma-vision__pass--narrow" data-vision-inner novalidate>
+        <form class="oma-vision__pass oma-vision__pass--narrow" data-vision-inner method="post" action="#" novalidate>
           <div class="oma-vision__pass-body" style="padding-top:22px;">
             <div class="oma-vision__field" data-vision-code-field>
               <label for="oma-vision-code-{{ section.id }}">{{ section.settings.basecamp_code_label | escape }}</label>

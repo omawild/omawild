@@ -13,6 +13,18 @@ export const STORAGE = {
   inner: 'ow-vision2-inner'
 };
 
+/** @param {() => Storage | null | undefined} factory */
+export function safeStorage(factory) {
+  try {
+    const s = typeof factory === 'function' ? factory() : factory;
+    if (!s || typeof s.getItem !== 'function') return null;
+    s.getItem(STORAGE.boarded);
+    return s;
+  } catch (_) {
+    return null;
+  }
+}
+
 export function normalizeCode(raw) {
   return String(raw ?? '').trim().toUpperCase();
 }
@@ -38,10 +50,14 @@ export function readGateState(storage, { designMode = false } = {}) {
   if (designMode) {
     return { boarded: true, guest: '', inner: true };
   }
-  const boarded = storage?.getItem?.(STORAGE.boarded) === '1';
-  const guest = storage?.getItem?.(STORAGE.guest) || '';
-  const inner = storage?.getItem?.(STORAGE.inner) === '1';
-  return { boarded, guest, inner };
+  try {
+    const boarded = storage?.getItem?.(STORAGE.boarded) === '1';
+    const guest = storage?.getItem?.(STORAGE.guest) || '';
+    const inner = storage?.getItem?.(STORAGE.inner) === '1';
+    return { boarded, guest, inner };
+  } catch (_) {
+    return { boarded: false, guest: '', inner: false };
+  }
 }
 
 export function buildHelpMailto({
@@ -100,14 +116,18 @@ function applyChrome(root) {
   document.body.classList.toggle('oma-vision-minimal', minimal);
 }
 
-export function initOmaVision(root, storage = globalThis.sessionStorage) {
+export function initOmaVision(root, storage) {
   if (!root || root.dataset.omaVisionReady === '1') return;
   root.dataset.omaVisionReady = '1';
+
+  const store = storage === undefined
+    ? safeStorage(() => globalThis.sessionStorage)
+    : storage;
 
   // Liquid sets data-boarded/inner true when request.design_mode.
   // Shopify.designMode covers editor section reloads.
   const designMode = isDesignMode();
-  const state = readGateState(storage, { designMode });
+  const state = readGateState(store, { designMode });
   let boarded = designMode || state.boarded || root.getAttribute('data-boarded') === 'true';
   let inner = designMode || state.inner || root.getAttribute('data-inner') === 'true';
   let guest = state.guest;
@@ -139,8 +159,8 @@ export function initOmaVision(root, storage = globalThis.sessionStorage) {
       boardMsg.textContent = '';
     }
     try {
-      storage?.setItem?.(STORAGE.boarded, '1');
-      storage?.setItem?.(STORAGE.guest, name);
+      store?.setItem?.(STORAGE.boarded, '1');
+      store?.setItem?.(STORAGE.guest, name);
     } catch (_) { /* private mode */ }
     guest = name;
     root.setAttribute('data-boarded', 'true');
@@ -159,7 +179,12 @@ export function initOmaVision(root, storage = globalThis.sessionStorage) {
 
   innerForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const ok = await isBaseCampCode(codeInput?.value || '');
+    let ok = false;
+    try {
+      ok = await isBaseCampCode(codeInput?.value || '');
+    } catch (_) {
+      ok = false;
+    }
     if (!ok) {
       if (innerMsg) {
         innerMsg.hidden = false;
@@ -174,7 +199,7 @@ export function initOmaVision(root, storage = globalThis.sessionStorage) {
       innerMsg.textContent = '';
     }
     try {
-      storage?.setItem?.(STORAGE.inner, '1');
+      store?.setItem?.(STORAGE.inner, '1');
     } catch (_) { /* private mode */ }
     root.setAttribute('data-inner', 'true');
   });
