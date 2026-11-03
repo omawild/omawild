@@ -145,6 +145,10 @@ export function initOmaVision(root, storage = globalThis.sessionStorage) {
     guest = name;
     root.setAttribute('data-boarded', 'true');
     syncGuestPill(root, guest);
+    const askEyebrowOnBoard = root.querySelector('[data-ask-eyebrow]');
+    if (askEyebrowOnBoard && guest) {
+      askEyebrowOnBoard.textContent = (guest + ', this is where you come in').toUpperCase();
+    }
     window.scrollTo(0, 0);
   });
 
@@ -182,6 +186,67 @@ export function initOmaVision(root, storage = globalThis.sessionStorage) {
   });
   root.querySelector('[data-vision-notes-next]')?.addEventListener('click', () => {
     notes?.scrollBy({ left: notes.clientWidth, behavior: 'smooth' });
+  });
+
+  const askEyebrow = root.querySelector('[data-ask-eyebrow]');
+  if (askEyebrow && guest) {
+    askEyebrow.textContent = (guest + ', this is where you come in').toUpperCase();
+  }
+
+  const picked = new Set();
+  root.querySelectorAll('[data-help-toggle]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const key = btn.getAttribute('data-help-key');
+      const on = btn.getAttribute('aria-pressed') === 'true';
+      btn.setAttribute('aria-pressed', on ? 'false' : 'true');
+      if (!key) return;
+      if (on) picked.delete(key);
+      else picked.add(key);
+    });
+  });
+
+  const askForm = root.querySelector('[data-vision-ask]');
+  const askMsg = root.querySelector('[data-vision-ask-msg]');
+  const askDone = root.querySelector('[data-vision-ask-done]');
+  const askEmail = root.querySelector('[data-vision-ask-email]');
+  const askNote = root.querySelector('[data-vision-ask-note]');
+  const helpTo = root.getAttribute('data-help-to') || 'hello@omawild.com';
+
+  askForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const labels = [...root.querySelectorAll('[data-help-toggle][aria-pressed="true"]')].map(
+      (el) => el.getAttribute('data-help-label') || ''
+    ).filter(Boolean);
+    const email = String(askEmail?.value || '').trim();
+    if (!labels.length) {
+      if (askMsg) {
+        askMsg.hidden = false;
+        askMsg.textContent = 'Pick at least one.';
+      }
+      return;
+    }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      if (askMsg) {
+        askMsg.hidden = false;
+        askMsg.textContent = 'Add an email so we can reply.';
+      }
+      return;
+    }
+    if (askMsg) {
+      askMsg.hidden = true;
+      askMsg.textContent = '';
+    }
+    const url = buildHelpMailto({
+      to: helpTo,
+      subjectPrefix: 'Expedition',
+      name: guest,
+      email,
+      picks: labels,
+      note: askNote?.value || ''
+    });
+    window.location.href = url;
+    askForm.hidden = true;
+    if (askDone) askDone.hidden = false;
   });
 }
 
