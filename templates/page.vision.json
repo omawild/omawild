@@ -18,56 +18,503 @@
         "padding_bottom": 72
       }
     },
-    "oma_page_header_fa7q6t": {
-      "type": "oma-page-header",
+    "oma_vision_yhGnaN": {
+      "type": "oma-vision",
       "blocks": {
-        "collection_row_aXC3rL": {
-          "type": "collection_row",
+        "story_note_TDki8X": {
+          "type": "story_note",
           "settings": {
-            "collection": "",
-            "title_override": "",
-            "anchor_override": "",
-            "thumbnail_count": 3,
-            "count_label_override": ""
+            "placeholder": "Drop photo: arriving in Bali",
+            "caption": "It started with a one-way ticket to Bali, in search of answers we could no longer find in the rush of everyday life."
           }
         },
-        "collection_row_4DjLkE": {
-          "type": "collection_row",
+        "story_note_KRypza": {
+          "type": "story_note",
           "settings": {
-            "collection": "",
-            "title_override": "",
-            "anchor_override": "",
-            "thumbnail_count": 3,
-            "count_label_override": ""
+            "placeholder": "Drop photo: living with farmers",
+            "caption": "That summer, we traded the comforts of the city to live and learn alongside those who grew more than just our food."
+          }
+        },
+        "story_note_wATfxC": {
+          "type": "story_note",
+          "settings": {
+            "placeholder": "Drop photo: land restoration / river power",
+            "caption": "We got our hands dirty restoring degraded land while harnessing the river to power a local village."
+          }
+        },
+        "story_note_tYtz4e": {
+          "type": "story_note",
+          "settings": {
+            "placeholder": "Drop photo: THKB Permaculture Center build",
+            "caption": "We even built a permaculture school, with our bare hands (and a lot of sweat)."
+          }
+        },
+        "story_note_VkEKtC": {
+          "type": "story_note",
+          "settings": {
+            "placeholder": "Drop photo: rice farmer interview",
+            "caption": "An interview with a rice farmer changed the way we saw our future."
+          }
+        },
+        "story_note_JRW6ea": {
+          "type": "story_note",
+          "settings": {
+            "placeholder": "Drop field photo 06",
+            "caption": "We began to understand something we had forgotten: everything we need depends on nature."
+          }
+        },
+        "story_note_JGaYz3": {
+          "type": "story_note",
+          "settings": {
+            "placeholder": "Drop field photo 07",
+            "caption": "What started as volunteering in 2023 became something we couldn't walk away from. We kept returning."
+          }
+        },
+        "ors_card_jLQTRL": {
+          "type": "ors_card",
+          "settings": {
+            "number": "01",
+            "title": "Grown under trees.",
+            "body": "Coffee grown in agroforestry: planted among shade and fruit trees to support local biodiversity and nourish soil health."
+          }
+        },
+        "ors_card_frzyEN": {
+          "type": "ors_card",
+          "settings": {
+            "number": "02",
+            "title": "Zero synthetic inputs.",
+            "body": "No synthetic fertilisers, pesticides or herbicides. Natural inputs made on the farm, like compost or neem sprays, are welcome."
+          }
+        },
+        "ors_card_GdMNVV": {
+          "type": "ors_card",
+          "settings": {
+            "number": "03",
+            "title": "Three crops or more.",
+            "body": "Crop intercropped with at least three species, not varieties. For example: coffee, banana and cacao on the same land."
+          }
+        },
+        "ors_card_MD4pEW": {
+          "type": "ors_card",
+          "settings": {
+            "number": "04",
+            "title": "Verified on the ground.",
+            "body": "Every farm is visited by us or a trusted partner and checked against the same criteria."
+          }
+        },
+        "chapter_QBrz7r": {
+          "type": "chapter",
+          "settings": {
+            "chapter": "CHAPTER 01",
+            "status": "ON SHELVES",
+            "title": "Specialty roast coffee",
+            "body": "Regeneratively sourced coffee for the morning ritual, sold by subscription, in offices and at events.",
+            "placeholder": "Drop photo: Forest Trail, Wild Bloom, Limited Reserve bags",
+            "bg": "#ffe4e7",
+            "pill_bg": "#ff3f00",
+            "pill_ink": "#ffffff"
+          }
+        },
+        "chapter_mqpYz7": {
+          "type": "chapter",
+          "settings": {
+            "chapter": "CHAPTER 02",
+            "status": "IN DEVELOPMENT",
+            "title": "Cold brew & nitro",
+            "body": "The same forest-grown coffee in a can that can be easily taken on-the-go. Found at retail shops, cafes, and convenient stores.",
+            "placeholder": "Drop render: Omawild cold brew can",
+            "bg": "#fbb925",
+            "pill_bg": "#ffffff",
+            "pill_ink": "#ff3f00"
+          }
+        },
+        "chapter_6AXWtf": {
+          "type": "chapter",
+          "settings": {
+            "chapter": "CHAPTER 03",
+            "status": "ON THE MAP",
+            "title": "The outdoor pantry",
+            "body": "Snacks and trail food sourced either regeneratively or from organic producers willing to transition.",
+            "placeholder": "Drop moodboard: trail snacks, camp food",
+            "bg": "#fcd0fd",
+            "pill_bg": "#ffffff",
+            "pill_ink": "#ff3f00"
+          }
+        },
+        "milestone_GN8qUf": {
+          "type": "milestone",
+          "settings": {
+            "number": "01",
+            "when": "JUN 2026 – AUG 2026",
+            "title": "Imported our first lot.",
+            "details": "First lot imported from Indonesia to Taiwan, as our own importer and customs broker.\nThree coffee processes from one origin."
+          }
+        },
+        "milestone_zqrTbf": {
+          "type": "milestone",
+          "settings": {
+            "number": "02",
+            "when": "AUG 2026",
+            "title": "Debuted Omawild.",
+            "details": "First public launch at Meet Greater South, a tech startup expo, 28 to 29 August.\nChosen on purpose to trial expo setup, meet potential clients, and pitch on stage.\nIntroduced Omawild as the climate tech, not just coffee.\nNT$11,750 in first sales."
+          }
+        },
+        "milestone_zDKmhQ": {
+          "type": "milestone",
+          "settings": {
+            "number": "03",
+            "when": "OCT 2026 – JAN 2027",
+            "title": "Secure three corporate partners.",
+            "details": "Three corporate partners between 5 to 20 kg of coffee a month.\nConvert one into an annual contract."
+          }
+        },
+        "help_option_BbjVmQ": {
+          "type": "help_option",
+          "settings": {
+            "title": "Distribution",
+            "body": "Shelves, coolers and business accounts for coffee now and cold brew next."
+          }
+        },
+        "help_option_8TE4iN": {
+          "type": "help_option",
+          "settings": {
+            "title": "OEM introductions",
+            "body": "Cold brew and nitro canning partners who can run our first batches."
+          }
+        },
+        "help_option_zVDjGE": {
+          "type": "help_option",
+          "settings": {
+            "title": "Funding",
+            "body": "Capital for the first cold brew run, inventory and the team to sell it."
+          }
+        },
+        "help_option_DaMKP4": {
+          "type": "help_option",
+          "settings": {
+            "title": "Partnerships",
+            "body": "Co-branded programmes, workplace coffee and long-term supply."
+          }
+        },
+        "help_option_Ty6VYQ": {
+          "type": "help_option",
+          "settings": {
+            "title": "PR & stages",
+            "body": "Press, panels and rooms full of people who should hear this."
+          }
+        },
+        "model_step_XBdV9w": {
+          "type": "model_step",
+          "settings": {
+            "number": "01",
+            "title": "Farmed with the forest",
+            "body": "Our coffee comes from producers in Garut, West Java, who grow it under timber, fruit and shade trees."
+          }
+        },
+        "model_step_BPq73E": {
+          "type": "model_step",
+          "settings": {
+            "number": "02",
+            "title": "Good enough to come back for",
+            "body": "Grade 1 specialty, roasted in Taipei with the roast date on every bag. Taste is what keeps the loop turning."
+          }
+        },
+        "model_step_NgiqyF": {
+          "type": "model_step",
+          "settings": {
+            "number": "03",
+            "title": "Money back to the land",
+            "body": "Part of every sale funds organisations restoring ecosystems, starting with fighting forest fires in Indonesia."
+          }
+        },
+        "model_step_gUAhVe": {
+          "type": "model_step",
+          "settings": {
+            "number": "04",
+            "title": "More reasons to go outside",
+            "body": "Healthier places draw more people outdoors, and the more we love a place, the more we protect it. Then it starts again."
+          }
+        },
+        "road_tT3apH": {
+          "type": "road",
+          "settings": {
+            "number": "01",
+            "verdict": "WENT BROKE",
+            "title": "Conservation on its own",
+            "why": "Expeditions, reef restoration, permaculture builds and film across Indonesia, paid for with our life savings.",
+            "rule": "Nature needs a business model that pays for itself."
+          }
+        },
+        "road_Bc73bz": {
+          "type": "road",
+          "settings": {
+            "number": "02",
+            "verdict": "DROPPED",
+            "title": "Reef-safe skincare",
+            "why": "The easy option, since we knew the industry. Then we learned mineral sunscreen can still harm reefs.",
+            "rule": "If it still harms what we protect, it's out."
+          }
+        },
+        "road_Uc3xkm": {
+          "type": "road",
+          "settings": {
+            "number": "03",
+            "verdict": "DROPPED",
+            "title": "Electrolytes",
+            "why": "No regenerative farming in it, a format and marketing play, and built for competitive athletes.",
+            "rule": "Real food, grown on land it restores, for awe over podiums."
+          }
+        },
+        "road_aKBqeg": {
+          "type": "road",
+          "settings": {
+            "number": "04",
+            "verdict": "YES",
+            "title": "Coffee",
+            "why": "Grown in agroforests, drunk every day, real food close to its source, and fuel for going outside.",
+            "rule": "Where it was always going to start."
+          }
+        },
+        "filter_item_kXzpbW": {
+          "type": "filter_item",
+          "settings": {
+            "number": "01",
+            "title": "Is it real food, close to source?",
+            "body": "No engineered formats. Real food with transparent ingredients."
+          }
+        },
+        "filter_item_H86cie": {
+          "type": "filter_item",
+          "settings": {
+            "number": "02",
+            "title": "Is it grown in a way that restores land?",
+            "body": "Does this heal or destroy the land and the life that these ecosystems support?"
+          }
+        },
+        "filter_item_tFxJWW": {
+          "type": "filter_item",
+          "settings": {
+            "number": "03",
+            "title": "Does it fuel exploration?",
+            "body": "For people who love being outside: diving, trekking, climbing."
+          }
+        },
+        "filter_item_tXT8c6": {
+          "type": "filter_item",
+          "settings": {
+            "number": "04",
+            "title": "Will people buy it again?",
+            "body": "It has to make money, or none of the above lasts."
+          }
+        },
+        "number_row_c8rPbb": {
+          "type": "number_row",
+          "settings": {
+            "column": "done",
+            "label": "Green coffee bought direct",
+            "value": "[kg]"
+          }
+        },
+        "number_row_pgw3TN": {
+          "type": "number_row",
+          "settings": {
+            "column": "done",
+            "label": "Producers paid direct",
+            "value": "[#]"
+          }
+        },
+        "number_row_LDBEnr": {
+          "type": "number_row",
+          "settings": {
+            "column": "done",
+            "label": "Bags sold",
+            "value": "[#]"
+          }
+        },
+        "number_row_wQANfn": {
+          "type": "number_row",
+          "settings": {
+            "column": "done",
+            "label": "Business & event accounts",
+            "value": "[#]"
+          }
+        },
+        "number_row_bfw8Cj": {
+          "type": "number_row",
+          "settings": {
+            "column": "done",
+            "label": "Given via 1% for the Planet",
+            "value": "[NT$]"
+          }
+        },
+        "number_row_pDhfCw": {
+          "type": "number_row",
+          "settings": {
+            "column": "need",
+            "label": "Raise",
+            "value": "[NT$]"
+          }
+        },
+        "number_row_FUkNPG": {
+          "type": "number_row",
+          "settings": {
+            "column": "need",
+            "label": "First cold brew run (MOQ)",
+            "value": "[units]"
+          }
+        },
+        "number_row_4nJENt": {
+          "type": "number_row",
+          "settings": {
+            "column": "need",
+            "label": "Retail doors, year one",
+            "value": "[#]"
+          }
+        },
+        "number_row_pcK33Q": {
+          "type": "number_row",
+          "settings": {
+            "column": "need",
+            "label": "Runway this buys",
+            "value": "[months]"
           }
         }
       },
       "block_order": [
-        "collection_row_aXC3rL",
-        "collection_row_4DjLkE"
+        "story_note_TDki8X",
+        "story_note_KRypza",
+        "story_note_wATfxC",
+        "story_note_tYtz4e",
+        "story_note_VkEKtC",
+        "story_note_JRW6ea",
+        "story_note_JGaYz3",
+        "ors_card_jLQTRL",
+        "ors_card_frzyEN",
+        "ors_card_GdMNVV",
+        "ors_card_MD4pEW",
+        "chapter_QBrz7r",
+        "chapter_mqpYz7",
+        "chapter_6AXWtf",
+        "milestone_GN8qUf",
+        "milestone_zqrTbf",
+        "milestone_zDKmhQ",
+        "help_option_BbjVmQ",
+        "help_option_8TE4iN",
+        "help_option_zVDjGE",
+        "help_option_DaMKP4",
+        "help_option_Ty6VYQ",
+        "model_step_XBdV9w",
+        "model_step_BPq73E",
+        "model_step_NgiqyF",
+        "model_step_gUAhVe",
+        "road_tT3apH",
+        "road_Bc73bz",
+        "road_Uc3xkm",
+        "road_aKBqeg",
+        "filter_item_kXzpbW",
+        "filter_item_H86cie",
+        "filter_item_tFxJWW",
+        "filter_item_tXT8c6",
+        "number_row_c8rPbb",
+        "number_row_pgw3TN",
+        "number_row_LDBEnr",
+        "number_row_wQANfn",
+        "number_row_bfw8Cj",
+        "number_row_pDhfCw",
+        "number_row_FUkNPG",
+        "number_row_4nJENt",
+        "number_row_pcK33Q"
       ],
-      "name": "OMA Page Header",
+      "name": "OMA Vision",
       "settings": {
-        "heading": "Shop",
-        "title_size": "display",
-        "show_breadcrumb": false,
-        "breadcrumb_label": "",
-        "body": "",
-        "show_collection_list": true,
-        "background_color": "#FFE4E7",
-        "heading_color": "#FF3F00",
-        "text_color": "#00180C",
-        "divider_color": "#FF3F00",
-        "thumb_background": "#FBB925",
-        "padding_top": 36,
-        "padding_bottom": 44,
-        "mobile_padding_horizontal": 20,
-        "desktop_padding_horizontal": 48
+        "chrome": "store",
+        "boarding_badge_alt": "Welcome to the Expedition",
+        "boarding_heading": "Pack your bags.\nWe're going on a mission.",
+        "boarding_dest_label": "DESTINATION",
+        "boarding_dest": "Back to Nature",
+        "boarding_name_label": "PASSENGER",
+        "boarding_name_placeholder": "Your name",
+        "boarding_cta": "Board now",
+        "boarding_home_label": "omawild.com",
+        "hero_eyebrow": "THE EXPEDITION PLAN",
+        "hero_heading": "Stay 100% delusional until it works, because there is no Plan B for Planet Earth.",
+        "hero_body": "Omawild is a conservation-led food brand, starting with specialty coffee. We're on a mission to turn everything we consume into a vehicle that funds ecological regeneration and conservation efforts across the world, because regenerative farming is the most direct way to protect natural ecosystems. Think of Omawild as the nature fund that everyone can easily invest in.",
+        "hero_image_ph": "Drop hero photo: the crew outside, cups up",
+        "hero_sticker": "COFFEE IS THE\nGATEWAY DRUG\nTO NATURE",
+        "story_eyebrow": "HOW WE STARTED",
+        "story_heading": "Our story began in Bali.",
+        "story_body": "It started during an expedition across Bali, in a season of change when little made sense except for the conservation work that kept calling us back to Indonesia.",
+        "mission_eyebrow": "OUR MISSION",
+        "mission_heading": "Food is conservation work",
+        "mission_pull": "Food is fundamental to our survival. We depend on it daily, but most of our food is produced in ways that harm our planet, and ourselves.",
+        "mission_body": "Food grown regeneratively heals. It actively restores and gives back, completing the circle of life. Regenerative agriculture is conservation on the ground, so we only buy from producers doing it.",
+        "ors_eyebrow": "SOURCING CRITERIA",
+        "ors_heading": "Regenerative producers have to pass the Omawild Regenerative Standard (ORS)",
+        "ors_body": "Skip the middleman. We work directly with each producer so we can exchange ideas, share what we learn, and thrive together.",
+        "scale_eyebrow": "A NOTE ON SCALE",
+        "scale_body": "Fully regenerative crops are rare, and holding every product to our four ORS would make it very hard to grow. As we scale, we will consider partnering from farmers who are willing to transition to regenerative agriculture, and we support them through it. By then, products will carry one of two labels for full customer transparency.",
+        "legend_1_label": "REGENERATIVE",
+        "legend_1_body": "Passes all four criteria.",
+        "legend_2_label": "IN TRANSITION",
+        "legend_2_body": "Organic farmers committed to moving towards regenerative agriculture with an agreed plan we can also help support.",
+        "legend_3_label": "ORGANIC",
+        "legend_3_body": "Organic farmers who grow without synthetic fertilisers, pesticides or herbicides.",
+        "pantry_eyebrow": "THE OUTDOOR PANTRY",
+        "pantry_heading": "Everything you'd find inside your backpack to keep the adventure going.",
+        "pantry_body": "Our product roadmap at Omawild is built around a simple philosophy of clean and delicious food that keeps you energised throughout your adventures. Because more time spent outside means more connection to nature, and to the magic of being alive. And the more we love a place, the more we will want to protect it.",
+        "goals_eyebrow": "MILESTONES",
+        "goals_heading": "Shoot for the moon. Land among the stars.",
+        "goals_body": "We're here for the journey, but also the destination.",
+        "show_goal_details": true,
+        "help_eyebrow": "THIS IS WHERE YOU COME IN",
+        "help_heading": "Fuel the expedition",
+        "help_lead": "Let us know how you can help, and we'll bring the coffee.",
+        "help_form_label": "I CAN HELP WITH",
+        "help_form_hint": "Select all that applies",
+        "help_note_label": "ANYTHING ELSE? (OPTIONAL)",
+        "help_note_placeholder": "Who you know, what you have in mind, how you'd like to help",
+        "help_email_label": "YOUR EMAIL",
+        "help_email_placeholder": "So we can reply",
+        "help_cta": "Count me in",
+        "help_mailto": "hello@omawild.com",
+        "help_success_heading": "You're on the crew list.",
+        "help_success_body": "Your email app should have opened with everything filled in. Hit send and we'll be in touch.",
+        "model_eyebrow": "THE NATURE FUND",
+        "model_heading": "Every sip and bite is part of the circle of life",
+        "model_body": "One big loop that keeps on giving, aka. the circular economy. How is this not already mainstream bewilders us. We trust that you've come this far because you have the courage to stand by our mission, and the courage to stand up for all life on our beautiful planet.",
+        "basecamp_eyebrow": "INVESTOR ACCESS ONLY",
+        "basecamp_heading": "The rest of the map is reserved for those going to Base Camp with us.",
+        "basecamp_body": "As much as we are crazy, delusional and try to have fun along the way, we are serious business about Omawild and our mission to preserve ecological systems through the food we eat. Enter your base camp code to unlock the map. Or if you are new here and interested in advising or investing, <a href=\"mailto:invest@omawild.com\">please let us know</a>.",
+        "basecamp_code_label": "BASE CAMP CODE",
+        "basecamp_code_placeholder": "Your base camp code",
+        "basecamp_cta": "Climb on",
+        "roads_eyebrow": "PATHS EXPLORED",
+        "roads_heading": "What we ruled out",
+        "roads_body": "Before coffee there were many ideas. We share this to give you a full window into our worldview and what shapes Omawild. While we try to keep an open mind, we stand by our values so our brand stays true to what it sets out to be. What killed each one is now a rule.",
+        "filter_eyebrow": "THE PRODUCT FILTER",
+        "filter_heading": "Questions to check off before adding to our pantry",
+        "numbers_eyebrow": "THE NUMBERS",
+        "numbers_heading": "What we've done. What we need.",
+        "numbers_done_label": "WHAT WE'VE DONE",
+        "numbers_need_label": "WHAT WE NEED",
+        "founder_eyebrow": "ABOUT THE FOUNDER",
+        "founder_lead": "Jenny Hsu spent a decade climbing the tech ladder, burnt out, and packed her life up into 18 boxes. Then she went to Bali to learn permaculture. She came back building a food brand around ecological restoration, because living with farmers and being closer to nature taught her how much the world and our planet can heal through harmony with nature.",
+        "founder_body_1": "For Jenny, she gave up comfort in every sense of the word to start over, as a complete beginner, in a new country, and in a new industry with no credentials and no network. But quitting isn't really an option, because that means giving up on our future.",
+        "founder_body_2": "Her case for food is simple: we eat it every day, and most of it is grown in ways that deplete the soil, biodiversity and ecosystems we all depend on. She also pushes back on the idea that regenerative farming is the expensive option. Conventional agriculture only looks cheap, she argues, because the cost to soil, water and farmers never shows up on the balance sheet.",
+        "founder_link_1_label": "Read her interview with Day 1 →",
+        "founder_link_1_url": "",
+        "founder_link_2_label": "Listen to her podcast with SIT →",
+        "founder_link_2_url": "",
+        "founder_image_ph": "Drop photo: Jenny, outside",
+        "close_heading": "Come on the expedition",
+        "close_body": "For retailers, workplaces, festivals, investors and builders.",
+        "close_cta_label": "Talk partnerships",
+        "close_cta_link": ""
       }
     }
   },
   "order": [
     "main",
-    "oma_page_header_fa7q6t"
+    "oma_vision_yhGnaN"
   ]
 }
