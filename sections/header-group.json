@@ -14,18 +14,6 @@
     "announcement-bar": {
       "type": "announcement-bar",
       "blocks": {
-        "announcement_BxjNJN": {
-          "type": "announcement",
-          "settings": {
-            "text": "<strong>ALL ORDERS PLACED WILL BE SHIPPED ON 14 DEC, 2026.</strong>",
-            "text_on_mobile": "",
-            "text_size": 11,
-            "link": "",
-            "color_link": "#ff3f00",
-            "enable_highlight": false,
-            "highlight_style": "marker"
-          }
-        },
         "announcement_NcPLc9": {
           "type": "announcement",
           "settings": {
@@ -34,6 +22,18 @@
             "text_size": 11,
             "link": "",
             "color_link": "#ffffff",
+            "enable_highlight": false,
+            "highlight_style": "marker"
+          }
+        },
+        "announcement_BxjNJN": {
+          "type": "announcement",
+          "settings": {
+            "text": "<strong>ALL ORDERS PLACED WILL BE SHIPPED ON 14 DEC, 2026.</strong>",
+            "text_on_mobile": "",
+            "text_size": 11,
+            "link": "",
+            "color_link": "#ff3f00",
             "enable_highlight": false,
             "highlight_style": "marker"
           }
@@ -57,8 +57,8 @@
         }
       },
       "block_order": [
-        "announcement_BxjNJN",
         "announcement_NcPLc9",
+        "announcement_BxjNJN",
         "countdown_MWDGiX"
       ],
       "name": "Announcement Bar",
