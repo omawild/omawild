@@ -16,7 +16,6 @@
       "blocks": {
         "announcement_BxjNJN": {
           "type": "announcement",
-          "disabled": true,
           "settings": {
             "text": "<strong>GOING TO MEET TAIPEI? WE GOT SOMETHING </strong><a href=\"https://omawild.com/en-tw/pages/meet-taipei-2026\" title=\"https://omawild.com/en-tw/pages/meet-taipei-2026\"><strong>BRILLIANT</strong></a><strong>.</strong>",
             "text_on_mobile": "",
@@ -30,7 +29,7 @@
         "announcement_NcPLc9": {
           "type": "announcement",
           "settings": {
-            "text": "<strong>ORDERS FOR DEC WILL BE DISPATCHED ON 14 DEC, 2026.</strong>",
+            "text": "<strong>WE'RE CELEBRATING OUR BDAY & XMAS SPECIAL · 15% OFF WITH JENNYS35</strong>",
             "text_on_mobile": "",
             "text_size": 11,
             "link": "",
