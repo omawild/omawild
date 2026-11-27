@@ -16,6 +16,7 @@
       "blocks": {
         "announcement_NcPLc9": {
           "type": "announcement",
+          "disabled": true,
           "settings": {
             "text": "<strong>WE'RE CELEBRATING OUR BDAY & XMAS SPECIAL · 15% OFF WITH JENNYS35</strong>",
             "text_on_mobile": "",
@@ -29,11 +30,11 @@
         "announcement_BxjNJN": {
           "type": "announcement",
           "settings": {
-            "text": "<strong>ALL ORDERS PLACED WILL BE SHIPPED ON 14 DEC, 2026.</strong>",
+            "text": "<strong>NEW ORDERS PLACED NOW UNTIL 10 DEC WILL BE SHIPPED ON 15 DEC, 2026.</strong>",
             "text_on_mobile": "",
             "text_size": 11,
             "link": "",
-            "color_link": "#ff3f00",
+            "color_link": "#DB4E20",
             "enable_highlight": false,
             "highlight_style": "marker"
           }
@@ -71,8 +72,8 @@
         "speed": 5,
         "show_navigation": true,
         "direction": "left",
-        "colors_text": "#ff3f00",
-        "colors_background": "#fbb925",
+        "colors_text": "#DB4E20",
+        "colors_background": "#FFC541",
         "gradient_background": "",
         "colors_highlight": "#ffb503",
         "padding_top": 0,
